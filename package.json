@@ -5,10 +5,15 @@
   "author": "edtr.io Consortium",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "format": "prettier --write \"*.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "format": "prettier --write \"{packages/*/{{__tests__,src}/**,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "test": "jest"
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
+    "@types/jest": "^23.0.0",
+    "jest": "^24.0.0",
     "prettier": "^1.0.0"
   },
   "private": true,
