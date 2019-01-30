@@ -9,6 +9,7 @@
     "build:babel": "yarn _exec \"babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
     "build:tsc": "yarn _exec \"tsc --emitDeclarationOnly --outDir dist --rootDir src\"",
     "format": "prettier --write \"{packages/*/{{__tests__,src}/**,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "start": "lerna run --stream start",
     "test": "jest",
     "_exec": "lerna exec --stream --no-bail"
   },
@@ -17,6 +18,7 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "@types/jest": "^23.0.0",
     "jest": "^24.0.0",

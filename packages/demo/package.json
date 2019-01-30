@@ -1,0 +1,24 @@
+{
+  "name": "@edtr-io/demo",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "start": "start-storybook --port 9001 --config-dir .storybook"
+  },
+  "dependencies": {
+    "react": "^16.8.0-alpha",
+    "react-dom": "^16.8.0-alpha"
+  },
+  "devDependencies": {
+    "@storybook/react": "^4.0.0",
+    "@types/storybook__react": "^4.0.0",
+    "babel-loader": "^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
