@@ -5,16 +5,25 @@
   "author": "edtr.io Consortium",
   "repository": "edtr-io/edtr-io",
   "scripts": {
+    "build": "npm-run-all build:*",
+    "build:babel": "yarn _exec \"babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
+    "build:tsc": "yarn _exec \"tsc --emitDeclarationOnly --outDir dist --rootDir src\"",
     "format": "prettier --write \"{packages/*/{{__tests__,src}/**,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
-    "test": "jest"
+    "test": "jest",
+    "_exec": "lerna exec --stream --no-bail"
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "@types/jest": "^23.0.0",
     "jest": "^24.0.0",
-    "prettier": "^1.0.0"
+    "lerna": "^3.0.0",
+    "npm-run-all": "^4.0.0",
+    "prettier": "^1.0.0",
+    "typescript": "^3.0.0"
   },
   "private": true,
   "workspaces": [
