@@ -1,0 +1,18 @@
+{
+  "name": "@edtr-io/edtr-io-workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "format": "prettier --write \"*.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^1.0.0"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
