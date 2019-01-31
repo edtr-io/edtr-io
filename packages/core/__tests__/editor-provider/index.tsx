@@ -1,11 +1,8 @@
 import * as React from 'react'
 import * as TestRenderer from 'react-test-renderer'
 
-import {
-  EditorContext,
-  EditorContextValue,
-  EditorProvider
-} from '../../src/editor-provider'
+import {EditorContext, EditorContextValue, EditorProvider} from '../../src/editor-provider'
+import {StateActionType} from '../../src/editor-provider/reducer'
 
 export const plugins = {
   stateless: {
@@ -52,7 +49,7 @@ test('initialized EditorContext', () => {
   )
 
   // @ts-ignore
-  actual.dispatch({ type: 'Insert' })
+  actual.dispatch({ type: StateActionType.Insert, payload: { id: 0 }})
   // @ts-ignore
-  expect(Object.keys(actual.state)).toHaveLength(1)
+  expect(Object.keys(actual.state[0])).toBeDefined()
 })

@@ -4,7 +4,7 @@ import {
   StateActionType
 } from '../../src/editor-provider/reducer'
 import { PluginRegistry } from '../../src/editor-provider/plugin-registry'
-import {plugins} from '.'
+import { plugins } from '.'
 
 let reducer: ReturnType<typeof createStateReducer>
 let state: Reducer
@@ -14,9 +14,6 @@ beforeEach(() => {
   reducer = createStateReducer({
     defaultPlugin: 'default',
     registry: registry,
-    generateId() {
-      return '0'
-    }
   })
   state = {}
 })
@@ -26,17 +23,34 @@ test('empty state', () => {
 })
 
 test('insert', () => {
-  state = reducer(state, { type: StateActionType.Insert, payload: 'stateless' })
+  state = reducer(state, {
+    type: StateActionType.Insert,
+    payload: {
+      id: '0',
+      type: 'stateless'
+    }
+  })
   expect(state[0]).toEqual({ type: 'stateless' })
 })
 
 test('insert default plugin', () => {
-  state = reducer(state, { type: StateActionType.Insert })
+  state = reducer(state, {
+    type: StateActionType.Insert,
+    payload: {
+      id: '0'
+    }
+  })
   expect(state[0]).toEqual({ type: 'default' })
 })
 
 test('insert stateful plugin', () => {
-  state = reducer(state, { type: StateActionType.Insert, payload: 'stateful' })
+  state = reducer(state, {
+    type: StateActionType.Insert,
+    payload: {
+      id: '0',
+      type: 'stateful'
+    }
+  })
   expect(state[0]).toEqual({
     type: 'stateful',
     state: {

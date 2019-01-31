@@ -12,10 +12,7 @@ export enum StateActionType {
 export function createStateReducer(options: StateReducerOptions) {
   return stateReducer
 
-  function stateReducer(
-    state: Reducer,
-    action?: StateAction
-  ): Reducer {
+  function stateReducer(state: Reducer, action?: StateAction): Reducer {
     return produce(state, draft => {
       handleInsert()
       handleRemove()
@@ -23,8 +20,8 @@ export function createStateReducer(options: StateReducerOptions) {
 
       function handleInsert() {
         if (action && action.type === StateActionType.Insert) {
-          const type = action.payload || options.defaultPlugin
-          const id = options.generateId()
+          const type = action.payload.type || options.defaultPlugin
+          const id = action.payload.id
 
           const plugin = options.registry.getPlugin(type)
 
@@ -34,7 +31,7 @@ export function createStateReducer(options: StateReducerOptions) {
           }
 
           draft[id] = {
-            type: action.payload || options.defaultPlugin,
+            type,
             state
           }
         }
@@ -68,7 +65,6 @@ export function createStateReducer(options: StateReducerOptions) {
 export interface StateReducerOptions {
   defaultPlugin: PluginType
   registry: PluginRegistry<PluginType>
-  generateId: () => string
 }
 
 export interface Reducer {
@@ -78,7 +74,10 @@ export interface Reducer {
 export type StateAction =
   | {
       type: StateActionType.Insert
-      payload?: PluginType
+      payload: {
+        id: string
+        type?: PluginType
+      }
     }
   | {
       type: StateActionType.Change
