@@ -1,13 +1,28 @@
-import * as React from 'react'
-import { render } from 'react-testing-library'
+import { createStateReducer, EditorState, StateActionType } from '../src'
 
-import { Bar, foo } from '../src'
+let reducer: ReturnType<typeof createStateReducer>
+let state: EditorState
 
-test('foo', () => {
-  expect(foo).toBe('bar')
+beforeEach(() => {
+  reducer = createStateReducer({
+    defaultPlugin: 'default',
+    generateId() {
+      return '0'
+    }
+  })
+  state = reducer()
 })
 
-test('Bar', () => {
-  const { container } = render(<Bar name="World" />)
-  expect(container.innerHTML).toContain('Hello World')
+test('empty state', () => {
+  expect(state).toEqual({})
+})
+
+test('insert', () => {
+  state = reducer(state, { type: StateActionType.Insert, payload: 'text' })
+  expect(state[0]).toEqual({ type: 'text' })
+})
+
+test('insert default plugin', () => {
+  state = reducer(state, { type: StateActionType.Insert })
+  expect(state[0]).toEqual({ type: 'default' })
 })

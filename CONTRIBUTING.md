@@ -9,6 +9,7 @@
 
 We are using [Lerna](https://lernajs.io/) (w/ [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/)) to manage
 our monorepo. Packages are located in [`packages/`](packages), i.e. the folder structure is
+
 ```
 edtr-io
 └─packages
@@ -27,5 +28,6 @@ edtr-io
 | package.json
 | ...
 ```
+
 The tools should be configured in such a way, that you don't need to `build` any packages in development (if you run
-into a problem, please file an issue). 
+into a problem, please file an issue).
