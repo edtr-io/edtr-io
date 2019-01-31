@@ -72,7 +72,7 @@ export interface StateReducerOptions {
 }
 
 export interface Reducer {
-  [key: string]: Plugin
+  [key: string]: PluginState
 }
 
 export type StateAction =
@@ -94,7 +94,7 @@ export type StateAction =
 
 type PluginType = string
 
-interface Plugin {
+export interface PluginState {
   type: PluginType
   state?: unknown
 }

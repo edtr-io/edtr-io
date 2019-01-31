@@ -1,6 +1,7 @@
 import {EditorContext, EditorProvider} from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
+import {Document, createDocumentIdentifier} from "../../core/src/document";
 
 const plugins = {
   stateless: {
@@ -17,11 +18,7 @@ const plugins = {
 storiesOf('EditorProvider', module).add('foo', () => {
   return (
     <EditorProvider plugins={plugins} defaultPlugin="stateless">
-      <EditorContext.Consumer>
-        {({ state }) => {
-          return JSON.stringify(state)
-        }}
-      </EditorContext.Consumer>
+      <Document state={createDocumentIdentifier()}/>
     </EditorProvider>
   )
 })

@@ -6,31 +6,35 @@ import { Plugin } from '..'
 
 export const EditorContext = React.createContext<EditorContextValue>({
   state: {},
-  dispatch: () => {}
+  dispatch: () => {},
+  registry: new PluginRegistry<string>({})
 })
 
 export interface EditorContextValue {
   state: Reducer
   dispatch: (action: StateAction) => void
+  registry: PluginRegistry
 }
 
 export const EditorProvider: React.FunctionComponent<
   EditorProviderProps
 > = props => {
+  const registry = React.useMemo(() => new PluginRegistry<string>(props.plugins), [props.plugins])
   const reducer = React.useMemo(() => {
     return createStateReducer({
       defaultPlugin: props.defaultPlugin,
-      registry: new PluginRegistry<string>(props.plugins),
+      registry,
       generateId: v4
     })
-  }, [props.defaultPlugin, props.plugins])
+  }, [props.defaultPlugin, registry])
   const [state, dispatch] = React.useReducer(reducer, {})
 
   return (
     <EditorContext.Provider
       value={{
         state,
-        dispatch
+        dispatch,
+        registry
       }}
     >
       {props.children}
