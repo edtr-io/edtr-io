@@ -16,9 +16,8 @@
   "devDependencies": {
     "@storybook/react": "^4.0.0",
     "@types/storybook__react": "^4.0.0",
-    "babel-loader": "^8.0.0"
+    "babel-loader": "^8.0.0",
+    "babel-plugin-module-resolver": "^3.0.0"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }

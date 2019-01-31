@@ -3,6 +3,10 @@
     "declaration": true,
     "declarationMap": true,
     "jsx": "react",
-    "strict": true
+    "strict": true,
+    "baseUrl": "packages",
+    "paths": {
+      "@edtr-io/core": ["core/src"]
+    }
   }
 }

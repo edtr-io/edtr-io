@@ -3,7 +3,17 @@ module.exports = (baseConfig, env, config) => {
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
     options: {
-      rootMode: 'upward'
+      rootMode: 'upward',
+      plugins: [
+        [
+          'babel-plugin-module-resolver',
+          {
+            alias: {
+              '@edtr-io/core': '@edtr-io/core/src'
+            }
+          }
+        ]
+      ]
     }
   })
   config.resolve.extensions.push('.ts', '.tsx')
