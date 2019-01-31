@@ -1,5 +1,8 @@
+import { produce } from 'immer'
+
 export enum StateActionType {
-  Insert = 'Insert'
+  Insert = 'Insert',
+  Change = 'Change'
 }
 
 export function createStateReducer(options: StateReducerOptions) {
@@ -9,23 +12,36 @@ export function createStateReducer(options: StateReducerOptions) {
     state: EditorState = {},
     action?: StateAction
   ): EditorState {
-    if (!action) {
-      return state
-    }
-    switch (action.type) {
-      case StateActionType.Insert: {
-        const id = options.generateId()
+    return produce(state, draft => {
+      handleInsert()
+      handleChange()
 
-        return {
-          ...state,
-          [id]: {
+      function handleInsert() {
+        if (action && action.type === StateActionType.Insert) {
+          const id = options.generateId()
+
+          draft[id] = {
             type: action.payload || options.defaultPlugin
           }
         }
       }
-      default:
-        return state
-    }
+
+      function handleChange() {
+        if (action && action.type === StateActionType.Change) {
+          const { id, state } = action.payload
+
+          if (!draft[id]) {
+            //TODO: console.warn: Missing Id
+            return
+          }
+
+          draft[id].state = {
+            ...draft[id].state,
+            ...state
+          }
+        }
+      }
+    })
   }
 }
 
@@ -35,12 +51,25 @@ export interface StateReducerOptions {
 }
 
 export interface EditorState {
-  [key: string]: unknown
+  [key: string]: Plugin
 }
 
-export type StateAction = {
-  type: StateActionType.Insert
-  payload?: PluginType
-}
+export type StateAction =
+  | {
+      type: StateActionType.Insert
+      payload?: PluginType
+    }
+  | {
+      type: StateActionType.Change
+      payload: {
+        id: string
+        state: unknown
+      }
+    }
 
 type PluginType = string
+
+export interface Plugin {
+  type: PluginType
+  state?: unknown
+}
