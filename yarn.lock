@@ -1995,7 +1995,14 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
-"@types/react@*":
+"@types/react-test-renderer@^16.0.0":
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.0.3.tgz#cce5c983d66cc5c3582e7c2f44b274ab635a8acc"
+  integrity sha512-NWOAxVQeJxpXuNKgw83Hah0nquiw1nUexM9qY/Hk3a+XhZwgMtaa6GLA9E1TKMT75Odb3/KE/jiBO4enTuEJjQ==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.7.0-alpha":
   version "16.7.22"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.22.tgz#5bc6d166d5ac34b835756f0b736c7b1af0043e81"
   integrity sha512-j/3tVoY09kHcTfbia4l67ofQn9xvktUvlC/4QN0KuBHAXlbU/wuGKMb8WfEb/vIcWxsOxHv559uYprkFDFfP8Q==
@@ -2015,6 +2022,13 @@
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.2.tgz#5dc0a7f76809b7518c0df58689cd16a19bd751c6"
   integrity sha512-iHI60IbyfQilNubmxsq4zqSjdynlmc2Q/QvH9kjzg9+CCYVVzq1O6tc7VBzSygIwnmOt07w80IG6HDQvjv3Liw==
+
+"@types/uuid@^3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.4.tgz#7af69360fa65ef0decb41fd150bf4ca5c0cefdf5"
+  integrity sha512-tPIgT0GUmdJQNSHxp0X2jnpQfBSTfGxUMc/2CXBU2mnyTFVYVa2ojpoQ74w0U2yn2vw3jnC640+77lkFFpdVDw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/vfile-message@*":
   version "1.0.1"
@@ -8814,6 +8828,11 @@ react-inspector@^2.3.0:
     is-dom "^1.0.9"
     prop-types "^15.6.1"
 
+react-is@^16.8.0-alpha.1:
+  version "16.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.0-alpha.1.tgz#ac1aed207d6040f002b645af36702edf9ce2c40d"
+  integrity sha512-Gsh2u4ovhS2DY6fWgie/av5vzrIfW6P0lgWAsAQp9DjOImE0fJ26FfEdpFXtYBwi5s2krT9z0xvcQKvQsi4ekw==
+
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -8846,6 +8865,16 @@ react-style-proptype@^3.0.0:
   integrity sha512-ywYLSjNkxKHiZOqNlso9PZByNEY+FTyh3C+7uuziK0xFXu9xzdyfHwg4S9iyiRRoPCR4k2LqaBBsWVmSBwCWYQ==
   dependencies:
     prop-types "^15.5.4"
+
+react-test-renderer@^16.8.0-alpha:
+  version "16.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.0-alpha.1.tgz#65f09023aeb83cbb1716f2364fed61c0017cd2ba"
+  integrity sha512-ayhWv47RYZuZ/vY/Asmf2qLgphHtwsq32Y7uNztyO4HcdFh6HrieDioYwbObfxl3+Uf3r4UezJ7uxqT5NndsHw==
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    react-is "^16.8.0-alpha.1"
+    scheduler "^0.13.0-alpha.1"
 
 react-testing-library@^5.0.0:
   version "5.4.4"
