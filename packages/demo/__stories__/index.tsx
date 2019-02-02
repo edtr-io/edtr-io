@@ -2,7 +2,7 @@ import { EditorProvider, Plugin, StatefulPlugin } from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import { Document, createDocumentIdentifier } from '@edtr-io/core'
-import {rowsPlugin} from "../../ui/src/plugin-rows";
+import { rowsPlugin } from '@edtr-io/ui'
 
 const counterPlugin: StatefulPlugin<{ value: number }> = {
   Component: ({ onChange, state }) => {
@@ -54,7 +54,7 @@ storiesOf('RowsPlugin', module).add('Basic example', () => {
 
   return (
     <EditorProvider plugins={plugins} defaultPlugin="counter">
-      <Document defaultPlugin="rows" state={state}/>
+      <Document defaultPlugin="rows" state={state} />
     </EditorProvider>
   )
 })

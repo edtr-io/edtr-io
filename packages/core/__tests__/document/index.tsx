@@ -25,8 +25,7 @@ test.skip('default plugin', () => {
 
   TestRenderer.create(
     <EditorProvider plugins={plugins} defaultPlugin="counter">
-      <Document state={state}/>
+      <Document state={state} />
     </EditorProvider>
   )
 })
-

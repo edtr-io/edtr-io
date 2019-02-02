@@ -9,7 +9,8 @@ module.exports = (baseConfig, env, config) => {
           'babel-plugin-module-resolver',
           {
             alias: {
-              '@edtr-io/core': '@edtr-io/core/src'
+              '@edtr-io/core': '@edtr-io/core/src',
+              '@edtr-io/ui': '@edtr-io/ui/src'
             }
           }
         ]
