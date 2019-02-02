@@ -19,7 +19,10 @@ export interface EditorContextValue {
 export const EditorProvider: React.FunctionComponent<
   EditorProviderProps
 > = props => {
-  const registry = React.useMemo(() => new PluginRegistry<string>(props.plugins), [props.plugins])
+  const registry = React.useMemo(
+    () => new PluginRegistry<string>(props.plugins),
+    [props.plugins]
+  )
   const reducer = React.useMemo(() => {
     return createStateReducer({
       defaultPlugin: props.defaultPlugin,

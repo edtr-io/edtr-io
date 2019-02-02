@@ -6,7 +6,8 @@
     "strict": true,
     "baseUrl": "packages",
     "paths": {
-      "@edtr-io/core": ["core/src"]
+      "@edtr-io/core": ["core/src"],
+      "@edtr-io/ui": ["ui/src"]
     }
   }
 }

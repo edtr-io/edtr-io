@@ -13,7 +13,7 @@ beforeEach(() => {
   const registry = new PluginRegistry<string>(plugins)
   reducer = createStateReducer({
     defaultPlugin: 'default',
-    registry: registry,
+    registry: registry
   })
   state = {}
 })

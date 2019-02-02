@@ -27,7 +27,6 @@ const isDocumentIdentifier = (
 
 export const Document: React.FunctionComponent<DocumentProps> = props => {
   const { state, dispatch, registry } = React.useContext(EditorContext)
-  console.log('foo', state)
 
   React.useEffect(() => {
     if (isDocumentIdentifier(props.state) && !state[props.state.id]) {
@@ -43,7 +42,6 @@ export const Document: React.FunctionComponent<DocumentProps> = props => {
 
   if (isDocumentIdentifier(props.state)) {
     const { id } = props.state
-    console.log('bar', state, id)
     if (!state[id]) {
       return null
     }
@@ -56,10 +54,11 @@ export const Document: React.FunctionComponent<DocumentProps> = props => {
     }
 
     const Comp = plugin.Component
-    // @ts-ignore
     return (
+      // @ts-ignore
       <Comp
         state={state[id].state}
+        // @ts-ignore
         onChange={change => {
           dispatch({
             type: StateActionType.Change,
