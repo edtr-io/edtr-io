@@ -8,7 +8,6 @@ import {
 } from '@edtr-io/core'
 import { styled, Icon, faPlus } from '..'
 
-
 const AddButton = styled.button({
   borderRadius: '50%',
   outline: 'none',
@@ -35,7 +34,6 @@ const Add = (props: { onClick: () => void }) => (
 
 export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
   const { rows } = props.state
-
 
   return (
     <div>
