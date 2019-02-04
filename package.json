@@ -35,8 +35,10 @@
     "eslint": "^5.0.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
+    "husky": "^1.0.0",
     "jest": "^24.0.0",
     "lerna": "^3.0.0",
+    "lint-staged": "^8.0.0",
     "npm-run-all": "^4.0.0",
     "prettier": "^1.0.0",
     "react-testing-library": "^5.0.0",
@@ -46,5 +48,10 @@
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }
