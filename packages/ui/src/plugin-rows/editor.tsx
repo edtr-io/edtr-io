@@ -1,12 +1,13 @@
-import * as React from 'react'
-import * as R from 'ramda'
 import {
   createDocumentIdentifier,
   Document,
   DocumentIdentifier,
   PluginEditorProps
 } from '@edtr-io/core'
-import { styled, Icon, faPlus } from '..'
+import * as R from 'ramda'
+import * as React from 'react'
+
+import { Icon, faPlus, styled } from '..'
 
 const AddButton = styled.button({
   borderRadius: '50%',
@@ -24,7 +25,9 @@ const AddButtonContainer = styled.div({
   textAlign: 'center'
 })
 
-const Add = (props: { onClick: () => void }) => (
+const Add: React.FunctionComponent<{
+  onClick: () => void
+}> = props => (
   <AddButtonContainer>
     <AddButton onClick={props.onClick}>
       <Icon icon={faPlus} />
@@ -39,7 +42,7 @@ export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
     <div>
       {rows.map((row, index) => {
         return (
-          <div>
+          <div key={index}>
             <Add onClick={() => addPlugin(index)} />
             <Document state={row} />
           </div>

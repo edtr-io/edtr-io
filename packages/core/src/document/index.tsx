@@ -49,6 +49,7 @@ export const Document: React.FunctionComponent<DocumentProps> = props => {
 
     if (!plugin) {
       // TODO:
+      // eslint-disable-next-line no-console
       console.log('plugin not existing')
       return null
     }

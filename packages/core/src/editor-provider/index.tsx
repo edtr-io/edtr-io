@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { v4 } from 'uuid'
+
 import { PluginRegistry } from './plugin-registry'
-import { createStateReducer, Reducer, StateAction } from './reducer'
+import { Reducer, StateAction, createStateReducer } from './reducer'
 import { Plugin } from '..'
 
 export const EditorContext = React.createContext<EditorContextValue>({
@@ -26,8 +26,7 @@ export const EditorProvider: React.FunctionComponent<
   const reducer = React.useMemo(() => {
     return createStateReducer({
       defaultPlugin: props.defaultPlugin,
-      registry,
-      generateId: v4
+      registry
     })
   }, [props.defaultPlugin, registry])
   const [state, dispatch] = React.useReducer(reducer, {})

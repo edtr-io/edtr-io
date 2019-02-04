@@ -1,9 +1,9 @@
+import { PluginRegistry } from '../../src/editor-provider/plugin-registry'
 import {
   createStateReducer,
   Reducer,
   StateActionType
 } from '../../src/editor-provider/reducer'
-import { PluginRegistry } from '../../src/editor-provider/plugin-registry'
 import { plugins } from '.'
 
 let reducer: ReturnType<typeof createStateReducer>

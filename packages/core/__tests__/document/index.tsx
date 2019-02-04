@@ -1,3 +1,6 @@
+import * as React from 'react'
+import * as TestRenderer from 'react-test-renderer'
+
 import {
   createDocumentIdentifier,
   Document,
@@ -5,16 +8,16 @@ import {
   Plugin,
   StatefulPlugin
 } from '../../src'
-import * as React from 'react'
-import * as TestRenderer from 'react-test-renderer'
 
 const counterPlugin: StatefulPlugin<{ value: number }> = {
+  // eslint-disable-next-line react/display-name
   Component: ({ state }) => <div>{state.value}</div>,
   createInitialState: () => {
     return { value: 0 }
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin
 }

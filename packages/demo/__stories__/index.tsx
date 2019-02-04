@@ -1,12 +1,17 @@
-import { EditorProvider, Plugin, StatefulPlugin } from '@edtr-io/core'
+import {
+  createDocumentIdentifier,
+  Document,
+  EditorProvider,
+  Plugin,
+  StatefulPlugin
+} from '@edtr-io/core'
+import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Document, createDocumentIdentifier } from '@edtr-io/core'
-import { rowsPlugin } from '@edtr-io/ui'
 
 const counterPlugin: StatefulPlugin<{ value: number }> = {
+  // eslint-disable-next-line react/display-name
   Component: ({ onChange, state }) => {
-    console.log(state)
     return (
       <div>
         {state.value}
@@ -25,6 +30,7 @@ const counterPlugin: StatefulPlugin<{ value: number }> = {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
   rows: rowsPlugin,
