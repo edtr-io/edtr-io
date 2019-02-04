@@ -46,21 +46,25 @@ const plugins: Record<string, Plugin<any>> = {
 }
 
 storiesOf('EditorProvider', module).add('Counter', () => {
-  const state = createDocumentIdentifier()
+  const state = createDocumentIdentifier({
+    plugin: 'counter'
+  })
 
   return (
     <EditorProvider plugins={plugins} defaultPlugin="stateless">
-      <Document defaultPlugin="counter" state={state} />
+      <Document state={state} />
     </EditorProvider>
   )
 })
 
 storiesOf('RowsPlugin', module).add('Basic example', () => {
-  const state = createDocumentIdentifier()
+  const state = createDocumentIdentifier({
+    plugin: 'rows'
+  })
 
   return (
     <EditorProvider plugins={plugins} defaultPlugin="counter">
-      <Document defaultPlugin="rows" state={state} />
+      <Document state={state} />
     </EditorProvider>
   )
 })

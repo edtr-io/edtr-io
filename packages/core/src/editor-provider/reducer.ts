@@ -20,18 +20,18 @@ export function createStateReducer(options: StateReducerOptions) {
 
       function handleInsert() {
         if (action && action.type === StateActionType.Insert) {
-          const type = action.payload.type || options.defaultPlugin
+          const type = action.payload.plugin || options.defaultPlugin
           const id = action.payload.id
 
           const plugin = options.registry.getPlugin(type)
 
           let state
           if (plugin && isStatefulPlugin(plugin)) {
-            state = plugin.createInitialState()
+            state = action.payload.state || plugin.createInitialState()
           }
 
           draft[id] = {
-            type,
+            plugin: type,
             state
           }
         }
@@ -76,8 +76,7 @@ export type StateAction =
       type: StateActionType.Insert
       payload: {
         id: string
-        type?: PluginType
-      }
+      } & Partial<PluginState>
     }
   | {
       type: StateActionType.Change
@@ -94,6 +93,6 @@ export type StateAction =
 type PluginType = string
 
 export interface PluginState {
-  type: PluginType
+  plugin: PluginType
   state?: unknown
 }

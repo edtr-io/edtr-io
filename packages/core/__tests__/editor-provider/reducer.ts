@@ -27,10 +27,10 @@ test('insert', () => {
     type: StateActionType.Insert,
     payload: {
       id: '0',
-      type: 'stateless'
+      plugin: 'stateless'
     }
   })
-  expect(state[0]).toEqual({ type: 'stateless' })
+  expect(state[0]).toEqual({ plugin: 'stateless' })
 })
 
 test('insert default plugin', () => {
@@ -40,7 +40,7 @@ test('insert default plugin', () => {
       id: '0'
     }
   })
-  expect(state[0]).toEqual({ type: 'default' })
+  expect(state[0]).toEqual({ plugin: 'default' })
 })
 
 test('insert stateful plugin', () => {
@@ -48,11 +48,11 @@ test('insert stateful plugin', () => {
     type: StateActionType.Insert,
     payload: {
       id: '0',
-      type: 'stateful'
+      plugin: 'stateful'
     }
   })
   expect(state[0]).toEqual({
-    type: 'stateful',
+    plugin: 'stateful',
     state: {
       counter: 0
     }
@@ -60,15 +60,15 @@ test('insert stateful plugin', () => {
 })
 
 test('remove', () => {
-  state = { '0': { type: 'stateless' } }
+  state = { '0': { plugin: 'stateless' } }
   state = reducer(state, { type: StateActionType.Remove, payload: '0' })
   expect(state).toEqual({})
 })
 
 test('remove one', () => {
-  state = { '0': { type: 'text' }, '1': { type: 'stateless' } }
+  state = { '0': { plugin: 'text' }, '1': { plugin: 'stateless' } }
   state = reducer(state, { type: StateActionType.Remove, payload: '0' })
-  expect(state).toEqual({ '1': { type: 'stateless' } })
+  expect(state).toEqual({ '1': { plugin: 'stateless' } })
 })
 
 test('remove not existing plugin', () => {
@@ -77,7 +77,7 @@ test('remove not existing plugin', () => {
 })
 
 test('change', () => {
-  state = { '0': { type: 'stateful' } }
+  state = { '0': { plugin: 'stateful' } }
   state = reducer(state, {
     type: StateActionType.Change,
     payload: {
@@ -85,11 +85,11 @@ test('change', () => {
       state: { counter: 1 }
     }
   })
-  expect(state[0]).toEqual({ type: 'stateful', state: { counter: 1 } })
+  expect(state[0]).toEqual({ plugin: 'stateful', state: { counter: 1 } })
 })
 
 test('shallow change', () => {
-  state = { '0': { type: 'stateful', state: { counter: 0, bar: 'bar' } } }
+  state = { '0': { plugin: 'stateful', state: { counter: 0, bar: 'bar' } } }
   state = reducer(state, {
     type: StateActionType.Change,
     payload: {
@@ -98,7 +98,7 @@ test('shallow change', () => {
     }
   })
   expect(state[0]).toEqual({
-    type: 'stateful',
+    plugin: 'stateful',
     state: { counter: 1, bar: 'bar' }
   })
 })
