@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { PluginState, StateActionType } from '../editor-provider/reducer'
-import { EditorContext } from '@edtr-io/core'
 import { v4 } from 'uuid'
+
+import { PluginState, StateActionType } from '../editor-provider/reducer'
+import { EditorContext } from '..'
 
 export interface DocumentProps {
   initialState?: PluginState
