@@ -1,17 +1,19 @@
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { PluginState, StateActionType } from '../editor-provider/reducer'
+import { StateActionType } from '../editor-provider/reducer'
 import { EditorContext } from '..'
 
 export const DocumentEditor: React.FunctionComponent<
   DocumentEditorProps
 > = props => {
   const identifier = props.state
+  const { id } = identifier
+
   const store = React.useContext(EditorContext)
 
   React.useEffect(() => {
-    if (!store.state[identifier.id]) {
+    if (!store.state[id]) {
       store.dispatch({
         type: StateActionType.Insert,
         payload: identifier
@@ -19,7 +21,18 @@ export const DocumentEditor: React.FunctionComponent<
     }
   }, [identifier])
 
-  const { id } = identifier
+  const onChange = React.useCallback(
+    (state: unknown) => {
+      store.dispatch({
+        type: StateActionType.Change,
+        payload: {
+          id,
+          state
+        }
+      })
+    },
+    [id]
+  )
 
   if (!store.state[id]) {
     return null
@@ -33,19 +46,6 @@ export const DocumentEditor: React.FunctionComponent<
     console.log('Plugin does not exist')
     return null
   }
-
-  const onChange = React.useCallback(
-    (state: unknown) => {
-      store.dispatch({
-        type: StateActionType.Change,
-        payload: {
-          id,
-          state
-        }
-      })
-    },
-    [identifier]
-  )
 
   const Comp = plugin.Component
   return (
