@@ -1,0 +1,61 @@
+js: &js
+  docker:
+    - image: circleci/node:10
+
+yarn_restore_cache: &yarn_restore_cache
+  keys:
+    - yarn-v1-{{ checksum "yarn.lock" }}
+    - yarn-v1-
+yarn_save_cache: &yarn_save_cache
+  key: yarn-v1-{{ checksum "yarn.lock" }}
+  paths:
+    - ~/.cache/yarn
+yarn_install: &yarn_install
+  command: yarn --frozen-lockfile
+
+version: 2.1
+jobs:
+  build:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn build
+  lint:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn lint
+  test:
+    <<: *js
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_restore_cache
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          <<: *yarn_save_cache
+      - run:
+          command: yarn test
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      - lint
+      - test
