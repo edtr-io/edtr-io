@@ -42,10 +42,18 @@ export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
     <div>
       {rows.map((row, index) => {
         return (
-          <div key={index}>
-            <Add onClick={() => addPlugin(index)} />
-            <Document state={row} />
-          </div>
+          <Document
+            key={index}
+            state={row}
+            render={children => {
+              return (
+                <React.Fragment>
+                  <Add onClick={() => addPlugin(index)} />
+                  {children}
+                </React.Fragment>
+              )
+            }}
+          />
         )
       })}
       <Add onClick={() => addPlugin(rows.length)} />

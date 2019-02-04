@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import * as React from 'react'
 
 import {
@@ -9,15 +10,19 @@ import { DocumentRenderer, SerializedDocument } from './renderer'
 
 export { createDocumentIdentifier, DocumentIdentifier, SerializedDocument }
 
-export const Document: React.FunctionComponent<DocumentProps> = ({ state }) => {
+export const Document: React.FunctionComponent<DocumentProps> = ({
+  render = R.identity,
+  state
+}) => {
   if (isDocumentIdentifier(state)) {
-    return <DocumentEditor state={state} />
+    return <DocumentEditor render={render} state={state} />
   }
 
   return <DocumentRenderer state={state} />
 }
 
 export interface DocumentProps {
+  render?: (children: React.ReactNode) => React.ReactNode
   state: DocumentIdentifier | SerializedDocument
 }
 

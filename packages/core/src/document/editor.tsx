@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
@@ -48,17 +49,25 @@ export const DocumentEditor: React.FunctionComponent<
   }
 
   const Comp = plugin.Component
+
+  const render = props.render || R.identity
+
   return (
-    // @ts-ignore
-    <Comp
-      state={store.state[id].state}
-      // @ts-ignore
-      onChange={onChange}
-    />
+    <React.Fragment>
+      {render(
+        // @ts-ignore
+        <Comp
+          state={store.state[id].state}
+          // @ts-ignore
+          onChange={onChange}
+        />
+      )}
+    </React.Fragment>
   )
 }
 
 export interface DocumentEditorProps {
+  render?: (children: React.ReactNode) => React.ReactNode
   state: DocumentIdentifier
 }
 
