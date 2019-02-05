@@ -1,0 +1,30 @@
+{
+  "name": "@edtr-io/plugin-text",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {
+    "parse5": "^5.1.0",
+    "slate": "^0.44.10",
+    "slate-html-serializer": "^0.7.34",
+    "slate-react": "^0.21.16"
+  },
+  "devDependencies": {
+    "@types/parse5": "^5.0.0",
+    "@types/react": "^16.7.0-alpha",
+    "@types/slate": "^0.43.8",
+    "@types/slate-html-serializer": "^0.6.3",
+    "@types/slate-react": "^0.20.3",
+    "react": "^16.8.0-alpha",
+    "react-dom": "^16.8.0-alpha",
+    "react-test-renderer": "^16.8.0-alpha"
+  },
+  "peerDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}
