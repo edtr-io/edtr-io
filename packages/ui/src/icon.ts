@@ -10,5 +10,7 @@ export {
   faPlus,
   faSpinner,
   faTimes,
-  faTrashAlt
+  faTrashAlt,
+  faBold,
+  faItalic
 } from '@fortawesome/free-solid-svg-icons'

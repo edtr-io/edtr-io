@@ -9,6 +9,8 @@ import {
 } from '../plugins/rich-text'
 import { Button, ButtonGroup } from '../toolbar/button'
 import { TextPlugin } from '..'
+import { isLink, unwrapLink, wrapLink } from '../plugins/link'
+import { Icon, faLink, faBold, faItalic } from '@edtr-io/ui'
 
 export class Controls extends React.Component<{ editor: Editor }> {
   public render() {
@@ -16,13 +18,21 @@ export class Controls extends React.Component<{ editor: Editor }> {
     return (
       <ButtonGroup>
         <Button active={isStrong(editor)} onClick={() => toggleStrong(editor)}>
-          <strong>B</strong>
+          <Icon icon={faBold} />
         </Button>
         <Button
           active={isEmphasized(editor)}
           onClick={() => toggleEmphasize(editor)}
         >
-          <em>I</em>
+          <Icon icon={faItalic} />
+        </Button>
+        <Button
+          active={isLink(editor)}
+          onClick={() =>
+            isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
+          }
+        >
+          <Icon icon={faLink} />
         </Button>
       </ButtonGroup>
     )

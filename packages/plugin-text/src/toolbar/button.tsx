@@ -2,8 +2,8 @@ import { styled } from '@edtr-io/ui'
 
 export const ButtonGroup = styled.div({
   display: 'flex',
-  width: '80%',
-  margin: '20px auto 0'
+  width: '100%',
+  margin: '20px 0 0'
   // position: 'absolute',
   // opacity: 0.25
   //
@@ -20,27 +20,28 @@ export const ButtonGroup = styled.div({
 
 export const Button = styled.button<{ active?: boolean }>(({ active }) => {
   return {
-    backgroundColor: active ? '#999999' : '#CCCCCC',
+    backgroundColor: '#222',
     cursor: 'pointer',
-    color: active ? '#EEEEEE' : '#333333',
+    color: active ? 'white' : '#AAA',
     outline: 'none',
-    height: '30px',
+    height: '25px',
     border: 'none',
     maxWidth: '40px',
     flex: 1,
     borderRight: '1px solid #999999',
     '&:first-child': {
-      borderBottomLeftRadius: '5px',
-      borderTopLeftRadius: '5px'
+      borderBottomLeftRadius: '8px',
+      borderTopLeftRadius: '8px'
     },
     '&:last-child': {
-      borderBottomRightRadius: '5px',
-      borderTopRightRadius: '5px',
+      borderBottomRightRadius: '8px',
+      borderTopRightRadius: '8px',
       border: 'none'
     },
     '&:hover': {
-      backgroundColor: '#999999',
-      color: '#CCCCCC'
+      // backgroundColor: '#999999',
+      color: 'white'
+      // borderBottom: '4px solid #AAA'
     }
   }
 })

@@ -8,12 +8,14 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
+    "lodash": "^4.17.11",
     "parse5": "^5.1.0",
     "slate": "^0.44.10",
     "slate-html-serializer": "^0.7.34",
     "slate-react": "^0.21.16"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.120",
     "@types/parse5": "^5.0.0",
     "@types/react": "^16.7.0-alpha",
     "@types/slate": "^0.43.8",
