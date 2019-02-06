@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { MarkJSON, NodeJSON, Value } from 'slate'
+import { MarkJSON, NodeJSON } from 'slate'
 import { Rule } from 'slate-html-serializer'
 import { Plugin, RenderMarkProps, RenderNodeProps } from 'slate-react'
 import { plugins } from './plugins'
