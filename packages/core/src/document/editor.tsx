@@ -63,7 +63,12 @@ export const DocumentEditor: React.FunctionComponent<
     <React.Fragment>
       {render(
         <div onMouseDown={handleFocus} ref={container} data-document>
-          <Comp focused={focused} state={document.state} onChange={onChange} />
+          <Comp
+            editable
+            focused={focused}
+            state={document.state}
+            onChange={onChange}
+          />
         </div>
       )}
     </React.Fragment>
