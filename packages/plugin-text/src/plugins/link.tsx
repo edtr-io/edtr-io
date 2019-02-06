@@ -2,7 +2,7 @@ import { debounce } from 'lodash'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
-import { Input } from '@edtr-io/ui'
+import { Input, SettingOverlay } from '@edtr-io/ui'
 
 export const linkNode = '@splish-me/a'
 
@@ -77,7 +77,7 @@ class DefaultEditorComponent extends React.Component<
           {children}
         </a>
         {isSelected ? (
-          <React.Fragment>
+          <SettingOverlay readOnly={false}>
             <Input
               ref={this.input}
               label="URL"
@@ -89,7 +89,7 @@ class DefaultEditorComponent extends React.Component<
                 this.handleChange(newValue)
               }}
             />
-          </React.Fragment>
+          </SettingOverlay>
         ) : null}
       </React.Fragment>
     )

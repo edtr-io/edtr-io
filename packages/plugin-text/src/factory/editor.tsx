@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Editor, findNode } from 'slate-react'
-
+import { Editor as CoreEditor } from 'slate'
 import { TextPluginState, TextPluginOptions } from './types'
 export interface SlateEditorProps {
   onChange: (state: Partial<TextPluginState>) => void
@@ -16,9 +16,8 @@ export const createTextEditor = (
 
       return (
         <Editor
-          // onClick={(e, editor): Editor | void => {
-          //   const node = findNode(e.target, editor.value)
-          //
+          // onClick={(e, editor): CoreEditor | void => {
+          //   const node = findNode(e.target, editor)
           //   // If we can't find the node (e.g. because we clicked in the sidebar), ignore core plugins to avoid throwing erros
           //   if (!node) {
           //     e.preventDefault()

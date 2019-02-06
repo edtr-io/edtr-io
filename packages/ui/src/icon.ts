@@ -12,5 +12,6 @@ export {
   faTimes,
   faTrashAlt,
   faBold,
-  faItalic
+  faItalic,
+  faCog
 } from '@fortawesome/free-solid-svg-icons'
