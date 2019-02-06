@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { StateActionType } from '../editor-provider/reducer'
 import { EditorContext } from '..'
+import { ActionType, getDocument, getPlugin } from '../store'
 
 export const DocumentEditor: React.FunctionComponent<
   DocumentEditorProps
@@ -14,9 +14,9 @@ export const DocumentEditor: React.FunctionComponent<
   const store = React.useContext(EditorContext)
 
   React.useEffect(() => {
-    if (!store.state[id]) {
+    if (!getDocument(store.state, id)) {
       store.dispatch({
-        type: StateActionType.Insert,
+        type: ActionType.Insert,
         payload: identifier
       })
     }
@@ -25,7 +25,7 @@ export const DocumentEditor: React.FunctionComponent<
   const onChange = React.useCallback(
     (state: unknown) => {
       store.dispatch({
-        type: StateActionType.Change,
+        type: ActionType.Change,
         payload: {
           id,
           state
@@ -35,11 +35,13 @@ export const DocumentEditor: React.FunctionComponent<
     [id]
   )
 
-  if (!store.state[id]) {
+  const document = getDocument(store.state, id)
+
+  if (!document) {
     return null
   }
 
-  const plugin = store.registry.getPlugin(store.state[id].plugin)
+  const plugin = getPlugin(store.state, document.plugin)
 
   if (!plugin) {
     // TODO:
@@ -57,7 +59,7 @@ export const DocumentEditor: React.FunctionComponent<
       {render(
         // @ts-ignore
         <Comp
-          state={store.state[id].state}
+          state={document.state}
           // @ts-ignore
           onChange={onChange}
         />
