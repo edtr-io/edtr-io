@@ -6,17 +6,19 @@ import { isStatefulPlugin, Plugin } from '..'
 export enum ActionType {
   Insert = 'Insert',
   Remove = 'Remove',
-  Change = 'Change'
+  Change = 'Change',
+  Focus = 'Focus'
 }
 
-export function reducer(state: State, action?: Action): State {
+export function reducer(state: State, action: Action): State {
   return produce(state, draft => {
     handleInsert()
     handleRemove()
     handleChange()
+    handleFocus()
 
     function handleInsert() {
-      if (action && action.type === ActionType.Insert) {
+      if (action.type === ActionType.Insert) {
         const type = action.payload.plugin || getDefaultPlugin(draft)
         const id = action.payload.id
 
@@ -27,6 +29,7 @@ export function reducer(state: State, action?: Action): State {
           state = action.payload.state || plugin.createInitialState()
         }
 
+        draft.focus = id
         draft.documents[id] = {
           plugin: type,
           state
@@ -35,13 +38,13 @@ export function reducer(state: State, action?: Action): State {
     }
 
     function handleRemove() {
-      if (action && action.type === ActionType.Remove) {
+      if (action.type === ActionType.Remove) {
         delete draft.documents[action.payload]
       }
     }
 
     function handleChange() {
-      if (action && action.type === ActionType.Change) {
+      if (action.type === ActionType.Change) {
         const { id, state } = action.payload
 
         if (!draft.documents[id]) {
@@ -55,6 +58,12 @@ export function reducer(state: State, action?: Action): State {
         }
       }
     }
+
+    function handleFocus() {
+      if (action.type === ActionType.Focus) {
+        draft.focus = action.payload
+      }
+    }
   })
 }
 
@@ -63,9 +72,10 @@ export interface State {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: Record<PluginType, Plugin<any>>
   documents: Record<string, PluginState>
+  focus?: string
 }
 
-export type Action = InsertAction | ChangeAction | RemoveAction
+export type Action = InsertAction | ChangeAction | RemoveAction | FocusAction
 
 type PluginType = string
 
@@ -86,6 +96,11 @@ export interface ChangeAction {
 
 export interface RemoveAction {
   type: ActionType.Remove
+  payload: string
+}
+
+export interface FocusAction {
+  type: ActionType.Focus
   payload: string
 }
 
@@ -122,4 +137,8 @@ export function getPlugins<K extends string = string>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<K, Plugin<any>> {
   return state.plugins
+}
+
+export function isFocused(state: State, id: string): boolean {
+  return state.focus === id
 }

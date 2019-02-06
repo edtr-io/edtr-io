@@ -2,12 +2,14 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { EditorContext } from '..'
-import { ActionType, getDocument, getPlugin } from '../store'
+import { EditorContext, PluginEditorProps } from '..'
+import { ActionType, getDocument, getPlugin, isFocused } from '../store'
 
 export const DocumentEditor: React.FunctionComponent<
   DocumentEditorProps
 > = props => {
+  const container = React.useRef<HTMLDivElement>(null)
+
   const identifier = props.state
   const { id } = identifier
 
@@ -50,22 +52,34 @@ export const DocumentEditor: React.FunctionComponent<
     return null
   }
 
-  const Comp = plugin.Component
+  const Comp = plugin.Component as React.ComponentType<
+    PluginEditorProps<unknown>
+  >
 
   const render = props.render || R.identity
+  const focused = isFocused(store.state, id)
 
   return (
     <React.Fragment>
       {render(
-        // @ts-ignore
-        <Comp
-          state={document.state}
-          // @ts-ignore
-          onChange={onChange}
-        />
+        <div onMouseDown={handleFocus} ref={container} data-document>
+          <Comp focused={focused} state={document.state} onChange={onChange} />
+        </div>
       )}
     </React.Fragment>
   )
+
+  function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
+    // Find closest document
+    const target = (e.target as HTMLDivElement).closest('[data-document]')
+
+    if (!focused && target === container.current) {
+      store.dispatch({
+        type: ActionType.Focus,
+        payload: id
+      })
+    }
+  }
 }
 
 export interface DocumentEditorProps {

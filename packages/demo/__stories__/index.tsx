@@ -11,9 +11,13 @@ import * as React from 'react'
 
 const counterPlugin: StatefulPlugin<{ value: number }> = {
   // eslint-disable-next-line react/display-name
-  Component: ({ onChange, state }) => {
+  Component: ({ focused, onChange, state }) => {
     return (
-      <div>
+      <div
+        style={{
+          outline: focused ? '1px solid blue' : 'none'
+        }}
+      >
         {state.value}
         <button
           onClick={() => {

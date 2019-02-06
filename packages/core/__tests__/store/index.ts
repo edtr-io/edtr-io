@@ -1,10 +1,11 @@
 import { plugins } from '../editor-provider'
 import {
-  reducer,
-  State,
   ActionType,
+  getDocument,
   getDocuments,
-  getDocument
+  isFocused,
+  reducer,
+  State
 } from '../../src/store'
 
 let state: State
@@ -129,5 +130,42 @@ describe('change', () => {
       }
     })
     expect(getDocuments(state)).toEqual({})
+  })
+})
+
+describe('focus', () => {
+  test('not focused by default', () => {
+    expect(isFocused(state, '0')).toEqual(false)
+  })
+
+  test('focused after focus action', () => {
+    state = reducer(state, {
+      type: ActionType.Focus,
+      payload: '0'
+    })
+    expect(isFocused(state, '0')).toEqual(true)
+  })
+
+  test('not focused anymore after another focus action', () => {
+    state = reducer(state, {
+      type: ActionType.Focus,
+      payload: '0'
+    })
+    state = reducer(state, {
+      type: ActionType.Focus,
+      payload: '1'
+    })
+    expect(isFocused(state, '0')).toEqual(false)
+  })
+
+  test('a newly inserted element gets focused', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        plugin: 'stateless',
+        id: '0'
+      }
+    })
+    expect(isFocused(state, '0')).toEqual(true)
   })
 })
