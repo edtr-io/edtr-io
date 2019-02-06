@@ -3,9 +3,19 @@ import { styled } from '@edtr-io/ui'
 export const ButtonGroup = styled.div({
   display: 'flex',
   width: '80%',
-  margin: '20px auto 0',
-  alignItems: 'center',
-  justifyContent: 'center'
+  margin: '20px auto 0'
+  // position: 'absolute',
+  // opacity: 0.25
+  //
+  // zIndex: 1,
+  // left: -100000,
+  // top: -100000,
+  // padding: '8px 7px 6px',
+  // position: 'absolute',
+  // marginTop: '-6px',
+  // opacity: 0,
+  // borderRadius: 4,
+  // transition: 'opacity 0.75s'
 })
 
 export const Button = styled.button<{ active?: boolean }>(({ active }) => {

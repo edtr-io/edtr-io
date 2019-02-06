@@ -16,13 +16,13 @@ export const createTextEditor = (
 
       return (
         <Editor
-          // onClick={(e, change): Change | void => {
-          //   const node = findNode(e.target, change.value)
+          // onClick={(e, editor): Editor | void => {
+          //   const node = findNode(e.target, editor.value)
           //
           //   // If we can't find the node (e.g. because we clicked in the sidebar), ignore core plugins to avoid throwing erros
           //   if (!node) {
           //     e.preventDefault()
-          //     return change
+          //     return editor
           //   }
           // }}
           onChange={editor => {

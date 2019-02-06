@@ -82,7 +82,7 @@ export const createRichTextPlugin = ({
             nodes: next(el.childNodes)
           }
         default:
-          return undefined
+          return
       }
     },
 
@@ -95,8 +95,6 @@ export const createRichTextPlugin = ({
       ) {
         return <RenderComponent mark={mark}>{children}</RenderComponent>
       }
-
-      return undefined
     },
 
     renderMark(props, _editor, next) {
@@ -109,7 +107,7 @@ export const createRichTextPlugin = ({
         return <EditorComponent {...props} />
       }
 
-      next()
+      return next()
     }
   }
 }
