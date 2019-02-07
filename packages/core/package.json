@@ -9,9 +9,11 @@
   "scripts": {},
   "dependencies": {
     "immer": "^1.0.0",
+    "ramda": "^0.26.0",
     "uuid": "^3.0.0"
   },
   "devDependencies": {
+    "@types/ramda": "^0.26.0",
     "@types/react": "^16.7.0-alpha",
     "@types/react-test-renderer": "^16.0.0",
     "@types/uuid": "^3.0.0",

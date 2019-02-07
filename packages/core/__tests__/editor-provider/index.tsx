@@ -7,6 +7,7 @@ import {
   EditorProvider
 } from '../../src/editor-provider'
 import { ActionType, getDocument } from '../../src/store'
+import { createDocumentIdentifier } from '../../src'
 
 export const plugins = {
   stateless: {
@@ -16,6 +17,16 @@ export const plugins = {
     Component: () => null,
     createInitialState: () => {
       return { counter: 0 }
+    }
+  },
+  nested: {
+    Component: () => null,
+    createInitialState: () => {
+      return {
+        child: createDocumentIdentifier({
+          plugin: 'stateful'
+        })
+      }
     }
   }
 }

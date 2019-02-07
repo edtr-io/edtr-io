@@ -1,7 +1,12 @@
 import { produce } from 'immer'
+import * as R from 'ramda'
 
-// import { PluginRegistry } from './plugin-registry'
-import { isStatefulPlugin, Plugin } from '..'
+import {
+  isDocumentIdentifier,
+  isStatefulPlugin,
+  Plugin,
+  SerializedDocument
+} from '..'
 
 export enum ActionType {
   Insert = 'Insert',
@@ -141,4 +146,39 @@ export function getPlugins<K extends string = string>(
 
 export function isFocused(state: State, id: string): boolean {
   return state.focus === id
+}
+
+export function serializeDocument(
+  state: State,
+  id: string
+): SerializedDocument | null {
+  const document = getDocument(state, id)
+
+  if (!document) {
+    return null
+  }
+
+  return {
+    type: '@edtr-io/document',
+    plugin: document.plugin,
+    ...(document.state === undefined
+      ? {}
+      : { state: serializeState(document.state) })
+  }
+
+  function serializeState(
+    pluginState: PluginState['state']
+  ): PluginState['state'] {
+    if (pluginState instanceof Object) {
+      return R.mapObjIndexed(value => {
+        if (isDocumentIdentifier(value)) {
+          return serializeDocument(state, value.id)
+        }
+
+        return serializeState(value)
+      }, pluginState)
+    }
+
+    return pluginState
+  }
 }

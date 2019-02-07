@@ -27,7 +27,10 @@ export interface DocumentProps {
 }
 
 export function isDocumentIdentifier(
-  state: DocumentProps['state']
+  state: unknown
 ): state is DocumentIdentifier {
-  return (state as DocumentIdentifier).$$typeof !== undefined
+  return (
+    state !== 'undefined' &&
+    (state as DocumentIdentifier).$$typeof !== undefined
+  )
 }
