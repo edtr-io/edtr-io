@@ -10,10 +10,10 @@ const InputLabel = styled.label({
   alignItems: 'center'
 })
 
-const InputLabelInner = styled.span({ width: '40%' })
+const InputLabelInner = styled.span({ width: '10%' })
 
 const InputInner = styled.input({
-  backgroundColor: '#333333',
+  backgroundColor: 'transparent',
   border: 'none',
   borderBottom: '2px solid #EEEEEE',
   color: '#EEEEEE',

@@ -7,8 +7,12 @@ import { Input, SettingOverlay } from '@edtr-io/ui'
 export const linkNode = '@splish-me/a'
 
 export interface LinkPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
+  EditorComponent?: React.ComponentType<NodeEditorProps> & OverlayHolder
   RenderComponent?: React.ComponentType<NodeRendererProps>
+}
+
+interface OverlayHolder {
+  showOverlay: () => void
 }
 
 interface DefaultEditorComponentState {
@@ -16,16 +20,17 @@ interface DefaultEditorComponentState {
   value: string
 }
 
-class DefaultEditorComponent extends React.Component<
-  NodeEditorProps,
-  DefaultEditorComponentState
-> {
+class DefaultEditorComponent
+  extends React.Component<NodeEditorProps, DefaultEditorComponentState>
+  implements OverlayHolder {
   public state: DefaultEditorComponentState = {
     lastValue: this.props.node.data.get('href'),
     value: this.props.node.data.get('href')
   }
 
-  private handleChange = debounce((href: string) => {
+  private overlay = React.createRef<SettingOverlay>()
+
+  private handleHrefChange = debounce((href: string) => {
     const { editor, node } = this.props
     const inline = node
 
@@ -46,6 +51,30 @@ class DefaultEditorComponent extends React.Component<
     })
   }, 500)
 
+  private handleLabelChange = debounce((label: string) => {
+    // const { editor, node } = this.props
+    // const inline = node
+    //
+    // console.log(label)
+    // editor
+    //   .setNodeByKey(inline.key, label)
+    //   // .setNodeByKey(inline.key, {
+    //   //   type: inline.type,
+    //   //   data: {
+    //   //     ...inline.data,
+    //   //     label
+    //   //   }
+    //   // })
+    //   .focus()
+    //
+    // setTimeout(() => {
+    //   const input = this.input.current
+    //   if (input) {
+    //     input.focus()
+    //   }
+    // })
+  }, 500)
+
   private input = React.createRef<Input>() as React.RefObject<Input> & string
 
   public static getDerivedStateFromProps(
@@ -64,6 +93,12 @@ class DefaultEditorComponent extends React.Component<
     }
   }
 
+  public showOverlay() {
+    if (this.overlay.current) {
+      this.overlay.current.showOverlay()
+    }
+  }
+
   public render() {
     const { attributes, children, node, isSelected } = this.props
     const inline = node
@@ -77,7 +112,23 @@ class DefaultEditorComponent extends React.Component<
           {children}
         </a>
         {isSelected ? (
-          <SettingOverlay readOnly={false}>
+          <SettingOverlay
+            ref={this.overlay}
+            readOnly={false}
+            buttonStyle={{
+              position: 'absolute',
+              top: '10px',
+              marginLeft: '-10px'
+            }}
+          >
+            <Input
+              label="Text"
+              value={inline.getText()}
+              onChange={e => {
+                const newValue = e.target.value
+                this.handleLabelChange(newValue)
+              }}
+            />
             <Input
               ref={this.input}
               label="URL"
@@ -86,7 +137,7 @@ class DefaultEditorComponent extends React.Component<
                 const newValue = e.target.value
 
                 this.setState({ value: newValue })
-                this.handleChange(newValue)
+                this.handleHrefChange(newValue)
               }}
             />
           </SettingOverlay>
@@ -142,7 +193,7 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
 }
 
 export const createLinkPlugin = ({
-  EditorComponent = DefaultEditorComponent,
+  EditorComponent = DefaultEditorComponent, //FIXME
   RenderComponent = DefaultRendererComponent
 }: LinkPluginOptions = {}): TextPlugin => {
   return {
@@ -168,6 +219,17 @@ export const createLinkPlugin = ({
       if (block.object === 'inline' && block.type === linkNode) {
         return <RenderComponent node={obj}>{children}</RenderComponent>
       }
+    },
+
+    onKeyDown(event, editor, next) {
+      if (
+        ((event as unknown) as React.KeyboardEvent).key === 'Enter' &&
+        isLink(editor)
+      ) {
+        EditorComponent.showOverlay()
+        return
+      }
+      next()
     },
 
     renderNode(props, _editor, next) {
