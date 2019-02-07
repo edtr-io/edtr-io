@@ -2,21 +2,23 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { StateActionType } from '../editor-provider/reducer'
-import { EditorContext } from '..'
+import { EditorContext, PluginEditorProps } from '..'
+import { ActionType, getDocument, getPlugin, isFocused } from '../store'
 
 export const DocumentEditor: React.FunctionComponent<
   DocumentEditorProps
 > = props => {
+  const container = React.useRef<HTMLDivElement>(null)
+
   const identifier = props.state
   const { id } = identifier
 
   const store = React.useContext(EditorContext)
 
   React.useEffect(() => {
-    if (!store.state[id]) {
+    if (!getDocument(store.state, id)) {
       store.dispatch({
-        type: StateActionType.Insert,
+        type: ActionType.Insert,
         payload: identifier
       })
     }
@@ -25,7 +27,7 @@ export const DocumentEditor: React.FunctionComponent<
   const onChange = React.useCallback(
     (state: unknown) => {
       store.dispatch({
-        type: StateActionType.Change,
+        type: ActionType.Change,
         payload: {
           id,
           state
@@ -35,11 +37,13 @@ export const DocumentEditor: React.FunctionComponent<
     [id]
   )
 
-  if (!store.state[id]) {
+  const document = getDocument(store.state, id)
+
+  if (!document) {
     return null
   }
 
-  const plugin = store.registry.getPlugin(store.state[id].plugin)
+  const plugin = getPlugin(store.state, document.plugin)
 
   if (!plugin) {
     // TODO:
@@ -48,22 +52,39 @@ export const DocumentEditor: React.FunctionComponent<
     return null
   }
 
-  const Comp = plugin.Component
+  const Comp = plugin.Component as React.ComponentType<
+    PluginEditorProps<unknown>
+  >
 
   const render = props.render || R.identity
+  const focused = isFocused(store.state, id)
 
   return (
     <React.Fragment>
       {render(
-        // @ts-ignore
-        <Comp
-          state={store.state[id].state}
-          // @ts-ignore
-          onChange={onChange}
-        />
+        <div onMouseDown={handleFocus} ref={container} data-document>
+          <Comp
+            editable
+            focused={focused}
+            state={document.state}
+            onChange={onChange}
+          />
+        </div>
       )}
     </React.Fragment>
   )
+
+  function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
+    // Find closest document
+    const target = (e.target as HTMLDivElement).closest('[data-document]')
+
+    if (!focused && target === container.current) {
+      store.dispatch({
+        type: ActionType.Focus,
+        payload: id
+      })
+    }
+  }
 }
 
 export interface DocumentEditorProps {

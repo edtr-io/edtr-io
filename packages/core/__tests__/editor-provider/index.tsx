@@ -6,7 +6,7 @@ import {
   EditorContextValue,
   EditorProvider
 } from '../../src/editor-provider'
-import { StateActionType } from '../../src/editor-provider/reducer'
+import { ActionType, getDocument } from '../../src/store'
 
 export const plugins = {
   stateless: {
@@ -34,7 +34,7 @@ test('initialized EditorContext', () => {
   )
 
   // @ts-ignore
-  expect(actual.state).toEqual({})
+  expect(actual.state).toBeDefined()
   // @ts-ignore
   expect(actual.dispatch).toBeDefined()
 })
@@ -53,7 +53,7 @@ test('initialized EditorContext', () => {
   )
 
   // @ts-ignore
-  actual.dispatch({ type: StateActionType.Insert, payload: { id: 0 } })
+  actual.dispatch({ type: ActionType.Insert, payload: { id: '0' } })
   // @ts-ignore
-  expect(Object.keys(actual.state[0])).toBeDefined()
+  expect(Object.keys(getDocument(actual.state, '0'))).toBeDefined()
 })

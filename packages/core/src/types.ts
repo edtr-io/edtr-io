@@ -14,6 +14,8 @@ export interface StatefulPlugin<PluginState = undefined>
 export interface PluginEditorProps<PluginState = undefined> {
   state: PluginState
   onChange: (state: Partial<PluginState>) => void
+  editable?: boolean
+  focused?: boolean
 }
 
 export function isStatefulPlugin<S = undefined>(
