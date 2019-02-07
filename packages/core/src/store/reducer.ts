@@ -170,13 +170,17 @@ export function serializeDocument(
     pluginState: PluginState['state']
   ): PluginState['state'] {
     if (pluginState instanceof Object) {
-      return R.mapObjIndexed(value => {
-        if (isDocumentIdentifier(value)) {
-          return serializeDocument(state, value.id)
-        }
+      return R.map(
+        (value: unknown) => {
+          if (isDocumentIdentifier(value)) {
+            return serializeDocument(state, value.id)
+          }
 
-        return serializeState(value)
-      }, pluginState)
+          return serializeState(value)
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        pluginState as any
+      )
     }
 
     return pluginState

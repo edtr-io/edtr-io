@@ -235,4 +235,42 @@ describe('serialize', () => {
       }
     })
   })
+
+  test('nested array', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'nestedArray',
+        state: {
+          children: [
+            createDocumentIdentifier({
+              id: '1'
+            })
+          ]
+        }
+      }
+    })
+    // Note: this would usually be done automatically when rendering a <Document />
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '1',
+        plugin: 'stateful'
+      }
+    })
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'nestedArray',
+      state: {
+        children: [
+          {
+            type: '@edtr-io/document',
+            plugin: 'stateful',
+            state: { counter: 0 }
+          }
+        ]
+      }
+    })
+  })
 })

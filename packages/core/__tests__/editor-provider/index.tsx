@@ -28,6 +28,18 @@ export const plugins = {
         })
       }
     }
+  },
+  nestedArray: {
+    Component: () => null,
+    createInitialState: () => {
+      return {
+        children: [
+          createDocumentIdentifier({
+            plugin: 'stateful'
+          })
+        ]
+      }
+    }
   }
 }
 
