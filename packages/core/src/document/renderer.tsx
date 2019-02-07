@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { PluginState } from '../editor-provider/reducer'
+import { getPlugin, PluginState } from '../store'
 import { EditorContext } from '..'
 
 export const DocumentRenderer: React.FunctionComponent<
@@ -8,7 +8,7 @@ export const DocumentRenderer: React.FunctionComponent<
 > = props => {
   const store = React.useContext(EditorContext)
 
-  const plugin = store.registry.getPlugin(props.state.plugin)
+  const plugin = getPlugin(store.state, props.state.plugin)
 
   if (!plugin) {
     // TODO:
