@@ -30,7 +30,6 @@ export function isDocumentIdentifier(
   state: unknown
 ): state is DocumentIdentifier {
   return (
-    state !== 'undefined' &&
-    (state as DocumentIdentifier).$$typeof !== undefined
+    state !== undefined && (state as DocumentIdentifier).$$typeof !== undefined
   )
 }
