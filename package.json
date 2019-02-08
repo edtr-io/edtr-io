@@ -22,9 +22,9 @@
     "predeploy": "yarn build",
     "deploy": "yarn run _publish",
     "_exec": "lerna exec --stream --no-bail",
-    "_eslint": "eslint \"{packages/*/{{__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
+    "_eslint": "eslint \"{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
-    "_prettier": "prettier \"{packages/*/{{__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {

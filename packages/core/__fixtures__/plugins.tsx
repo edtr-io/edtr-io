@@ -1,4 +1,4 @@
-import {createDocumentIdentifier} from '@edtr-io/core'
+import { createDocumentIdentifier } from '../src'
 
 export const plugins = {
   stateless: {
