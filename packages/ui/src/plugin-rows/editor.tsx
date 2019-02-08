@@ -1,5 +1,5 @@
 import {
-  createDocumentIdentifier,
+  createDocument,
   Document,
   DocumentIdentifier,
   PluginEditorProps
@@ -102,7 +102,7 @@ export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
 
   function addPlugin(index: number) {
     props.onChange({
-      rows: R.insert(index, createDocumentIdentifier(), props.state.rows)
+      rows: R.insert(index, createDocument(), props.state.rows)
     })
   }
 

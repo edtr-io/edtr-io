@@ -1,12 +1,8 @@
 import { produce } from 'immer'
 import * as R from 'ramda'
 
-import {
-  isDocumentIdentifier,
-  isStatefulPlugin,
-  Plugin,
-  SerializedDocument
-} from '..'
+import { isDocumentIdentifier, SerializedDocument } from '../document'
+import { isStatefulPlugin, Plugin } from '../plugin'
 
 export enum ActionType {
   Insert = 'Insert',

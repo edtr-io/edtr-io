@@ -1,4 +1,4 @@
-import { createDocumentIdentifier } from '../src'
+import { createDocument } from '../src'
 
 export const plugins = {
   stateless: {
@@ -14,7 +14,7 @@ export const plugins = {
     Component: () => null,
     createInitialState: () => {
       return {
-        child: createDocumentIdentifier({
+        child: createDocument({
           plugin: 'stateful'
         })
       }
@@ -25,7 +25,7 @@ export const plugins = {
     createInitialState: () => {
       return {
         children: [
-          createDocumentIdentifier({
+          createDocument({
             plugin: 'stateful'
           })
         ]
