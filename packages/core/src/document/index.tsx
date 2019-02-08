@@ -30,6 +30,16 @@ export function isDocumentIdentifier(
   state: unknown
 ): state is DocumentIdentifier {
   return (
-    state !== undefined && (state as DocumentIdentifier).$$typeof !== undefined
+    state !== undefined &&
+    (state as DocumentIdentifier).$$typeof === '@edtr-io/document'
+  )
+}
+
+export function isSerializedDocument(
+  state: unknown
+): state is SerializedDocument {
+  return (
+    state !== undefined &&
+    (state as SerializedDocument).type === '@edtr-io/document'
   )
 }

@@ -13,6 +13,11 @@ async function exec(): Promise<void> {
       tagName: '0.1.0',
       date: '2019-02-08',
       description: 'Initial release'
+    },
+    {
+      added: [
+        'Handle serialization and deserialization of documents'
+      ]
     }
   ])
 

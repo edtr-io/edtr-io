@@ -1,4 +1,4 @@
-import { plugins } from '../editor-provider'
+import { plugins } from '../../__fixtures__/plugins'
 import {
   ActionType,
   getDocument,
