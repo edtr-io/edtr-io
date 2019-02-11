@@ -2,10 +2,12 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { EditorContext, isSerializedDocument, PluginEditorProps } from '..'
+import { EditorContext } from '../editor-context'
+import { PluginEditorProps } from '../plugin'
 import { ActionType, getDocument, getPlugin, isFocused } from '../store'
+import { isSerializedDocument } from '.'
 
-export const createDocumentIdentifier = (
+export const createDocument = (
   options: Partial<Pick<DocumentIdentifier, 'id' | 'plugin' | 'state'>> & {
     type?: '@edtr-io/document'
   } = {}
@@ -100,7 +102,7 @@ export const DocumentEditor: React.FunctionComponent<
         return R.map(
           (value: unknown) => {
             if (isSerializedDocument(value)) {
-              const subDocument = createDocumentIdentifier({
+              const subDocument = createDocument({
                 plugin: value.plugin,
                 state: deserializeState(value.state)
               })

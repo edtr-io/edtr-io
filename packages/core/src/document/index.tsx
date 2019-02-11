@@ -1,14 +1,10 @@
 import * as R from 'ramda'
 import * as React from 'react'
 
-import {
-  createDocumentIdentifier,
-  DocumentEditor,
-  DocumentIdentifier
-} from './editor'
+import { createDocument, DocumentEditor, DocumentIdentifier } from './editor'
 import { DocumentRenderer, SerializedDocument } from './renderer'
 
-export { createDocumentIdentifier, DocumentIdentifier, SerializedDocument }
+export { createDocument, DocumentIdentifier, SerializedDocument }
 
 export const Document: React.FunctionComponent<DocumentProps> = ({
   render = R.identity,

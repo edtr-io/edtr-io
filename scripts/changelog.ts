@@ -15,9 +15,17 @@ async function exec(): Promise<void> {
       description: 'Initial release'
     },
     {
+      breakingChanges: [
+        'The newly added `<Editor />` replaces the removed `<EditorProvider />`. It sets up the `EditorContext` and renders an editor for the given `state`.',
+        "Don't export API that isn't intended for external usage anymore.",
+        'Rename `createDocumentIdentifier` to `createDocument`'
+      ],
       added: [
-        'Handle serialization and deserialization of documents'
-      ]
+        'Handle serialization and deserialization of documents',
+        'Add `<Editor />` that replaces `<EditorProvider />`'
+      ],
+      changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
+      removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
     }
   ])
 

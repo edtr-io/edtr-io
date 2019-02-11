@@ -8,7 +8,7 @@ import {
   serializeDocument,
   State
 } from '../../src/store'
-import { createDocumentIdentifier } from '../../src'
+import { createDocument } from '../../src'
 
 let state: State
 
@@ -209,7 +209,7 @@ describe('serialize', () => {
         id: '0',
         plugin: 'nested',
         state: {
-          child: createDocumentIdentifier({
+          child: createDocument({
             id: '1'
           })
         }
@@ -244,7 +244,7 @@ describe('serialize', () => {
         plugin: 'nestedArray',
         state: {
           children: [
-            createDocumentIdentifier({
+            createDocument({
               id: '1'
             })
           ]

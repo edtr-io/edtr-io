@@ -1,12 +1,11 @@
 import {
-  createDocumentIdentifier,
-  Document,
+  createDocument,
+  DocumentIdentifier,
+  Editor,
   EditorContext,
-  EditorProvider,
   Plugin,
-  StatefulPlugin,
   serializeDocument,
-  DocumentIdentifier
+  StatefulPlugin
 } from '@edtr-io/core'
 import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
@@ -54,30 +53,28 @@ const plugins: Record<string, Plugin<any>> = {
 
 // TODO: stringify correctly
 storiesOf('EditorProvider', module).add('Counter', () => {
-  const state = createDocumentIdentifier({
+  const state = createDocument({
     plugin: 'counter'
   })
 
   return (
-    <EditorProvider plugins={plugins} defaultPlugin="stateless">
-      <Document state={state} />
+    <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
       <LogState state={state} />
-    </EditorProvider>
+    </Editor>
   )
 })
 
 storiesOf('RowsPlugin', module).add('Basic example', () => {
-  const state = createDocumentIdentifier(
+  const state = createDocument(
     JSON.parse(
       '{"type":"@edtr-io/document","plugin":"rows","state":{"rows":[{"type":"@edtr-io/document","plugin":"counter","state":{"value":1}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":2}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":3}}]}}'
     )
   )
 
   return (
-    <EditorProvider plugins={plugins} defaultPlugin="counter">
-      <Document state={state} />
+    <Editor plugins={plugins} defaultPlugin="counter" state={state}>
       <LogState state={state} />
-    </EditorProvider>
+    </Editor>
   )
 })
 

@@ -4,12 +4,11 @@ import { act } from 'react-dom/test-utils'
 
 import { plugins } from '../__fixtures__/plugins'
 import {
-  createDocumentIdentifier,
-  Document,
+  createDocument,
   DocumentIdentifier,
   EditorContext,
   EditorContextValue,
-  EditorProvider
+  Editor
 } from '../src'
 import { getDocument } from '../src/store'
 
@@ -22,7 +21,7 @@ beforeEach(() => {
 })
 
 test('default plugin', () => {
-  const state = createDocumentIdentifier()
+  const state = createDocument()
   renderDocument(state)
 
   const document = getDocument(store.state, state.id)
@@ -35,7 +34,7 @@ test('default plugin', () => {
 })
 
 test('deserialize nested', () => {
-  const state = createDocumentIdentifier({
+  const state = createDocument({
     type: '@edtr-io/document',
     plugin: 'nested',
     state: {
@@ -70,7 +69,7 @@ test('deserialize nested', () => {
 })
 
 test('deserialize nested array', () => {
-  const state = createDocumentIdentifier({
+  const state = createDocument({
     type: '@edtr-io/document',
     plugin: 'nestedArray',
     state: {
@@ -111,10 +110,9 @@ test('deserialize nested array', () => {
 function renderDocument(state: DocumentIdentifier) {
   act(() => {
     ReactDOM.render(
-      <EditorProvider plugins={plugins} defaultPlugin="stateless">
-        <Document state={state} />
+      <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
         {setStore()}
-      </EditorProvider>,
+      </Editor>,
       container
     )
   })

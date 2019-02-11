@@ -1,7 +1,7 @@
 import * as React from 'react'
 
+import { EditorContext } from '../editor-context'
 import { getPlugin, PluginState } from '../store'
-import { EditorContext } from '..'
 
 export const DocumentRenderer: React.FunctionComponent<
   DocumentRendererProps
