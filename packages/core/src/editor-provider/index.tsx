@@ -17,9 +17,9 @@ export interface EditorContextValue {
   dispatch: (action: Action) => void
 }
 
-export const EditorProvider: React.FunctionComponent<
-  EditorProviderProps
-> = props => {
+export function EditorProvider<K extends string = string>(
+  props: EditorProviderProps<K>
+) {
   const [state, dispatch] = React.useReducer(reducer, {
     ...props,
     documents: {}
@@ -38,6 +38,7 @@ export const EditorProvider: React.FunctionComponent<
 }
 
 export interface EditorProviderProps<K extends string = string> {
+  children?: React.ReactNode
   plugins: Record<K, Plugin>
   defaultPlugin: K
 }

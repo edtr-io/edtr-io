@@ -1,12 +1,14 @@
-import { plugins } from '../editor-provider'
+import { plugins } from '../../__fixtures__/plugins'
 import {
   ActionType,
   getDocument,
   getDocuments,
   isFocused,
   reducer,
+  serializeDocument,
   State
 } from '../../src/store'
+import { createDocumentIdentifier } from '../../src'
 
 let state: State
 
@@ -167,5 +169,108 @@ describe('focus', () => {
       }
     })
     expect(isFocused(state, '0')).toEqual(true)
+  })
+})
+
+describe('serialize', () => {
+  test('stateless', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateless'
+      }
+    })
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'stateless'
+    })
+  })
+
+  test('stateful', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful'
+      }
+    })
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'stateful',
+      state: { counter: 0 }
+    })
+  })
+
+  test('nested', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'nested',
+        state: {
+          child: createDocumentIdentifier({
+            id: '1'
+          })
+        }
+      }
+    })
+    // Note: this would usually be done automatically when rendering a <Document />
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '1',
+        plugin: 'stateful'
+      }
+    })
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'nested',
+      state: {
+        child: {
+          type: '@edtr-io/document',
+          plugin: 'stateful',
+          state: { counter: 0 }
+        }
+      }
+    })
+  })
+
+  test('nested array', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'nestedArray',
+        state: {
+          children: [
+            createDocumentIdentifier({
+              id: '1'
+            })
+          ]
+        }
+      }
+    })
+    // Note: this would usually be done automatically when rendering a <Document />
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '1',
+        plugin: 'stateful'
+      }
+    })
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'nestedArray',
+      state: {
+        children: [
+          {
+            type: '@edtr-io/document',
+            plugin: 'stateful',
+            state: { counter: 0 }
+          }
+        ]
+      }
+    })
   })
 })

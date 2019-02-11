@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    browser: true,
     jest: true,
     node: true
   },
@@ -11,6 +12,7 @@ module.exports = {
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
+  plugins: ['react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -33,7 +35,10 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 'error',
 
     // eslint-plugin-react
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+
+    // eslint-plugin-react-hooks
+    'react-hooks/rules-of-hooks': 'error'
   },
   settings: {
     react: {

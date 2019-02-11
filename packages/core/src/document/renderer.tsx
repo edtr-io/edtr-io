@@ -27,8 +27,6 @@ export interface DocumentRendererProps {
   state: SerializedDocument
 }
 
-export interface SerializedDocument {
+export interface SerializedDocument extends PluginState {
   type: '@edtr-io/document'
-  plugin: string
-  state: PluginState
 }
