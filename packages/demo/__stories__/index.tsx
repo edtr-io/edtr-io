@@ -1,8 +1,10 @@
 import {
-  createDocumentIdentifier,
-  Document,
-  EditorProvider,
+  createDocument,
+  DocumentIdentifier,
+  Editor,
+  EditorContext,
   Plugin,
+  serializeDocument,
   StatefulPlugin
 } from '@edtr-io/core'
 import { rowsPlugin } from '@edtr-io/ui'
@@ -49,26 +51,52 @@ const plugins: Record<string, Plugin<any>> = {
   }
 }
 
+// TODO: stringify correctly
 storiesOf('EditorProvider', module).add('Counter', () => {
-  const state = createDocumentIdentifier({
+  const state = createDocument({
     plugin: 'counter'
   })
 
   return (
-    <EditorProvider plugins={plugins} defaultPlugin="stateless">
-      <Document state={state} />
-    </EditorProvider>
+    <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
+      <LogState state={state} />
+    </Editor>
   )
 })
 
 storiesOf('RowsPlugin', module).add('Basic example', () => {
-  const state = createDocumentIdentifier({
-    plugin: 'rows'
-  })
+  const state = createDocument(
+    JSON.parse(
+      '{"type":"@edtr-io/document","plugin":"rows","state":{"rows":[{"type":"@edtr-io/document","plugin":"counter","state":{"value":1}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":2}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":3}}]}}'
+    )
+  )
 
   return (
-    <EditorProvider plugins={plugins} defaultPlugin="counter">
-      <Document state={state} />
-    </EditorProvider>
+    <Editor plugins={plugins} defaultPlugin="counter" state={state}>
+      <LogState state={state} />
+    </Editor>
   )
 })
+
+function LogState({ state }: { state: DocumentIdentifier }) {
+  return (
+    <EditorContext.Consumer>
+      {store => {
+        return (
+          <button
+            onClick={() => {
+              const serialized = serializeDocument(store.state, state.id)
+              const stringified = JSON.stringify({
+                state: JSON.stringify(serialized)
+              })
+              // eslint-disable-next-line no-console
+              console.log(stringified.substr(9, stringified.length - 9 - 1))
+            }}
+          >
+            Log State
+          </button>
+        )
+      }}
+    </EditorContext.Consumer>
+  )
+}

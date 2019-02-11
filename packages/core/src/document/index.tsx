@@ -1,14 +1,10 @@
 import * as R from 'ramda'
 import * as React from 'react'
 
-import {
-  createDocumentIdentifier,
-  DocumentEditor,
-  DocumentIdentifier
-} from './editor'
+import { createDocument, DocumentEditor, DocumentIdentifier } from './editor'
 import { DocumentRenderer, SerializedDocument } from './renderer'
 
-export { createDocumentIdentifier, DocumentIdentifier, SerializedDocument }
+export { createDocument, DocumentIdentifier, SerializedDocument }
 
 export const Document: React.FunctionComponent<DocumentProps> = ({
   render = R.identity,
@@ -27,7 +23,19 @@ export interface DocumentProps {
 }
 
 export function isDocumentIdentifier(
-  state: DocumentProps['state']
+  state: unknown
 ): state is DocumentIdentifier {
-  return (state as DocumentIdentifier).$$typeof !== undefined
+  return (
+    state !== undefined &&
+    (state as DocumentIdentifier).$$typeof === '@edtr-io/document'
+  )
+}
+
+export function isSerializedDocument(
+  state: unknown
+): state is SerializedDocument {
+  return (
+    state !== undefined &&
+    (state as SerializedDocument).type === '@edtr-io/document'
+  )
 }

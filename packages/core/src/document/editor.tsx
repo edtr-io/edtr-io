@@ -2,8 +2,23 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { EditorContext, PluginEditorProps } from '..'
+import { EditorContext } from '../editor-context'
+import { PluginEditorProps } from '../plugin'
 import { ActionType, getDocument, getPlugin, isFocused } from '../store'
+import { isSerializedDocument } from '.'
+
+export const createDocument = (
+  options: Partial<Pick<DocumentIdentifier, 'id' | 'plugin' | 'state'>> & {
+    type?: '@edtr-io/document'
+  } = {}
+): DocumentIdentifier => {
+  return {
+    $$typeof: '@edtr-io/document',
+    id: options.id || v4(),
+    plugin: options.plugin,
+    state: options.state
+  }
+}
 
 export const DocumentEditor: React.FunctionComponent<
   DocumentEditorProps
@@ -19,7 +34,7 @@ export const DocumentEditor: React.FunctionComponent<
     if (!getDocument(store.state, id)) {
       store.dispatch({
         type: ActionType.Insert,
-        payload: identifier
+        payload: deserializeDocument(identifier)
       })
     }
   }, [identifier])
@@ -74,6 +89,41 @@ export const DocumentEditor: React.FunctionComponent<
     </React.Fragment>
   )
 
+  function deserializeDocument(
+    document: DocumentIdentifier
+  ): DocumentIdentifier {
+    return {
+      ...document,
+      state: deserializeState(document.state)
+    }
+
+    function deserializeState(pluginState: unknown): unknown {
+      if (pluginState instanceof Object) {
+        return R.map(
+          (value: unknown) => {
+            if (isSerializedDocument(value)) {
+              const subDocument = createDocument({
+                plugin: value.plugin,
+                state: deserializeState(value.state)
+              })
+              store.dispatch({
+                type: ActionType.Insert,
+                payload: subDocument
+              })
+              return subDocument
+            }
+
+            return deserializeState(value)
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          pluginState as any
+        )
+      }
+
+      return pluginState
+    }
+  }
+
   function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
     // Find closest document
     const target = (e.target as HTMLDivElement).closest('[data-document]')
@@ -97,15 +147,4 @@ export interface DocumentIdentifier {
   id: string
   plugin?: string
   state?: unknown
-}
-
-export const createDocumentIdentifier = (
-  options: Partial<Pick<DocumentIdentifier, 'id' | 'plugin' | 'state'>> = {}
-): DocumentIdentifier => {
-  return {
-    $$typeof: '@edtr-io/document',
-    id: options.id || v4(),
-    plugin: options.plugin,
-    state: options.state
-  }
 }

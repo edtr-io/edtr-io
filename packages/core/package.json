@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -9,17 +9,23 @@
   "scripts": {},
   "dependencies": {
     "immer": "^1.0.0",
+    "ramda": "^0.26.0",
     "uuid": "^3.0.0"
   },
   "devDependencies": {
-    "@types/react": "^16.7.0-alpha",
-    "@types/react-test-renderer": "^16.0.0",
+    "@types/ramda": "^0.26.0",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "@types/react-test-renderer": "^16.8.0",
     "@types/uuid": "^3.0.0",
-    "react": "^16.8.0-alpha",
-    "react-dom": "^16.8.0-alpha",
-    "react-test-renderer": "^16.8.0-alpha"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-test-renderer": "^16.8.0"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
   "publishConfig": {
     "access": "public"
   }
