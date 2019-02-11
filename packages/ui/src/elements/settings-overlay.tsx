@@ -1,13 +1,25 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
 import { Icon, faCog, styled, faTimes } from '..'
 
+const OverlayWrapper = styled.div({
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  backgroundColor: '#00000033',
+  zIndex: 99
+})
 const OverlayBox = styled.div({
   width: '80%',
+  height: '80%',
   position: 'absolute',
   zIndex: 100,
   backgroundColor: 'rgb(51,51,51,0.95)',
   paddingBottom: '10px',
-  left: '10%'
+  left: '10%',
+  top: '10%'
 })
 
 const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
@@ -25,58 +37,76 @@ const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
   }
 }))
 
-export class SettingOverlay extends React.Component<
-  SettingOverlayProps,
-  { showOverlay: boolean }
-> {
-  public constructor(props: SettingOverlayProps) {
-    super(props)
-    this.state = { showOverlay: false }
-  }
+let overlayNode = React.createRef<HTMLDivElement>()
 
-  public showOverlay() {
-    this.setState({
-      showOverlay: true
-    })
+export const renderIntoOverlay = (children: React.ReactNode) => {
+  if (!overlayNode.current) {
+    // console.log('overlay node not defined')
+    return null
   }
-  public render() {
-    const { readOnly } = this.props
-    return readOnly ? null : (
-      <React.Fragment>
-        {this.state.showOverlay ? (
-          <OverlayBox
-            onBlur={e => {
-              // console.log('Settings onBlur', e)
-              // this.setState({
-              //   showOverlay: false
-              // })
-            }}
-          >
-            <SettingButton
-              onClick={() => this.setState({ showOverlay: false })}
-              light
-              style={{ position: 'absolute', top: '10px', right: '10px' }}
-            >
-              <Icon icon={faTimes} />
-            </SettingButton>
-            {this.props.children}
-          </OverlayBox>
-        ) : (
-          <SettingButton
-            onClick={() =>
-              this.setState({ showOverlay: !this.state.showOverlay })
-            }
-            style={this.props.buttonStyle}
-          >
-            <Icon fixedWidth icon={faCog} />
-          </SettingButton>
-        )}
-      </React.Fragment>
-    )
-  }
+  // console.log(overlayNode)
+
+  return createPortal(children, overlayNode.current)
 }
 
-export interface SettingOverlayProps {
-  readOnly: boolean
-  buttonStyle?: any
+export const OverlayContext = React.createContext<{
+  showOverlay: () => void
+  hideOverlay: () => void
+}>({
+  showOverlay: () => {},
+  hideOverlay: () => {}
+})
+
+export const SettingOverlay: React.FunctionComponent = () => {
+  return (
+    <OverlayContext.Consumer>
+      {({ hideOverlay }) => {
+        return (
+          <OverlayWrapper>
+            <OverlayBox onBlur={hideOverlay}>
+              <SettingButton
+                onClick={hideOverlay}
+                light
+                style={{ position: 'absolute', top: '10px', right: '10px' }}
+              >
+                <Icon icon={faTimes} />
+              </SettingButton>
+              <div ref={overlayNode} />
+            </OverlayBox>
+          </OverlayWrapper>
+        )
+      }}
+    </OverlayContext.Consumer>
+  )
+}
+
+export const OverlayButton: React.FunctionComponent<
+  OverlayButtonProps
+> = props => {
+  return (
+    <OverlayContext.Consumer>
+      {({ showOverlay }) => {
+        return (
+          <SettingButton
+            onClick={showOverlay}
+            style={
+              props.positionAtElement
+                ? {
+                    position: 'absolute',
+                    top: '10px',
+                    marginLeft: '-10px'
+                  }
+                : undefined
+            }
+          >
+            <Icon icon={faCog} />
+          </SettingButton>
+        )
+      }}
+    </OverlayContext.Consumer>
+  )
+}
+
+export interface OverlayButtonProps {
+  positionAtElement?: boolean
 }

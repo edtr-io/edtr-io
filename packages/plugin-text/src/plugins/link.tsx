@@ -1,18 +1,14 @@
 import { debounce } from 'lodash'
+import { Input, OverlayButton, renderIntoOverlay } from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
-import { Input, SettingOverlay } from '@edtr-io/ui'
 
 export const linkNode = '@splish-me/a'
 
 export interface LinkPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps> & OverlayHolder
+  EditorComponent?: React.ComponentType<NodeEditorProps>
   RenderComponent?: React.ComponentType<NodeRendererProps>
-}
-
-interface OverlayHolder {
-  showOverlay: () => void
 }
 
 interface DefaultEditorComponentState {
@@ -20,15 +16,14 @@ interface DefaultEditorComponentState {
   value: string
 }
 
-class DefaultEditorComponent
-  extends React.Component<NodeEditorProps, DefaultEditorComponentState>
-  implements OverlayHolder {
+class DefaultEditorComponent extends React.Component<
+  NodeEditorProps,
+  DefaultEditorComponentState
+> {
   public state: DefaultEditorComponentState = {
     lastValue: this.props.node.data.get('href'),
     value: this.props.node.data.get('href')
   }
-
-  private overlay = React.createRef<SettingOverlay>()
 
   private handleHrefChange = debounce((href: string) => {
     const { editor, node } = this.props
@@ -93,12 +88,6 @@ class DefaultEditorComponent
     }
   }
 
-  public showOverlay() {
-    if (this.overlay.current) {
-      this.overlay.current.showOverlay()
-    }
-  }
-
   public render() {
     const { attributes, children, node, isSelected } = this.props
     const inline = node
@@ -111,37 +100,32 @@ class DefaultEditorComponent
         <a {...attributes} href={href}>
           {children}
         </a>
-        {isSelected ? (
-          <SettingOverlay
-            ref={this.overlay}
-            readOnly={false}
-            buttonStyle={{
-              position: 'absolute',
-              top: '10px',
-              marginLeft: '-10px'
-            }}
-          >
-            <Input
-              label="Text"
-              value={inline.getText()}
-              onChange={e => {
-                const newValue = e.target.value
-                this.handleLabelChange(newValue)
-              }}
-            />
-            <Input
-              ref={this.input}
-              label="URL"
-              value={value}
-              onChange={e => {
-                const newValue = e.target.value
+        {isSelected
+          ? renderIntoOverlay(
+              <React.Fragment>
+                <Input
+                  label="Text"
+                  value={inline.getText()}
+                  onChange={e => {
+                    const newValue = e.target.value
+                    this.handleLabelChange(newValue)
+                  }}
+                />
+                <Input
+                  ref={this.input}
+                  label="URL"
+                  value={value}
+                  onChange={e => {
+                    const newValue = e.target.value
 
-                this.setState({ value: newValue })
-                this.handleHrefChange(newValue)
-              }}
-            />
-          </SettingOverlay>
-        ) : null}
+                    this.setState({ value: newValue })
+                    this.handleHrefChange(newValue)
+                  }}
+                />
+              </React.Fragment>
+            )
+          : null}
+        {isSelected ? <OverlayButton positionAtElement /> : null}
       </React.Fragment>
     )
   }
@@ -226,7 +210,7 @@ export const createLinkPlugin = ({
         ((event as unknown) as React.KeyboardEvent).key === 'Enter' &&
         isLink(editor)
       ) {
-        EditorComponent.showOverlay()
+        // EditorComponent.showOverlay() FIXME: show overlay
         return
       }
       next()

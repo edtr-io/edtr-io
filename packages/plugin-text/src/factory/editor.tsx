@@ -2,12 +2,9 @@ import * as React from 'react'
 import { Editor, findNode } from 'slate-react'
 import { Editor as CoreEditor } from 'slate'
 import { TextPluginState, TextPluginOptions } from './types'
-export interface SlateEditorProps {
-  onChange: (state: Partial<TextPluginState>) => void
-  state: TextPluginState
-  focused: boolean
-  editable?: boolean
-}
+import { PluginEditorProps } from '@edtr-io/core'
+
+export type SlateEditorProps = PluginEditorProps<TextPluginState>
 
 export const createTextEditor = (
   options: TextPluginOptions

@@ -1,10 +1,5 @@
 import * as React from 'react'
-import {
-  createDocumentIdentifier,
-  Document,
-  EditorProvider,
-  Plugin
-} from '@edtr-io/core'
+import { createDocument, Editor, Plugin } from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/ui'
@@ -16,13 +11,9 @@ const plugins: Record<string, Plugin<any>> = {
 }
 
 storiesOf('TextPlugin', module).add('Basic example', () => {
-  const state = createDocumentIdentifier({
+  const state = createDocument({
     plugin: 'rows'
   })
 
-  return (
-    <EditorProvider plugins={plugins} defaultPlugin="text">
-      <Document state={state} />
-    </EditorProvider>
-  )
+  return <Editor plugins={plugins} defaultPlugin="text" state={state} />
 })
