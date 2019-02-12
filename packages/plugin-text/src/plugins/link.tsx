@@ -1,5 +1,10 @@
 import { debounce } from 'lodash'
-import { Input, OverlayButton, renderIntoOverlay } from '@edtr-io/ui'
+import {
+  Input,
+  OverlayButton,
+  renderIntoOverlay,
+  showOverlay
+} from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
@@ -210,7 +215,7 @@ export const createLinkPlugin = ({
         ((event as unknown) as React.KeyboardEvent).key === 'Enter' &&
         isLink(editor)
       ) {
-        // EditorComponent.showOverlay() FIXME: show overlay
+        showOverlay()
         return
       }
       next()
