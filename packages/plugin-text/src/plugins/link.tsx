@@ -43,30 +43,7 @@ class DefaultEditorComponent extends React.Component<
       })
       .focus()
 
-    setTimeout(() => {
-      const input = this.input.current
-      if (input) {
-        input.focus()
-      }
-    })
-  }, 500)
-
-  private handleLabelChange = debounce((label: string) => {
-    // const { editor, node } = this.props
-    // const inline = node
-    //
-    // console.log(label)
-    // editor
-    //   .setNodeByKey(inline.key, label)
-    //   // .setNodeByKey(inline.key, {
-    //   //   type: inline.type,
-    //   //   data: {
-    //   //     ...inline.data,
-    //   //     label
-    //   //   }
-    //   // })
-    //   .focus()
-    //
+    //FIXME: input field is loosing focus, but this doesn't work
     // setTimeout(() => {
     //   const input = this.input.current
     //   if (input) {
@@ -108,14 +85,6 @@ class DefaultEditorComponent extends React.Component<
         {isSelected
           ? renderIntoOverlay(
               <React.Fragment>
-                <Input
-                  label="Text"
-                  value={inline.getText()}
-                  onChange={e => {
-                    const newValue = e.target.value
-                    this.handleLabelChange(newValue)
-                  }}
-                />
                 <Input
                   ref={this.input}
                   label="URL"

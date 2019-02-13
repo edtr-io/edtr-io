@@ -27,7 +27,7 @@ const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
   position: 'relative',
   color: light ? '#aaaaaa' : '#999999',
   fontSize: 16,
-  zIndex: 101,
+  zIndex: 98,
   outline: 'none',
   border: 'none',
   backgroundColor: 'transparent',
@@ -99,7 +99,12 @@ export const renderIntoOverlay = (children: React.ReactNode) => {
         <SettingButton
           onClick={hideOverlay}
           light
-          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            zIndex: 101
+          }}
         >
           <Icon icon={faTimes} />
         </SettingButton>
