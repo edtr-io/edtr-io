@@ -98,7 +98,8 @@ export const DocumentEditor: React.FunctionComponent<
         ...document,
         state:
           plugin && isSerializablePlugin(plugin)
-            ? // @ts-ignore: FIXME
+            ? //
+              // @ts-ignore: FIXME
               plugin.deserialize(deserializeState(document.state))
             : deserializeState(document.state)
       }
@@ -119,7 +120,8 @@ export const DocumentEditor: React.FunctionComponent<
                 plugin: value.plugin,
                 state:
                   plugin && isSerializablePlugin(plugin)
-                    ? // @ts-ignore: FIXME
+                    ? //
+                      // @ts-ignore: FIXME
                       plugin.deserialize(deserializeState(value.state))
                     : deserializeState(value.state)
               })
