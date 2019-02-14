@@ -22,9 +22,13 @@ async function exec(): Promise<void> {
       ],
       added: [
         'Handle serialization and deserialization of documents',
-        'Add `<Editor />` that replaces `<EditorProvider />`'
+        'Add `<Editor />` that replaces `<EditorProvider />`',
+        'Add slate for richt text and links. Standard Bold + Italic hotkeys supported.'
       ],
-      changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
+      changed: [
+        'Rename `createDocumentIdentifier` to `createDocument`',
+        'Add serialize and deserialize options to plugins'
+      ],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
     }
   ])

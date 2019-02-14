@@ -273,4 +273,28 @@ describe('serialize', () => {
       }
     })
   })
+
+  test('custom serializer', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'customSerializing'
+      }
+    })
+
+    const doc = getDocument(state, '0')
+    if (!doc) {
+      throw Error('inserted document not found')
+    }
+    expect(doc.state).toEqual({
+      unserialized: 'text'
+    })
+
+    expect(serializeDocument(state, '0')).toEqual({
+      type: '@edtr-io/document',
+      plugin: 'customSerializing',
+      state: { serialized: 'text' }
+    })
+  })
 })

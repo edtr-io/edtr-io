@@ -2,7 +2,7 @@ import { produce } from 'immer'
 import * as R from 'ramda'
 
 import { isDocumentIdentifier, SerializedDocument } from '../document'
-import { isStatefulPlugin, Plugin } from '../plugin'
+import { isSerializablePlugin, isStatefulPlugin, Plugin } from '../plugin'
 
 export enum ActionType {
   Insert = 'Insert',
@@ -154,12 +154,18 @@ export function serializeDocument(
     return null
   }
 
+  const plugin = getPlugin(state, document.plugin)
+  const pluginState =
+    plugin && isSerializablePlugin(plugin)
+      ? plugin.serialize(document.state)
+      : document.state
+
   return {
     type: '@edtr-io/document',
     plugin: document.plugin,
     ...(document.state === undefined
       ? {}
-      : { state: serializeState(document.state) })
+      : { state: serializeState(pluginState) })
   }
 
   function serializeState(

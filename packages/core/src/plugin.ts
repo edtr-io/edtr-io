@@ -11,11 +11,23 @@ export interface StatefulPlugin<PluginState = undefined>
   createInitialState: () => PluginState
 }
 
+export interface SerializablePlugin<PluginState, SerializedState>
+  extends StatefulPlugin<PluginState> {
+  serialize: (state: PluginState) => SerializedState
+  deserialize: (serializedState: SerializedState) => PluginState
+}
+
 export interface PluginEditorProps<PluginState = undefined> {
   state: PluginState
   onChange: (state: Partial<PluginState>) => void
   editable?: boolean
   focused?: boolean
+}
+
+export function isSerializablePlugin<S = undefined, T = undefined>(
+  plugin: Plugin<S>
+): plugin is SerializablePlugin<S, T> {
+  return typeof (plugin as SerializablePlugin<S, T>).serialize !== 'undefined'
 }
 
 export function isStatefulPlugin<S = undefined>(

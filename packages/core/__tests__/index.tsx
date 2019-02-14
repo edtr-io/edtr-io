@@ -107,6 +107,56 @@ test('deserialize nested array', () => {
   expect(subDocument.state).toEqual({ counter: 0 })
 })
 
+test('deserialize with custom deserializer', () => {
+  const state = createDocument({
+    type: '@edtr-io/document',
+    plugin: 'customSerializing',
+    state: { serialized: 'some serialized text' }
+  })
+
+  renderDocument(state)
+
+  const document = getDocument(store.state, state.id)
+
+  if (!document) {
+    throw new Error('document not found')
+  }
+
+  expect(document.plugin).toEqual('customSerializing')
+  expect(document.state).toEqual({ unserialized: 'some serialized text' })
+})
+
+test('deserialize nested with custom deserializer', () => {
+  const state = createDocument({
+    type: '@edtr-io/document',
+    plugin: 'nested',
+    state: {
+      child: {
+        type: '@edtr-io/document',
+        plugin: 'customSerializing',
+        state: { serialized: 'some serialized text' }
+      }
+    }
+  })
+  renderDocument(state)
+
+  const document = getDocument(store.state, state.id)
+
+  if (!document) {
+    throw new Error('document not found')
+  }
+  const { child } = document.state as { child: DocumentIdentifier }
+
+  const subDocument = getDocument(store.state, child.id)
+
+  if (!subDocument) {
+    throw new Error('document not found')
+  }
+
+  expect(subDocument.plugin).toEqual('customSerializing')
+  expect(subDocument.state).toEqual({ unserialized: 'some serialized text' })
+})
+
 function renderDocument(state: DocumentIdentifier) {
   act(() => {
     ReactDOM.render(

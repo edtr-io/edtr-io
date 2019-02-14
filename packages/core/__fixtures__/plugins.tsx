@@ -1,4 +1,27 @@
 import { createDocument } from '../src'
+import { SerializablePlugin } from '../src/plugin'
+
+const customSerializing: SerializablePlugin<
+  { unserialized: string },
+  { serialized: string }
+> = {
+  Component: () => null,
+  createInitialState: () => {
+    return {
+      unserialized: 'text'
+    }
+  },
+  deserialize: ({ serialized }) => {
+    return {
+      unserialized: serialized
+    }
+  },
+  serialize: ({ unserialized }) => {
+    return {
+      serialized: unserialized
+    }
+  }
+}
 
 export const plugins = {
   stateless: {
@@ -31,5 +54,6 @@ export const plugins = {
         ]
       }
     }
-  }
+  },
+  customSerializing: customSerializing
 }

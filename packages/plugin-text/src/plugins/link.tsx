@@ -131,6 +131,7 @@ export const unwrapLink = (editor: Editor) => {
 export const wrapLink = (data: { href: string } = { href: '' }) => (
   editor: Editor
 ) => {
+  showOverlay()
   if (editor.value.selection.isExpanded) {
     return unwrapLink(editor)
       .wrapInline({
@@ -138,6 +139,7 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
         data
       })
       .moveToEnd()
+      .moveBackward(1)
   }
 
   return editor

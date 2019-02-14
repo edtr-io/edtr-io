@@ -8,10 +8,13 @@ import {
   TextPluginOptions,
   TextPluginSerializedState
 } from './types'
+import { SerializablePlugin } from '../../../core/src/plugin'
 
 export const defaultNode = 'paragraph'
 
-export const createTextPlugin = (options: TextPluginOptions) => {
+export const createTextPlugin = (
+  options: TextPluginOptions
+): SerializablePlugin<TextPluginState, TextPluginSerializedState> => {
   const createInitialState = (): TextPluginState => {
     return {
       editorState: Value.fromJSON({
@@ -73,7 +76,6 @@ export const createTextPlugin = (options: TextPluginOptions) => {
   })
 
   return {
-    text: 'Text',
     Component: createTextEditor(options),
 
     // handleBlur: (props: {
@@ -92,7 +94,7 @@ export const createTextPlugin = (options: TextPluginOptions) => {
 
     createInitialState,
 
-    unserialize({
+    deserialize({
       importFromHtml,
       editorState
     }: TextPluginSerializedState): TextPluginState {

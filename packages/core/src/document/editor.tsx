@@ -3,7 +3,7 @@ import * as React from 'react'
 import { v4 } from 'uuid'
 
 import { EditorContext } from '../editor-context'
-import { PluginEditorProps } from '../plugin'
+import { isSerializablePlugin, PluginEditorProps } from '../plugin'
 import { ActionType, getDocument, getPlugin, isFocused } from '../store'
 import { isSerializedDocument } from '.'
 
@@ -92,6 +92,17 @@ export const DocumentEditor: React.FunctionComponent<
   function deserializeDocument(
     document: DocumentIdentifier
   ): DocumentIdentifier {
+    if (document.plugin) {
+      const plugin = getPlugin(store.state, document.plugin)
+      return {
+        ...document,
+        state:
+          plugin && isSerializablePlugin(plugin)
+            ? // @ts-ignore: FIXME
+              plugin.deserialize(deserializeState(document.state))
+            : deserializeState(document.state)
+      }
+    }
     return {
       ...document,
       state: deserializeState(document.state)
@@ -102,9 +113,15 @@ export const DocumentEditor: React.FunctionComponent<
         return R.map(
           (value: unknown) => {
             if (isSerializedDocument(value)) {
+              const plugin = getPlugin(store.state, value.plugin)
+
               const subDocument = createDocument({
                 plugin: value.plugin,
-                state: deserializeState(value.state)
+                state:
+                  plugin && isSerializablePlugin(plugin)
+                    ? // @ts-ignore: FIXME
+                      plugin.deserialize(deserializeState(value.state))
+                    : deserializeState(value.state)
               })
               store.dispatch({
                 type: ActionType.Insert,
