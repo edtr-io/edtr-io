@@ -12,4 +12,5 @@ export {
   StatefulPlugin,
   StatelessPlugin
 } from './plugin'
+export * from './hooks'
 export { serializeDocument } from './store'
