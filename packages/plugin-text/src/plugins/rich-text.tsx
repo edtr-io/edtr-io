@@ -1,3 +1,4 @@
+import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
 import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
@@ -84,6 +85,17 @@ export const createRichTextPlugin = ({
         default:
           return
       }
+    },
+
+    onKeyDown(event, editor, next) {
+      const e = (event as unknown) as KeyboardEvent
+      if (isHotkey('mod+b')(e)) {
+        toggleStrong(editor)
+      } else if (isHotkey('mod+i')(e)) {
+        toggleEmphasize(editor)
+      }
+
+      next()
     },
 
     serialize(obj, children) {

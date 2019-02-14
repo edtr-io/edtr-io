@@ -8,6 +8,8 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
+    "@types/is-hotkey": "^0.1.1",
+    "is-hotkey": "^0.1.4",
     "lodash": "^4.17.11",
     "parse5": "^5.1.0",
     "slate": "^0.44.10",
