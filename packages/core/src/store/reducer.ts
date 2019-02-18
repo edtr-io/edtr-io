@@ -27,7 +27,7 @@ export function reducer(state: State, action: Action): State {
 
         let state
         if (plugin && isStatefulPlugin(plugin)) {
-          state = action.payload.state || plugin.createInitialState()
+          state = action.payload.state
         }
 
         draft.focus = id
@@ -53,10 +53,7 @@ export function reducer(state: State, action: Action): State {
           return
         }
 
-        draft.documents[id].state = {
-          ...draft.documents[id].state,
-          ...state
-        }
+        draft.documents[id].state = state
       }
     }
 
@@ -119,11 +116,11 @@ export function getDocument(state: State, id: string): PluginState | null {
   return getDocuments(state)[id] || null
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getPlugin<S = any>(
+export function getPlugin(
   state: State,
   type: string
-): Plugin<S> | null {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Plugin<any> | null {
   const plugins = getPlugins(state)
 
   return plugins[type] || null

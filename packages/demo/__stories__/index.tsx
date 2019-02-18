@@ -5,15 +5,18 @@ import {
   EditorContext,
   Plugin,
   serializeDocument,
-  StatefulPlugin
+  StatefulPlugin,
+  StateType
 } from '@edtr-io/core'
 import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
-const counterPlugin: StatefulPlugin<{ value: number }> = {
+const counterState = StateType.number(0)
+
+const counterPlugin: StatefulPlugin<typeof counterState> = {
   // eslint-disable-next-line react/display-name
-  Component: ({ focused, onChange, state }) => {
+  Component: ({ focused, state }) => {
     return (
       <div
         style={{
@@ -23,7 +26,7 @@ const counterPlugin: StatefulPlugin<{ value: number }> = {
         {state.value}
         <button
           onClick={() => {
-            onChange({ value: state.value + 1 })
+            state.set(value => value + 1)
           }}
         >
           +
@@ -31,24 +34,13 @@ const counterPlugin: StatefulPlugin<{ value: number }> = {
       </div>
     )
   },
-  createInitialState: () => {
-    return { value: 0 }
-  }
+  state: counterState
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
-  rows: rowsPlugin,
-  stateless: {
-    Component: () => null
-  },
-  stateful: {
-    Component: () => null,
-    createInitialState: () => {
-      return { counter: 0 }
-    }
-  }
+  rows: rowsPlugin
 }
 
 // TODO: stringify correctly
@@ -67,7 +59,7 @@ storiesOf('EditorProvider', module).add('Counter', () => {
 storiesOf('RowsPlugin', module).add('Basic example', () => {
   const state = createDocument(
     JSON.parse(
-      '{"type":"@edtr-io/document","plugin":"rows","state":{"rows":[{"type":"@edtr-io/document","plugin":"counter","state":{"value":1}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":2}},{"type":"@edtr-io/document","plugin":"counter","state":{"value":3}}]}}'
+      '{"type":"@edtr-io/document","plugin":"rows","state":[{"type":"@edtr-io/document","plugin":"counter","state":1},{"type":"@edtr-io/document","plugin":"counter","state":2},{"type":"@edtr-io/document","plugin":"counter","state":3}]}'
     )
   )
 

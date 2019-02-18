@@ -3,7 +3,11 @@ import * as React from 'react'
 import { v4 } from 'uuid'
 
 import { EditorContext } from '../editor-context'
-import { PluginEditorProps } from '../plugin'
+import {
+  isStatefulPlugin,
+  StatefulPluginEditorProps,
+  StatelessPluginEditorProps
+} from '../plugin'
 import { ActionType, getDocument, getPlugin, isFocused } from '../store'
 import { isSerializedDocument } from '.'
 
@@ -39,19 +43,6 @@ export const DocumentEditor: React.FunctionComponent<
     }
   }, [identifier])
 
-  const onChange = React.useCallback(
-    (state: unknown) => {
-      store.dispatch({
-        type: ActionType.Change,
-        payload: {
-          id,
-          state
-        }
-      })
-    },
-    [id]
-  )
-
   const document = getDocument(store.state, id)
 
   if (!document) {
@@ -68,8 +59,32 @@ export const DocumentEditor: React.FunctionComponent<
   }
 
   const Comp = plugin.Component as React.ComponentType<
-    PluginEditorProps<unknown>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    StatefulPluginEditorProps<any> | StatelessPluginEditorProps
   >
+
+  let state: unknown
+
+  if (isStatefulPlugin(plugin)) {
+    const onChange = (param: unknown | ((value: unknown) => void)) => {
+      let state: unknown
+      if (typeof param === 'function') {
+        const f = param as ((value: unknown) => void)
+        state = f(document.state)
+      } else {
+        state = param
+      }
+
+      store.dispatch({
+        type: ActionType.Change,
+        payload: {
+          id,
+          state
+        }
+      })
+    }
+    state = plugin.state(document.state, onChange)
+  }
 
   const render = props.render || R.identity
   const focused = isFocused(store.state, id)
@@ -78,12 +93,7 @@ export const DocumentEditor: React.FunctionComponent<
     <React.Fragment>
       {render(
         <div onMouseDown={handleFocus} ref={container} data-document>
-          <Comp
-            editable
-            focused={focused}
-            state={document.state}
-            onChange={onChange}
-          />
+          <Comp editable focused={focused} state={state} />
         </div>
       )}
     </React.Fragment>
