@@ -55,12 +55,6 @@ Edtr.io has UX at heart. Our core implements a consistent user experience. Build
 
 In-line editors provide an easy way to work on web content. Content creators work directly on elements, adding and changing them in-place. Everything just looks like the final page. Users do not need knowledge of markup languages or any special training.
 
-<p align="center">
-	<br>
-	<img src="README_files/editor.png" alt="editor" width="888" height="227">
-	<br>
-</p>
-
 ### License
 
 Edtr.io is under MIT license.
@@ -69,31 +63,33 @@ Edtr.io is under MIT license.
 
 Commercial integration and custom plugin development is available from Splish.me, from the same knowledgeable people writing the code for edtr.io's core functionalities. For inquiries, please contact [edtr-io@splish.me](mailto:edtr-io@splish.me).
 
-### Features & Plugins
-
-#### Basic Features
+### Basic Features
 
 - Rich text editing
-- Content sorting
+- Drag ’n’ drop content sorting
+- Global undo/redo
 - Mobile preview
 - Basic Plugins
 - Image upload
+- Blockquote
+- Spoiler
 - Markdown table
 - Youtube video integration (in development)
-- Vimeo video Integration (in development)
+- Vimeo video integration (in development)
 - Wiki Commons video integration (in development)
 
-#### Plugins for Education
+### Plugins for Education
 
 - Input text exercise
 - Matching exercise
 - Multiple and single choice exercise
 - Basic equations
 - Wiris equation editor
-- GeoGebraTube Integration
-- H5P.com Integration
+- GeoGebraTube integration
+- H5P.com integration
+- Serlo.org content integration
 
-#### Further Plugins
+### Further Plugins
 
 - Code highlighting
 
