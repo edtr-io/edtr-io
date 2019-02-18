@@ -47,7 +47,8 @@ describe('Insert', () => {
       type: ActionType.Insert,
       payload: {
         id: '0',
-        plugin: 'stateful'
+        plugin: 'stateful',
+        state: { counter: 0 }
       }
     })
     expect(getDocument(state, '0')).toEqual({
@@ -100,26 +101,6 @@ describe('change', () => {
     expect(getDocument(state, '0')).toEqual({
       plugin: 'stateful',
       state: { counter: 1 }
-    })
-  })
-
-  test('shallow change', () => {
-    state = {
-      ...state,
-      documents: {
-        '0': { plugin: 'stateful', state: { counter: 0, bar: 'bar' } }
-      }
-    }
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: { counter: 1 }
-      }
-    })
-    expect(getDocument(state, '0')).toEqual({
-      plugin: 'stateful',
-      state: { counter: 1, bar: 'bar' }
     })
   })
 
@@ -192,7 +173,8 @@ describe('serialize', () => {
       type: ActionType.Insert,
       payload: {
         id: '0',
-        plugin: 'stateful'
+        plugin: 'stateful',
+        state: { counter: 0 }
       }
     })
     expect(serializeDocument(state, '0')).toEqual({
@@ -220,7 +202,8 @@ describe('serialize', () => {
       type: ActionType.Insert,
       payload: {
         id: '1',
-        plugin: 'stateful'
+        plugin: 'stateful',
+        state: { counter: 0 }
       }
     })
     expect(serializeDocument(state, '0')).toEqual({
@@ -256,7 +239,8 @@ describe('serialize', () => {
       type: ActionType.Insert,
       payload: {
         id: '1',
-        plugin: 'stateful'
+        plugin: 'stateful',
+        state: { counter: 0 }
       }
     })
     expect(serializeDocument(state, '0')).toEqual({

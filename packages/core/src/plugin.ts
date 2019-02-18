@@ -1,31 +1,49 @@
 import * as React from 'react'
 
-export type Plugin<S = undefined> = StatelessPlugin | StatefulPlugin<S>
+import {
+  PluginStateDescriptorReturnType,
+  PluginStateParameters
+} from './plugin-state'
 
-export interface StatelessPlugin<PluginState = undefined> {
-  Component: React.ComponentType<PluginEditorProps<PluginState>>
+export type Plugin<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  S extends (...args: PluginStateParameters<any, any>) => any = () => void
+> = StatelessPlugin | StatefulPlugin<S>
+
+export interface StatelessPlugin {
+  Component: React.ComponentType<StatelessPluginEditorProps>
 }
 
-export interface StatefulPlugin<PluginState = undefined>
-  extends StatelessPlugin<PluginState> {
-  createInitialState: () => PluginState
+export interface StatefulPlugin<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  S extends (...args: PluginStateParameters<any, any>) => any
+> {
+  Component: React.ComponentType<StatefulPluginEditorProps<S>>
+  state: S
 }
 
-export interface PluginEditorProps<PluginState = undefined> {
-  state: PluginState
-  onChange: (state: Partial<PluginState>) => void
+export interface StatefulPluginEditorProps<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  S extends (...args: PluginStateParameters<any, any>) => any
+> extends StatelessPluginEditorProps {
+  state: PluginStateDescriptorReturnType<S>
+}
+
+export interface StatelessPluginEditorProps {
   editable?: boolean
   focused?: boolean
 }
 
-export function isStatefulPlugin<S = undefined>(
-  plugin: Plugin<S>
-): plugin is StatefulPlugin<S> {
-  return typeof (plugin as StatefulPlugin<S>).createInitialState !== 'undefined'
+export function isStatefulPlugin<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  S extends (...args: PluginStateParameters<any, any>) => any = () => void
+>(plugin: Plugin<S>): plugin is StatefulPlugin<S> {
+  return typeof (plugin as StatefulPlugin<S>).state !== 'undefined'
 }
 
-export function isStatelessPlugin<S = undefined>(
-  plugin: Plugin<S>
-): plugin is StatelessPlugin {
+export function isStatelessPlugin<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  S extends (...args: PluginStateParameters<any, any>) => any = () => void
+>(plugin: Plugin<S>): plugin is StatelessPlugin {
   return !isStatefulPlugin(plugin)
 }

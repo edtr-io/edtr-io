@@ -1,4 +1,4 @@
-import { createDocument } from '../src'
+import { StateType } from '../src'
 
 export const plugins = {
   stateless: {
@@ -6,30 +6,18 @@ export const plugins = {
   },
   stateful: {
     Component: () => null,
-    createInitialState: () => {
-      return { counter: 0 }
-    }
+    state: StateType.number(0)
   },
   nested: {
     Component: () => null,
-    createInitialState: () => {
-      return {
-        child: createDocument({
-          plugin: 'stateful'
-        })
-      }
-    }
+    state: StateType.object({
+      child: StateType.child({ plugin: 'stateful' })
+    })
   },
   nestedArray: {
     Component: () => null,
-    createInitialState: () => {
-      return {
-        children: [
-          createDocument({
-            plugin: 'stateful'
-          })
-        ]
-      }
-    }
+    state: StateType.object({
+      children: StateType.list(StateType.child({ plugin: 'stateful' }), 1)
+    })
   }
 }

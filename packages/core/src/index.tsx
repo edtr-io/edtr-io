@@ -8,8 +8,11 @@ export { Editor, EditorProps } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export {
   Plugin,
-  PluginEditorProps,
+  StatefulPluginEditorProps,
+  StatelessPluginEditorProps,
   StatefulPlugin,
   StatelessPlugin
 } from './plugin'
+import * as StateType from './plugin-state'
+export { StateType }
 export { serializeDocument } from './store'

@@ -1,12 +1,10 @@
-import { StatefulPlugin, createDocument } from '@edtr-io/core'
+import { StatefulPlugin, StateType } from '@edtr-io/core'
 
-import { RowsPlugin, RowsState } from './editor'
+import { RowsPlugin } from './editor'
 
-export const rowsPlugin: StatefulPlugin<RowsState> = {
+export const rowsState = StateType.list(StateType.child())
+
+export const rowsPlugin: StatefulPlugin<typeof rowsState> = {
   Component: RowsPlugin,
-  createInitialState: () => {
-    return {
-      rows: [createDocument()]
-    }
-  }
+  state: rowsState
 }

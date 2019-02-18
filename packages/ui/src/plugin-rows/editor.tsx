@@ -1,13 +1,7 @@
-import {
-  createDocument,
-  Document,
-  DocumentIdentifier,
-  PluginEditorProps
-} from '@edtr-io/core'
-import * as R from 'ramda'
+import { Document, StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
-import { Icon, faPlus, faTrashAlt, styled } from '..'
+import { Icon, faPlus, faTrashAlt, styled, rowsState } from '..'
 
 const FloatingButton = styled.button({
   outline: 'none',
@@ -70,26 +64,31 @@ const Remove: React.FunctionComponent<{
   </RightFloatingButtonContainer>
 )
 
-export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
-  const { rows } = props.state
-
+export const RowsPlugin = (
+  props: StatefulPluginEditorProps<typeof rowsState>
+) => {
+  const rows = props.state
   return (
     <React.Fragment>
       <TopFloatingButtonContainer>
-        <FloatingButton onClick={() => addPlugin(0)}>
+        <FloatingButton
+          onClick={() => {
+            rows.insert(0)
+          }}
+        >
           <Icon icon={faPlus} />
         </FloatingButton>
       </TopFloatingButtonContainer>
-      {rows.map((row, index) => {
+      {rows.items.map((row, index) => {
         return (
           <Document
             key={index}
-            state={row}
+            state={row.value}
             render={children => {
               return (
                 <div style={{ position: 'relative' }}>
-                  <Add onClick={() => addPlugin(index + 1)} />
-                  <Remove onClick={() => removePlugin(index)} />
+                  <Add onClick={() => rows.insert(index + 1)} />
+                  <Remove onClick={() => rows.remove(index)} />
                   {children}
                 </div>
               )
@@ -99,20 +98,4 @@ export const RowsPlugin = (props: PluginEditorProps<RowsState>) => {
       })}
     </React.Fragment>
   )
-
-  function addPlugin(index: number) {
-    props.onChange({
-      rows: R.insert(index, createDocument(), props.state.rows)
-    })
-  }
-
-  function removePlugin(index: number) {
-    props.onChange({
-      rows: R.remove(index, 1, props.state.rows)
-    })
-  }
-}
-
-export interface RowsState {
-  rows: DocumentIdentifier[]
 }

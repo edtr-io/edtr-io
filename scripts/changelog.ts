@@ -18,11 +18,15 @@ async function exec(): Promise<void> {
       breakingChanges: [
         'The newly added `<Editor />` replaces the removed `<EditorProvider />`. It sets up the `EditorContext` and renders an editor for the given `state`.',
         "Don't export API that isn't intended for external usage anymore.",
-        'Rename `createDocumentIdentifier` to `createDocument`'
+        'Rename `createDocumentIdentifier` to `createDocument`',
+        'Remove `StatefulPlugin.createInitialState` in favor of `StatefulPlugin.state`',
+        'Plugins no longer receive `onChange`. Use the provided setters & helpers on `state` instead'
       ],
       added: [
         'Handle serialization and deserialization of documents',
-        'Add `<Editor />` that replaces `<EditorProvider />`'
+        'Add `<Editor />` that replaces `<EditorProvider />`',
+        'Add `StateType.scalar` that represents a value of the given type (more specifically: `StateType.boolean`, `StateType.number`, `StateType.child`',
+        'Add `StateType.list`, `State.object`'
       ],
       changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
