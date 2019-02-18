@@ -82,7 +82,7 @@ storiesOf('RowsPlugin', module)
     )
   })
 
-function LogState({ state }: { state: DocumentIdentifier }) {
+export function LogState({ state }: { state: DocumentIdentifier }) {
   return (
     <EditorContext.Consumer>
       {store => {
