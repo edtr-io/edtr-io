@@ -56,7 +56,9 @@ Edtr.io has UX at heart. Our core implements a consistent user experience. Build
 In-line editors provide an easy way to work on web content. Content creators work directly on elements, adding and changing them in-place. Everything just looks like the final page. Users do not need knowledge of markup languages or any special training.
 
 <p align="center">
+	<br>
 	<img src="README_files/editor.png" alt="editor" width="888" height="227">
+	<br>
 </p>
 
 ### License
