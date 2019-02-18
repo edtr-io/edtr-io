@@ -115,7 +115,7 @@ Commercial support is available through out partner Splish. For all questions on
 
 Want to contribute?
 Our development team is active at\
- Rocket.chat.\
+ Rocket.chat. (still waiting for the link...)\
 Drop us a line, we'll answer!
 
 ## Learn More
