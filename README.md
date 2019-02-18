@@ -69,7 +69,8 @@ Commercial integration and custom plugin development is available from Splish.me
 - Drag ’n’ drop content sorting
 - Global undo/redo
 - Mobile preview
-- Basic Plugins
+
+### Basic Plugins
 - Image upload
 - Blockquote
 - Spoiler
