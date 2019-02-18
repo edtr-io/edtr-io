@@ -15,6 +15,8 @@ async function exec(): Promise<void> {
       description: 'Initial release'
     },
     {
+      tagName: '0.2.0',
+      date: '2019-02-18',
       breakingChanges: [
         'The newly added `<Editor />` replaces the removed `<EditorProvider />`. It sets up the `EditorContext` and renders an editor for the given `state`.',
         "Don't export API that isn't intended for external usage anymore.",
