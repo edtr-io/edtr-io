@@ -24,7 +24,7 @@ export function number(initialValue = 0) {
 export function child(options: { plugin?: string; state?: string } = {}) {
   const serialize = (
     value: DocumentIdentifier
-  ): { id: string; plugin?: string } => {
+  ): { $$typeof: '@edtr-io/document'; id: string; plugin?: string } => {
     return {
       $$typeof: '@edtr-io/document',
       ...value
@@ -48,8 +48,11 @@ export function child(options: { plugin?: string; state?: string } = {}) {
   } {
     const initial: DocumentIdentifier =
       s === undefined ? createDocument(options) : s
-    const serialized: { $$typeof: '@edtr-io/document'; id: string } =
-      rawState === undefined ? serialize(initial) : rawState
+    const serialized: {
+      $$typeof: '@edtr-io/document'
+      id: string
+      plugin?: string
+    } = rawState === undefined ? serialize(initial) : rawState
     const value = rawState === undefined ? initial : deserialize(rawState)
 
     return {
