@@ -8,7 +8,6 @@ import {
   StatefulPlugin,
   StateType
 } from '@edtr-io/core'
-import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
@@ -41,7 +40,6 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
-  'sc-mc-exercise': scMcExercisePlugin,
   rows: rowsPlugin
 }
 
@@ -83,18 +81,6 @@ storiesOf('RowsPlugin', module)
       </Editor>
     )
   })
-
-storiesOf('ScMcExercise', module).add('Sc Mc Exercise', () => {
-  const state = createDocument({
-    plugin: 'sc-mc-exercise'
-  })
-
-  return (
-    <Editor plugins={plugins} defaultPlugin="rows" state={state}>
-      <LogState state={state} />
-    </Editor>
-  )
-})
 
 function LogState({ state }: { state: DocumentIdentifier }) {
   return (
