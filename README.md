@@ -21,7 +21,7 @@ Edtr.io is backed by Open Education heavyweights: serlo.org and the HPI Schul-Cl
 
 It has been born from the needs of the learning platform [serlo.org](https://serlo.org/) and builds on the original work of Serlo’s co-founder und CTO [Aeneas Rekkas](https://github.com/aeneasr). Serlo.org is inspired by Wikipedia and already provides thousands of articles, videos and exercises for one million German students every month. Serlo.org is growing steadily. In 2018, the platform went international.
 
-In 2019 Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide. 
+In 2019, Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide. 
 
 [Splish](http://splish.me) was founded in 2016 by the very people working on the editor, to be able to provide commercial support.
 
