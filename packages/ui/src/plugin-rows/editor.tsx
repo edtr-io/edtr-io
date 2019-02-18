@@ -68,7 +68,6 @@ export const RowsPlugin = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
-
   return (
     <React.Fragment>
       <TopFloatingButtonContainer>

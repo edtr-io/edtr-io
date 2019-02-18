@@ -8,6 +8,7 @@ import {
   StatefulPlugin,
   StateType
 } from '@edtr-io/core'
+import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
@@ -40,6 +41,7 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
+  'sc-mc-exercise': scMcExercisePlugin,
   rows: rowsPlugin
 }
 
@@ -56,15 +58,39 @@ storiesOf('EditorProvider', module).add('Counter', () => {
   )
 })
 
-storiesOf('RowsPlugin', module).add('Basic example', () => {
-  const state = createDocument(
-    JSON.parse(
-      '{"type":"@edtr-io/document","plugin":"rows","state":[{"type":"@edtr-io/document","plugin":"counter","state":1},{"type":"@edtr-io/document","plugin":"counter","state":2},{"type":"@edtr-io/document","plugin":"counter","state":3}]}'
+storiesOf('RowsPlugin', module)
+  .add('Basic example', () => {
+    const state = createDocument(
+      JSON.parse(
+        '{"type":"@edtr-io/document","plugin":"rows","state":[{"type":"@edtr-io/document","plugin":"counter","state":1},{"type":"@edtr-io/document","plugin":"counter","state":2},{"type":"@edtr-io/document","plugin":"counter","state":3}]}'
+      )
     )
-  )
+
+    return (
+      <Editor plugins={plugins} defaultPlugin="counter" state={state}>
+        <LogState state={state} />
+      </Editor>
+    )
+  })
+  .add('initial state', () => {
+    const state = createDocument({
+      plugin: 'rows'
+    })
+
+    return (
+      <Editor plugins={plugins} defaultPlugin="counter" state={state}>
+        <LogState state={state} />
+      </Editor>
+    )
+  })
+
+storiesOf('ScMcExercise', module).add('Sc Mc Exercise', () => {
+  const state = createDocument({
+    plugin: 'sc-mc-exercise'
+  })
 
   return (
-    <Editor plugins={plugins} defaultPlugin="counter" state={state}>
+    <Editor plugins={plugins} defaultPlugin="rows" state={state}>
       <LogState state={state} />
     </Editor>
   )

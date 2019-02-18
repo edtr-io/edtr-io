@@ -36,10 +36,35 @@ export const DocumentEditor: React.FunctionComponent<
 
   React.useEffect(() => {
     if (!getDocument(store.state, id)) {
-      store.dispatch({
-        type: ActionType.Insert,
-        payload: deserializeDocument(identifier)
-      })
+      const plugin = getPlugin(
+        store.state,
+        identifier.plugin || store.state.defaultPlugin
+      )
+
+      if (plugin && isStatefulPlugin(plugin)) {
+        const state = plugin.state(
+          deserializeDocument(identifier).state,
+          undefined,
+          () => {}
+        )
+
+        store.dispatch({
+          type: ActionType.Insert,
+          payload: {
+            ...identifier,
+            plugin: identifier.plugin || store.state.defaultPlugin,
+            state: state.$$value
+          }
+        })
+      } else {
+        store.dispatch({
+          type: ActionType.Insert,
+          payload: {
+            ...identifier,
+            plugin: identifier.plugin || store.state.defaultPlugin
+          }
+        })
+      }
     }
   }, [identifier])
 
@@ -83,7 +108,7 @@ export const DocumentEditor: React.FunctionComponent<
         }
       })
     }
-    state = plugin.state(document.state, onChange)
+    state = plugin.state(identifier.state, document.state, onChange)
   }
 
   const render = props.render || R.identity
