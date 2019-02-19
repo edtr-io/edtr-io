@@ -107,7 +107,7 @@ Edtr.io is currently in a phase of intense development. Features are added by th
 Case you want to use the editor for the education sector,\
  contact [serlo.org](mailto:de@serlo.org)
 
-Commercial support is available through out partner Splish. For all questions on the editor, for commercial integration, or in case you need a partner for plugin development,\
+Commercial support is available through Splish. For all questions on the editor, for commercial integration, or in case you need a partner for plugin development,\
  please contact [Splish](mailto:edtr-io@splish.me)
 
 Want to contribute?
