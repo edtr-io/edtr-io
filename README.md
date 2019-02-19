@@ -38,7 +38,7 @@ We love education. We need this editor. We're in for the long haul.
 		<img src="README_files/hpi.svg" alt="HPI logo" width="242" height="86">
 	</a>	
 	<a href="http://splish.me">
-		<img src="README_files/splish.png" alt="Splish logo" width="242" height="86">
+		<img src="README_files/splish.svg" alt="Splish logo" width="242" height="86">
 	</a>
 	<br><br>
 </p>
@@ -112,7 +112,7 @@ Commercial support is available through out partner Splish. For all questions on
 
 Want to contribute?
 Our development team is active at\
- Rocket.chat. (still waiting for the link...)\
+ Rocket.chat (still waiting for the link...)\
 Drop us a line, we'll answer!
 
 ## Learn More
