@@ -189,7 +189,7 @@ export const createLinkPlugin = ({
         showOverlay()
         return
       }
-      next()
+      return next()
     },
 
     renderNode(props, _editor, next) {

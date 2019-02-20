@@ -23,16 +23,13 @@ export const createTextEditor = (
     }, [])
 
     return (
-      // @ts-ignore Additional props for ui plugin
       <Editor
         onClick={(e, editor, next): CoreEditor | void => {
           // console.log('onClick', e)
           if (e.target) {
             // @ts-ignore
             const node = findNode(e.target as Element, editor)
-            // If we can't find the node (e.g. because we clicked in the sidebar), ignore core plugins to avoid throwing erros
             if (!node) {
-              e.preventDefault()
               return editor
             }
           }
@@ -42,17 +39,13 @@ export const createTextEditor = (
           lastValue.current = editor.value.toJSON()
           props.state.set(lastValue.current)
           setValue(editor.value)
-          // state.set(editor.value)
-          // onChange({ editorState: editor.value })
         }}
         // TODO: we might need custom `onKeyDown`
         placeholder={options.placeholder}
         plugins={options.plugins}
-        readOnly={!props.editable}
+        readOnly={!props.focused}
         value={value}
         onBlur={(_e, editor) => editor}
-        // @ts-ignore Additional props for ui plugin
-        focused={props.focused}
       />
     )
   }

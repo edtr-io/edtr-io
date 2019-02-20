@@ -52,15 +52,14 @@ export const createUiPlugin = (options: UiPluginOptions): TextPlugin => {
 
   return {
     renderEditor(props, editor, next) {
-      //@ts-ignore Additional prop focused
-      const { focused } = props
-      if (!focused) {
+      const { readOnly } = props
+      if (readOnly) {
         editor.blur()
       }
       const children = next()
       return (
         <React.Fragment>
-          {focused ? <Component editor={editor} {...props} /> : null}
+          {!readOnly ? <Component editor={editor} {...props} /> : null}
           {children}
         </React.Fragment>
       )
