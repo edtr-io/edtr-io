@@ -136,7 +136,7 @@ describe('list', () => {
     const getState = createMockStateDescriptor(
       StateType.list(StateType.boolean(false), 1)
     )()
-    expect(getState().$$value[0]).toEqual(false)
+    expect(getState().$$value[0].value).toEqual(false)
     expect(getState().items[0].value).toEqual(false)
   })
 
@@ -147,7 +147,7 @@ describe('list', () => {
     getState.act(() => {
       getState().items[0].set(true)
     })
-    expect(getState().$$value[0]).toEqual(true)
+    expect(getState().$$value[0].value).toEqual(true)
     expect(getState().items[0].value).toEqual(true)
   })
 
@@ -160,8 +160,17 @@ describe('list', () => {
     })
     expect(getState().$$value.length).toEqual(2)
     expect(getState().items.length).toEqual(2)
-    expect(getState().$$value[0]).toEqual(false)
+    expect(getState().$$value[0].value).toEqual(false)
     expect(getState().items[0].value).toEqual(false)
+  })
+  test('external state', () => {
+    const getState = createMockStateDescriptor(
+      StateType.list(StateType.boolean(false), 1)
+    )([true])
+    expect(getState().$$value.length).toEqual(1)
+    expect(getState().items.length).toEqual(1)
+    expect(getState().$$value[0].value).toEqual(true)
+    expect(getState().items[0].value).toEqual(true)
   })
 
   test('remove', () => {
