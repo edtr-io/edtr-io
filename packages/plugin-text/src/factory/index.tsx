@@ -1,5 +1,5 @@
 import { parseFragment } from 'parse5'
-import { Value } from 'slate'
+import { Value, ValueJSON } from 'slate'
 import Html from 'slate-html-serializer'
 
 import { createTextEditor } from './editor'
@@ -9,37 +9,60 @@ import {
   TextPluginSerializedState
 } from './types'
 import { SerializablePlugin } from '../../../core/src/plugin'
+import { StateType } from '@edtr-io/core'
 
 export const defaultNode = 'paragraph'
+
+export const textState = StateType.scalar<ValueJSON>({
+  document: {
+    nodes: [
+      {
+        object: 'block',
+        type: defaultNode,
+        nodes: [
+          {
+            object: 'text',
+            leaves: [
+              {
+                object: 'leaf',
+                text: ''
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+})
 
 export const createTextPlugin = (
   options: TextPluginOptions
 ): SerializablePlugin<TextPluginState, TextPluginSerializedState> => {
-  const createInitialState = (): TextPluginState => {
-    return {
-      editorState: Value.fromJSON({
-        document: {
-          nodes: [
-            {
-              object: 'block',
-              type: defaultNode,
-              nodes: [
-                {
-                  object: 'text',
-                  leaves: [
-                    {
-                      object: 'leaf',
-                      text: ''
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      })
-    }
-  }
+  // const createInitialState = (): TextPluginState => {
+  //   return {
+  //     editorState: Value.fromJSON({
+  //       document: {
+  //         nodes: [
+  //           {
+  //             object: 'block',
+  //             type: defaultNode,
+  //             nodes: [
+  //               {
+  //                 object: 'text',
+  //                 leaves: [
+  //                   {
+  //                     object: 'leaf',
+  //                     text: ''
+  //                   }
+  //                 ]
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     })
+  //   }
+  // }
 
   const lineBreakSerializer = {
     // @ts-ignore
@@ -77,6 +100,7 @@ export const createTextPlugin = (
 
   return {
     Component: createTextEditor(options),
+    state: textState
 
     // handleBlur: (props: {
     //   onChange: (state: TextPluginState) => void
@@ -92,32 +116,32 @@ export const createTextPlugin = (
     //   })
     // },
 
-    createInitialState,
+    // createInitialState,
 
-    deserialize({
-      importFromHtml,
-      editorState
-    }: TextPluginSerializedState): TextPluginState {
-      if (editorState) {
-        return { editorState: Value.fromJSON(editorState) }
-      } else if (importFromHtml) {
-        try {
-          const editorState = html.deserialize(importFromHtml)
+    // deserialize({
+    //   importFromHtml,
+    //   editorState
+    // }: TextPluginSerializedState): TextPluginState {
+    //   if (editorState) {
+    //     return { editorState: Value.fromJSON(editorState) }
+    //   } else if (importFromHtml) {
+    //     try {
+    //       const editorState = html.deserialize(importFromHtml)
+    //
+    //       return { editorState }
+    //     } catch (e) {
+    //       // console.log('Failed on', importFromHtml, e)
+    //       return createInitialState()
+    //     }
+    //   }
+    //
+    //   return createInitialState()
+    // },
 
-          return { editorState }
-        } catch (e) {
-          // console.log('Failed on', importFromHtml, e)
-          return createInitialState()
-        }
-      }
-
-      return createInitialState()
-    },
-
-    serialize({ editorState }: TextPluginState): TextPluginSerializedState {
-      return {
-        editorState: editorState.toJSON()
-      }
-    }
+    // serialize({ editorState }: TextPluginState): TextPluginSerializedState {
+    //   return {
+    //     editorState: editorState.toJSON()
+    //   }
+    // }
   }
 }
