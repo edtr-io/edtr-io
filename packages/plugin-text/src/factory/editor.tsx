@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Editor, findNode } from 'slate-react'
 import { Editor as CoreEditor, Value, ValueJSON } from 'slate'
-import { TextPluginState, TextPluginOptions } from './types'
+import { TextPluginOptions } from './types'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 
 import { textState } from '.'
@@ -40,7 +40,6 @@ export const createTextEditor = (
           props.state.set(lastValue.current)
           setValue(editor.value)
         }}
-        // TODO: we might need custom `onKeyDown`
         placeholder={options.placeholder}
         plugins={options.plugins}
         readOnly={!props.focused}
