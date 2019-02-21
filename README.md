@@ -11,7 +11,7 @@ Edtr.io is a WYSIWYG in-line web editor written in React.<br>
 Content created with edtr.io looks just like the final page -<br>
 select any editable element on the page, edit it in-place or drag ’n’ drop it around.<br>
 Its plugin architecture makes edtr.io lean AND adapt to any use case at the same time.<br>
-Edtr.io is of course open-source.<br>
+Edtr.io is of course Open Source.<br>
 </p>
 <p><br><br></p>
 
