@@ -116,6 +116,11 @@ export function serializedScalar<T, S = T>(
   }
 }
 
+export interface WrappedListElement<S> {
+  value: S
+  id: string
+}
+
 /**
  * Represents a list
  * @param type state descriptor for the elements of the list
@@ -128,11 +133,7 @@ export function list<D extends PluginStateDescriptor>(
 ) {
   type S = PluginStateDescriptorInternalValueType<typeof type>
   type T = PluginStateDescriptorValueType<typeof type>
-  interface WrappedInternal {
-    value: S
-    id: string
-  }
-
+  type WrappedInternal = WrappedListElement<S>
   return function(
     ...[externalInitialState, internal, onChange]: PluginStateParameters<
       T[],
