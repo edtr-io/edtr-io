@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { Document, DocumentIdentifier } from './document'
 import { EditorContext } from './editor-context'
 import { reducer } from './store'

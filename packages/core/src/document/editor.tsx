@@ -92,19 +92,18 @@ export const DocumentEditor: React.FunctionComponent<
 
   if (isStatefulPlugin(plugin)) {
     const onChange = (param: unknown | ((value: unknown) => void)) => {
-      let state: unknown
+      let stateHandler: (value: unknown) => unknown
       if (typeof param === 'function') {
-        const f = param as ((value: unknown) => void)
-        state = f(document.state)
+        stateHandler = param as ((value: unknown) => unknown)
       } else {
-        state = param
+        stateHandler = () => param
       }
 
       store.dispatch({
         type: ActionType.Change,
         payload: {
           id,
-          state
+          state: stateHandler
         }
       })
     }

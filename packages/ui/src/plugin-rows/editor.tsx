@@ -34,12 +34,12 @@ const TopFloatingButtonContainer = styled(FloatingButtonContainer)({
 const BottomFloatingButtonContainer = styled(FloatingButtonContainer)({
   bottom: '10px',
   width: '20px',
-  left: '50%'
+  left: '50%',
+  zIndex: 90
 })
 
 const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
-  // top: '-10px',
-  top: 0,
+  top: '-10px',
   right: 0,
   width: '20px'
 })
@@ -48,7 +48,7 @@ const Add: React.FunctionComponent<{
   onClick: () => void
 }> = props => (
   <BottomFloatingButtonContainer>
-    <FloatingButton onClick={props.onClick}>
+    <FloatingButton onMouseDown={props.onClick}>
       <Icon icon={faPlus} />
     </FloatingButton>
   </BottomFloatingButtonContainer>
@@ -72,7 +72,7 @@ export const RowsPlugin = (
     <React.Fragment>
       <TopFloatingButtonContainer>
         <FloatingButton
-          onClick={() => {
+          onMouseDown={() => {
             rows.insert(0)
           }}
         >
@@ -82,8 +82,8 @@ export const RowsPlugin = (
       {rows.items.map((row, index) => {
         return (
           <Document
-            key={index}
-            state={row.value}
+            key={row.value.id}
+            state={row.$$value}
             render={children => {
               return (
                 <div style={{ position: 'relative' }}>

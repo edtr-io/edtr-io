@@ -13,7 +13,8 @@
     "baseUrl": "packages",
     "paths": {
       "@edtr-io/core": ["core/src"],
-      "@edtr-io/ui": ["ui/src"]
+      "@edtr-io/ui": ["ui/src"],
+      "@edtr-io/plugin-text": ["plugin-text/src"]
     }
   }
 }

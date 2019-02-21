@@ -11,7 +11,7 @@
     "build": "npm-run-all build:*",
     "build:babel": "yarn _exec --ignore @edtr-io/demo \"babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
     "build:tsc": "yarn _exec --ignore @edtr-io/demo \"tsc --build src\"",
-    "format": "npm-run-all format:*",
+    "format": "npm-run-all -c format:*",
     "format:eslint": "yarn _eslint --fix",
     "format:prettier": "yarn _prettier --write",
     "lint": "npm-run-all lint:*",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
