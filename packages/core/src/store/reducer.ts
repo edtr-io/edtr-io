@@ -8,7 +8,8 @@ export enum ActionType {
   Insert = 'Insert',
   Remove = 'Remove',
   Change = 'Change',
-  Focus = 'Focus'
+  Focus = 'Focus',
+  Undo = 'Undo'
 }
 
 export function reducer(state: State, action: Action): State {
@@ -17,6 +18,7 @@ export function reducer(state: State, action: Action): State {
     handleRemove()
     handleChange()
     handleFocus()
+    handleUndo()
 
     function handleInsert() {
       if (action.type === ActionType.Insert) {
@@ -35,12 +37,14 @@ export function reducer(state: State, action: Action): State {
           plugin: type,
           state
         }
+        save(action)
       }
     }
 
     function handleRemove() {
       if (action.type === ActionType.Remove) {
         delete draft.documents[action.payload]
+        save(action)
       }
     }
 
@@ -54,6 +58,7 @@ export function reducer(state: State, action: Action): State {
         }
 
         draft.documents[id].state = state(draft.documents[id].state)
+        save(action)
       }
     }
 
@@ -62,10 +67,34 @@ export function reducer(state: State, action: Action): State {
         draft.focus = action.payload
       }
     }
+
+    function handleUndo() {
+      if (action.type === ActionType.Undo && draft.history) {
+        draft.history.actions.pop()
+        draft.documents = R.reduce(
+          (tempState: State, actions: Undoable[]) => {
+            return R.reduce(reducer, tempState, actions)
+          },
+          draft.history.initialState,
+          draft.history.actions
+        ).documents
+      }
+    }
+
+    function save(action: Undoable) {
+      if (draft.history) {
+        draft.history.actions.push([action])
+      } else {
+        draft.history = {
+          initialState: state,
+          actions: [[action]]
+        }
+      }
+    }
   })
 }
 
-export interface State {
+interface BaseState {
   defaultPlugin: PluginType
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: Record<PluginType, Plugin<any>>
@@ -73,7 +102,14 @@ export interface State {
   focus?: string
 }
 
-export type Action = InsertAction | ChangeAction | RemoveAction | FocusAction
+export interface State extends BaseState {
+  history?: {
+    initialState: BaseState
+    actions: Undoable[][]
+  }
+}
+export type Undoable = InsertAction | ChangeAction | RemoveAction
+export type Action = Undoable | FocusAction | UndoAction
 
 type PluginType = string
 
@@ -100,6 +136,10 @@ export interface RemoveAction {
 export interface FocusAction {
   type: ActionType.Focus
   payload: string
+}
+
+export interface UndoAction {
+  type: ActionType.Undo
 }
 
 export interface PluginState {
