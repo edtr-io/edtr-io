@@ -84,11 +84,11 @@ export interface InsertAction {
   } & Partial<PluginState>
 }
 
-export interface ChangeAction {
+export interface ChangeAction<S = unknown> {
   type: ActionType.Change
   payload: {
     id: string
-    state: (state: unknown) => unknown
+    state: (state: S) => S
   }
 }
 

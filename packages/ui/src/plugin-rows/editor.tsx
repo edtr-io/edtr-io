@@ -83,7 +83,7 @@ export const RowsPlugin = (
         return (
           <Document
             key={row.value.id}
-            state={row.value}
+            state={row.$$value}
             render={children => {
               return (
                 <div style={{ position: 'relative' }}>

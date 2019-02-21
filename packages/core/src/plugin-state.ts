@@ -122,13 +122,22 @@ export function serializedScalar<T, S = T>(
  * @param initialCount initial length of the list
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function list<D extends PluginStateDescriptor>(type: D, initialCount = 0) {
+export function list<D extends PluginStateDescriptor>(
+  type: D,
+  initialCount = 0
+) {
   type S = PluginStateDescriptorInternalValueType<typeof type>
   type T = PluginStateDescriptorValueType<typeof type>
-  type WrappedInternal = { value: S, id: string }
+  interface WrappedInternal {
+    value: S
+    id: string
+  }
 
   return function(
-    ...[externalInitialState, internal, onChange]: PluginStateParameters<T[], WrappedInternal[]>
+    ...[externalInitialState, internal, onChange]: PluginStateParameters<
+      T[],
+      WrappedInternal[]
+    >
   ): {
     $$value: WrappedInternal[]
     items: (PluginStateDescriptorReturnType<typeof type>)[]
@@ -147,10 +156,15 @@ export function list<D extends PluginStateDescriptor>(type: D, initialCount = 0)
       rawState = internal
     }
 
-    const items = rawState.map((s, index) : PluginStateDescriptorReturnType<typeof type> => {
-      const initial = externalInitialState === undefined ? undefined : externalInitialState[index]
-      return type(initial, s.value, createOnChange(s.id))
-    })
+    const items = rawState.map(
+      (s, index): PluginStateDescriptorReturnType<typeof type> => {
+        const initial =
+          externalInitialState === undefined
+            ? undefined
+            : externalInitialState[index]
+        return type(initial, s.value, createOnChange(s.id))
+      }
+    )
     return {
       $$value: rawState,
       items,
@@ -183,7 +197,7 @@ export function list<D extends PluginStateDescriptor>(type: D, initialCount = 0)
         onChange(currentList => {
           const list = initList(currentList)
           const index = R.findIndex(R.propEq('id', id), list)
-          return R.update(index, {value: value, id: id}, list)
+          return R.update(index, { value: value, id: id }, list)
         })
       }
     }
@@ -195,13 +209,16 @@ export function list<D extends PluginStateDescriptor>(type: D, initialCount = 0)
       return list
     }
 
-    function getInitialValue(index?: number) : WrappedInternal{
+    function getInitialValue(index?: number): WrappedInternal {
       const id = v4()
       const initial =
         index === undefined || externalInitialState === undefined
           ? undefined
           : externalInitialState[index]
-      return { value: type(initial, undefined, createOnChange(id)).$$value, id: id }
+      return {
+        value: type(initial, undefined, createOnChange(id)).$$value,
+        id: id
+      }
     }
   }
 }

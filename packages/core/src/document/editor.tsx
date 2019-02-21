@@ -96,7 +96,7 @@ export const DocumentEditor: React.FunctionComponent<
       if (typeof param === 'function') {
         stateHandler = param as ((value: unknown) => unknown)
       } else {
-        stateHandler = _state => param
+        stateHandler = () => param
       }
 
       store.dispatch({

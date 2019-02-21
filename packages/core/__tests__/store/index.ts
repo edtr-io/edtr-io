@@ -95,7 +95,7 @@ describe('change', () => {
       type: ActionType.Change,
       payload: {
         id: '0',
-        state: _state => ({ counter: 1 })
+        state: () => ({ counter: 1 })
       }
     })
     expect(getDocument(state, '0')).toEqual({
@@ -109,7 +109,7 @@ describe('change', () => {
       type: ActionType.Change,
       payload: {
         id: '0',
-        state: _state => ({ counter: 1 })
+        state: () => ({ counter: 1 })
       }
     })
     expect(getDocuments(state)).toEqual({})
