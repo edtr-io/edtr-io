@@ -10,7 +10,13 @@ import { createDocument, DocumentIdentifier } from '.'
 export function boolean(initialValue = false) {
   return scalar(initialValue)
 }
-
+/**
+ * Represents a string value
+ * @param initialValue
+ */
+export function string(initialValue = '') {
+  return scalar(initialValue)
+}
 /**
  * Represents a number value
  * @param initialValue

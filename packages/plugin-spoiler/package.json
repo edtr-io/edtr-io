@@ -1,0 +1,26 @@
+{
+  "name": "@edtr-io/spoiler",
+  "version": "0.6.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {
+    "immer": "^1.0.0",
+    "ramda": "^0.26.0",
+    "uuid": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
