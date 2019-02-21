@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import * as React from 'react'
-
+import { Document } from '@edtr-io/core'
 import { SpoilerPluginState } from './editor'
 
 const SpoilerContainer = styled.div({
@@ -52,11 +52,11 @@ export function SpoilerRenderer(props) {
     <SpoilerContainer>
       <Toggle onClick={() => setHidden(!hidden)}>
         <span className={`fa ${icon}`} />
-        {title ? title : state.title.value}
+        {title ? title : state.value.title.value}
       </Toggle>
 
       <ContentContainer hidden={hidden && !shown}>
-        {state.content.render()}
+        <Document state={state.value.content.value} />
       </ContentContainer>
     </SpoilerContainer>
   )
