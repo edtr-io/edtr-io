@@ -82,7 +82,7 @@ export const RowsPlugin = (
       {rows.items.map((row, index) => {
         return (
           <Document
-            key={index}
+            key={row.value.id}
             state={row.value}
             render={children => {
               return (

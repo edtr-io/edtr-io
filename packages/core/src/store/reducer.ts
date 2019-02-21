@@ -53,7 +53,7 @@ export function reducer(state: State, action: Action): State {
           return
         }
 
-        draft.documents[id].state = state
+        draft.documents[id].state = state(draft.documents[id].state)
       }
     }
 
@@ -88,7 +88,7 @@ export interface ChangeAction {
   type: ActionType.Change
   payload: {
     id: string
-    state: unknown
+    state: (state: unknown) => unknown
   }
 }
 
