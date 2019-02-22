@@ -386,18 +386,20 @@ describe('history', () => {
     expect(state.history.actions).toHaveLength(1)
 
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.Change,
       payload: {
-        id: '1'
+        id: '0',
+        state: () => ({ counter: 4 })
       },
       forceCommit: true
     })
     if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(2)
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.Change,
       payload: {
-        id: '1'
+        id: '0',
+        state: () => ({ counter: 2 })
       }
     })
     if (!state.history) throw new Error('history not initialized')

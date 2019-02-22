@@ -40,14 +40,12 @@ export function reducer(state: State, action: Action): State {
           plugin: type,
           state
         }
-        save(action)
       }
     }
 
     function handleRemove() {
       if (action.type === ActionType.Remove) {
         delete draft.documents[action.payload]
-        save(action)
       }
     }
 
@@ -92,7 +90,7 @@ export function reducer(state: State, action: Action): State {
         const redoing = draft.history.redoStack.pop()
         if (redoing) {
           draft.history.actions.push(redoing)
-          draft.documents = R.reduce(reducer, state, redoing).documents
+          draft.documents = R.reduce(reducer, draft, redoing).documents
         }
       }
     }
@@ -109,6 +107,9 @@ export function reducer(state: State, action: Action): State {
       if (!action.forceCommit) {
         if (debounceTimeout && draft.history.actions.length) {
           clearTimeout(debounceTimeout)
+          debounceTimeout = setTimeout(() => {
+            debounceTimeout = null
+          }, 1000)
           const latestActions =
             draft.history.actions[draft.history.actions.length - 1]
           if (!latestActions[latestActions.length - 1].forceCommit) {

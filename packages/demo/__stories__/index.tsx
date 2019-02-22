@@ -1,4 +1,5 @@
 import {
+  ActionType,
   createDocument,
   DocumentIdentifier,
   Editor,
@@ -52,6 +53,7 @@ storiesOf('EditorProvider', module).add('Counter', () => {
   return (
     <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
       <LogState state={state} />
+      <UndoRedoButtons />
     </Editor>
   )
 })
@@ -67,6 +69,7 @@ storiesOf('RowsPlugin', module)
     return (
       <Editor plugins={plugins} defaultPlugin="counter" state={state}>
         <LogState state={state} />
+        <UndoRedoButtons />
       </Editor>
     )
   })
@@ -78,6 +81,7 @@ storiesOf('RowsPlugin', module)
     return (
       <Editor plugins={plugins} defaultPlugin="counter" state={state}>
         <LogState state={state} />
+        <UndoRedoButtons />
       </Editor>
     )
   })
@@ -102,5 +106,31 @@ export function LogState({ state }: { state: DocumentIdentifier }) {
         )
       }}
     </EditorContext.Consumer>
+  )
+}
+
+export function UndoRedoButtons() {
+  const store = React.useContext(EditorContext)
+  return (
+    <React.Fragment>
+      <button
+        onClick={() => {
+          store.dispatch({
+            type: ActionType.Undo
+          })
+        }}
+      >
+        Undo
+      </button>
+      <button
+        onClick={() => {
+          store.dispatch({
+            type: ActionType.Redo
+          })
+        }}
+      >
+        Redo
+      </button>
+    </React.Fragment>
   )
 }

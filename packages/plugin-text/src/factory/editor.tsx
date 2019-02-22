@@ -14,13 +14,11 @@ export const createTextEditor = (
   return function SlateEditor(props: SlateEditorProps) {
     const [value, setValue] = React.useState(Value.fromJSON(props.state.value))
     const lastValue = React.useRef<ValueJSON>(props.state.value)
-    // const { state, editable, focused } = this.props
-    // console.log(state)
     React.useEffect(() => {
       if (lastValue.current !== props.state.value) {
         setValue(Value.fromJSON(props.state.value))
       }
-    }, [])
+    }, [lastValue, props.state.value])
 
     return (
       <Editor
