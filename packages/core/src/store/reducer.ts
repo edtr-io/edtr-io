@@ -8,7 +8,9 @@ export enum ActionType {
   Insert = 'Insert',
   Remove = 'Remove',
   Change = 'Change',
-  Focus = 'Focus'
+  Focus = 'Focus',
+  Undo = 'Undo',
+  Redo = 'Redo'
 }
 
 export function reducer(state: State, action: Action): State {
@@ -17,6 +19,8 @@ export function reducer(state: State, action: Action): State {
     handleRemove()
     handleChange()
     handleFocus()
+    handleUndo()
+    handleRedo()
 
     function handleInsert() {
       if (action.type === ActionType.Insert) {
@@ -35,12 +39,14 @@ export function reducer(state: State, action: Action): State {
           plugin: type,
           state
         }
+        save(action)
       }
     }
 
     function handleRemove() {
       if (action.type === ActionType.Remove) {
         delete draft.documents[action.payload]
+        save(action)
       }
     }
 
@@ -54,12 +60,52 @@ export function reducer(state: State, action: Action): State {
         }
 
         draft.documents[id].state = state(draft.documents[id].state)
+        save(action)
       }
     }
 
     function handleFocus() {
       if (action.type === ActionType.Focus) {
         draft.focus = action.payload
+      }
+    }
+
+    function handleUndo() {
+      if (action.type === ActionType.Undo && draft.history) {
+        const undoing = draft.history.actions.pop()
+        if (undoing) {
+          draft.history.redoStack.push(undoing)
+          draft.documents = R.reduce(
+            (tempState: State, actions: Undoable[]) => {
+              return R.reduce(reducer, tempState, actions)
+            },
+            draft.history.initialState,
+            draft.history.actions
+          ).documents
+        }
+      }
+    }
+
+    function handleRedo() {
+      if (action.type === ActionType.Redo && draft.history) {
+        const redoing = draft.history.redoStack.pop()
+        if (redoing) {
+          draft.history.actions.push(redoing)
+          draft.documents = R.reduce(reducer, state, redoing).documents
+        }
+      }
+    }
+
+    function save(action: Undoable) {
+      if (draft.history) {
+        draft.history.actions.push([action])
+        draft.history.redoStack = []
+      } else {
+        draft.history = {
+          initialState: state,
+          actions: [[action]],
+          redoStack: []
+        }
       }
     }
   })
@@ -71,9 +117,14 @@ export interface State {
   plugins: Record<PluginType, Plugin<any>>
   documents: Record<string, PluginState>
   focus?: string
+  history?: {
+    initialState: State
+    actions: Undoable[][]
+    redoStack: Undoable[][]
+  }
 }
-
-export type Action = InsertAction | ChangeAction | RemoveAction | FocusAction
+export type Undoable = InsertAction | ChangeAction | RemoveAction
+export type Action = Undoable | FocusAction | UndoAction | RedoAction
 
 type PluginType = string
 
@@ -100,6 +151,14 @@ export interface RemoveAction {
 export interface FocusAction {
   type: ActionType.Focus
   payload: string
+}
+
+export interface UndoAction {
+  type: ActionType.Undo
+}
+
+export interface RedoAction {
+  type: ActionType.Redo
 }
 
 export interface PluginState {

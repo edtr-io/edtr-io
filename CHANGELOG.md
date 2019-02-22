@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.2.0..HEAD)
+
+### Added
+
+- Slate Rich-Text plugin
+- Added Undo and Redo to reducer
+
 ## [0.2.0](https://github.com/edtr-io/edtr-io/compare/0.1.0..0.2.0) - February 18, 2019
 
 ### Breaking Changes
@@ -18,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Add `<Editor />` that replaces `<EditorProvider />`
 - Add `StateType.scalar` that represents a value of the given type (more specifically: `StateType.boolean`, `StateType.number`, `StateType.child`
 - Add `StateType.list`, `State.object`
+- Add slate for rich text and links. Standard Bold + Italic hotkeys supported.
 
 ### Changed
 

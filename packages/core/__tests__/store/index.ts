@@ -1,6 +1,7 @@
 import { plugins } from '../../__fixtures__/plugins'
 import {
   ActionType,
+  ChangeAction,
   getDocument,
   getDocuments,
   isFocused,
@@ -255,6 +256,167 @@ describe('serialize', () => {
           }
         ]
       }
+    })
+  })
+})
+
+describe('history', () => {
+  test('history contains initialState', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    const initial = state
+
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    })
+    expect(state.history).toBeDefined()
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.initialState).toEqual(initial)
+  })
+
+  test('history remembers actions', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+
+    const action: ChangeAction = {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    }
+    state = reducer(state, action)
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.actions).toHaveLength(1)
+    expect(state.history.actions[0]).toHaveLength(1)
+    expect(state.history.actions[0][0]).toEqual(action)
+  })
+
+  test('history remembers undos for redo', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.redoStack).toHaveLength(1)
+    expect(state.history.actions).toHaveLength(0)
+
+    state = reducer(state, {
+      type: ActionType.Redo
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.redoStack).toHaveLength(0)
+    expect(state.history.actions).toHaveLength(1)
+  })
+
+  test('history purges redos after change', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.redoStack).toHaveLength(1)
+    expect(state.history.actions).toHaveLength(0)
+
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 2 })
+      }
+    })
+
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.redoStack).toHaveLength(0)
+    expect(state.history.actions).toHaveLength(1)
+  })
+
+  test('undo change action', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 2 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+
+    expect(getDocument(state, '0')).toEqual({
+      plugin: 'stateful',
+      state: { counter: 1 }
+    })
+  })
+
+  test('redo change action', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 2 })
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+    state = reducer(state, {
+      type: ActionType.Redo
+    })
+
+    expect(getDocument(state, '0')).toEqual({
+      plugin: 'stateful',
+      state: { counter: 2 }
     })
   })
 })

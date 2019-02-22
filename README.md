@@ -21,11 +21,11 @@ Edtr.io is backed by Open Education heavyweights: serlo.org and the HPI Schul-Cl
 
 It has been born from the needs of the learning platform [serlo.org](https://serlo.org/) and builds on the original work of Serlo’s co-founder und CTO [Aeneas Rekkas](https://github.com/aeneasr). Serlo.org is inspired by Wikipedia and already provides thousands of articles, videos and exercises for one million German students every month. Serlo.org is growing steadily. In 2018, the platform went international.
 
-In 2019, Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide. 
+In 2019, Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide.
 
 [Splish](http://splish.me) was founded in 2016 by the very people working on the editor, to be able to provide commercial support.
 
-Great content editing is essential for the user experience of a community-driven site - edtr.io’s main purpose is to make editing on the web easy for students and teachers. 
+Great content editing is essential for the user experience of a community-driven site - edtr.io’s main purpose is to make editing on the web easy for students and teachers.
 
 We love education. We need this editor. We're in for the long haul.
 
@@ -59,7 +59,6 @@ In-line editors provide an easy way to work on web content. Content creators wor
 	<img src="README_files/example.png" alt="Editor examples" width="888" height="300">
 </p>
 
-
 ### License
 
 Edtr.io is under MIT license.
@@ -76,6 +75,7 @@ Commercial integration and custom plugin development is available from Splish.me
 - Mobile preview
 
 ### Basic Plugins
+
 - Image upload
 - Blockquote
 - Spoiler
@@ -126,4 +126,3 @@ About [serlo.org and its vision](https://en.serlo.org/serlo)\
 About the [Hasso Plattner Institut](https://hpi.de/en/the-hpi/overview.html)\
 About our integration partner, [Splish](http://splish.me)\
 About the [HPI Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html)
-

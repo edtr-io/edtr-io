@@ -33,6 +33,12 @@ async function exec(): Promise<void> {
       ],
       changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
+    },
+    {
+      added: [
+        'Slate Rich-Text plugin',
+        'Added Undo and Redo to reducer'
+      ]
     }
   ])
 
