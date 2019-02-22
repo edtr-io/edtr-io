@@ -126,4 +126,3 @@ About [serlo.org and its vision](https://en.serlo.org/serlo)\
 About the [Hasso Plattner Institut](https://hpi.de/en/the-hpi/overview.html)\
 About our integration partner, [Splish](http://splish.me)\
 About the [HPI Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html)
-
