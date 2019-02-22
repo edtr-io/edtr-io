@@ -13,6 +13,7 @@ export enum ActionType {
   Redo = 'Redo'
 }
 
+let debounceTimeout: NodeJS.Timeout | null = null
 export function reducer(state: State, action: Action): State {
   return produce(state, draft => {
     handleInsert()
@@ -97,16 +98,31 @@ export function reducer(state: State, action: Action): State {
     }
 
     function save(action: Undoable) {
-      if (draft.history) {
-        draft.history.actions.push([action])
-        draft.history.redoStack = []
-      } else {
+      if (!draft.history) {
         draft.history = {
           initialState: state,
-          actions: [[action]],
+          actions: [],
           redoStack: []
         }
+        debounceTimeout = null
       }
+      if (action.debounce) {
+        if (debounceTimeout && draft.history.actions.length) {
+          clearTimeout(debounceTimeout)
+          const latestActions =
+            draft.history.actions[draft.history.actions.length - 1]
+          if (latestActions[latestActions.length - 1].debounce) {
+            latestActions.push(action)
+            return
+          }
+        }
+        debounceTimeout = setTimeout(() => {
+          debounceTimeout = null
+        }, 1000)
+      }
+      // debounce not allowed for the action or timeout
+      draft.history.actions.push([action])
+      draft.history.redoStack = []
     }
   })
 }
@@ -123,7 +139,9 @@ export interface State {
     redoStack: Undoable[][]
   }
 }
-export type Undoable = InsertAction | ChangeAction | RemoveAction
+export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
+  debounce?: boolean
+}
 export type Action = Undoable | FocusAction | UndoAction | RedoAction
 
 type PluginType = string

@@ -359,6 +359,51 @@ describe('history', () => {
     expect(state.history.actions).toHaveLength(1)
   })
 
+  test('history combines debounced changes', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      debounce: true
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.actions).toHaveLength(1)
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 2 })
+      },
+      debounce: true
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.actions).toHaveLength(1)
+
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '1'
+      }
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.actions).toHaveLength(2)
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '1'
+      },
+      debounce: true
+    })
+    if (!state.history) throw new Error('history not initialized')
+    expect(state.history.actions).toHaveLength(3)
+  })
+
   test('undo change action', () => {
     state = {
       ...state,
@@ -414,6 +459,43 @@ describe('history', () => {
       type: ActionType.Redo
     })
 
+    expect(getDocument(state, '0')).toEqual({
+      plugin: 'stateful',
+      state: { counter: 2 }
+    })
+  })
+
+  test('undo/redo works with debounced changes', () => {
+    state = {
+      ...state,
+      documents: { '0': { plugin: 'stateful' } }
+    }
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      debounce: true
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 2 })
+      },
+      debounce: true
+    })
+
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+    expect(getDocument(state, '0')).toEqual({
+      plugin: 'stateful'
+    })
+    state = reducer(state, {
+      type: ActionType.Redo
+    })
     expect(getDocument(state, '0')).toEqual({
       plugin: 'stateful',
       state: { counter: 2 }

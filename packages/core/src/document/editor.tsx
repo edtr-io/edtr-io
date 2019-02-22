@@ -104,7 +104,8 @@ export const DocumentEditor: React.FunctionComponent<
         payload: {
           id,
           state: stateHandler
-        }
+        },
+        debounce: true
       })
     }
     state = plugin.state(identifier.state, document.state, onChange)
