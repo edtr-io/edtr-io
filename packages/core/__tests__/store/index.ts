@@ -337,7 +337,8 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 1 })
-      }
+      },
+      forceCommit: true
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -351,7 +352,8 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 2 })
-      }
+      },
+      forceCommit: true
     })
 
     if (!state.history) throw new Error('history not initialized')
@@ -369,8 +371,7 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 1 })
-      },
-      debounce: true
+      }
     })
     if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(1)
@@ -379,8 +380,7 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 2 })
-      },
-      debounce: true
+      }
     })
     if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(1)
@@ -389,7 +389,8 @@ describe('history', () => {
       type: ActionType.Insert,
       payload: {
         id: '1'
-      }
+      },
+      forceCommit: true
     })
     if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(2)
@@ -397,8 +398,7 @@ describe('history', () => {
       type: ActionType.Insert,
       payload: {
         id: '1'
-      },
-      debounce: true
+      }
     })
     if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(3)
@@ -414,14 +414,16 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 1 })
-      }
+      },
+      forceCommit: true
     })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
         id: '0',
         state: () => ({ counter: 2 })
-      }
+      },
+      forceCommit: true
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -443,14 +445,16 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 1 })
-      }
+      },
+      forceCommit: true
     })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
         id: '0',
         state: () => ({ counter: 2 })
-      }
+      },
+      forceCommit: true
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -475,16 +479,14 @@ describe('history', () => {
       payload: {
         id: '0',
         state: () => ({ counter: 1 })
-      },
-      debounce: true
+      }
     })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
         id: '0',
         state: () => ({ counter: 2 })
-      },
-      debounce: true
+      }
     })
 
     state = reducer(state, {

@@ -106,12 +106,12 @@ export function reducer(state: State, action: Action): State {
         }
         debounceTimeout = null
       }
-      if (action.debounce) {
+      if (!action.forceCommit) {
         if (debounceTimeout && draft.history.actions.length) {
           clearTimeout(debounceTimeout)
           const latestActions =
             draft.history.actions[draft.history.actions.length - 1]
-          if (latestActions[latestActions.length - 1].debounce) {
+          if (!latestActions[latestActions.length - 1].forceCommit) {
             latestActions.push(action)
             return
           }
@@ -120,7 +120,7 @@ export function reducer(state: State, action: Action): State {
           debounceTimeout = null
         }, 1000)
       }
-      // debounce not allowed for the action or timeout
+      // forced commit or timeout
       draft.history.actions.push([action])
       draft.history.redoStack = []
     }
@@ -140,7 +140,7 @@ export interface State {
   }
 }
 export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
-  debounce?: boolean
+  forceCommit?: boolean
 }
 export type Action = Undoable | FocusAction | UndoAction | RedoAction
 

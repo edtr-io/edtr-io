@@ -54,7 +54,8 @@ export const DocumentEditor: React.FunctionComponent<
             ...identifier,
             plugin: identifier.plugin || store.state.defaultPlugin,
             state: state.$$value
-          }
+          },
+          forceCommit: true
         })
       } else {
         store.dispatch({
@@ -62,7 +63,8 @@ export const DocumentEditor: React.FunctionComponent<
           payload: {
             ...identifier,
             plugin: identifier.plugin || store.state.defaultPlugin
-          }
+          },
+          forceCommit: true
         })
       }
     }
@@ -104,8 +106,7 @@ export const DocumentEditor: React.FunctionComponent<
         payload: {
           id,
           state: stateHandler
-        },
-        debounce: true
+        }
       })
     }
     state = plugin.state(identifier.state, document.state, onChange)
@@ -143,7 +144,8 @@ export const DocumentEditor: React.FunctionComponent<
               })
               store.dispatch({
                 type: ActionType.Insert,
-                payload: subDocument
+                payload: subDocument,
+                forceCommit: true
               })
               return subDocument
             }
