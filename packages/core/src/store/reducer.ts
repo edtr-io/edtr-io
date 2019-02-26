@@ -1,4 +1,3 @@
-import { produce } from 'immer'
 import * as R from 'ramda'
 
 import { isDocumentIdentifier, SerializedDocument } from '../document'
@@ -13,119 +12,181 @@ export enum ActionType {
   Redo = 'Redo'
 }
 
-let debounceTimeout: NodeJS.Timeout | null = null
 export function reducer(state: State, action: Action): State {
-  return produce(state, draft => {
-    handleInsert()
-    handleRemove()
-    handleChange()
-    handleFocus()
-    handleUndo()
-    handleRedo()
-
-    function handleInsert() {
-      if (action.type === ActionType.Insert) {
-        const type = action.payload.plugin || getDefaultPlugin(draft)
-        const id = action.payload.id
-
-        const plugin = getPlugin(draft, type)
-
-        let state
-        if (plugin && isStatefulPlugin(plugin)) {
-          state = action.payload.state
-        }
-
-        draft.focus = id
-        draft.documents[id] = {
-          plugin: type,
-          state
-        }
-      }
-    }
-
-    function handleRemove() {
-      if (action.type === ActionType.Remove) {
-        delete draft.documents[action.payload]
-      }
-    }
-
-    function handleChange() {
-      if (action.type === ActionType.Change) {
-        const { id, state } = action.payload
-
-        if (!draft.documents[id]) {
-          //TODO: console.warn: Missing Id
-          return
-        }
-
-        draft.documents[id].state = state(draft.documents[id].state)
-        save(action)
-      }
-    }
-
-    function handleFocus() {
-      if (action.type === ActionType.Focus) {
-        draft.focus = action.payload
-      }
-    }
-
-    function handleUndo() {
-      if (action.type === ActionType.Undo && draft.history) {
-        const undoing = draft.history.actions.pop()
-        if (undoing) {
-          draft.history.redoStack.push(undoing)
-          draft.documents = R.reduce(
-            (tempState: State, actions: Undoable[]) => {
-              return R.reduce(reducer, tempState, actions)
-            },
-            draft.history.initialState,
-            draft.history.actions
-          ).documents
-        }
-      }
-    }
-
-    function handleRedo() {
-      if (action.type === ActionType.Redo && draft.history) {
-        const redoing = draft.history.redoStack.pop()
-        if (redoing) {
-          draft.history.actions.push(redoing)
-          draft.documents = R.reduce(reducer, draft, redoing).documents
-        }
-      }
-    }
-
-    function save(action: Undoable) {
-      if (!draft.history) {
-        draft.history = {
+  if (!state.history) {
+    return reducer(
+      {
+        ...state,
+        history: {
           initialState: state,
           actions: [],
           redoStack: []
         }
-        debounceTimeout = null
+      },
+      action
+    )
+  }
+
+  switch (action.type) {
+    case ActionType.Insert:
+      return handleInsert(state, action)
+    case ActionType.Remove:
+      return handleRemove(state, action)
+    case ActionType.Change:
+      return handleChange(state, action)
+    case ActionType.Focus:
+      return handleFocus(state, action)
+    case ActionType.Undo:
+      return handleUndo(state)
+    case ActionType.Redo:
+      return handleRedo(state)
+  }
+}
+function handleInsert(state: State, action: InsertAction) {
+  const type = action.payload.plugin || getDefaultPlugin(state)
+  const id = action.payload.id
+
+  const plugin = getPlugin(state, type)
+
+  let pluginState
+  if (plugin && isStatefulPlugin(plugin)) {
+    pluginState = action.payload.state
+  }
+
+  const history = commit(state, action)
+  return {
+    ...state,
+    focus: id,
+    documents: {
+      ...state.documents,
+      [id]: {
+        plugin: type,
+        state: pluginState
       }
-      if (!action.forceCommit) {
-        if (debounceTimeout && draft.history.actions.length) {
-          clearTimeout(debounceTimeout)
-          debounceTimeout = setTimeout(() => {
-            debounceTimeout = null
-          }, 1000)
-          const latestActions =
-            draft.history.actions[draft.history.actions.length - 1]
-          if (!latestActions[latestActions.length - 1].forceCommit) {
-            latestActions.push(action)
-            return
-          }
+    },
+    history
+  }
+}
+
+function handleRemove(state: State, action: RemoveAction): State {
+  const history = commit(state, action)
+  return {
+    ...state,
+    documents: R.omit([action.payload], state.documents),
+    history
+  }
+}
+
+function handleChange(oldState: State, action: ChangeAction): State {
+  const { id, state } = action.payload
+
+  if (!oldState.documents[id]) {
+    //TODO: console.warn: Missing Id
+    return oldState
+  }
+  const history = commit(oldState, action)
+
+  return {
+    ...oldState,
+    documents: {
+      ...oldState.documents,
+      [id]: {
+        ...oldState.documents[id],
+        state: state(oldState.documents[id].state)
+      }
+    },
+    history
+  }
+}
+
+function handleFocus(state: State, action: FocusAction): State {
+  return {
+    ...state,
+    focus: action.payload
+  }
+}
+
+function handleUndo(state: State): State {
+  if (state.history) {
+    const undoing = R.last(state.history.actions)
+    if (undoing) {
+      return {
+        ...state,
+        documents: R.reduce(
+          (tempState: State, actions: Undoable[]) => {
+            return R.reduce(reducer, tempState, actions)
+          },
+          state.history.initialState,
+          R.dropLast(1, state.history.actions)
+        ).documents,
+        history: {
+          initialState: state.history.initialState,
+          actions: R.dropLast(1, state.history.actions),
+          redoStack: R.append(undoing, state.history.redoStack)
         }
+      }
+    }
+  }
+
+  return state
+}
+
+function handleRedo(state: State): State {
+  if (state.history) {
+    const redoing = R.last(state.history.redoStack)
+    if (redoing) {
+      return {
+        ...state,
+        documents: R.reduce(reducer, state, redoing).documents,
+        history: {
+          initialState: state.history.initialState,
+          actions: R.append(redoing, state.history.actions),
+          redoStack: R.dropLast(1, state.history.redoStack)
+        }
+      }
+    }
+  }
+
+  return state
+}
+
+let debounceTimeout: NodeJS.Timeout | null = null
+function commit(state: State, action: Undoable): State['history'] {
+  if (!state.history) {
+    return {
+      initialState: state,
+      actions: [[action]],
+      redoStack: []
+    }
+  }
+  if (!action.forceCommit) {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout)
+      const latestAction = R.last(R.last(state.history.actions) || [])
+      if (latestAction && !latestAction.forceCommit) {
         debounceTimeout = setTimeout(() => {
           debounceTimeout = null
         }, 1000)
+        return {
+          initialState: state.history.initialState,
+          // @ts-ignore
+          actions: R.adjust(-1, R.append(action), state.history.actions),
+          redoStack: []
+        }
       }
-      // forced commit or timeout
-      draft.history.actions.push([action])
-      draft.history.redoStack = []
     }
-  })
+  }
+
+  // restart timeout
+  debounceTimeout = setTimeout(() => {
+    debounceTimeout = null
+  }, 1000)
+  // forced commit or timeout
+  return {
+    initialState: state.history.initialState,
+    actions: R.append([action], state.history.actions),
+    redoStack: []
+  }
 }
 
 export interface State {

@@ -17,6 +17,7 @@ export const createTextEditor = (
     React.useEffect(() => {
       if (lastValue.current !== props.state.value) {
         setValue(Value.fromJSON(props.state.value))
+        lastValue.current = props.state.value
       }
     }, [lastValue, props.state.value])
 

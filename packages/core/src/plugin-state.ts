@@ -1,7 +1,8 @@
 import * as R from 'ramda'
 import { v4 } from 'uuid'
 
-import { createDocument, DocumentIdentifier } from '.'
+import { ActionType, createDocument, DocumentIdentifier } from '.'
+import { Action } from './store'
 
 /**
  * Represents a boolean value
@@ -44,6 +45,7 @@ export function child(options: { plugin?: string; state?: string } = {}) {
       { $$typeof: '@edtr-io/document'; id: string }
     >
   ): {
+    $$insert: () => Action[]
     $$value: DocumentIdentifier
     value: { id: string; plugin?: string }
   } {
@@ -57,6 +59,16 @@ export function child(options: { plugin?: string; state?: string } = {}) {
     const value = rawState === undefined ? initial : deserialize(rawState)
 
     return {
+      $$insert: () => {
+        return [
+          {
+            type: ActionType.Insert,
+            payload: {
+              id: value.id
+            }
+          }
+        ]
+      },
       $$value: serialized,
       value
     }
@@ -89,6 +101,7 @@ export function serializedScalar<T, S = T>(
   return function(
     ...[s, rawState, onChange]: PluginStateParameters<T, S>
   ): {
+    $$insert: () => Action[]
     $$value: S
     value: T
     set: (value: T | ((currentValue: T) => T)) => void
@@ -100,6 +113,7 @@ export function serializedScalar<T, S = T>(
       rawState === undefined ? initial : serializer.deserialize(rawState)
 
     return {
+      $$insert: () => [],
       $$value: serialized,
       value,
       set(param: T | ((currentValue: T) => T)) {
@@ -135,11 +149,14 @@ export function list<D extends PluginStateDescriptor>(
   type T = PluginStateDescriptorValueType<typeof type>
   type WrappedInternal = WrappedListElement<S>
   return function(
-    ...[externalInitialState, internal, onChange]: PluginStateParameters<
-      T[],
-      WrappedInternal[]
-    >
+    ...[
+      externalInitialState,
+      internal,
+      onChange,
+      dispatch
+    ]: PluginStateParameters<T[], WrappedInternal[]>
   ): {
+    $$insert: () => Action[]
     $$value: WrappedInternal[]
     items: (PluginStateDescriptorReturnType<typeof type>)[]
     insert: (index: number) => void
@@ -163,15 +180,29 @@ export function list<D extends PluginStateDescriptor>(
           externalInitialState === undefined
             ? undefined
             : externalInitialState[index]
-        return type(initial, s.value, createOnChange(s.id))
+        return type(initial, s.value, createOnChange(s.id), dispatch)
       }
     )
     return {
+      $$insert: () =>
+        R.reduce(
+          (act1: Action[], act2: Action[]) => [...act1, ...act2],
+          [] as Action[],
+          rawState.map(s => {
+            return s.value.$$insert() as Action[]
+          })
+        ),
       $$value: rawState,
       items,
       insert(index: number) {
+        const [item, id] = getInitialItem()
+        dispatch(item.$$insert())
         onChange(currentList => {
-          return R.insert(index, getInitialValue(), initList(currentList))
+          return R.insert(
+            index,
+            { value: item.$$value, id: id },
+            initList(currentList)
+          )
         })
       },
       remove(index: number) {
@@ -210,14 +241,22 @@ export function list<D extends PluginStateDescriptor>(
       return list
     }
 
-    function getInitialValue(index?: number): WrappedInternal {
+    function getInitialItem(
+      index?: number
+    ): [PluginStateDescriptorReturnType<typeof type>, string] {
       const id = v4()
       const initial =
         index === undefined || externalInitialState === undefined
           ? undefined
           : externalInitialState[index]
+      const item = type(initial, undefined, createOnChange(id), dispatch)
+      return [item, id]
+    }
+
+    function getInitialValue(index?: number): WrappedInternal {
+      const [item, id] = getInitialItem(index)
       return {
-        value: type(initial, undefined, createOnChange(id)).$$value,
+        value: item.$$value,
         id: id
       }
     }
@@ -233,11 +272,12 @@ export function object<
   Ds extends Record<string, PluginStateDescriptor>
 >(types: Ds) {
   return function(
-    ...[serialized, rawState, onChange]: PluginStateParameters<
+    ...[serialized, rawState, onChange, dispatch]: PluginStateParameters<
       PluginStateDescriptorsValueType<Ds>,
       PluginStateDescriptorsSerializedValueType<Ds>
     >
   ): {
+    $$insert: () => Action[]
     $$value: PluginStateDescriptorsSerializedValueType<Ds>
     value: PluginStateDescriptorsReturnType<Ds>
   } {
@@ -247,16 +287,25 @@ export function object<
             const initial =
               serialized === undefined ? undefined : serialized[key]
 
-            return type(initial, undefined, createOnChange(key)).$$value
+            return type(initial, undefined, createOnChange(key), dispatch)
+              .$$value
           }, types) as PluginStateDescriptorsSerializedValueType<Ds>)
         : rawState
 
     const value = R.mapObjIndexed((s, key: keyof Ds) => {
       const initial = serialized === undefined ? undefined : serialized[key]
-      return types[key](initial, s, createOnChange(key))
+      return types[key](initial, s, createOnChange(key), dispatch)
     }, rs) as PluginStateDescriptorsReturnType<Ds>
 
     return {
+      $$insert: () =>
+        R.reduce(
+          (act1: Action[], act2: Action[]) => {
+            return [...act1, ...act2]
+          },
+          [] as Action[],
+          R.map(s => s.$$insert() as Action[], R.values(value))
+        ),
       $$value: R.mapObjIndexed(
         value => value.$$value,
         value
@@ -283,7 +332,8 @@ export function object<
               ? (R.mapObjIndexed((type, key) => {
                   const initial =
                     serialized === undefined ? undefined : serialized[key]
-                  return type(initial, undefined, createOnChange(key)).$$value
+                  return type(initial, undefined, createOnChange(key), dispatch)
+                    .$$value
                 }, types) as PluginStateDescriptorsSerializedValueType<Ds>)
               : current
           )
@@ -298,13 +348,14 @@ export type PluginStateDescriptor<
   T = any,
   S = T,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  R extends { $$value: S } = any
+  R extends { $$value: S; $$insert: () => Action[] } = any
 > = (...args: PluginStateParameters<T, S>) => R
 
 export type PluginStateParameters<T, S> = [
   T | undefined,
   S | undefined,
-  (value: S | ((currentValue: S | undefined) => S)) => void
+  (value: S | ((currentValue: S | undefined) => S)) => void,
+  (actions: Action[]) => void
 ]
 
 export type PluginStateDescriptorValueType<
