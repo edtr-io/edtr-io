@@ -188,9 +188,7 @@ export function list<D extends PluginStateDescriptor>(
         R.reduce(
           (act1: Action[], act2: Action[]) => [...act1, ...act2],
           [] as Action[],
-          rawState.map(s => {
-            return s.value.$$insert() as Action[]
-          })
+          items.map(item => item.$$insert())
         ),
       $$value: rawState,
       items,
@@ -304,7 +302,7 @@ export function object<
             return [...act1, ...act2]
           },
           [] as Action[],
-          R.map(s => s.$$insert() as Action[], R.values(value))
+          R.map(s => s.$$insert(), R.values(value))
         ),
       $$value: R.mapObjIndexed(
         value => value.$$value,

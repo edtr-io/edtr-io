@@ -6,9 +6,17 @@ import { ActionType, reducer } from './store'
 import { Plugin } from './plugin'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
-  const [state, dispatch] = React.useReducer(reducer, {
+  const baseState = {
     ...props,
     documents: {}
+  }
+  const [state, dispatch] = React.useReducer(reducer, {
+    ...baseState,
+    history: {
+      initialState: baseState,
+      actions: [],
+      redoStack: []
+    }
   })
 
   return (

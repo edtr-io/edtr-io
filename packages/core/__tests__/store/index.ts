@@ -7,6 +7,7 @@ import {
   isFocused,
   reducer,
   serializeDocument,
+  BaseState,
   State
 } from '../../src/store'
 import { createDocument } from '../../src'
@@ -14,11 +15,11 @@ import { createDocument } from '../../src'
 let state: State
 
 beforeEach(() => {
-  state = {
+  state = createInitialState({
     defaultPlugin: 'default',
     plugins,
     documents: {}
-  }
+  })
 })
 
 describe('Insert', () => {
@@ -63,19 +64,19 @@ describe('Insert', () => {
 
 describe('remove', () => {
   test('one document', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateless' } }
-    }
+    })
     state = reducer(state, { type: ActionType.Remove, payload: '0' })
     expect(getDocuments(state)).toEqual({})
   })
 
   test('two documents', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'text' }, '1': { plugin: 'stateless' } }
-    }
+    })
     state = reducer(state, { type: ActionType.Remove, payload: '0' })
     expect(getDocuments(state)).toEqual({ '1': { plugin: 'stateless' } })
   })
@@ -88,10 +89,10 @@ describe('remove', () => {
 
 describe('change', () => {
   test('whole state', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -262,11 +263,11 @@ describe('serialize', () => {
 
 describe('history', () => {
   test('history contains initialState', () => {
-    state = {
+    const initial = {
       ...state,
       documents: { '0': { plugin: 'stateful' } }
     }
-    const initial = state
+    state = createInitialState(initial)
 
     state = reducer(state, {
       type: ActionType.Change,
@@ -276,15 +277,14 @@ describe('history', () => {
       }
     })
     expect(state.history).toBeDefined()
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.initialState).toEqual(initial)
   })
 
   test('history remembers actions', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
 
     const action: ChangeAction = {
       type: ActionType.Change,
@@ -294,17 +294,16 @@ describe('history', () => {
       }
     }
     state = reducer(state, action)
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(1)
     expect(state.history.actions[0]).toHaveLength(1)
     expect(state.history.actions[0][0]).toEqual(action)
   })
 
   test('history remembers undos for redo', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -315,23 +314,21 @@ describe('history', () => {
     state = reducer(state, {
       type: ActionType.Undo
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.redoStack).toHaveLength(1)
     expect(state.history.actions).toHaveLength(0)
 
     state = reducer(state, {
       type: ActionType.Redo
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.redoStack).toHaveLength(0)
     expect(state.history.actions).toHaveLength(1)
   })
 
   test('history purges redos after change', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -343,7 +340,6 @@ describe('history', () => {
     state = reducer(state, {
       type: ActionType.Undo
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.redoStack).toHaveLength(1)
     expect(state.history.actions).toHaveLength(0)
 
@@ -356,16 +352,15 @@ describe('history', () => {
       forceCommit: true
     })
 
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.redoStack).toHaveLength(0)
     expect(state.history.actions).toHaveLength(1)
   })
 
   test('history combines debounced changes', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -373,7 +368,6 @@ describe('history', () => {
         state: () => ({ counter: 1 })
       }
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(1)
     state = reducer(state, {
       type: ActionType.Change,
@@ -382,7 +376,6 @@ describe('history', () => {
         state: () => ({ counter: 2 })
       }
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(1)
 
     state = reducer(state, {
@@ -393,7 +386,6 @@ describe('history', () => {
       },
       forceCommit: true
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(2)
     state = reducer(state, {
       type: ActionType.Change,
@@ -402,15 +394,14 @@ describe('history', () => {
         state: () => ({ counter: 2 })
       }
     })
-    if (!state.history) throw new Error('history not initialized')
     expect(state.history.actions).toHaveLength(3)
   })
 
   test('undo change action', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -438,10 +429,10 @@ describe('history', () => {
   })
 
   test('redo change action', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -472,10 +463,10 @@ describe('history', () => {
   })
 
   test('undo/redo works with debounced changes', () => {
-    state = {
+    state = createInitialState({
       ...state,
       documents: { '0': { plugin: 'stateful' } }
-    }
+    })
     state = reducer(state, {
       type: ActionType.Change,
       payload: {
@@ -506,3 +497,14 @@ describe('history', () => {
     })
   })
 })
+
+function createInitialState(baseState: BaseState): State {
+  return {
+    ...baseState,
+    history: {
+      initialState: baseState,
+      actions: [],
+      redoStack: []
+    }
+  }
+}

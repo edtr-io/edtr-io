@@ -12,8 +12,8 @@ export enum ActionType {
   Redo = 'Redo'
 }
 
-export function reducer(state: State, action: Action): State {
-  if (!state.history) {
+export function reducer(state: BaseState | State, action: Action): State {
+  if (!hasHistory(state)) {
     return reducer(
       {
         ...state,
@@ -77,22 +77,22 @@ function handleRemove(state: State, action: RemoveAction): State {
   }
 }
 
-function handleChange(oldState: State, action: ChangeAction): State {
-  const { id, state } = action.payload
+function handleChange(state: State, action: ChangeAction): State {
+  const { id, state: stateHandler } = action.payload
 
-  if (!oldState.documents[id]) {
+  if (!state.documents[id]) {
     //TODO: console.warn: Missing Id
-    return oldState
+    return state
   }
-  const history = commit(oldState, action)
+  const history = commit(state, action)
 
   return {
-    ...oldState,
+    ...state,
     documents: {
-      ...oldState.documents,
+      ...state.documents,
       [id]: {
-        ...oldState.documents[id],
-        state: state(oldState.documents[id].state)
+        ...state.documents[id],
+        state: stateHandler(state.documents[id].state)
       }
     },
     history
@@ -107,23 +107,21 @@ function handleFocus(state: State, action: FocusAction): State {
 }
 
 function handleUndo(state: State): State {
-  if (state.history) {
-    const undoing = R.last(state.history.actions)
-    if (undoing) {
-      return {
-        ...state,
-        documents: R.reduce(
-          (tempState: State, actions: Undoable[]) => {
-            return R.reduce(reducer, tempState, actions)
-          },
-          state.history.initialState,
-          R.dropLast(1, state.history.actions)
-        ).documents,
-        history: {
-          initialState: state.history.initialState,
-          actions: R.dropLast(1, state.history.actions),
-          redoStack: R.append(undoing, state.history.redoStack)
-        }
+  const undoing = R.last(state.history.actions)
+  if (undoing) {
+    return {
+      ...state,
+      documents: R.reduce(
+        (tempState: BaseState | State, actions: Undoable[]) => {
+          return R.reduce(reducer, tempState, actions)
+        },
+        state.history.initialState,
+        R.dropLast(1, state.history.actions)
+      ).documents,
+      history: {
+        initialState: state.history.initialState,
+        actions: R.dropLast(1, state.history.actions),
+        redoStack: R.append(undoing, state.history.redoStack)
       }
     }
   }
@@ -132,17 +130,15 @@ function handleUndo(state: State): State {
 }
 
 function handleRedo(state: State): State {
-  if (state.history) {
-    const redoing = R.last(state.history.redoStack)
-    if (redoing) {
-      return {
-        ...state,
-        documents: R.reduce(reducer, state, redoing).documents,
-        history: {
-          initialState: state.history.initialState,
-          actions: R.append(redoing, state.history.actions),
-          redoStack: R.dropLast(1, state.history.redoStack)
-        }
+  const redoing = R.last(state.history.redoStack)
+  if (redoing) {
+    return {
+      ...state,
+      documents: R.reduce(reducer, state, redoing).documents,
+      history: {
+        initialState: state.history.initialState,
+        actions: R.append(redoing, state.history.actions),
+        redoStack: R.dropLast(1, state.history.redoStack)
       }
     }
   }
@@ -152,13 +148,6 @@ function handleRedo(state: State): State {
 
 let debounceTimeout: NodeJS.Timeout | null = null
 function commit(state: State, action: Undoable): State['history'] {
-  if (!state.history) {
-    return {
-      initialState: state,
-      actions: [[action]],
-      redoStack: []
-    }
-  }
   if (!action.forceCommit) {
     if (debounceTimeout) {
       clearTimeout(debounceTimeout)
@@ -189,18 +178,26 @@ function commit(state: State, action: Undoable): State['history'] {
   }
 }
 
-export interface State {
+export interface BaseState {
   defaultPlugin: PluginType
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: Record<PluginType, Plugin<any>>
   documents: Record<string, PluginState>
   focus?: string
-  history?: {
-    initialState: State
+}
+
+export interface State extends BaseState {
+  history: {
+    initialState: BaseState | State
     actions: Undoable[][]
     redoStack: Undoable[][]
   }
 }
+
+function hasHistory(state: BaseState | State): state is State {
+  return (state as State).history !== undefined
+}
+
 export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
   forceCommit?: boolean
 }
