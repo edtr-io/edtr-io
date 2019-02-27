@@ -15,4 +15,4 @@ export {
 } from './plugin'
 import * as StateType from './plugin-state'
 export { StateType }
-export { serializeDocument } from './store'
+export { ActionType, serializeDocument } from './store'

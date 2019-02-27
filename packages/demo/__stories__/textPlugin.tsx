@@ -3,7 +3,7 @@ import { createDocument, Editor, Plugin } from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
-import { LogState } from '.'
+import { LogState, UndoRedoButtons } from '.'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
@@ -21,6 +21,7 @@ storiesOf('TextPlugin', module)
       <Editor plugins={plugins} defaultPlugin="text" state={state}>
         <LogState state={state} />
         <Overlay />
+        <UndoRedoButtons />
       </Editor>
     )
   })
@@ -35,6 +36,7 @@ storiesOf('TextPlugin', module)
       <Editor plugins={plugins} defaultPlugin="text" state={state}>
         <LogState state={state} />
         <Overlay />
+        <UndoRedoButtons />
       </Editor>
     )
   })

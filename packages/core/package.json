@@ -8,8 +8,8 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
-    "immer": "^1.0.0",
     "ramda": "^0.26.0",
+    "react-hotkeys": "^1.1.4",
     "uuid": "^3.0.0"
   },
   "devDependencies": {

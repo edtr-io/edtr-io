@@ -6,7 +6,16 @@ export const EditorContext = React.createContext<EditorContextValue>({
   state: {
     defaultPlugin: '',
     plugins: {},
-    documents: {}
+    documents: {},
+    history: {
+      initialState: {
+        defaultPlugin: '',
+        plugins: {},
+        documents: {}
+      },
+      actions: [],
+      redoStack: []
+    }
   },
   dispatch: () => {}
 })

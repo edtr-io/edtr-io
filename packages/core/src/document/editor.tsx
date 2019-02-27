@@ -8,7 +8,7 @@ import {
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '../plugin'
-import { ActionType, getDocument, getPlugin, isFocused } from '../store'
+import { Action, ActionType, getDocument, getPlugin, isFocused } from '../store'
 import { isSerializedDocument } from '.'
 
 export const createDocument = (
@@ -56,6 +56,7 @@ export const DocumentEditor: React.FunctionComponent<
             state: state.$$value
           }
         })
+        R.forEach(store.dispatch, state.$$insert())
       } else {
         store.dispatch({
           type: ActionType.Insert,
@@ -67,8 +68,39 @@ export const DocumentEditor: React.FunctionComponent<
       }
     }
   }, [identifier])
-
   const document = getDocument(store.state, id)
+  const [pluginState, setPluginState] = React.useState(null)
+
+  React.useEffect(() => {
+    if (document) {
+      const plugin = getPlugin(store.state, document.plugin)
+
+      if (plugin && isStatefulPlugin(plugin)) {
+        const onChange = (param: unknown | ((value: unknown) => void)) => {
+          let stateHandler: (value: unknown) => unknown
+          if (typeof param === 'function') {
+            stateHandler = param as ((value: unknown) => unknown)
+          } else {
+            stateHandler = () => param
+          }
+
+          store.dispatch({
+            type: ActionType.Change,
+            payload: {
+              id,
+              state: stateHandler
+            }
+          })
+        }
+        const dispatch = (actions: Action[]) => {
+          R.forEach(store.dispatch, actions)
+        }
+        setPluginState(
+          plugin.state(identifier.state, document.state, onChange, dispatch)
+        )
+      }
+    }
+  }, [identifier.state, document, store.state])
 
   if (!document) {
     return null
@@ -88,36 +120,18 @@ export const DocumentEditor: React.FunctionComponent<
     StatefulPluginEditorProps<any> | StatelessPluginEditorProps
   >
 
-  let state: unknown
-
-  if (isStatefulPlugin(plugin)) {
-    const onChange = (param: unknown | ((value: unknown) => void)) => {
-      let stateHandler: (value: unknown) => unknown
-      if (typeof param === 'function') {
-        stateHandler = param as ((value: unknown) => unknown)
-      } else {
-        stateHandler = () => param
-      }
-
-      store.dispatch({
-        type: ActionType.Change,
-        payload: {
-          id,
-          state: stateHandler
-        }
-      })
-    }
-    state = plugin.state(identifier.state, document.state, onChange)
-  }
-
   const render = props.render || R.identity
   const focused = isFocused(store.state, id)
+
+  if (!pluginState) {
+    return null
+  }
 
   return (
     <React.Fragment>
       {render(
         <div onMouseDown={handleFocus} ref={container} data-document>
-          <Comp editable focused={focused} state={state} />
+          <Comp editable focused={focused} state={pluginState} />
         </div>
       )}
     </React.Fragment>
@@ -143,6 +157,7 @@ export const DocumentEditor: React.FunctionComponent<
               store.dispatch({
                 type: ActionType.Insert,
                 payload: subDocument
+                // forceCommit: true
               })
               return subDocument
             }
