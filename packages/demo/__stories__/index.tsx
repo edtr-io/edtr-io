@@ -1,6 +1,5 @@
 import {
   ActionType,
-  ActionCommitType,
   createDocument,
   DocumentIdentifier,
   Editor,
@@ -122,8 +121,7 @@ export function UndoRedoButtons(props: { enablePersist?: boolean }) {
       <button
         onClick={() => {
           store.dispatch({
-            type: ActionType.Persist,
-            commit: ActionCommitType.ForceCombine
+            type: ActionType.Persist
           })
         }}
         disabled={!props.enablePersist}

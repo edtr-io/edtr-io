@@ -7,9 +7,7 @@ import {
   ChangeAction,
   getDocument,
   getDocuments,
-  getLastAction,
-  hasHistory,
-  hasUnpersistedChanges,
+  hasPendingChanges,
   isFocused,
   PersistAction,
   reducer,
@@ -506,7 +504,8 @@ describe('history', () => {
 })
 
 describe('persist', () => {
-  test('persist action wraps state into history and resets actions', () => {
+  test('hasPendingChanges returns false at start and after persist', () => {
+    expect(hasPendingChanges(state)).toEqual(false)
     state = reducer(state, {
       type: ActionType.Insert,
       payload: {
@@ -524,60 +523,13 @@ describe('persist', () => {
       commit: ActionCommitType.ForceCommit
     })
 
-    expect(hasUnpersistedChanges(state)).toEqual(true)
-
-    const toPersist = { ...state }
-    const persistAction: PersistAction = {
-      type: ActionType.Persist,
-      commit: ActionCommitType.ForceCombine
-    }
-    state = reducer(state, persistAction)
-
-    expect(R.omit(['history'], state.history.initialState)).toEqual(
-      R.omit(['history'], toPersist)
-    )
-    expect(state.history.actions).toHaveLength(0)
-    if (!hasHistory(state.history.initialState)) {
-      throw Error('persisted state lost history')
-    }
-    expect(state.history.initialState.history.actions).toHaveLength(2)
-    const lastPersistedAction = getLastAction(state.history.initialState)
-    expect(lastPersistedAction).toEqual(persistAction)
-    expect(hasUnpersistedChanges(state)).toEqual(false)
-  })
-
-  test("persisting twice doesn't change anything", () => {
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '0',
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
+    expect(hasPendingChanges(state)).toEqual(true)
 
     state = reducer(state, {
-      type: ActionType.Persist,
-      commit: ActionCommitType.ForceCombine
+      type: ActionType.Persist
     })
 
-    const persisted = { ...state }
-
-    state = reducer(state, {
-      type: ActionType.Persist,
-      commit: ActionCommitType.ForceCombine
-    })
-
-    expect(state).toEqual(persisted)
-    expect(hasUnpersistedChanges(state)).toEqual(false)
+    expect(hasPendingChanges(state)).toEqual(false)
   })
 
   test('undo/redo after persist work', () => {
@@ -598,9 +550,8 @@ describe('persist', () => {
       commit: ActionCommitType.ForceCommit
     }
 
-    const persistAction: Undoable = {
-      type: ActionType.Persist,
-      commit: ActionCommitType.ForceCombine
+    const persistAction: PersistAction = {
+      type: ActionType.Persist
     }
 
     state = reducer(state, insertAction)
@@ -613,15 +564,11 @@ describe('persist', () => {
     state = reducer(state, {
       type: ActionType.Undo
     })
-    expect(hasUnpersistedChanges(state)).toEqual(true)
+    expect(hasPendingChanges(state)).toEqual(true)
     expect(R.omit(['history'], state)).toEqual(
       R.omit(['history'], stateBeforeChange)
     )
-    expect(getLastAction(state)).toEqual(insertAction)
     expect(state.history.redoStack).toHaveLength(1)
-    const redos = R.last(state.history.redoStack)
-    expect(redos).toHaveLength(2)
-    expect(redos).toEqual([changeAction, persistAction])
 
     //check redos
     state = reducer(state, {
@@ -629,6 +576,40 @@ describe('persist', () => {
     })
 
     expect(state).toEqual(stateAfterPersist)
+  })
+
+  test("persist doesn't remove redos", () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      commit: ActionCommitType.ForceCommit
+    })
+
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+
+    expect(hasPendingChanges(state)).toEqual(true)
+    expect(state.history.redoStack).toHaveLength(1)
+    const redoStack = [...state.history.redoStack]
+
+    state = reducer(state, {
+      type: ActionType.Persist
+    })
+
+    expect(hasPendingChanges(state)).toEqual(false)
+    expect(state.history.redoStack).toEqual(redoStack)
   })
 })
 
@@ -638,7 +619,8 @@ function createInitialState(baseState: BaseState): State {
     history: {
       initialState: baseState,
       actions: [],
-      redoStack: []
+      redoStack: [],
+      pending: 0
     }
   }
 }

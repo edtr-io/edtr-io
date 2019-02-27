@@ -13,8 +13,7 @@ export enum ActionType {
   Persist = 'Persist'
 }
 export enum ActionCommitType {
-  ForceCommit = 'ForceCommit',
-  ForceCombine = 'ForceCombine'
+  ForceCommit = 'ForceCommit'
 }
 
 export function reducer(state: BaseState | State, action: Action): State {
@@ -25,7 +24,8 @@ export function reducer(state: BaseState | State, action: Action): State {
         history: {
           initialState: state,
           actions: [],
-          redoStack: []
+          redoStack: [],
+          pending: 0
         }
       },
       action
@@ -46,9 +46,47 @@ export function reducer(state: BaseState | State, action: Action): State {
     case ActionType.Redo:
       return handleRedo(state)
     case ActionType.Persist:
-      return handlePersist(state, action)
+      return handlePersist(state)
   }
 }
+
+let debounceTimeout: NodeJS.Timeout | null = null
+function commit(state: State, action: Undoable): State['history'] {
+  if (action.commit !== ActionCommitType.ForceCommit) {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout)
+      const latestAction = R.last(R.last(state.history.actions) || [])
+      if (
+        latestAction &&
+        latestAction.commit !== ActionCommitType.ForceCommit
+      ) {
+        debounceTimeout = setTimeout(() => {
+          debounceTimeout = null
+        }, 1000)
+        return {
+          initialState: state.history.initialState,
+          // @ts-ignore
+          actions: R.adjust(-1, R.append(action), state.history.actions),
+          redoStack: [],
+          pending: state.history.pending + 1
+        }
+      }
+    }
+  }
+
+  // restart timeout
+  debounceTimeout = setTimeout(() => {
+    debounceTimeout = null
+  }, 1000)
+  // forced commit or timeout
+  return {
+    initialState: state.history.initialState,
+    actions: R.append([action], state.history.actions),
+    redoStack: [],
+    pending: state.history.pending + 1
+  }
+}
+
 function handleInsert(state: State, action: InsertAction) {
   const type = action.payload.plugin || getDefaultPlugin(state)
   const id = action.payload.id
@@ -128,7 +166,8 @@ function handleUndo(state: State): State {
       history: {
         initialState: state.history.initialState,
         actions: R.dropLast(1, state.history.actions),
-        redoStack: R.append(undoing, state.history.redoStack)
+        redoStack: R.append(undoing, state.history.redoStack),
+        pending: state.history.pending - undoing.length
       }
     }
   } else if (hasHistory(state.history.initialState)) {
@@ -148,12 +187,13 @@ function handleUndo(state: State): State {
 function handleRedo(state: State): State {
   const redoing = R.last(state.history.redoStack)
   if (redoing) {
-    const redoState = R.reduce(reducer, state, redoing)
+    debounceTimeout = null
+    const nextState = R.reduce(reducer, state, redoing)
+    debounceTimeout = null
     return {
-      ...state,
-      documents: R.reduce(reducer, state, redoing).documents,
+      ...nextState,
       history: {
-        ...redoState.history,
+        ...nextState.history,
         redoStack: R.dropLast(1, state.history.redoStack)
       }
     }
@@ -162,90 +202,15 @@ function handleRedo(state: State): State {
   return state
 }
 
-let debounceTimeout: NodeJS.Timeout | null = null
-function commit(state: State, action: Undoable): State['history'] {
-  if (action.commit === ActionCommitType.ForceCombine) {
-    if (state.history.actions.length) {
-      return {
-        ...state.history,
-        // @ts-ignore
-        actions: R.adjust(-1, R.append(action), state.history.actions)
-      }
-    } else if (
-      hasHistory(state.history.initialState) &&
-      state.history.initialState.history.actions.length
-    ) {
-      return {
-        initialState: {
-          ...state.history.initialState,
-          history: {
-            ...state.history.initialState.history,
-            actions: R.adjust(
-              // @ts-ignore
-              -1,
-              R.append(action),
-              state.history.initialState.history.actions
-            )
-          }
-        },
-        actions: [],
-        redoStack: []
-      }
-    }
-  }
-
-  if (action.commit !== ActionCommitType.ForceCommit) {
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout)
-      const latestAction = getLastAction(state)
-      if (
-        latestAction &&
-        latestAction.commit !== ActionCommitType.ForceCommit
-      ) {
-        debounceTimeout = setTimeout(() => {
-          debounceTimeout = null
-        }, 1000)
-        return {
-          initialState: state.history.initialState,
-          // @ts-ignore
-          actions: R.adjust(-1, R.append(action), state.history.actions),
-          redoStack: []
-        }
-      }
-    }
-  }
-
-  // restart timeout
-  debounceTimeout = setTimeout(() => {
-    debounceTimeout = null
-  }, 1000)
-  // forced commit or timeout
-  return {
-    initialState: state.history.initialState,
-    actions: R.append([action], state.history.actions),
-    redoStack: []
-  }
-}
-
-function handlePersist(state: State, action: PersistAction): State {
-  if (!hasUnpersistedChanges(state)) {
-    return state
-  }
-
-  const history = commit(state, action)
+function handlePersist(state: State): State {
   return {
     ...state,
     history: {
-      initialState: {
-        ...state,
-        history: history
-      },
-      actions: [],
-      redoStack: state.history.redoStack
+      ...state.history,
+      pending: 0
     }
   }
 }
-
 export interface BaseState {
   defaultPlugin: PluginType
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -259,6 +224,7 @@ export interface State extends BaseState {
     initialState: BaseState | State
     actions: Undoable[][]
     redoStack: Undoable[][]
+    pending: number
   }
 }
 
@@ -266,14 +232,15 @@ export function hasHistory(state: BaseState | State): state is State {
   return (state as State).history !== undefined
 }
 
-export type Undoable = (
-  | InsertAction
-  | ChangeAction
-  | RemoveAction
-  | PersistAction) & {
+export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
   commit?: ActionCommitType
 }
-export type Action = Undoable | FocusAction | UndoAction | RedoAction
+export type Action =
+  | Undoable
+  | FocusAction
+  | UndoAction
+  | RedoAction
+  | PersistAction
 
 type PluginType = string
 
@@ -312,7 +279,6 @@ export interface RedoAction {
 
 export interface PersistAction {
   type: ActionType.Persist
-  commit: ActionCommitType.ForceCombine
 }
 
 export interface PluginState {
@@ -354,24 +320,8 @@ export function isFocused(state: State, id: string): boolean {
   return state.focus === id
 }
 
-export function hasUnpersistedChanges(state: State): boolean {
-  let lastAction = getLastAction(state)
-  if (lastAction) {
-    return true
-  }
-
-  if (hasHistory(state.history.initialState)) {
-    lastAction = getLastAction(state.history.initialState)
-    if (lastAction && lastAction.type !== ActionType.Persist) {
-      return true
-    }
-  }
-
-  return false
-}
-
-export function getLastAction(state: State): Undoable | undefined {
-  return R.last(R.last(state.history.actions) || [])
+export function hasPendingChanges(state: State): boolean {
+  return state.history.pending !== 0
 }
 
 export function serializeDocument(
