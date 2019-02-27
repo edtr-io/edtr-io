@@ -10,7 +10,8 @@ export enum ActionType {
   Focus = 'Focus',
   Undo = 'Undo',
   Redo = 'Redo',
-  Persist = 'Persist'
+  Persist = 'Persist',
+  ResetHistory = 'ResetHistory'
 }
 export enum ActionCommitType {
   ForceCommit = 'ForceCommit'
@@ -47,6 +48,8 @@ export function reducer(state: BaseState | State, action: Action): State {
       return handleRedo(state)
     case ActionType.Persist:
       return handlePersist(state)
+    case ActionType.ResetHistory:
+      return handleResetHistory(state)
   }
 }
 
@@ -211,6 +214,23 @@ function handlePersist(state: State): State {
     }
   }
 }
+
+function handleResetHistory(state: State): State {
+  return {
+    ...state,
+    history: {
+      initialState: {
+        defaultPlugin: state.defaultPlugin,
+        plugins: state.plugins,
+        documents: state.documents,
+        focus: state.focus
+      },
+      actions: [],
+      redoStack: [],
+      pending: 0
+    }
+  }
+}
 export interface BaseState {
   defaultPlugin: PluginType
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -241,6 +261,7 @@ export type Action =
   | UndoAction
   | RedoAction
   | PersistAction
+  | ResetHistoryAction
 
 type PluginType = string
 
@@ -279,6 +300,10 @@ export interface RedoAction {
 
 export interface PersistAction {
   type: ActionType.Persist
+}
+
+export interface ResetHistoryAction {
+  type: ActionType.ResetHistory
 }
 
 export interface PluginState {

@@ -56,7 +56,6 @@ export const DocumentEditor: React.FunctionComponent<
             state: state.$$value
           }
         })
-        R.forEach(store.dispatch, state.$$insert())
       } else {
         store.dispatch({
           type: ActionType.Insert,
@@ -66,6 +65,9 @@ export const DocumentEditor: React.FunctionComponent<
           }
         })
       }
+      store.dispatch({
+        type: ActionType.ResetHistory
+      })
     }
   }, [identifier])
   const document = getDocument(store.state, id)
