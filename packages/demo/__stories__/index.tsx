@@ -1,5 +1,6 @@
 import {
   ActionType,
+  ActionCommitType,
   createDocument,
   DocumentIdentifier,
   Editor,
@@ -9,9 +10,10 @@ import {
   StatefulPlugin,
   StateType
 } from '@edtr-io/core'
-import { rowsPlugin } from '@edtr-io/ui'
+import { Overlay, rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
+import { textPlugin } from '@edtr-io/plugin-text'
 
 const counterState = StateType.number(0)
 
@@ -41,7 +43,8 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
-  rows: rowsPlugin
+  rows: rowsPlugin,
+  text: textPlugin
 }
 
 // TODO: stringify correctly
@@ -50,12 +53,7 @@ storiesOf('EditorProvider', module).add('Counter', () => {
     plugin: 'counter'
   })
 
-  return (
-    <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
-      <LogState state={state} />
-      <UndoRedoButtons />
-    </Editor>
-  )
+  return <Story defaultPlugin="stateless" state={state} />
 })
 
 storiesOf('RowsPlugin', module)
@@ -66,24 +64,14 @@ storiesOf('RowsPlugin', module)
       )
     )
 
-    return (
-      <Editor plugins={plugins} defaultPlugin="counter" state={state}>
-        <LogState state={state} />
-        <UndoRedoButtons />
-      </Editor>
-    )
+    return <Story defaultPlugin="counter" state={state} />
   })
   .add('initial state', () => {
     const state = createDocument({
       plugin: 'rows'
     })
 
-    return (
-      <Editor plugins={plugins} defaultPlugin="counter" state={state}>
-        <LogState state={state} />
-        <UndoRedoButtons />
-      </Editor>
-    )
+    return <Story defaultPlugin="counter" state={state} />
   })
 
 export function LogState({ state }: { state: DocumentIdentifier }) {
@@ -109,7 +97,7 @@ export function LogState({ state }: { state: DocumentIdentifier }) {
   )
 }
 
-export function UndoRedoButtons() {
+export function UndoRedoButtons(props: { enablePersist?: boolean }) {
   const store = React.useContext(EditorContext)
   return (
     <React.Fragment>
@@ -131,6 +119,36 @@ export function UndoRedoButtons() {
       >
         Redo
       </button>
+      <button
+        onClick={() => {
+          store.dispatch({
+            type: ActionType.Persist,
+            commit: ActionCommitType.ForceCombine
+          })
+        }}
+        disabled={!props.enablePersist}
+      >
+        Mark persisted
+      </button>
     </React.Fragment>
+  )
+}
+
+export function Story(props: {
+  defaultPlugin: string
+  state: DocumentIdentifier
+}) {
+  const [changed, setChanged] = React.useState(false)
+  return (
+    <Editor
+      plugins={plugins}
+      defaultPlugin={props.defaultPlugin}
+      state={props.state}
+      changed={setChanged}
+    >
+      <LogState state={props.state} />
+      <Overlay />
+      <UndoRedoButtons enablePersist={changed} />
+    </Editor>
   )
 }

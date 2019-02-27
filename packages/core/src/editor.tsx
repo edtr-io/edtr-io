@@ -2,12 +2,14 @@ import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { Document, DocumentIdentifier } from './document'
 import { EditorContext } from './editor-context'
-import { ActionType, reducer } from './store'
+import { ActionType, BaseState, hasUnpersistedChanges, reducer } from './store'
 import { Plugin } from './plugin'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
-  const baseState = {
-    ...props,
+  const { plugins, defaultPlugin } = props
+  const baseState: BaseState = {
+    plugins,
+    defaultPlugin,
     documents: {}
   }
   const [state, dispatch] = React.useReducer(reducer, {
@@ -18,6 +20,10 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
       redoStack: []
     }
   })
+
+  if (props.changed) {
+    props.changed(hasUnpersistedChanges(state))
+  }
 
   return (
     <HotKeys
@@ -54,4 +60,5 @@ export interface EditorProps<K extends string = string> {
   plugins: Record<K, Plugin>
   defaultPlugin: K
   state: DocumentIdentifier
+  changed?: (changed: boolean) => void
 }

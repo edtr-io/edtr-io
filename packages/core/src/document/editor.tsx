@@ -157,7 +157,6 @@ export const DocumentEditor: React.FunctionComponent<
               store.dispatch({
                 type: ActionType.Insert,
                 payload: subDocument
-                // forceCommit: true
               })
               return subDocument
             }
