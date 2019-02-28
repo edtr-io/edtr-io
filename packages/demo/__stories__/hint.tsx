@@ -1,17 +1,17 @@
 import { createDocument, Editor, Plugin } from '@edtr-io/core'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
+import { hintPlugin } from '@edtr-io/plugin-hint'
+import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 
 const plugins: Record<string, Plugin<any>> = {
-  spoiler: spoilerPlugin,
+  hint: hintPlugin,
   blockquote: blockquotePlugin
 }
 
-storiesOf('SpoilerPlugin', module).add('Empty example', () => {
+storiesOf('HintPlugin', module).add('Empty example', () => {
   const state = createDocument({
-    plugin: 'spoiler'
+    plugin: 'hint'
   })
   return <Editor plugins={plugins} defaultPlugin="blockquote" state={state} />
 })

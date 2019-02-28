@@ -1,0 +1,20 @@
+{
+  "name": "@edtr-io/plugin-hint",
+  "version": "0.6.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
