@@ -11,6 +11,7 @@ module.exports = (baseConfig, env, config) => {
             alias: {
               '@edtr-io/core': '@edtr-io/core/src',
               '@edtr-io/ui': '@edtr-io/ui/src',
+              '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
               '@edtr-io/plugin-text': '@edtr-io/plugin-text/src'
             }
           }

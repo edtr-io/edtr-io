@@ -14,6 +14,7 @@
     "paths": {
       "@edtr-io/core": ["core/src"],
       "@edtr-io/ui": ["ui/src"],
+      "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"]
     }
   }

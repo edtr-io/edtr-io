@@ -11,8 +11,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
-    "ramda": "^0.26.0",
-    "styled-components": "^4.0.0"
+    "ramda": "^0.26.0"
   },
   "devDependencies": {
     "@types/ramda": "^0.26.0",
@@ -22,11 +21,13 @@
     "@types/styled-components": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.8.0-alpha"
+    "react-test-renderer": "^16.8.0",
+    "styled-components": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,7 +1,8 @@
 import * as R from 'ramda'
+import * as React from 'react'
 import { v4 } from 'uuid'
 
-import { ActionType, createDocument, DocumentIdentifier } from '.'
+import { ActionType, createDocument, Document, DocumentIdentifier } from '.'
 import { Action } from './store'
 
 /**
@@ -9,6 +10,14 @@ import { Action } from './store'
  * @param initialValue
  */
 export function boolean(initialValue = false) {
+  return scalar(initialValue)
+}
+
+/**
+ * Represents a string value
+ * @param initialValue
+ */
+export function string(initialValue = '') {
   return scalar(initialValue)
 }
 
@@ -48,6 +57,7 @@ export function child(options: { plugin?: string; state?: string } = {}) {
     $$insert: () => Action[]
     $$value: DocumentIdentifier
     value: { id: string; plugin?: string }
+    render: () => React.ReactNode
   } {
     const initial: DocumentIdentifier =
       s === undefined ? createDocument(options) : s
@@ -70,7 +80,11 @@ export function child(options: { plugin?: string; state?: string } = {}) {
         ]
       },
       $$value: serialized,
-      value
+      value,
+      // eslint-disable-next-line react/display-name
+      render: () => {
+        return <Document state={serialized} />
+      }
     }
   }
 }
