@@ -61,7 +61,7 @@ storiesOf('EditorProvider', module).add('Counter', () => {
   return <Story defaultPlugin="stateless" state={state} />
 })
 
-storiesOf('RowsPlugin', module)
+storiesOf('Rows Plugin', module)
   .add('Basic example', () => {
     const state = createDocument(
       JSON.parse(
@@ -71,7 +71,7 @@ storiesOf('RowsPlugin', module)
 
     return <Story defaultPlugin="counter" state={state} />
   })
-  .add('initial state', () => {
+  .add('Initial State', () => {
     const state = createDocument({
       plugin: 'rows'
     })

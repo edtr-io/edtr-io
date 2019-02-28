@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import { Story } from '.'
 
-storiesOf('Blockquote Plugin', module).add('Empty example', () => {
+storiesOf('Blockquote Plugin', module).add('Initial State', () => {
   const state = createDocument({
     plugin: 'blockquote'
   })
