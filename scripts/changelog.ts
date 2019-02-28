@@ -35,6 +35,8 @@ async function exec(): Promise<void> {
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
     },
     {
+      tagName: '0.2.1',
+      date: '2019-02-28',
       added: [
         'Added Rich-Text plugin',
         'Added Anchor plugin',
