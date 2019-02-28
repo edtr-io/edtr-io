@@ -33,6 +33,14 @@ async function exec(): Promise<void> {
       ],
       changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
+    },
+    {
+      added: [
+        'Slate Rich-Text plugin',
+        'Added Undo and Redo to reducer',
+        'Added Persist to reducer',
+        'Added `changed` callback to Editor. The callback is called on every Action passing a boolean if the content changed since the last `PersistAction` was dispatched.'
+      ]
     }
   ])
 
