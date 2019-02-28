@@ -253,9 +253,11 @@ function createStateContainer<T, S>(initialValue: T | undefined) {
     state = value
   }
 
+  const dispatch = () => {}
+
   return {
     get(): StateType.PluginStateParameters<T, S> {
-      return [initialValue, state, onChange]
+      return [initialValue, state, onChange, dispatch]
     },
     reset() {
       state = undefined
