@@ -3,9 +3,9 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import { Story } from '.'
 
-storiesOf('Spoiler Plugin', module).add('Empty example', () => {
+storiesOf('Anchor Plugin', module).add('Empty example', () => {
   const state = createDocument({
-    plugin: 'spoiler'
+    plugin: 'anchor'
   })
   return <Story state={state} />
 })
