@@ -10,6 +10,7 @@ import {
   StateType
 } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
+import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
@@ -44,6 +45,7 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const plugins: Record<string, Plugin<any>> = {
   anchor: anchorPlugin,
+  blockquote: blockquotePlugin,
   counter: counterPlugin,
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
@@ -59,7 +61,7 @@ storiesOf('EditorProvider', module).add('Counter', () => {
   return <Story defaultPlugin="stateless" state={state} />
 })
 
-storiesOf('RowsPlugin', module)
+storiesOf('Rows Plugin', module)
   .add('Basic example', () => {
     const state = createDocument(
       JSON.parse(
@@ -69,7 +71,7 @@ storiesOf('RowsPlugin', module)
 
     return <Story defaultPlugin="counter" state={state} />
   })
-  .add('initial state', () => {
+  .add('Initial State', () => {
     const state = createDocument({
       plugin: 'rows'
     })

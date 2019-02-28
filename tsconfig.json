@@ -16,6 +16,7 @@
       "@edtr-io/core": ["core/src"],
       "@edtr-io/ui": ["ui/src"],
       "@edtr-io/plugin-anchor": ["plugin-anchor/src"],
+      "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"]
     }

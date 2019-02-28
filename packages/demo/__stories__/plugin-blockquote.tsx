@@ -3,9 +3,9 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import { Story } from '.'
 
-storiesOf('Anchor Plugin', module).add('Initial State', () => {
+storiesOf('Blockquote Plugin', module).add('Initial State', () => {
   const state = createDocument({
-    plugin: 'anchor'
+    plugin: 'blockquote'
   })
   return <Story state={state} />
 })

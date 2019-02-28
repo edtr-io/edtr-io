@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react'
 import { Story } from '.'
 
 storiesOf('Text Plugin', module)
-  .add('Empty example', () => {
+  .add('Initial State', () => {
     const state = createDocument({
       plugin: 'rows'
     })
