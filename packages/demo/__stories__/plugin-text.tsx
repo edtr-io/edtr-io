@@ -3,7 +3,7 @@ import { createDocument } from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
 import { Story } from '.'
 
-storiesOf('TextPlugin', module)
+storiesOf('Text Plugin', module)
   .add('Empty example', () => {
     const state = createDocument({
       plugin: 'rows'
