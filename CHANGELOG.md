@@ -6,8 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Slate Rich-Text plugin
+- Added Rich-Text plugin
+- Added Anchor plugin
+- Added Blockquote plugin
+- Added Code Highlight plugin
+- Added Spoiler Plugin
 - Added Undo and Redo to reducer
+- Added Persist to reducer
+- Added `changed` callback to Editor. The callback is called on every Action passing a boolean if the content changed since the last `PersistAction` was dispatched.
 
 ## [0.2.0](https://github.com/edtr-io/edtr-io/compare/0.1.0..0.2.0) - February 18, 2019
 
