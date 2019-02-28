@@ -22,6 +22,7 @@
       "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-injection": ["plugin-injection/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
+      "@edtr-io/plugin-solution": ["plugin-solution/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"]
     }
   }
