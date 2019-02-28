@@ -11,6 +11,7 @@ import {
 } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
@@ -47,6 +48,7 @@ const plugins: Record<string, Plugin<any>> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   counter: counterPlugin,
+  highlight: highlightPlugin,
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
   text: textPlugin
