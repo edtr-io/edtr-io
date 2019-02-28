@@ -1,5 +1,5 @@
 import { GeogebraRenderer } from './renderer'
-// import { renderIntoSidebar, Input } from '@splish-me/editor-ui'
+//TODO: replace import { renderIntoSidebar, Input } from '@splish-me/editor-ui'
 import * as React from 'react'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { geogebraState } from '.'

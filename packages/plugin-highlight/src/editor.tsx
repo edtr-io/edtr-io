@@ -22,7 +22,7 @@ export const HighlightEditor = (
       {!editable ? (
         <HighlightRenderer {...props} />
       ) : (
-        <textarea
+        <Textarea
           value={state.value.text.value}
           name="text"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -30,7 +30,7 @@ export const HighlightEditor = (
           }}
         >
           {state.value.text.value}
-        </textarea>
+        </Textarea>
       )}
       {focused ? (
         // TODO: Render into overlay
@@ -40,7 +40,7 @@ export const HighlightEditor = (
           <input
             value={state.value.language.value || 'text'}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.value.text.set(e.target.value)
+              state.value.language.set(e.target.value)
             }}
             placeholder="enter"
           />

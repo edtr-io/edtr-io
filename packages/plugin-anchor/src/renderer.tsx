@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { anchorState } from '.'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
