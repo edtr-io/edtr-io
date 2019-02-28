@@ -53,7 +53,7 @@ export function reducer(state: BaseState | State, action: Action): State {
   }
 }
 
-let debounceTimeout: NodeJS.Timeout | null = null
+let debounceTimeout: number | null = null
 function commit(state: State, action: Undoable): State['history'] {
   if (action.commit !== ActionCommitType.ForceCommit) {
     if (debounceTimeout) {

@@ -61,5 +61,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "resolutions": {
+    "@types/slate": "^0.43.0"
+  }
 }
