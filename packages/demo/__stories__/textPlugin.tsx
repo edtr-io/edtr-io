@@ -1,15 +1,7 @@
 import * as React from 'react'
-import { createDocument, Editor, Plugin } from '@edtr-io/core'
+import { createDocument } from '@edtr-io/core'
 import { storiesOf } from '@storybook/react'
-import { textPlugin } from '@edtr-io/plugin-text'
-import { Overlay, rowsPlugin } from '@edtr-io/ui'
-import { LogState, UndoRedoButtons } from '.'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const plugins: Record<string, Plugin<any>> = {
-  text: textPlugin,
-  rows: rowsPlugin
-}
+import { Story } from '.'
 
 storiesOf('TextPlugin', module)
   .add('Empty example', () => {
@@ -17,13 +9,7 @@ storiesOf('TextPlugin', module)
       plugin: 'rows'
     })
 
-    return (
-      <Editor plugins={plugins} defaultPlugin="text" state={state}>
-        <LogState state={state} />
-        <Overlay />
-        <UndoRedoButtons />
-      </Editor>
-    )
+    return <Story defaultPlugin="text" state={state} />
   })
   .add('Prefilled', () => {
     const state = createDocument(
@@ -32,11 +18,5 @@ storiesOf('TextPlugin', module)
       )
     )
 
-    return (
-      <Editor plugins={plugins} defaultPlugin="text" state={state}>
-        <LogState state={state} />
-        <Overlay />
-        <UndoRedoButtons />
-      </Editor>
-    )
+    return <Story defaultPlugin="text" state={state} />
   })

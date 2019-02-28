@@ -1,14 +1,19 @@
+import * as R from 'ramda'
 import { plugins } from '../../__fixtures__/plugins'
 import {
+  ActionCommitType,
   ActionType,
+  BaseState,
   ChangeAction,
   getDocument,
   getDocuments,
+  hasPendingChanges,
   isFocused,
+  PersistAction,
   reducer,
   serializeDocument,
-  BaseState,
-  State
+  State,
+  Undoable
 } from '../../src/store'
 import { createDocument } from '../../src'
 
@@ -335,7 +340,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 1 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -349,7 +354,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 2 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
 
     expect(state.history.redoStack).toHaveLength(0)
@@ -384,7 +389,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 4 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     expect(state.history.actions).toHaveLength(2)
     state = reducer(state, {
@@ -408,7 +413,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 1 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     state = reducer(state, {
       type: ActionType.Change,
@@ -416,7 +421,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 2 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -439,7 +444,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 1 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     state = reducer(state, {
       type: ActionType.Change,
@@ -447,7 +452,7 @@ describe('history', () => {
         id: '0',
         state: () => ({ counter: 2 })
       },
-      forceCommit: true
+      commit: ActionCommitType.ForceCommit
     })
     state = reducer(state, {
       type: ActionType.Undo
@@ -498,13 +503,124 @@ describe('history', () => {
   })
 })
 
+describe('persist', () => {
+  test('hasPendingChanges returns false at start and after persist', () => {
+    expect(hasPendingChanges(state)).toEqual(false)
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      commit: ActionCommitType.ForceCommit
+    })
+
+    expect(hasPendingChanges(state)).toEqual(true)
+
+    state = reducer(state, {
+      type: ActionType.Persist
+    })
+
+    expect(hasPendingChanges(state)).toEqual(false)
+  })
+
+  test('undo/redo after persist work', () => {
+    const insertAction: Undoable = {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    }
+    const changeAction: Undoable = {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+
+    const persistAction: PersistAction = {
+      type: ActionType.Persist
+    }
+
+    state = reducer(state, insertAction)
+    const stateBeforeChange = { ...state }
+    state = reducer(state, changeAction)
+    state = reducer(state, persistAction)
+    const stateAfterPersist = { ...state }
+
+    // check undo
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+    expect(hasPendingChanges(state)).toEqual(true)
+    expect(R.omit(['history'], state)).toEqual(
+      R.omit(['history'], stateBeforeChange)
+    )
+    expect(state.history.redoStack).toHaveLength(1)
+
+    //check redos
+    state = reducer(state, {
+      type: ActionType.Redo
+    })
+
+    expect(state).toEqual(stateAfterPersist)
+  })
+
+  test("persist doesn't remove redos", () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    })
+    state = reducer(state, {
+      type: ActionType.Change,
+      payload: {
+        id: '0',
+        state: () => ({ counter: 1 })
+      },
+      commit: ActionCommitType.ForceCommit
+    })
+
+    state = reducer(state, {
+      type: ActionType.Undo
+    })
+
+    expect(hasPendingChanges(state)).toEqual(true)
+    expect(state.history.redoStack).toHaveLength(1)
+    const redoStack = [...state.history.redoStack]
+
+    state = reducer(state, {
+      type: ActionType.Persist
+    })
+
+    expect(hasPendingChanges(state)).toEqual(false)
+    expect(state.history.redoStack).toEqual(redoStack)
+  })
+})
+
 function createInitialState(baseState: BaseState): State {
   return {
     ...baseState,
     history: {
       initialState: baseState,
       actions: [],
-      redoStack: []
+      redoStack: [],
+      pending: 0
     }
   }
 }

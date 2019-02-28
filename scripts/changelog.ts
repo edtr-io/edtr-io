@@ -37,7 +37,9 @@ async function exec(): Promise<void> {
     {
       added: [
         'Slate Rich-Text plugin',
-        'Added Undo and Redo to reducer'
+        'Added Undo and Redo to reducer',
+        'Added Persist to reducer',
+        'Added `changed` callback to Editor. The callback is called on every Action passing a boolean if the content changed since the last `PersistAction` was dispatched.'
       ]
     }
   ])
