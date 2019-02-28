@@ -12,6 +12,7 @@ module.exports = (baseConfig, env, config) => {
               '@edtr-io/core': '@edtr-io/core/src',
               '@edtr-io/ui': '@edtr-io/ui/src',
               '@edtr-io/plugin-anchor': '@edtr-io/plugin-anchor/src',
+              '@edtr-io/plugin-blockquote': '@edtr-io/plugin-blockquote/src',
               '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
               '@edtr-io/plugin-text': '@edtr-io/plugin-text/src'
             }
