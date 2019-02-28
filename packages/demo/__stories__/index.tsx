@@ -12,6 +12,7 @@ import {
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
+import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 
 const counterState = StateType.number(0)
@@ -43,6 +44,7 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
   rows: rowsPlugin,
+  spoiler: spoilerPlugin,
   text: textPlugin
 }
 
@@ -133,14 +135,14 @@ export function UndoRedoButtons(props: { enablePersist?: boolean }) {
 }
 
 export function Story(props: {
-  defaultPlugin: string
+  defaultPlugin?: string
   state: DocumentIdentifier
 }) {
   const [changed, setChanged] = React.useState(false)
   return (
     <Editor
       plugins={plugins}
-      defaultPlugin={props.defaultPlugin}
+      defaultPlugin={props.defaultPlugin || 'text'}
       state={props.state}
       changed={setChanged}
     >
