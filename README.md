@@ -10,7 +10,7 @@
 Edtr.io is a WYSIWYG in-line web editor written in React.<br>
 Content created with edtr.io looks just like the final page -<br>
 select any editable element on the page, edit it in-place or drag ’n’ drop it around.<br>
-Its plugin architecture makes edtr.io lean AND adapt to any use case at the same time.<br>
+Its plugin architecture makes edtr.io lean AND adaptable to any use case at the same time.<br>
 Edtr.io is of course Open Source.<br>
 </p>
 <p><br><br></p>
@@ -19,7 +19,7 @@ Edtr.io is of course Open Source.<br>
 
 Edtr.io is backed by Open Education heavyweights: serlo.org and the HPI Schul-Cloud, and supported by Splish.
 
-It has been born from the needs of the learning platform [serlo.org](https://serlo.org/) and builds on the original work of Serlo’s co-founder und CTO [Aeneas Rekkas](https://github.com/aeneasr). Serlo.org is inspired by Wikipedia and already provides thousands of articles, videos and exercises for one million German students every month. Serlo.org is growing steadily. In 2018, the platform went international.
+It has been born from the needs of the learning platform [serlo.org](https://serlo.org/) and builds on the original work of Serlo’s co-founder and CTO [Aeneas Rekkas](https://github.com/aeneasr). Serlo.org is inspired by Wikipedia and already provides thousands of articles, videos and exercises for one million German students every month. Serlo.org is growing steadily. In 2018, the platform went international.
 
 In 2019, Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide.
 
@@ -109,7 +109,7 @@ Edtr.io is currently in a phase of intense development. Features are added by th
 
 ## Contacts
 
-Case you want to use the editor for the education sector,\
+In case you want to use the editor for the education sector,\
  contact [serlo.org](mailto:de@serlo.org)
 
 Commercial support is available through Splish. For all questions on the editor, for commercial integration, or in case you need a partner for plugin development,\
