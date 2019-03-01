@@ -19,7 +19,7 @@ module.exports = {
 
     // @typescript-eslint/eslint-plugin
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/member-ordering': 'error',
+    '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/no-extraneous-class': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-this-alias': 'warning',

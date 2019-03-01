@@ -15,7 +15,7 @@ export const Document: React.FunctionComponent<DocumentProps> = ({
 
 export interface DocumentProps {
   render?: (children: React.ReactNode) => React.ReactNode
-  state: DocumentIdentifier
+  id: string
 }
 
 export function isDocumentIdentifier(
