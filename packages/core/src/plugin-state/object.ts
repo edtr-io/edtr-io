@@ -28,26 +28,22 @@ export function object<Ds extends Record<string, StateDescriptor<any>>>(
         updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
       ) => void
     ) => {
-      const passed: U = R.mapObjIndexed((type, key) => {
-        function innerOnChange(
-          updater: (
-            oldValue: StateDescriptorReturnType<typeof type>,
-            helpers: StoreDeserializeHelpers
-          ) => StateDescriptorReturnType<typeof type>
-        ): void {
-          onChange((oldObj, helpers) =>
-            R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
-          )
-        }
-        return type(initialValue[key], innerOnChange)
-      }, types) as U
+      const getObject = (): U =>
+        R.mapObjIndexed((type, key) => {
+          function innerOnChange(
+            updater: (
+              oldValue: StateDescriptorReturnType<typeof type>,
+              helpers: StoreDeserializeHelpers
+            ) => StateDescriptorReturnType<typeof type>
+          ): void {
+            onChange((oldObj, helpers) =>
+              R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
+            )
+          }
+          return type(initialValue[key], innerOnChange)
+        }, types) as U
 
-      // return Object.assign(() => {
-      //   return passed
-      // }, passed)
-      return Object.assign(() => {
-        return passed
-      }, passed)
+      return Object.assign(getObject, getObject())
     },
     {
       createInitialState(helpers: StoreDeserializeHelpers): T {
