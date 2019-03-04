@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
@@ -18,7 +17,9 @@ export function child<K extends string, S = unknown>(
   {
     (): string
     id: string
-    render: () => React.ReactNode
+    render: (
+      callback?: (children: React.ReactNode) => React.ReactNode
+    ) => React.ReactNode
   }
 > {
   return Object.assign(
@@ -26,8 +27,8 @@ export function child<K extends string, S = unknown>(
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
-        render: () => {
-          return <Document id={id} />
+        render: (callback?: (children: React.ReactNode) => React.ReactNode) => {
+          return <Document key={id} state={{ id }} render={callback} />
         }
       })
     },
@@ -53,7 +54,7 @@ export function child<K extends string, S = unknown>(
         if (document === null) {
           throw new Error('There exists no document with the given id')
         }
-        return R.omit(['id'], document)
+        return document
       }
     }
   )

@@ -198,13 +198,11 @@ describe('serialize', () => {
         id: '0',
         plugin: 'nested',
         state: {
-          child: createDocument({
-            id: '1'
-          })
+          child: '1'
         }
       }
     })
-    // Note: this would usually be done automatically when rendering a <Document />
+    // Note: this would usually be done automatically when using a StoreDeserializeHelper
     state = reducer(state, {
       type: ActionType.Insert,
       payload: {
@@ -218,7 +216,6 @@ describe('serialize', () => {
       plugin: 'nested',
       state: {
         child: {
-          type: '@edtr-io/document',
           plugin: 'stateful',
           state: { counter: 0 }
         }
@@ -233,11 +230,7 @@ describe('serialize', () => {
         id: '0',
         plugin: 'nestedArray',
         state: {
-          children: [
-            createDocument({
-              id: '1'
-            })
-          ]
+          children: [{ id: 'foo', value: '1' }]
         }
       }
     })
@@ -256,7 +249,6 @@ describe('serialize', () => {
       state: {
         children: [
           {
-            type: '@edtr-io/document',
             plugin: 'stateful',
             state: { counter: 0 }
           }

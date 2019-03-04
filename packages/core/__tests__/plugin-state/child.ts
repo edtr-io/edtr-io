@@ -74,7 +74,6 @@ describe('Child', () => {
       getDocument(id: string) {
         if (id === 'foo') {
           return {
-            id,
             plugin: 'counter',
             state: 0
           }

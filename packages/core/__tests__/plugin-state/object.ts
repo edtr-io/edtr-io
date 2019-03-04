@@ -74,7 +74,6 @@ describe('object', () => {
       state.serialize(deserialized, {
         getDocument(id: string) {
           return {
-            id,
             plugin: 'counter',
             state: id === 'foo' ? 0 : 1
           }

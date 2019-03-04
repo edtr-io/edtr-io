@@ -1,7 +1,8 @@
 import * as R from 'ramda'
 
-import { isDocumentIdentifier, SerializedDocument } from '../document'
-import { isStatefulPlugin, Plugin } from '../plugin'
+import { SerializedDocument } from '../document'
+import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../plugin'
+import { StateDescriptor, StoreSerializeHelpers } from '../plugin-state'
 
 export enum ActionType {
   Insert = 'Insert',
@@ -14,7 +15,8 @@ export enum ActionType {
   ResetHistory = 'ResetHistory'
 }
 export enum ActionCommitType {
-  ForceCommit = 'ForceCommit'
+  ForceCommit = 'ForceCommit',
+  ForceCombine = 'ForceCombine'
 }
 
 export function reducer(state: BaseState | State, action: Action): State {
@@ -55,6 +57,39 @@ export function reducer(state: BaseState | State, action: Action): State {
 
 let debounceTimeout: number | null = null
 function commit(state: State, action: Undoable): State['history'] {
+  if (action.commit === ActionCommitType.ForceCombine) {
+    if (state.history.actions.length) {
+      return {
+        ...state.history,
+        // @ts-ignore
+        actions: R.adjust(-1, R.append(action), state.history.actions),
+        pending: state.history.pending + 1
+      }
+    } else if (
+      hasHistory(state.history.initialState) &&
+      state.history.initialState.history.actions.length
+    ) {
+      return {
+        initialState: {
+          ...state.history.initialState,
+          history: {
+            ...state.history.initialState.history,
+            actions: R.adjust(
+              // @ts-ignore
+              -1,
+              R.append(action),
+              state.history.initialState.history.actions
+            ),
+            pending: state.history.pending + 1
+          }
+        },
+        actions: [],
+        redoStack: [],
+        pending: state.history.pending + 1
+      }
+    }
+  }
+
   if (action.commit !== ActionCommitType.ForceCommit) {
     if (debounceTimeout) {
       clearTimeout(debounceTimeout)
@@ -359,31 +394,20 @@ export function serializeDocument(
     return null
   }
 
+  const plugin = getPlugin(state, document.plugin)
+
+  if (!plugin) {
+    return null
+  }
+
+  const serializeHelpers: StoreSerializeHelpers = {
+    getDocument: (id: string) => getDocument(state, id)
+  }
   return {
     type: '@edtr-io/document',
     plugin: document.plugin,
-    ...(document.state === undefined
+    ...(isStatelessPlugin<StateDescriptor<any>>(plugin)
       ? {}
-      : { state: serializeState(document.state) })
-  }
-
-  function serializeState(
-    pluginState: PluginState['state']
-  ): PluginState['state'] {
-    if (pluginState instanceof Object) {
-      return R.map(
-        (value: unknown) => {
-          if (isDocumentIdentifier(value)) {
-            return serializeDocument(state, value.id)
-          }
-
-          return serializeState(value)
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        pluginState as any
-      )
-    }
-
-    return pluginState
+      : { state: plugin.state.serialize(document.state, serializeHelpers) })
   }
 }

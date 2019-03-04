@@ -6,7 +6,7 @@ export interface StoreDeserializeHelpers<
 }
 
 export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
-  getDocument(id: string): { id: string; plugin: K; state?: S } | null
+  getDocument(id: string): { plugin: K; state?: S } | null
 }
 
 export interface StateDescriptor<S, T = S, R = unknown> {

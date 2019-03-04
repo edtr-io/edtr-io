@@ -1,4 +1,5 @@
-import { Document, StatefulPluginEditorProps } from '@edtr-io/core'
+import { EditorContext, StatefulPluginEditorProps } from '@edtr-io/core'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { Icon, faPlus, faTrashAlt, styled, rowsState } from '..'
@@ -44,6 +45,19 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
   width: '20px'
 })
 
+const AddMenuContainer = styled.div({
+  margin: '0 auto',
+  position: 'absolute',
+  backgroundColor: 'rgb(51,51,51,0.95)',
+  display: 'flex',
+  padding: '20px',
+  width: '20%',
+  left: '40%',
+  flexFlow: 'row wrap',
+  justifyContent: 'space-around',
+  zIndex: 100
+})
+
 const Add: React.FunctionComponent<{
   onClick: () => void
 }> = props => (
@@ -68,6 +82,10 @@ export const RowsPlugin = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
+  const [popup, setPopup] = React.useState<
+    { index: number; onClose: (plugin: string) => void } | undefined
+  >(undefined)
+  const store = React.useContext(EditorContext)
   return (
     <React.Fragment>
       <TopFloatingButtonContainer>
@@ -80,21 +98,43 @@ export const RowsPlugin = (
         </FloatingButton>
       </TopFloatingButtonContainer>
       {rows.items.map((row, index) => {
-        return (
-          <Document
-            key={row.value.id}
-            state={row.$$value}
-            render={children => {
-              return (
-                <div style={{ position: 'relative' }}>
-                  <Add onClick={() => rows.insert(index + 1)} />
-                  <Remove onClick={() => rows.remove(index)} />
-                  {children}
-                </div>
-              )
-            }}
-          />
-        )
+        return row.render(children => {
+          return (
+            <div style={{ position: 'relative' }}>
+              {popup && popup.index === index ? (
+                <AddMenuContainer>
+                  {R.map(plugin => {
+                    return (
+                      <button
+                        key={plugin}
+                        onClick={() => {
+                          popup.onClose(plugin)
+                        }}
+                      >
+                        {plugin}
+                      </button>
+                    )
+                  }, R.keys(store.state.plugins))}
+                </AddMenuContainer>
+              ) : null}
+              <Add
+                onClick={() =>
+                  setPopup({
+                    index,
+                    onClose: (plugin: string) => {
+                      rows.insert(index + 1, {
+                        plugin: plugin
+                      })
+                      setPopup(undefined)
+                    }
+                  })
+                }
+              />
+              <Remove onClick={() => rows.remove(index)} />
+              {children}
+            </div>
+          )
+        })
       })}
     </React.Fragment>
   )

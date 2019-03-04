@@ -8,8 +8,14 @@ import {
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '../plugin'
-import { Action, ActionType, getDocument, getPlugin, isFocused } from '../store'
-import { isSerializedDocument } from '.'
+import {
+  ActionType,
+  getDefaultPlugin,
+  getDocument,
+  getPlugin,
+  isFocused
+} from '../store'
+import { StateDescriptor, StoreDeserializeHelpers } from '../plugin-state'
 
 export const createDocument = (
   options: Partial<Pick<DocumentIdentifier, 'id' | 'plugin' | 'state'>> & {
@@ -17,7 +23,7 @@ export const createDocument = (
   } = {}
 ): DocumentIdentifier => {
   return {
-    $$typeof: '@edtr-io/document',
+    // $$typeof: '@edtr-io/document',
     id: options.id || v4(),
     plugin: options.plugin,
     state: options.state
@@ -29,81 +35,46 @@ export const DocumentEditor: React.FunctionComponent<
 > = props => {
   const container = React.useRef<HTMLDivElement>(null)
 
-  const identifier = props.state
+  const identifier = props.state || createDocument()
   const { id } = identifier
 
   const store = React.useContext(EditorContext)
 
-  React.useEffect(() => {
-    if (!getDocument(store.state, id)) {
+  const deserializeHelpers: StoreDeserializeHelpers = {
+    createDocument(document: {
+      id: string
+      plugin?: string
+      state?: unknown
+    }): void {
       const plugin = getPlugin(
         store.state,
-        identifier.plugin || store.state.defaultPlugin
+        document.plugin || getDefaultPlugin(store.state)
       )
-
-      if (plugin && isStatefulPlugin(plugin)) {
-        const state = plugin.state(
-          deserializeDocument(identifier).state,
-          undefined,
-          () => {}
-        )
-
-        store.dispatch({
-          type: ActionType.Insert,
-          payload: {
-            ...identifier,
-            plugin: identifier.plugin || store.state.defaultPlugin,
-            state: state.$$value
-          }
-        })
-      } else {
-        store.dispatch({
-          type: ActionType.Insert,
-          payload: {
-            ...identifier,
-            plugin: identifier.plugin || store.state.defaultPlugin
-          }
-        })
-      }
+      store.dispatch({
+        type: ActionType.Insert,
+        payload: {
+          id: document.id,
+          plugin: document.plugin || getDefaultPlugin(store.state),
+          ...(plugin && isStatefulPlugin<StateDescriptor<any>>(plugin)
+            ? {
+                state: document.state
+                  ? plugin.state.deserialize(document.state, deserializeHelpers)
+                  : plugin.state.createInitialState(deserializeHelpers)
+              }
+            : {})
+        }
+      })
+    }
+  }
+  React.useEffect(() => {
+    if (!getDocument(store.state, id)) {
+      deserializeHelpers.createDocument(identifier)
       store.dispatch({
         type: ActionType.ResetHistory
       })
     }
-  }, [identifier])
+  }, [identifier, store.state])
   const document = getDocument(store.state, id)
-  const [pluginState, setPluginState] = React.useState(null)
-
-  React.useEffect(() => {
-    if (document) {
-      const plugin = getPlugin(store.state, document.plugin)
-
-      if (plugin && isStatefulPlugin(plugin)) {
-        const onChange = (param: unknown | ((value: unknown) => void)) => {
-          let stateHandler: (value: unknown) => unknown
-          if (typeof param === 'function') {
-            stateHandler = param as ((value: unknown) => unknown)
-          } else {
-            stateHandler = () => param
-          }
-
-          store.dispatch({
-            type: ActionType.Change,
-            payload: {
-              id,
-              state: stateHandler
-            }
-          })
-        }
-        const dispatch = (actions: Action[]) => {
-          R.forEach(store.dispatch, actions)
-        }
-        setPluginState(
-          plugin.state(identifier.state, document.state, onChange, dispatch)
-        )
-      }
-    }
-  }, [identifier.state, document, store.state])
-
   if (!document) {
     return null
   }
@@ -117,6 +88,22 @@ export const DocumentEditor: React.FunctionComponent<
     return null
   }
 
+  let state: unknown
+  if (isStatefulPlugin<StateDescriptor<any>>(plugin)) {
+    const onChange = (
+      updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
+    ) => {
+      const updated = updater(document.state, deserializeHelpers)
+      store.dispatch({
+        type: ActionType.Change,
+        payload: {
+          id,
+          state: () => updated
+        }
+      })
+    }
+    state = plugin.state(document.state, onChange)
+  }
   const Comp = plugin.Component as React.ComponentType<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     StatefulPluginEditorProps<any> | StatelessPluginEditorProps
@@ -125,54 +112,15 @@ export const DocumentEditor: React.FunctionComponent<
   const render = props.render || R.identity
   const focused = isFocused(store.state, id)
 
-  if (!pluginState) {
-    return null
-  }
-
   return (
     <React.Fragment>
       {render(
         <div onMouseDown={handleFocus} ref={container} data-document>
-          <Comp editable focused={focused} state={pluginState} />
+          <Comp editable focused={focused} state={state} />
         </div>
       )}
     </React.Fragment>
   )
-
-  function deserializeDocument(
-    document: DocumentIdentifier
-  ): DocumentIdentifier {
-    return {
-      ...document,
-      state: deserializeState(document.state)
-    }
-
-    function deserializeState(pluginState: unknown): unknown {
-      if (pluginState instanceof Object) {
-        return R.map(
-          (value: unknown) => {
-            if (isSerializedDocument(value)) {
-              const subDocument = createDocument({
-                plugin: value.plugin,
-                state: deserializeState(value.state)
-              })
-              store.dispatch({
-                type: ActionType.Insert,
-                payload: subDocument
-              })
-              return subDocument
-            }
-
-            return deserializeState(value)
-          },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          pluginState as any
-        )
-      }
-
-      return pluginState
-    }
-  }
 
   function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
     // Find closest document
@@ -189,11 +137,11 @@ export const DocumentEditor: React.FunctionComponent<
 
 export interface DocumentEditorProps {
   render?: (children: React.ReactNode) => React.ReactNode
-  state: DocumentIdentifier
+  state?: DocumentIdentifier
+  id?: string
 }
 
 export interface DocumentIdentifier {
-  $$typeof: '@edtr-io/document'
   id: string
   plugin?: string
   state?: unknown

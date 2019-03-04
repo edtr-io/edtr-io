@@ -19,7 +19,7 @@ export function list<S, T = S, R = unknown>(
   {
     (): R[]
     items: R[]
-    insert: (index?: number) => void
+    insert: (index?: number, options?: S) => void
     remove: (index: number) => void
   }
 > {
@@ -59,11 +59,16 @@ export function list<S, T = S, R = unknown>(
 
       return Object.assign(getItems, {
         items: getItems(),
-        insert(index?: number) {
+        insert(index?: number, options?: S) {
           onChange((items, helpers) => {
+            const wrappedSubstate = wrap(
+              options
+                ? type.deserialize(options, helpers)
+                : type.createInitialState(helpers)
+            )
             return R.insert(
               index === undefined ? items.length : index,
-              wrap(type.createInitialState(helpers)),
+              wrappedSubstate,
               items
             )
           })

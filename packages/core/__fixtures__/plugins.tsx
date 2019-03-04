@@ -11,13 +11,13 @@ export const plugins = {
   nested: {
     Component: () => null,
     state: StateType.object({
-      child: StateType.child({ plugin: 'stateful' })
+      child: StateType.child('stateful')
     })
   },
   nestedArray: {
     Component: () => null,
     state: StateType.object({
-      children: StateType.list(StateType.child({ plugin: 'stateful' }), 1)
+      children: StateType.list(StateType.child('stateful'), 1)
     })
   }
 }
