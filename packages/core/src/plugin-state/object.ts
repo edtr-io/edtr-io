@@ -9,7 +9,7 @@ import {
   StateDescriptorsSerializedType
 } from './types'
 
-export function object<Ds extends Record<string, StateDescriptor<any>>>(
+export function object<Ds extends Record<string, StateDescriptor>>(
   types: Ds
 ): StateDescriptor<
   StateDescriptorsSerializedType<Ds>,

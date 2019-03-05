@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import * as React from 'react'
 import { v4 } from 'uuid'
 
@@ -15,7 +14,7 @@ import {
   getPlugin,
   isFocused
 } from '../store'
-import { StateDescriptor, StoreDeserializeHelpers } from '../plugin-state'
+import { StoreDeserializeHelpers } from '../plugin-state'
 
 export const createDocument = (
   options: Partial<Pick<DocumentIdentifier, 'id' | 'plugin' | 'state'>> & {
@@ -23,7 +22,6 @@ export const createDocument = (
   } = {}
 ): DocumentIdentifier => {
   return {
-    // $$typeof: '@edtr-io/document',
     id: options.id || v4(),
     plugin: options.plugin,
     state: options.state
@@ -46,20 +44,23 @@ export const DocumentEditor: React.FunctionComponent<
       plugin?: string
       state?: unknown
     }): void {
-      const plugin = getPlugin(
-        store.state,
-        document.plugin || getDefaultPlugin(store.state)
-      )
+      const pluginName = document.plugin || getDefaultPlugin(store.state)
+      const plugin = getPlugin(store.state, pluginName)
+
       store.dispatch({
         type: ActionType.Insert,
         payload: {
           id: document.id,
-          plugin: document.plugin || getDefaultPlugin(store.state),
-          ...(plugin && isStatefulPlugin<StateDescriptor<any>>(plugin)
+          plugin: pluginName,
+          ...(plugin && isStatefulPlugin(plugin)
             ? {
-                state: document.state
-                  ? plugin.state.deserialize(document.state, deserializeHelpers)
-                  : plugin.state.createInitialState(deserializeHelpers)
+                state:
+                  document.state === undefined
+                    ? plugin.state.createInitialState(deserializeHelpers)
+                    : plugin.state.deserialize(
+                        document.state,
+                        deserializeHelpers
+                      )
               }
             : {})
         }
@@ -89,7 +90,7 @@ export const DocumentEditor: React.FunctionComponent<
   }
 
   let state: unknown
-  if (isStatefulPlugin<StateDescriptor<any>>(plugin)) {
+  if (isStatefulPlugin(plugin)) {
     const onChange = (
       updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
     ) => {
@@ -109,16 +110,13 @@ export const DocumentEditor: React.FunctionComponent<
     StatefulPluginEditorProps<any> | StatelessPluginEditorProps
   >
 
-  const render = props.render || R.identity
   const focused = isFocused(store.state, id)
 
   return (
     <React.Fragment>
-      {render(
-        <div onMouseDown={handleFocus} ref={container} data-document>
-          <Comp editable focused={focused} state={state} />
-        </div>
-      )}
+      <div onMouseDown={handleFocus} ref={container} data-document>
+        <Comp editable focused={focused} state={state} />
+      </div>
     </React.Fragment>
   )
 
@@ -136,7 +134,6 @@ export const DocumentEditor: React.FunctionComponent<
 }
 
 export interface DocumentEditorProps {
-  render?: (children: React.ReactNode) => React.ReactNode
   state?: DocumentIdentifier
   id?: string
 }

@@ -27,8 +27,8 @@ export function child<K extends string, S = unknown>(
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
-        render: (callback?: (children: React.ReactNode) => React.ReactNode) => {
-          return <Document key={id} state={{ id }} render={callback} />
+        render: () => {
+          return <Document key={id} state={{ id }} />
         }
       })
     },

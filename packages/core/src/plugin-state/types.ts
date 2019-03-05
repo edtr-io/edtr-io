@@ -9,7 +9,8 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
   getDocument(id: string): { plugin: K; state?: S } | null
 }
 
-export interface StateDescriptor<S, T = S, R = unknown> {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface StateDescriptor<S = any, T = S, R = unknown> {
   (
     value: T,
     onChange: (
@@ -31,7 +32,6 @@ export type StateDescriptorsSerializedType<
 
 export type StateDescriptorValueType<
   D extends StateDescriptor<any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = D extends StateDescriptor<any, infer T, any> ? T : never
 
 export type StateDescriptorsValueType<
@@ -40,9 +40,9 @@ export type StateDescriptorsValueType<
 
 export type StateDescriptorReturnType<
   D extends StateDescriptor<any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = D extends StateDescriptor<any, any, infer R> ? R : never
 
 export type StateDescriptorsReturnType<
   Ds extends Record<string, StateDescriptor<any>>
 > = { [K in keyof Ds]: StateDescriptorReturnType<Ds[K]> }
+/* eslint-enable @typescript-eslint/no-explicit-any */

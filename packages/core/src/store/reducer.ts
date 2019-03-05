@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { SerializedDocument } from '../document'
 import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../plugin'
-import { StateDescriptor, StoreSerializeHelpers } from '../plugin-state'
+import { StoreSerializeHelpers } from '../plugin-state'
 
 export enum ActionType {
   Insert = 'Insert',
@@ -355,11 +355,7 @@ export function getDocument(state: State, id: string): PluginState | null {
   return getDocuments(state)[id] || null
 }
 
-export function getPlugin(
-  state: State,
-  type: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Plugin<any> | null {
+export function getPlugin(state: State, type: string): Plugin | null {
   const plugins = getPlugins(state)
 
   return plugins[type] || null
@@ -371,8 +367,7 @@ export function getDefaultPlugin(state: State): PluginType {
 
 export function getPlugins<K extends string = string>(
   state: State
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Record<K, Plugin<any>> {
+): Record<K, Plugin> {
   return state.plugins
 }
 
@@ -406,7 +401,7 @@ export function serializeDocument(
   return {
     type: '@edtr-io/document',
     plugin: document.plugin,
-    ...(isStatelessPlugin<StateDescriptor<any>>(plugin)
+    ...(isStatelessPlugin(plugin)
       ? {}
       : { state: plugin.state.serialize(document.state, serializeHelpers) })
   }
