@@ -47,6 +47,19 @@ async function exec(): Promise<void> {
         'Added Persist to reducer',
         'Added `changed` callback to Editor. The callback is called on every Action passing a boolean if the content changed since the last `PersistAction` was dispatched.'
       ]
+    },
+    {
+      added: [
+        'Added a menu for selecting a plugin on insert to rows plugin',
+        'State Descriptors uniformly return their value/items/object by invoking the state.',
+        'Expose render on child State Descriptor'
+      ],
+      changed: [
+        'removed type: `@edtr-io/document` from DocumentIdentifier',
+      ],
+      breakingChanges: [
+        'Removed `value` property from `StateType.object`. The values are now exposed directly on `[key]`.'
+      ]
     }
   ])
 

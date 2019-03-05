@@ -31,7 +31,7 @@ export function serializedScalar<S, T>(
   {
     (): T
     value: T
-    set(updater: (oldValue: T) => T): void
+    set(value: T | ((currentValue: T) => T)): void
   }
 > {
   return Object.assign(
@@ -43,9 +43,14 @@ export function serializedScalar<S, T>(
     ) => {
       return Object.assign(() => value, {
         value,
-        set(updater: (oldValue: T) => T) {
-          onChange((oldValue: T) => {
-            return updater(oldValue)
+        set(param: T | ((currentValue: T) => T)) {
+          onChange((currentValue: T) => {
+            if (typeof param === 'function') {
+              const updater = param as ((currentValue: T) => T)
+              return updater(currentValue)
+            } else {
+              return param
+            }
           })
         }
       })

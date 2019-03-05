@@ -26,7 +26,7 @@ export const HighlightEditor = (
           value={state.text.value}
           name="text"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            state.text.set(() => e.target.value)
+            state.text.set(e.target.value)
           }}
         >
           {state.text.value}
@@ -39,7 +39,7 @@ export const HighlightEditor = (
           <input
             value={state.language.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.language.set(() => e.target.value)
+              state.language.set(e.target.value)
             }}
             placeholder="enter"
           />
@@ -56,7 +56,7 @@ export const HighlightEditor = (
           <input
             type="checkbox"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.lineNumbers.set(() => e.target.checked)
+              state.lineNumbers.set(e.target.checked)
             }}
             checked={state.lineNumbers.value}
           />

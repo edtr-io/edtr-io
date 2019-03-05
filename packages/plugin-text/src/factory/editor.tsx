@@ -26,7 +26,7 @@ export const createTextEditor = (
           next()
         }}
         onChange={editor => {
-          props.state.set(() => editor.value)
+          props.state.set(editor.value)
         }}
         placeholder={options.placeholder}
         plugins={options.plugins}
