@@ -31,8 +31,6 @@ export function isStatefulPlugin<S extends StateDescriptor>(
   return typeof (plugin as StatefulPlugin<S>).state !== 'undefined'
 }
 
-export function isStatelessPlugin<S extends StateDescriptor>(
-  plugin: Plugin<S>
-): plugin is StatelessPlugin {
+export function isStatelessPlugin(plugin: Plugin): plugin is StatelessPlugin {
   return !isStatefulPlugin(plugin)
 }
