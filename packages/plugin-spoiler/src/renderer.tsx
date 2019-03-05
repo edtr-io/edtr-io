@@ -51,11 +51,11 @@ export function SpoilerRenderer(props: SpoilerRendererProps) {
     <SpoilerContainer>
       <Toggle onClick={() => setHidden(!hidden)}>
         <Icon icon={icon} />
-        {title ? title : state.value.title.value}
+        {title ? title : state.title.value}
       </Toggle>
 
       <ContentContainer hidden={hidden && !shown}>
-        {state.value.content.render()}
+        {state.content.render()}
       </ContentContainer>
     </SpoilerContainer>
   )

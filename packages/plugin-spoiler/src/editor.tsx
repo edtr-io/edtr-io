@@ -15,7 +15,7 @@ export const SpoilerEditor = ({
   state,
   editable
 }: StatefulPluginEditorProps<typeof spoilerState>) => {
-  const { title } = state.value
+  const { title } = state
 
   return (
     <SpoilerRenderer
@@ -24,7 +24,7 @@ export const SpoilerEditor = ({
       title={
         <Input
           onChange={e => {
-            title.set(e.target.value)
+            title.set(() => e.target.value)
           }}
           value={title.value}
           placeholder="Title"

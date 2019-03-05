@@ -23,13 +23,13 @@ export const HighlightEditor = (
         <HighlightRenderer {...props} />
       ) : (
         <Textarea
-          value={state.value.text.value}
+          value={state.text.value}
           name="text"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            state.value.text.set(e.target.value)
+            state.text.set(() => e.target.value)
           }}
         >
-          {state.value.text.value}
+          {state.text.value}
         </Textarea>
       )}
       {focused ? (
@@ -37,9 +37,9 @@ export const HighlightEditor = (
           <hr />
           Language:
           <input
-            value={state.value.language.value}
+            value={state.language.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.value.language.set(e.target.value)
+              state.language.set(() => e.target.value)
             }}
             placeholder="enter"
           />
@@ -56,9 +56,9 @@ export const HighlightEditor = (
           <input
             type="checkbox"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.value.lineNumbers.set(e.target.checked)
+              state.lineNumbers.set(() => e.target.checked)
             }}
-            checked={state.value.lineNumbers.value}
+            checked={state.lineNumbers.value}
           />
         </React.Fragment>
       ) : null}

@@ -15,7 +15,6 @@ import {
   State,
   Undoable
 } from '../../src/store'
-import { createDocument } from '../../src'
 
 let state: State
 

@@ -22,7 +22,7 @@ export const AnchorEditor = ({
             <input
               value={state.value}
               onChange={e => {
-                state.set(e.target.value)
+                state.set(() => e.target.value)
               }}
             />
           </label>
