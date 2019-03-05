@@ -54,11 +54,11 @@ async function exec(): Promise<void> {
         'State Descriptors uniformly return their value/items/object by invoking the state.',
         'Expose render on child State Descriptor'
       ],
-      changed: [
-        'removed type: `@edtr-io/document` from DocumentIdentifier',
-      ],
       breakingChanges: [
         'Removed `value` property from `StateType.object`. The values are now exposed directly on `[key]`.'
+      ],
+      internal: [
+        "Removed `{ type: '@edtr-io/document' }` from `DocumentIdentifier`"
       ]
     }
   ])
