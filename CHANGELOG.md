@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 
 - State Descriptors uniformly return their value/items/object by invoking the state.
 
+### Fixed
+
+- Only trigger `changed` if the number of pending changes changed
+
 ## [0.2.1](https://github.com/edtr-io/edtr-io/compare/0.2.0..0.2.1) - February 28, 2019
 
 ### Added
