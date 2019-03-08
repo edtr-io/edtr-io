@@ -7,8 +7,8 @@ import {
   StoreSerializeHelpers
 } from './types'
 
-export function list<S, T = S, R = unknown>(
-  type: StateDescriptor<S, T, R>,
+export function list<S, T = S, U = unknown>(
+  type: StateDescriptor<S, T, U>,
   initialCount = 0
 ): StateDescriptor<
   S[],
@@ -17,10 +17,11 @@ export function list<S, T = S, R = unknown>(
     value: T
   }[],
   {
-    (): R[]
-    items: R[]
+    (): U[]
+    items: U[]
     insert: (index?: number, options?: S) => void
     remove: (index: number) => void
+    move: (from: number, to: number) => void
   }
 > {
   interface WrappedValue {
@@ -76,6 +77,22 @@ export function list<S, T = S, R = unknown>(
         remove(index: number) {
           onChange(items => {
             return R.remove(index, 1, items)
+          })
+        },
+        move(f: number, t: number) {
+          onChange(items => {
+            // FIXME: use 'return R.move(from, to, items)' in next ramda version
+            return _move(f, t, items)
+
+            function _move(from: number, to: number, list: WrappedValue[]) {
+              let result = list.slice()
+              const item = result.splice(from, 1)
+
+              return ([] as WrappedValue[])
+                .concat(result.slice(0, to))
+                .concat(item)
+                .concat(result.slice(to, list.length))
+            }
           })
         }
       })

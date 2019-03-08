@@ -2,11 +2,20 @@ import { EditorContext, StatefulPluginEditorProps } from '@edtr-io/core'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { Icon, faPlus, faTrashAlt, styled, rowsState } from '..'
+import {
+  Icon,
+  faPlus,
+  faTrashAlt,
+  faCaretSquareUp,
+  faCaretSquareDown,
+  styled,
+  rowsState
+} from '..'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 const FloatingButton = styled.button({
   outline: 'none',
-  width: '100%',
+  width: '15px',
   height: '1em',
   background: 'none',
   border: 'none',
@@ -17,7 +26,8 @@ const FloatingButton = styled.button({
   '&:hover': {
     cursor: 'pointer',
     opacity: 1
-  }
+  },
+  display: 'inline-block'
 })
 
 const FloatingButtonContainer = styled.div({
@@ -42,7 +52,8 @@ const BottomFloatingButtonContainer = styled(FloatingButtonContainer)({
 const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
   top: '-10px',
   right: 0,
-  width: '20px'
+  width: 'auto',
+  textAlign: 'right'
 })
 
 const AddMenuContainer = styled.div({
@@ -71,12 +82,29 @@ const Add: React.FunctionComponent<{
 const Remove: React.FunctionComponent<{
   onClick: () => void
 }> = props => (
-  <RightFloatingButtonContainer>
-    <FloatingButton onClick={props.onClick}>
-      <Icon icon={faTrashAlt} />
-    </FloatingButton>
-  </RightFloatingButtonContainer>
+  <FloatingButton onClick={props.onClick}>
+    <Icon icon={faTrashAlt} />
+  </FloatingButton>
 )
+
+const Move: React.FunctionComponent<{
+  onClick: () => void
+  icon: IconProp
+}> = props => (
+  <FloatingButton onClick={props.onClick}>
+    <Icon icon={props.icon} />
+  </FloatingButton>
+)
+
+const MoveUp: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <Move icon={faCaretSquareUp} {...props} />
+
+const MoveDown: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <Move icon={faCaretSquareDown} {...props} />
+
+const EmptySpot: React.FunctionComponent = () => <FloatingButton />
 
 export const RowsPlugin = (
   props: StatefulPluginEditorProps<typeof rowsState>
@@ -129,7 +157,19 @@ export const RowsPlugin = (
                 })
               }
             />
-            <Remove onClick={() => rows.remove(index)} />
+            <RightFloatingButtonContainer>
+              {index > 0 ? (
+                <MoveUp onClick={() => rows.move(index, index - 1)} />
+              ) : (
+                <EmptySpot />
+              )}
+              {index + 1 < rows.items.length ? (
+                <MoveDown onClick={() => rows.move(index, index + 1)} />
+              ) : (
+                <EmptySpot />
+              )}
+              <Remove onClick={() => rows.remove(index)} />
+            </RightFloatingButtonContainer>
             {row.render()}
           </div>
         )
