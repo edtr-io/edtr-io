@@ -49,6 +49,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: '0.3.0',
+      date: '2019-03-08',
       added: ['Added a menu for selecting a plugin on insert to rows plugin'],
       changed: [
         'State Descriptors uniformly return their value/items/object by invoking the state.'
