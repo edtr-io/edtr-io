@@ -74,6 +74,15 @@ export function reducer(state: BaseState | State, action: Action): State {
   }
 }
 
+function commitAsIs(state: State, actions: Undoable[]): State['history'] {
+  return {
+    ...state.history,
+    actions: R.append(actions, state.history.actions),
+    redoStack: [],
+    pending: state.history.pending + actions.length
+  }
+}
+
 let debounceTimeout: number | null = null
 function commit(state: State, action: Undoable): State['history'] {
   if (action.commit === ActionCommitType.ForceCombine) {
@@ -193,13 +202,23 @@ function handleChange(state: State, action: ChangeAction): State {
     }
   }
   const pluginState = stateHandler(state.documents[id].state, helpers)
-  const actions = handleRecursiveInserts(state, pendingDocs)
-  const newState = actions.reduce((currentState, action) => {
+  const inserts = handleRecursiveInserts(state, pendingDocs)
+  const newState = inserts.reduce((currentState, action) => {
     return reducer(currentState, action)
   }, state)
 
-  // TODO: we should commit action together with actions
-  const history = commit(newState, action)
+  const history = inserts.length
+    ? commitAsIs(state, [
+        ...inserts,
+        {
+          type: ActionType.Change,
+          payload: {
+            id,
+            state: () => pluginState
+          }
+        }
+      ])
+    : commit(state, action)
 
   return {
     ...newState,
@@ -257,13 +276,11 @@ function handleUndo(state: State): State {
 function handleRedo(state: State): State {
   const redoing = R.last(state.history.redoStack)
   if (redoing) {
-    debounceTimeout = null
     const nextState = R.reduce(reducer, state, redoing)
-    debounceTimeout = null
     return {
       ...nextState,
       history: {
-        ...nextState.history,
+        ...commitAsIs(state, redoing),
         redoStack: R.dropLast(1, state.history.redoStack)
       }
     }
@@ -317,9 +334,9 @@ function handleRecursiveInserts(
     plugin?: string
     state?: unknown
   }[]
-): Action[] {
+): InsertAction[] {
   let pendingDocs = docs
-  const actions: Action[] = []
+  const actions: InsertAction[] = []
 
   let helpers: StoreDeserializeHelpers = {
     createDocument(doc) {
