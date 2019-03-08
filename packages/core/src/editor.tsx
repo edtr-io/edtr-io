@@ -73,7 +73,7 @@ export function Editor<K extends string = string>({
             get: () => clipboard,
             add: (state: PluginState) => {
               setClipboard(currentClipboard => {
-                const maxLength = 10
+                const maxLength = 3
                 const appended = R.prepend(state, currentClipboard)
                 return appended.length > maxLength
                   ? R.remove(maxLength, appended.length - maxLength, appended)

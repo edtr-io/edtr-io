@@ -166,10 +166,7 @@ export const RowsPlugin = (
                     }, R.keys(store.state.plugins))}
                   </AddMenu>
                   <hr />
-                  <Clipboard
-                    states={store.clipboard.get()}
-                    onClose={popup.onClose}
-                  />
+                  <Clipboard onClose={popup.onClose} />
                 </AddMenuContainer>
               </OnClickOutside>
             ) : null}
