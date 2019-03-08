@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.2.1..HEAD)
+
+### Breaking Changes
+
+- Removed `DocumentIdentifier`. You should pass the state to `<Editor />` instead
+- Removed `state` prop from `Document`. You should pass only the id as `id` prop instead.
+- Removed `value` property from `StateType.object`. The values are now exposed directly on `[key]`.
+
+### Added
+
+- Added a menu for selecting a plugin on insert to rows plugin
+
+### Changed
+
+- State Descriptors uniformly return their value/items/object by invoking the state.
+
 ## [0.2.1](https://github.com/edtr-io/edtr-io/compare/0.2.0..0.2.1) - February 28, 2019
 
 ### Added

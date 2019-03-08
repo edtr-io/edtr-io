@@ -49,16 +49,14 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      added: [
-        'Added a menu for selecting a plugin on insert to rows plugin',
-        'State Descriptors uniformly return their value/items/object by invoking the state.',
-        'Expose render on child State Descriptor'
+      added: ['Added a menu for selecting a plugin on insert to rows plugin'],
+      changed: [
+        'State Descriptors uniformly return their value/items/object by invoking the state.'
       ],
       breakingChanges: [
+        'Removed `DocumentIdentifier`. You should pass the state to `<Editor />` instead',
+        'Removed `state` prop from `Document`. You should pass only the id as `id` prop instead.',
         'Removed `value` property from `StateType.object`. The values are now exposed directly on `[key]`.'
-      ],
-      internal: [
-        "Removed `{ type: '@edtr-io/document' }` from `DocumentIdentifier`"
       ]
     }
   ])
