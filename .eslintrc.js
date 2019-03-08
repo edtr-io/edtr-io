@@ -37,6 +37,7 @@ module.exports = {
     'react/prop-types': 'off',
 
     // eslint-plugin-react-hooks
+    'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error'
   },
   settings: {
