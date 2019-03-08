@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Editor, findNode } from 'slate-react'
-import { Editor as CoreEditor, Value, ValueJSON } from 'slate'
+import { Editor as CoreEditor } from 'slate'
 import { TextPluginOptions } from './types'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 
@@ -12,15 +12,6 @@ export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
   return function SlateEditor(props: SlateEditorProps) {
-    const [value, setValue] = React.useState(Value.fromJSON(props.state.value))
-    const lastValue = React.useRef<ValueJSON>(props.state.value)
-    React.useEffect(() => {
-      if (lastValue.current !== props.state.value) {
-        setValue(Value.fromJSON(props.state.value))
-        lastValue.current = props.state.value
-      }
-    }, [lastValue, props.state.value])
-
     return (
       <Editor
         onClick={(e, editor, next): CoreEditor | void => {
@@ -35,14 +26,12 @@ export const createTextEditor = (
           next()
         }}
         onChange={editor => {
-          lastValue.current = editor.value.toJSON()
-          props.state.set(lastValue.current)
-          setValue(editor.value)
+          props.state.set(editor.value)
         }}
         placeholder={options.placeholder}
         plugins={options.plugins}
         readOnly={!props.focused}
-        value={value}
+        value={props.state.value}
         onBlur={(_e, editor) => editor}
       />
     )

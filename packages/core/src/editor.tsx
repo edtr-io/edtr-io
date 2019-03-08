@@ -1,29 +1,45 @@
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
-import { Document, DocumentIdentifier } from './document'
+import { Document } from './document'
 import { EditorContext } from './editor-context'
-import { ActionType, BaseState, hasPendingChanges, reducer } from './store'
+import {
+  ActionType,
+  hasPendingChanges,
+  reducer,
+  createInitialState,
+  getRoot
+} from './store'
 import { Plugin } from './plugin'
 
-export function Editor<K extends string = string>(props: EditorProps<K>) {
-  const { plugins, defaultPlugin } = props
-  const baseState: BaseState = {
-    plugins,
-    defaultPlugin,
-    documents: {}
-  }
-  const [state, dispatch] = React.useReducer(reducer, {
-    ...baseState,
-    history: {
-      initialState: baseState,
-      actions: [],
-      redoStack: [],
-      pending: 0
-    }
-  })
+export function Editor<K extends string = string>({
+  plugins,
+  defaultPlugin,
+  initialState,
+  changed,
+  children
+}: EditorProps<K>) {
+  const [state, dispatch] = React.useReducer(
+    reducer,
+    createInitialState(plugins, defaultPlugin)
+  )
 
-  if (props.changed) {
-    props.changed(hasPendingChanges(state))
+  React.useEffect(() => {
+    dispatch({
+      type: ActionType.InitRoot,
+      payload: initialState || {}
+    })
+  }, [dispatch, initialState])
+
+  const id = getRoot(state)
+
+  React.useEffect(() => {
+    if (changed) {
+      changed(hasPendingChanges(state))
+    }
+  }, [changed, state])
+
+  if (!id) {
+    return null
   }
 
   return (
@@ -49,8 +65,8 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
           dispatch
         }}
       >
-        <Document state={props.state} />
-        {props.children}
+        <Document id={id} />
+        {children}
       </EditorContext.Provider>
     </HotKeys>
   )
@@ -60,6 +76,9 @@ export interface EditorProps<K extends string = string> {
   children?: React.ReactNode
   plugins: Record<K, Plugin>
   defaultPlugin: K
-  state: DocumentIdentifier
+  initialState?: {
+    plugin: string
+    state?: unknown
+  }
   changed?: (changed: boolean) => void
 }

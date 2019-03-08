@@ -1,20 +1,41 @@
 import * as R from 'ramda'
 
-import { isDocumentIdentifier, SerializedDocument } from '../document'
-import { isStatefulPlugin, Plugin } from '../plugin'
+import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../plugin'
+import { StoreSerializeHelpers, StoreDeserializeHelpers } from '../plugin-state'
 
 export enum ActionType {
+  InitRoot = 'InitRoot',
   Insert = 'Insert',
   Remove = 'Remove',
   Change = 'Change',
   Focus = 'Focus',
   Undo = 'Undo',
   Redo = 'Redo',
-  Persist = 'Persist',
-  ResetHistory = 'ResetHistory'
+  Persist = 'Persist'
 }
 export enum ActionCommitType {
-  ForceCommit = 'ForceCommit'
+  ForceCommit = 'ForceCommit',
+  ForceCombine = 'ForceCombine'
+}
+
+export const createInitialState = <K extends string>(
+  plugins: Record<K, Plugin>,
+  defaultPlugin: K
+): State => {
+  const initialState: BaseState = {
+    plugins,
+    defaultPlugin,
+    documents: {}
+  }
+  return {
+    ...initialState,
+    history: {
+      initialState,
+      actions: [],
+      redoStack: [],
+      pending: 0
+    }
+  }
 }
 
 export function reducer(state: BaseState | State, action: Action): State {
@@ -34,6 +55,8 @@ export function reducer(state: BaseState | State, action: Action): State {
   }
 
   switch (action.type) {
+    case ActionType.InitRoot:
+      return handleInitRoot(state, action)
     case ActionType.Insert:
       return handleInsert(state, action)
     case ActionType.Remove:
@@ -48,13 +71,53 @@ export function reducer(state: BaseState | State, action: Action): State {
       return handleRedo(state)
     case ActionType.Persist:
       return handlePersist(state)
-    case ActionType.ResetHistory:
-      return handleResetHistory(state)
+  }
+}
+
+function commitAsIs(state: State, actions: Undoable[]): State['history'] {
+  return {
+    ...state.history,
+    actions: R.append(actions, state.history.actions),
+    redoStack: [],
+    pending: state.history.pending + actions.length
   }
 }
 
 let debounceTimeout: number | null = null
 function commit(state: State, action: Undoable): State['history'] {
+  if (action.commit === ActionCommitType.ForceCombine) {
+    if (state.history.actions.length) {
+      return {
+        ...state.history,
+        // @ts-ignore
+        actions: R.adjust(-1, R.append(action), state.history.actions),
+        pending: state.history.pending + 1
+      }
+    } else if (
+      hasHistory(state.history.initialState) &&
+      state.history.initialState.history.actions.length
+    ) {
+      return {
+        initialState: {
+          ...state.history.initialState,
+          history: {
+            ...state.history.initialState.history,
+            actions: R.adjust(
+              // @ts-ignore
+              -1,
+              R.append(action),
+              state.history.initialState.history.actions
+            ),
+            pending: state.history.pending + 1
+          }
+        },
+        actions: [],
+        redoStack: [],
+        pending: state.history.pending + 1
+      }
+    }
+  }
+
   if (action.commit !== ActionCommitType.ForceCommit) {
     if (debounceTimeout) {
       clearTimeout(debounceTimeout)
@@ -91,10 +154,9 @@ function commit(state: State, action: Undoable): State['history'] {
 }
 
 function handleInsert(state: State, action: InsertAction) {
-  const type = action.payload.plugin || getDefaultPlugin(state)
-  const id = action.payload.id
+  const { id, plugin: type } = action.payload
 
-  const plugin = getPlugin(state, type)
+  const plugin = getPluginOrDefault(state, type)
 
   let pluginState
   if (plugin && isStatefulPlugin(plugin)) {
@@ -108,7 +170,7 @@ function handleInsert(state: State, action: InsertAction) {
     documents: {
       ...state.documents,
       [id]: {
-        plugin: type,
+        plugin: getPluginTypeOrDefault(state, type),
         state: pluginState
       }
     },
@@ -132,15 +194,39 @@ function handleChange(state: State, action: ChangeAction): State {
     //TODO: console.warn: Missing Id
     return state
   }
-  const history = commit(state, action)
+
+  let pendingDocs: { id: string; plugin?: string; state?: unknown }[] = []
+  let helpers: StoreDeserializeHelpers = {
+    createDocument(doc) {
+      pendingDocs.push(doc)
+    }
+  }
+  const pluginState = stateHandler(state.documents[id].state, helpers)
+  const inserts = handleRecursiveInserts(state, pendingDocs)
+  const newState = inserts.reduce((currentState, action) => {
+    return reducer(currentState, action)
+  }, state)
+
+  const history = inserts.length
+    ? commitAsIs(state, [
+        ...inserts,
+        {
+          type: ActionType.Change,
+          payload: {
+            id,
+            state: () => pluginState
+          }
+        }
+      ])
+    : commit(state, action)
 
   return {
-    ...state,
+    ...newState,
     documents: {
-      ...state.documents,
+      ...newState.documents,
       [id]: {
-        ...state.documents[id],
-        state: stateHandler(state.documents[id].state)
+        ...newState.documents[id],
+        state: pluginState
       }
     },
     history
@@ -190,13 +276,11 @@ function handleUndo(state: State): State {
 function handleRedo(state: State): State {
   const redoing = R.last(state.history.redoStack)
   if (redoing) {
-    debounceTimeout = null
     const nextState = R.reduce(reducer, state, redoing)
-    debounceTimeout = null
     return {
       ...nextState,
       history: {
-        ...nextState.history,
+        ...commitAsIs(state, redoing),
         redoStack: R.dropLast(1, state.history.redoStack)
       }
     }
@@ -215,31 +299,94 @@ function handlePersist(state: State): State {
   }
 }
 
-function handleResetHistory(state: State): State {
+function handleInitRoot(state: State, action: InitRootAction): State {
+  const initialState = action.payload
+  const actions = handleRecursiveInserts(state, [
+    {
+      ...initialState,
+      id: 'root'
+    }
+  ])
+
+  const newState = actions.reduce((currentState, action) => {
+    return reducer(currentState, action)
+  }, state)
+
+  delete newState.history
+  delete newState.root
+
   return {
-    ...state,
+    ...newState,
+    root: 'root',
     history: {
-      initialState: {
-        defaultPlugin: state.defaultPlugin,
-        plugins: state.plugins,
-        documents: state.documents,
-        focus: state.focus
-      },
+      initialState: newState,
       actions: [],
       redoStack: [],
       pending: 0
     }
   }
 }
+
+function handleRecursiveInserts(
+  state: State,
+  docs: {
+    id: string
+    plugin?: string
+    state?: unknown
+  }[]
+): InsertAction[] {
+  let pendingDocs = docs
+  const actions: InsertAction[] = []
+
+  let helpers: StoreDeserializeHelpers = {
+    createDocument(doc) {
+      pendingDocs.push(doc)
+    }
+  }
+
+  while (pendingDocs.length > 0) {
+    const doc = pendingDocs.pop()
+    if (!doc) {
+      return []
+    }
+
+    const plugin = getPluginOrDefault(state, doc.plugin)
+    if (!plugin) {
+      // TODO: Plugin does not exist
+      return []
+    }
+
+    let pluginState: unknown
+    if (isStatefulPlugin(plugin)) {
+      if (doc.state === undefined) {
+        pluginState = plugin.state.createInitialState(helpers)
+      } else {
+        pluginState = plugin.state.deserialize(doc.state, helpers)
+      }
+    }
+
+    actions.push({
+      type: ActionType.Insert,
+      payload: {
+        id: doc.id,
+        plugin: getPluginTypeOrDefault(state, doc.plugin),
+        state: pluginState
+      }
+    })
+  }
+
+  return actions
+}
+
 export interface BaseState {
   defaultPlugin: PluginType
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  plugins: Record<PluginType, Plugin<any>>
+  plugins: Record<PluginType, Plugin>
   documents: Record<string, PluginState>
   focus?: string
 }
 
 export interface State extends BaseState {
+  root?: string
   history: {
     initialState: BaseState | State
     actions: Undoable[][]
@@ -256,14 +403,22 @@ export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
   commit?: ActionCommitType
 }
 export type Action =
+  | InitRootAction
   | Undoable
   | FocusAction
   | UndoAction
   | RedoAction
   | PersistAction
-  | ResetHistoryAction
 
 type PluginType = string
+
+export interface InitRootAction {
+  type: ActionType.InitRoot
+  payload: {
+    plugin?: string
+    state?: unknown
+  }
+}
 
 export interface InsertAction {
   type: ActionType.Insert
@@ -276,7 +431,7 @@ export interface ChangeAction<S = unknown> {
   type: ActionType.Change
   payload: {
     id: string
-    state: (state: S) => S
+    state: (value: S, helpers: StoreDeserializeHelpers) => S
   }
 }
 
@@ -302,16 +457,16 @@ export interface PersistAction {
   type: ActionType.Persist
 }
 
-export interface ResetHistoryAction {
-  type: ActionType.ResetHistory
-}
-
 export interface PluginState {
   plugin: PluginType
   state?: unknown
 }
 
 /** Selectors */
+export function getRoot(state: State) {
+  return state.root
+}
+
 export function getDocuments(state: State): Record<string, PluginState> {
   return state.documents
 }
@@ -320,24 +475,33 @@ export function getDocument(state: State, id: string): PluginState | null {
   return getDocuments(state)[id] || null
 }
 
-export function getPlugin(
-  state: State,
-  type: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Plugin<any> | null {
+export function getPlugin(state: State, type: string): Plugin | null {
   const plugins = getPlugins(state)
 
   return plugins[type] || null
+}
+
+export function getPluginOrDefault(
+  state: State,
+  type = getDefaultPlugin(state)
+): Plugin | null {
+  return getPlugin(state, type)
 }
 
 export function getDefaultPlugin(state: State): PluginType {
   return state.defaultPlugin
 }
 
+export function getPluginTypeOrDefault(
+  state: State,
+  type = getDefaultPlugin(state)
+): PluginType {
+  return type
+}
+
 export function getPlugins<K extends string = string>(
   state: State
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Record<K, Plugin<any>> {
+): Record<K, Plugin> {
   return state.plugins
 }
 
@@ -349,41 +513,32 @@ export function hasPendingChanges(state: State): boolean {
   return state.history.pending !== 0
 }
 
-export function serializeDocument(
-  state: State,
-  id: string
-): SerializedDocument | null {
-  const document = getDocument(state, id)
+export function serializeDocument(state: State): PluginState | null {
+  const root = getRoot(state)
 
-  if (!document) {
-    return null
-  }
+  return root ? _serializeDoc(state, root) : null
 
-  return {
-    type: '@edtr-io/document',
-    plugin: document.plugin,
-    ...(document.state === undefined
-      ? {}
-      : { state: serializeState(document.state) })
-  }
+  function _serializeDoc(state: State, id: string): PluginState | null {
+    const document = getDocument(state, id)
 
-  function serializeState(
-    pluginState: PluginState['state']
-  ): PluginState['state'] {
-    if (pluginState instanceof Object) {
-      return R.map(
-        (value: unknown) => {
-          if (isDocumentIdentifier(value)) {
-            return serializeDocument(state, value.id)
-          }
-
-          return serializeState(value)
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        pluginState as any
-      )
+    if (!document) {
+      return null
     }
 
-    return pluginState
+    const plugin = getPlugin(state, document.plugin)
+
+    if (!plugin) {
+      return null
+    }
+
+    const serializeHelpers: StoreSerializeHelpers = {
+      getDocument: (id: string) => getDocument(state, id)
+    }
+    return {
+      plugin: document.plugin,
+      ...(isStatelessPlugin(plugin)
+        ? {}
+        : { state: plugin.state.serialize(document.state, serializeHelpers) })
+    }
   }
 }

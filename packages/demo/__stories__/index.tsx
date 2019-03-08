@@ -1,9 +1,8 @@
 import {
   ActionType,
-  createDocument,
-  DocumentIdentifier,
   Editor,
   EditorContext,
+  EditorProps,
   Plugin,
   serializeDocument,
   StatefulPlugin,
@@ -56,39 +55,37 @@ const plugins: Record<string, Plugin<any>> = {
 
 // TODO: stringify correctly
 storiesOf('EditorProvider', module).add('Counter', () => {
-  const state = createDocument({
+  const state = {
     plugin: 'counter'
-  })
+  }
 
-  return <Story defaultPlugin="stateless" state={state} />
+  return <Story defaultPlugin="stateless" initialState={state} />
 })
 
 storiesOf('Rows Plugin', module)
   .add('Basic example', () => {
-    const state = createDocument(
-      JSON.parse(
-        '{"type":"@edtr-io/document","plugin":"rows","state":[{"type":"@edtr-io/document","plugin":"counter","state":1},{"type":"@edtr-io/document","plugin":"counter","state":2},{"type":"@edtr-io/document","plugin":"counter","state":3}]}'
-      )
+    const state = JSON.parse(
+      '{"plugin":"rows","state":[{"plugin":"counter","state":1},{"plugin":"counter","state":2},{"plugin":"counter","state":3}]}'
     )
 
-    return <Story defaultPlugin="counter" state={state} />
+    return <Story defaultPlugin="counter" initialState={state} />
   })
   .add('Initial State', () => {
-    const state = createDocument({
+    const state = {
       plugin: 'rows'
-    })
+    }
 
-    return <Story defaultPlugin="counter" state={state} />
+    return <Story defaultPlugin="counter" initialState={state} />
   })
 
-export function LogState({ state }: { state: DocumentIdentifier }) {
+export function LogState() {
   return (
     <EditorContext.Consumer>
       {store => {
         return (
           <button
             onClick={() => {
-              const serialized = serializeDocument(store.state, state.id)
+              const serialized = serializeDocument(store.state)
               const stringified = JSON.stringify({
                 state: JSON.stringify(serialized)
               })
@@ -142,17 +139,17 @@ export function UndoRedoButtons(props: { enablePersist?: boolean }) {
 
 export function Story(props: {
   defaultPlugin?: string
-  state: DocumentIdentifier
+  initialState: EditorProps['initialState']
 }) {
   const [changed, setChanged] = React.useState(false)
   return (
     <Editor
       plugins={plugins}
       defaultPlugin={props.defaultPlugin || 'text'}
-      state={props.state}
+      initialState={props.initialState}
       changed={setChanged}
     >
-      <LogState state={props.state} />
+      <LogState />
       <Overlay />
       <UndoRedoButtons enablePersist={changed} />
     </Editor>

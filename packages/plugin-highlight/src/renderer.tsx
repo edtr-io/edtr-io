@@ -9,10 +9,10 @@ export function HighlightRenderer({
 }: StatefulPluginEditorProps<typeof highlightState>) {
   return (
     <SyntaxHighlight
-      language={state.value.language.value}
-      showLineNumbers={state.value.lineNumbers.value}
+      language={state.language.value}
+      showLineNumbers={state.lineNumbers.value}
     >
-      {state.value.text.value ||
+      {state.text.value ||
         'Switch into edit mode then paste your sourcecode here...'}
     </SyntaxHighlight>
   )

@@ -15,7 +15,7 @@ export const SpoilerEditor = ({
   state,
   editable
 }: StatefulPluginEditorProps<typeof spoilerState>) => {
-  const { title } = state.value
+  const { title } = state
 
   return (
     <SpoilerRenderer
