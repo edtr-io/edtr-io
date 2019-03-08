@@ -1,9 +1,4 @@
-export {
-  Document,
-  DocumentProps,
-  DocumentIdentifier,
-  createDocument
-} from './document'
+export { Document, DocumentProps } from './document'
 export { Editor, EditorProps } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export {

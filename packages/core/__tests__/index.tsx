@@ -3,13 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { plugins } from '../__fixtures__/plugins'
-import {
-  createDocument,
-  DocumentIdentifier,
-  EditorContext,
-  EditorContextValue,
-  Editor
-} from '../src'
+import { EditorContext, EditorContextValue, Editor } from '../src'
 import { getDocument } from '../src/store'
 
 let container: Element
@@ -21,10 +15,10 @@ beforeEach(() => {
 })
 
 test('default plugin', () => {
-  const state = createDocument()
+  const state = undefined
   renderDocument(state)
 
-  const document = getDocument(store.state, state.id)
+  const document = getDocument(store.state, 'root')
 
   if (!document) {
     throw new Error('document not found')
@@ -33,10 +27,10 @@ test('default plugin', () => {
   expect(document.plugin).toEqual('stateless')
 })
 
-function renderDocument(state: DocumentIdentifier) {
+function renderDocument(state?: { plugin: string; state?: unknown }) {
   act(() => {
     ReactDOM.render(
-      <Editor plugins={plugins} defaultPlugin="stateless" state={state}>
+      <Editor plugins={plugins} defaultPlugin="stateless" initialState={state}>
         {setStore()}
       </Editor>,
       container

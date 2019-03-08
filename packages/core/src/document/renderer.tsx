@@ -24,9 +24,5 @@ export const DocumentRenderer: React.FunctionComponent<
 }
 
 export interface DocumentRendererProps {
-  state: SerializedDocument
-}
-
-export interface SerializedDocument extends PluginState {
-  type: '@edtr-io/document'
+  state: PluginState
 }

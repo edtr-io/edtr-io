@@ -162,29 +162,25 @@ describe('focus', () => {
 describe('serialize', () => {
   test('stateless', () => {
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.InitRoot,
       payload: {
-        id: '0',
         plugin: 'stateless'
       }
     })
-    expect(serializeDocument(state, '0')).toEqual({
-      type: '@edtr-io/document',
+    expect(serializeDocument(state)).toEqual({
       plugin: 'stateless'
     })
   })
 
   test('stateful', () => {
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.InitRoot,
       payload: {
-        id: '0',
         plugin: 'stateful',
         state: { counter: 0 }
       }
     })
-    expect(serializeDocument(state, '0')).toEqual({
-      type: '@edtr-io/document',
+    expect(serializeDocument(state)).toEqual({
       plugin: 'stateful',
       state: { counter: 0 }
     })
@@ -192,31 +188,20 @@ describe('serialize', () => {
 
   test('nested', () => {
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.InitRoot,
       payload: {
-        id: '0',
         plugin: 'nested',
         state: {
-          child: '1'
+          child: { plugin: 'stateful', state: 0 }
         }
       }
     })
-    // Note: this would usually be done automatically when using a StoreDeserializeHelper
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '1',
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
-    })
-    expect(serializeDocument(state, '0')).toEqual({
-      type: '@edtr-io/document',
+    expect(serializeDocument(state)).toEqual({
       plugin: 'nested',
       state: {
         child: {
           plugin: 'stateful',
-          state: { counter: 0 }
+          state: 0
         }
       }
     })
@@ -224,32 +209,21 @@ describe('serialize', () => {
 
   test('nested array', () => {
     state = reducer(state, {
-      type: ActionType.Insert,
+      type: ActionType.InitRoot,
       payload: {
-        id: '0',
         plugin: 'nestedArray',
         state: {
-          children: [{ id: 'foo', value: '1' }]
+          children: [{ plugin: 'stateful', state: 1 }]
         }
       }
     })
-    // Note: this would usually be done automatically when rendering a <Document />
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '1',
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
-    })
-    expect(serializeDocument(state, '0')).toEqual({
-      type: '@edtr-io/document',
+    expect(serializeDocument(state)).toEqual({
       plugin: 'nestedArray',
       state: {
         children: [
           {
             plugin: 'stateful',
-            state: { counter: 0 }
+            state: 1
           }
         ]
       }

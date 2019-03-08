@@ -1,15 +1,9 @@
 import * as React from 'react'
 
-import { createDocument, DocumentEditor, DocumentIdentifier } from './editor'
-import { SerializedDocument } from './renderer'
+import { DocumentEditor, DocumentEditorProps } from './editor'
 
-export { createDocument, DocumentIdentifier, SerializedDocument }
-
-export const Document: React.FunctionComponent<DocumentProps> = ({ state }) => {
-  return <DocumentEditor state={state} />
+export const Document: React.FunctionComponent<DocumentProps> = props => {
+  return <DocumentEditor {...props} />
 }
 
-export interface DocumentProps {
-  render?: (children: React.ReactNode) => React.ReactNode
-  state: DocumentIdentifier
-}
+export type DocumentProps = DocumentEditorProps

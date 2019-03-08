@@ -98,43 +98,41 @@ export const RowsPlugin = (
         </FloatingButton>
       </TopFloatingButtonContainer>
       {rows.items.map((row, index) => {
-        return row.render(children => {
-          return (
-            <div style={{ position: 'relative' }}>
-              {popup && popup.index === index ? (
-                <AddMenuContainer>
-                  {R.map(plugin => {
-                    return (
-                      <button
-                        key={plugin}
-                        onClick={() => {
-                          popup.onClose(plugin)
-                        }}
-                      >
-                        {plugin}
-                      </button>
-                    )
-                  }, R.keys(store.state.plugins))}
-                </AddMenuContainer>
-              ) : null}
-              <Add
-                onClick={() =>
-                  setPopup({
-                    index,
-                    onClose: (plugin: string) => {
-                      rows.insert(index + 1, {
-                        plugin: plugin
-                      })
-                      setPopup(undefined)
-                    }
-                  })
-                }
-              />
-              <Remove onClick={() => rows.remove(index)} />
-              {children}
-            </div>
-          )
-        })
+        return (
+          <div key={row.id} style={{ position: 'relative' }}>
+            {popup && popup.index === index ? (
+              <AddMenuContainer>
+                {R.map(plugin => {
+                  return (
+                    <button
+                      key={plugin}
+                      onClick={() => {
+                        popup.onClose(plugin)
+                      }}
+                    >
+                      {plugin}
+                    </button>
+                  )
+                }, R.keys(store.state.plugins))}
+              </AddMenuContainer>
+            ) : null}
+            <Add
+              onClick={() =>
+                setPopup({
+                  index,
+                  onClose: (plugin: string) => {
+                    rows.insert(index + 1, {
+                      plugin: plugin
+                    })
+                    setPopup(undefined)
+                  }
+                })
+              }
+            />
+            <Remove onClick={() => rows.remove(index)} />
+            {row.render()}
+          </div>
+        )
       })}
     </React.Fragment>
   )

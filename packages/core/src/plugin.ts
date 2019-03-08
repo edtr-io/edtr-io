@@ -20,8 +20,9 @@ export interface StatefulPlugin<S extends StateDescriptor> {
   state: S
 }
 
-export interface StatefulPluginEditorProps<S extends StateDescriptor>
-  extends StatelessPluginEditorProps {
+export interface StatefulPluginEditorProps<
+  S extends StateDescriptor = StateDescriptor
+> extends StatelessPluginEditorProps {
   state: StateDescriptorReturnType<S>
 }
 
