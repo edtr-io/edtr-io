@@ -2362,6 +2362,13 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
+"@types/react-onclickoutside@^6.7.0":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@types/react-onclickoutside/-/react-onclickoutside-6.7.0.tgz#5cc4807ec26decdc9031bc7c87fc8cfbe09b92cc"
+  integrity sha512-5u9HYXHuTBAfDTBSwhJ6867ngksrzaQOhv/PwPwICdTsPMCujWeg3/KLeFuJ4JVouA7KBrB+/98COUNBn/kkyA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-syntax-highlighter@^10.0.0":
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-10.1.0.tgz#9c534e29bbe05dba9beae1234f3ae944836685d4"
@@ -10065,6 +10072,11 @@ react-modal@^3.6.1:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
+
+react-onclickoutside@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.8.0.tgz#9f91b5b3ed59f4d9e43fd71620dc200773a4d569"
+  integrity sha512-5Q4Rn7QLEoh7WIe66KFvYIpWJ49GeHoygP1/EtJyZjXKgrWH19Tf0Ty3lWyQzrEEDyLOwUvvmBFSE3dcDdvagA==
 
 react-split-pane@^0.1.84:
   version "0.1.85"

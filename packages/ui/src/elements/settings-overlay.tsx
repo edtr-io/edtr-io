@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { Icon, faCog, styled, faTimes } from '..'
+import { OnClickOutside } from './onClickOutside'
 
 const OverlayWrapper = styled.div({
   width: '100%',
@@ -95,21 +96,23 @@ export const renderIntoOverlay = (children: React.ReactNode) => {
 
   return createPortal(
     <OverlayWrapper>
-      <OverlayBox>
-        <SettingButton
-          onClick={hideOverlay}
-          light
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            zIndex: 101
-          }}
-        >
-          <Icon icon={faTimes} />
-        </SettingButton>
-        {children}
-      </OverlayBox>
+      <OnClickOutside onClick={hideOverlay}>
+        <OverlayBox>
+          <SettingButton
+            onClick={hideOverlay}
+            light
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              zIndex: 101
+            }}
+          >
+            <Icon icon={faTimes} />
+          </SettingButton>
+          {children}
+        </OverlayBox>
+      </OnClickOutside>
     </OverlayWrapper>,
     portalNode.current
   )

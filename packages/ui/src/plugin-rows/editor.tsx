@@ -1,4 +1,9 @@
-import { EditorContext, StatefulPluginEditorProps } from '@edtr-io/core'
+import {
+  EditorContext,
+  PluginState,
+  serializePlugin,
+  StatefulPluginEditorProps
+} from '@edtr-io/core'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -8,10 +13,14 @@ import {
   faTrashAlt,
   faCaretSquareUp,
   faCaretSquareDown,
+  faCut,
   styled,
-  rowsState
+  rowsState,
+  faCopy
 } from '..'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { Clipboard } from './clipboard'
+import { OnClickOutside } from '../elements/onClickOutside'
 
 const FloatingButton = styled.button({
   outline: 'none',
@@ -60,13 +69,17 @@ const AddMenuContainer = styled.div({
   margin: '0 auto',
   position: 'absolute',
   backgroundColor: 'rgb(51,51,51,0.95)',
-  display: 'flex',
+  color: 'white',
   padding: '20px',
   width: '20%',
   left: '40%',
-  flexFlow: 'row wrap',
-  justifyContent: 'space-around',
   zIndex: 100
+})
+
+const AddMenu = styled.div({
+  display: 'flex',
+  flexFlow: 'row wrap',
+  justifyContent: 'space-around'
 })
 
 const Add: React.FunctionComponent<{
@@ -87,7 +100,7 @@ const Remove: React.FunctionComponent<{
   </FloatingButton>
 )
 
-const Move: React.FunctionComponent<{
+const IconButton: React.FunctionComponent<{
   onClick: () => void
   icon: IconProp
 }> = props => (
@@ -98,20 +111,27 @@ const Move: React.FunctionComponent<{
 
 const MoveUp: React.FunctionComponent<{
   onClick: () => void
-}> = props => <Move icon={faCaretSquareUp} {...props} />
+}> = props => <IconButton icon={faCaretSquareUp} {...props} />
 
 const MoveDown: React.FunctionComponent<{
   onClick: () => void
-}> = props => <Move icon={faCaretSquareDown} {...props} />
+}> = props => <IconButton icon={faCaretSquareDown} {...props} />
 
 const EmptySpot: React.FunctionComponent = () => <FloatingButton />
+
+const Cut: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <IconButton icon={faCut} {...props} />
+const Copy: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <IconButton icon={faCopy} {...props} />
 
 export const RowsPlugin = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
   const [popup, setPopup] = React.useState<
-    { index: number; onClose: (plugin: string) => void } | undefined
+    { index: number; onClose: (pluginState: PluginState) => void } | undefined
   >(undefined)
   const store = React.useContext(EditorContext)
   return (
@@ -129,29 +149,36 @@ export const RowsPlugin = (
         return (
           <div key={row.id} style={{ position: 'relative' }}>
             {popup && popup.index === index ? (
-              <AddMenuContainer>
-                {R.map(plugin => {
-                  return (
-                    <button
-                      key={plugin}
-                      onClick={() => {
-                        popup.onClose(plugin)
-                      }}
-                    >
-                      {plugin}
-                    </button>
-                  )
-                }, R.keys(store.state.plugins))}
-              </AddMenuContainer>
+              <OnClickOutside onClick={() => setPopup(undefined)}>
+                <AddMenuContainer>
+                  <AddMenu>
+                    {R.map(plugin => {
+                      return (
+                        <button
+                          key={plugin}
+                          onClick={() => {
+                            popup.onClose({ plugin })
+                          }}
+                        >
+                          {plugin}
+                        </button>
+                      )
+                    }, R.keys(store.state.plugins))}
+                  </AddMenu>
+                  <hr />
+                  <Clipboard
+                    states={store.clipboard.get()}
+                    onClose={popup.onClose}
+                  />
+                </AddMenuContainer>
+              </OnClickOutside>
             ) : null}
             <Add
               onClick={() =>
                 setPopup({
                   index,
-                  onClose: (plugin: string) => {
-                    rows.insert(index + 1, {
-                      plugin: plugin
-                    })
+                  onClose: (pluginState: PluginState) => {
+                    rows.insert(index + 1, pluginState)
                     setPopup(undefined)
                   }
                 })
@@ -168,6 +195,13 @@ export const RowsPlugin = (
               ) : (
                 <EmptySpot />
               )}
+              <Copy onClick={() => serialize(row())} />
+              <Cut
+                onClick={() => {
+                  serialize(row())
+                  rows.remove(index)
+                }}
+              />
               <Remove onClick={() => rows.remove(index)} />
             </RightFloatingButtonContainer>
             {row.render()}
@@ -176,4 +210,14 @@ export const RowsPlugin = (
       })}
     </React.Fragment>
   )
+
+  function serialize(id: string) {
+    const serialized = serializePlugin(store.state, id)
+    if (serialized) {
+      store.clipboard.add(serialized)
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("Couldn't serialize plugin with id", id)
+    }
+  }
 }

@@ -11,7 +11,9 @@
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
-    "ramda": "^0.26.0"
+    "@types/react-onclickoutside": "^6.7.0",
+    "ramda": "^0.26.0",
+    "react-onclickoutside": "^6.8.0"
   },
   "devDependencies": {
     "@types/ramda": "^0.26.0",
