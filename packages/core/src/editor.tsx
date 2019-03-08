@@ -7,7 +7,8 @@ import {
   hasPendingChanges,
   reducer,
   createInitialState,
-  getRoot
+  getRoot,
+  pendingChanges
 } from './store'
 import { Plugin } from './plugin'
 
@@ -32,8 +33,10 @@ export function Editor<K extends string = string>({
 
   const id = getRoot(state)
 
+  const pending = React.useRef(0)
   React.useEffect(() => {
-    if (changed) {
+    if (changed && pending.current !== pendingChanges(state)) {
+      pending.current = pendingChanges(state)
       changed(hasPendingChanges(state))
     }
   }, [changed, state])

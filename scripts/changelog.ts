@@ -53,6 +53,9 @@ async function exec(): Promise<void> {
       changed: [
         'State Descriptors uniformly return their value/items/object by invoking the state.'
       ],
+      fixed: [
+        'Only trigger `changed` if the number of pending changes changed'
+      ],
       breakingChanges: [
         'Removed `DocumentIdentifier`. You should pass the state to `<Editor />` instead',
         'Removed `state` prop from `Document`. You should pass only the id as `id` prop instead.',
