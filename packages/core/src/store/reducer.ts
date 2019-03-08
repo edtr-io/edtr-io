@@ -512,6 +512,9 @@ export function isFocused(state: State, id: string): boolean {
 export function hasPendingChanges(state: State): boolean {
   return state.history.pending !== 0
 }
+export function pendingChanges(state: State): number {
+  return state.history.pending
+}
 
 export function serializeDocument(state: State): PluginState | null {
   const root = getRoot(state)
