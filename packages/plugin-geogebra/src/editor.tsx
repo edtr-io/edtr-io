@@ -11,8 +11,10 @@ export const GeogebraEditor = (
 
   return (
     <React.Fragment>
+      <GeogebraRenderer state={state} disableCursorEvents={editable} />
       {focused ? (
         <React.Fragment>
+          <hr />
           Geogebra ID:
           <input
             placeholder="1221221"
@@ -23,7 +25,6 @@ export const GeogebraEditor = (
           />
         </React.Fragment>
       ) : null}
-      <GeogebraRenderer state={state} disableCursorEvents={editable} />
     </React.Fragment>
   )
 }

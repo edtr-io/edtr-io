@@ -10,6 +10,7 @@ import {
 } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
@@ -50,7 +51,8 @@ const plugins: Record<string, Plugin<any>> = {
   highlight: highlightPlugin,
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
-  text: textPlugin
+  text: textPlugin,
+  geogebra: geogebraPlugin
 }
 
 // TODO: stringify correctly
