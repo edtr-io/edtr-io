@@ -19,7 +19,11 @@ import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
-const uploadConfig: UploadConfig = {
+interface SerloResponse {
+  files: { location: string }[]
+}
+
+const uploadConfig: UploadConfig<SerloResponse> = {
   url: 'https://de.serlo.org/attachment/upload',
   paramName: 'attachment[file]',
   maxFileSize: 2 * 1024 * 1024,
@@ -30,7 +34,7 @@ const uploadConfig: UploadConfig = {
       csrf: ((window as unknown) as { csrf: string }).csrf
     }
   },
-  getStateFromResponse: (response: { files: Array<{ location: string }> }) => {
+  getStateFromResponse: response => {
     return {
       src: response.files[0].location
     }

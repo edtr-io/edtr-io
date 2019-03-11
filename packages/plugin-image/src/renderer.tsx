@@ -10,7 +10,7 @@ const Img = styled.img({
 })
 
 export class ImageRenderer extends React.Component<ImageRendererProps> {
-  render() {
+  public render() {
     const { state, imagePreview, disableMouseEvents } = this.props
 
     const image = (

@@ -1,11 +1,9 @@
 import { ImageRenderer } from './renderer'
 import { Icon, faImages, styled } from '@edtr-io/ui'
 import * as React from 'react'
-
 import { ImageLoaded, ImageUploaded, Upload } from './upload'
-import { ImagePluginConfig } from '.'
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { imageState } from '.'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { ImagePluginConfig, imageState } from '.'
 
 export const createImageEditor = (
   config: ImagePluginConfig

@@ -2,23 +2,30 @@ import { Uploader, UploadField } from '@navjobs/upload'
 import { UploadProgress } from '@edtr-io/ui'
 import * as React from 'react'
 
-export class Upload extends React.Component<UploadProps> {
-  matchesAllowedExtensions(fileName: string) {
+enum FileErrorCode {
+  TOO_MANY_FILES,
+  NO_FILE_SELECTED,
+  BAD_EXTENSION,
+  FILE_TOO_BIG,
+  UPLOAD_FAILED
+}
+export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
+  private matchesAllowedExtensions(fileName: string) {
     const extension = fileName.slice(fileName.lastIndexOf('.') + 1)
     return this.props.config.allowedExtensions.indexOf(extension) >= 0
   }
 
-  handleErrors(errors: FileErrorCode[]): FileError[] {
+  private handleErrors(errors: FileErrorCode[]): FileError[] {
     return errors.map(error => ({
       errorCode: error,
       message: this.errorCodeToMessage(error)
     }))
   }
-  defaultOnError(errors: FileError[]): void {
+  private defaultOnError(errors: FileError[]): void {
     alert(errors.map(error => error.message).join('\n'))
   }
 
-  errorCodeToMessage(error: FileErrorCode) {
+  private errorCodeToMessage(error: FileErrorCode) {
     switch (error) {
       case FileErrorCode.TOO_MANY_FILES:
         return 'You can only upload one file'
@@ -33,7 +40,9 @@ export class Upload extends React.Component<UploadProps> {
     }
   }
 
-  validateFiles(files: FileList): { valid: boolean; errors: FileError[] } {
+  private validateFiles(
+    files: FileList
+  ): { valid: boolean; errors: FileError[] } {
     let valid = true,
       uploadErrors: FileErrorCode[] = []
 
@@ -62,7 +71,7 @@ export class Upload extends React.Component<UploadProps> {
     }
   }
 
-  readFile(file: File) {
+  private readFile(file: File) {
     return new Promise(resolve => {
       const reader = new FileReader()
 
@@ -76,7 +85,7 @@ export class Upload extends React.Component<UploadProps> {
     })
   }
 
-  render() {
+  public render() {
     const { config } = this.props
     return (
       <Uploader
@@ -91,7 +100,7 @@ export class Upload extends React.Component<UploadProps> {
             Accept: 'application/json'
           }
         }}
-        onComplete={({ response }: any) => {
+        onComplete={({ response }: { response: T }) => {
           if (this.props.onImageUploaded) {
             const uploadedState = config.getStateFromResponse(response)
             this.props.onImageUploaded(uploadedState)
@@ -151,33 +160,25 @@ export class Upload extends React.Component<UploadProps> {
   }
 }
 
-export interface UploadProps {
-  config: UploadConfig
+export interface UploadProps<T> {
+  config: UploadConfig<T>
   onError?: (errors: FileError[]) => void
   onImageLoaded?: (image: ImageLoaded) => void
   onImageUploaded?: (state: ImageUploaded) => void
 }
 
-export interface UploadConfig {
+export interface UploadConfig<T> {
   url: string
   maxFileSize: number
   allowedExtensions: string[]
   paramName?: string
   getAdditionalFields?: Function
-  getStateFromResponse: (response: unknown) => { src: string }
+  getStateFromResponse: (response: T) => { src: string }
 }
 
-type FileError = {
+interface FileError {
   errorCode: FileErrorCode
   message: string
-}
-
-enum FileErrorCode {
-  TOO_MANY_FILES,
-  NO_FILE_SELECTED,
-  BAD_EXTENSION,
-  FILE_TOO_BIG,
-  UPLOAD_FAILED
 }
 
 export interface ImageLoaded {
@@ -185,4 +186,6 @@ export interface ImageLoaded {
   dataUrl: string
 }
 
-export type ImageUploaded = { src: string }
+export interface ImageUploaded {
+  src: string
+}
