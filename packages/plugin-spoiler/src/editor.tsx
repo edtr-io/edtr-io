@@ -22,15 +22,17 @@ export const SpoilerEditor = ({
       state={state}
       shown={editable}
       title={
-        editable ?
-        <Input
-          onChange={e => {
-            title.set(e.target.value)
-          }}
-          value={title.value}
-          placeholder="Title"
-        />
-        : title.value
+        editable ? (
+          <Input
+            onChange={e => {
+              title.set(e.target.value)
+            }}
+            value={title.value}
+            placeholder="Title"
+          />
+        ) : (
+          title.value
+        )
       }
     />
   )
