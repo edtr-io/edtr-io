@@ -125,7 +125,7 @@ export const OverlayButton: React.FunctionComponent<
         props.positionAtElement
           ? {
               position: 'absolute',
-              top: '10px',
+              marginTop: '10px',
               marginLeft: '-10px'
             }
           : undefined
