@@ -79,21 +79,8 @@ export function list<S, T = S, U = unknown>(
             return R.remove(index, 1, items)
           })
         },
-        move(f: number, t: number) {
-          onChange(items => {
-            // FIXME: use 'return R.move(from, to, items)' in next ramda version
-            return _move(f, t, items)
-
-            function _move(from: number, to: number, list: WrappedValue[]) {
-              let result = list.slice()
-              const item = result.splice(from, 1)
-
-              return ([] as WrappedValue[])
-                .concat(result.slice(0, to))
-                .concat(item)
-                .concat(result.slice(to, list.length))
-            }
-          })
+        move(from: number, to: number) {
+          onChange(items => R.move(from, to, items))
         }
       })
     },
