@@ -1,14 +1,21 @@
 import * as React from 'react'
 
 import { EditorContext } from '../editor-context'
-import { getPlugin, PluginState } from '../store'
+import { getDocument, getPlugin } from '../store'
+
+import { DocumentProps } from '.'
 
 export const DocumentRenderer: React.FunctionComponent<
-  DocumentRendererProps
+  DocumentProps
 > = props => {
   const store = React.useContext(EditorContext)
 
-  const plugin = getPlugin(store.state, props.state.plugin)
+  const document = getDocument(store.state, props.id)
+  if (!document) {
+    return null
+  }
+
+  const plugin = getPlugin(store.state, document.plugin)
 
   if (!plugin) {
     // TODO:
@@ -19,10 +26,6 @@ export const DocumentRenderer: React.FunctionComponent<
 
   return (
     // @ts-ignore
-    <plugin.Component state={props.state.state} />
+    <plugin.Component state={plugin.state(document.state, () => {})} />
   )
-}
-
-export interface DocumentRendererProps {
-  state: PluginState
 }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { DocumentProps } from '.'
 import { EditorContext } from '../editor-context'
 import {
   isStatefulPlugin,
@@ -9,7 +10,7 @@ import {
 import { ActionType, getDocument, getPlugin, isFocused } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
 
-export const DocumentEditor: React.FunctionComponent<DocumentEditorProps> = ({
+export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   id
 }) => {
   const container = React.useRef<HTMLDivElement>(null)
@@ -52,7 +53,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentEditorProps> = ({
   return (
     <React.Fragment>
       <div onMouseDown={handleFocus} ref={container} data-document>
-        <Comp editable focused={focused} state={state} />
+        <Comp editable={store.editable} focused={focused} state={state} />
       </div>
     </React.Fragment>
   )
@@ -68,8 +69,4 @@ export const DocumentEditor: React.FunctionComponent<DocumentEditorProps> = ({
       })
     }
   }
-}
-
-export interface DocumentEditorProps {
-  id: string
 }

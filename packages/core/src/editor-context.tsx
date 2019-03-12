@@ -19,10 +19,12 @@ export const EditorContext = React.createContext<EditorContextValue>({
     },
     clipboard: []
   },
-  dispatch: () => {}
+  dispatch: () => {},
+  editable: true
 })
 
 export interface EditorContextValue {
   state: State
   dispatch: (action: Action) => void
+  editable: boolean
 }

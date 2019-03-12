@@ -17,7 +17,8 @@ export function Editor<K extends string = string>({
   defaultPlugin,
   initialState,
   changed,
-  children
+  children,
+  editable = true
 }: EditorProps<K>) {
   const [state, dispatch] = React.useReducer(
     reducer,
@@ -65,7 +66,8 @@ export function Editor<K extends string = string>({
       <EditorContext.Provider
         value={{
           state,
-          dispatch
+          dispatch,
+          editable
         }}
       >
         <Document id={id} />
@@ -84,4 +86,5 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   changed?: (changed: boolean) => void
+  editable?: boolean
 }
