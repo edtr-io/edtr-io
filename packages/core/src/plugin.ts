@@ -1,6 +1,10 @@
 import * as React from 'react'
 
-import { StateDescriptor, StateDescriptorReturnType } from './plugin-state'
+import {
+  StateDescriptor,
+  StateDescriptorReturnType,
+  StateDescriptorSerializedType
+} from './plugin-state'
 
 export type Plugin<S extends StateDescriptor = StateDescriptor> =
   | StatelessPlugin
@@ -8,6 +12,7 @@ export type Plugin<S extends StateDescriptor = StateDescriptor> =
 
 export interface StatelessPlugin {
   Component: React.ComponentType<StatelessPluginEditorProps>
+  onPaste?: (data: DataTransfer) => void | { state?: undefined }
 }
 
 export interface StatelessPluginEditorProps {
@@ -18,6 +23,9 @@ export interface StatelessPluginEditorProps {
 export interface StatefulPlugin<S extends StateDescriptor> {
   Component: React.ComponentType<StatefulPluginEditorProps<S>>
   state: S
+  onPaste?: (
+    data: DataTransfer
+  ) => void | { state?: StateDescriptorSerializedType<S> }
 }
 
 export interface StatefulPluginEditorProps<

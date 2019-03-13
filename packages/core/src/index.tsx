@@ -15,5 +15,6 @@ export {
   PluginState,
   ActionCommitType,
   serializeDocument,
-  getClipboard
+  getClipboard,
+  getPlugins
 } from './store'

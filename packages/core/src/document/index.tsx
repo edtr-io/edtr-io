@@ -16,4 +16,5 @@ export const Document: React.FunctionComponent<DocumentProps> = props => {
 
 export interface DocumentProps {
   id: string
+  pluginProps?: Record<string, unknown>
 }

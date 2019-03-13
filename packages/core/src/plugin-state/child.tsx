@@ -8,7 +8,11 @@ import {
 } from './types'
 import { Document } from '..'
 
-export function child<K extends string, S = unknown>(
+export function child<
+  K extends string,
+  S = unknown,
+  Props extends Record<string, unknown> = {}
+>(
   plugin?: K,
   state?: S
 ): StateDescriptor<
@@ -17,7 +21,7 @@ export function child<K extends string, S = unknown>(
   {
     (): string
     id: string
-    render: () => React.ReactNode
+    render: (props?: Props) => React.ReactNode
   }
 > {
   return Object.assign(
@@ -25,8 +29,8 @@ export function child<K extends string, S = unknown>(
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
-        render: () => {
-          return <Document key={id} id={id} />
+        render: (props?: Props) => {
+          return <Document pluginProps={props} key={id} id={id} />
         }
       })
     },
