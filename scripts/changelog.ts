@@ -80,7 +80,10 @@ async function exec(): Promise<void> {
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     },
     {
-      added: ['Image plugin']
+      added: [
+        'Image plugin',
+        'Added `editable` prop to `Editor` for switching between edit and render mode'
+      ]
     }
   ])
 

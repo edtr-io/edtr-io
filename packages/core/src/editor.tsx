@@ -17,11 +17,12 @@ export function Editor<K extends string = string>({
   defaultPlugin,
   initialState,
   changed,
-  children
+  children,
+  editable = true
 }: EditorProps<K>) {
   const [state, dispatch] = React.useReducer(
     reducer,
-    createInitialState(plugins, defaultPlugin)
+    createInitialState(plugins, defaultPlugin, editable)
   )
 
   React.useEffect(() => {
@@ -30,6 +31,13 @@ export function Editor<K extends string = string>({
       payload: initialState || {}
     })
   }, [dispatch, initialState])
+
+  React.useEffect(() => {
+    dispatch({
+      type: ActionType.SwitchEditable,
+      payload: editable
+    })
+  }, [editable])
 
   const id = getRoot(state)
 
@@ -84,4 +92,5 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   changed?: (changed: boolean) => void
+  editable?: boolean
 }

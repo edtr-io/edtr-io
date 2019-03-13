@@ -688,6 +688,7 @@ function createInitialState(baseState: BaseState): State {
       redoStack: [],
       pending: 0
     },
-    clipboard: []
+    clipboard: [],
+    editable: true
   }
 }

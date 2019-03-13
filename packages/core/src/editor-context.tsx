@@ -17,7 +17,8 @@ export const EditorContext = React.createContext<EditorContextValue>({
       redoStack: [],
       pending: 0
     },
-    clipboard: []
+    clipboard: [],
+    editable: true
   },
   dispatch: () => {}
 })

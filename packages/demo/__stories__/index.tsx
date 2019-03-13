@@ -44,7 +44,7 @@ const counterState = StateType.number(0)
 
 const counterPlugin: StatefulPlugin<typeof counterState> = {
   // eslint-disable-next-line react/display-name
-  Component: ({ focused, state }) => {
+  Component: ({ editable, focused, state }) => {
     return (
       <div
         style={{
@@ -52,13 +52,15 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
         }}
       >
         {state.value}
-        <button
-          onClick={() => {
-            state.set(value => value + 1)
-          }}
-        >
-          +
-        </button>
+        {editable && (
+          <button
+            onClick={() => {
+              state.set(value => value + 1)
+            }}
+          >
+            +
+          </button>
+        )}
       </div>
     )
   },
@@ -167,16 +169,21 @@ export function Story(props: {
   initialState: EditorProps['initialState']
 }) {
   const [changed, setChanged] = React.useState(false)
+  const [editable, setEditable] = React.useState(true)
   return (
     <Editor
       plugins={plugins}
       defaultPlugin={props.defaultPlugin || 'text'}
       initialState={props.initialState}
       changed={setChanged}
+      editable={editable}
     >
       <LogState />
       <Overlay />
       <UndoRedoButtons enablePersist={changed} />
+      <button onClick={() => setEditable(value => !value)}>
+        Switch to {editable ? 'render' : 'edit'} mode
+      </button>
     </Editor>
   )
 }
