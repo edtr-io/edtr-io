@@ -19,6 +19,7 @@
       "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
       "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
+      "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"]
     }
