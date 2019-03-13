@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Image plugin
+- Added `editable` prop to `Editor` for switching between edit and render mode
 
 ## [0.3.1](https://github.com/edtr-io/edtr-io/compare/0.3.0..0.3.1) - March 13, 2019
 
