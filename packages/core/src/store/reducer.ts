@@ -564,7 +564,7 @@ export function serializePlugin(state: State, id: string): PluginState | null {
   }
 
   const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => getDocument(state, id)
+    getDocument: (id: string) => serializePlugin(state, id)
   }
   return {
     plugin: document.plugin,

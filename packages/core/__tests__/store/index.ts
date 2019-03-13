@@ -230,6 +230,47 @@ describe('serialize', () => {
       }
     })
   })
+
+  test('nested inside nested', () => {
+    state = reducer(state, {
+      type: ActionType.InitRoot,
+      payload: {
+        plugin: 'nestedArray',
+        state: {
+          children: [
+            { plugin: 'stateful', state: 1 },
+            {
+              plugin: 'nested',
+              state: {
+                child: {
+                  plugin: 'stateful',
+                  state: 2
+                }
+              }
+            }
+          ]
+        }
+      }
+    })
+
+    expect(serializeDocument(state)).toEqual({
+      plugin: 'nestedArray',
+      state: {
+        children: [
+          {
+            plugin: 'stateful',
+            state: 1
+          },
+          {
+            plugin: 'nested',
+            state: {
+              child: { plugin: 'stateful', state: 2 }
+            }
+          }
+        ]
+      }
+    })
+  })
 })
 
 describe('history', () => {
