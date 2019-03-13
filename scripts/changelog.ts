@@ -65,7 +65,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      fixed: ["Don't dispatch selection changes in text plugin anymore"]
+      changed: ['**plugin-spoiler**. Remove input element in render mode'],
+      fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     }
   ])
 
