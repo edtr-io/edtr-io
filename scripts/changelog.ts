@@ -63,6 +63,9 @@ async function exec(): Promise<void> {
         'Removed `state` prop from `Document`. You should pass only the id as `id` prop instead.',
         'Removed `value` property from `StateType.object`. The values are now exposed directly on `[key]`.'
       ]
+    },
+    {
+      fixed: ["Don't dispatch selection changes in text plugin anymore"]
     }
   ])
 

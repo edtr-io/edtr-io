@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.0..HEAD)
+
+### Fixed
+
+- Don't dispatch selection changes in text plugin anymore
+
 ## [0.3.0](https://github.com/edtr-io/edtr-io/compare/0.2.1..0.3.0) - March 8, 2019
 
 ### Breaking Changes
