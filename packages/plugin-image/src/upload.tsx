@@ -1,5 +1,6 @@
-import { Uploader, UploadField } from '@navjobs/upload'
 import { UploadProgress } from '@edtr-io/ui'
+// @ts-ignore
+import { Uploader, UploadField } from '@navjobs/upload'
 import * as React from 'react'
 
 enum FileErrorCode {

@@ -1,13 +1,14 @@
-import { ImageRenderer } from './renderer'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Icon, faImages, styled } from '@edtr-io/ui'
 import * as React from 'react'
+
 import { ImageLoaded, ImageUploaded, Upload } from './upload'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { ImageRenderer } from './renderer'
 import { ImagePluginConfig, imageState } from '.'
 
-export const createImageEditor = (
-  config: ImagePluginConfig
-): React.ComponentType<StatefulPluginEditorProps<typeof imageState>> => {
+export function createImageEditor<T = unknown>(
+  config: ImagePluginConfig<T>
+): React.ComponentType<StatefulPluginEditorProps<typeof imageState>> {
   return class ImageEditor extends React.Component<
     StatefulPluginEditorProps<typeof imageState>,
     ImageEditorState
