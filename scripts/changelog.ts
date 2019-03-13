@@ -65,6 +65,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: '0.3.1',
+      date: '2019-03-13',
       added: ['GeoGebra plugin'],
       changed: ['**plugin-spoiler**. Remove input element in render mode'],
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
