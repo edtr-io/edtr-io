@@ -1,7 +1,7 @@
-import { GeogebraRenderer } from './renderer'
-//TODO: replace import { renderIntoSidebar, Input } from '@splish-me/editor-ui'
 import * as React from 'react'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
+
+import { GeogebraRenderer } from './renderer'
 import { geogebraState } from '.'
 
 export const GeogebraEditor = (
