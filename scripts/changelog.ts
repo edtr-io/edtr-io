@@ -78,6 +78,9 @@ async function exec(): Promise<void> {
         'Settings Overlay now closes with click outside of the modal'
       ],
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
+    },
+    {
+      added: ['Image plugin']
     }
   ])
 
