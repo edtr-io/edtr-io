@@ -1,5 +1,6 @@
 import {
   EditorContext,
+  Plugin,
   PluginState,
   serializePlugin,
   StatefulPluginEditorProps
@@ -82,32 +83,22 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
-const Add: React.FunctionComponent<{
-  onClick: () => void
-}> = props => (
-  <BottomFloatingButtonContainer>
-    <FloatingButton onMouseDown={props.onClick}>
-      <Icon icon={faPlus} />
-    </FloatingButton>
-  </BottomFloatingButtonContainer>
-)
-
-const Remove: React.FunctionComponent<{
-  onClick: () => void
-}> = props => (
-  <FloatingButton onClick={props.onClick}>
-    <Icon icon={faTrashAlt} />
-  </FloatingButton>
-)
-
 const IconButton: React.FunctionComponent<{
   onClick: () => void
   icon: IconProp
 }> = props => (
-  <FloatingButton onClick={props.onClick}>
+  <FloatingButton onMouseDown={props.onClick}>
     <Icon icon={props.icon} />
   </FloatingButton>
 )
+
+const Add: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <IconButton {...props} icon={faPlus} />
+
+const Remove: React.FunctionComponent<{
+  onClick: () => void
+}> = props => <IconButton icon={faTrashAlt} {...props} />
 
 const MoveUp: React.FunctionComponent<{
   onClick: () => void
@@ -126,6 +117,35 @@ const Copy: React.FunctionComponent<{
   onClick: () => void
 }> = props => <IconButton icon={faCopy} {...props} />
 
+const Popup: React.FunctionComponent<{
+  onClickOutside: () => void
+  onClose: (pluginState: PluginState) => void
+  plugins: Record<string, Plugin>
+}> = props => {
+  return (
+    <OnClickOutside onClick={props.onClickOutside}>
+      <AddMenuContainer>
+        <AddMenu>
+          {R.map(plugin => {
+            return (
+              <button
+                key={plugin}
+                onClick={() => {
+                  props.onClose({ plugin })
+                }}
+              >
+                {plugin}
+              </button>
+            )
+          }, R.keys(props.plugins))}
+        </AddMenu>
+        <hr />
+        <Clipboard onClose={props.onClose} />
+      </AddMenuContainer>
+    </OnClickOutside>
+  )
+}
+
 export const RowsPlugin = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
@@ -134,53 +154,45 @@ export const RowsPlugin = (
     { index: number; onClose: (pluginState: PluginState) => void } | undefined
   >(undefined)
   const store = React.useContext(EditorContext)
+
+  function onAdd(insertIndex: number) {
+    return function() {
+      setPopup({
+        index: insertIndex,
+        onClose: (pluginState: PluginState) => {
+          rows.insert(insertIndex, pluginState)
+          setPopup(undefined)
+        }
+      })
+    }
+  }
+
   return (
     <React.Fragment>
       <TopFloatingButtonContainer>
-        <FloatingButton
-          onMouseDown={() => {
-            rows.insert(0)
-          }}
-        >
-          <Icon icon={faPlus} />
-        </FloatingButton>
+        <Add onClick={onAdd(0)} />
       </TopFloatingButtonContainer>
+      {popup && popup.index === 0 ? (
+        <Popup
+          onClickOutside={() => setPopup(undefined)}
+          onClose={popup.onClose}
+          plugins={store.state.plugins}
+        />
+      ) : null}
       {rows.items.map((row, index) => {
         return (
           <div key={row.id} style={{ position: 'relative' }}>
-            {popup && popup.index === index ? (
-              <OnClickOutside onClick={() => setPopup(undefined)}>
-                <AddMenuContainer>
-                  <AddMenu>
-                    {R.map(plugin => {
-                      return (
-                        <button
-                          key={plugin}
-                          onClick={() => {
-                            popup.onClose({ plugin })
-                          }}
-                        >
-                          {plugin}
-                        </button>
-                      )
-                    }, R.keys(store.state.plugins))}
-                  </AddMenu>
-                  <hr />
-                  <Clipboard onClose={popup.onClose} />
-                </AddMenuContainer>
-              </OnClickOutside>
+            {row.render()}
+            {popup && popup.index === index + 1 ? (
+              <Popup
+                onClickOutside={() => setPopup(undefined)}
+                onClose={popup.onClose}
+                plugins={store.state.plugins}
+              />
             ) : null}
-            <Add
-              onClick={() =>
-                setPopup({
-                  index,
-                  onClose: (pluginState: PluginState) => {
-                    rows.insert(index + 1, pluginState)
-                    setPopup(undefined)
-                  }
-                })
-              }
-            />
+            <BottomFloatingButtonContainer>
+              <Add onClick={onAdd(index + 1)} />
+            </BottomFloatingButtonContainer>
             <RightFloatingButtonContainer>
               {index > 0 ? (
                 <MoveUp onClick={() => rows.move(index, index - 1)} />
@@ -201,7 +213,6 @@ export const RowsPlugin = (
               />
               <Remove onClick={() => rows.remove(index)} />
             </RightFloatingButtonContainer>
-            {row.render()}
           </div>
         )
       })}
