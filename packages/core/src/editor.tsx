@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as R from 'ramda'
 import { HotKeys } from 'react-hotkeys'
 import { Document } from './document'
 import { EditorContext } from './editor-context'
@@ -9,8 +8,7 @@ import {
   reducer,
   createInitialState,
   getRoot,
-  pendingChanges,
-  PluginState
+  pendingChanges
 } from './store'
 import { Plugin } from './plugin'
 
@@ -25,7 +23,6 @@ export function Editor<K extends string = string>({
     reducer,
     createInitialState(plugins, defaultPlugin)
   )
-  const [clipboard, setClipboard] = React.useState<PluginState[]>([])
 
   React.useEffect(() => {
     dispatch({
@@ -68,19 +65,7 @@ export function Editor<K extends string = string>({
       <EditorContext.Provider
         value={{
           state,
-          dispatch,
-          clipboard: {
-            get: () => clipboard,
-            add: (state: PluginState) => {
-              setClipboard(currentClipboard => {
-                const maxLength = 3
-                const appended = R.prepend(state, currentClipboard)
-                return appended.length > maxLength
-                  ? R.remove(maxLength, appended.length - maxLength, appended)
-                  : appended
-              })
-            }
-          }
+          dispatch
         }}
       >
         <Document id={id} />

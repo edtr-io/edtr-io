@@ -1,8 +1,8 @@
 import {
+  ActionType,
   EditorContext,
   Plugin,
   PluginState,
-  serializePlugin,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
 import * as R from 'ramda'
@@ -204,10 +204,10 @@ export const RowsPlugin = (
               ) : (
                 <EmptySpot />
               )}
-              <Copy onClick={() => serialize(row())} />
+              <Copy onClick={() => copyToClipboard(row())} />
               <Cut
                 onClick={() => {
-                  serialize(row())
+                  copyToClipboard(row())
                   rows.remove(index)
                 }}
               />
@@ -219,13 +219,10 @@ export const RowsPlugin = (
     </React.Fragment>
   )
 
-  function serialize(id: string) {
-    const serialized = serializePlugin(store.state, id)
-    if (serialized) {
-      store.clipboard.add(serialized)
-    } else {
-      // eslint-disable-next-line no-console
-      console.error("Couldn't serialize plugin with id", id)
-    }
+  function copyToClipboard(id: string) {
+    store.dispatch({
+      type: ActionType.CopyToClipboard,
+      payload: id
+    })
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Editor, EditorContext, PluginState } from '@edtr-io/core'
+import { Editor, EditorContext, getClipboard, PluginState } from '@edtr-io/core'
 import { styled } from '../styled'
 
 const Container = styled.div({
@@ -36,7 +36,7 @@ export const Clipboard: React.FunctionComponent<{
   onClose: (pluginState: PluginState) => void
 }> = props => {
   const store = React.useContext(EditorContext)
-  const states = store.clipboard.get()
+  const states = getClipboard(store.state)
   return (
     <Container>
       Clipboard

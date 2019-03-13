@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Action, PluginState, State } from './store'
+import { Action, State } from './store'
 
 export const EditorContext = React.createContext<EditorContextValue>({
   state: {
@@ -16,20 +16,13 @@ export const EditorContext = React.createContext<EditorContextValue>({
       actions: [],
       redoStack: [],
       pending: 0
-    }
-  },
-  clipboard: {
-    get: () => [],
-    add: () => {}
+    },
+    clipboard: []
   },
   dispatch: () => {}
 })
 
 export interface EditorContextValue {
   state: State
-  clipboard: {
-    get: () => PluginState[]
-    add: (serialized: PluginState) => void
-  }
   dispatch: (action: Action) => void
 }

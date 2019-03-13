@@ -11,7 +11,8 @@ export enum ActionType {
   Focus = 'Focus',
   Undo = 'Undo',
   Redo = 'Redo',
-  Persist = 'Persist'
+  Persist = 'Persist',
+  CopyToClipboard = 'CopyToClipboard'
 }
 export enum ActionCommitType {
   ForceCommit = 'ForceCommit',
@@ -34,7 +35,8 @@ export const createInitialState = <K extends string>(
       actions: [],
       redoStack: [],
       pending: 0
-    }
+    },
+    clipboard: []
   }
 }
 
@@ -71,6 +73,8 @@ export function reducer(state: BaseState | State, action: Action): State {
       return handleRedo(state)
     case ActionType.Persist:
       return handlePersist(state)
+    case ActionType.CopyToClipboard:
+      return handleCopyToClipboard(state, action)
   }
 }
 
@@ -378,6 +382,25 @@ function handleRecursiveInserts(
   return actions
 }
 
+function handleCopyToClipboard(state: State, action: CopyAction): State {
+  const serialized = serializePlugin(state, action.payload)
+  if (!serialized) {
+    return state
+  }
+
+  const maxLength = 3
+  const appended = R.prepend(serialized, state.clipboard)
+  const nextClipboard =
+    appended.length > maxLength
+      ? R.remove(maxLength, appended.length - maxLength, appended)
+      : appended
+
+  return {
+    ...state,
+    clipboard: nextClipboard
+  }
+}
+
 export interface BaseState {
   defaultPlugin: PluginType
   plugins: Record<PluginType, Plugin>
@@ -393,6 +416,7 @@ export interface State extends BaseState {
     redoStack: Undoable[][]
     pending: number
   }
+  clipboard: PluginState[]
 }
 
 export function hasHistory(state: BaseState | State): state is State {
@@ -409,6 +433,7 @@ export type Action =
   | UndoAction
   | RedoAction
   | PersistAction
+  | CopyAction
 
 type PluginType = string
 
@@ -457,6 +482,11 @@ export interface PersistAction {
   type: ActionType.Persist
 }
 
+export interface CopyAction {
+  type: ActionType.CopyToClipboard
+  payload: string
+}
+
 export interface PluginState {
   plugin: PluginType
   state?: unknown
@@ -479,6 +509,10 @@ export function getPlugin(state: State, type: string): Plugin | null {
   const plugins = getPlugins(state)
 
   return plugins[type] || null
+}
+
+export function getClipboard(state: State): PluginState[] {
+  return state.clipboard
 }
 
 export function getPluginOrDefault(
