@@ -1,8 +1,8 @@
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { imageState } from '.'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { ImageLoaded } from './upload'
 
 const Img = styled.img({

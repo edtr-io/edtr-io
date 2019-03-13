@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
+import * as React from 'react'
 
 import { GeogebraRenderer } from './renderer'
 import { geogebraState } from '.'
