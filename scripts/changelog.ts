@@ -67,7 +67,12 @@ async function exec(): Promise<void> {
     {
       tagName: '0.3.1',
       date: '2019-03-13',
-      added: ['GeoGebra plugin'],
+      added: [
+        'Add move Up/Down functionality to Rows plugin',
+        'Add clipboard to rows plugin add-menu',
+        'Add Cut / Copy actions to Rows plugin',
+        'GeoGebra plugin'
+      ],
       changed: ['**plugin-spoiler**. Remove input element in render mode'],
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     }

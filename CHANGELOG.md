@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Add move Up/Down functionality to Rows plugin
+- Add clipboard to rows plugin add-menu
+- Add Cut / Copy actions to Rows plugin
 - GeoGebra plugin
 
 ### Changed
