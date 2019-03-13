@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - **plugin-spoiler**. Remove input element in render mode
+- Settings Overlay now closes with click outside of the modal
 
 ### Fixed
 

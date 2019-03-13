@@ -73,7 +73,10 @@ async function exec(): Promise<void> {
         'Add Cut / Copy actions to Rows plugin',
         'GeoGebra plugin'
       ],
-      changed: ['**plugin-spoiler**. Remove input element in render mode'],
+      changed: [
+        '**plugin-spoiler**. Remove input element in render mode',
+        'Settings Overlay now closes with click outside of the modal'
+      ],
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     }
   ])
