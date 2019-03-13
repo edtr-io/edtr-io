@@ -17,14 +17,13 @@ export const EditorContext = React.createContext<EditorContextValue>({
       redoStack: [],
       pending: 0
     },
-    clipboard: []
+    clipboard: [],
+    editable: true
   },
-  dispatch: () => {},
-  editable: true
+  dispatch: () => {}
 })
 
 export interface EditorContextValue {
   state: State
   dispatch: (action: Action) => void
-  editable: boolean
 }

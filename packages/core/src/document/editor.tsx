@@ -7,7 +7,13 @@ import {
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '../plugin'
-import { ActionType, getDocument, getPlugin, isFocused } from '../store'
+import {
+  ActionType,
+  getDocument,
+  getPlugin,
+  isEditable,
+  isFocused
+} from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
 
 export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
@@ -49,11 +55,11 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   >
 
   const focused = isFocused(store.state, id)
-
+  const editable = isEditable(store.state)
   return (
     <React.Fragment>
       <div onMouseDown={handleFocus} ref={container} data-document>
-        <Comp editable={store.editable} focused={focused} state={state} />
+        <Comp editable={editable} focused={focused} state={state} />
       </div>
     </React.Fragment>
   )

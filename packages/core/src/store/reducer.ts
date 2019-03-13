@@ -12,7 +12,8 @@ export enum ActionType {
   Undo = 'Undo',
   Redo = 'Redo',
   Persist = 'Persist',
-  CopyToClipboard = 'CopyToClipboard'
+  CopyToClipboard = 'CopyToClipboard',
+  SwitchEditable = 'SwitchEditable'
 }
 export enum ActionCommitType {
   ForceCommit = 'ForceCommit',
@@ -21,7 +22,8 @@ export enum ActionCommitType {
 
 export const createInitialState = <K extends string>(
   plugins: Record<K, Plugin>,
-  defaultPlugin: K
+  defaultPlugin: K,
+  editable: boolean
 ): State => {
   const initialState: BaseState = {
     plugins,
@@ -36,7 +38,8 @@ export const createInitialState = <K extends string>(
       redoStack: [],
       pending: 0
     },
-    clipboard: []
+    clipboard: [],
+    editable: editable
   }
 }
 
@@ -75,6 +78,8 @@ export function reducer(state: BaseState | State, action: Action): State {
       return handlePersist(state)
     case ActionType.CopyToClipboard:
       return handleCopyToClipboard(state, action)
+    case ActionType.SwitchEditable:
+      return handleSwitchEditable(state, action)
   }
 }
 
@@ -401,6 +406,16 @@ function handleCopyToClipboard(state: State, action: CopyAction): State {
   }
 }
 
+function handleSwitchEditable(
+  state: State,
+  action: SwitchEditableAction
+): State {
+  return {
+    ...state,
+    editable: action.payload
+  }
+}
+
 export interface BaseState {
   defaultPlugin: PluginType
   plugins: Record<PluginType, Plugin>
@@ -417,6 +432,7 @@ export interface State extends BaseState {
     pending: number
   }
   clipboard: PluginState[]
+  editable: boolean
 }
 
 export function hasHistory(state: BaseState | State): state is State {
@@ -434,6 +450,7 @@ export type Action =
   | RedoAction
   | PersistAction
   | CopyAction
+  | SwitchEditableAction
 
 type PluginType = string
 
@@ -485,6 +502,11 @@ export interface PersistAction {
 export interface CopyAction {
   type: ActionType.CopyToClipboard
   payload: string
+}
+
+export interface SwitchEditableAction {
+  type: ActionType.SwitchEditable
+  payload: boolean
 }
 
 export interface PluginState {
@@ -541,6 +563,10 @@ export function getPlugins<K extends string = string>(
 
 export function isFocused(state: State, id: string): boolean {
   return state.focus === id
+}
+
+export function isEditable(state: State): boolean {
+  return state.editable
 }
 
 export function hasPendingChanges(state: State): boolean {

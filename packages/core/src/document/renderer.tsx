@@ -4,6 +4,7 @@ import { EditorContext } from '../editor-context'
 import { getDocument, getPlugin } from '../store'
 
 import { DocumentProps } from '.'
+import { isStatefulPlugin } from '../plugin'
 
 export const DocumentRenderer: React.FunctionComponent<
   DocumentProps
@@ -24,8 +25,9 @@ export const DocumentRenderer: React.FunctionComponent<
     return null
   }
 
-  return (
-    // @ts-ignore
-    <plugin.Component state={plugin.state(document.state, () => {})} />
-  )
+  let pluginState: unknown
+  if (isStatefulPlugin(plugin)) {
+    pluginState = plugin.state(document.state, () => {})
+  }
+  return <plugin.Component state={pluginState} />
 }
