@@ -13,6 +13,7 @@ module.exports = (_baseConfig, _env, config) => {
               '@edtr-io/ui': '@edtr-io/ui/src',
               '@edtr-io/plugin-anchor': '@edtr-io/plugin-anchor/src',
               '@edtr-io/plugin-blockquote': '@edtr-io/plugin-blockquote/src',
+              '@edtr-io/plugin-geogebra': '@edtr-io/plugin-geogebra/src',
               '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',
               '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
               '@edtr-io/plugin-text': '@edtr-io/plugin-text/src'
