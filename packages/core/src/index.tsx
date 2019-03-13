@@ -10,4 +10,10 @@ export {
 } from './plugin'
 import * as StateType from './plugin-state'
 export { StateType }
-export { ActionType, ActionCommitType, serializeDocument } from './store'
+export {
+  ActionType,
+  PluginState,
+  ActionCommitType,
+  serializeDocument,
+  getClipboard
+} from './store'

@@ -8,12 +8,12 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
-    "ramda": "^0.26.0",
+    "ramda": "^0.26.1",
     "react-hotkeys": "^1.1.4",
     "uuid": "^3.0.0"
   },
   "devDependencies": {
-    "@types/ramda": "^0.26.0",
+    "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-test-renderer": "^16.8.0",

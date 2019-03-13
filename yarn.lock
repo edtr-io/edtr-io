@@ -2342,10 +2342,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
-"@types/ramda@^0.26.0":
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.0.tgz#ce45c2c61b3e510f907cc84941c8cdb99f089b6a"
-  integrity sha512-6FCz2E3SrkgbuV3piRNfjThSRyMbcIxHknnGYPfrg4k55PHnNRR80boVdl1AME/KfDW+FBVmKrKPyRbFo8HjaQ==
+"@types/ramda@^0.26.1":
+  version "0.26.3"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.3.tgz#e6c35cb0a75843c9cfe58e0be294ffbc4480f33e"
+  integrity sha512-ZTepXW1dgQySkTUbxb2JC61vJxnLqofq4S43rFWpobRRsDh9HgNQxjEWhjQcjoYAMhkyV8JsE9mhE7Pgo3AYbg==
 
 "@types/react-dom@^16.8.0":
   version "16.8.2"
@@ -2360,6 +2360,13 @@
   integrity sha512-bmY2ad/vQgP0HMT7Q7EQzirDBt5ibp+kBHclTnY7/i5MrdqE1oY+3b9NkDg3ohXlumr7p5stAG6I55nhfeUV6Q==
   dependencies:
     "@types/prop-types" "*"
+    "@types/react" "*"
+
+"@types/react-onclickoutside@^6.7.0":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@types/react-onclickoutside/-/react-onclickoutside-6.7.0.tgz#5cc4807ec26decdc9031bc7c87fc8cfbe09b92cc"
+  integrity sha512-5u9HYXHuTBAfDTBSwhJ6867ngksrzaQOhv/PwPwICdTsPMCujWeg3/KLeFuJ4JVouA7KBrB+/98COUNBn/kkyA==
+  dependencies:
     "@types/react" "*"
 
 "@types/react-syntax-highlighter@^10.0.0":
@@ -9918,7 +9925,7 @@ ramda@^0.25.0:
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
   integrity sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==
 
-ramda@^0.26.0:
+ramda@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
   integrity sha512-hLWjpy7EnsDBb0p+Z3B7rPi3GDeRG5ZtiI33kJhTt+ORCd38AbAIjB/9zRIUoeTbE/AVX5ZkU7m6bznsvrf8eQ==
@@ -10080,6 +10087,11 @@ react-modal@^3.6.1:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
+
+react-onclickoutside@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.8.0.tgz#9f91b5b3ed59f4d9e43fd71620dc200773a4d569"
+  integrity sha512-5Q4Rn7QLEoh7WIe66KFvYIpWJ49GeHoygP1/EtJyZjXKgrWH19Tf0Ty3lWyQzrEEDyLOwUvvmBFSE3dcDdvagA==
 
 react-split-pane@^0.1.84:
   version "0.1.85"

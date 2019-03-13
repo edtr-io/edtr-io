@@ -5,6 +5,7 @@ import {
   ActionType,
   BaseState,
   ChangeAction,
+  getClipboard,
   getDocument,
   getDocuments,
   hasPendingChanges,
@@ -578,6 +579,65 @@ describe('persist', () => {
   })
 })
 
+describe('copyToClipboard', () => {
+  test('copy stateful', () => {
+    state = reducer(state, {
+      type: ActionType.Insert,
+      payload: {
+        id: '0',
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    })
+
+    state = reducer(state, {
+      type: ActionType.CopyToClipboard,
+      payload: '0'
+    })
+
+    expect(getClipboard(state)).toEqual([
+      {
+        plugin: 'stateful',
+        state: { counter: 0 }
+      }
+    ])
+  })
+
+  test('copy nested', () => {
+    state = createInitialState({
+      ...state,
+      documents: {
+        '0': { plugin: 'stateful', state: 0 },
+        '1': { plugin: 'nested', state: { child: '0' } }
+      }
+    })
+
+    state = reducer(state, {
+      type: ActionType.InitRoot,
+      payload: {
+        plugin: 'nested',
+        state: {
+          child: { plugin: 'stateful', state: 0 }
+        }
+      }
+    })
+
+    state = reducer(state, {
+      type: ActionType.CopyToClipboard,
+      payload: '1'
+    })
+
+    expect(getClipboard(state)).toEqual([
+      {
+        plugin: 'nested',
+        state: {
+          child: { plugin: 'stateful', state: 0 }
+        }
+      }
+    ])
+  })
+})
+
 function createInitialState(baseState: BaseState): State {
   return {
     ...baseState,
@@ -586,6 +646,7 @@ function createInitialState(baseState: BaseState): State {
       actions: [],
       redoStack: [],
       pending: 0
-    }
+    },
+    clipboard: []
   }
 }

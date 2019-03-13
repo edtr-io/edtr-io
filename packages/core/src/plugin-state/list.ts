@@ -7,8 +7,8 @@ import {
   StoreSerializeHelpers
 } from './types'
 
-export function list<S, T = S, R = unknown>(
-  type: StateDescriptor<S, T, R>,
+export function list<S, T = S, U = unknown>(
+  type: StateDescriptor<S, T, U>,
   initialCount = 0
 ): StateDescriptor<
   S[],
@@ -17,10 +17,11 @@ export function list<S, T = S, R = unknown>(
     value: T
   }[],
   {
-    (): R[]
-    items: R[]
+    (): U[]
+    items: U[]
     insert: (index?: number, options?: S) => void
     remove: (index: number) => void
+    move: (from: number, to: number) => void
   }
 > {
   interface WrappedValue {
@@ -77,6 +78,9 @@ export function list<S, T = S, R = unknown>(
           onChange(items => {
             return R.remove(index, 1, items)
           })
+        },
+        move(from: number, to: number) {
+          onChange(items => R.move(from, to, items))
         }
       })
     },

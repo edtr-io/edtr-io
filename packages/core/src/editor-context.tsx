@@ -16,7 +16,8 @@ export const EditorContext = React.createContext<EditorContextValue>({
       actions: [],
       redoStack: [],
       pending: 0
-    }
+    },
+    clipboard: []
   },
   dispatch: () => {}
 })
