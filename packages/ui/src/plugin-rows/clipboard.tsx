@@ -47,11 +47,11 @@ export const Clipboard: React.FunctionComponent<{
               <Button key={index} onClick={() => props.onClose(state)}>
                 <Preview>
                   <PreventMouseEvents>
-                    {/*FIXME: Use Renderer instead*/}
                     <Editor
                       plugins={store.state.plugins}
                       defaultPlugin={store.state.defaultPlugin}
                       initialState={state}
+                      editable={false}
                     />
                   </PreventMouseEvents>
                 </Preview>
