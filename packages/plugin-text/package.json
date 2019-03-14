@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -16,8 +16,8 @@
     "slate-react": "^0.21.16"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.3.1",
-    "@edtr-io/ui": "^0.3.1",
+    "@edtr-io/core": "^0.3.2",
+    "@edtr-io/ui": "^0.3.2",
     "@types/lodash": "^4.14.120",
     "@types/parse5": "^5.0.0",
     "@types/react": "^16.8.0",
