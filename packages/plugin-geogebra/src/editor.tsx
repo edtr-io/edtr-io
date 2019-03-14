@@ -17,7 +17,7 @@ export const GeogebraEditor = (
           <hr />
           Geogebra ID:
           <input
-            placeholder="1221221"
+            placeholder="12345"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               state.set(e.target.value)
             }}
