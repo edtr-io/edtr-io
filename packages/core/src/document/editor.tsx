@@ -17,7 +17,8 @@ import {
 import { StoreDeserializeHelpers } from '../plugin-state'
 
 export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
-  id
+  id,
+  pluginProps
 }) => {
   const container = React.useRef<HTMLDivElement>(null)
   const store = React.useContext(EditorContext)
@@ -59,7 +60,12 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   return (
     <React.Fragment>
       <div onMouseDown={handleFocus} ref={container} data-document>
-        <Comp editable={editable} focused={focused} state={state} />
+        <Comp
+          {...pluginProps}
+          editable={editable}
+          focused={focused}
+          state={state}
+        />
       </div>
     </React.Fragment>
   )

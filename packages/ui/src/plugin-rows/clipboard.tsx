@@ -1,5 +1,11 @@
 import * as React from 'react'
-import { Editor, EditorContext, getClipboard, PluginState } from '@edtr-io/core'
+import {
+  Editor,
+  EditorContext,
+  getClipboard,
+  PluginState,
+  getPlugins
+} from '@edtr-io/core'
 import { styled } from '../styled'
 
 const Container = styled.div({
@@ -48,7 +54,7 @@ export const Clipboard: React.FunctionComponent<{
                 <Preview>
                   <PreventMouseEvents>
                     <Editor
-                      plugins={store.state.plugins}
+                      plugins={getPlugins(store.state)}
                       defaultPlugin={store.state.defaultPlugin}
                       initialState={state}
                       editable={false}

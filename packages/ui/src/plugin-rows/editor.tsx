@@ -3,7 +3,8 @@ import {
   EditorContext,
   Plugin,
   PluginState,
-  StatefulPluginEditorProps
+  StatefulPluginEditorProps,
+  getPlugins
 } from '@edtr-io/core'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -176,18 +177,21 @@ export const RowsPlugin = (
         <Popup
           onClickOutside={() => setPopup(undefined)}
           onClose={popup.onClose}
-          plugins={store.state.plugins}
+          plugins={getPlugins(store.state)}
         />
       ) : null}
       {rows.items.map((row, index) => {
         return (
           <div key={row.id} style={{ position: 'relative' }}>
-            {row.render()}
+            {row.render({
+              insert: (options?: { plugin: string; state?: unknown }) =>
+                rows.insert(index + 1, options)
+            })}
             {popup && popup.index === index + 1 ? (
               <Popup
                 onClickOutside={() => setPopup(undefined)}
                 onClose={popup.onClose}
-                plugins={store.state.plugins}
+                plugins={getPlugins(store.state)}
               />
             ) : null}
             <BottomFloatingButtonContainer>
