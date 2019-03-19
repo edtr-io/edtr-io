@@ -4,6 +4,7 @@ import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
+import { injectionPlugin } from '@edtr-io/plugin-injection'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -36,6 +37,7 @@ export const plugins: Record<string, Plugin> = {
   blockquote: blockquotePlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
+  injection: injectionPlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   spoiler: spoilerPlugin,
