@@ -9,6 +9,7 @@ export {
   StatefulPlugin,
   StatelessPlugin
 } from './plugin'
+export { StateDescriptorReturnType } from './plugin-state'
 import * as StateType from './plugin-state'
 export { StateType }
 export {
