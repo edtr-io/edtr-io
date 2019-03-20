@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { InlineOverlay, Input, Overlay } from '@edtr-io/ui'
+import { AutoFocusInput, InlineOverlay, Overlay } from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {
@@ -113,7 +113,7 @@ const DefaultControlsComponent: React.FunctionComponent<
       ) : null}
       {isLink(editor) ? (
         <Overlay key={`overlay${inline.key}`}>
-          <Input
+          <AutoFocusInput
             label="URL"
             value={value}
             onChange={e => {
