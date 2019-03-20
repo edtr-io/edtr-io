@@ -80,8 +80,10 @@ async function exec(): Promise<void> {
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     },
     {
+      tagName: '0.3.2',
+      date: '2019-03-14',
       added: [
-        'Image plugin',
+        'Added Image plugin',
         'Added `editable` prop to `Editor` for switching between edit and render mode',
         'Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event',
         'Added `InlineOverlay` Component for plugin controls'
