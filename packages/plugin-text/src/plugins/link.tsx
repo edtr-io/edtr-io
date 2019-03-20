@@ -112,7 +112,7 @@ const DefaultControlsComponent: React.FunctionComponent<
         </InlineOverlay>
       ) : null}
       {isLink(editor) ? (
-        <Overlay key={`overlay${inline.key}`}>
+        <Overlay key={`overlay${inline.key}`} onClose={() => editor.focus()}>
           <AutoFocusInput
             label="URL"
             value={value}

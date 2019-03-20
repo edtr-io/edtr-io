@@ -41,25 +41,31 @@ const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
   }
 }))
 
-export const Overlay: React.FunctionComponent = props => {
+export const Overlay: React.FunctionComponent<{
+  onClose?: () => void
+}> = props => {
   const overlayContext = React.useContext(OverlayContext)
+  function closeHandler() {
+    overlayContext.hide()
+    if (props.onClose) {
+      props.onClose()
+    }
+  }
   return overlayContext.node.current && overlayContext.visible
     ? createPortal(
         <HotKeys
           keyMap={{
-            CLOSE: 'enter'
+            CLOSE: ['enter', 'esc']
           }}
           handlers={{
-            CLOSE: () => {
-              overlayContext.hide()
-            }
+            CLOSE: closeHandler
           }}
         >
           <OverlayWrapper>
-            <OnClickOutside onClick={overlayContext.hide}>
+            <OnClickOutside onClick={closeHandler}>
               <OverlayBox>
                 <SettingButton
-                  onClick={overlayContext.hide}
+                  onClick={closeHandler}
                   light
                   style={{
                     position: 'absolute',
