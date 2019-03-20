@@ -1,26 +1,29 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { Icon, faCog, styled, faTimes } from '..'
+import { Icon, styled, faTimes, faTrashAlt, faPencilAlt } from '..'
 import { OnClickOutside } from './onClickOutside'
+import { HotKeys } from 'react-hotkeys'
+import { OverlayContext } from '@edtr-io/core'
 
 const OverlayWrapper = styled.div({
   width: '100%',
   height: '100%',
-  position: 'absolute',
+  position: 'fixed',
   top: 0,
   left: 0,
   backgroundColor: '#00000033',
-  zIndex: 99
+  zIndex: 99,
+  padding: '20px'
 })
 const OverlayBox = styled.div({
-  width: '80%',
-  height: '80%',
+  width: '60%',
+  height: '60%',
   position: 'absolute',
   zIndex: 100,
   backgroundColor: 'rgb(51,51,51,0.95)',
   paddingBottom: '10px',
-  left: '10%',
-  top: '10%'
+  left: '20%',
+  top: '20%'
 })
 
 const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
@@ -38,107 +41,99 @@ const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
   }
 }))
 
-let overlayNode = React.createRef<SettingsOverlay>()
-let portalNode = React.createRef<HTMLDivElement>()
-
-export const Overlay: React.FunctionComponent = () => {
-  return <SettingsOverlay ref={overlayNode} />
-}
-class SettingsOverlay extends React.Component<{}, { shown: boolean }> {
-  public state = {
-    shown: false
-  }
-
-  public show() {
-    this.setState({
-      shown: true
-    })
-  }
-  public hide() {
-    this.setState({
-      shown: false
-    })
-  }
-
-  public isShown() {
-    return this.state.shown
-  }
-
-  public render() {
-    return (
-      <div
-        ref={portalNode}
-        style={this.isShown() ? undefined : { display: 'none' }}
-      />
-    )
-  }
-}
-export const showOverlay = () => {
-  if (!overlayNode.current) {
-    return
-  }
-
-  overlayNode.current.show()
-}
-
-export const hideOverlay = () => {
-  if (!overlayNode.current) {
-    return
-  }
-
-  overlayNode.current.hide()
-}
-
-export const renderIntoOverlay = (children: React.ReactNode) => {
-  if (!overlayNode.current || !portalNode.current) {
-    return null
-  }
-
-  return createPortal(
-    <OverlayWrapper>
-      <OnClickOutside onClick={hideOverlay}>
-        <OverlayBox>
-          <SettingButton
-            onClick={hideOverlay}
-            light
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              zIndex: 101
-            }}
-          >
-            <Icon icon={faTimes} />
-          </SettingButton>
-          {children}
-        </OverlayBox>
-      </OnClickOutside>
-    </OverlayWrapper>,
-    portalNode.current
-  )
-}
-
-export const OverlayButton: React.FunctionComponent<
-  OverlayButtonProps
-> = props => {
-  return (
-    <SettingButton
-      onClick={showOverlay}
-      style={
-        props.positionAtElement
-          ? {
-              position: 'absolute',
-              marginTop: '10px',
-              marginLeft: '-10px'
+export const Overlay: React.FunctionComponent = props => {
+  const overlayContext = React.useContext(OverlayContext)
+  return overlayContext.node.current && overlayContext.visible
+    ? createPortal(
+        <HotKeys
+          keyMap={{
+            CLOSE: 'enter'
+          }}
+          handlers={{
+            CLOSE: () => {
+              overlayContext.hide()
             }
-          : undefined
-      }
-    >
-      <Icon icon={faCog} />
-    </SettingButton>
-  )
+          }}
+        >
+          <OverlayWrapper>
+            <OnClickOutside onClick={overlayContext.hide}>
+              <OverlayBox>
+                <SettingButton
+                  onClick={overlayContext.hide}
+                  light
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    zIndex: 101
+                  }}
+                >
+                  <Icon icon={faTimes} />
+                </SettingButton>
+                {props.children}
+              </OverlayBox>
+            </OnClickOutside>
+          </OverlayWrapper>
+        </HotKeys>,
+        overlayContext.node.current
+      )
+    : null
 }
 
-export interface OverlayButtonProps {
-  positionAtElement?: boolean
+const InlineOverlayWrapper = styled.div({
+  position: 'fixed',
+  opacity: 0,
+  transition: 'opacity 0.5s',
+  backgroundColor: 'rgba(51,51,51,0.95)',
+  color: '#eeeeee',
+  padding: '5px',
+  zIndex: 100,
+  '& a': {
+    color: '#eeeeee'
+  }
+})
+const InlinePreview = styled.span({
+  padding: '0px 8px'
+})
+const ChangeButton = styled.div({
+  padding: '5px 5px 5px 10px',
+  display: 'inline-block',
+  borderLeft: '2px solid #eeeeee',
+  cursor: 'pointer',
+  margin: '2px'
+})
+
+export const InlineOverlay: React.FunctionComponent<{
+  onEdit: React.MouseEventHandler
+  onDelete: React.MouseEventHandler
+}> = props => {
+  const overlay = React.createRef<HTMLDivElement>()
+  React.useEffect(() => {
+    const menu = overlay.current
+    if (!menu) return
+
+    const native = window.getSelection()
+    const range = native.getRangeAt(0)
+    const rect = range.getBoundingClientRect()
+    if (rect.height === 0) return
+    menu.style.opacity = '1'
+    menu.style.top = `${rect.bottom + window.pageYOffset + 3}px`
+
+    menu.style.left = `${Math.max(
+      rect.left + window.pageXOffset - menu.offsetWidth / 2 + rect.width / 2,
+      0
+    )}px`
+  }, [overlay])
+
+  return (
+    <InlineOverlayWrapper ref={overlay}>
+      <InlinePreview>{props.children}</InlinePreview>
+      <ChangeButton onClick={props.onEdit}>
+        <Icon icon={faPencilAlt} />
+      </ChangeButton>
+      <ChangeButton onClick={props.onDelete}>
+        <Icon icon={faTrashAlt} />
+      </ChangeButton>
+    </InlineOverlayWrapper>
+  )
 }

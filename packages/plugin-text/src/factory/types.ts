@@ -1,8 +1,12 @@
 import * as React from 'react'
-import { Plugin } from 'slate-react'
-import { Rule } from 'slate-html-serializer'
+import { OverlayContextValue } from '@edtr-io/core'
+import { TextPlugin } from '..'
 
 export interface TextPluginOptions {
-  plugins: (Plugin & Rule)[]
+  plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   placeholder?: React.ReactNode
 }
+
+export type SlatePluginClosure = React.RefObject<{
+  overlayContext: OverlayContextValue
+}>

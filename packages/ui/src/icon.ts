@@ -15,6 +15,7 @@ export {
   faLink,
   faMinus,
   faPaste,
+  faPencilAlt,
   faPlus,
   faSpinner,
   faTimes,

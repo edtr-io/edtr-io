@@ -11,6 +11,7 @@ import {
   pendingChanges
 } from './store'
 import { Plugin } from './plugin'
+import { OverlayContextProvider } from './overlay'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -76,8 +77,10 @@ export function Editor<K extends string = string>({
           dispatch
         }}
       >
-        <Document id={id} />
-        {children}
+        <OverlayContextProvider>
+          <Document id={id} />
+          {children}
+        </OverlayContextProvider>
       </EditorContext.Provider>
     </HotKeys>
   )

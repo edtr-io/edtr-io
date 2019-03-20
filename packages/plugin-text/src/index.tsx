@@ -1,6 +1,11 @@
-import { MarkJSON, NodeJSON } from 'slate'
+import { Editor, MarkJSON, NodeJSON } from 'slate'
 import { Rule } from 'slate-html-serializer'
-import { Plugin, RenderMarkProps, RenderNodeProps } from 'slate-react'
+import {
+  EditorProps,
+  Plugin,
+  RenderMarkProps,
+  RenderNodeProps
+} from 'slate-react'
 import { plugins } from './plugins'
 import { createTextPlugin } from './factory'
 import { createUiPlugin, Controls } from './controls'
@@ -12,7 +17,7 @@ export interface MarkRendererProps {
 }
 
 export type NodeEditorProps = RenderNodeProps
-
+export type NodeControlsProps = EditorProps & { editor: Editor }
 export interface NodeRendererProps {
   node: NodeJSON
 }

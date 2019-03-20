@@ -33,7 +33,7 @@ class DefaultRendererComponent extends React.Component<NodeRendererProps> {
 export const createParagraphPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent
-}: ParagraphPluginOptions = {}): TextPlugin => {
+}: ParagraphPluginOptions = {}) => (): TextPlugin => {
   return {
     deserialize(el, next) {
       if (el.tagName.toLowerCase() === 'p') {

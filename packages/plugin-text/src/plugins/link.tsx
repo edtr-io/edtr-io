@@ -1,122 +1,17 @@
 import { debounce } from 'lodash'
-import {
-  Input,
-  OverlayButton,
-  renderIntoOverlay,
-  showOverlay
-} from '@edtr-io/ui'
+import { InlineOverlay, Input, Overlay } from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
-import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
+import {
+  NodeControlsProps,
+  NodeEditorProps,
+  NodeRendererProps,
+  TextPlugin
+} from '..'
+import { OverlayContext, OverlayContextValue } from '@edtr-io/core'
+import { SlatePluginClosure } from '../factory/types'
 
 export const linkNode = '@splish-me/a'
-
-export interface LinkPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
-  RenderComponent?: React.ComponentType<NodeRendererProps>
-}
-
-interface DefaultEditorComponentState {
-  lastValue: string
-  value: string
-}
-
-class DefaultEditorComponent extends React.Component<
-  NodeEditorProps,
-  DefaultEditorComponentState
-> {
-  public state: DefaultEditorComponentState = {
-    lastValue: this.props.node.data.get('href'),
-    value: this.props.node.data.get('href')
-  }
-
-  private handleHrefChange = debounce((href: string) => {
-    const { editor, node } = this.props
-    const inline = node
-
-    editor
-      .setNodeByKey(inline.key, {
-        type: inline.type,
-        data: {
-          href
-        }
-      })
-      .focus()
-
-    //FIXME: input field is loosing focus, but this doesn't work
-    // setTimeout(() => {
-    //   const input = this.input.current
-    //   if (input) {
-    //     input.focus()
-    //   }
-    // })
-  }, 500)
-
-  private input = React.createRef<Input>() as React.RefObject<Input> & string
-
-  public static getDerivedStateFromProps(
-    props: NodeEditorProps,
-    state: DefaultEditorComponentState
-  ): DefaultEditorComponentState | null {
-    const newValue = props.node.data.get('href')
-
-    if (newValue === state.lastValue) {
-      return null
-    }
-
-    return {
-      lastValue: newValue,
-      value: newValue
-    }
-  }
-
-  public render() {
-    const { attributes, children, node, isSelected } = this.props
-    const inline = node
-    const { value } = this.state
-
-    const href = inline.data.get('href')
-
-    return (
-      <React.Fragment>
-        <a {...attributes} href={href}>
-          {children}
-        </a>
-        {isSelected
-          ? renderIntoOverlay(
-              <React.Fragment>
-                <Input
-                  ref={this.input}
-                  label="URL"
-                  value={value}
-                  onChange={e => {
-                    const newValue = e.target.value
-
-                    this.setState({ value: newValue })
-                    this.handleHrefChange(newValue)
-                  }}
-                />
-              </React.Fragment>
-            )
-          : null}
-        {isSelected ? <OverlayButton positionAtElement /> : null}
-      </React.Fragment>
-    )
-  }
-}
-
-class DefaultRendererComponent extends React.Component<NodeRendererProps> {
-  public render() {
-    const { children, node } = this.props
-    const { data } = node as InlineJSON
-
-    if (!data) {
-      return null
-    }
-
-    return <a href={data.href}>{children}</a>
-  }
-}
 
 export const isLink = (editor: Editor) => {
   return editor.value.inlines.some(inline =>
@@ -129,11 +24,12 @@ export const unwrapLink = (editor: Editor) => {
 }
 
 export const wrapLink = (data: { href: string } = { href: '' }) => (
-  editor: Editor
+  editor: Editor,
+  overlayContext: OverlayContextValue
 ) => {
-  showOverlay()
+  setTimeout(overlayContext.show)
   if (editor.value.selection.isExpanded) {
-    return unwrapLink(editor)
+    return editor
       .wrapInline({
         type: linkNode,
         data
@@ -152,10 +48,106 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
     .moveToStart()
 }
 
+export interface LinkPluginOptions {
+  EditorComponent?: React.ComponentType<NodeEditorProps>
+  RenderComponent?: React.ComponentType<NodeRendererProps>
+  ControlsComponent?: React.ComponentType<NodeControlsProps>
+}
+
+const DefaultEditorComponent: React.FunctionComponent<
+  NodeEditorProps
+> = props => {
+  const { attributes, children, node } = props
+  const inline = node
+  const href = inline.data.get('href')
+
+  return (
+    <React.Fragment>
+      <a {...attributes} href={href}>
+        {children}
+      </a>
+    </React.Fragment>
+  )
+}
+
+const DefaultControlsComponent: React.FunctionComponent<
+  NodeControlsProps
+> = props => {
+  const overlayContext = React.useContext(OverlayContext)
+  const { editor } = props
+  const inline = editor.value.inlines.find(nodeIsLink)
+  const lastInline = React.useRef(inline)
+  const [value, setValue] = React.useState(
+    inline ? inline.data.get('href') : undefined
+  )
+  if (!inline) return <React.Fragment>{props.children}</React.Fragment>
+
+  if (value === undefined || lastInline.current.key !== inline.key) {
+    setValue(inline.data.get('href'))
+    lastInline.current = inline
+  }
+  const handleHrefChange = debounce((href: string) => {
+    editor.setNodeByKey(inline.key, {
+      type: inline.type,
+      data: {
+        href
+      }
+    })
+  }, 1000)
+
+  function nodeIsLink(inline: Inline | undefined) {
+    return inline ? inline.type === linkNode : false
+  }
+
+  return (
+    <React.Fragment>
+      {props.children}
+      {isLink(editor) && !overlayContext.visible ? (
+        <InlineOverlay
+          key={`inlineoverlay${inline.key}`}
+          onEdit={overlayContext.show}
+          onDelete={() => unwrapLink(editor)}
+        >
+          <a href={value}>{value}</a>
+        </InlineOverlay>
+      ) : null}
+      {isLink(editor) ? (
+        <Overlay key={`overlay${inline.key}`}>
+          <Input
+            label="URL"
+            value={value}
+            onChange={e => {
+              const newValue = e.target.value
+              setValue(newValue)
+              handleHrefChange(newValue)
+            }}
+          />
+        </Overlay>
+      ) : null}
+    </React.Fragment>
+  )
+}
+
+class DefaultRendererComponent extends React.Component<NodeRendererProps> {
+  public render() {
+    const { children, node } = this.props
+    const { data } = node as InlineJSON
+
+    if (!data) {
+      return null
+    }
+
+    return <a href={data.href}>{children}</a>
+  }
+}
+
 export const createLinkPlugin = ({
-  EditorComponent = DefaultEditorComponent, //FIXME
-  RenderComponent = DefaultRendererComponent
-}: LinkPluginOptions = {}): TextPlugin => {
+  EditorComponent = DefaultEditorComponent,
+  RenderComponent = DefaultRendererComponent,
+  ControlsComponent = DefaultControlsComponent
+}: LinkPluginOptions = {}) => (
+  pluginClosure: SlatePluginClosure
+): TextPlugin => {
   return {
     deserialize(el, next) {
       if (el.tagName.toLowerCase() === 'a') {
@@ -184,9 +176,10 @@ export const createLinkPlugin = ({
     onKeyDown(event, editor, next) {
       if (
         ((event as unknown) as React.KeyboardEvent).key === 'Enter' &&
-        isLink(editor)
+        isLink(editor) &&
+        pluginClosure.current
       ) {
-        showOverlay()
+        pluginClosure.current.overlayContext.show()
         return
       }
       return next()
@@ -200,6 +193,15 @@ export const createLinkPlugin = ({
       }
 
       return next()
+    },
+
+    renderEditor(props, editor, next) {
+      const children = next()
+      return (
+        <ControlsComponent {...props} editor={editor}>
+          {children}
+        </ControlsComponent>
+      )
     }
   }
 }
