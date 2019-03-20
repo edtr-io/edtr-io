@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.1..HEAD)
 
+### Breaking Changes
+
+- Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`
+
 ### Added
 
 - Image plugin
 - Added `editable` prop to `Editor` for switching between edit and render mode
 - Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event
+- Added `InlineOverlay` Component for plugin controls
 
 ## [0.3.1](https://github.com/edtr-io/edtr-io/compare/0.3.0..0.3.1) - March 13, 2019
 

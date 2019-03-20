@@ -50,7 +50,7 @@ export class AutoFocusInput extends React.Component<InputProps> {
     return (
       <Input
         {...this.props}
-        //@ts-ignore FIXME
+        //@ts-ignore FIXMEc
         ref={(ref: Input | null) => {
           if (ref) {
             ref.focus()

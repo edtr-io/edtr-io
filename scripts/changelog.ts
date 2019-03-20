@@ -83,7 +83,11 @@ async function exec(): Promise<void> {
       added: [
         'Image plugin',
         'Added `editable` prop to `Editor` for switching between edit and render mode',
-        'Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event'
+        'Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event',
+        'Added `InlineOverlay` Component for plugin controls'
+      ],
+      breakingChanges: [
+        'Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`'
       ]
     }
   ])
