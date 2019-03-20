@@ -13,6 +13,7 @@ export {
   faImages,
   faItalic,
   faLink,
+  faUnlink,
   faMinus,
   faPaste,
   faPencilAlt,

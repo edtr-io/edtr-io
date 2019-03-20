@@ -40,14 +40,16 @@ export const createTextEditor = (
     }, [lastValue, props.state.value])
 
     const pluginClosure = React.useRef({ overlayContext })
-    const [slatePlugins, setSlatePlugins] = React.useState<TextPlugin[]>([])
-    React.useEffect(() => {
+    const [slatePlugins, setSlatePlugins] = React.useState<
+      TextPlugin[] | undefined
+    >(undefined)
+    if (slatePlugins === undefined) {
       setSlatePlugins(
         options.plugins.map(slatePluginFactory =>
           slatePluginFactory(pluginClosure)
         )
       )
-    }, [])
+    }
 
     // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use current props
     const slateClosure = React.useRef({

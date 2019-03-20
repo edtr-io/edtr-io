@@ -10,7 +10,7 @@ import {
 import { Button, ButtonGroup } from '../toolbar/button'
 import { TextPlugin } from '..'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import { Icon, faLink, faBold, faItalic } from '@edtr-io/ui'
+import { Icon, faLink, faBold, faItalic, faUnlink } from '@edtr-io/ui'
 import { OverlayContext } from '@edtr-io/core'
 
 export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
@@ -35,7 +35,7 @@ export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
             : wrapLink()(editor, overlayContext)
         }
       >
-        <Icon icon={faLink} />
+        <Icon icon={isLink(editor) ? faUnlink : faLink} />
       </Button>
     </ButtonGroup>
   )
