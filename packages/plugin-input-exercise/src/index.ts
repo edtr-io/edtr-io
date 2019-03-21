@@ -2,7 +2,6 @@ import { InputExerciseEditor } from './editor'
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 export const wrongAnswerObject = StateType.object({
-  id: StateType.child(),
   value: StateType.string(''),
   feedback: StateType.child()
 })
