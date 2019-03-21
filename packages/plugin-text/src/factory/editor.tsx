@@ -18,6 +18,7 @@ export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
   return function SlateEditor(props: SlateEditorProps) {
+    const editor = React.useRef<Editor>()
     const store = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
     const plugins = getPlugins(store.state)
@@ -52,9 +53,18 @@ export const createTextEditor = (
       focusPrevious: props.focusPrevious,
       focusNext: props.focusNext
     }
+    React.useEffect(() => {
+      if (!editor.current) return
+      if (props.focused) {
+        editor.current.focus()
+      } else {
+        editor.current.blur()
+      }
+    }, [props.focused])
 
     return (
       <Editor
+        ref={editor as React.RefObject<Editor>}
         onPaste={createOnPaste(slateClosure)}
         onKeyDown={createOnKeyDown(slateClosure)}
         onClick={(e, editor, next): CoreEditor | void => {
@@ -130,16 +140,6 @@ function createOnKeyDown(
   slateClosure: React.RefObject<SlateClosure>
 ): EventHook {
   return (e, editor, next): void => {
-    if (!slateClosure.current) {
-      next()
-      return
-    }
-    const { focusNext, insert } = slateClosure.current
-    if (typeof insert !== 'function') {
-      next()
-      return
-    }
-
     const { key } = (e as unknown) as React.KeyboardEvent
 
     if (key === 'Enter') {
@@ -147,8 +147,9 @@ function createOnKeyDown(
       const nextSlateState = splitBlockAtSelection(editor)
 
       setTimeout(() => {
+        if (!slateClosure.current) return
+        const { insert } = slateClosure.current
         insert({ plugin: 'text', state: nextSlateState })
-        focusNext()
       })
       return
     }
@@ -221,7 +222,7 @@ export type SlateEditorProps = StatefulPluginEditorProps<
   SlateEditorAdditionalProps
 >
 
-interface SlateEditorAdditionalProps {
+export interface SlateEditorAdditionalProps {
   insert: (options?: { plugin: string; state?: unknown }) => void
   focusPrevious: () => void
   focusNext: () => void

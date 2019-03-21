@@ -19,6 +19,14 @@ All notable changes to this project will be documented in this file.
 - Added focus previous / focus next actions
 - Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child
 
+### Changed
+
+- **plugin-text**. Handle focus when using arrow keys
+
+### Fixed
+
+- **plugin-text**. Focus / blur slate depending on `props.focused`
+
 ## [0.3.2](https://github.com/edtr-io/edtr-io/compare/0.3.1..0.3.2) - March 14, 2019
 
 ### Added

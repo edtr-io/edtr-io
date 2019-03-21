@@ -92,6 +92,10 @@ async function exec(): Promise<void> {
       added: [
         'Added focus previous / focus next actions',
         'Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child'
+      ],
+      changed: ['**plugin-text**. Handle focus when using arrow keys'],
+      fixed: [
+        '**plugin-text**. Focus / blur slate depending on `props.focused`'
       ]
     },
     {

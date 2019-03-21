@@ -1,6 +1,6 @@
-import { createTextEditor } from './editor'
+import { createTextEditor, SlateEditorAdditionalProps } from './editor'
 import { TextPluginOptions } from './types'
-import { StateType } from '@edtr-io/core'
+import { StateType, StatefulPlugin } from '@edtr-io/core'
 import { ValueJSON } from 'slate'
 
 export const defaultNode = 'paragraph'
@@ -27,7 +27,9 @@ export const textState = StateType.scalar<ValueJSON>({
   }
 })
 
-export const createTextPlugin = (options: TextPluginOptions) => {
+export const createTextPlugin = (
+  options: TextPluginOptions
+): StatefulPlugin<typeof textState, SlateEditorAdditionalProps> => {
   return {
     Component: createTextEditor(options),
     state: textState
