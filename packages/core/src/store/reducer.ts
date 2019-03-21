@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 
+import { getFocusTree, findNextNode, findPreviousNode } from './focus-tree'
 import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../plugin'
 import { StoreSerializeHelpers, StoreDeserializeHelpers } from '../plugin-state'
 
@@ -9,6 +10,8 @@ export enum ActionType {
   Remove = 'Remove',
   Change = 'Change',
   Focus = 'Focus',
+  FocusNext = 'FocusNext',
+  FocusPrevious = 'FocusPrevious',
   Undo = 'Undo',
   Redo = 'Redo',
   Persist = 'Persist',
@@ -69,6 +72,8 @@ export function reducer(state: BaseState | State, action: Action): State {
     case ActionType.Change:
       return handleChange(state, action)
     case ActionType.Focus:
+    case ActionType.FocusNext:
+    case ActionType.FocusPrevious:
       return handleFocus(state, action)
     case ActionType.Undo:
       return handleUndo(state)
@@ -242,11 +247,36 @@ function handleChange(state: State, action: ChangeAction): State {
   }
 }
 
-function handleFocus(state: State, action: FocusAction): State {
-  return {
-    ...state,
-    focus: action.payload
+function handleFocus(
+  state: State,
+  action: FocusAction | FocusNextAction | FocusPreviousAction
+): State {
+  if (action.type === ActionType.Focus) {
+    return {
+      ...state,
+      focus: action.payload
+    }
   }
+
+  const from = state.focus
+  if (!from) {
+    return state
+  }
+
+  const root = getFocusTree(state)
+  if (!root) {
+    return state
+  }
+
+  const findNode =
+    action.type === ActionType.FocusNext ? findNextNode : findPreviousNode
+  const next = findNode(root, from)
+
+  if (!next) {
+    return state
+  }
+
+  return handleFocus(state, { type: ActionType.Focus, payload: next })
 }
 
 function handleUndo(state: State): State {
@@ -446,6 +476,8 @@ export type Action =
   | InitRootAction
   | Undoable
   | FocusAction
+  | FocusNextAction
+  | FocusPreviousAction
   | UndoAction
   | RedoAction
   | PersistAction
@@ -485,6 +517,14 @@ export interface RemoveAction {
 export interface FocusAction {
   type: ActionType.Focus
   payload: string
+}
+
+export interface FocusNextAction {
+  type: ActionType.FocusNext
+}
+
+export interface FocusPreviousAction {
+  type: ActionType.FocusPrevious
 }
 
 export interface UndoAction {

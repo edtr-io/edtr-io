@@ -1,4 +1,15 @@
 import { StateType } from '../src'
+import { StateDescriptorReturnType } from '../src/plugin-state'
+
+const nestedArrayState = StateType.object({
+  children: StateType.list(StateType.child('stateful'), 1)
+})
+
+const nestedState = StateType.object({
+  child: StateType.child('stateful')
+})
+
+const statefulState = StateType.number(0)
 
 export const plugins = {
   stateless: {
@@ -6,18 +17,19 @@ export const plugins = {
   },
   stateful: {
     Component: () => null,
-    state: StateType.number(0)
+    state: statefulState
   },
   nested: {
     Component: () => null,
-    state: StateType.object({
-      child: StateType.child('stateful')
-    })
+    state: nestedState
   },
   nestedArray: {
     Component: () => null,
-    state: StateType.object({
-      children: StateType.list(StateType.child('stateful'), 1)
-    })
+    state: nestedArrayState,
+    getFocusableChildren: (
+      state: StateDescriptorReturnType<typeof nestedArrayState>
+    ) => {
+      return state.children()
+    }
   }
 }

@@ -5,7 +5,8 @@ import { Story } from '.'
 storiesOf('Text Plugin', module)
   .add('Initial State', () => {
     const state = {
-      plugin: 'rows'
+      plugin: 'rows',
+      state: [{ plugin: 'text' }, { plugin: 'text' }]
     }
 
     return <Story defaultPlugin="text" initialState={state} />

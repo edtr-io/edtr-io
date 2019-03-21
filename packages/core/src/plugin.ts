@@ -33,6 +33,9 @@ export interface StatefulPlugin<
   onPaste?: (
     data: DataTransfer
   ) => void | { state?: StateDescriptorSerializedType<S> }
+  getFocusableChildren?: (
+    state: StateDescriptorReturnType<S>
+  ) => { id: string }[]
 }
 
 export type StatefulPluginEditorProps<

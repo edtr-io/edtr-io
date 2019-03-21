@@ -6,7 +6,7 @@ import {
   PluginState,
   getPlugins
 } from '@edtr-io/core'
-import { styled } from '../styled'
+import { styled } from '@edtr-io/ui'
 
 const Container = styled.div({
   textAlign: 'center'

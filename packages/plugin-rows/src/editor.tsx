@@ -6,9 +6,6 @@ import {
   StatefulPluginEditorProps,
   getPlugins
 } from '@edtr-io/core'
-import * as R from 'ramda'
-import * as React from 'react'
-
 import {
   Icon,
   faPlus,
@@ -17,12 +14,15 @@ import {
   faCaretSquareDown,
   faCut,
   styled,
-  rowsState,
-  faCopy
-} from '..'
+  faCopy,
+  OnClickOutside
+} from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import * as R from 'ramda'
+import * as React from 'react'
+
 import { Clipboard } from './clipboard'
-import { OnClickOutside } from '../elements/onClickOutside'
+import { rowsState } from '.'
 
 const FloatingButton = styled.button({
   outline: 'none',
@@ -184,6 +184,12 @@ export const RowsPlugin = (
         return (
           <div key={row.id} style={{ position: 'relative' }}>
             {row.render({
+              focusPrevious: () => {
+                store.dispatch({ type: ActionType.FocusPrevious })
+              },
+              focusNext: () => {
+                store.dispatch({ type: ActionType.FocusNext })
+              },
               insert: (options?: { plugin: string; state?: unknown }) =>
                 rows.insert(index + 1, options)
             })}

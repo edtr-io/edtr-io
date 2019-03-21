@@ -85,15 +85,22 @@ async function exec(): Promise<void> {
       added: [
         'Added Image plugin',
         'Added `editable` prop to `Editor` for switching between edit and render mode',
-        'Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event'
+        'Added optional `onPaste` callback to plugins, which is called by the text plugin on paste event'
       ]
     },
     {
-      added: [
-        'Added `InlineOverlay` Component for plugin controls'
-      ],
       breakingChanges: [
+        'Moved rows plugin from `@edtr-io/ui` to `@edtr-io/plugin-rows`',
         'Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`'
+      ],
+      added: [
+        'Added `InlineOverlay` component for plugin controls',
+        'Added focus previous / focus next actions',
+        'Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child'
+      ],
+      changed: ['**plugin-text**. Handle focus when using arrow keys'],
+      fixed: [
+        '**plugin-text**. Focus / blur slate depending on `props.focused`'
       ]
     }
   ])
