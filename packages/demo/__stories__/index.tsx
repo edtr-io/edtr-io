@@ -15,7 +15,7 @@ import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
-import { Overlay, rowsPlugin } from '@edtr-io/ui'
+import { rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
@@ -179,7 +179,6 @@ export function Story(props: {
       editable={editable}
     >
       <LogState />
-      <Overlay />
       <UndoRedoButtons enablePersist={changed} />
       <button onClick={() => setEditable(value => !value)}>
         Switch to {editable ? 'render' : 'edit'} mode

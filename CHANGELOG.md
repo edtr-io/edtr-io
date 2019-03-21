@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.2..HEAD)
+
+### Breaking Changes
+
+- Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`
+
+### Added
+
+- Added `InlineOverlay` Component for plugin controls
+
 ## [0.3.2](https://github.com/edtr-io/edtr-io/compare/0.3.1..0.3.2) - March 14, 2019
 
 ### Added

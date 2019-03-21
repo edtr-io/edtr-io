@@ -45,6 +45,21 @@ export class Input extends React.Component<InputProps> {
   }
 }
 
+export class AutoFocusInput extends React.Component<InputProps> {
+  public render() {
+    return (
+      <Input
+        {...this.props}
+        //@ts-ignore FIXMEc
+        ref={(ref: Input | null) => {
+          if (ref) {
+            ref.focus()
+          }
+        }}
+      />
+    )
+  }
+}
 export interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,

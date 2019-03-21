@@ -2,7 +2,8 @@ import {
   StatefulPluginEditorProps,
   EditorContext,
   getPlugins,
-  Plugin
+  Plugin,
+  OverlayContext
 } from '@edtr-io/core'
 import * as React from 'react'
 import { Editor, EventHook, findNode } from 'slate-react'
@@ -11,6 +12,7 @@ import { Editor as CoreEditor, Value } from 'slate'
 import { TextPluginOptions } from './types'
 
 import { textState } from '.'
+import { TextPlugin } from '@edtr-io/plugin-text'
 
 export type SlateEditorProps = StatefulPluginEditorProps<
   typeof textState,
@@ -24,6 +26,7 @@ export const createTextEditor = (
 ): React.ComponentType<SlateEditorProps> => {
   return function SlateEditor(props: SlateEditorProps) {
     const store = React.useContext(EditorContext)
+    const overlayContext = React.useContext(OverlayContext)
     const plugins = getPlugins(store.state)
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
@@ -35,6 +38,15 @@ export const createTextEditor = (
         lastValue.current = props.state.value
       }
     }, [lastValue, props.state.value])
+
+    const pluginClosure = React.useRef({ overlayContext })
+    const slatePlugins = React.useRef<TextPlugin[]>()
+    if (slatePlugins.current === undefined) {
+      slatePlugins.current = options.plugins.map(slatePluginFactory =>
+        slatePluginFactory(pluginClosure)
+      )
+    }
+
     // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use current props
     const slateClosure = React.useRef({
       plugins: plugins,
@@ -68,7 +80,7 @@ export const createTextEditor = (
           }
         }}
         placeholder={options.placeholder}
-        plugins={options.plugins}
+        plugins={slatePlugins.current}
         readOnly={!props.focused}
         value={rawState}
       />

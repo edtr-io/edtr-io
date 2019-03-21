@@ -18,3 +18,4 @@ export {
   getClipboard,
   getPlugins
 } from './store'
+export { OverlayContext, OverlayContextValue } from './overlay'

@@ -64,7 +64,7 @@ class DefaultRendererComponent extends React.Component<MarkRendererProps> {
 export const createRichTextPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent
-}: RichTextPluginOptions = {}): TextPlugin => {
+}: RichTextPluginOptions = {}) => (): TextPlugin => {
   return {
     deserialize(el, next) {
       switch (el.tagName.toLowerCase()) {

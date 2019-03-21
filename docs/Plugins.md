@@ -29,7 +29,7 @@ In a plugin embedding youtube videos the following `onPaste` function could be u
 
 ```typescript
 const youtubeState = StateType.string()
-const youtubePlugin: StatefulPlugin<typeof geogebraState> = {
+const youtubePlugin: StatefulPlugin<typeof youtubeState> = {
   Component: YoutubeEditorComponent, // some React component displaying the youtube video
   state: youtubeState,
   onPaste(clipboardData: DataTransfer) {

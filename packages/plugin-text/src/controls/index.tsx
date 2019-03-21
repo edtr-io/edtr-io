@@ -10,33 +10,35 @@ import {
 import { Button, ButtonGroup } from '../toolbar/button'
 import { TextPlugin } from '..'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import { Icon, faLink, faBold, faItalic } from '@edtr-io/ui'
+import { Icon, faLink, faBold, faItalic, faUnlink } from '@edtr-io/ui'
+import { OverlayContext } from '@edtr-io/core'
 
-export class Controls extends React.Component<{ editor: Editor }> {
-  public render() {
-    const { editor } = this.props
-    return (
-      <ButtonGroup>
-        <Button active={isStrong(editor)} onClick={() => toggleStrong(editor)}>
-          <Icon icon={faBold} />
-        </Button>
-        <Button
-          active={isEmphasized(editor)}
-          onClick={() => toggleEmphasize(editor)}
-        >
-          <Icon icon={faItalic} />
-        </Button>
-        <Button
-          active={isLink(editor)}
-          onClick={() =>
-            isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
-          }
-        >
-          <Icon icon={faLink} />
-        </Button>
-      </ButtonGroup>
-    )
-  }
+export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
+  const { editor } = props
+  const overlayContext = React.useContext(OverlayContext)
+  return (
+    <ButtonGroup>
+      <Button active={isStrong(editor)} onClick={() => toggleStrong(editor)}>
+        <Icon icon={faBold} />
+      </Button>
+      <Button
+        active={isEmphasized(editor)}
+        onClick={() => toggleEmphasize(editor)}
+      >
+        <Icon icon={faItalic} />
+      </Button>
+      <Button
+        active={isLink(editor)}
+        onClick={() =>
+          isLink(editor)
+            ? unwrapLink(editor)
+            : wrapLink()(editor, overlayContext)
+        }
+      >
+        <Icon icon={isLink(editor) ? faUnlink : faLink} />
+      </Button>
+    </ButtonGroup>
+  )
 }
 
 export interface UiPluginOptions {
@@ -47,7 +49,7 @@ export interface UiPluginOptions {
   >
 }
 
-export const createUiPlugin = (options: UiPluginOptions): TextPlugin => {
+export const createUiPlugin = (options: UiPluginOptions) => (): TextPlugin => {
   const { Component } = options
 
   return {
