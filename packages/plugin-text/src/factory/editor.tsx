@@ -9,17 +9,10 @@ import * as React from 'react'
 import { Editor, EventHook, findNode } from 'slate-react'
 import { Editor as CoreEditor, Value } from 'slate'
 
+import { TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 
 import { textState } from '.'
-import { TextPlugin } from '@edtr-io/plugin-text'
-
-export type SlateEditorProps = StatefulPluginEditorProps<
-  typeof textState,
-  {
-    insert: (options?: { plugin: string; state?: unknown }) => void
-  }
->
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -46,16 +39,24 @@ export const createTextEditor = (
         slatePluginFactory(pluginClosure)
       )
     }
-
-    // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use current props
-    const slateClosure = React.useRef({
+    // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
+    const slateClosure = React.useRef<SlateClosure>({
       plugins: plugins,
-      insert: props.insert
+      insert: props.insert,
+      focusPrevious: props.focusPrevious,
+      focusNext: props.focusNext
     })
-    slateClosure.current = { plugins: plugins, insert: props.insert }
+    slateClosure.current = {
+      plugins: plugins,
+      insert: props.insert,
+      focusPrevious: props.focusPrevious,
+      focusNext: props.focusNext
+    }
+
     return (
       <Editor
         onPaste={createOnPaste(slateClosure)}
+        onKeyDown={createOnKeyDown(slateClosure)}
         onClick={(e, editor, next): CoreEditor | void => {
           if (e.target) {
             // @ts-ignore
@@ -89,59 +90,143 @@ export const createTextEditor = (
 }
 
 // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use props
-function createOnPaste(
-  slateClosure: React.RefObject<{
-    plugins: Record<string, Plugin>
-    insert: SlateEditorProps['insert']
-  }>
-): EventHook {
+function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
   return (e, editor, next): void => {
     if (!slateClosure.current) {
       next()
       return
     }
+
     const { plugins, insert } = slateClosure.current
-    if (typeof insert === 'function') {
-      const { clipboardData } = e as ClipboardEvent
+    if (typeof insert !== 'function') {
+      next()
+      return
+    }
 
-      for (let key in plugins) {
-        const { onPaste } = plugins[key]
-        if (typeof onPaste === 'function') {
-          const result = onPaste(clipboardData)
-          if (result !== undefined) {
-            editor.splitBlock(1)
-            const blocks = editor.value.document.getBlocks()
+    const { clipboardData } = e as ClipboardEvent
 
-            const afterSelected = blocks.skipUntil(block => {
-              if (!block) {
-                return false
-              }
-              return editor.value.blocks.first().key === block.key
-            })
+    for (let key in plugins) {
+      const { onPaste } = plugins[key]
+      if (typeof onPaste === 'function') {
+        const result = onPaste(clipboardData)
+        if (result !== undefined) {
+          const nextSlateState = splitBlockAtSelection(editor)
 
-            afterSelected.forEach(block => {
-              if (!block) return
-
-              editor.removeNodeByKey(block.key)
-            })
-
-            const nextSlateState = {
-              document: {
-                nodes: [
-                  ...afterSelected.map(block => block && block.toJSON()).toJS()
-                ]
-              }
-            }
-            setTimeout(() => {
-              insert({ plugin: 'text', state: nextSlateState })
-              insert({ plugin: key, state: result.state })
-            })
-            return
-          }
+          setTimeout(() => {
+            insert({ plugin: 'text', state: nextSlateState })
+            insert({ plugin: key, state: result.state })
+          })
+          return
         }
       }
     }
 
     next()
   }
+}
+
+// PLEASE DONT FIX THIS! Closure needed because onKeyDown isn't recreated so doesnt use props
+function createOnKeyDown(
+  slateClosure: React.RefObject<SlateClosure>
+): EventHook {
+  return (e, editor, next): void => {
+    if (!slateClosure.current) {
+      next()
+      return
+    }
+    const { focusNext, insert } = slateClosure.current
+    if (typeof insert !== 'function') {
+      next()
+      return
+    }
+
+    const { key } = (e as unknown) as React.KeyboardEvent
+
+    if (key === 'Enter') {
+      e.preventDefault()
+      const nextSlateState = splitBlockAtSelection(editor)
+
+      setTimeout(() => {
+        insert({ plugin: 'text', state: nextSlateState })
+        focusNext()
+      })
+      return
+    }
+
+    if (key === 'ArrowDown' || key === 'ArrowUp') {
+      const lastRange = getRange()
+
+      if (lastRange) {
+        const lastY = lastRange.getBoundingClientRect().top
+        setTimeout(() => {
+          if (!slateClosure.current) {
+            return
+          }
+          const currentRange = getRange()
+          if (!currentRange) {
+            return
+          }
+          const currentY = currentRange.getBoundingClientRect().top
+          if (lastY === currentY) {
+            if (key === 'ArrowDown') {
+              slateClosure.current.focusNext()
+            } else {
+              slateClosure.current.focusPrevious()
+            }
+          }
+        })
+      }
+    }
+
+    next()
+  }
+
+  function getRange(): Range | null {
+    const selection = window.getSelection()
+
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0)
+    }
+
+    return null
+  }
+}
+
+function splitBlockAtSelection(editor: CoreEditor) {
+  editor.splitBlock(1)
+  const blocks = editor.value.document.getBlocks()
+
+  const afterSelected = blocks.skipUntil(block => {
+    if (!block) {
+      return false
+    }
+    return editor.value.blocks.first().key === block.key
+  })
+
+  afterSelected.forEach(block => {
+    if (!block) return
+
+    editor.removeNodeByKey(block.key)
+  })
+
+  return {
+    document: {
+      nodes: [...afterSelected.map(block => block && block.toJSON()).toJS()]
+    }
+  }
+}
+
+export type SlateEditorProps = StatefulPluginEditorProps<
+  typeof textState,
+  SlateEditorAdditionalProps
+>
+
+interface SlateEditorAdditionalProps {
+  insert: (options?: { plugin: string; state?: unknown }) => void
+  focusPrevious: () => void
+  focusNext: () => void
+}
+
+interface SlateClosure extends SlateEditorAdditionalProps {
+  plugins: Record<string, Plugin>
 }

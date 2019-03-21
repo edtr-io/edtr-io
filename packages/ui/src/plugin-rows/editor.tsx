@@ -184,6 +184,12 @@ export const RowsPlugin = (
         return (
           <div key={row.id} style={{ position: 'relative' }}>
             {row.render({
+              focusPrevious: () => {
+                store.dispatch({ type: ActionType.FocusPrevious })
+              },
+              focusNext: () => {
+                store.dispatch({ type: ActionType.FocusNext })
+              },
               insert: (options?: { plugin: string; state?: unknown }) =>
                 rows.insert(index + 1, options)
             })}
