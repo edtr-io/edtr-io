@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/HEAD..HEAD)
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.2..HEAD)
 
 ### Breaking Changes
 
@@ -10,12 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added `InlineOverlay` Component for plugin controls
-
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.2..HEAD)
-
-### Added
-
+- Added `InlineOverlay` component for plugin controls
 - Added focus previous / focus next actions
 - Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child
 
