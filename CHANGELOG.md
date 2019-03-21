@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Breaking Changes
 
+- Moved rows plugin from `@edtr-io/ui` to `@edtr-io/plugin-rows`
 - Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`
 
 ### Added

@@ -90,6 +90,7 @@ async function exec(): Promise<void> {
     },
     {
       breakingChanges: [
+        'Moved rows plugin from `@edtr-io/ui` to `@edtr-io/plugin-rows`',
         'Replaced `showOverlay` and `hideOverlay` with an `OverlayContext`'
       ],
       added: [

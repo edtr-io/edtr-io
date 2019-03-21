@@ -15,7 +15,7 @@ import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
-import { rowsPlugin } from '@edtr-io/ui'
+import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
