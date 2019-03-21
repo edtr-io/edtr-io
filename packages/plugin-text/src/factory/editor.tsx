@@ -40,14 +40,10 @@ export const createTextEditor = (
     }, [lastValue, props.state.value])
 
     const pluginClosure = React.useRef({ overlayContext })
-    const [slatePlugins, setSlatePlugins] = React.useState<
-      TextPlugin[] | undefined
-    >(undefined)
-    if (slatePlugins === undefined) {
-      setSlatePlugins(
-        options.plugins.map(slatePluginFactory =>
-          slatePluginFactory(pluginClosure)
-        )
+    const slatePlugins = React.useRef<TextPlugin[]>()
+    if (slatePlugins.current === undefined) {
+      slatePlugins.current = options.plugins.map(slatePluginFactory =>
+        slatePluginFactory(pluginClosure)
       )
     }
 
@@ -84,7 +80,7 @@ export const createTextEditor = (
           }
         }}
         placeholder={options.placeholder}
-        plugins={slatePlugins}
+        plugins={slatePlugins.current}
         readOnly={!props.focused}
         value={rawState}
       />

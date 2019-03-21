@@ -62,11 +62,9 @@ const DefaultEditorComponent: React.FunctionComponent<
   const href = inline.data.get('href')
 
   return (
-    <React.Fragment>
-      <a {...attributes} href={href}>
-        {children}
-      </a>
-    </React.Fragment>
+    <a {...attributes} href={href}>
+      {children}
+    </a>
   )
 }
 
