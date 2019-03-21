@@ -21,6 +21,7 @@
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
       "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
+      "@edtr-io/plugin-step-by-step": ["plugin-step-by-step/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"]
     }
   }

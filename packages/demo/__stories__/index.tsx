@@ -14,6 +14,7 @@ import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
+import { stepByStepPlugin } from '@edtr-io/plugin-step-by-step'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
@@ -76,6 +77,7 @@ const plugins: Record<string, Plugin<any>> = {
   image: createImagePlugin({ upload: uploadConfig }),
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
+  stepByStep: stepByStepPlugin,
   text: textPlugin,
   geogebra: geogebraPlugin
 }

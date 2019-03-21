@@ -17,6 +17,8 @@ module.exports = (_baseConfig, _env, config) => {
               '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',
               '@edtr-io/plugin-image': '@edtr-io/plugin-image/src',
               '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
+              '@edtr-io/plugin-step-by-step':
+                '@edtr-io/plugin-step-by-step/src',
               '@edtr-io/plugin-text': '@edtr-io/plugin-text/src'
             }
           }
