@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.2..HEAD)
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/HEAD..HEAD)
 
 ### Breaking Changes
 
@@ -12,13 +12,20 @@ All notable changes to this project will be documented in this file.
 
 - Added `InlineOverlay` Component for plugin controls
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.3.2..HEAD)
+
+### Added
+
+- Added focus previous / focus next actions
+- Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child
+
 ## [0.3.2](https://github.com/edtr-io/edtr-io/compare/0.3.1..0.3.2) - March 14, 2019
 
 ### Added
 
 - Added Image plugin
 - Added `editable` prop to `Editor` for switching between edit and render mode
-- Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event
+- Added optional `onPaste` callback to plugins, which is called by the text plugin on paste event
 
 ## [0.3.1](https://github.com/edtr-io/edtr-io/compare/0.3.0..0.3.1) - March 13, 2019
 

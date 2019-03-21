@@ -6,5 +6,8 @@ export const rowsState = StateType.list(StateType.child(), 1)
 
 export const rowsPlugin: StatefulPlugin<typeof rowsState> = {
   Component: RowsPlugin,
-  state: rowsState
+  state: rowsState,
+  getFocusableChildren(state) {
+    return state()
+  }
 }

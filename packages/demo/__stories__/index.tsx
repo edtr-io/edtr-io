@@ -164,6 +164,32 @@ export function UndoRedoButtons(props: { enablePersist?: boolean }) {
   )
 }
 
+export function FocusButtons() {
+  const store = React.useContext(EditorContext)
+  return (
+    <React.Fragment>
+      <button
+        onClick={() => {
+          store.dispatch({
+            type: ActionType.FocusPrevious
+          })
+        }}
+      >
+        Focus Previous
+      </button>
+      <button
+        onClick={() => {
+          store.dispatch({
+            type: ActionType.FocusNext
+          })
+        }}
+      >
+        FocusNext
+      </button>
+    </React.Fragment>
+  )
+}
+
 export function Story(props: {
   defaultPlugin?: string
   initialState: EditorProps['initialState']
@@ -180,6 +206,7 @@ export function Story(props: {
     >
       <LogState />
       <UndoRedoButtons enablePersist={changed} />
+      <FocusButtons />
       <button onClick={() => setEditable(value => !value)}>
         Switch to {editable ? 'render' : 'edit'} mode
       </button>

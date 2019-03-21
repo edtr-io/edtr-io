@@ -27,7 +27,7 @@ beforeEach(() => {
   })
 })
 
-describe('Insert', () => {
+describe('insert', () => {
   test('default plugin', () => {
     state = reducer(state, {
       type: ActionType.Insert,

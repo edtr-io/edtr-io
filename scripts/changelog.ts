@@ -85,7 +85,13 @@ async function exec(): Promise<void> {
       added: [
         'Added Image plugin',
         'Added `editable` prop to `Editor` for switching between edit and render mode',
-        'Added optional `onPaste` callback to Plugins, which is called by the text plugin on paste event'
+        'Added optional `onPaste` callback to plugins, which is called by the text plugin on paste event'
+      ]
+    },
+    {
+      added: [
+        'Added focus previous / focus next actions',
+        'Added optional `getFocusableChildren` to stateful plugins, which is used to resolve the previous / next focusable child'
       ]
     },
     {
