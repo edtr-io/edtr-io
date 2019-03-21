@@ -57,48 +57,6 @@ describe('getFocusTree', () => {
   })
 })
 
-// describe('findNode', () => {
-//   const root: Node = {
-//     id: 'root',
-//     children: [
-//       {
-//         id: 'root.0',
-//         children: [{ id: 'root.0.0' }, { id: 'root.0.1' }, { id: 'root.0.2' }]
-//       },
-//       {
-//         id: 'root.1',
-//         children: [{ id: 'root.1.0' }, { id: 'root.1.1' }, { id: 'root.1.2' }]
-//       },
-//       {
-//         id: 'root.0',
-//         children: [{ id: 'root.2.0' }, { id: 'root.2.1' }, { id: 'root.2.2' }]
-//       }
-//     ]
-//   }
-
-//   test('root', () => {
-//     const resolved = findNode(root, 'root')
-
-//     if (!resolved) {
-//       throw new Error('Expected to find node')
-//     }
-
-//     expect(resolved.parent).toEqual('root')
-//     expect(resolved.index).toBeUndefined
-//   })
-
-//   test('child', () => {
-//     const resolved = findNode(root, 'root.0.0')
-
-//     if (!resolved) {
-//       throw new Error('Expected to find node')
-//     }
-
-//     expect(resolved.parent).toEqual('root.0')
-//     expect(resolved.index).toEqual(0)
-//   })
-// })
-
 describe('findNextNode', () => {
   const root: Node = {
     id: 'root',

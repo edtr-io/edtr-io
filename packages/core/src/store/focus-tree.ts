@@ -116,30 +116,6 @@ export function findParent(root: Node, id: string): Node | null {
 
   return null
 }
-// export function findNode(root: Node, id: string): ResolvedIdentifier | null {
-//   if (root.id === id) {
-//     return {
-//       parent: root.id
-//     }
-//   }
-
-//   const children = root.children || []
-//   for (let i = 0; i < children.length; i++) {
-//     const resolved = findNode(children[i], id)
-
-//     if (resolved) {
-//       if (resolved.index === undefined) {
-//         return {
-//           parent: root.id,
-//           index: i
-//         }
-//       }
-//       return resolved
-//     }
-//   }
-
-//   return null
-// }
 
 export interface ResolvedIdentifier {
   parent: string
