@@ -5,6 +5,7 @@ import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
+import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -38,6 +39,7 @@ export const plugins: Record<string, Plugin> = {
   equations: equationsPlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
+  inputExercise: inputExercisePlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   spoiler: spoilerPlugin,

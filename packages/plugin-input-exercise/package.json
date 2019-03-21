@@ -1,0 +1,27 @@
+{
+  "name": "@edtr-io/plugin-input-exercise",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {
+    "@types/algebra.js": "^0.2.1",
+    "@types/string": "^0.0.29",
+    "algebra.js": "^0.2.6",
+    "string": "^3.3.3"
+  },
+  "devDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
