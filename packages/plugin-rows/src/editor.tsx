@@ -17,7 +17,8 @@ import {
   faCopy,
   OnClickOutside,
   defaultTheming,
-  EditorTheming
+  EditorTheming,
+  Button
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
@@ -94,27 +95,6 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
-const AddMenuButton = styled.button((props: ThemeProps<EditorTheming>) => {
-  return {
-    margin: '3px',
-    backgroundColor: props.theme.buttonBackgroundColor,
-    outline: 'none',
-    border: `2px solid ${props.theme.textColor}`,
-    color: props.theme.textColor,
-    padding: '10px',
-    borderRadius: '4px',
-    minWidth: '125px',
-    cursor: 'pointer',
-    '&:hover': {
-      color: props.theme.highlightColor,
-      borderColor: props.theme.highlightColor
-    }
-  }
-})
-AddMenuButton.defaultProps = {
-  theme: defaultTheming
-}
-
 const RowsContainer = styled.div({ position: 'relative' })
 
 const IconButton: React.FunctionComponent<{
@@ -162,14 +142,14 @@ const Popup: React.FunctionComponent<{
         <AddMenu>
           {R.map(plugin => {
             return (
-              <AddMenuButton
+              <Button
                 key={plugin}
                 onClick={() => {
                   props.onClose({ plugin })
                 }}
               >
                 {plugin}
-              </AddMenuButton>
+              </Button>
             )
           }, R.keys(props.plugins))}
         </AddMenu>

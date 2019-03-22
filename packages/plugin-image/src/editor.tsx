@@ -1,100 +1,114 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Icon, faImages, styled } from '@edtr-io/ui'
+import { OverlayContext, StatefulPluginEditorProps } from '@edtr-io/core'
+import {
+  Icon,
+  faImages,
+  styled,
+  Textarea,
+  Overlay,
+  Input,
+  Checkbox
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ImageLoaded, ImageUploaded, Upload } from './upload'
+import { FileError, ImageLoaded, ImageUploaded, Upload } from './upload'
 import { ImageRenderer } from './renderer'
 import { ImagePluginConfig, imageState } from '.'
 
+const ImgPlaceholderWrapper = styled.div({
+  position: 'relative',
+  width: '100%',
+  textAlign: 'center'
+})
+const UploadButtonWrapper = styled.div({
+  textAlign: 'right'
+})
+
 export function createImageEditor<T = unknown>(
   config: ImagePluginConfig<T>
-): React.ComponentType<StatefulPluginEditorProps<typeof imageState>> {
-  return class ImageEditor extends React.Component<
-    StatefulPluginEditorProps<typeof imageState>,
-    ImageEditorState
-  > {
-    public state: ImageEditorState = {}
+): React.FunctionComponent<StatefulPluginEditorProps<typeof imageState>> {
+  return props => {
+    const [imagePreview, setImagePreview] = React.useState<
+      ImageLoaded | undefined
+    >(undefined)
+    const { editable, focused, state } = props
 
-    public render(): React.ReactNode {
-      const { editable, focused, state } = this.props
+    const overlayContext = React.useContext(OverlayContext)
 
-      return (
-        <React.Fragment>
-          {state.src.value || this.state.imagePreview ? (
+    return (
+      <React.Fragment>
+        <div onClick={() => overlayContext.show()}>
+          {state.src.value || imagePreview ? (
             <ImageRenderer
               state={state}
-              imagePreview={this.state.imagePreview}
+              imagePreview={imagePreview}
               disableMouseEvents={editable}
             />
           ) : (
-            <div>
-              <this.ImgPlaceholderWrapper>
-                <Icon icon={faImages} size="5x" />
-              </this.ImgPlaceholderWrapper>
-            </div>
+            <ImgPlaceholderWrapper>
+              <Icon icon={faImages} size="5x" />
+            </ImgPlaceholderWrapper>
           )}
-          {focused ? (
-            <React.Fragment>
-              <hr />
-              Image location (url)
-              <input
-                placeholder="http://example.com/image.png"
-                value={state.src.value}
-                type="text"
-                onChange={this.handleChange('src')}
-              />
-              <br />
+        </div>
+        {focused ? (
+          <Overlay>
+            <Input
+              label="Image location (url)"
+              placeholder="http://example.com/image.png"
+              value={state.src.value}
+              onChange={handleChange('src')}
+            />
+            <UploadButtonWrapper>
               <Upload
                 config={config.upload}
-                onImageLoaded={this.handleImageLoaded}
-                onImageUploaded={this.handleImageUploaded}
+                onImageLoaded={handleImageLoaded}
+                onImageUploaded={handleImageUploaded}
+                onError={(errors: FileError[]): void => {
+                  alert(errors.map(error => error.message).join('\n'))
+                  setImagePreview(undefined)
+                }}
               />
-              <br />
-              Image description
-              <textarea
-                placeholder="Gib hier eine Bildbeschreibung ein"
-                value={state.description.value}
-                onChange={this.handleChange('description')}
-              />
-              <br />
-              Link location (url)
-              <input
-                placeholder="http://example.com"
-                type="text"
-                value={state.href.value}
-                onChange={this.handleChange('href')}
-              />
-              {state.href.value ? (
-                <React.Fragment>
-                  <br />
-                  Open in new window
-                  <input
-                    checked={state.target.value === '_blank'}
-                    type="checkbox"
-                    onChange={this.handleTargetChange}
-                  />
-                </React.Fragment>
-              ) : null}
-            </React.Fragment>
-          ) : null}
-        </React.Fragment>
-      )
-    }
+            </UploadButtonWrapper>
 
-    private handleChange(name: 'src' | 'description' | 'href') {
+            <Textarea
+              label="Image description"
+              placeholder="Gib hier eine Bildbeschreibung ein"
+              value={state.description.value}
+              onChange={handleChange('description')}
+            />
+
+            <Input
+              label="Link location (url)"
+              placeholder="http://example.com"
+              type="text"
+              value={state.href.value}
+              onChange={handleChange('href')}
+            />
+            {state.href.value ? (
+              <React.Fragment>
+                <Checkbox
+                  label="Open in new window"
+                  checked={state.target.value === '_blank'}
+                  onChange={handleTargetChange}
+                />
+              </React.Fragment>
+            ) : null}
+          </Overlay>
+        ) : null}
+      </React.Fragment>
+    )
+
+    function handleChange(name: 'src' | 'description' | 'href') {
       return (
         event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
       ) => {
-        const { state } = this.props
+        const { state } = props
         state[name].set(event.target.value)
       }
     }
 
-    private handleTargetChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const { state } = this.props
-      if (event.target.checked) {
+    function handleTargetChange(checked: boolean) {
+      const { state } = props
+      if (checked) {
         state.target.set('_blank'),
           // noopener is safer but not supported in IE, so noreferrer adds some security
           state.rel.set('noreferrer noopener')
@@ -103,23 +117,13 @@ export function createImageEditor<T = unknown>(
       }
     }
 
-    private handleImageLoaded = (image: ImageLoaded) => {
-      this.setState({ imagePreview: image })
+    function handleImageLoaded(image: ImageLoaded) {
+      setImagePreview(image)
     }
 
-    private handleImageUploaded = (image: ImageUploaded) => {
-      this.setState({ imagePreview: undefined })
-      this.props.state.src.set(image.src)
+    function handleImageUploaded(image: ImageUploaded) {
+      setImagePreview(undefined)
+      props.state.src.set(image.src)
     }
-
-    private ImgPlaceholderWrapper = styled.div({
-      position: 'relative',
-      width: '100%',
-      textAlign: 'center'
-    })
   }
-}
-
-export interface ImageEditorState {
-  imagePreview?: ImageLoaded
 }

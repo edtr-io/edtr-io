@@ -1,4 +1,4 @@
-import { UploadProgress } from '@edtr-io/ui'
+import { Button, UploadProgress } from '@edtr-io/ui'
 // @ts-ignore
 import { Uploader, UploadField } from '@navjobs/upload'
 import * as React from 'react'
@@ -151,7 +151,7 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
                 accept: 'image/*'
               }}
             >
-              <button>Durchsuchen...</button>
+              <Button>Durchsuchen...</Button>
               <UploadProgress {...progressProps} />
             </UploadField>
           </div>
@@ -177,7 +177,7 @@ export interface UploadConfig<T> {
   getStateFromResponse: (response: T) => { src: string }
 }
 
-interface FileError {
+export interface FileError {
   errorCode: FileErrorCode
   message: string
 }
