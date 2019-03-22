@@ -19,7 +19,7 @@ export const createImagePlugin = <T = unknown>(
     onPaste: (clipboardData: DataTransfer) => {
       const value = clipboardData.getData('text')
 
-      if (/(.*)\.(jpe?g|png|bmp|gif|svg)$/.test(value)) {
+      if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value)) {
         return {
           state: {
             src: value,
