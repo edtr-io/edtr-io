@@ -22,7 +22,8 @@
       "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-rows": ["plugin-rows/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
-      "@edtr-io/plugin-text": ["plugin-text/src"]
+      "@edtr-io/plugin-text": ["plugin-text/src"],
+      "@edtr-io/plugin-video": ["plugin-video/src"]
     }
   }
 }
