@@ -104,6 +104,11 @@ async function exec(): Promise<void> {
       fixed: [
         '**plugin-text**. Focus / blur slate depending on `props.focused`'
       ]
+    },
+    {
+      added: [
+        'Use Theming in toolbars and menus.'
+      ]
     }
   ])
 

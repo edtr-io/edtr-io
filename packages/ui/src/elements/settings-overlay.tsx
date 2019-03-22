@@ -6,7 +6,7 @@ import {
   faTimes,
   faTrashAlt,
   faPencilAlt,
-  Theming,
+  EditorTheming,
   defaultTheming
 } from '..'
 import { OnClickOutside } from './onClickOutside'
@@ -24,7 +24,7 @@ const OverlayWrapper = styled.div({
   zIndex: 99,
   padding: '20px'
 })
-const OverlayBox = styled.div((props: ThemeProps<Theming>) => ({
+const OverlayBox = styled.div((props: ThemeProps<EditorTheming>) => ({
   width: '60%',
   height: '60%',
   position: 'absolute',
@@ -38,7 +38,7 @@ OverlayBox.defaultProps = {
   theme: defaultTheming
 }
 
-const CloseButton = styled.button((props: ThemeProps<Theming>) => ({
+const CloseButton = styled.button((props: ThemeProps<EditorTheming>) => ({
   float: 'right',
   position: 'relative',
   color: props.theme.textColor,
@@ -100,7 +100,7 @@ export const Overlay: React.FunctionComponent<{
     : null
 }
 
-const InlineOverlayWrapper = styled.div((props: ThemeProps<Theming>) => ({
+const InlineOverlayWrapper = styled.div((props: ThemeProps<EditorTheming>) => ({
   position: 'fixed',
   opacity: 0,
   transition: 'opacity 0.5s',
@@ -119,7 +119,7 @@ InlineOverlayWrapper.defaultProps = { theme: defaultTheming }
 const InlinePreview = styled.span({
   padding: '0px 8px'
 })
-const ChangeButton = styled.div((props: ThemeProps<Theming>) => ({
+const ChangeButton = styled.div((props: ThemeProps<EditorTheming>) => ({
   padding: '5px 5px 5px 10px',
   display: 'inline-block',
   borderLeft: `2px solid ${props.theme.textColor}`,

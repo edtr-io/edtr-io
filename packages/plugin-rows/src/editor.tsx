@@ -17,7 +17,7 @@ import {
   faCopy,
   OnClickOutside,
   defaultTheming,
-  Theming
+  EditorTheming
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
@@ -71,7 +71,7 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
   textAlign: 'right'
 })
 
-const AddMenuContainer = styled.div((props: ThemeProps<Theming>) => {
+const AddMenuContainer = styled.div((props: ThemeProps<EditorTheming>) => {
   return {
     margin: '0 auto',
     position: 'fixed',
@@ -94,7 +94,7 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
-const AddMenuButton = styled.button((props: ThemeProps<Theming>) => {
+const AddMenuButton = styled.button((props: ThemeProps<EditorTheming>) => {
   return {
     margin: '3px',
     backgroundColor: props.theme.buttonBackgroundColor,

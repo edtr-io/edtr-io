@@ -1,4 +1,4 @@
-import { defaultTheming, styled, Theming } from '@edtr-io/ui'
+import { defaultTheming, styled, EditorTheming } from '@edtr-io/ui'
 
 export const ButtonGroup = styled.div({
   display: 'flex',
@@ -7,7 +7,7 @@ export const ButtonGroup = styled.div({
 })
 
 export const Button = styled.button<{ active?: boolean }>(
-  ({ active, theme }: { active?: boolean; theme: Theming }) => {
+  ({ active, theme }: { active?: boolean; theme: EditorTheming }) => {
     return {
       backgroundColor: theme.backgroundColor,
       cursor: 'pointer',

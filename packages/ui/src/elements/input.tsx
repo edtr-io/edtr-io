@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { defaultTheming, styled, Theming } from '..'
+import { defaultTheming, styled, EditorTheming } from '..'
 import { ThemeProps } from 'styled-components'
 
-const InputLabel = styled.label((props: ThemeProps<Theming>) => ({
+const InputLabel = styled.label((props: ThemeProps<EditorTheming>) => ({
   color: props.theme.textColor,
   margin: '20px auto 0px',
   padding: '0 10%',
@@ -16,7 +16,7 @@ InputLabel.defaultProps = {
 
 const InputLabelInner = styled.span({ width: '10%' })
 
-const InputInner = styled.input((props: ThemeProps<Theming>) => ({
+const InputInner = styled.input((props: ThemeProps<EditorTheming>) => ({
   backgroundColor: 'transparent',
   border: 'none',
   borderBottom: `2px solid ${props.theme.textColor}`,
