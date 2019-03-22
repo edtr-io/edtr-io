@@ -114,7 +114,7 @@ async function exec(): Promise<void> {
     },
     {
       tagName: 'v0.4.1',
-      name: '0.4.0',
+      name: '0.4.1',
       date: '2019-03-22',
       added: ['Use Theming in toolbars and menus.']
     }
