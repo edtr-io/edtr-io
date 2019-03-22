@@ -24,7 +24,7 @@
     "_exec": "lerna exec --stream --no-bail",
     "_eslint": "eslint \"{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
-    "_prettier": "prettier \"{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,docs,packages/*}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {
@@ -35,7 +35,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "@splish-me/changelog": "^0.1.0",
-    "@types/jest": "^23.0.0",
+    "@types/jest": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^1.0.0",
     "@typescript-eslint/parser": "^1.0.0",
     "eslint": "^5.0.0",
@@ -48,7 +48,7 @@
     "lint-staged": "^8.0.0",
     "npm-run-all": "^4.0.0",
     "prettier": "^1.0.0",
-    "react-testing-library": "^5.0.0",
+    "react-testing-library": "^6.0.0",
     "rimraf": "^2.0.0",
     "ts-node": "^8.0.0",
     "typescript": "^3.0.0"

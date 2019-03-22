@@ -1,6 +1,6 @@
 module.exports = {
   linters: {
-    '{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}': [
+    '{{.cirleci,docs,packages/*}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}': [
       'prettier --write',
       'git add'
     ],
