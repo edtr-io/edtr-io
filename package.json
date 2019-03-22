@@ -11,6 +11,8 @@
     "build": "npm-run-all build:*",
     "build:babel": "yarn _exec --ignore @edtr-io/demo \"babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
     "build:tsc": "yarn _exec --ignore @edtr-io/demo \"tsc --build src\"",
+    "prebuild-demo": "yarn build",
+    "build-demo": "lerna run --scope @edtr-io/demo build",
     "format": "npm-run-all -c format:*",
     "format:eslint": "yarn _eslint --fix",
     "format:prettier": "yarn _prettier --write",
@@ -22,9 +24,9 @@
     "predeploy": "yarn build",
     "deploy": "yarn run _publish",
     "_exec": "lerna exec --stream --no-bail",
-    "_eslint": "eslint \"{packages/*/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
+    "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
-    "_prettier": "prettier \"{{.circleci,docs,packages/*}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {

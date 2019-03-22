@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.1..HEAD)
+
+### Internal
+
+- Added `build-demo` task that builds the demo storybook
+
 ## [0.4.1](https://github.com/edtr-io/edtr-io/compare/v0.4.0..v0.4.1) - March 22, 2019
 
 ### Added
