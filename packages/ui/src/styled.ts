@@ -11,7 +11,7 @@ export interface Theming {
 
 export const defaultTheming: Theming = {
   highlightColor: 'rgb(70, 155, 255)',
-  textColor: 'white',
+  textColor: '#EEEEEE',
   backgroundColor: 'rgb(51,51,51,0.95)',
   buttonBackgroundColor: 'transparent'
 }

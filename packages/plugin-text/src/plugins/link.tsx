@@ -106,7 +106,9 @@ const DefaultControlsComponent: React.FunctionComponent<
           onEdit={overlayContext.show}
           onDelete={() => unwrapLink(editor)}
         >
-          <a href={value}>{value}</a>
+          <a href={value} target="_blank" rel="noopener noreferrer">
+            {value}
+          </a>
         </InlineOverlay>
       ) : null}
       {isLink(editor) ? (

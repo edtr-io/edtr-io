@@ -84,6 +84,9 @@ const AddMenuContainer = styled.div((props: ThemeProps<Theming>) => {
     zIndex: 100
   }
 })
+AddMenuContainer.defaultProps = {
+  theme: defaultTheming
+}
 
 const AddMenu = styled.div({
   display: 'flex',
@@ -108,10 +111,6 @@ const AddMenuButton = styled.button((props: ThemeProps<Theming>) => {
     }
   }
 })
-
-AddMenuContainer.defaultProps = {
-  theme: defaultTheming
-}
 AddMenuButton.defaultProps = {
   theme: defaultTheming
 }
