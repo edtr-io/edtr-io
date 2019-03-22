@@ -2,13 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/0.4.0..HEAD)
+## [0.4.0](https://github.com/edtr-io/edtr-io/compare/v0.4.0..v0.4.1) - March 22, 2019
 
 ### Added
 
 - Use Theming in toolbars and menus.
 
-## [0.4.0](https://github.com/edtr-io/edtr-io/compare/0.3.2..0.4.0) - March 21, 2019
+## [0.4.0](https://github.com/edtr-io/edtr-io/compare/v0.3.2..v0.4.0) - March 21, 2019
 
 ### Breaking Changes
 
@@ -29,7 +29,7 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-text**. Focus / blur slate depending on `props.focused`
 
-## [0.3.2](https://github.com/edtr-io/edtr-io/compare/0.3.1..0.3.2) - March 14, 2019
+## [0.3.2](https://github.com/edtr-io/edtr-io/compare/v0.3.1..v0.3.2) - March 14, 2019
 
 ### Added
 
@@ -37,7 +37,7 @@ All notable changes to this project will be documented in this file.
 - Added `editable` prop to `Editor` for switching between edit and render mode
 - Added optional `onPaste` callback to plugins, which is called by the text plugin on paste event
 
-## [0.3.1](https://github.com/edtr-io/edtr-io/compare/0.3.0..0.3.1) - March 13, 2019
+## [0.3.1](https://github.com/edtr-io/edtr-io/compare/v0.3.0..v0.3.1) - March 13, 2019
 
 ### Added
 
@@ -55,7 +55,7 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-text**. Don't dispatch selection changes anymore
 
-## [0.3.0](https://github.com/edtr-io/edtr-io/compare/0.2.1..0.3.0) - March 8, 2019
+## [0.3.0](https://github.com/edtr-io/edtr-io/compare/v0.2.1..v0.3.0) - March 8, 2019
 
 ### Breaking Changes
 
@@ -75,7 +75,7 @@ All notable changes to this project will be documented in this file.
 
 - Only trigger `changed` if the number of pending changes changed
 
-## [0.2.1](https://github.com/edtr-io/edtr-io/compare/0.2.0..0.2.1) - February 28, 2019
+## [0.2.1](https://github.com/edtr-io/edtr-io/compare/v0.2.0..v0.2.1) - February 28, 2019
 
 ### Added
 
@@ -88,7 +88,7 @@ All notable changes to this project will be documented in this file.
 - Added Persist to reducer
 - Added `changed` callback to Editor. The callback is called on every Action passing a boolean if the content changed since the last `PersistAction` was dispatched.
 
-## [0.2.0](https://github.com/edtr-io/edtr-io/compare/0.1.0..0.2.0) - February 18, 2019
+## [0.2.0](https://github.com/edtr-io/edtr-io/compare/v0.1.0..v0.2.0) - February 18, 2019
 
 ### Breaking Changes
 
@@ -114,6 +114,6 @@ All notable changes to this project will be documented in this file.
 
 - Remove `<EditorProvider />` in favor of `<Editor />`
 
-## [0.1.0](https://github.com/edtr-io/edtr-io/compare/723fb79110bdeec83889a6d6bc617ce2d455d4ff..0.1.0) - February 8, 2019
+## [0.1.0](https://github.com/edtr-io/edtr-io/compare/723fb79110bdeec83889a6d6bc617ce2d455d4ff..v0.1.0) - February 8, 2019
 
 Initial release

@@ -10,12 +10,14 @@ exec().then(() => {})
 async function exec(): Promise<void> {
   const content = await generateChangelog([
     {
-      tagName: '0.1.0',
+      tagName: 'v0.1.0',
+      name: '0.1.0',
       date: '2019-02-08',
       description: 'Initial release'
     },
     {
-      tagName: '0.2.0',
+      tagName: 'v0.2.0',
+      name: '0.2.0',
       date: '2019-02-18',
       breakingChanges: [
         'The newly added `<Editor />` replaces the removed `<EditorProvider />`. It sets up the `EditorContext` and renders an editor for the given `state`.',
@@ -35,7 +37,8 @@ async function exec(): Promise<void> {
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
     },
     {
-      tagName: '0.2.1',
+      tagName: 'v0.2.1',
+      name: '0.2.1',
       date: '2019-02-28',
       added: [
         'Added Rich-Text plugin',
@@ -49,7 +52,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      tagName: '0.3.0',
+      tagName: 'v0.3.0',
+      name: '0.3.0',
       date: '2019-03-08',
       added: ['Added a menu for selecting a plugin on insert to rows plugin'],
       changed: [
@@ -65,7 +69,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      tagName: '0.3.1',
+      tagName: 'v0.3.1',
+      name: '0.3.1',
       date: '2019-03-13',
       added: [
         'Add move Up/Down functionality to Rows plugin',
@@ -80,7 +85,8 @@ async function exec(): Promise<void> {
       fixed: ["**plugin-text**. Don't dispatch selection changes anymore"]
     },
     {
-      tagName: '0.3.2',
+      tagName: 'v0.3.2',
+      name: '0.3.2',
       date: '2019-03-14',
       added: [
         'Added Image plugin',
@@ -89,7 +95,8 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      tagName: '0.4.0',
+      tagName: 'v0.4.0',
+      name: '0.4.0',
       date: '2019-03-21',
       breakingChanges: [
         'Moved rows plugin from `@edtr-io/ui` to `@edtr-io/plugin-rows`',
@@ -106,9 +113,10 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      added: [
-        'Use Theming in toolbars and menus.'
-      ]
+      tagName: 'v0.4.1',
+      name: '0.4.0',
+      date: '2019-03-22',
+      added: ['Use Theming in toolbars and menus.']
     }
   ])
 
