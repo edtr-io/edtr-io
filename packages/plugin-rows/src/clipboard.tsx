@@ -8,6 +8,12 @@ import {
 } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 
+const ClipboardHeader = styled.div({
+  fontSize: '130%',
+  textAlign: 'center',
+  marginBottom: '10px'
+})
+
 const Container = styled.div({
   textAlign: 'center'
 })
@@ -45,7 +51,7 @@ export const Clipboard: React.FunctionComponent<{
   const states = getClipboard(store.state)
   return (
     <Container>
-      Clipboard
+      <ClipboardHeader> Zwischenablage </ClipboardHeader>
       <ButtonContainer>
         {states.length ? (
           states.map((state, index) => {
@@ -66,7 +72,7 @@ export const Clipboard: React.FunctionComponent<{
             )
           })
         ) : (
-          <div>Nothing to insert</div>
+          <div>Keine Elemente vorhanden</div>
         )}
       </ButtonContainer>
     </Container>

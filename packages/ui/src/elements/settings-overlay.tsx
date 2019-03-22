@@ -1,9 +1,18 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { Icon, styled, faTimes, faTrashAlt, faPencilAlt } from '..'
+import {
+  Icon,
+  styled,
+  faTimes,
+  faTrashAlt,
+  faPencilAlt,
+  EditorTheming,
+  defaultTheming
+} from '..'
 import { OnClickOutside } from './onClickOutside'
 import { HotKeys } from 'react-hotkeys'
 import { OverlayContext } from '@edtr-io/core'
+import { ThemeProps } from 'styled-components'
 
 const OverlayWrapper = styled.div({
   width: '100%',
@@ -15,21 +24,24 @@ const OverlayWrapper = styled.div({
   zIndex: 99,
   padding: '20px'
 })
-const OverlayBox = styled.div({
+const OverlayBox = styled.div((props: ThemeProps<EditorTheming>) => ({
   width: '60%',
   height: '60%',
   position: 'absolute',
   zIndex: 100,
-  backgroundColor: 'rgb(51,51,51,0.95)',
+  backgroundColor: props.theme.backgroundColor,
   paddingBottom: '10px',
   left: '20%',
   top: '20%'
-})
+}))
+OverlayBox.defaultProps = {
+  theme: defaultTheming
+}
 
-const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
+const CloseButton = styled.button((props: ThemeProps<EditorTheming>) => ({
   float: 'right',
   position: 'relative',
-  color: light ? '#aaaaaa' : '#999999',
+  color: props.theme.textColor,
   fontSize: 16,
   zIndex: 98,
   outline: 'none',
@@ -37,9 +49,12 @@ const SettingButton = styled.button<{ light?: boolean }>(({ light }) => ({
   backgroundColor: 'transparent',
   paddingTop: '5px',
   '&:hover': {
-    color: light ? '#eeeeee' : 'rgb(51,51,51)'
+    color: props.theme.highlightColor
   }
 }))
+CloseButton.defaultProps = {
+  theme: defaultTheming
+}
 
 export const Overlay: React.FunctionComponent<{
   onClose?: () => void
@@ -64,9 +79,8 @@ export const Overlay: React.FunctionComponent<{
           <OverlayWrapper>
             <OnClickOutside onClick={closeHandler}>
               <OverlayBox>
-                <SettingButton
+                <CloseButton
                   onClick={closeHandler}
-                  light
                   style={{
                     position: 'absolute',
                     top: '10px',
@@ -75,7 +89,7 @@ export const Overlay: React.FunctionComponent<{
                   }}
                 >
                   <Icon icon={faTimes} />
-                </SettingButton>
+                </CloseButton>
                 {props.children}
               </OverlayBox>
             </OnClickOutside>
@@ -86,28 +100,36 @@ export const Overlay: React.FunctionComponent<{
     : null
 }
 
-const InlineOverlayWrapper = styled.div({
+const InlineOverlayWrapper = styled.div((props: ThemeProps<EditorTheming>) => ({
   position: 'fixed',
   opacity: 0,
   transition: 'opacity 0.5s',
-  backgroundColor: 'rgba(51,51,51,0.95)',
-  color: '#eeeeee',
+  backgroundColor: props.theme.backgroundColor,
+  color: props.theme.textColor,
   padding: '5px',
   zIndex: 100,
   '& a': {
-    color: '#eeeeee'
+    color: props.theme.textColor,
+    '&:hover': {
+      color: props.theme.highlightColor
+    }
   }
-})
+}))
+InlineOverlayWrapper.defaultProps = { theme: defaultTheming }
 const InlinePreview = styled.span({
   padding: '0px 8px'
 })
-const ChangeButton = styled.div({
+const ChangeButton = styled.div((props: ThemeProps<EditorTheming>) => ({
   padding: '5px 5px 5px 10px',
   display: 'inline-block',
-  borderLeft: '2px solid #eeeeee',
+  borderLeft: `2px solid ${props.theme.textColor}`,
   cursor: 'pointer',
-  margin: '2px'
-})
+  margin: '2px',
+  '&:hover': {
+    color: props.theme.highlightColor
+  }
+}))
+ChangeButton.defaultProps = { theme: defaultTheming }
 
 export const InlineOverlay: React.FunctionComponent<{
   onEdit: React.MouseEventHandler

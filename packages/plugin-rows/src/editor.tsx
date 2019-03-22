@@ -15,7 +15,9 @@ import {
   faCut,
   styled,
   faCopy,
-  OnClickOutside
+  OnClickOutside,
+  defaultTheming,
+  EditorTheming
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
@@ -23,10 +25,12 @@ import * as React from 'react'
 
 import { Clipboard } from './clipboard'
 import { rowsState } from '.'
+import { Row } from './renderer'
+import { ThemeProps } from 'styled-components'
 
 const FloatingButton = styled.button({
   outline: 'none',
-  width: '15px',
+  width: '20px',
   height: '1em',
   background: 'none',
   border: 'none',
@@ -67,16 +71,22 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
   textAlign: 'right'
 })
 
-const AddMenuContainer = styled.div({
-  margin: '0 auto',
-  position: 'absolute',
-  backgroundColor: 'rgb(51,51,51,0.95)',
-  color: 'white',
-  padding: '20px',
-  width: '20%',
-  left: '40%',
-  zIndex: 100
+const AddMenuContainer = styled.div((props: ThemeProps<EditorTheming>) => {
+  return {
+    margin: '0 auto',
+    position: 'fixed',
+    backgroundColor: props.theme.backgroundColor,
+    color: props.theme.textColor,
+    padding: '20px',
+    left: '8%',
+    right: '8%',
+    maxWidth: '400px',
+    zIndex: 100
+  }
 })
+AddMenuContainer.defaultProps = {
+  theme: defaultTheming
+}
 
 const AddMenu = styled.div({
   display: 'flex',
@@ -84,12 +94,33 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
+const AddMenuButton = styled.button((props: ThemeProps<EditorTheming>) => {
+  return {
+    margin: '3px',
+    backgroundColor: props.theme.buttonBackgroundColor,
+    outline: 'none',
+    border: `2px solid ${props.theme.textColor}`,
+    color: props.theme.textColor,
+    padding: '10px',
+    borderRadius: '4px',
+    minWidth: '125px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: props.theme.highlightColor,
+      borderColor: props.theme.highlightColor
+    }
+  }
+})
+AddMenuButton.defaultProps = {
+  theme: defaultTheming
+}
+
 const IconButton: React.FunctionComponent<{
   onClick: () => void
   icon: IconProp
 }> = props => (
   <FloatingButton onMouseDown={props.onClick}>
-    <Icon icon={props.icon} />
+    <Icon icon={props.icon} size={'lg'} />
   </FloatingButton>
 )
 
@@ -129,14 +160,14 @@ const Popup: React.FunctionComponent<{
         <AddMenu>
           {R.map(plugin => {
             return (
-              <button
+              <AddMenuButton
                 key={plugin}
                 onClick={() => {
                   props.onClose({ plugin })
                 }}
               >
                 {plugin}
-              </button>
+              </AddMenuButton>
             )
           }, R.keys(props.plugins))}
         </AddMenu>
@@ -147,7 +178,7 @@ const Popup: React.FunctionComponent<{
   )
 }
 
-export const RowsPlugin = (
+export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
@@ -183,16 +214,18 @@ export const RowsPlugin = (
       {rows.items.map((row, index) => {
         return (
           <div key={row.id} style={{ position: 'relative' }}>
-            {row.render({
-              focusPrevious: () => {
-                store.dispatch({ type: ActionType.FocusPrevious })
-              },
-              focusNext: () => {
-                store.dispatch({ type: ActionType.FocusNext })
-              },
-              insert: (options?: { plugin: string; state?: unknown }) =>
-                rows.insert(index + 1, options)
-            })}
+            <Row>
+              {row.render({
+                focusPrevious: () => {
+                  store.dispatch({ type: ActionType.FocusPrevious })
+                },
+                focusNext: () => {
+                  store.dispatch({ type: ActionType.FocusNext })
+                },
+                insert: (options?: { plugin: string; state?: unknown }) =>
+                  rows.insert(index + 1, options)
+              })}
+            </Row>
             {popup && popup.index === index + 1 ? (
               <Popup
                 onClickOutside={() => setPopup(undefined)}
