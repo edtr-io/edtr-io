@@ -23,10 +23,11 @@ import * as React from 'react'
 
 import { Clipboard } from './clipboard'
 import { rowsState } from '.'
+import { Row } from './renderer'
 
 const FloatingButton = styled.button({
   outline: 'none',
-  width: '15px',
+  width: '20px',
   height: '1em',
   background: 'none',
   border: 'none',
@@ -69,12 +70,13 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
 
 const AddMenuContainer = styled.div({
   margin: '0 auto',
-  position: 'absolute',
+  position: 'fixed',
   backgroundColor: 'rgb(51,51,51,0.95)',
   color: 'white',
   padding: '20px',
-  width: '20%',
-  left: '40%',
+  left: '8%',
+  right: '8%',
+  maxWidth: '400px',
   zIndex: 100
 })
 
@@ -84,12 +86,28 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
+const AddMenuButton = styled.button({
+  margin: '3px',
+  backgroundColor: 'transparent',
+  outline: 'none',
+  border: '2px solid white',
+  color: 'white',
+  padding: '10px',
+  borderRadius: '4px',
+  minWidth: '125px',
+  cursor: 'pointer',
+  '&:hover': {
+    color: 'rgb(70, 155, 255)',
+    borderColor: 'rgb(70, 155, 255)'
+  }
+})
+
 const IconButton: React.FunctionComponent<{
   onClick: () => void
   icon: IconProp
 }> = props => (
   <FloatingButton onMouseDown={props.onClick}>
-    <Icon icon={props.icon} />
+    <Icon icon={props.icon} size={'lg'} />
   </FloatingButton>
 )
 
@@ -129,14 +147,14 @@ const Popup: React.FunctionComponent<{
         <AddMenu>
           {R.map(plugin => {
             return (
-              <button
+              <AddMenuButton
                 key={plugin}
                 onClick={() => {
                   props.onClose({ plugin })
                 }}
               >
                 {plugin}
-              </button>
+              </AddMenuButton>
             )
           }, R.keys(props.plugins))}
         </AddMenu>
@@ -147,7 +165,7 @@ const Popup: React.FunctionComponent<{
   )
 }
 
-export const RowsPlugin = (
+export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
@@ -183,16 +201,18 @@ export const RowsPlugin = (
       {rows.items.map((row, index) => {
         return (
           <div key={row.id} style={{ position: 'relative' }}>
-            {row.render({
-              focusPrevious: () => {
-                store.dispatch({ type: ActionType.FocusPrevious })
-              },
-              focusNext: () => {
-                store.dispatch({ type: ActionType.FocusNext })
-              },
-              insert: (options?: { plugin: string; state?: unknown }) =>
-                rows.insert(index + 1, options)
-            })}
+            <Row>
+              {row.render({
+                focusPrevious: () => {
+                  store.dispatch({ type: ActionType.FocusPrevious })
+                },
+                focusNext: () => {
+                  store.dispatch({ type: ActionType.FocusNext })
+                },
+                insert: (options?: { plugin: string; state?: unknown }) =>
+                  rows.insert(index + 1, options)
+              })}
+            </Row>
             {popup && popup.index === index + 1 ? (
               <Popup
                 onClickOutside={() => setPopup(undefined)}
