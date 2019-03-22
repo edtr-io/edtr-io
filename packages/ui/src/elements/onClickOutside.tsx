@@ -8,4 +8,6 @@ class Comp extends React.Component<{ onClick: (e: Event) => void }> {
   }
 }
 
-export const OnClickOutside = onClickOutsideHOC(Comp)
+export const OnClickOutside: typeof Comp = (onClickOutsideHOC(
+  Comp
+) as unknown) as typeof Comp

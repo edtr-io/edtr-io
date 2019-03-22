@@ -117,6 +117,9 @@ async function exec(): Promise<void> {
       name: '0.4.1',
       date: '2019-03-22',
       added: ['Use Theming in toolbars and menus.']
+    },
+    {
+      internal: ['Added `build-demo` task that builds the demo storybook']
     }
   ])
 
