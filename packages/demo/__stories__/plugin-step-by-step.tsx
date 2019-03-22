@@ -4,7 +4,7 @@ import { Story } from '.'
 
 storiesOf('Step-By-Step Plugin', module).add('Initial State', () => {
   const state = {
-    plugin: 'step-by-step'
+    plugin: 'stepByStep'
   }
   return <Story initialState={state} />
 })
