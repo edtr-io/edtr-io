@@ -11,6 +11,7 @@ import {
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { headingPlugin } from '@edtr-io/plugin-heading'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
@@ -72,6 +73,7 @@ const plugins: Record<string, Plugin<any>> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   counter: counterPlugin,
+  heading: headingPlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
   rows: rowsPlugin,

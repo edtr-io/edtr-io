@@ -18,6 +18,7 @@
       "@edtr-io/plugin-anchor": ["plugin-anchor/src"],
       "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
       "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],
+      "@edtr-io/plugin-heading": ["plugin-heading/src"],
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
       "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-rows": ["plugin-rows/src"],
