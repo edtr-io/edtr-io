@@ -15,7 +15,9 @@ import {
   faCut,
   styled,
   faCopy,
-  OnClickOutside
+  OnClickOutside,
+  defaultTheming,
+  Theming
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
@@ -24,6 +26,7 @@ import * as React from 'react'
 import { Clipboard } from './clipboard'
 import { rowsState } from '.'
 import { Row } from './renderer'
+import { ThemeProps } from 'styled-components'
 
 const FloatingButton = styled.button({
   outline: 'none',
@@ -68,16 +71,18 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
   textAlign: 'right'
 })
 
-const AddMenuContainer = styled.div({
-  margin: '0 auto',
-  position: 'fixed',
-  backgroundColor: 'rgb(51,51,51,0.95)',
-  color: 'white',
-  padding: '20px',
-  left: '8%',
-  right: '8%',
-  maxWidth: '400px',
-  zIndex: 100
+const AddMenuContainer = styled.div((props: ThemeProps<Theming>) => {
+  return {
+    margin: '0 auto',
+    position: 'fixed',
+    backgroundColor: props.theme.backgroundColor,
+    color: props.theme.textColor,
+    padding: '20px',
+    left: '8%',
+    right: '8%',
+    maxWidth: '400px',
+    zIndex: 100
+  }
 })
 
 const AddMenu = styled.div({
@@ -86,21 +91,30 @@ const AddMenu = styled.div({
   justifyContent: 'space-around'
 })
 
-const AddMenuButton = styled.button({
-  margin: '3px',
-  backgroundColor: 'transparent',
-  outline: 'none',
-  border: '2px solid white',
-  color: 'white',
-  padding: '10px',
-  borderRadius: '4px',
-  minWidth: '125px',
-  cursor: 'pointer',
-  '&:hover': {
-    color: 'rgb(70, 155, 255)',
-    borderColor: 'rgb(70, 155, 255)'
+const AddMenuButton = styled.button((props: ThemeProps<Theming>) => {
+  return {
+    margin: '3px',
+    backgroundColor: props.theme.buttonBackgroundColor,
+    outline: 'none',
+    border: `2px solid ${props.theme.textColor}`,
+    color: props.theme.textColor,
+    padding: '10px',
+    borderRadius: '4px',
+    minWidth: '125px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: props.theme.highlightColor,
+      borderColor: props.theme.highlightColor
+    }
   }
 })
+
+AddMenuContainer.defaultProps = {
+  theme: defaultTheming
+}
+AddMenuButton.defaultProps = {
+  theme: defaultTheming
+}
 
 const IconButton: React.FunctionComponent<{
   onClick: () => void
