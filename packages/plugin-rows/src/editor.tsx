@@ -74,7 +74,7 @@ const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
 const AddMenuContainer = styled.div((props: ThemeProps<EditorTheming>) => {
   return {
     margin: '0 auto',
-    position: 'fixed',
+    position: 'absolute',
     backgroundColor: props.theme.backgroundColor,
     color: props.theme.textColor,
     padding: '20px',
