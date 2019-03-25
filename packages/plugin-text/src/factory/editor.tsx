@@ -6,6 +6,7 @@ import {
   OverlayContext,
   useEditorFocus
 } from '@edtr-io/core'
+import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, EventHook, findNode } from 'slate-react'
 import { Editor as CoreEditor, Value } from 'slate'
@@ -32,8 +33,14 @@ export const createTextEditor = (
       if (lastValue.current !== props.state.value) {
         setRawState(Value.fromJSON(props.state.value))
         lastValue.current = props.state.value
+        setTimeout(() => {
+          if (!editor.current) return
+          if (props.focused) {
+            editor.current.focus()
+          }
+        })
       }
-    }, [lastValue, props.state.value])
+    }, [lastValue, props.focused, props.state.value])
 
     const pluginClosure = React.useRef({ overlayContext })
     const slatePlugins = React.useRef<TextPlugin[]>()
@@ -143,6 +150,15 @@ function createOnKeyDown(
 ): EventHook {
   return (e, editor, next): void => {
     const { key } = (e as unknown) as React.KeyboardEvent
+
+    if (
+      isHotkey('mod+z', e as KeyboardEvent) ||
+      isHotkey('mod+y', e as KeyboardEvent) ||
+      isHotkey('mod+shift+z', e as KeyboardEvent)
+    ) {
+      e.preventDefault()
+      return
+    }
 
     if (key === 'Enter') {
       if (

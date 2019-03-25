@@ -132,7 +132,9 @@ async function exec(): Promise<void> {
       ],
       fixed: [
         '**core**. Handle focus in nested documents correctly',
-        '**plugin-rows**. Align top and bottom add butons correctly in custom integrations'
+        '**plugin-rows**. Align top and bottom add butons correctly in custom integrations',
+        '**plugin-text**. Disable slate undo/redo',
+        '**plugin-text**. Refocus after undo/redo'
       ],
       internal: [
         '**demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`',
