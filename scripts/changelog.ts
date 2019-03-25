@@ -119,7 +119,20 @@ async function exec(): Promise<void> {
       added: ['Use Theming in toolbars and menus.']
     },
     {
-      internal: ['Added `build-demo` task that builds the demo storybook']
+      added: [
+        '**core**. `Editor` now additionally accepts a render callback as `children` prop',
+        '**core**. Added `useEditorFocus`, `useEditorHistory`, `useEditorMode` custom React hooks to simplify the building of a custom ui',
+        '**core**. Added `Reset` action that resets the current editor state to the last persisted value',
+        '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.'
+      ],
+      fixed: [
+        '**plugin-rows**. Align top and bottom add butons correctly in custom integrations'
+      ],
+      internal: [
+        '**demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`',
+        '**demo**. Added `build-demo` task that builds the demo storybook (and deploys it automatically to Netlify). The demo of the master branch is available on https://demo.edtr.io',
+        '**demo**. Brand the demo storybook'
+      ]
     }
   ])
 

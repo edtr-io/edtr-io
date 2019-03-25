@@ -77,17 +77,29 @@ export function Editor<K extends string = string>({
           dispatch
         }}
       >
-        <OverlayContextProvider>
-          <Document id={id} />
-          {children}
-        </OverlayContextProvider>
+        <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
       </EditorContext.Provider>
     </HotKeys>
   )
+
+  function renderChildren(id: string) {
+    const document = <Document id={id} />
+
+    if (typeof children === 'function') {
+      return children(document)
+    }
+
+    return (
+      <React.Fragment>
+        {document}
+        {children}
+      </React.Fragment>
+    )
+  }
 }
 
 export interface EditorProps<K extends string = string> {
-  children?: React.ReactNode
+  children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
   plugins: Record<K, Plugin>
   defaultPlugin: K
   initialState?: {

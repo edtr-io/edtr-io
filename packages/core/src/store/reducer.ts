@@ -15,6 +15,7 @@ export enum ActionType {
   Undo = 'Undo',
   Redo = 'Redo',
   Persist = 'Persist',
+  Reset = 'Reset',
   CopyToClipboard = 'CopyToClipboard',
   SwitchEditable = 'SwitchEditable'
 }
@@ -81,6 +82,8 @@ export function reducer(state: BaseState | State, action: Action): State {
       return handleRedo(state)
     case ActionType.Persist:
       return handlePersist(state)
+    case ActionType.Reset:
+      return handleReset(state)
     case ActionType.CopyToClipboard:
       return handleCopyToClipboard(state, action)
     case ActionType.SwitchEditable:
@@ -338,6 +341,14 @@ function handlePersist(state: State): State {
   }
 }
 
+function handleReset(state: State): State {
+  let newState = state
+  while (hasPendingChanges(newState)) {
+    newState = handleUndo(newState)
+  }
+  return newState
+}
+
 function handleInitRoot(state: State, action: InitRootAction): State {
   const initialState = action.payload
   const actions = handleRecursiveInserts(state, [
@@ -481,6 +492,7 @@ export type Action =
   | UndoAction
   | RedoAction
   | PersistAction
+  | ResetAction
   | CopyAction
   | SwitchEditableAction
 
@@ -537,6 +549,10 @@ export interface RedoAction {
 
 export interface PersistAction {
   type: ActionType.Persist
+}
+
+export interface ResetAction {
+  type: ActionType.Reset
 }
 
 export interface CopyAction {

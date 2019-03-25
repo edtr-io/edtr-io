@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { DocumentProps } from '.'
 import { EditorContext } from '../editor-context'
 import {
   isStatefulPlugin,
@@ -15,6 +14,7 @@ import {
   isFocused
 } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
+import { DocumentProps } from '.'
 
 export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   id,
@@ -58,16 +58,14 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   const focused = isFocused(store.state, id)
   const editable = isEditable(store.state)
   return (
-    <React.Fragment>
-      <div onMouseDown={handleFocus} ref={container} data-document>
-        <Comp
-          {...pluginProps}
-          editable={editable}
-          focused={focused}
-          state={state}
-        />
-      </div>
-    </React.Fragment>
+    <div onMouseDown={handleFocus} ref={container} data-document>
+      <Comp
+        {...pluginProps}
+        editable={editable}
+        focused={focused}
+        state={state}
+      />
+    </div>
   )
 
   function handleFocus(e: React.MouseEvent<HTMLDivElement>) {

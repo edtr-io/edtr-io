@@ -1,6 +1,7 @@
 export { Document, DocumentProps } from './document'
 export { Editor, EditorProps } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
+export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {
   Plugin,
   StatefulPluginEditorProps,
@@ -16,6 +17,8 @@ export {
   ActionCommitType,
   serializeDocument,
   getClipboard,
-  getPlugins
+  getPlugins,
+  hasPendingChanges,
+  isEditable
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

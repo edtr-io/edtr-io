@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { storiesOf } from '@storybook/react'
 import { ThemeProvider } from 'styled-components'
-import { Story } from '.'
 import { EditorTheming } from '@edtr-io/ui'
 
-storiesOf('Theming', module).add('Initial State', () => {
+import { EditorStory } from '../src'
+
+storiesOf('Theming/Editor UI', module).add('Initial State', () => {
   const state = {
     plugin: 'rows',
     state: [{ plugin: 'text' }]
@@ -19,7 +20,7 @@ storiesOf('Theming', module).add('Initial State', () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Story defaultPlugin="text" initialState={state} />
+      <EditorStory defaultPlugin="text" initialState={state} />
     </ThemeProvider>
   )
 })
