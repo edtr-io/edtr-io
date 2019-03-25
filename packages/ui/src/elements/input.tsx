@@ -5,23 +5,22 @@ import { ThemeProps } from 'styled-components'
 const InputLabel = styled.label((props: ThemeProps<EditorTheming>) => ({
   color: props.theme.textColor,
   margin: '20px auto 0px',
-  padding: '0 10%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center'
 }))
 InputLabel.defaultProps = {
   theme: defaultTheming
 }
 
-const InputLabelInner = styled.span({ width: '10%' })
+const InputLabelInner = styled.span({ width: '20%' })
 
 const InputInner = styled.input((props: ThemeProps<EditorTheming>) => ({
   backgroundColor: 'transparent',
   border: 'none',
   borderBottom: `2px solid ${props.theme.textColor}`,
   color: props.theme.textColor,
-  width: '60%',
+  width: '75%',
   '&:focus': {
     outline: 'none',
     borderBottom: `2px solid ${props.theme.highlightColor}`

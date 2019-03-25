@@ -21,17 +21,18 @@ const OverlayWrapper = styled.div({
   top: 0,
   left: 0,
   backgroundColor: '#00000033',
-  zIndex: 99,
-  padding: '20px'
+  zIndex: 99
 })
 const OverlayBox = styled.div((props: ThemeProps<EditorTheming>) => ({
-  width: '60%',
-  height: '60%',
+  minHeight: '60%',
+  margin: '0 auto',
   position: 'absolute',
   zIndex: 100,
   backgroundColor: props.theme.backgroundColor,
   paddingBottom: '10px',
-  left: '20%',
+  left: '8%',
+  right: '8%',
+  maxWidth: '1150px',
   top: '20%'
 }))
 OverlayBox.defaultProps = {
@@ -55,6 +56,9 @@ const CloseButton = styled.button((props: ThemeProps<EditorTheming>) => ({
 CloseButton.defaultProps = {
   theme: defaultTheming
 }
+const ContentWrapper = styled.div({
+  padding: '20px 15%'
+})
 
 export const Overlay: React.FunctionComponent<{
   onClose?: () => void
@@ -90,7 +94,7 @@ export const Overlay: React.FunctionComponent<{
                 >
                   <Icon icon={faTimes} />
                 </CloseButton>
-                {props.children}
+                <ContentWrapper>{props.children}</ContentWrapper>
               </OverlayBox>
             </OnClickOutside>
           </OverlayWrapper>

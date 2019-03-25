@@ -124,6 +124,8 @@ async function exec(): Promise<void> {
         '**core**. Added `useEditorFocus`, `useEditorHistory`, `useEditorMode` custom React hooks to simplify the building of a custom ui',
         '**core**. Added `Reset` action that resets the current editor state to the last persisted value',
         '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.',
+        '**ui**. Added Checkbox, Button and Textarea components for overlay',
+        '**plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg',
         '**plugin-video**. Added video plugin'
       ],
       fixed: [

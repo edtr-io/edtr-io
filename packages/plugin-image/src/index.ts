@@ -15,7 +15,22 @@ export const createImagePlugin = <T = unknown>(
 ): StatefulPlugin<typeof imageState> => {
   return {
     Component: createImageEditor(config),
-    state: imageState
+    state: imageState,
+    onPaste: (clipboardData: DataTransfer) => {
+      const value = clipboardData.getData('text')
+
+      if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value)) {
+        return {
+          state: {
+            src: value,
+            href: '',
+            target: '',
+            rel: '',
+            description: ''
+          }
+        }
+      }
+    }
   }
 }
 
