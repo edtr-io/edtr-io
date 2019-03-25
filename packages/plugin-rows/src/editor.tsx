@@ -135,12 +135,16 @@ const Popup: React.FunctionComponent<{
   onClickOutside: () => void
   onClose: (pluginState: PluginState) => void
   plugins: Record<string, Plugin>
+  ownName?: string
 }> = props => {
   return (
     <OnClickOutside onClick={props.onClickOutside}>
       <AddMenuContainer>
         <AddMenu>
           {R.map(plugin => {
+            if (plugin === props.ownName) {
+              return null
+            }
             return (
               <Button
                 key={plugin}
@@ -191,6 +195,7 @@ export const RowsEditor = (
           onClickOutside={() => setPopup(undefined)}
           onClose={popup.onClose}
           plugins={getPlugins(store.state)}
+          ownName={props.name}
         />
       ) : null}
       {rows.items.map((row, index) => {
@@ -207,6 +212,7 @@ export const RowsEditor = (
                 onClickOutside={() => setPopup(undefined)}
                 onClose={popup.onClose}
                 plugins={getPlugins(store.state)}
+                ownName={props.name}
               />
             ) : null}
             <BottomFloatingButtonContainer>
