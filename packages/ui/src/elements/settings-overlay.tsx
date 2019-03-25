@@ -105,7 +105,9 @@ export const Overlay: React.FunctionComponent<{
 }
 
 const InlineOverlayWrapper = styled.div((props: ThemeProps<EditorTheming>) => ({
-  position: 'fixed',
+  position: 'absolute',
+  top: '-10000px',
+  left: '-10000px',
   opacity: 0,
   transition: 'opacity 0.5s',
   backgroundColor: props.theme.backgroundColor,
@@ -148,11 +150,14 @@ export const InlineOverlay: React.FunctionComponent<{
     const range = native.getRangeAt(0)
     const rect = range.getBoundingClientRect()
     if (rect.height === 0) return
+    // menu is set to display:none, shouldn't ever happen
+    if (!menu.offsetParent) return
+    const parentRect = menu.offsetParent.getBoundingClientRect()
     menu.style.opacity = '1'
-    menu.style.top = `${rect.bottom + window.pageYOffset + 3}px`
+    menu.style.top = `${rect.bottom - parentRect.top + 3}px`
 
     menu.style.left = `${Math.max(
-      rect.left + window.pageXOffset - menu.offsetWidth / 2 + rect.width / 2,
+      rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
       0
     )}px`
   }, [overlay])
