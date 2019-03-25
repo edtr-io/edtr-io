@@ -3,9 +3,10 @@ import * as React from 'react'
 
 import { EditorStory } from '../src'
 
-storiesOf('Plugins/Anchor', module).add('Initial State', () => {
+storiesOf('Plugins/Rows', module).add('Initial State', () => {
   const state = {
-    plugin: 'anchor'
+    plugin: 'rows'
   }
+
   return <EditorStory initialState={state} />
 })

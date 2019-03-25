@@ -4,9 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.1..HEAD)
 
+### Added
+
+- **core**. `Editor` now additionally accepts a render callback as `children` prop
+- **core**. Added `useEditorFocus`, `useEditorHistory`, `useEditorMode` custom React hooks to simplify the building of a custom ui
+- **core**. Added `Reset` action that resets the current editor state to the last persisted value
+- **demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org)
+
+### Fixed
+
+- **plugin-text**. Align top and bottom add butons correctly in custom integrations
+
 ### Internal
 
-- Added `build-demo` task that builds the demo storybook
+- **demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`
+- **demo**. Added `build-demo` task that builds the demo storybook (and deploys it automatically to Netlify). The demo of the master branch is available on <https://demo.edtr.io>
+- **demo**. Brand the demo storybook
 
 ## [0.4.1](https://github.com/edtr-io/edtr-io/compare/v0.4.0..v0.4.1) - March 22, 2019
 

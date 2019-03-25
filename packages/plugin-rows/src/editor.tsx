@@ -52,7 +52,7 @@ const FloatingButtonContainer = styled.div({
 })
 
 const TopFloatingButtonContainer = styled(FloatingButtonContainer)({
-  top: '0',
+  top: '-10px',
   width: '20px',
   left: '50%'
 })
@@ -114,6 +114,8 @@ const AddMenuButton = styled.button((props: ThemeProps<EditorTheming>) => {
 AddMenuButton.defaultProps = {
   theme: defaultTheming
 }
+
+const RowsContainer = styled.div({ position: 'relative' })
 
 const IconButton: React.FunctionComponent<{
   onClick: () => void
@@ -200,7 +202,7 @@ export const RowsEditor = (
   }
 
   return (
-    <React.Fragment>
+    <RowsContainer>
       <TopFloatingButtonContainer>
         <Add onClick={onAdd(0)} />
       </TopFloatingButtonContainer>
@@ -259,7 +261,7 @@ export const RowsEditor = (
           </div>
         )
       })}
-    </React.Fragment>
+    </RowsContainer>
   )
 
   function copyToClipboard(id: string) {

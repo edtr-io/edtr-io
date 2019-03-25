@@ -3,9 +3,9 @@ import * as React from 'react'
 
 import { EditorStory } from '../src'
 
-storiesOf('Plugins/Anchor', module).add('Initial State', () => {
+storiesOf('Plugins/Image', module).add('Initial State', () => {
   const state = {
-    plugin: 'anchor'
+    plugin: 'image'
   }
   return <EditorStory initialState={state} />
 })

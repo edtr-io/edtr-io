@@ -1,10 +1,11 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Story } from '.'
 
-storiesOf('Spoiler Plugin', module).add('Initial State', () => {
+import { EditorStory } from '../src'
+
+storiesOf('Plugins/Spoiler', module).add('Initial State', () => {
   const state = {
     plugin: 'spoiler'
   }
-  return <Story initialState={state} />
+  return <EditorStory initialState={state} />
 })
