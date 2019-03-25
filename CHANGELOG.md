@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - **ui**. Added Checkbox, Button and Textarea components for overlay
 - **plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg
 - **plugin-video**. Added video plugin
+- **core**. Added `name` prop to plugins
 
 ### Fixed
 

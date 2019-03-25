@@ -51,12 +51,14 @@ export const createTextEditor = (
     }
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
+      name: props.name || 'text',
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
       focusNext: focusNext
     })
     slateClosure.current = {
+      name: props.name || 'text',
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
@@ -116,7 +118,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
       return
     }
 
-    const { plugins, insert } = slateClosure.current
+    const { plugins, insert, name } = slateClosure.current
     if (typeof insert !== 'function') {
       next()
       return
@@ -132,7 +134,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
           const nextSlateState = splitBlockAtSelection(editor)
 
           setTimeout(() => {
-            insert({ plugin: 'text', state: nextSlateState })
+            insert({ plugin: name, state: nextSlateState })
             insert({ plugin: key, state: result.state })
           })
           return
@@ -172,7 +174,7 @@ function createOnKeyDown(
           if (!slateClosure.current) return
           const { insert } = slateClosure.current
           if (typeof insert !== 'function') return
-          insert({ plugin: 'text', state: nextSlateState })
+          insert({ plugin: slateClosure.current.name, state: nextSlateState })
         })
         return
       }
@@ -251,6 +253,7 @@ export interface SlateEditorAdditionalProps {
 }
 
 interface SlateClosure extends SlateEditorAdditionalProps {
+  name: string
   focusPrevious: () => void
   focusNext: () => void
   plugins: Record<string, Plugin>

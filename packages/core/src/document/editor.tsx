@@ -101,6 +101,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
           editable={editable}
           focused={focused}
           state={state}
+          name={document.plugin}
         />
       </div>
     </HotKeys>
