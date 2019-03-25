@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -15,12 +15,12 @@
     "slate-react": "^0.21.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.4.0",
-    "@edtr-io/ui": "^0.4.1",
+    "@edtr-io/core": "^0.4.2",
+    "@edtr-io/ui": "^0.4.2",
+    "@types/is-hotkey": "^0.1.0",
     "@types/lodash": "^4.0.0",
     "@types/parse5": "^5.0.0",
     "@types/react": "^16.8.0",
-    "@types/is-hotkey": "^0.1.0",
     "@types/slate": "^0.44.0",
     "@types/slate-html-serializer": "^0.6.0",
     "@types/slate-react": "^0.21.0",
