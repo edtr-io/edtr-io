@@ -119,6 +119,9 @@ async function exec(): Promise<void> {
       added: ['Use Theming in toolbars and menus.']
     },
     {
+      tagName: 'v0.4.2',
+      name: '0.4.2',
+      date: '2019-03-25',
       added: [
         '**core**. `Editor` now additionally accepts a render callback as `children` prop',
         '**core**. Added `useEditorFocus`, `useEditorHistory`, `useEditorMode` custom React hooks to simplify the building of a custom ui',
@@ -126,10 +129,10 @@ async function exec(): Promise<void> {
         '**core**. Handle focus for all documents',
         '**core**. Added optional `onKeyDown` callback to plugins which allows plugins to cancel the default editor keydown handlers',
         '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.',
+        '**core**. Added `name` prop to plugins',
         '**ui**. Added Checkbox, Button and Textarea components for overlay',
         '**plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg',
-        '**plugin-video**. Added video plugin',
-        '**core**. Added `name` prop to plugins'
+        '**plugin-video**. Added video plugin'
       ],
       fixed: [
         '**core**. Handle focus in nested documents correctly',
