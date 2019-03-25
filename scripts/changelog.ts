@@ -126,7 +126,7 @@ async function exec(): Promise<void> {
         '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.'
       ],
       fixed: [
-        '**plugin-text**. Align top and bottom add butons correctly in custom integrations'
+        '**plugin-rows**. Align top and bottom add butons correctly in custom integrations'
       ],
       internal: [
         '**demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`',
