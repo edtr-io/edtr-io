@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - **plugin-rows**. Align top and bottom add butons correctly in custom integrations
 - **plugin-text**. Disable slate undo/redo
 - **plugin-text**. Refocus after undo/redo
+- **plugin-text**. Display Link-Overlay only when plugin is focused
 
 ### Internal
 

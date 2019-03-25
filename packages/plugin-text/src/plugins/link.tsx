@@ -100,7 +100,7 @@ const DefaultControlsComponent: React.FunctionComponent<
   return (
     <React.Fragment>
       {props.children}
-      {isLink(editor) && !overlayContext.visible ? (
+      {!props.readOnly && isLink(editor) && !overlayContext.visible ? (
         <InlineOverlay
           key={`inlineoverlay${inline.key}`}
           onEdit={overlayContext.show}
@@ -111,7 +111,7 @@ const DefaultControlsComponent: React.FunctionComponent<
           </a>
         </InlineOverlay>
       ) : null}
-      {isLink(editor) ? (
+      {!props.readOnly && isLink(editor) ? (
         <Overlay key={`overlay${inline.key}`} onClose={() => editor.focus()}>
           <AutoFocusInput
             label="URL"
