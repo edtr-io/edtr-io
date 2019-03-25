@@ -7,6 +7,7 @@ import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
+import { videoPlugin } from '@edtr-io/plugin-video'
 
 interface SerloResponse {
   files: { location: string }[]
@@ -37,5 +38,6 @@ export const plugins: Record<string, Plugin> = {
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
   text: textPlugin,
-  geogebra: geogebraPlugin
+  geogebra: geogebraPlugin,
+  video: videoPlugin
 }
