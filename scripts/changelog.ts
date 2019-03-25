@@ -129,6 +129,7 @@ async function exec(): Promise<void> {
         '**plugin-video**. Added video plugin'
       ],
       fixed: [
+        '**core**. Handle focus in nested documents correctly',
         '**plugin-rows**. Align top and bottom add butons correctly in custom integrations'
       ],
       internal: [

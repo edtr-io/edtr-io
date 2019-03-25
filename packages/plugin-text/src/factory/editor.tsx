@@ -3,7 +3,8 @@ import {
   EditorContext,
   getPlugins,
   Plugin,
-  OverlayContext
+  OverlayContext,
+  useEditorFocus
 } from '@edtr-io/core'
 import * as React from 'react'
 import { Editor, EventHook, findNode } from 'slate-react'
@@ -18,6 +19,7 @@ export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
   return function SlateEditor(props: SlateEditorProps) {
+    const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
     const store = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
@@ -44,14 +46,14 @@ export const createTextEditor = (
     const slateClosure = React.useRef<SlateClosure>({
       plugins: plugins,
       insert: props.insert,
-      focusPrevious: props.focusPrevious,
-      focusNext: props.focusNext
+      focusPrevious: focusPrevious,
+      focusNext: focusNext
     })
     slateClosure.current = {
       plugins: plugins,
       insert: props.insert,
-      focusPrevious: props.focusPrevious,
-      focusNext: props.focusNext
+      focusPrevious: focusPrevious,
+      focusNext: focusNext
     }
     React.useEffect(() => {
       if (!editor.current) return
@@ -143,15 +145,21 @@ function createOnKeyDown(
     const { key } = (e as unknown) as React.KeyboardEvent
 
     if (key === 'Enter') {
-      e.preventDefault()
-      const nextSlateState = splitBlockAtSelection(editor)
+      if (
+        slateClosure.current &&
+        typeof slateClosure.current.insert === 'function'
+      ) {
+        e.preventDefault()
+        const nextSlateState = splitBlockAtSelection(editor)
 
-      setTimeout(() => {
-        if (!slateClosure.current) return
-        const { insert } = slateClosure.current
-        insert({ plugin: 'text', state: nextSlateState })
-      })
-      return
+        setTimeout(() => {
+          if (!slateClosure.current) return
+          const { insert } = slateClosure.current
+          if (typeof insert !== 'function') return
+          insert({ plugin: 'text', state: nextSlateState })
+        })
+        return
+      }
     }
 
     if (key === 'ArrowDown' || key === 'ArrowUp') {
@@ -223,11 +231,11 @@ export type SlateEditorProps = StatefulPluginEditorProps<
 >
 
 export interface SlateEditorAdditionalProps {
-  insert: (options?: { plugin: string; state?: unknown }) => void
-  focusPrevious: () => void
-  focusNext: () => void
+  insert?: (options?: { plugin: string; state?: unknown }) => void
 }
 
 interface SlateClosure extends SlateEditorAdditionalProps {
+  focusPrevious: () => void
+  focusNext: () => void
   plugins: Record<string, Plugin>
 }

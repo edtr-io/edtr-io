@@ -6,5 +6,8 @@ export const blockquoteState = StateType.child()
 
 export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
   Component: BlockquoteRenderer,
-  state: blockquoteState
+  state: blockquoteState,
+  getFocusableChildren(state) {
+    return [state]
+  }
 }

@@ -10,7 +10,7 @@ export function getFocusTree(state: State): Node | null {
 
   return getTree(root)
 
-  function getTree(id: string) {
+  function getTree(id: string): Node | null {
     const document = getDocument(state, id)
 
     if (!document) {
@@ -29,7 +29,10 @@ export function getFocusTree(state: State): Node | null {
       typeof plugin.getFocusableChildren === 'function'
     ) {
       const pluginState = plugin.state(document.state, () => {})
-      children = plugin.getFocusableChildren(pluginState)
+      children = plugin.getFocusableChildren(pluginState).map(child => {
+        const subtree = getTree(child.id)
+        return subtree || child
+      })
     }
 
     return {
