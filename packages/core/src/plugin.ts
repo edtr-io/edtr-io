@@ -33,6 +33,7 @@ export interface StatefulPlugin<
   onPaste?: (
     data: DataTransfer
   ) => void | { state?: StateDescriptorSerializedType<S> }
+  onKeyDown?: (e: KeyboardEvent) => boolean
   getFocusableChildren?: (
     state: StateDescriptorReturnType<S>
   ) => { id: string }[]

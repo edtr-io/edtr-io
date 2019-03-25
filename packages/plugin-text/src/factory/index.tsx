@@ -32,6 +32,9 @@ export const createTextPlugin = (
 ): StatefulPlugin<typeof textState, SlateEditorAdditionalProps> => {
   return {
     Component: createTextEditor(options),
-    state: textState
+    state: textState,
+    onKeyDown() {
+      return false
+    }
   }
 }
