@@ -72,13 +72,19 @@ export function GeogebraRenderer({
     requestHeight(setDimensions, state.value)
   }, [state.value])
 
+  let id = state.value
+  // check if state was the full url
+  const match = state.value.match(/geogebra\.org\/m\/(.+)/)
+  if (match) {
+    id = match[1]
+  }
   return (
     <div>
       {state.value ? (
         <iframe
-          title={state.value}
+          title={id}
           scrolling="no"
-          src={'https://www.geogebra.org/material/iframe/id/' + state.value}
+          src={'https://www.geogebra.org/material/iframe/id/' + id}
           width={width}
           height={height}
           style={{

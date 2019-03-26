@@ -6,6 +6,7 @@ import {
   faTimes,
   faTrashAlt,
   faPencilAlt,
+  faCog,
   EditorTheming,
   defaultTheming
 } from '..'
@@ -172,5 +173,41 @@ export const InlineOverlay: React.FunctionComponent<{
         <Icon icon={faTrashAlt} />
       </ChangeButton>
     </InlineOverlayWrapper>
+  )
+}
+
+const ConfigIconContainer = styled.div({
+  position: 'relative'
+})
+const ConfigIcon = styled.div((props: ThemeProps<EditorTheming>) => ({
+  position: 'absolute',
+  textAlign: 'center',
+  width: '100%',
+  height: '100%',
+  top: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: props.theme.backgroundColor,
+  color: props.theme.textColor,
+  opacity: 0,
+  '&:hover': {
+    opacity: 1,
+    transition: 'opacity 0.3s ease'
+  }
+}))
+ConfigIcon.defaultProps = {
+  theme: defaultTheming
+}
+
+export const ContainerWithConfigButton: React.FunctionComponent = props => {
+  const overlayContext = React.useContext(OverlayContext)
+  return (
+    <ConfigIconContainer onClick={overlayContext.show}>
+      {props.children}
+      <ConfigIcon>
+        <Icon icon={faCog} size={'3x'} />
+      </ConfigIcon>
+    </ConfigIconContainer>
   )
 }
