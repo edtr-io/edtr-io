@@ -131,8 +131,12 @@ async function exec(): Promise<void> {
         '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.',
         '**core**. Added `name` prop to plugins',
         '**ui**. Added Checkbox, Button and Textarea components for overlay',
+        '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
         '**plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg',
-        '**plugin-video**. Added video plugin'
+        '**plugin-image**. Use ContainerWithConfigButton',
+        '**plugin-video**. Added video plugin',
+        '**plugin-video**. Use ContainerWithConfigButton',
+        '**plugin-geogebra**. Use ContainerWithConfigButton'
       ],
       fixed: [
         '**core**. Handle focus in nested documents correctly',
