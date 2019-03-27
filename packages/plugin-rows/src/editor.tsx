@@ -29,7 +29,6 @@ import { Clipboard } from './clipboard'
 import { rowsState } from '.'
 import { Row } from './renderer'
 import { ThemeProps } from 'styled-components'
-import { StateDescriptorValueType } from '@edtr-io/core/src/plugin-state'
 
 const FloatingButton = styled.button({
   outline: 'none',

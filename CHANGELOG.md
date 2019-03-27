@@ -30,6 +30,8 @@ All notable changes to this project will be documented in this file.
 - **plugin-text**. Refocus after undo/redo
 - **plugin-text**. Display Link-Overlay only when plugin is focused
 - **plugin-text**. Refocus after bold/italic button click
+- **plugin-geogebra**. Scale applet with container size preserving aspect ratio
+- **plugin-geogebra**. Accept full geogebra material link too
 
 ### Internal
 

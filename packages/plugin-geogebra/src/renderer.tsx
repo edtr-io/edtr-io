@@ -4,6 +4,7 @@ import { debounce } from 'lodash'
 import * as React from 'react'
 
 import { geogebraState } from '.'
+import { styled } from '@edtr-io/ui'
 
 interface Dimensions {
   width: number
@@ -59,6 +60,32 @@ const requestHeight = debounce(
   500
 )
 
+const Geogebra = styled.iframe({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  border: 'none'
+})
+const ScaleContainer = styled.div(
+  ({
+    disableCursorEvents,
+    aspectRatio
+  }: {
+    disableCursorEvents: boolean
+    aspectRatio: number
+  }) => ({
+    position: 'relative',
+    padding: '0',
+    paddingTop: `${100 / aspectRatio}%`,
+    display: 'block',
+    height: '0',
+    overflow: 'hidden',
+    pointerEvents: disableCursorEvents ? 'none' : 'auto'
+  })
+)
+
 export function GeogebraRenderer({
   state,
   disableCursorEvents
@@ -67,49 +94,48 @@ export function GeogebraRenderer({
     width: 800,
     height: 500
   })
-
-  React.useEffect(() => {
-    requestHeight(setDimensions, state.value)
-  }, [state.value])
-
   let id = state.value
   // check if state was the full url
   const match = state.value.match(/geogebra\.org\/m\/(.+)/)
   if (match) {
     id = match[1]
   }
-  return (
-    <div>
-      {state.value ? (
-        <iframe
+
+  React.useEffect(() => {
+    requestHeight(setDimensions, id)
+  }, [id])
+
+  if (!id) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          textAlign: 'center',
+          border: '2px lightgrey solid',
+          borderRadius: '4px',
+          padding: '10px'
+        }}
+      >
+        <img
+          src="https://cdn.geogebra.org/static/img/GeoGebra-logo.png"
+          alt="Geogebra"
+        />
+      </div>
+    )
+  } else {
+    return (
+      <ScaleContainer
+        aspectRatio={width / height}
+        disableCursorEvents={disableCursorEvents || false}
+      >
+        <Geogebra
           title={id}
           scrolling="no"
           src={'https://www.geogebra.org/material/iframe/id/' + id}
-          width={width}
-          height={height}
-          style={{
-            border: '0px',
-            pointerEvents: disableCursorEvents ? 'none' : 'auto'
-          }}
         />
-      ) : (
-        <div
-          style={{
-            width: '100%',
-            textAlign: 'center',
-            border: '2px lightgrey solid',
-            borderRadius: '4px',
-            padding: '10px'
-          }}
-        >
-          <img
-            src="https://cdn.geogebra.org/static/img/GeoGebra-logo.png"
-            alt="Geogebra"
-          />
-        </div>
-      )}
-    </div>
-  )
+      </ScaleContainer>
+    )
+  }
 }
 
 export type GeogebraRendererProps = StatefulPluginEditorProps<

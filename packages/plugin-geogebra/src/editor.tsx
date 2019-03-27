@@ -18,7 +18,7 @@ export const GeogebraEditor = (
       {focused ? (
         <Overlay>
           <AutoFocusInput
-            label="Geogebra ID"
+            label="Geogebra Link oder ID"
             placeholder="12345"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               state.set(e.target.value)

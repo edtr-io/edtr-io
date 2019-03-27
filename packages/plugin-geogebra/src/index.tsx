@@ -17,9 +17,8 @@ export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {
   onPaste(clipboardData: DataTransfer) {
     const value = clipboardData.getData('text')
 
-    const match = value.match(/geogebra\.org\/m\/(.+)/)
-    if (match) {
-      return { state: match[1] }
+    if (/geogebra\.org\/m\/(.+)/.test(value)) {
+      return { state: value }
     }
   }
 }
