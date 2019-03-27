@@ -4,7 +4,8 @@ import {
   Plugin,
   PluginState,
   StatefulPluginEditorProps,
-  getPlugins
+  getPlugins,
+  getDocument
 } from '@edtr-io/core'
 import {
   Icon,
@@ -28,6 +29,7 @@ import { Clipboard } from './clipboard'
 import { rowsState } from '.'
 import { Row } from './renderer'
 import { ThemeProps } from 'styled-components'
+import { StateDescriptorValueType } from '@edtr-io/core/src/plugin-state'
 
 const FloatingButton = styled.button({
   outline: 'none',
@@ -204,7 +206,36 @@ export const RowsEditor = (
             <Row>
               {row.render({
                 insert: (options?: { plugin: string; state?: unknown }) =>
-                  rows.insert(index + 1, options)
+                  rows.insert(index + 1, options),
+                mergeWithPrevious: (
+                  merge: (statePrevious: unknown) => unknown
+                ) => {
+                  if (index - 1 < 0) return
+                  const previous = getDocument(
+                    store.state,
+                    rows()[index - 1].id
+                  )
+                  const current = getDocument(store.state, row.id)
+                  if (
+                    !previous ||
+                    !current ||
+                    previous.plugin !== current.plugin
+                  )
+                    return
+                  merge(previous.state)
+                  setTimeout(() => rows.remove(index - 1))
+                },
+                mergeWithNext: (merge: (statePrevious: unknown) => unknown) => {
+                  if (index + 1 === rows().length) return
+                  const next = getDocument(store.state, rows()[index + 1].id)
+                  const current = getDocument(store.state, row.id)
+                  if (!next || !current || next.plugin !== current.plugin)
+                    return
+                  merge(next.state)
+                  setTimeout(() => {
+                    rows.remove(index + 1)
+                  })
+                }
               })}
             </Row>
             {popup && popup.index === index + 1 ? (

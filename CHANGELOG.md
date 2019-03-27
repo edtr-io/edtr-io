@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - **plugin-video**. Added video plugin
 - **plugin-video**. Use ContainerWithConfigButton
 - **plugin-geogebra**. Use ContainerWithConfigButton
+- **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
 
 ### Fixed
 

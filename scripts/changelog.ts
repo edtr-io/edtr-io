@@ -136,7 +136,8 @@ async function exec(): Promise<void> {
         '**plugin-image**. Use ContainerWithConfigButton',
         '**plugin-video**. Added video plugin',
         '**plugin-video**. Use ContainerWithConfigButton',
-        '**plugin-geogebra**. Use ContainerWithConfigButton'
+        '**plugin-geogebra**. Use ContainerWithConfigButton',
+        '**plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin'
       ],
       fixed: [
         '**core**. Handle focus in nested documents correctly',

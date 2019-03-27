@@ -17,6 +17,7 @@ export {
   ActionCommitType,
   serializeDocument,
   getClipboard,
+  getDocument,
   getPlugins,
   hasPendingChanges,
   isEditable
