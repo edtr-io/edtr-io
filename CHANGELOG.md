@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - **plugin-text**. Disable slate undo/redo
 - **plugin-text**. Refocus after undo/redo
 - **plugin-text**. Display Link-Overlay only when plugin is focused
+- **plugin-text**. Refocus after bold/italic button click
 
 ### Internal
 
