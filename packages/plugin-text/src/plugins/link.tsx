@@ -57,12 +57,22 @@ export interface LinkPluginOptions {
 const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps
 > = props => {
-  const { attributes, children, node } = props
+  const { attributes, children, node, isSelected } = props
   const inline = node
   const href = inline.data.get('href')
 
   return (
-    <a {...attributes} href={href}>
+    <a
+      {...attributes}
+      href={href}
+      style={
+        isSelected
+          ? {
+              textDecoration: 'underline'
+            }
+          : undefined
+      }
+    >
       {children}
     </a>
   )
