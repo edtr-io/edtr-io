@@ -11,7 +11,7 @@ export function PlainContainer({ children }: { children: React.ReactNode }) {
 
   return (
     <React.Fragment>
-      {children}
+      <div style={{ margin: '20px 0px' }}>{children}</div>
       <button onClick={logState}>Log State</button>
       <button onClick={history.undo}>Undo</button>
       <button onClick={history.redo}>Redo</button>

@@ -28,22 +28,27 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { Clipboard } from './clipboard'
 import { ThemeProps } from 'styled-components'
 
-export const FloatingButton = styled.button({
-  outline: 'none',
-  width: '25px',
-  height: '1em',
-  background: 'white',
-  border: 'none',
-  padding: 0,
-  margin: '0 auto',
-  borderRadius: 0,
-  color: '#d9d9d9',
-  '&:hover': {
-    cursor: 'pointer',
-    color: 'black'
-  },
-  display: 'inline-block'
-})
+export const FloatingButton = styled.button(
+  ({ disabled }: { disabled?: boolean }) => ({
+    outline: 'none',
+    width: '30px',
+    height: '1em',
+    zIndex: 50,
+    background: disabled ? 'none' : 'white',
+    border: 'none',
+    padding: 0,
+    margin: '0 auto',
+    borderRadius: 0,
+    color: disabled ? 'transparent' : '#d9d9d9',
+    '&:hover': disabled
+      ? undefined
+      : {
+          cursor: 'pointer',
+          color: 'black'
+        },
+    display: 'inline-block'
+  })
+)
 
 const AddMenuContainer = styled.div((props: ThemeProps<EditorTheming>) => {
   return {
@@ -77,8 +82,12 @@ export const FloatingButtonContainer = styled.div({
 export const IconButton: React.FunctionComponent<{
   onClick: () => void
   icon: IconProp
+  disabled?: boolean
 }> = props => (
-  <FloatingButton onMouseDown={props.onClick}>
+  <FloatingButton
+    onMouseDown={props.disabled ? undefined : props.onClick}
+    disabled={props.disabled}
+  >
     <Icon icon={props.icon} size={'lg'} />
   </FloatingButton>
 )
@@ -88,7 +97,7 @@ export const Add: React.FunctionComponent<{
 }> = props => <IconButton {...props} icon={faPlus} />
 
 export const TopFloatingButtonContainer = styled(FloatingButtonContainer)({
-  top: '-10px',
+  top: '-12px',
   width: '20px',
   left: '50%'
 })
@@ -101,7 +110,7 @@ const BottomFloatingButtonContainer = styled(FloatingButtonContainer)({
 })
 
 const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
-  top: '-10px',
+  top: '-12px',
   right: 0,
   width: 'auto',
   textAlign: 'right'
@@ -113,13 +122,13 @@ const Remove: React.FunctionComponent<{
 
 const MoveUp: React.FunctionComponent<{
   onClick: () => void
+  disabled?: boolean
 }> = props => <IconButton icon={faCaretSquareUp} {...props} />
 
 const MoveDown: React.FunctionComponent<{
   onClick: () => void
+  disabled?: boolean
 }> = props => <IconButton icon={faCaretSquareDown} {...props} />
-
-const EmptySpot: React.FunctionComponent = () => <FloatingButton />
 
 const Cut: React.FunctionComponent<{
   onClick: () => void
@@ -244,16 +253,14 @@ export const Row = (
             <Add onClick={() => onAdd(index + 1)} />
           </BottomFloatingButtonContainer>
           <RightFloatingButtonContainer>
-            {index > 0 ? (
-              <MoveUp onClick={() => rows.move(index, index - 1)} />
-            ) : (
-              <EmptySpot />
-            )}
-            {index + 1 < rows.items.length ? (
-              <MoveDown onClick={() => rows.move(index, index + 1)} />
-            ) : (
-              <EmptySpot />
-            )}
+            <MoveUp
+              disabled={index <= 0}
+              onClick={() => rows.move(index, index - 1)}
+            />
+            <MoveDown
+              disabled={index + 1 >= rows.items.length}
+              onClick={() => rows.move(index, index + 1)}
+            />
             <Copy onClick={() => copyToClipboard(row())} />
             <Cut
               onClick={() => {
