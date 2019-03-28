@@ -189,7 +189,6 @@ export const Row = (
   const row = rows()[index]
 
   function onAdd(insertIndex: number) {
-    console.log(insertIndex)
     setPopup({
       index: insertIndex,
       onClose: (pluginState: PluginState) => {
