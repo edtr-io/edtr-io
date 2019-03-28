@@ -147,7 +147,8 @@ async function exec(): Promise<void> {
         '**plugin-text**. Display Link-Overlay only when plugin is focused',
         '**plugin-text**. Refocus after bold/italic button click',
         '**plugin-geogebra**. Scale applet with container size preserving aspect ratio',
-        '**plugin-geogebra**. Accept full geogebra material link too'
+        '**plugin-geogebra**. Accept full geogebra material link too',
+        '**plugin-image**. Center image'
       ],
       internal: [
         '**demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`',
