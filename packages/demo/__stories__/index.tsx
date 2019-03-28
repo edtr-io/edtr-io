@@ -13,6 +13,7 @@ import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
+import { matchingExercisePlugin } from '@edtr-io/plugin-matching-exercise'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { Overlay, rowsPlugin } from '@edtr-io/ui'
@@ -74,6 +75,7 @@ const plugins: Record<string, Plugin<any>> = {
   counter: counterPlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
+  matchingExercise: matchingExercisePlugin,
   rows: rowsPlugin,
   spoiler: spoilerPlugin,
   text: textPlugin,

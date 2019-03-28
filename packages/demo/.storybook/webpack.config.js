@@ -16,6 +16,8 @@ module.exports = (_baseConfig, _env, config) => {
               '@edtr-io/plugin-geogebra': '@edtr-io/plugin-geogebra/src',
               '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',
               '@edtr-io/plugin-image': '@edtr-io/plugin-image/src',
+              '@edtr-io/plugin-matching-exercise':
+                '@edtr-io/plugin-matching-exercise/src',
               '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
               '@edtr-io/plugin-text': '@edtr-io/plugin-text/src'
             }
