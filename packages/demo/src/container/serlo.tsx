@@ -490,6 +490,11 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
                 <div itemScope itemType="http://schema.org/Article">
                   <div itemProp="articleBody">
                     <article>
+                      <div className="page-header">
+                        <h1>
+                          <span itemProp="name">Artikel schreiben</span>
+                        </h1>
+                      </div>
                       <section>
                         <div className="editable">{children}</div>
                       </section>
