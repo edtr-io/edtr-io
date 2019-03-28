@@ -128,13 +128,13 @@ const Copy: React.FunctionComponent<{
   onClick: () => void
 }> = props => <IconButton icon={faCopy} {...props} />
 
-export const HoverContainer = styled.div({
+export const RowContainer = styled.div({
   minHeight: '10px',
   position: 'relative',
   padding: '10px 0'
 })
 
-const HoverRowContainer = styled(HoverContainer)({
+const HoverContainer = styled(RowContainer)({
   '&:hover': {
     border: '2px solid rgba(0,0,0,0.15)',
     margin: '-2px'
@@ -199,7 +199,7 @@ export const Row = (
     })
   }
   return (
-    <HoverRowContainer
+    <HoverContainer
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -274,7 +274,7 @@ export const Row = (
           ownName={props.name}
         />
       ) : null}
-    </HoverRowContainer>
+    </HoverContainer>
   )
 
   function copyToClipboard(id: string) {
