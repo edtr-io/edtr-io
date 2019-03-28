@@ -6,21 +6,26 @@ import * as React from 'react'
 import { geogebraState } from '.'
 import { styled } from '@edtr-io/ui'
 
-interface Dimensions {
+interface ApiData {
   width: number
   height: number
+  previewUrl?: string
 }
+enum Error {
+  NotExisting
+}
+type ApiResponse = ApiData | Error
 
-const cache: { [src: string]: Dimensions } = {}
+const cache: { [src: string]: ApiResponse } = {}
 
-const requestHeight = debounce(
-  (setDimensions: (dim: Dimensions) => void, src?: string) => {
+const requestAppletData = debounce(
+  (setApiResponse: (data: ApiResponse) => void, src?: string) => {
     if (!src) {
       return
     }
 
     if (cache[src]) {
-      setDimensions(cache[src])
+      setApiResponse(cache[src])
       return
     }
 
@@ -33,7 +38,11 @@ const requestHeight = debounce(
             task: {
               '-type': 'fetch',
               fields: {
-                field: [{ '-name': 'width' }, { '-name': 'height' }]
+                field: [
+                  { '-name': 'width' },
+                  { '-name': 'height' },
+                  { '-name': 'preview_url' }
+                ]
               },
               filters: {
                 field: [{ '-name': 'id', '#text': src }]
@@ -51,10 +60,17 @@ const requestHeight = debounce(
         }
       )
       .then(res => {
-        const { width, height } = res.data.responses.response.item
-        const dim: Dimensions = { width, height }
-        cache[src] = dim
-        setDimensions(dim)
+        let data: ApiResponse = Error.NotExisting
+        if (res.data.responses.response.item) {
+          const {
+            width = 800,
+            height = 500,
+            previewUrl
+          } = res.data.responses.response.item
+          data = { width, height, previewUrl }
+        }
+        cache[src] = data
+        setApiResponse(data)
       })
   },
   500
@@ -67,6 +83,10 @@ const Geogebra = styled.iframe({
   width: '100%',
   height: '100%',
   border: 'none'
+})
+const PreviewImage = styled.img({
+  maxWidth: '100%',
+  height: 'auto'
 })
 const ScaleContainer = styled.div(
   ({
@@ -90,10 +110,7 @@ export function GeogebraRenderer({
   state,
   disableCursorEvents
 }: GeogebraRendererProps) {
-  const [{ width, height }, setDimensions] = React.useState({
-    width: 800,
-    height: 500
-  })
+  const [data, setApiResponse] = React.useState<ApiResponse>(Error.NotExisting)
   let id = state.value
   // check if state was the full url
   const match = state.value.match(/geogebra\.org\/m\/(.+)/)
@@ -102,10 +119,10 @@ export function GeogebraRenderer({
   }
 
   React.useEffect(() => {
-    requestHeight(setDimensions, id)
+    requestAppletData(setApiResponse, id)
   }, [id])
 
-  if (!id) {
+  if (data === Error.NotExisting) {
     return (
       <div
         style={{
@@ -123,18 +140,23 @@ export function GeogebraRenderer({
       </div>
     )
   } else {
-    return (
-      <ScaleContainer
-        aspectRatio={width / height}
-        disableCursorEvents={disableCursorEvents || false}
-      >
-        <Geogebra
-          title={id}
-          scrolling="no"
-          src={'https://www.geogebra.org/material/iframe/id/' + id}
-        />
-      </ScaleContainer>
-    )
+    const { width, height, previewUrl } = data
+    if (disableCursorEvents && previewUrl) {
+      return <PreviewImage src={previewUrl} />
+    } else {
+      return (
+        <ScaleContainer
+          aspectRatio={width / height}
+          disableCursorEvents={disableCursorEvents || false}
+        >
+          <Geogebra
+            title={id}
+            scrolling="no"
+            src={'https://www.geogebra.org/material/iframe/id/' + id}
+          />
+        </ScaleContainer>
+      )
+    }
   }
 }
 
@@ -142,10 +164,4 @@ export type GeogebraRendererProps = StatefulPluginEditorProps<
   typeof geogebraState
 > & {
   disableCursorEvents?: boolean
-}
-
-export interface GeogebraRendererState {
-  id: string
-  width: number
-  height: number
 }
