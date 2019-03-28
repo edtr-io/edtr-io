@@ -23,7 +23,7 @@ const TextareaInner = styled.textarea((props: ThemeProps<EditorTheming>) => ({
   resize: 'none',
   outline: 'none',
   minHeight: '100px',
-  width: 'calc(75% - 20px)',
+  width: '75%',
   '&:focus': {
     border: `2px solid ${props.theme.highlightColor}`
   }
