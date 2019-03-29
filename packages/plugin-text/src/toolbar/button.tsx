@@ -1,9 +1,9 @@
 import { defaultTheming, styled, EditorTheming } from '@edtr-io/ui'
 
 export const ButtonGroup = styled.div({
-  display: 'flex',
-  width: '100%',
-  margin: '20px 0 0'
+  position: 'absolute',
+  top: '-1em',
+  zIndex: 20
 })
 
 export const Button = styled.button<{ active?: boolean }>(
@@ -15,8 +15,7 @@ export const Button = styled.button<{ active?: boolean }>(
       outline: 'none',
       height: '25px',
       border: 'none',
-      maxWidth: '40px',
-      flex: 1,
+      width: '40px',
       borderRight: `1px solid ${theme.textColor}`,
       '&:first-child': {
         borderBottomLeftRadius: '8px',

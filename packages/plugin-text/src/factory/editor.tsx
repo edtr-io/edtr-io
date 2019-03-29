@@ -9,11 +9,15 @@ import {
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, EventHook, findNode } from 'slate-react'
-import { Editor as CoreEditor, Value } from 'slate'
+import {
+  Editor as CoreEditor,
+  Value,
+  ValueJSON,
+  Range as CoreRange
+} from 'slate'
 
 import { TextPlugin } from '..'
 import { TextPluginOptions } from './types'
-
 import { textState } from '.'
 
 export const createTextEditor = (
@@ -55,14 +59,18 @@ export const createTextEditor = (
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
-      focusNext: focusNext
+      focusNext: focusNext,
+      mergeWithNext: props.mergeWithNext,
+      mergeWithPrevious: props.mergeWithPrevious
     })
     slateClosure.current = {
       name: props.name || 'text',
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
-      focusNext: focusNext
+      focusNext: focusNext,
+      mergeWithNext: props.mergeWithNext,
+      mergeWithPrevious: props.mergeWithPrevious
     }
     React.useEffect(() => {
       if (!editor.current) return
@@ -162,7 +170,7 @@ function createOnKeyDown(
       return
     }
 
-    if (key === 'Enter') {
+    if (isHotkey('enter', e as KeyboardEvent)) {
       if (
         slateClosure.current &&
         typeof slateClosure.current.insert === 'function'
@@ -205,6 +213,39 @@ function createOnKeyDown(
       }
     }
 
+    if (key === 'Backspace' && selectionAtStart(editor)) {
+      if (!slateClosure.current) return
+      const { mergeWithPrevious } = slateClosure.current
+      if (typeof mergeWithPrevious !== 'function') return
+
+      mergeWithPrevious(previous => {
+        const value = Value.fromJSON(previous)
+        const selection = CoreRange.create(editor.value.selection)
+        editor
+          // hack because empty slate looses focus
+          .insertTextAtRange(selection, ' ')
+          .insertFragmentAtRange(selection, value.document)
+          .moveFocusBackward(1)
+          .delete()
+      })
+      return
+    }
+
+    if (key === 'Delete' && selectionAtEnd(editor)) {
+      if (!slateClosure.current) return
+      const { mergeWithNext } = slateClosure.current
+      if (typeof mergeWithNext !== 'function') return
+
+      mergeWithNext(next => {
+        const value = Value.fromJSON(next)
+        const selection = CoreRange.create(editor.value.selection)
+        editor
+          .insertFragmentAtRange(selection, value.document)
+          .select(selection)
+      })
+      return
+    }
+
     next()
   }
 
@@ -216,6 +257,26 @@ function createOnKeyDown(
     }
 
     return null
+  }
+  function selectionAtStart(editor: CoreEditor) {
+    const { selection } = editor.value
+    const startNode = editor.value.document.getFirstText()
+    return (
+      selection.isCollapsed &&
+      startNode &&
+      editor.value.startText.key === startNode.key &&
+      selection.start.offset === 0
+    )
+  }
+  function selectionAtEnd(editor: CoreEditor) {
+    const { selection } = editor.value
+    const endNode = editor.value.document.getLastText()
+    return (
+      selection.isCollapsed &&
+      endNode &&
+      editor.value.endText.key === endNode.key &&
+      selection.end.offset === editor.value.endText.text.length
+    )
   }
 }
 
@@ -250,6 +311,8 @@ export type SlateEditorProps = StatefulPluginEditorProps<
 
 export interface SlateEditorAdditionalProps {
   insert?: (options?: { plugin: string; state?: unknown }) => void
+  mergeWithNext?: (merge: (next: ValueJSON) => void) => void
+  mergeWithPrevious?: (merge: (previous: ValueJSON) => void) => void
 }
 
 interface SlateClosure extends SlateEditorAdditionalProps {

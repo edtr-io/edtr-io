@@ -145,6 +145,22 @@ async function exec(): Promise<void> {
         '**demo**. Added `build-demo` task that builds the demo storybook (and deploys it automatically to Netlify). The demo of the master branch is available on https://demo.edtr.io',
         '**demo**. Brand the demo storybook'
       ]
+    },
+    {
+      added: [
+        '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
+        '**plugin-geogebra**. Use ContainerWithConfigButton',
+        '**plugin-image**. Use ContainerWithConfigButton',
+        '**plugin-video**. Use ContainerWithConfigButton',
+        '**plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin'
+      ],
+      fixed: [
+        '**plugin-geogebra**. Scale applet with container size preserving aspect ratio',
+        '**plugin-geogebra**. Accept full GeoGebra material link too',
+        '**plugin-image**. Center image',
+        '**plugin-text**. Display Link-Overlay only when plugin is focused',
+        '**plugin-text**. Refocus after bold/italic button click'
+      ]
     }
   ])
 

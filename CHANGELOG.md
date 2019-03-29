@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.2..HEAD)
+
+### Added
+
+- **ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.
+- **plugin-geogebra**. Use ContainerWithConfigButton
+- **plugin-image**. Use ContainerWithConfigButton
+- **plugin-video**. Use ContainerWithConfigButton
+- **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
+
+### Fixed
+
+- **plugin-geogebra**. Scale applet with container size preserving aspect ratio
+- **plugin-geogebra**. Accept full GeoGebra material link too
+- **plugin-image**. Center image
+- **plugin-text**. Display Link-Overlay only when plugin is focused
+- **plugin-text**. Refocus after bold/italic button click
+
 ## [0.4.2](https://github.com/edtr-io/edtr-io/compare/v0.4.1..v0.4.2) - March 25, 2019
 
 ### Added

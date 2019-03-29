@@ -1,4 +1,4 @@
-import { OverlayContext, StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import {
   Icon,
   faImages,
@@ -6,7 +6,8 @@ import {
   Textarea,
   Overlay,
   Input,
-  Checkbox
+  Checkbox,
+  ContainerWithConfigButton
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -32,11 +33,9 @@ export function createImageEditor<T = unknown>(
     >(undefined)
     const { editable, focused, state } = props
 
-    const overlayContext = React.useContext(OverlayContext)
-
     return (
       <React.Fragment>
-        <div onClick={() => overlayContext.show()}>
+        <ContainerWithConfigButton>
           {state.src.value || imagePreview ? (
             <ImageRenderer
               state={state}
@@ -48,7 +47,7 @@ export function createImageEditor<T = unknown>(
               <Icon icon={faImages} size="5x" />
             </ImgPlaceholderWrapper>
           )}
-        </div>
+        </ContainerWithConfigButton>
         {focused ? (
           <Overlay>
             <Input

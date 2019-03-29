@@ -71,14 +71,16 @@ export function Editor<K extends string = string>({
           })
       }}
     >
-      <EditorContext.Provider
-        value={{
-          state,
-          dispatch
-        }}
-      >
-        <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
-      </EditorContext.Provider>
+      <div style={{ position: 'relative' }}>
+        <EditorContext.Provider
+          value={{
+            state,
+            dispatch
+          }}
+        >
+          <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
+        </EditorContext.Provider>
+      </div>
     </HotKeys>
   )
 

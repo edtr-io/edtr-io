@@ -6,7 +6,10 @@ import { imageState } from '.'
 import { ImageLoaded } from './upload'
 
 const Img = styled.img({
-  maxWidth: '100%'
+  maxWidth: '100%',
+  display: 'block',
+  marginLeft: 'auto',
+  marginRight: 'auto'
 })
 
 export class ImageRenderer extends React.Component<ImageRendererProps> {

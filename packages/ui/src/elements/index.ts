@@ -1,4 +1,4 @@
-export * from './onClickOutside'
+export * from './on-click-outside'
 export * from './input'
 export * from './settings-overlay'
 export * from './textarea'

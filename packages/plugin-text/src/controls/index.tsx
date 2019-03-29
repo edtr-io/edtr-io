@@ -18,12 +18,15 @@ export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
   const overlayContext = React.useContext(OverlayContext)
   return (
     <ButtonGroup>
-      <Button active={isStrong(editor)} onClick={() => toggleStrong(editor)}>
+      <Button
+        active={isStrong(editor)}
+        onClick={() => toggleStrong(editor).focus()}
+      >
         <Icon icon={faBold} />
       </Button>
       <Button
         active={isEmphasized(editor)}
-        onClick={() => toggleEmphasize(editor)}
+        onClick={() => toggleEmphasize(editor).focus()}
       >
         <Icon icon={faItalic} />
       </Button>
@@ -31,7 +34,7 @@ export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
         active={isLink(editor)}
         onClick={() =>
           isLink(editor)
-            ? unwrapLink(editor)
+            ? unwrapLink(editor).focus()
             : wrapLink()(editor, overlayContext)
         }
       >
