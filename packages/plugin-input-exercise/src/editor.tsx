@@ -1,8 +1,9 @@
-import { InputExerciseRenderer } from './renderer'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Feedback, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+
+import { InputExerciseRenderer } from './renderer'
 import { inputExerciseState } from '.'
 
 const types = [

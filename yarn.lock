@@ -2374,7 +2374,7 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
-"@types/algebra.js@^0.2.1":
+"@types/algebra.js@^0.2.0":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@types/algebra.js/-/algebra.js-0.2.1.tgz#e7a8c55818363bbc02e4983cd6d01f1519061deb"
   integrity sha1-56jFWBg2O7wC5Jg81tAfFRkGHes=
@@ -2923,7 +2923,7 @@ ajv@^6.1.0, ajv@^6.5.5, ajv@^6.9.1:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-algebra.js@^0.2.6:
+algebra.js@^0.2.0:
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/algebra.js/-/algebra.js-0.2.6.tgz#23aacc86f8634e4c206d56c8077ef220a6221c74"
   integrity sha1-I6rMhvhjTkwgbVbIB37yIKYiHHQ=
@@ -11964,7 +11964,7 @@ string.prototype.padstart@^3.0.0:
     es-abstract "^1.4.3"
     function-bind "^1.0.2"
 
-string@^3.3.3:
+string@^3.0.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/string/-/string-3.3.3.tgz#5ea211cd92d228e184294990a6cc97b366a77cb0"
   integrity sha1-XqIRzZLSKOGEKUmQpsyXs2anfLA=

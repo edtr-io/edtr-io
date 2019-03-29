@@ -1,5 +1,6 @@
-import { InputExerciseEditor } from './editor'
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+
+import { InputExerciseEditor } from './editor'
 
 export const wrongAnswerObject = StateType.object({
   value: StateType.string(''),
