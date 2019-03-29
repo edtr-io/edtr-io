@@ -12,6 +12,7 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
+import { CustomEditorTheme, EditorThemeProvider } from '@edtr-io/ui'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -19,7 +20,8 @@ export function Editor<K extends string = string>({
   initialState,
   changed,
   children,
-  editable = true
+  editable = true,
+  theme = {}
 }: EditorProps<K>) {
   const [state, dispatch] = React.useReducer(
     reducer,
@@ -78,7 +80,11 @@ export function Editor<K extends string = string>({
             dispatch
           }}
         >
-          <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
+          <EditorThemeProvider theme={theme}>
+            <OverlayContextProvider>
+              {renderChildren(id)}
+            </OverlayContextProvider>
+          </EditorThemeProvider>
         </EditorContext.Provider>
       </div>
     </HotKeys>
@@ -108,6 +114,7 @@ export interface EditorProps<K extends string = string> {
     plugin: string
     state?: unknown
   }
+  theme?: CustomEditorTheme
   changed?: (changed: boolean) => void
   editable?: boolean
 }

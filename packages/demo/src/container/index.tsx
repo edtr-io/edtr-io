@@ -20,6 +20,7 @@ const Components = {
 export function EditorStory(props: {
   defaultPlugin?: string
   initialState: EditorProps['initialState']
+  theme: EditorProps['theme']
 }) {
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
@@ -35,6 +36,7 @@ export function EditorStory(props: {
       plugins={plugins}
       defaultPlugin={props.defaultPlugin || 'text'}
       initialState={props.initialState}
+      theme={props.theme}
     >
       {document => {
         return <Component>{document}</Component>
