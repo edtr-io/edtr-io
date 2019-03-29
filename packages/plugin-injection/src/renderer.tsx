@@ -1,7 +1,8 @@
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import * as React from 'react'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+
 import { injectionState } from '.'
 
 export class InjectionRenderer extends React.Component<

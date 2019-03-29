@@ -1,6 +1,7 @@
-import { InjectionRenderer } from './renderer'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+
+import { InjectionRenderer } from './renderer'
 import { injectionState } from '.'
 
 export const InjectionEditor = (
@@ -17,7 +18,7 @@ export const InjectionEditor = (
           Injection Element:
           <input
             placeholder="/12345"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={e => {
               state.src.set(e.target.value)
             }}
             value={state.src()}

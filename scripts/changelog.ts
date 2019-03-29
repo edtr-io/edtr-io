@@ -151,6 +151,7 @@ async function exec(): Promise<void> {
         '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
         '**plugin-geogebra**. Use ContainerWithConfigButton',
         '**plugin-image**. Use ContainerWithConfigButton',
+        '**plugin-injection**. Add plugin for serlo.org injections',
         '**plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises',
         '**plugin-video**. Use ContainerWithConfigButton',
         '**plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin'

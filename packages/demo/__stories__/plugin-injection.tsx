@@ -1,10 +1,12 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Story } from '.'
 
-storiesOf('Injection Plugin', module).add('Initial State', () => {
+import { EditorStory } from '../src'
+
+storiesOf('Plugins/Injection', module).add('Initial State', () => {
   const state = {
     plugin: 'injection'
   }
-  return <Story initialState={state} />
+
+  return <EditorStory initialState={state} />
 })
