@@ -26,9 +26,11 @@ All notable changes to this project will be documented in this file.
 - **ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.
 - **plugin-geogebra**. Use ContainerWithConfigButton
 - **plugin-equations**. Add plugin for aligned equations
+- **plugin-hint**. Add plugin for hints
 - **plugin-image**. Use ContainerWithConfigButton
 - **plugin-input-exercise**. Add plugin for input exercises
 - **plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises
+- **plugin-solution**. Add plugin for solutions
 - **plugin-video**. Use ContainerWithConfigButton
 - **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
 

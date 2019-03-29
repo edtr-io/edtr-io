@@ -1,10 +1,11 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Story } from '.'
 
-storiesOf('Hint Plugin', module).add('Initial State', () => {
+import { EditorStory } from '../src'
+
+storiesOf('Plugins/Hint', module).add('Initial State', () => {
   const state = {
     plugin: 'hint'
   }
-  return <Story initialState={state} />
+  return <EditorStory initialState={state} />
 })

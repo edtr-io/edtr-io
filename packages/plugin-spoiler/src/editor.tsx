@@ -4,16 +4,8 @@ import * as React from 'react'
 
 import { spoilerState } from '.'
 
-export class SpoilerEditor extends React.Component<
-  StatefulPluginEditorProps<typeof spoilerState>
-> {
-  public render(): React.ReactNode {
-    return (
-      <ExpandableBox
-        state={this.props.state}
-        editable={this.props.editable}
-        kind="Spoiler"
-      />
-    )
-  }
+export function SpoilerEditor(
+  props: StatefulPluginEditorProps<typeof spoilerState>
+) {
+  return <ExpandableBox {...props} kind="Spoiler" />
 }

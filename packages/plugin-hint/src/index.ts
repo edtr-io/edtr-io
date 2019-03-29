@@ -1,4 +1,5 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+
 import { HintEditor } from './editor'
 
 export const hintState = StateType.object({

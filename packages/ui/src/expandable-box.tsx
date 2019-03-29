@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StateType, StatefulPluginEditorProps } from '@edtr-io/core'
 
-import { styled, faCaretSquareDown, faCaretSquareUp, Icon } from '@edtr-io/ui'
+import { styled, faCaretSquareDown, faCaretSquareUp, Icon } from '.'
 
 export const expandableBoxState = StateType.object({
   title: StateType.string(''),
