@@ -147,6 +147,9 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: 'v0.4.3',
+      name: '0.4.3',
+      date: '2019-03-29',
       added: [
         '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
         '**plugin-geogebra**. Use ContainerWithConfigButton',

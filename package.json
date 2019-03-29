@@ -7,7 +7,9 @@
   "scripts": {
     "start": "lerna run --stream start",
     "test": "jest",
-    "prebuild": "yarn _exec \"rimraf dist\"",
+    "prebuild": "npm-run-all prebuild:*",
+    "prebuild:yarn": "yarn --frozen-lockfile",
+    "prebuild:clean": "yarn _exec \"rimraf dist\"",
     "build": "npm-run-all build:*",
     "build:babel": "yarn _exec --ignore @edtr-io/demo \"NODE_ENV=production babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
     "build:tsc": "yarn _exec --ignore @edtr-io/demo \"tsc --build src\"",
