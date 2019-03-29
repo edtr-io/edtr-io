@@ -150,6 +150,7 @@ async function exec(): Promise<void> {
       added: [
         '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
         '**plugin-geogebra**. Use ContainerWithConfigButton',
+        '**plugin-equations**. Add plugin for aligned equations',
         '**plugin-image**. Use ContainerWithConfigButton',
         '**plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises',
         '**plugin-video**. Use ContainerWithConfigButton',

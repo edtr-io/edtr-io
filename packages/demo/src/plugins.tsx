@@ -1,6 +1,7 @@
 import { Plugin } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
@@ -34,6 +35,7 @@ const uploadConfig: UploadConfig<SerloResponse> = {
 export const plugins: Record<string, Plugin> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
+  equations: equationsPlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
   rows: rowsPlugin,

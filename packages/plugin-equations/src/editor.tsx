@@ -47,11 +47,11 @@ const AddButtonWrapper = styled.div({
 export class EquationsEditor extends React.Component<
   StatefulPluginEditorProps<typeof equationsState>
 > {
-  addButton = () => {
+  private addButton = () => {
     const { state } = this.props
     state.steps.insert()
   }
-  removeButton = (index: number) => () => {
+  private removeButton = (index: number) => () => {
     const { state } = this.props
     state.steps.remove(index)
   }
@@ -60,6 +60,7 @@ export class EquationsEditor extends React.Component<
     if (editable) {
       return (
         <React.Fragment>
+          {/* eslint-disable @typescript-eslint/no-explicit-any */}
           <DragDropContext
             onDragEnd={result => {
               const { source, destination } = result
@@ -120,6 +121,7 @@ export class EquationsEditor extends React.Component<
               }}
             </Droppable>
           </DragDropContext>
+          {/* eslint-enable @typescript-eslint/no-explicit-any */}
           <AddButtonWrapper>
             <AddButton onClick={this.addButton}>
               <Icon icon={faPlus} />

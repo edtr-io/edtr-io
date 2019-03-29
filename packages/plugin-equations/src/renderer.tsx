@@ -4,6 +4,15 @@ import * as React from 'react'
 
 import { StepProps, equationsState } from '.'
 
+enum Phase {
+  noJS = 0,
+  hiddenRender = 1,
+  maxWidthLeft = 2,
+  maxWidthRight = 3,
+  maxWidthTotal = 4,
+  newLine = 5
+}
+
 export class EquationsRenderer extends React.Component<
   StatefulPluginEditorProps<typeof equationsState>,
   EquationsRendererState
@@ -47,15 +56,11 @@ export class EquationsRenderer extends React.Component<
 
   public componentDidMount() {
     this.calculateLayout()
-    window.addEventListener('resize', () => {
-      this.calculateLayout()
-    })
+    window.addEventListener('resize', this.calculateLayout)
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', () => {
-      this.calculateLayout
-    })
+    window.removeEventListener('resize', this.calculateLayout)
   }
 
   private renderHidden() {
@@ -118,7 +123,7 @@ export class EquationsRenderer extends React.Component<
         return {
           step: step,
           fits: fit
-        } as StepFit
+        }
       })
     }
 
@@ -374,15 +379,6 @@ export interface EquationsRendererState {
   widthRightDouble: (number | undefined)[]
   widthTrans: (number | undefined)[]
   containerWidth: number | undefined
-}
-
-enum Phase {
-  noJS = 0,
-  hiddenRender = 1,
-  maxWidthLeft = 2,
-  maxWidthRight = 3,
-  maxWidthTotal = 4,
-  newLine = 5
 }
 
 export interface EquationsState {
