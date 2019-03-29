@@ -7,6 +7,7 @@ import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
+import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 interface SerloResponse {
@@ -36,6 +37,7 @@ export const plugins: Record<string, Plugin> = {
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
   rows: rowsPlugin,
+  scMcExercise: scMcExercisePlugin,
   spoiler: spoilerPlugin,
   text: textPlugin,
   geogebra: geogebraPlugin,

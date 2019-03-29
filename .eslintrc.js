@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
     // @typescript-eslint/eslint-plugin
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -24,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-this-alias': 'warning',
     '@typescript-eslint/no-unnecessary-type-assertion:': 'warning',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': [
       'error',
       {
