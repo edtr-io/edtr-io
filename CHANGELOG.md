@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - **plugin-geogebra**. Use ContainerWithConfigButton
 - **plugin-equations**. Add plugin for aligned equations
 - **plugin-image**. Use ContainerWithConfigButton
+- **plugin-input-exercise**. Add plugin for input exercises
 - **plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises
 - **plugin-video**. Use ContainerWithConfigButton
 - **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
