@@ -1,7 +1,4 @@
-import {
-  StateType,
-  StatefulPluginEditorProps
-} from '@edtr-io/core'
+import { StateType, StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
 import { ScMcAnswersRenderer } from './answers-renderer'
