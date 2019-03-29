@@ -22,6 +22,8 @@ module.exports = function(api) {
                   '@edtr-io/plugin-geogebra': '@edtr-io/plugin-geogebra/src',
                   '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',
                   '@edtr-io/plugin-image': '@edtr-io/plugin-image/src',
+                  '@edtr-io/plugin-input-exercise':
+                    '@edtr-io/plugin-input-exercise/src',
                   '@edtr-io/plugin-rows': '@edtr-io/plugin-rows/src',
                   '@edtr-io/plugin-sc-mc-exercise':
                     '@edtr-io/plugin-sc-mc-exercise/src',

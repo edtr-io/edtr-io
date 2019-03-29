@@ -2374,6 +2374,11 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
+"@types/algebra.js@^0.2.0":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@types/algebra.js/-/algebra.js-0.2.1.tgz#e7a8c55818363bbc02e4983cd6d01f1519061deb"
+  integrity sha1-56jFWBg2O7wC5Jg81tAfFRkGHes=
+
 "@types/babel__core@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.0.tgz#710f2487dda4dcfd010ca6abb2b4dc7394365c51"
@@ -2562,6 +2567,11 @@
   dependencies:
     "@types/react" "*"
     "@types/webpack-env" "*"
+
+"@types/string@^0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/string/-/string-0.0.29.tgz#9b6de0ec6884bdbe9520a0e4022886b57759f5fa"
+  integrity sha512-p8YTvb6vTWL38JxSe1rCduwP2l0jNRZpHlDUWqLt5A3F4SOc7yBPPd3jBiSk3b66urjs2tFM2QOhf4yEzz9wiQ==
 
 "@types/styled-components@^4.0.0":
   version "4.1.12"
@@ -2912,6 +2922,11 @@ ajv@^6.1.0, ajv@^6.5.5, ajv@^6.9.1:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+algebra.js@^0.2.0:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/algebra.js/-/algebra.js-0.2.6.tgz#23aacc86f8634e4c206d56c8077ef220a6221c74"
+  integrity sha1-I6rMhvhjTkwgbVbIB37yIKYiHHQ=
 
 ansi-align@^3.0.0:
   version "3.0.0"
@@ -11948,6 +11963,11 @@ string.prototype.padstart@^3.0.0:
     define-properties "^1.1.2"
     es-abstract "^1.4.3"
     function-bind "^1.0.2"
+
+string@^3.0.0:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/string/-/string-3.3.3.tgz#5ea211cd92d228e184294990a6cc97b366a77cb0"
+  integrity sha1-XqIRzZLSKOGEKUmQpsyXs2anfLA=
 
 string_decoder@^1.0.0, string_decoder@^1.1.1:
   version "1.2.0"

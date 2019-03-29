@@ -21,6 +21,7 @@
       "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
       "@edtr-io/plugin-image": ["plugin-image/src"],
+      "@edtr-io/plugin-input-exercise": ["plugin-input-exercise/src"],
       "@edtr-io/plugin-rows": ["plugin-rows/src"],
       "@edtr-io/plugin-sc-mc-exercise": ["plugin-sc-mc-exercise/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
