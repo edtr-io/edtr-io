@@ -1,7 +1,6 @@
-import * as React from 'react'
+import { CustomEditorTheme } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
-import { ThemeProvider } from 'styled-components'
-import { EditorTheming } from '@edtr-io/ui'
+import * as React from 'react'
 
 import { EditorStory } from '../src'
 
@@ -11,16 +10,19 @@ storiesOf('Theming/Editor UI', module).add('Initial State', () => {
     state: [{ plugin: 'text' }]
   }
 
-  const theme: EditorTheming = {
-    textColor: '#222',
-    backgroundColor: '#d9edf7',
-    buttonBackgroundColor: 'transparent',
-    highlightColor: '#007ec1'
+  const theme: CustomEditorTheme = {
+    editor: {
+      color: '#222',
+      backgroundColor: '#d9edf7',
+      highlightColor: '#007ec1'
+    },
+    ui: {
+      button: {
+        color: 'green',
+        backgroundColor: 'red'
+      }
+    }
   }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <EditorStory defaultPlugin="text" initialState={state} />
-    </ThemeProvider>
-  )
+  return <EditorStory defaultPlugin="text" initialState={state} theme={theme} />
 })
