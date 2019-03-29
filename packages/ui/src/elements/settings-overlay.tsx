@@ -1,19 +1,20 @@
+import { OverlayContext } from '@edtr-io/core'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import { HotKeys } from 'react-hotkeys'
 import {
   Icon,
-  styled,
+  faCog,
   faTimes,
   faTrashAlt,
   faPencilAlt,
-  faCog,
-  EditorTheming,
-  defaultTheming
+  defaultTheming,
+  styled,
+  EditorTheming
 } from '..'
-import { OnClickOutside } from './onClickOutside'
-import { HotKeys } from 'react-hotkeys'
-import { OverlayContext } from '@edtr-io/core'
 import { ThemeProps } from 'styled-components'
+
+import { OnClickOutside } from '.'
 
 const OverlayWrapper = styled.div({
   width: '100%',
@@ -193,7 +194,8 @@ const ConfigIcon = styled.div((props: ThemeProps<EditorTheming>) => ({
   opacity: 0,
   '&:hover': {
     opacity: 1,
-    transition: 'opacity 0.3s ease'
+    transition: 'opacity 0.3s ease',
+    cursor: 'pointer'
   }
 }))
 ConfigIcon.defaultProps = {
@@ -206,7 +208,7 @@ export const ContainerWithConfigButton: React.FunctionComponent = props => {
     <ConfigIconContainer onClick={overlayContext.show}>
       {props.children}
       <ConfigIcon>
-        <Icon icon={faCog} size={'3x'} />
+        <Icon icon={faCog} size="3x" />
       </ConfigIcon>
     </ConfigIconContainer>
   )

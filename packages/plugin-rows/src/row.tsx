@@ -7,9 +7,6 @@ import {
   getPlugins,
   Plugin
 } from '@edtr-io/core'
-import { rowsState } from '.'
-import * as React from 'react'
-import * as R from 'ramda'
 import {
   styled,
   faTrashAlt,
@@ -25,8 +22,12 @@ import {
   defaultTheming
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { Clipboard } from './clipboard'
+import * as R from 'ramda'
+import * as React from 'react'
 import { ThemeProps } from 'styled-components'
+
+import { Clipboard } from './clipboard'
+import { rowsState } from '.'
 
 export const FloatingButton = styled.button(
   ({ disabled }: { disabled?: boolean }) => ({
@@ -188,7 +189,7 @@ export const Row = (
     index: number
   }
 ) => {
-  const [hover, setHover] = React.useState<boolean>(false)
+  const [hover, setHover] = React.useState(false)
   const [popup, setPopup] = React.useState<
     { index: number; onClose: (pluginState: PluginState) => void } | undefined
   >(undefined)
@@ -211,11 +212,11 @@ export const Row = (
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      {hover && props.editable && (
+      {hover && props.editable ? (
         <TopFloatingButtonContainer>
           <Add onClick={() => onAdd(index)} />
         </TopFloatingButtonContainer>
-      )}
+      ) : null}
       {popup && popup.index === index ? (
         <Popup
           onClickOutside={() => setPopup(undefined)}
@@ -247,7 +248,7 @@ export const Row = (
           })
         }
       })}
-      {props.editable && hover && (
+      {props.editable && hover ? (
         <React.Fragment>
           <BottomFloatingButtonContainer>
             <Add onClick={() => onAdd(index + 1)} />
@@ -271,7 +272,7 @@ export const Row = (
             <Remove onClick={() => rows.remove(index)} />
           </RightFloatingButtonContainer>
         </React.Fragment>
-      )}
+      ) : null}
       {popup && popup.index === index + 1 ? (
         <Popup
           onClickOutside={() => setPopup(undefined)}

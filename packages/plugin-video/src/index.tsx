@@ -1,5 +1,6 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 import * as React from 'react'
+
 import { VideoEditor } from './editor'
 import { VideoRenderer } from './renderer'
 
