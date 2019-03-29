@@ -131,29 +131,35 @@ async function exec(): Promise<void> {
         '**demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook\'s addon panel on the right.',
         '**core**. Added `name` prop to plugins',
         '**ui**. Added Checkbox, Button and Textarea components for overlay',
-        '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
         '**plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg',
-        '**plugin-image**. Use ContainerWithConfigButton',
-        '**plugin-video**. Added video plugin',
-        '**plugin-video**. Use ContainerWithConfigButton',
-        '**plugin-geogebra**. Use ContainerWithConfigButton',
-        '**plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin'
+        '**plugin-video**. Added video plugin'
       ],
       fixed: [
         '**core**. Handle focus in nested documents correctly',
         '**plugin-rows**. Align top and bottom add butons correctly in custom integrations',
         '**plugin-text**. Disable slate undo/redo',
-        '**plugin-text**. Refocus after undo/redo',
-        '**plugin-text**. Display Link-Overlay only when plugin is focused',
-        '**plugin-text**. Refocus after bold/italic button click',
-        '**plugin-geogebra**. Scale applet with container size preserving aspect ratio',
-        '**plugin-geogebra**. Accept full geogebra material link too',
-        '**plugin-image**. Center image'
+        '**plugin-text**. Refocus after undo/redo'
       ],
       internal: [
         '**demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`',
         '**demo**. Added `build-demo` task that builds the demo storybook (and deploys it automatically to Netlify). The demo of the master branch is available on https://demo.edtr.io',
         '**demo**. Brand the demo storybook'
+      ]
+    },
+    {
+      added: [
+        '**ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.',
+        '**plugin-geogebra**. Use ContainerWithConfigButton',
+        '**plugin-image**. Use ContainerWithConfigButton',
+        '**plugin-video**. Use ContainerWithConfigButton',
+        '**plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin'
+      ],
+      fixed: [
+        '**plugin-geogebra**. Scale applet with container size preserving aspect ratio',
+        '**plugin-geogebra**. Accept full GeoGebra material link too',
+        '**plugin-image**. Center image',
+        '**plugin-text**. Display Link-Overlay only when plugin is focused',
+        '**plugin-text**. Refocus after bold/italic button click'
       ]
     }
   ])
