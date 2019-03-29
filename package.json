@@ -24,7 +24,7 @@
     "lint:tsc": "tsc --noEmit",
     "changelog": "ts-node scripts/changelog",
     "predeploy": "yarn build",
-    "deploy": "yarn run _publish",
+    "deploy": "yarn _publish",
     "_exec": "lerna exec --stream --no-bail",
     "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
