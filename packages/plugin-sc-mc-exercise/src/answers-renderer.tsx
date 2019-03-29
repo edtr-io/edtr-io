@@ -1,4 +1,4 @@
-import { StateType, StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { styled, FetchDimensions } from '@edtr-io/ui'
 import * as React from 'react'
 import * as R from 'ramda'

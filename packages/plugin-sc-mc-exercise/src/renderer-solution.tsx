@@ -1,5 +1,5 @@
 import {
-  StateDescriptorReturnType,
+  StateType,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
 import * as React from 'react'
@@ -21,7 +21,7 @@ export class ScMcRendererSolution extends React.Component<
   }
 
   private showAnswer = (
-    answer: StateDescriptorReturnType<typeof AnswerProps>,
+    answer: StateType.StateDescriptorReturnType<typeof AnswerProps>,
     index: number,
     centered: boolean
   ): React.ReactNode => {

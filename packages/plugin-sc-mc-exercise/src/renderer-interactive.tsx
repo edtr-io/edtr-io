@@ -1,6 +1,6 @@
 import {
   StatefulPluginEditorProps,
-  StateDescriptorReturnType
+  StateType
 } from '@edtr-io/core'
 import { Feedback, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -46,7 +46,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
   private showAnswer = (
-    answer: StateDescriptorReturnType<typeof AnswerProps>,
+    answer: StateType.StateDescriptorReturnType<typeof AnswerProps>,
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -71,7 +71,7 @@ export class ScMcRendererInteractive extends React.Component<
     answer,
     button
   }: {
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateType.StateDescriptorReturnType<typeof AnswerProps>
     button: Button
   }): React.ReactNode {
     if (!button.showFeedback) {
@@ -197,7 +197,7 @@ export type ScMcRendererInteractiveProps = StatefulPluginEditorProps<
   }) => string | undefined
   nextButtonStateAfterSubmit: (params: {
     button: Button
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateType.StateDescriptorReturnType<typeof AnswerProps>
     mistakes: number
     missingSolutions: number
   }) => Button
