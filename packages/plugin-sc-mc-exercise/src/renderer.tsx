@@ -1,16 +1,22 @@
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { ScMcRendererInteractive } from './renderer-interactive'
 import { ScMcRendererSolution } from './renderer-solution'
 import { scMcState } from '.'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+
+enum Mode {
+  test = 'test',
+  feedback = 'feedback',
+  solution = 'solution'
+}
 
 export class ScMcExerciseRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcState>,
   ScMcExerciseRendererState
 > {
-  state = { mode: Mode.test }
+  public state = { mode: Mode.test }
   public render() {
     return (
       <React.Fragment>
@@ -88,10 +94,4 @@ export class ScMcExerciseRenderer extends React.Component<
 
 interface ScMcExerciseRendererState {
   mode: Mode
-}
-
-enum Mode {
-  test = 'test',
-  feedback = 'feedback',
-  solution = 'solution'
 }

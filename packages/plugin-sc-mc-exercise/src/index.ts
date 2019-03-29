@@ -1,5 +1,6 @@
-import { ScMcExerciseEditor } from './editor'
 import { StateType, StatefulPlugin } from '@edtr-io/core'
+
+import { ScMcExerciseEditor } from './editor'
 
 export const AnswerProps = StateType.object({
   id: StateType.child(),

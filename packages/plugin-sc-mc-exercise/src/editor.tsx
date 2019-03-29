@@ -1,10 +1,10 @@
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Feedback, Icon, faPlus, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { ScMcChoiceEditor } from './choice-editor'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { scMcState } from '.'
 import { ScMcExerciseRenderer } from './renderer'
+import { scMcState } from '.'
 
 export class ScMcExerciseEditor extends React.Component<
   StatefulPluginEditorProps<typeof scMcState>

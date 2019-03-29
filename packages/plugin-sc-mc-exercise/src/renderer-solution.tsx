@@ -1,12 +1,12 @@
-import * as React from 'react'
-
-import { ScMcExerciseChoiceRenderer } from './choice-renderer'
-import { AnswerProps, scMcState } from '.'
-import { ScMcAnswersRenderer } from './answers-renderer'
 import {
   StateDescriptorReturnType,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
+import * as React from 'react'
+
+import { ScMcAnswersRenderer } from './answers-renderer'
+import { ScMcExerciseChoiceRenderer } from './choice-renderer'
+import { AnswerProps, scMcState } from '.'
 
 export class ScMcRendererSolution extends React.Component<
   StatefulPluginEditorProps<typeof scMcState>

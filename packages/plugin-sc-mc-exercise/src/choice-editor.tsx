@@ -1,13 +1,14 @@
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Icon, faPlus, faTrashAlt, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { scMcState } from '.'
+
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
+import { scMcState } from '.'
 
 export class ScMcChoiceEditor extends React.Component<
   StatefulPluginEditorProps<typeof scMcState> & { index: number }
 > {
-  render() {
+  public render() {
     const { editable, state, index } = this.props
     return (
       <React.Fragment>
@@ -41,12 +42,12 @@ export class ScMcChoiceEditor extends React.Component<
     )
   }
 
-  addFeedback = () => {
+  private addFeedback = () => {
     const { state, index } = this.props
     state.answers()[index].hasFeedback.set(true)
   }
 
-  removeAnswer = () => {
+  private removeAnswer = () => {
     const { state, index } = this.props
     state.answers.remove(index)
   }

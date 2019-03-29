@@ -1,24 +1,24 @@
-import { Feedback, styled } from '@edtr-io/ui'
-import * as React from 'react'
-import * as R from 'ramda'
-
-import { ScMcExerciseChoiceRenderer } from './choice-renderer'
-import { ScMcAnswersRenderer } from './answers-renderer'
 import {
   StatefulPluginEditorProps,
   StateDescriptorReturnType
 } from '@edtr-io/core'
+import { Feedback, styled } from '@edtr-io/ui'
+import * as R from 'ramda'
+import * as React from 'react'
+
+import { ScMcAnswersRenderer } from './answers-renderer'
+import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { scMcState, AnswerProps } from '.'
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
   ScMcRendererState
 > {
-  static defaultProps = {
+  public static defaultProps = {
     getFeedback: () => undefined
   }
 
-  constructor(props: ScMcRendererInteractiveProps) {
+  public constructor(props: ScMcRendererInteractiveProps) {
     super(props)
     this.state = {
       buttons: props.state.answers().map(() => {
@@ -103,7 +103,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
 
-  submitAnswer = () => {
+  private submitAnswer = () => {
     const { buttons } = this.state
     const temp = R.zip(buttons, this.props.state.answers())
     const mistakes = R.reduce(
@@ -138,7 +138,7 @@ export class ScMcRendererInteractive extends React.Component<
     })
   }
 
-  selectButton = (selectedIndex: number) => () => {
+  private selectButton = (selectedIndex: number) => () => {
     const { buttons } = this.state
 
     if (this.props.state.isSingleChoice()) {
@@ -166,11 +166,13 @@ export class ScMcRendererInteractive extends React.Component<
     mistakes: number
     missingSolutions: number
   }): string {
-    // FIXME:
-    const feedback = this.props.getFeedback!({
-      mistakes,
-      missingSolutions
-    })
+    const { getFeedback } = this.props
+    const feedback =
+      typeof getFeedback === 'function' &&
+      getFeedback({
+        mistakes,
+        missingSolutions
+      })
 
     if (feedback) {
       return feedback

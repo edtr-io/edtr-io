@@ -14,11 +14,7 @@ export class FetchDimensions extends React.Component<
     clientWidths: R.times(() => null, this.props.length)
   }
 
-  public componentDidUpdate(
-    prevProps: Readonly<FetchDimensionsProps>,
-    prevState: Readonly<FetchDimensionsState>,
-    snapshot?: any
-  ): void {
+  public componentDidUpdate(): void {
     const all = R.all(height => typeof height === 'number', this.state.heights)
 
     if (all && !this.done) {
@@ -79,7 +75,7 @@ export interface FetchDimensionsProps {
   onDone: (dimensions: Dimensions) => void
 }
 
-export type Dimensions = {
+export interface Dimensions {
   heights: number[]
   widths: number[]
   scrollHeights: number[]

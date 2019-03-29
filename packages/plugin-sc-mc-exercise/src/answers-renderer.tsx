@@ -1,12 +1,10 @@
-import { AnswerProps, scMcState } from '.'
-import * as React from 'react'
-import { calculateLayoutOptions } from './helpers'
-import * as R from 'ramda'
+import { StateType, StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled, FetchDimensions } from '@edtr-io/ui'
-import {
-  StateDescriptorReturnType,
-  StatefulPluginEditorProps
-} from '@edtr-io/core'
+import * as React from 'react'
+import * as R from 'ramda'
+
+import { AnswerProps, scMcState } from '.'
+import { calculateLayoutOptions } from './helpers'
 
 enum Phase {
   noJS = 0,
@@ -17,14 +15,14 @@ enum Phase {
 export class ScMcAnswersRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcState> & {
     showAnswer: (
-      answer: StateDescriptorReturnType<typeof AnswerProps>,
+      answer: StateType.StateDescriptorReturnType<typeof AnswerProps>,
       index: number,
       centered: boolean
     ) => React.ReactNode
   },
   ScMcAnswersRendererState
 > {
-  state = {
+  public state = {
     phase: Phase.noJS,
     remainingOptions: [],
     lastOption: [this.props.state.answers().length, 1] as [number, number]
@@ -33,7 +31,6 @@ export class ScMcAnswersRenderer extends React.Component<
     const currentOption = this.state.remainingOptions[0]
     return (
       <React.Fragment>
-        {console.log(this.state.remainingOptions)}
         {this.state.phase < Phase.finished
           ? this.renderOption(this.state.lastOption)
           : this.renderOption(currentOption)}
@@ -87,7 +84,7 @@ export class ScMcAnswersRenderer extends React.Component<
     )
   }
   private renderOption(
-    [_, columns]: [number, number],
+    [_rows, columns]: [number, number],
     createRef: (
       index: number
     ) => (instance: HTMLElement | null) => void = () => () => {}
@@ -120,7 +117,7 @@ export class ScMcAnswersRenderer extends React.Component<
       phase: Phase.optionTesting,
       remainingOptions: calculateLayoutOptions(
         this.props.state.answers().length
-      ) as Array<[number, number]>
+      ) as [number, number][]
     })
   }
   private onResize = () => {
@@ -145,6 +142,6 @@ export class ScMcAnswersRenderer extends React.Component<
 
 interface ScMcAnswersRendererState {
   phase: Phase
-  remainingOptions: Array<[number, number]>
+  remainingOptions: [number, number][]
   lastOption: [number, number]
 }

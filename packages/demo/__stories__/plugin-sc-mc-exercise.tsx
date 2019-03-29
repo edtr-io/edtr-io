@@ -1,10 +1,14 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Story } from '.'
 
-storiesOf('Sc-Mc-Exercise Plugin', module).add('Initial State', () => {
-  const state = {
-    plugin: 'scMcExercise'
+import { EditorStory } from '../src'
+
+storiesOf('Plugins/Single-Choice-Multiple-Choice Exercise', module).add(
+  'Initial State',
+  () => {
+    const state = {
+      plugin: 'scMcExercise'
+    }
+    return <EditorStory initialState={state} />
   }
-  return <Story initialState={state} />
-})
+)

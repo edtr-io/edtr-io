@@ -1,13 +1,13 @@
-import { styled } from '@edtr-io/ui'
-import * as React from 'react'
-
-import { scMcState } from '.'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { styled } from '@edtr-io/ui'
+
+import * as React from 'react'
+import { scMcState } from '.'
 
 export class ScMcExerciseChoiceRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcState> & ChoiceRendererProps
 > {
-  render() {
+  public render() {
     const {
       state,
       children,
@@ -79,7 +79,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
 
 export interface ChoiceRendererProps {
   index: number
-  onClick?: (event: any) => void
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void
   showFeedback?: boolean
   centered?: boolean
   selected?: boolean
