@@ -6,7 +6,7 @@ import { imageState } from '.'
 import { ImageLoaded } from './upload'
 
 const Img = styled.img({
-  maxWidth: '100%',
+  width: '100%',
   display: 'block',
   marginLeft: 'auto',
   marginRight: 'auto'
@@ -15,11 +15,13 @@ const Img = styled.img({
 export class ImageRenderer extends React.Component<ImageRendererProps> {
   public render() {
     const { state, imagePreview, disableMouseEvents } = this.props
-
+    const maxwidth = state.maxwidth.value
+    const styles = maxwidth > 0 ? { maxWidth: maxwidth + 'px' } : {}
     const image = (
       <Img
         src={imagePreview ? imagePreview.dataUrl : state.src.value}
         alt={state.description.value}
+        style={styles}
       />
     )
 
