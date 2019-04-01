@@ -98,9 +98,9 @@ export function createImageEditor<T = unknown>(
               label="Maximale Breite (px)"
               placeholder="Gib hier die Breite ein"
               type="number"
-              value={state.maxwidth.value || ''}
+              value={state.maxWidth.value || ''}
               onChange={event => {
-                state.maxwidth.set(parseInt(event.target.value))
+                state.maxWidth.set(parseInt(event.target.value))
               }}
             />
           </Overlay>

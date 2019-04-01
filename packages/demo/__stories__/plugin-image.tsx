@@ -20,7 +20,7 @@ storiesOf('Plugins/Image', module)
         target: '',
         rel: '',
         description: 'Ein Schüler lernt mit serlo.org',
-        maxwidth: 0
+        maxWidth: 0
       }
     }
     return <EditorStory initialState={state} />

@@ -5,8 +5,17 @@ import * as React from 'react'
 import { imageState } from '.'
 import { ImageLoaded } from './upload'
 
+const ImgWrapper = styled.div<{ maxWidth: number }>(props => {
+  return {
+    maxWidth: props.maxWidth > 0 ? props.maxWidth + 'px' : undefined,
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }
+})
+
 const Img = styled.img({
-  width: '100%',
+  maxWidth: '100%',
   display: 'block',
   marginLeft: 'auto',
   marginRight: 'auto'
@@ -15,14 +24,13 @@ const Img = styled.img({
 export class ImageRenderer extends React.Component<ImageRendererProps> {
   public render() {
     const { state, imagePreview, disableMouseEvents } = this.props
-    const maxwidth = state.maxwidth.value
-    const styles = maxwidth > 0 ? { maxWidth: maxwidth + 'px' } : {}
     const image = (
-      <Img
-        src={imagePreview ? imagePreview.dataUrl : state.src.value}
-        alt={state.description.value}
-        style={styles}
-      />
+      <ImgWrapper maxWidth={state.maxWidth.value}>
+        <Img
+          src={imagePreview ? imagePreview.dataUrl : state.src.value}
+          alt={state.description.value}
+        />
+      </ImgWrapper>
     )
 
     return (

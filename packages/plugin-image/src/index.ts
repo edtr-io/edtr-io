@@ -9,7 +9,7 @@ export const imageState = StateType.object({
   target: StateType.string(''),
   rel: StateType.string(''),
   description: StateType.string(''),
-  maxwidth: StateType.number(0)
+  maxWidth: StateType.number(0)
 })
 export const createImagePlugin = <T = unknown>(
   config: ImagePluginConfig<T>
@@ -28,7 +28,7 @@ export const createImagePlugin = <T = unknown>(
             target: '',
             rel: '',
             description: '',
-            maxwidth: 0
+            maxWidth: 0
           }
         }
       }
