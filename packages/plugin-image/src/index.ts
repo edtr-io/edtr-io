@@ -8,7 +8,8 @@ export const imageState = StateType.object({
   href: StateType.string(''),
   target: StateType.string(''),
   rel: StateType.string(''),
-  description: StateType.string('')
+  description: StateType.string(''),
+  maxWidth: StateType.number(0)
 })
 export const createImagePlugin = <T = unknown>(
   config: ImagePluginConfig<T>
@@ -26,7 +27,8 @@ export const createImagePlugin = <T = unknown>(
             href: '',
             target: '',
             rel: '',
-            description: ''
+            description: '',
+            maxWidth: 0
           }
         }
       }

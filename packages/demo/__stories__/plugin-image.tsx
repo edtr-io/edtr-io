@@ -19,7 +19,8 @@ storiesOf('Plugins/Image', module)
         href: '',
         target: '',
         rel: '',
-        description: 'Ein Schüler lernt mit serlo.org'
+        description: 'Ein Schüler lernt mit serlo.org',
+        maxWidth: 0
       }
     }
     return <EditorStory initialState={state} />

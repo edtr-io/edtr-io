@@ -32,22 +32,25 @@ export function createImageEditor<T = unknown>(
       ImageLoaded | undefined
     >(undefined)
     const { editable, focused, state } = props
+    const imageComponent =
+      state.src.value || imagePreview ? (
+        <ImageRenderer
+          state={state}
+          imagePreview={imagePreview}
+          disableMouseEvents={editable}
+        />
+      ) : (
+        <ImgPlaceholderWrapper>
+          <Icon icon={faImages} size="5x" />
+        </ImgPlaceholderWrapper>
+      )
+    if (!editable) {
+      return imageComponent
+    }
 
     return (
       <React.Fragment>
-        <ContainerWithConfigButton>
-          {state.src.value || imagePreview ? (
-            <ImageRenderer
-              state={state}
-              imagePreview={imagePreview}
-              disableMouseEvents={editable}
-            />
-          ) : (
-            <ImgPlaceholderWrapper>
-              <Icon icon={faImages} size="5x" />
-            </ImgPlaceholderWrapper>
-          )}
-        </ContainerWithConfigButton>
+        <ContainerWithConfigButton>{imageComponent}</ContainerWithConfigButton>
         {focused ? (
           <Overlay>
             <Input
@@ -91,6 +94,15 @@ export function createImageEditor<T = unknown>(
                 />
               </React.Fragment>
             ) : null}
+            <Input
+              label="Maximale Breite (px)"
+              placeholder="Gib hier die Breite ein"
+              type="number"
+              value={state.maxWidth.value || ''}
+              onChange={event => {
+                state.maxWidth.set(parseInt(event.target.value))
+              }}
+            />
           </Overlay>
         ) : null}
       </React.Fragment>
