@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.3..HEAD)
+
+### Breaking Changes
+
+- **plugin-image**. Image-plugin has new required `maxwidth` - state property
+
+### Added
+
+- **plugin-image**. Maxwidth for images
+
+### Fixed
+
+- **plugin-image**. hide config-overlay in render mode
+
 ## [0.4.3](https://github.com/edtr-io/edtr-io/compare/v0.4.2..v0.4.3) - March 29, 2019
 
 ### Added

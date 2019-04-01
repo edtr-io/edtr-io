@@ -167,6 +167,13 @@ async function exec(): Promise<void> {
         '**plugin-text**. Display Link-Overlay only when plugin is focused',
         '**plugin-text**. Refocus after bold/italic button click'
       ]
+    },
+    {
+      added: ['**plugin-image**. Maxwidth for images'],
+      fixed: ['**plugin-image**. hide config-overlay in render mode'],
+      breakingChanges: [
+        '**plugin-image**. Image-plugin has new required `maxwidth` - state property'
+      ]
     }
   ])
 
