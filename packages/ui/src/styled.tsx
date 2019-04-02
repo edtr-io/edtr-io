@@ -6,7 +6,7 @@ import styled, {
   ThemeProviderProps
 } from 'styled-components'
 
-import { ButtonTheme } from './elements'
+import { ButtonTheme, CheckboxTheme } from './elements'
 
 export { styled }
 
@@ -32,6 +32,7 @@ export interface EditorTheme {
   }
   ui: {
     button?: Partial<ButtonTheme>
+    checkbox?: Partial<CheckboxTheme>
   }
   plugins: Record<string, unknown>
 }

@@ -1,35 +1,47 @@
 import * as React from 'react'
-import { defaultTheming, EditorTheming, styled } from '..'
-import { ThemeProps } from 'styled-components'
+import { styled, EditorThemeProps, createUiElementTheme } from '..'
 
-const CheckboxLabel = styled.label((props: ThemeProps<EditorTheming>) => ({
-  color: props.theme.textColor,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginTop: '20px'
-}))
-CheckboxLabel.defaultProps = { theme: defaultTheming }
-
-const CheckboxToggleContainer = styled.div<{ value?: boolean }>(
-  ({ value, theme }: { value?: boolean; theme: EditorTheming }) => {
+export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
+  theme => {
     return {
-      cursor: 'pointer',
-      border: `2px solid ${theme.textColor}`,
-      borderRadius: '15%',
-      width: '10px',
-      height: '10px',
-      display: 'inline-block',
-      backgroundColor: value ? theme.textColor : theme.backgroundColor
+      boxSelectedColor: theme.color,
+      boxDeselectedColor: theme.backgroundColor,
+      color: theme.color
     }
   }
 )
-CheckboxToggleContainer.defaultProps = { theme: defaultTheming }
+
+const CheckboxLabel = styled.label((props: EditorThemeProps) => {
+  const theme = createCheckboxTheme('checkbox', props.theme)
+  return {
+    color: theme.color,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: '20px'
+  }
+})
+
+const CheckboxToggleContainer = styled.div<{
+  value?: boolean
+}>(({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
+  const theme = createCheckboxTheme('checkbox', props.theme)
+  return {
+    cursor: 'pointer',
+    border: `2px solid ${theme.color}`,
+    borderRadius: '15%',
+    width: '10px',
+    height: '10px',
+    display: 'inline-block',
+    backgroundColor: value ? theme.boxSelectedColor : theme.boxDeselectedColor
+  }
+})
 
 const CheckboxLabelInner = styled.span({ width: '20%' })
 
 const CheckboxToggle = styled.div<{ value?: boolean }>(
-  ({ value, theme }: { value?: boolean; theme: EditorTheming }) => {
+  ({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
+    const theme = createCheckboxTheme('checkbox', props.theme)
     return {
       opacity: value ? 1 : 0,
       content: '',
@@ -37,7 +49,7 @@ const CheckboxToggle = styled.div<{ value?: boolean }>(
       fontWeight: 'bold',
       width: '8px',
       height: '5px',
-      border: `2px solid ${theme.backgroundColor}`,
+      border: `2px solid ${theme.boxDeselectedColor}`,
       borderTop: 'none',
       borderRight: 'none',
 
@@ -46,7 +58,6 @@ const CheckboxToggle = styled.div<{ value?: boolean }>(
     }
   }
 )
-CheckboxToggle.defaultProps = { theme: defaultTheming }
 
 const CheckboxInner = styled.div({
   width: '75%',
@@ -79,4 +90,11 @@ export interface CheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label?: string
+  theme: EditorThemeProps
+}
+
+export interface CheckboxTheme {
+  boxSelectedColor: string
+  boxDeselectedColor: string
+  color: string
 }

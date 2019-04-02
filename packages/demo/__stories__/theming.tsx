@@ -20,6 +20,11 @@ storiesOf('Theming/Editor UI', module).add('Initial State', () => {
       button: {
         color: 'green',
         backgroundColor: 'red'
+      },
+      checkbox: {
+        boxSelectedColor: 'green',
+        boxDeselectedColor: 'red',
+        color: 'green'
       }
     }
   }
