@@ -36,6 +36,11 @@ export interface EditorTheme {
     color: string
     backgroundColor: string
   }
+  renderer: {
+    highlightColor: string
+    color: string
+    backgroundColor: string
+  }
   ui: {
     button?: Partial<ButtonTheme>
     checkbox?: Partial<CheckboxTheme>
@@ -48,6 +53,7 @@ export interface EditorTheme {
 
 export interface CustomEditorTheme {
   editor?: Partial<EditorTheme['editor']>
+  renderer?: Partial<EditorTheme['renderer']>
   ui?: EditorTheme['ui']
   plugins?: EditorTheme['plugins']
 }
@@ -59,6 +65,11 @@ const defaultTheme: EditorTheme = {
     highlightColor: 'rgb(70, 155, 255)',
     color: '#EEEEEE',
     backgroundColor: 'rgb(51,51,51,0.95)'
+  },
+  renderer: {
+    color: '#000',
+    backgroundColor: '#007ec1',
+    highlightColor: '#337ab7'
   },
   ui: {},
   plugins: {}
@@ -79,6 +90,17 @@ export function createUiElementTheme<T>(
     return (R.mergeDeepRight(
       createDefaultTheme(theme.editor),
       (theme.ui[key] as Partial<T>) || {}
+    ) as unknown) as T
+  }
+}
+
+export function createPluginTheme<T>(
+  createDefaultTheme: (theme: EditorTheme['renderer']) => T
+) {
+  return (pluginName: string, theme: EditorTheme): T => {
+    return (R.mergeDeepRight(
+      createDefaultTheme(theme.renderer),
+      (theme.plugins[pluginName] as Partial<T>) || {}
     ) as unknown) as T
   }
 }
