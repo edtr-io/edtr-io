@@ -31,7 +31,12 @@ storiesOf('Theming/Editor UI', module).add('Initial State', () => {
       input: {
         color: 'red',
         backgroundColor: 'green',
-        focusColor: 'black'
+        highlightColor: 'black'
+      },
+      textarea: {
+        color: 'red',
+        backgroundColor: 'green',
+        highlightColor: 'black'
       }
     }
   }
