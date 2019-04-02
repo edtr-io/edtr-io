@@ -1,34 +1,43 @@
 import * as React from 'react'
-import { defaultTheming, styled, EditorTheming } from '..'
-import { ThemeProps } from 'styled-components'
+import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
 
-const InputLabel = styled.label((props: ThemeProps<EditorTheming>) => ({
-  color: props.theme.textColor,
-  margin: '20px auto 0px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-}))
-InputLabel.defaultProps = {
-  theme: defaultTheming
-}
+export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.color,
+    focusColor: theme.highlightColor
+  }
+})
+
+const InputLabel = styled.label((props: EditorThemeProps) => {
+  const theme = createInputTheme('input', props.theme)
+
+  return {
+    color: theme.color,
+    margin: '20px auto 0px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
+})
 
 const InputLabelInner = styled.span({ width: '20%' })
 
-const InputInner = styled.input((props: ThemeProps<EditorTheming>) => ({
-  backgroundColor: 'transparent',
-  border: 'none',
-  borderBottom: `2px solid ${props.theme.textColor}`,
-  color: props.theme.textColor,
-  width: '75%',
-  '&:focus': {
-    outline: 'none',
-    borderBottom: `2px solid ${props.theme.highlightColor}`
+const InputInner = styled.input((props: EditorThemeProps) => {
+  const theme = createInputTheme('input', props.theme)
+
+  return {
+    backgroundColor: theme.backgroundColor,
+    border: 'none',
+    borderBottom: `2px solid ${theme.color}`,
+    color: theme.color,
+    width: '75%',
+    '&:focus': {
+      outline: 'none',
+      borderBottom: `2px solid ${theme.focusColor}`
+    }
   }
-}))
-InputInner.defaultProps = {
-  theme: defaultTheming
-}
+})
 
 export class Input extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
@@ -66,6 +75,13 @@ export class AutoFocusInput extends React.Component<InputProps> {
     )
   }
 }
+
+export interface InputTheme {
+  backgroundColor: string
+  color: string
+  focusColor: string
+}
+
 export interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
