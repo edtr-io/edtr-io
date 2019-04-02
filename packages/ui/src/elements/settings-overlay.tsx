@@ -37,22 +37,25 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
     zIndex: 99
   }
 })
-
-const OverlayBox = styled.div((props: EditorThemeProps) => {
+export const OverlayBox = styled.div((props: EditorThemeProps) => {
   const theme = createOverlayTheme('overlay', props.theme)
 
   return {
-    minHeight: '60%',
     margin: '0 auto',
     position: 'absolute',
     zIndex: 100,
     backgroundColor: theme.backgroundColor,
-    paddingBottom: '10px',
+    color: theme.color,
     left: '8%',
-    right: '8%',
-    maxWidth: '1150px',
-    top: '20%'
+    right: '8%'
   }
+})
+
+const OverlaySettingsBox = styled(OverlayBox)({
+  minHeight: '60%',
+  paddingBottom: '10px',
+  maxWidth: '1150px',
+  top: '20%'
 })
 
 const CloseButton = styled.button((props: EditorThemeProps) => {
@@ -100,7 +103,7 @@ export const Overlay: React.FunctionComponent<{
         >
           <OverlayWrapper>
             <OnClickOutside onClick={closeHandler}>
-              <OverlayBox>
+              <OverlaySettingsBox>
                 <CloseButton
                   onClick={closeHandler}
                   style={{
@@ -113,7 +116,7 @@ export const Overlay: React.FunctionComponent<{
                   <Icon icon={faTimes} />
                 </CloseButton>
                 <ContentWrapper>{props.children}</ContentWrapper>
-              </OverlayBox>
+              </OverlaySettingsBox>
             </OnClickOutside>
           </OverlayWrapper>
         </HotKeys>,
