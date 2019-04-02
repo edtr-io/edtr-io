@@ -5,7 +5,7 @@ export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
   return {
     backgroundColor: 'transparent',
     color: theme.color,
-    focusColor: theme.highlightColor
+    highlightColor: theme.highlightColor
   }
 })
 
@@ -34,7 +34,7 @@ const InputInner = styled.input((props: EditorThemeProps) => {
     width: '75%',
     '&:focus': {
       outline: 'none',
-      borderBottom: `2px solid ${theme.focusColor}`
+      borderBottom: `2px solid ${theme.highlightColor}`
     }
   }
 })
@@ -79,7 +79,7 @@ export class AutoFocusInput extends React.Component<InputProps> {
 export interface InputTheme {
   backgroundColor: string
   color: string
-  focusColor: string
+  highlightColor: string
 }
 
 export interface InputProps

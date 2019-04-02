@@ -10,7 +10,8 @@ import {
   ButtonTheme,
   CheckboxTheme,
   InputTheme,
-  OverlayTheme
+  OverlayTheme,
+  TextareaTheme
 } from './elements'
 
 export { styled }
@@ -40,6 +41,7 @@ export interface EditorTheme {
     checkbox?: Partial<CheckboxTheme>
     input?: Partial<InputTheme>
     overlay?: Partial<OverlayTheme>
+    textarea?: Partial<TextareaTheme>
   }
   plugins: Record<string, unknown>
 }
