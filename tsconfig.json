@@ -19,6 +19,7 @@
       "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
       "@edtr-io/plugin-equations": ["plugin-equations/src"],
       "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],
+      "@edtr-io/plugin-h5p": ["plugin-h5p/src"],
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
       "@edtr-io/plugin-image": ["plugin-image/src"],
       "@edtr-io/plugin-input-exercise": ["plugin-input-exercise/src"],
