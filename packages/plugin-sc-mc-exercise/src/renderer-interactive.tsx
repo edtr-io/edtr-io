@@ -1,11 +1,34 @@
 import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { Feedback, styled } from '@edtr-io/ui'
+import {
+  Feedback,
+  styled,
+  createPluginTheme,
+  EditorThemeProps
+} from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { scMcState, AnswerProps } from '.'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
+
+export const createSubmitButtonTheme = createPluginTheme<SubmitButtonTheme>(
+  theme => {
+    return {
+      backgroundColor: theme.backgroundColor,
+      hoverBackgroundColor: theme.highlightColor,
+      color: theme.color,
+      correctBackgroundColor: '#95bc1a',
+      wrongBackgroundColor: '#f7b07c'
+    }
+  }
+)
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
@@ -26,7 +49,8 @@ export class ScMcRendererInteractive extends React.Component<
       }),
       globalFeedback: '',
       showGlobalFeedback: false,
-      solved: false
+      solved: false,
+      exerciseState: ExerciseState.Default
     }
   }
 
@@ -131,8 +155,18 @@ export class ScMcRendererInteractive extends React.Component<
       showGlobalFeedback: true,
       buttons: nextButtonStates,
       solved: mistakes === 0,
+      exerciseState:
+        mistakes === 0 ? ExerciseState.SolvedRight : this.handleWrongAnswer(),
       globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions })
     })
+  }
+
+  private handleWrongAnswer = () => {
+    setTimeout(
+      () => this.setState({ exerciseState: ExerciseState.Default }),
+      3000
+    )
+    return ExerciseState.SolvedWrong
   }
 
   private selectButton = (selectedIndex: number) => () => {
@@ -182,7 +216,43 @@ export class ScMcRendererInteractive extends React.Component<
     }
   }
 
-  private SubmitButton = styled.button({ float: 'right', margin: '10px 0px' })
+  private SubmitButton = styled.button((props: EditorThemeProps) => {
+    const theme = createSubmitButtonTheme('submitButton', props.theme)
+
+    return {
+      float: 'right',
+      margin: '10px 0px',
+      backgroundColor: this.getBackgroundColor(theme),
+      color: theme.color,
+      transition: 'background-color .5s ease',
+      outline: 'none',
+      '&hover': {
+        backgroundColor: theme.hoverBackgroundColor
+      }
+    }
+  })
+
+  private getBackgroundColor = (theme: SubmitButtonTheme) => {
+    switch (this.state.exerciseState) {
+      case ExerciseState.Default: {
+        return theme.backgroundColor
+      }
+      case ExerciseState.SolvedRight: {
+        return theme.correctBackgroundColor
+      }
+      case ExerciseState.SolvedWrong: {
+        return theme.wrongBackgroundColor
+      }
+    }
+  }
+}
+
+export interface SubmitButtonTheme {
+  backgroundColor: string
+  hoverBackgroundColor: string
+  color: string
+  correctBackgroundColor: string
+  wrongBackgroundColor: string
 }
 
 export type ScMcRendererInteractiveProps = StatefulPluginEditorProps<
@@ -206,6 +276,7 @@ export interface ScMcRendererState {
   globalFeedback: string
   showGlobalFeedback: boolean
   solved: boolean
+  exerciseState: ExerciseState
 }
 
 export interface Button {

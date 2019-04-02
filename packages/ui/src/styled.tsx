@@ -68,8 +68,8 @@ const defaultTheme: EditorTheme = {
   },
   renderer: {
     color: '#000',
-    backgroundColor: '#007ec1',
-    highlightColor: '#337ab7'
+    backgroundColor: '#f8f8f8',
+    highlightColor: '#d9edf7'
   },
   ui: {},
   plugins: {}

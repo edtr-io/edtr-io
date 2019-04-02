@@ -1,8 +1,20 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
+import { styled, createPluginTheme, EditorThemeProps } from '@edtr-io/ui'
 
 import * as React from 'react'
 import { scMcState } from '.'
+
+const createChoiceButtonTheme = createPluginTheme<ChoiceButtonTheme>(theme => {
+  return {
+    borderColor: 'transparent',
+    borderStyle: '3px solid',
+    hoverBorderColor: theme.highlightColor,
+    correctBackgroundColor: '#95bc1a',
+    wrongBackgroundColor: '#f7b07c',
+    selectedBackgroundColor: theme.highlightColor,
+    defaultBackgroundColor: theme.backgroundColor
+  }
+})
 
 export class ScMcExerciseChoiceRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcState> & ChoiceRendererProps
@@ -32,43 +44,55 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
     )
   }
 
-  private getBackgroundColor = () => {
+  private getBackgroundColor = (theme: ChoiceButtonTheme) => {
     const { showFeedback, selected, state, index } = this.props
     return showFeedback
       ? state.answers()[index].isCorrect()
-        ? '#95bc1a'
-        : '#f7b07c'
+        ? theme.correctBackgroundColor
+        : theme.wrongBackgroundColor
       : selected
-      ? '#d9edf7'
-      : '#f8f8f8'
+      ? theme.selectedBackgroundColor
+      : theme.defaultBackgroundColor
   }
 
   private ChoiceButton = styled.div<{
     isCorrect?: boolean
     showFeedback?: boolean
     onClick?: ChoiceRendererProps['onClick']
-  }>(({ isCorrect, showFeedback, onClick }) => {
-    return {
-      borderBottom: '3px solid transparent',
-      minWidth: '20px',
-      backgroundColor: this.getBackgroundColor(),
-      margin: '5px 0 0',
-      paddingLeft: '5px',
-      paddingTop: '10px',
-      boxShadow: 'none',
-      transition: 'background-color 0.5s ease',
-      '&:hover': {
-        borderBottom:
+  }>(
+    ({
+      isCorrect,
+      showFeedback,
+      onClick,
+      ...props
+    }: {
+      isCorrect?: boolean
+      showFeedback?: boolean
+      onClick?: ChoiceRendererProps['onClick']
+    } & EditorThemeProps) => {
+      const theme = createChoiceButtonTheme('choiceButton', props.theme)
+      return {
+        borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+        minWidth: '20px',
+        backgroundColor: this.getBackgroundColor(theme),
+        margin: '5px 0 0',
+        paddingLeft: '5px',
+        paddingTop: '10px',
+        boxShadow: 'none',
+        transition: 'background-color 0.5s ease',
+        '&:hover': {
+          borderBottom:
+            (isCorrect && showFeedback) || !onClick
+              ? undefined
+              : `${theme.borderStyle} ${theme.hoverBorderColor}`
+        },
+        cursor:
           (isCorrect && showFeedback) || !onClick
-            ? undefined
-            : '3px solid #d9edf7'
-      },
-      cursor:
-        (isCorrect && showFeedback) || !onClick
-          ? 'default !important'
-          : undefined
+            ? 'default !important'
+            : undefined
+      }
     }
-  })
+  )
 
   private Block = styled.div({
     alignItems: 'center',
@@ -83,4 +107,14 @@ export interface ChoiceRendererProps {
   showFeedback?: boolean
   centered?: boolean
   selected?: boolean
+}
+
+export interface ChoiceButtonTheme {
+  borderColor: string
+  borderStyle: string
+  hoverBorderColor: string
+  correctBackgroundColor: string
+  wrongBackgroundColor: string
+  selectedBackgroundColor: string
+  defaultBackgroundColor: string
 }
