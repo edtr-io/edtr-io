@@ -130,7 +130,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
 
-  private submitAnswer = () => {
+  private submitAnswer = (): void => {
     const { buttons } = this.state
     const temp = R.zip(buttons, this.props.state.answers())
     const mistakes = R.reduce(

@@ -66,7 +66,7 @@ const SubmitButtonComponent = styled.button(
 
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState
-  onClick: () => void
+  onClick?: () => void
 }> {
   public render() {
     return (
