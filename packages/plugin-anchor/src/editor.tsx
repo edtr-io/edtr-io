@@ -15,18 +15,15 @@ export const AnchorEditor = ({
       {editable ? <Icon icon={faLink} /> : null}
       <AnchorRenderer state={state} />
       {focused ? (
-        <React.Fragment>
-          <hr />
-          <label>
-            Identifier:
-            <input
-              value={state.value}
-              onChange={e => {
-                state.set(e.target.value)
-              }}
-            />
-          </label>
-        </React.Fragment>
+        <label>
+          Identifier:
+          <input
+            value={state.value}
+            onChange={e => {
+              state.set(e.target.value)
+            }}
+          />
+        </label>
       ) : null}
     </React.Fragment>
   )
