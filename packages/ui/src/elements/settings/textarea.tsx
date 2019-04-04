@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
 
 export const createTextareaTheme = createUiElementTheme<TextareaTheme>(
   theme => {

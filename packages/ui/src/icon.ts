@@ -21,5 +21,7 @@ export {
   faSpinner,
   faTimes,
   faTrashAlt,
-  faFilm
+  faFilm,
+  faCheckCircle,
+  faSmile
 } from '@fortawesome/free-solid-svg-icons'

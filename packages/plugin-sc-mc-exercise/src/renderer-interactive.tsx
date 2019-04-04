@@ -3,7 +3,8 @@ import {
   Feedback,
   styled,
   createPluginTheme,
-  EditorThemeProps
+  EditorThemeProps,
+  SubmitButton
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -21,9 +22,9 @@ enum ExerciseState {
 export const createSubmitButtonTheme = createPluginTheme<SubmitButtonTheme>(
   theme => {
     return {
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.buttonBackgroundColor,
       hoverBackgroundColor: theme.highlightColor,
-      color: theme.color,
+      color: theme.buttonTextColor,
       correctBackgroundColor: '#95bc1a',
       wrongBackgroundColor: '#f7b07c'
     }
@@ -120,7 +121,12 @@ export class ScMcRendererInteractive extends React.Component<
 
   private showSubmitButton(): React.ReactNode {
     return (
-      <this.SubmitButton onClick={this.submitAnswer}>Submit</this.SubmitButton>
+      <SubmitButton
+        exerciseState={this.state.exerciseState}
+        onClick={this.submitAnswer}
+      >
+        Submit
+      </SubmitButton>
     )
   }
 

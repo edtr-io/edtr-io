@@ -14,15 +14,12 @@ export class ScMcChoiceEditor extends React.Component<
       <React.Fragment>
         {editable ? (
           <this.EditorUiContainer>
-            <this.RemoveButton
-              onClick={this.removeAnswer}
-              className="btn btn-default"
-            >
+            <this.RemoveButton onClick={this.removeAnswer}>
               <Icon icon={faTrashAlt} />
             </this.RemoveButton>
             {state.answers()[index].isCorrect() ? null : (
-              <button onClick={this.addFeedback} className="btn btn-default">
-                {state.answers()[index].feedback() ? (
+              <button onClick={this.addFeedback}>
+                {state.answers()[index].hasFeedback() ? (
                   <span>
                     <Icon icon={faTrashAlt} /> Feedback
                   </span>
@@ -44,7 +41,9 @@ export class ScMcChoiceEditor extends React.Component<
 
   private addFeedback = () => {
     const { state, index } = this.props
-    state.answers()[index].hasFeedback.set(true)
+    state
+      .answers()
+      [index].hasFeedback.set(!state.answers()[index].hasFeedback())
   }
 
   private removeAnswer = () => {

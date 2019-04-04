@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled, EditorThemeProps, createUiElementTheme } from '..'
+import { styled, EditorThemeProps, createUiElementTheme } from '@edtr-io/ui'
 
 export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
   theme => {

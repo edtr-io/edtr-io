@@ -40,6 +40,8 @@ export interface EditorTheme {
     highlightColor: string
     color: string
     backgroundColor: string
+    buttonBackgroundColor: string
+    buttonTextColor: string
   }
   ui: {
     button?: Partial<ButtonTheme>
@@ -69,7 +71,9 @@ const defaultTheme: EditorTheme = {
   renderer: {
     color: '#000',
     backgroundColor: '#f8f8f8',
-    highlightColor: '#d9edf7'
+    highlightColor: '#d9edf7',
+    buttonBackgroundColor: '#337ab7',
+    buttonTextColor: '#fff'
   },
   ui: {},
   plugins: {}
