@@ -66,10 +66,14 @@ const SubmitButtonComponent = styled.button(
 
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState
+  onClick: () => void
 }> {
   public render() {
     return (
-      <SubmitButtonComponent exerciseState={this.props.exerciseState}>
+      <SubmitButtonComponent
+        exerciseState={this.props.exerciseState}
+        onClick={this.props.onClick}
+      >
         {this.props.exerciseState === ExerciseState.SolvedRight ? (
           <span>
             <Icon icon={faSmile} />
