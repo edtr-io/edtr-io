@@ -15,7 +15,7 @@ import {
 
 import { OnClickOutside } from '.'
 
-export const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
+const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
   return {
     backgroundColor: theme.backgroundColor,
     color: theme.color,

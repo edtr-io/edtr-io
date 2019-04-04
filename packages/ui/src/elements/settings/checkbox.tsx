@@ -1,15 +1,13 @@
 import * as React from 'react'
 import { styled, EditorThemeProps, createUiElementTheme } from '@edtr-io/ui'
 
-export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
-  theme => {
-    return {
-      boxSelectedColor: theme.color,
-      boxDeselectedColor: theme.backgroundColor,
-      color: theme.color
-    }
+const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(theme => {
+  return {
+    boxSelectedColor: theme.color,
+    boxDeselectedColor: theme.backgroundColor,
+    color: theme.color
   }
-)
+})
 
 const CheckboxLabel = styled.label((props: EditorThemeProps) => {
   const theme = createCheckboxTheme('checkbox', props.theme)
@@ -90,7 +88,6 @@ export interface CheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label?: string
-  theme: EditorThemeProps
 }
 
 export interface CheckboxTheme {

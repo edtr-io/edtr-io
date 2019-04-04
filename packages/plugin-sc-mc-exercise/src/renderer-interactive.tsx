@@ -19,17 +19,15 @@ enum ExerciseState {
   SolvedWrong
 }
 
-export const createSubmitButtonTheme = createPluginTheme<SubmitButtonTheme>(
-  theme => {
-    return {
-      backgroundColor: theme.buttonBackgroundColor,
-      hoverBackgroundColor: theme.highlightColor,
-      color: theme.buttonTextColor,
-      correctBackgroundColor: '#95bc1a',
-      wrongBackgroundColor: '#f7b07c'
-    }
+const createSubmitButtonTheme = createPluginTheme<SubmitButtonTheme>(theme => {
+  return {
+    backgroundColor: theme.buttonBackgroundColor,
+    hoverBackgroundColor: theme.highlightColor,
+    color: theme.buttonTextColor,
+    correctBackgroundColor: '#95bc1a',
+    wrongBackgroundColor: '#f7b07c'
   }
-)
+})
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,

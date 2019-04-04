@@ -3,15 +3,13 @@ import * as React from 'react'
 import { styled, createPluginTheme, EditorThemeProps } from '@edtr-io/ui'
 import { blockquoteState } from '.'
 
-export const createBlockquoteTheme = createPluginTheme<BlockquoteTheme>(
-  theme => {
-    return {
-      borderColor: theme.backgroundColor,
-      borderStyle: '5px solid',
-      padding: '100px'
-    }
+const createBlockquoteTheme = createPluginTheme<BlockquoteTheme>(theme => {
+  return {
+    borderColor: theme.backgroundColor,
+    borderStyle: '5px solid',
+    padding: '100px'
   }
-)
+})
 const Blockquote = styled.blockquote((props: EditorThemeProps) => {
   const theme = createBlockquoteTheme('blockquote', props.theme)
 

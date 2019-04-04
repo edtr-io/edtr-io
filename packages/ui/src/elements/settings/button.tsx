@@ -1,6 +1,6 @@
 import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
 
-export const createButtonTheme = createUiElementTheme<ButtonTheme>(theme => {
+const createButtonTheme = createUiElementTheme<ButtonTheme>(theme => {
   return {
     backgroundColor: 'transparent',
     color: theme.color,

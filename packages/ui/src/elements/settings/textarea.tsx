@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
 
-export const createTextareaTheme = createUiElementTheme<TextareaTheme>(
-  theme => {
-    return {
-      backgroundColor: 'transparent',
-      color: theme.color,
-      borderColor: theme.color,
-      highlightColor: theme.highlightColor
-    }
+const createTextareaTheme = createUiElementTheme<TextareaTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.color,
+    borderColor: theme.color,
+    highlightColor: theme.highlightColor
   }
-)
+})
 const TextareaLabel = styled.label((props: EditorThemeProps) => {
   const theme = createTextareaTheme('textarea', props.theme)
 
