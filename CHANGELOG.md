@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Breaking Changes
 
 - **plugin-image**. Image-plugin has new required `maxWidth` - state property
+- **ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.
 
 ### Added
 
