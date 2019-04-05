@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
+
+import { createUiElementTheme, EditorThemeProps, styled } from '..'
 
 export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
   return {
@@ -65,7 +66,7 @@ export class AutoFocusInput extends React.Component<InputProps> {
     return (
       <Input
         {...this.props}
-        //@ts-ignore FIXMEc
+        //@ts-ignore FIXME
         ref={(ref: Input | null) => {
           if (ref) {
             ref.focus()

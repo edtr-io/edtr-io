@@ -2,6 +2,7 @@ import { OverlayContext } from '@edtr-io/core'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
+
 import {
   Icon,
   faTimes,
@@ -11,8 +12,7 @@ import {
   createUiElementTheme,
   EditorThemeProps,
   styled
-} from '@edtr-io/ui'
-
+} from '..'
 import { OnClickOutside } from '.'
 
 export const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
@@ -37,6 +37,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
     zIndex: 99
   }
 })
+
 export const OverlayBox = styled.div((props: EditorThemeProps) => {
   const theme = createOverlayTheme('overlay', props.theme)
 
@@ -81,9 +82,10 @@ const ContentWrapper = styled.div({
   padding: '20px 15%'
 })
 
-export const Overlay: React.FunctionComponent<{
+export function Overlay(props: {
   onClose?: () => void
-}> = props => {
+  children?: React.ReactNode
+}) {
   const overlayContext = React.useContext(OverlayContext)
   function closeHandler() {
     overlayContext.hide()
@@ -229,7 +231,9 @@ const ConfigIcon = styled.div((props: EditorThemeProps) => {
   }
 })
 
-export const ContainerWithConfigButton: React.FunctionComponent = props => {
+export function ContainerWithConfigButton(props: {
+  children?: React.ReactNode
+}) {
   const overlayContext = React.useContext(OverlayContext)
   return (
     <ConfigIconContainer onClick={overlayContext.show}>

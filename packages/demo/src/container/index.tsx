@@ -17,11 +17,7 @@ const Components = {
   [Container.Serlo]: SerloContainer
 }
 
-export function EditorStory(props: {
-  defaultPlugin?: string
-  initialState: EditorProps['initialState']
-  theme?: EditorProps['theme']
-}) {
+export function EditorStory(props: Partial<EditorProps>) {
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
     Container.Plain
@@ -32,12 +28,7 @@ export function EditorStory(props: {
   const Component = Components[container]
 
   return (
-    <Editor
-      plugins={plugins}
-      defaultPlugin={props.defaultPlugin || 'text'}
-      initialState={props.initialState}
-      theme={props.theme}
-    >
+    <Editor plugins={plugins} defaultPlugin="text" {...props}>
       {document => {
         return <Component>{document}</Component>
       }}

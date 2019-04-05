@@ -6,12 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Breaking Changes
 
-- **plugin-image**. Image-plugin has new required `maxwidth` - state property
+- **plugin-image**. Image-plugin has new required `maxWidth` - state property
 
 ### Added
 
 - **plugin-h5p**. Add H5p.com plugin
-- **plugin-image**. Maxwidth for images
+- **plugin-image**. MaxWidth for images
+- **ui**. Add consistent theming workflow
 
 ### Fixed
 

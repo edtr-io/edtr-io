@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { createUiElementTheme, EditorThemeProps, styled } from '..'
 
 export const createTextareaTheme = createUiElementTheme<TextareaTheme>(
@@ -18,7 +19,7 @@ const TextareaLabel = styled.label((props: EditorThemeProps) => {
     color: theme.color,
     display: 'flex',
     flexDirection: 'row',
-    margin: '20px auto 0px',
+    margin: '20px auto 0',
     justifyContent: 'space-between'
   }
 })

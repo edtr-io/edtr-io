@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { styled, EditorThemeProps, createUiElementTheme } from '..'
+
+import { createUiElementTheme, EditorThemeProps, styled } from '..'
 
 export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
   theme => {
@@ -13,6 +14,7 @@ export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
 
 const CheckboxLabel = styled.label((props: EditorThemeProps) => {
   const theme = createCheckboxTheme('checkbox', props.theme)
+
   return {
     color: theme.color,
     display: 'flex',
@@ -26,6 +28,7 @@ const CheckboxToggleContainer = styled.div<{
   value?: boolean
 }>(({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
   const theme = createCheckboxTheme('checkbox', props.theme)
+
   return {
     cursor: 'pointer',
     border: `2px solid ${theme.color}`,
@@ -42,6 +45,7 @@ const CheckboxLabelInner = styled.span({ width: '20%' })
 const CheckboxToggle = styled.div<{ value?: boolean }>(
   ({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
     const theme = createCheckboxTheme('checkbox', props.theme)
+
     return {
       opacity: value ? 1 : 0,
       content: '',
@@ -90,7 +94,6 @@ export interface CheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label?: string
-  theme: EditorThemeProps
 }
 
 export interface CheckboxTheme {
