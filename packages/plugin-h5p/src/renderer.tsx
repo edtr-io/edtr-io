@@ -1,5 +1,6 @@
-import * as React from 'react'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
+import * as React from 'react'
+
 import { h5pState } from '.'
 
 // Implements functionality of https://serlo.h5p.com/js/h5p-resizer.js
@@ -25,7 +26,7 @@ export class H5pRenderer extends React.Component<
       <React.Fragment>
         <iframe
           ref={this.iframe}
-          src={`https://serlo.h5p.com/content/${state.src}/embed`}
+          src={`https://serlo.h5p.com/content/${state.src()}/embed`}
           frameBorder="0"
           allowFullScreen
           allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"
@@ -83,27 +84,30 @@ export class H5pRenderer extends React.Component<
         default:
           return
       }
+    }
 
-      function resize() {
-        if (current && current.contentWindow) {
-          // Limit resize calls to avoid flickering
-          respond('resize')
-        } else {
-          // Frame is gone, unregister.
-          window.removeEventListener('resize', resize)
-        }
+    function resize() {
+      if (current && current.contentWindow) {
+        // Limit resize calls to avoid flickering
+        respond('resize')
+      } else {
+        // Frame is gone, unregister.
+        window.removeEventListener('resize', resize)
+      }
+    }
+
+    function respond(action: string, data = {}) {
+      if (!event.source) {
+        return
       }
 
-      function respond(action: string, data = {}) {
-        const message = {
-          ...data,
-          action,
-          context: 'h5p'
-        }
-
-        // @ts-ignore FIXME:
-        event.source.postMessage(message, event.origin)
+      const message = {
+        ...data,
+        action,
+        context: 'h5p'
       }
+
+      event.source.postMessage(message, event.origin as string & Transferable[])
     }
   }
 }

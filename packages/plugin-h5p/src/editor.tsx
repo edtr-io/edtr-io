@@ -1,8 +1,9 @@
-import * as React from 'react'
-import { H5pRenderer } from './renderer'
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { h5pState } from '.'
 import { Overlay, AutoFocusInput, ContainerWithConfigButton } from '@edtr-io/ui'
+import * as React from 'react'
+
+import { H5pRenderer } from './renderer'
+import { h5pState } from '.'
 
 export class H5pEditor extends React.Component<
   StatefulPluginEditorProps<typeof h5pState>

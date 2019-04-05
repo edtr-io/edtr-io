@@ -1,8 +1,9 @@
-import { H5pEditor } from './editor'
 import { StateType, StatefulPlugin } from '@edtr-io/core'
 
+import { H5pEditor } from './editor'
+
 export const h5pState = StateType.object({
-    src: StateType.string('')
+  src: StateType.string('')
 })
 
 export const h5pPlugin: StatefulPlugin<typeof h5pState> = {

@@ -7,9 +7,6 @@
   "types": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {},
-  "dependencies": {
-    "react-syntax-highlighter": "^10.0.0"
-  },
   "devDependencies": {
     "@edtr-io/core": "^0.4.3",
     "@edtr-io/ui": "^0.4.3",
