@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- **plugin-h5p**. Add H5p.com plugin
 - **plugin-image**. Maxwidth for images
 
 ### Fixed

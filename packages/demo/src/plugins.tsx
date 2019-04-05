@@ -3,6 +3,7 @@ import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { h5pPlugin } from '@edtr-io/plugin-h5p'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
@@ -37,6 +38,7 @@ export const plugins: Record<string, Plugin> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   equations: equationsPlugin,
+  h5p: h5pPlugin,
   highlight: highlightPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
   inputExercise: inputExercisePlugin,

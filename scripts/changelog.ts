@@ -169,7 +169,10 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      added: ['**plugin-image**. Maxwidth for images'],
+      added: [
+        '**plugin-h5p**. Add H5p.com plugin',
+        '**plugin-image**. Maxwidth for images'
+      ],
       fixed: ['**plugin-image**. hide config-overlay in render mode'],
       breakingChanges: [
         '**plugin-image**. Image-plugin has new required `maxwidth` - state property'
