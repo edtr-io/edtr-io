@@ -1,33 +1,23 @@
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
-import { EditorContext } from '../editor-context'
 import { useEditorFocus } from '../hooks'
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '../plugin'
-import {
-  ActionType,
-  getDocument,
-  getPlugin,
-  isEditable,
-  isFocused
-} from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
-import { DocumentProps } from '.'
+import { DocumentDispatchProps, DocumentProps, DocumentStateProps } from '.'
 
-export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
-  id,
-  pluginProps
-}) => {
+export const DocumentEditor: React.FunctionComponent<
+  DocumentProps & DocumentStateProps & DocumentDispatchProps
+> = ({ id, pluginProps, ...props }) => {
   const container = React.useRef<HTMLDivElement>(null)
-  const store = React.useContext(EditorContext)
   const { focusPrevious, focusNext } = useEditorFocus()
-  const focused = isFocused(store.state, id)
-  const document = getDocument(store.state, id)
-  const plugin = document && getPlugin(store.state, document.plugin)
+  const focused = props.isFocused(id)
+  const document = props.getDocument(id)
+  const plugin = document && props.getPlugin(document.plugin)
 
   React.useEffect(() => {
     if (
@@ -56,12 +46,9 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     const onChange = (
       updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
     ) => {
-      store.dispatch({
-        type: ActionType.Change,
-        payload: {
-          id,
-          state: updater
-        }
+      props.change({
+        id,
+        state: updater
       })
     }
     state = plugin.state(document.state, onChange)
@@ -70,7 +57,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     StatefulPluginEditorProps | StatelessPluginEditorProps
   >
 
-  const editable = isEditable(store.state)
+  const editable = props.isEditable
   return (
     <HotKeys
       keyMap={{
@@ -112,10 +99,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     const target = (e.target as HTMLDivElement).closest('[data-document]')
 
     if (!focused && target === container.current) {
-      store.dispatch({
-        type: ActionType.Focus,
-        payload: id
-      })
+      props.focus(id)
     }
   }
 

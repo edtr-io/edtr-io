@@ -47,7 +47,13 @@ export const createInitialState = <K extends string>(
   }
 }
 
-export function reducer(state: BaseState | State, action: Action): State {
+export function reducer(
+  state: BaseState | State | undefined,
+  action: Action
+): State {
+  if (state === undefined) {
+    throw new Error('State undefined. This should not happen')
+  }
   if (!hasHistory(state)) {
     return reducer(
       {

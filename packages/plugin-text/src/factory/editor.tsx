@@ -1,6 +1,5 @@
 import {
   StatefulPluginEditorProps,
-  EditorContext,
   getPlugins,
   Plugin,
   OverlayContext,
@@ -19,16 +18,21 @@ import {
 import { TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 import { textState } from '.'
+import { State } from '@edtr-io/core/src/store'
+import { connect } from 'react-redux'
+
+const mapStateToProps = (state: State): SlateEditorStateProps => ({
+  plugins: getPlugins(state)
+})
 
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
-  return function SlateEditor(props: SlateEditorProps) {
+  function SlateEditor(props: SlateEditorProps & SlateEditorStateProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
-    const store = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
-    const plugins = getPlugins(store.state)
+    const plugins = props.plugins
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )
@@ -116,6 +120,8 @@ export const createTextEditor = (
       />
     )
   }
+  const SlateEditorProvider = connect(mapStateToProps)(SlateEditor)
+  return SlateEditorProvider
 }
 
 // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use props
@@ -319,5 +325,9 @@ interface SlateClosure extends SlateEditorAdditionalProps {
   name: string
   focusPrevious: () => void
   focusNext: () => void
+  plugins: Record<string, Plugin>
+}
+
+export interface SlateEditorStateProps {
   plugins: Record<string, Plugin>
 }

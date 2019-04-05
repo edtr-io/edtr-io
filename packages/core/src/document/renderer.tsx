@@ -1,23 +1,17 @@
 import * as React from 'react'
 
-import { EditorContext } from '../editor-context'
-import { getDocument, getPlugin } from '../store'
-
-import { DocumentProps } from '.'
+import { DocumentProps, DocumentStateProps } from '.'
 import { isStatefulPlugin } from '../plugin'
 
-export const DocumentRenderer: React.FunctionComponent<DocumentProps> = ({
-  id,
-  pluginProps
-}) => {
-  const store = React.useContext(EditorContext)
-
-  const document = getDocument(store.state, id)
+export const DocumentRenderer: React.FunctionComponent<
+  DocumentProps & DocumentStateProps
+> = ({ id, pluginProps, ...props }) => {
+  const document = props.getDocument(id)
   if (!document) {
     return null
   }
 
-  const plugin = getPlugin(store.state, document.plugin)
+  const plugin = props.getPlugin(document.plugin)
 
   if (!plugin) {
     // TODO:

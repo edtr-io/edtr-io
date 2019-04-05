@@ -1,12 +1,14 @@
 import * as React from 'react'
 import {
   Editor,
-  EditorContext,
   getClipboard,
   PluginState,
-  getPlugins
+  getPlugins,
+  Plugin
 } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
+import { getDefaultPlugin, State } from '@edtr-io/core/src/store'
+import { connect } from 'react-redux'
 
 const ClipboardHeader = styled.div({
   fontSize: '130%',
@@ -42,11 +44,12 @@ const PreventMouseEvents = styled.div({
   pointerEvents: 'none'
 })
 
-export const Clipboard: React.FunctionComponent<{
-  onClose: (pluginState: PluginState) => void
-}> = props => {
-  const store = React.useContext(EditorContext)
-  const states = getClipboard(store.state)
+export const Clipboard: React.FunctionComponent<
+  {
+    onClose: (pluginState: PluginState) => void
+  } & ClipboardProps
+> = props => {
+  const states = props.clipboard
   return (
     <Container>
       <ClipboardHeader> Zwischenablage </ClipboardHeader>
@@ -58,8 +61,8 @@ export const Clipboard: React.FunctionComponent<{
                 <Preview>
                   <PreventMouseEvents>
                     <Editor
-                      plugins={getPlugins(store.state)}
-                      defaultPlugin={store.state.defaultPlugin}
+                      plugins={props.plugins}
+                      defaultPlugin={props.defaultPlugin}
                       initialState={state}
                       editable={false}
                     />
@@ -75,4 +78,18 @@ export const Clipboard: React.FunctionComponent<{
       </ButtonContainer>
     </Container>
   )
+}
+
+const mapStateToProps = (state: State): ClipboardProps => ({
+  plugins: getPlugins(state),
+  clipboard: getClipboard(state),
+  defaultPlugin: getDefaultPlugin(state)
+})
+
+export const ClipboardProvider = connect(mapStateToProps)(Clipboard)
+
+export interface ClipboardProps {
+  plugins: Record<string, Plugin>
+  clipboard: PluginState[]
+  defaultPlugin: string
 }

@@ -1,4 +1,4 @@
-import { Editor, EditorProps } from '@edtr-io/core'
+import { Editor, EditorConnectorProps } from '@edtr-io/core'
 import { select } from '@storybook/addon-knobs'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -19,7 +19,7 @@ const Components = {
 
 export function EditorStory(props: {
   defaultPlugin?: string
-  initialState: EditorProps['initialState']
+  initialState: EditorConnectorProps['initialState']
 }) {
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||

@@ -1,8 +1,6 @@
 import {
   StatefulPluginEditorProps,
   getDocument,
-  EditorContext,
-  ActionType,
   PluginState,
   getPlugins,
   Plugin
@@ -28,6 +26,9 @@ import { ThemeProps } from 'styled-components'
 
 import { Clipboard } from './clipboard'
 import { rowsState } from '.'
+import { CopyAction, State } from '@edtr-io/core/src/store'
+import { connect } from 'react-redux'
+import { copyToClipboard } from '@edtr-io/core/src/editor'
 
 export const FloatingButton = styled.button(
   ({ disabled }: { disabled?: boolean }) => ({
@@ -187,13 +188,14 @@ const Popup: React.FunctionComponent<{
 export const Row = (
   props: StatefulPluginEditorProps<typeof rowsState> & {
     index: number
-  }
+  } & RowProps &
+    RowDispatchProps
 ) => {
   const [hover, setHover] = React.useState(false)
   const [popup, setPopup] = React.useState<
     { index: number; onClose: (pluginState: PluginState) => void } | undefined
   >(undefined)
-  const store = React.useContext(EditorContext)
+
   const rows = props.state
   const index = props.index
   const row = rows()[index]
@@ -221,7 +223,7 @@ export const Row = (
         <Popup
           onClickOutside={() => setPopup(undefined)}
           onClose={popup.onClose}
-          plugins={getPlugins(store.state)}
+          plugins={props.plugins}
           ownName={props.name}
         />
       ) : null}
@@ -230,8 +232,8 @@ export const Row = (
           rows.insert(index + 1, options),
         mergeWithPrevious: (merge: (statePrevious: unknown) => unknown) => {
           if (index - 1 < 0) return
-          const previous = getDocument(store.state, rows()[index - 1].id)
-          const current = getDocument(store.state, row.id)
+          const previous = props.getDocument(rows()[index - 1].id)
+          const current = props.getDocument(row.id)
           if (!previous || !current || previous.plugin !== current.plugin)
             return
           merge(previous.state)
@@ -239,8 +241,8 @@ export const Row = (
         },
         mergeWithNext: (merge: (statePrevious: unknown) => unknown) => {
           if (index + 1 === rows().length) return
-          const next = getDocument(store.state, rows()[index + 1].id)
-          const current = getDocument(store.state, row.id)
+          const next = props.getDocument(rows()[index + 1].id)
+          const current = props.getDocument(row.id)
           if (!next || !current || next.plugin !== current.plugin) return
           merge(next.state)
           setTimeout(() => {
@@ -262,10 +264,10 @@ export const Row = (
               disabled={index + 1 >= rows.items.length}
               onClick={() => rows.move(index, index + 1)}
             />
-            <Copy onClick={() => copyToClipboard(row())} />
+            <Copy onClick={() => props.copyToClipboard(row())} />
             <Cut
               onClick={() => {
-                copyToClipboard(row())
+                props.copyToClipboard(row())
                 rows.remove(index)
               }}
             />
@@ -277,17 +279,33 @@ export const Row = (
         <Popup
           onClickOutside={() => setPopup(undefined)}
           onClose={popup.onClose}
-          plugins={getPlugins(store.state)}
+          plugins={props.plugins}
           ownName={props.name}
         />
       ) : null}
     </HoverContainer>
   )
+}
 
-  function copyToClipboard(id: string) {
-    store.dispatch({
-      type: ActionType.CopyToClipboard,
-      payload: id
-    })
-  }
+const mapStateToProps = (state: State): RowProps => ({
+  plugins: getPlugins(state),
+  getDocument: (id: string) => getDocument(state, id)
+})
+
+const mapDispatchToProps: RowDispatchProps = {
+  copyToClipboard
+}
+
+export const RowProvider = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Row)
+
+export interface RowProps {
+  plugins: Record<string, Plugin>
+  getDocument: (id: string) => PluginState | null
+}
+
+export interface RowDispatchProps {
+  copyToClipboard: (payload: string) => CopyAction
 }

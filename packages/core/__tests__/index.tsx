@@ -3,11 +3,12 @@ import * as ReactDOM from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { plugins } from '../__fixtures__/plugins'
-import { EditorContext, EditorContextValue, Editor } from '../src'
 import { getDocument } from '../src/store'
+import { createStore, EditorProvider } from '../src/editor'
+import { Provider } from 'react-redux'
+import { Store } from 'redux'
 
 let container: Element
-let store: EditorContextValue
 
 beforeEach(() => {
   container = document.createElement('div')
@@ -16,9 +17,10 @@ beforeEach(() => {
 
 test('default plugin', () => {
   const state = undefined
-  renderDocument(state)
+  const store = createStore(plugins, 'stateless', true)
+  renderDocument(store, state)
 
-  const document = getDocument(store.state, 'root')
+  const document = getDocument(store.getState(), 'root')
 
   if (!document) {
     throw new Error('document not found')
@@ -27,24 +29,16 @@ test('default plugin', () => {
   expect(document.plugin).toEqual('stateless')
 })
 
-function renderDocument(state?: { plugin: string; state?: unknown }) {
+function renderDocument(
+  store: Store,
+  state?: { plugin: string; state?: unknown }
+) {
   act(() => {
     ReactDOM.render(
-      <Editor plugins={plugins} defaultPlugin="stateless" initialState={state}>
-        {setStore()}
-      </Editor>,
+      <Provider store={store}>
+        <EditorProvider initialState={state} />
+      </Provider>,
       container
     )
   })
-}
-
-function setStore() {
-  return (
-    <EditorContext.Consumer>
-      {s => {
-        store = s
-        return null
-      }}
-    </EditorContext.Consumer>
-  )
 }

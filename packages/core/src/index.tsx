@@ -1,5 +1,5 @@
 export { Document, DocumentProps } from './document'
-export { Editor, EditorProps } from './editor'
+export { Editor, EditorConnectorProps } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {
