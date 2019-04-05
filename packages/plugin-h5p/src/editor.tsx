@@ -8,7 +8,7 @@ export class H5pEditor extends React.Component<
   StatefulPluginEditorProps<typeof h5pState>
 > {
   public render() {
-    const { focused, state, editable } = this.props
+    const { focused, state } = this.props
 
     return (
       <React.Fragment>
