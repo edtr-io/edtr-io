@@ -1,23 +1,42 @@
-import { defaultTheming, EditorTheming, styled } from '@edtr-io/ui'
-import { ThemeProps } from 'styled-components'
+import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
 
-export const Button = styled.button((props: ThemeProps<EditorTheming>) => {
+export const createButtonTheme = createUiElementTheme<ButtonTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.color,
+    borderColor: theme.color,
+    hoverBackgroundColor: 'transparent',
+    hoverColor: theme.highlightColor,
+    hoverBorderColor: theme.highlightColor
+  }
+})
+
+export const Button = styled.button((props: EditorThemeProps) => {
+  const theme = createButtonTheme('button', props.theme)
+
   return {
     margin: '3px',
-    backgroundColor: props.theme.buttonBackgroundColor,
+    backgroundColor: theme.backgroundColor,
     outline: 'none',
-    border: `2px solid ${props.theme.textColor}`,
-    color: props.theme.textColor,
+    border: `2px solid ${theme.borderColor}`,
+    color: theme.color,
     padding: '10px',
     borderRadius: '4px',
     minWidth: '125px',
     cursor: 'pointer',
     '&:hover': {
-      color: props.theme.highlightColor,
-      borderColor: props.theme.highlightColor
+      backgroundColor: theme.hoverBackgroundColor,
+      color: theme.hoverColor,
+      borderColor: theme.hoverBorderColor
     }
   }
 })
-Button.defaultProps = {
-  theme: defaultTheming
+
+export interface ButtonTheme {
+  backgroundColor: string
+  color: string
+  borderColor: string
+  hoverBackgroundColor: string
+  hoverColor: string
+  hoverBorderColor: string
 }

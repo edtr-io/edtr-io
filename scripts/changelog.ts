@@ -169,14 +169,16 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      breakingChanges: [
+        '**plugin-image**. Image-plugin has new required `maxWidth` - state property',
+        '**ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.'
+      ],
       added: [
         '**plugin-h5p**. Add H5p.com plugin',
-        '**plugin-image**. Maxwidth for images'
+        '**plugin-image**. MaxWidth for images',
+        '**ui**. Add consistent theming workflow'
       ],
-      fixed: ['**plugin-image**. hide config-overlay in render mode'],
-      breakingChanges: [
-        '**plugin-image**. Image-plugin has new required `maxwidth` - state property'
-      ]
+      fixed: ['**plugin-image**. hide config-overlay in render mode']
     }
   ])
 
