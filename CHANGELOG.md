@@ -19,6 +19,10 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-image**. hide config-overlay in render mode
 
+### Internal
+
+- **demo**. Log errors only
+
 ## [0.4.3](https://github.com/edtr-io/edtr-io/compare/v0.4.2..v0.4.3) - March 29, 2019
 
 ### Added
