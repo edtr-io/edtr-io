@@ -109,7 +109,7 @@ export const createTextEditor = (
             props.state.set(nextValue)
           }
         }}
-        placeholder={options.placeholder}
+        placeholder={props.editable ? options.placeholder : ''}
         plugins={slatePlugins.current}
         readOnly={!props.focused}
         value={rawState}
