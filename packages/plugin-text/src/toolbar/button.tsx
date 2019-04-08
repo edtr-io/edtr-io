@@ -1,35 +1,39 @@
-import { defaultTheming, styled, EditorTheming } from '@edtr-io/ui'
+import {
+  defaultTheming,
+  styled,
+  createUiElementTheme,
+  EditorThemeProps
+} from '@edtr-io/ui'
 
-export const ButtonGroup = styled.div({
-  position: 'absolute',
-  top: '-1em',
-  zIndex: 20
+export const createButtonTheme = createUiElementTheme<ButtonTheme>(theme => {
+  return {
+    activeColor: theme.highlightColor,
+    color: theme.color,
+    hoverColor: theme.highlightColor
+  }
 })
 
 export const Button = styled.button<{ active?: boolean }>(
-  ({ active, theme }: { active?: boolean; theme: EditorTheming }) => {
+  ({ active, ...props }: { active?: boolean } & EditorThemeProps) => {
+    const theme = createButtonTheme('button', props.theme)
     return {
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: 'transparent',
       cursor: 'pointer',
-      color: active ? theme.highlightColor : theme.textColor,
+      color: active ? theme.activeColor : theme.color,
       outline: 'none',
       height: '25px',
       border: 'none',
       width: '40px',
-      borderRight: `1px solid ${theme.textColor}`,
-      '&:first-child': {
-        borderBottomLeftRadius: '8px',
-        borderTopLeftRadius: '8px'
-      },
-      '&:last-child': {
-        borderBottomRightRadius: '8px',
-        borderTopRightRadius: '8px',
-        border: 'none'
-      },
       '&:hover': {
-        color: theme.highlightColor
+        color: theme.hoverColor
       }
     }
   }
 )
 Button.defaultProps = { theme: defaultTheming }
+
+export interface ButtonTheme {
+  activeColor: string
+  color: string
+  hoverColor: string
+}

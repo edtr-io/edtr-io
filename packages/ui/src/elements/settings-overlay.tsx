@@ -167,15 +167,32 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
   }
 })
 
-export const InlineOverlay: React.FunctionComponent<{
+export const InlineSettings: React.FunctionComponent<{
   onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
+}> = props => {
+  return (
+    <HoveringOverlay position={'below'}>
+      <InlinePreview>{props.children}</InlinePreview>
+      <ChangeButton onClick={props.onEdit}>
+        <Icon icon={faPencilAlt} />
+      </ChangeButton>
+      <ChangeButton onClick={props.onDelete}>
+        <Icon icon={faTrashAlt} />
+      </ChangeButton>
+    </HoveringOverlay>
+  )
+}
+
+export type HoverPosition = 'above' | 'below'
+
+export const HoveringOverlay: React.FunctionComponent<{
+  position: HoverPosition
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
   React.useEffect(() => {
     const menu = overlay.current
     if (!menu) return
-
     const native = window.getSelection()
     const range = native.getRangeAt(0)
     const rect = range.getBoundingClientRect()
@@ -184,24 +201,21 @@ export const InlineOverlay: React.FunctionComponent<{
     if (!menu.offsetParent) return
     const parentRect = menu.offsetParent.getBoundingClientRect()
     menu.style.opacity = '1'
-    menu.style.top = `${rect.bottom - parentRect.top + 3}px`
+    menu.style.top =
+      (props.position == 'above'
+        ? rect.top - menu.offsetHeight - 6
+        : rect.bottom + 3) -
+      parentRect.top +
+      'px'
 
     menu.style.left = `${Math.max(
       rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
       0
     )}px`
-  }, [overlay])
+  }, [overlay, props.position])
 
   return (
-    <InlineOverlayWrapper ref={overlay}>
-      <InlinePreview>{props.children}</InlinePreview>
-      <ChangeButton onClick={props.onEdit}>
-        <Icon icon={faPencilAlt} />
-      </ChangeButton>
-      <ChangeButton onClick={props.onDelete}>
-        <Icon icon={faTrashAlt} />
-      </ChangeButton>
-    </InlineOverlayWrapper>
+    <InlineOverlayWrapper ref={overlay}>{props.children}</InlineOverlayWrapper>
   )
 }
 
