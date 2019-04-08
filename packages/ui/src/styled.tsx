@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 import styled, {
   ThemeProps,
-  ThemeProvider,
+  ThemeProvider as StyledThemeProvider,
   ThemeProviderProps
 } from 'styled-components'
 
@@ -13,6 +13,7 @@ import {
   OverlayTheme,
   TextareaTheme
 } from './elements'
+import { ExpandableBoxTheme } from './expandable-box'
 
 export { styled }
 
@@ -42,6 +43,7 @@ export interface EditorTheme {
     input?: Partial<InputTheme>
     overlay?: Partial<OverlayTheme>
     textarea?: Partial<TextareaTheme>
+    expandableBox?: Partial<ExpandableBoxTheme>
   }
   plugins: Record<string, unknown>
 }
@@ -64,12 +66,18 @@ const defaultTheme: EditorTheme = {
   plugins: {}
 }
 
-export function EditorThemeProvider(
+export function RootEditorThemeProvider(
   props: ThemeProviderProps<CustomEditorTheme>
 ) {
   const theme = R.mergeDeepRight(defaultTheme, props.theme)
 
-  return <ThemeProvider {...props} theme={theme} />
+  return <StyledThemeProvider {...props} theme={theme} />
+}
+
+export function EditorThemeProvider(
+  props: ThemeProviderProps<CustomEditorTheme>
+) {
+  return <StyledThemeProvider {...props} />
 }
 
 export function createUiElementTheme<T>(
