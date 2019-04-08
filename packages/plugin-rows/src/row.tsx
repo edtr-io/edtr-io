@@ -16,6 +16,7 @@ import {
   faCopy,
   Icon,
   faPlus,
+  faEllipsisV,
   OnClickOutside,
   Button,
   OverlayBox
@@ -30,14 +31,13 @@ import { rowsState } from '.'
 export const FloatingButton = styled.button(
   ({ disabled }: { disabled?: boolean }) => ({
     outline: 'none',
-    width: '30px',
-    height: '1em',
-    zIndex: 50,
+    width: '23px',
+    alignContent: 'center',
+    // height: '1em',
+    zIndex: 150,
     background: disabled ? 'none' : 'white',
     border: 'none',
-    padding: 0,
-    margin: '0 auto',
-    borderRadius: 0,
+    padding: '0px 2px',
     color: disabled ? 'transparent' : '#d9d9d9',
     '&:hover': disabled
       ? undefined
@@ -97,11 +97,29 @@ const BottomFloatingButtonContainer = styled(FloatingButtonContainer)({
 })
 
 const RightFloatingButtonContainer = styled(FloatingButtonContainer)({
-  top: '-12px',
-  right: 0,
+  minHeight: '100%',
+  top: '0',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  padding: '0 20px',
+  right: -50,
   width: 'auto',
-  textAlign: 'right'
+  textAlign: 'right',
+  minWidth: '25px',
+
+  zIndex: 100
 })
+const FurtherSettingsToolbar = styled(FloatingButtonContainer)({
+  display: 'flex',
+  flexDirection: 'row',
+  position: 'relative',
+  backgroundColor: 'green',
+  border: '2px solid white',
+  width: 'auto',
+  height: 'auto'
+})
+const HoverContainer = styled(RightFloatingButtonContainer)({})
 
 const Remove: React.FunctionComponent<{
   onClick: () => void
@@ -117,6 +135,11 @@ const MoveDown: React.FunctionComponent<{
   disabled?: boolean
 }> = props => <IconButton icon={faCaretSquareDown} {...props} />
 
+const FurtherSettings: React.FunctionComponent<{
+  onClick: () => void
+  disabled?: boolean
+}> = props => <IconButton icon={faEllipsisV} {...props} />
+
 const Cut: React.FunctionComponent<{
   onClick: () => void
 }> = props => <IconButton icon={faCut} {...props} />
@@ -128,13 +151,6 @@ export const RowContainer = styled.div({
   minHeight: '10px',
   position: 'relative',
   padding: '10px 0'
-})
-
-const HoverContainer = styled(RowContainer)({
-  '&:hover': {
-    border: '2px solid rgba(0,0,0,0.15)',
-    margin: '-2px'
-  }
 })
 
 const Popup: React.FunctionComponent<{
@@ -175,10 +191,11 @@ export const Row = (
     index: number
   }
 ) => {
-  const [hover, setHover] = React.useState(false)
+  const [hoverRight, setHoverRight] = React.useState(false)
   const [popup, setPopup] = React.useState<
     { index: number; onClose: (pluginState: PluginState) => void } | undefined
   >(undefined)
+  const [furtherSettings, showFurtherSettings] = React.useState(false)
   const store = React.useContext(EditorContext)
   const rows = props.state
   const index = props.index
@@ -194,11 +211,8 @@ export const Row = (
     })
   }
   return (
-    <HoverContainer
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {hover && props.editable ? (
+    <RowContainer>
+      {props.editable ? (
         <TopFloatingButtonContainer>
           <Add onClick={() => onAdd(index)} />
         </TopFloatingButtonContainer>
@@ -234,29 +248,48 @@ export const Row = (
           })
         }
       })}
-      {props.editable && hover ? (
+      {props.editable ? (
         <React.Fragment>
           <BottomFloatingButtonContainer>
             <Add onClick={() => onAdd(index + 1)} />
           </BottomFloatingButtonContainer>
-          <RightFloatingButtonContainer>
-            <MoveUp
-              disabled={index <= 0}
-              onClick={() => rows.move(index, index - 1)}
-            />
-            <MoveDown
-              disabled={index + 1 >= rows.items.length}
-              onClick={() => rows.move(index, index + 1)}
-            />
-            <Copy onClick={() => copyToClipboard(row())} />
-            <Cut
-              onClick={() => {
-                copyToClipboard(row())
-                rows.remove(index)
-              }}
-            />
-            <Remove onClick={() => rows.remove(index)} />
-          </RightFloatingButtonContainer>
+          <HoverContainer
+            onMouseEnter={() => setHoverRight(true)}
+            onMouseLeave={() => {
+              setHoverRight(false)
+              showFurtherSettings(false)
+            }}
+          >
+            {hoverRight ? (
+              <React.Fragment>
+                {index <= 0 ? null : (
+                  <MoveUp onClick={() => rows.move(index, index - 1)} />
+                )}
+                {index + 1 >= rows.items.length ? null : (
+                  <MoveDown onClick={() => rows.move(index, index + 1)} />
+                )}
+                <FurtherSettingsToolbar>
+                  {furtherSettings ? (
+                    <React.Fragment>
+                      <Copy onClick={() => copyToClipboard(row())} />
+                      <Cut
+                        onClick={() => {
+                          copyToClipboard(row())
+                          rows.remove(index)
+                        }}
+                      />
+                      <Remove onClick={() => rows.remove(index)} />
+                    </React.Fragment>
+                  ) : null}
+                  <FurtherSettings
+                    onClick={() => {
+                      showFurtherSettings(!furtherSettings)
+                    }}
+                  />
+                </FurtherSettingsToolbar>
+              </React.Fragment>
+            ) : null}
+          </HoverContainer>
         </React.Fragment>
       ) : null}
       {popup && popup.index === index + 1 ? (
@@ -267,7 +300,7 @@ export const Row = (
           ownName={props.name}
         />
       ) : null}
-    </HoverContainer>
+    </RowContainer>
   )
 
   function copyToClipboard(id: string) {
