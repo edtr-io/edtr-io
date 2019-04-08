@@ -12,7 +12,7 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
-import { CustomEditorTheme, EditorThemeProvider } from '@edtr-io/ui'
+import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -80,11 +80,11 @@ export function Editor<K extends string = string>({
             dispatch
           }}
         >
-          <EditorThemeProvider theme={theme}>
+          <RootEditorThemeProvider theme={theme}>
             <OverlayContextProvider>
               {renderChildren(id)}
             </OverlayContextProvider>
-          </EditorThemeProvider>
+          </RootEditorThemeProvider>
         </EditorContext.Provider>
       </div>
     </HotKeys>
