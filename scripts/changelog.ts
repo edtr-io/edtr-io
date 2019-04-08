@@ -177,10 +177,11 @@ async function exec(): Promise<void> {
       ],
       added: [
         '**plugin-h5p**. Add H5p.com plugin',
-        '**plugin-image**. MaxWidth for images',
+        '**plugin-image**. Add MaxWidth for images',
         '**ui**. Add consistent theming workflow'
       ],
-      fixed: ['**plugin-image**. hide config-overlay in render mode'],
+      changed: ['**plugin-text**. Hide placeholder in render mode'],
+      fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: ['**demo**. Log errors only']
     }
   ])

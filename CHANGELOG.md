@@ -12,12 +12,16 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - **plugin-h5p**. Add H5p.com plugin
-- **plugin-image**. MaxWidth for images
+- **plugin-image**. Add MaxWidth for images
 - **ui**. Add consistent theming workflow
+
+### Changed
+
+- **plugin-text**. Hide placeholder in render mode
 
 ### Fixed
 
-- **plugin-image**. hide config-overlay in render mode
+- **plugin-image**. Hide config-overlay in render mode
 
 ### Internal
 
