@@ -6,15 +6,26 @@ All notable changes to this project will be documented in this file.
 
 ### Breaking Changes
 
-- **plugin-image**. Image-plugin has new required `maxwidth` - state property
+- **plugin-image**. Image-plugin has new required `maxWidth` - state property
+- **ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.
 
 ### Added
 
-- **plugin-image**. Maxwidth for images
+- **plugin-h5p**. Add H5p.com plugin
+- **plugin-image**. Add MaxWidth for images
+- **ui**. Add consistent theming workflow
+
+### Changed
+
+- **plugin-text**. Hide placeholder in render mode
 
 ### Fixed
 
-- **plugin-image**. hide config-overlay in render mode
+- **plugin-image**. Hide config-overlay in render mode
+
+### Internal
+
+- **demo**. Log errors only
 
 ## [0.4.3](https://github.com/edtr-io/edtr-io/compare/v0.4.2..v0.4.3) - March 29, 2019
 
@@ -23,9 +34,11 @@ All notable changes to this project will be documented in this file.
 - **ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.
 - **plugin-geogebra**. Use ContainerWithConfigButton
 - **plugin-equations**. Add plugin for aligned equations
+- **plugin-hint**. Add plugin for hints
 - **plugin-image**. Use ContainerWithConfigButton
 - **plugin-input-exercise**. Add plugin for input exercises
 - **plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises
+- **plugin-solution**. Add plugin for solutions
 - **plugin-video**. Use ContainerWithConfigButton
 - **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
 

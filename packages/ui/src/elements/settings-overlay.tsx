@@ -2,69 +2,90 @@ import { OverlayContext } from '@edtr-io/core'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
+
 import {
   Icon,
-  faCog,
   faTimes,
-  faTrashAlt,
   faPencilAlt,
-  defaultTheming,
-  styled,
-  EditorTheming
+  faTrashAlt,
+  faCog,
+  createUiElementTheme,
+  EditorThemeProps,
+  styled
 } from '..'
-import { ThemeProps } from 'styled-components'
-
 import { OnClickOutside } from '.'
 
-const OverlayWrapper = styled.div({
-  width: '100%',
-  height: '100%',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  backgroundColor: '#00000033',
-  zIndex: 99
+export const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
+  return {
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    overlayBackgroundColor: '#00000033',
+    highlightColor: theme.highlightColor
+  }
 })
-const OverlayBox = styled.div((props: ThemeProps<EditorTheming>) => ({
+
+const OverlayWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    overlayBackgroundColor: theme.overlayBackgroundColor,
+    zIndex: 99
+  }
+})
+
+export const OverlayBox = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    margin: '0 auto',
+    position: 'absolute',
+    zIndex: 100,
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    left: '8%',
+    right: '8%'
+  }
+})
+
+const OverlaySettingsBox = styled(OverlayBox)({
   minHeight: '60%',
-  margin: '0 auto',
-  position: 'absolute',
-  zIndex: 100,
-  backgroundColor: props.theme.backgroundColor,
   paddingBottom: '10px',
-  left: '8%',
-  right: '8%',
   maxWidth: '1150px',
   top: '20%'
-}))
-OverlayBox.defaultProps = {
-  theme: defaultTheming
-}
+})
 
-const CloseButton = styled.button((props: ThemeProps<EditorTheming>) => ({
-  float: 'right',
-  position: 'relative',
-  color: props.theme.textColor,
-  fontSize: 16,
-  zIndex: 98,
-  outline: 'none',
-  border: 'none',
-  backgroundColor: 'transparent',
-  paddingTop: '5px',
-  '&:hover': {
-    color: props.theme.highlightColor
+const CloseButton = styled.button((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    float: 'right',
+    position: 'relative',
+    color: theme.color,
+    fontSize: 16,
+    zIndex: 98,
+    outline: 'none',
+    border: 'none',
+    backgroundColor: 'transparent',
+    paddingTop: '5px',
+    '&:hover': {
+      color: theme.highlightColor
+    }
   }
-}))
-CloseButton.defaultProps = {
-  theme: defaultTheming
-}
+})
+
 const ContentWrapper = styled.div({
   padding: '20px 15%'
 })
 
-export const Overlay: React.FunctionComponent<{
+export function Overlay(props: {
   onClose?: () => void
-}> = props => {
+  children?: React.ReactNode
+}) {
   const overlayContext = React.useContext(OverlayContext)
   function closeHandler() {
     overlayContext.hide()
@@ -84,7 +105,7 @@ export const Overlay: React.FunctionComponent<{
         >
           <OverlayWrapper>
             <OnClickOutside onClick={closeHandler}>
-              <OverlayBox>
+              <OverlaySettingsBox>
                 <CloseButton
                   onClick={closeHandler}
                   style={{
@@ -97,7 +118,7 @@ export const Overlay: React.FunctionComponent<{
                   <Icon icon={faTimes} />
                 </CloseButton>
                 <ContentWrapper>{props.children}</ContentWrapper>
-              </OverlayBox>
+              </OverlaySettingsBox>
             </OnClickOutside>
           </OverlayWrapper>
         </HotKeys>,
@@ -106,38 +127,45 @@ export const Overlay: React.FunctionComponent<{
     : null
 }
 
-const InlineOverlayWrapper = styled.div((props: ThemeProps<EditorTheming>) => ({
-  position: 'absolute',
-  top: '-10000px',
-  left: '-10000px',
-  opacity: 0,
-  transition: 'opacity 0.5s',
-  backgroundColor: props.theme.backgroundColor,
-  color: props.theme.textColor,
-  padding: '5px',
-  zIndex: 100,
-  '& a': {
-    color: props.theme.textColor,
-    '&:hover': {
-      color: props.theme.highlightColor
+const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    position: 'absolute',
+    top: '-10000px',
+    left: '-10000px',
+    opacity: 0,
+    transition: 'opacity 0.5s',
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    padding: '5px',
+    zIndex: 100,
+    '& a': {
+      color: theme.color,
+      '&:hover': {
+        color: theme.highlightColor
+      }
     }
   }
-}))
-InlineOverlayWrapper.defaultProps = { theme: defaultTheming }
+})
+
 const InlinePreview = styled.span({
   padding: '0px 8px'
 })
-const ChangeButton = styled.div((props: ThemeProps<EditorTheming>) => ({
-  padding: '5px 5px 5px 10px',
-  display: 'inline-block',
-  borderLeft: `2px solid ${props.theme.textColor}`,
-  cursor: 'pointer',
-  margin: '2px',
-  '&:hover': {
-    color: props.theme.highlightColor
+const ChangeButton = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    padding: '5px 5px 5px 10px',
+    display: 'inline-block',
+    borderLeft: `2px solid ${theme.color}`,
+    cursor: 'pointer',
+    margin: '2px',
+    '&:hover': {
+      color: theme.highlightColor
+    }
   }
-}))
-ChangeButton.defaultProps = { theme: defaultTheming }
+})
 
 export const InlineOverlay: React.FunctionComponent<{
   onEdit: React.MouseEventHandler
@@ -180,29 +208,32 @@ export const InlineOverlay: React.FunctionComponent<{
 const ConfigIconContainer = styled.div({
   position: 'relative'
 })
-const ConfigIcon = styled.div((props: ThemeProps<EditorTheming>) => ({
-  position: 'absolute',
-  textAlign: 'center',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: props.theme.backgroundColor,
-  color: props.theme.textColor,
-  opacity: 0,
-  '&:hover': {
-    opacity: 1,
-    transition: 'opacity 0.3s ease',
-    cursor: 'pointer'
-  }
-}))
-ConfigIcon.defaultProps = {
-  theme: defaultTheming
-}
+const ConfigIcon = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
 
-export const ContainerWithConfigButton: React.FunctionComponent = props => {
+  return {
+    position: 'absolute',
+    textAlign: 'center',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    opacity: 0,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease',
+      cursor: 'pointer'
+    }
+  }
+})
+
+export function ContainerWithConfigButton(props: {
+  children?: React.ReactNode
+}) {
   const overlayContext = React.useContext(OverlayContext)
   return (
     <ConfigIconContainer onClick={overlayContext.show}>
@@ -212,4 +243,11 @@ export const ContainerWithConfigButton: React.FunctionComponent = props => {
       </ConfigIcon>
     </ConfigIconContainer>
   )
+}
+
+export interface OverlayTheme {
+  backgroundColor: string
+  color: string
+  overlayBackgroundColor: string
+  highlightColor: string
 }

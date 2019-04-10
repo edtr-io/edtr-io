@@ -1,34 +1,44 @@
 import * as React from 'react'
-import { defaultTheming, styled, EditorTheming } from '..'
-import { ThemeProps } from 'styled-components'
 
-const InputLabel = styled.label((props: ThemeProps<EditorTheming>) => ({
-  color: props.theme.textColor,
-  margin: '20px auto 0px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-}))
-InputLabel.defaultProps = {
-  theme: defaultTheming
-}
+import { createUiElementTheme, EditorThemeProps, styled } from '..'
+
+export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.color,
+    highlightColor: theme.highlightColor
+  }
+})
+
+const InputLabel = styled.label((props: EditorThemeProps) => {
+  const theme = createInputTheme('input', props.theme)
+
+  return {
+    color: theme.color,
+    margin: '20px auto 0px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
+})
 
 const InputLabelInner = styled.span({ width: '20%' })
 
-const InputInner = styled.input((props: ThemeProps<EditorTheming>) => ({
-  backgroundColor: 'transparent',
-  border: 'none',
-  borderBottom: `2px solid ${props.theme.textColor}`,
-  color: props.theme.textColor,
-  width: '75%',
-  '&:focus': {
-    outline: 'none',
-    borderBottom: `2px solid ${props.theme.highlightColor}`
+const InputInner = styled.input((props: EditorThemeProps) => {
+  const theme = createInputTheme('input', props.theme)
+
+  return {
+    backgroundColor: theme.backgroundColor,
+    border: 'none',
+    borderBottom: `2px solid ${theme.color}`,
+    color: theme.color,
+    width: '75%',
+    '&:focus': {
+      outline: 'none',
+      borderBottom: `2px solid ${theme.highlightColor}`
+    }
   }
-}))
-InputInner.defaultProps = {
-  theme: defaultTheming
-}
+})
 
 export class Input extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
@@ -56,7 +66,7 @@ export class AutoFocusInput extends React.Component<InputProps> {
     return (
       <Input
         {...this.props}
-        //@ts-ignore FIXMEc
+        //@ts-ignore FIXME
         ref={(ref: Input | null) => {
           if (ref) {
             ref.focus()
@@ -66,6 +76,13 @@ export class AutoFocusInput extends React.Component<InputProps> {
     )
   }
 }
+
+export interface InputTheme {
+  backgroundColor: string
+  color: string
+  highlightColor: string
+}
+
 export interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,

@@ -36,7 +36,7 @@ function renderDocument(
   act(() => {
     ReactDOM.render(
       <Provider store={store}>
-        <EditorProvider initialState={state} />
+        <EditorProvider initialState={state} theme={{}} />
       </Provider>,
       container
     )

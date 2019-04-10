@@ -1,4 +1,4 @@
-import { Editor, EditorConnectorProps } from '@edtr-io/core'
+import { Editor, EditorProps } from '@edtr-io/core'
 import { select } from '@storybook/addon-knobs'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -17,10 +17,7 @@ const Components = {
   [Container.Serlo]: SerloContainer
 }
 
-export function EditorStory(props: {
-  defaultPlugin?: string
-  initialState: EditorConnectorProps['initialState']
-}) {
+export function EditorStory(props: Partial<EditorProps>) {
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
     Container.Plain
@@ -31,11 +28,7 @@ export function EditorStory(props: {
   const Component = Components[container]
 
   return (
-    <Editor
-      plugins={plugins}
-      defaultPlugin={props.defaultPlugin || 'text'}
-      initialState={props.initialState}
-    >
+    <Editor plugins={plugins} defaultPlugin="text" {...props}>
       {document => {
         return <Component>{document}</Component>
       }}

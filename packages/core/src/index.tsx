@@ -1,5 +1,5 @@
 export { Document, DocumentProps } from './document'
-export { Editor, EditorConnectorProps, copyToClipboard } from './editor'
+export { Editor, EditorProps, copyToClipboard } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {

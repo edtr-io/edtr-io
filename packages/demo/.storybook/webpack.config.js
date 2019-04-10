@@ -7,5 +7,8 @@ module.exports = ({ config }) => {
     }
   })
   config.resolve.extensions.push('.ts', '.tsx')
+  config.devServer = {
+    stats: 'errors-only'
+  }
   return config
 }

@@ -3,13 +3,16 @@ import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { h5pPlugin } from '@edtr-io/plugin-h5p'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
+import { hintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { solutionPlugin } from '@edtr-io/plugin-solution'
+import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 interface SerloResponse {
@@ -37,13 +40,16 @@ export const plugins: Record<string, Plugin> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   equations: equationsPlugin,
+  h5p: h5pPlugin,
+  geogebra: geogebraPlugin,
   highlight: highlightPlugin,
+  hint: hintPlugin,
   image: createImagePlugin({ upload: uploadConfig }),
   inputExercise: inputExercisePlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
+  solution: solutionPlugin,
   spoiler: spoilerPlugin,
   text: textPlugin,
-  geogebra: geogebraPlugin,
   video: videoPlugin
 }

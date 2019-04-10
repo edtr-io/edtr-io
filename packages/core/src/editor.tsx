@@ -17,6 +17,7 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
+import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
 import { createStore as createReduxStore, applyMiddleware } from 'redux'
 import { connect, Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
@@ -43,7 +44,8 @@ export function Editor<K extends string = string>({
   initialState,
   changed,
   children,
-  editable = true
+  editable = true,
+  theme = {}
 }: EditorProps<K>) {
   const store = createStore(plugins, defaultPlugin, editable)
 
@@ -51,7 +53,8 @@ export function Editor<K extends string = string>({
     initialState,
     changed,
     children,
-    editable
+    editable,
+    theme
   }
   return (
     <Provider store={store}>
@@ -97,6 +100,7 @@ export function EditorConnector<K extends string = string>({
   changed,
   children,
   editable = true,
+  theme,
   root,
   pendingChanges,
   initRoot,
@@ -136,7 +140,11 @@ export function EditorConnector<K extends string = string>({
       }}
     >
       <div style={{ position: 'relative' }}>
-        <OverlayContextProvider>{renderChildren(root)}</OverlayContextProvider>
+        <RootEditorThemeProvider theme={theme}>
+          <OverlayContextProvider>
+            {renderChildren(root)}
+          </OverlayContextProvider>
+        </RootEditorThemeProvider>
       </div>
     </HotKeys>
   )
@@ -162,6 +170,7 @@ export interface EditorProps<K extends string = string> {
   plugins: Record<K, Plugin>
   defaultPlugin: K
   initialState?: PluginState
+  theme?: CustomEditorTheme
   changed?: (changed: boolean) => void
   editable?: boolean
 }
@@ -171,6 +180,7 @@ export interface EditorConnectorProps {
   initialState?: PluginState
   changed?: (changed: boolean) => void
   editable?: boolean
+  theme: CustomEditorTheme
 }
 
 export interface StateProps {

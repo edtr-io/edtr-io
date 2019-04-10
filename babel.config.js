@@ -21,17 +21,21 @@ module.exports = function(api) {
                     '@edtr-io/plugin-blockquote/src',
                   '@edtr-io/plugin-equations': '@edtr-io/plugin-equations/src',
                   '@edtr-io/plugin-geogebra': '@edtr-io/plugin-geogebra/src',
+                  '@edtr-io/plugin-h5p': '@edtr-io/plugin-h5p/src',
                   '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',
+                  '@edtr-io/plugin-hint': '@edtr-io/plugin-hint/src',
                   '@edtr-io/plugin-image': '@edtr-io/plugin-image/src',
                   '@edtr-io/plugin-input-exercise':
                     '@edtr-io/plugin-input-exercise/src',
                   '@edtr-io/plugin-rows': '@edtr-io/plugin-rows/src',
                   '@edtr-io/plugin-sc-mc-exercise':
                     '@edtr-io/plugin-sc-mc-exercise/src',
+                  '@edtr-io/plugin-solution': '@edtr-io/plugin-solution/src',
                   '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
                   '@edtr-io/plugin-text': '@edtr-io/plugin-text/src',
                   '@edtr-io/plugin-video': '@edtr-io/plugin-video/src'
-                }
+                },
+                loglevel: 'silent'
               }
             ]
           ]

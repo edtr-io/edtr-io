@@ -17,13 +17,11 @@ import {
   faPlus,
   OnClickOutside,
   Button,
-  EditorTheming,
-  defaultTheming
+  OverlayBox
 } from '@edtr-io/ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
 import * as React from 'react'
-import { ThemeProps } from 'styled-components'
 
 import { Clipboard } from './clipboard'
 import { rowsState } from '.'
@@ -52,22 +50,10 @@ export const FloatingButton = styled.button(
   })
 )
 
-const AddMenuContainer = styled.div((props: ThemeProps<EditorTheming>) => {
-  return {
-    margin: '0 auto',
-    position: 'absolute',
-    backgroundColor: props.theme.backgroundColor,
-    color: props.theme.textColor,
-    padding: '20px',
-    left: '8%',
-    right: '8%',
-    maxWidth: '400px',
-    zIndex: 100
-  }
+const AddMenuContainer = styled(OverlayBox)({
+  padding: '20px',
+  maxWidth: '400px'
 })
-AddMenuContainer.defaultProps = {
-  theme: defaultTheming
-}
 
 const AddMenu = styled.div({
   display: 'flex',
