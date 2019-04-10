@@ -180,7 +180,10 @@ async function exec(): Promise<void> {
         '**plugin-image**. Add MaxWidth for images',
         '**ui**. Add consistent theming workflow'
       ],
-      changed: ['**plugin-text**. Hide placeholder in render mode'],
+      changed: [
+        '**plugin-text**. Hide placeholder in render mode',
+        '**plugin-text**. Hovering Menu for text formatting'
+      ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: ['**demo**. Log errors only']
     }

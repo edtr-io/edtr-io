@@ -139,7 +139,7 @@ const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
     backgroundColor: theme.backgroundColor,
     color: theme.color,
     padding: '5px',
-    zIndex: 90,
+    zIndex: 95,
     '& a': {
       color: theme.color,
       '&:hover': {
@@ -207,8 +207,8 @@ export const HoveringOverlay: React.FunctionComponent<{
       parentRect.left - 5 > rect.left ||
       parentRect.left + parentRect.width + 5 < rect.left + rect.width
     ) {
-      menu.style.top = undefined
-      menu.style.left = undefined
+      menu.style.top = null
+      menu.style.left = null
       return
     }
     menu.style.opacity = '1'
