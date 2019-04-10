@@ -25,6 +25,7 @@ export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
   const overlayContext = React.useContext(OverlayContext)
   if (
     editor.value.selection.isCollapsed &&
+    // show menu, if selection is strong or emphasized and hide it, if it's a link
     ((!isStrong(editor) && !isEmphasized(editor)) || isLink(editor))
   ) {
     return null
