@@ -25,8 +25,7 @@ export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
   const overlayContext = React.useContext(OverlayContext)
   if (
     editor.value.selection.isCollapsed &&
-    !isStrong(editor) &&
-    !isEmphasized(editor)
+    ((!isStrong(editor) && !isEmphasized(editor)) || isLink(editor))
   ) {
     return null
   } else {
