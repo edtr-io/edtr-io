@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - **plugin-text**. Hide placeholder in render mode
+- **plugin-text**. Hovering Menu for text formatting
 
 ### Fixed
 

@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { AutoFocusInput, InlineOverlay, Overlay } from '@edtr-io/ui'
+import { AutoFocusInput, InlineSettings, Overlay } from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {
@@ -110,8 +110,11 @@ const DefaultControlsComponent: React.FunctionComponent<
   return (
     <React.Fragment>
       {props.children}
-      {!props.readOnly && isLink(editor) && !overlayContext.visible ? (
-        <InlineOverlay
+      {!props.readOnly &&
+      isLink(editor) &&
+      !overlayContext.visible &&
+      editor.value.selection.isCollapsed ? (
+        <InlineSettings
           key={`inlineoverlay${inline.key}`}
           onEdit={overlayContext.show}
           onDelete={() => unwrapLink(editor)}
@@ -119,7 +122,7 @@ const DefaultControlsComponent: React.FunctionComponent<
           <a href={value} target="_blank" rel="noopener noreferrer">
             {value}
           </a>
-        </InlineOverlay>
+        </InlineSettings>
       ) : null}
       {!props.readOnly && isLink(editor) ? (
         <Overlay key={`overlay${inline.key}`} onClose={() => editor.focus()}>

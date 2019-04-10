@@ -139,7 +139,7 @@ const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
     backgroundColor: theme.backgroundColor,
     color: theme.color,
     padding: '5px',
-    zIndex: 100,
+    zIndex: 95,
     '& a': {
       color: theme.color,
       '&:hover': {
@@ -167,33 +167,12 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
   }
 })
 
-export const InlineOverlay: React.FunctionComponent<{
+export const InlineSettings: React.FunctionComponent<{
   onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
 }> = props => {
-  const overlay = React.createRef<HTMLDivElement>()
-  React.useEffect(() => {
-    const menu = overlay.current
-    if (!menu) return
-
-    const native = window.getSelection()
-    const range = native.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
-    if (rect.height === 0) return
-    // menu is set to display:none, shouldn't ever happen
-    if (!menu.offsetParent) return
-    const parentRect = menu.offsetParent.getBoundingClientRect()
-    menu.style.opacity = '1'
-    menu.style.top = `${rect.bottom - parentRect.top + 3}px`
-
-    menu.style.left = `${Math.max(
-      rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
-      0
-    )}px`
-  }, [overlay])
-
   return (
-    <InlineOverlayWrapper ref={overlay}>
+    <HoveringOverlay position={'below'}>
       <InlinePreview>{props.children}</InlinePreview>
       <ChangeButton onClick={props.onEdit}>
         <Icon icon={faPencilAlt} />
@@ -201,7 +180,58 @@ export const InlineOverlay: React.FunctionComponent<{
       <ChangeButton onClick={props.onDelete}>
         <Icon icon={faTrashAlt} />
       </ChangeButton>
-    </InlineOverlayWrapper>
+    </HoveringOverlay>
+  )
+}
+
+export type HoverPosition = 'above' | 'below'
+
+export const HoveringOverlay: React.FunctionComponent<{
+  position: HoverPosition
+}> = props => {
+  const overlay = React.createRef<HTMLDivElement>()
+  React.useEffect(() => {
+    const menu = overlay.current
+    if (!menu) return
+    const native = window.getSelection()
+    const range = native.getRangeAt(0)
+    const rect = range.getBoundingClientRect()
+    if (rect.height === 0) return
+    // menu is set to display:none, shouldn't ever happen
+    if (!menu.offsetParent) return
+    const parentRect = menu.offsetParent.getBoundingClientRect()
+    // only show menu if selection is inside of parent
+    if (
+      parentRect.top - 5 > rect.top ||
+      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
+      parentRect.left - 5 > rect.left ||
+      parentRect.left + parentRect.width + 5 < rect.left + rect.width
+    ) {
+      menu.style.top = null
+      menu.style.left = null
+      return
+    }
+    menu.style.opacity = '1'
+    const aboveValue = rect.top - menu.offsetHeight - 6
+    // if top becomes negative, place menu below
+    menu.style.top =
+      (props.position == 'above' && aboveValue >= 0
+        ? aboveValue
+        : rect.bottom + 3) -
+      parentRect.top +
+      'px'
+
+    menu.style.left = `${Math.min(
+      Math.max(
+        rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
+        0
+      ),
+      parentRect.width - menu.offsetWidth - 5
+    )}px`
+  }, [overlay, props.position])
+
+  return (
+    <InlineOverlayWrapper ref={overlay}>{props.children}</InlineOverlayWrapper>
   )
 }
 
