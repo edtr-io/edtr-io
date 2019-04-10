@@ -2,7 +2,6 @@ import * as React from 'react'
 import {
   Editor,
   getClipboard,
-  PluginState,
   getPlugins,
   Plugin,
   getDefaultPlugin,
@@ -10,6 +9,7 @@ import {
 } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import { connect } from 'react-redux'
+import { PluginState } from '@edtr-io/core/src/plugin'
 
 const ClipboardHeader = styled.div({
   fontSize: '130%',

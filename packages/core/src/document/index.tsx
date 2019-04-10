@@ -4,17 +4,17 @@ import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 import {
   ActionType,
-  AsyncChangeAction,
+  ChangeAction,
   FocusAction,
   getDocument,
   getPlugin,
   isEditable,
   isFocused,
-  PluginState,
   State
 } from '../store'
 import { Plugin } from '@edtr-io/core'
 import { connect } from 'react-redux'
+import { PluginState } from '../plugin'
 
 const DocumentConnector: React.FunctionComponent<
   DocumentProps & DocumentStateProps & DocumentDispatchProps
@@ -42,8 +42,8 @@ const focus = (payload: string): FocusAction => ({
   type: ActionType.Focus,
   payload
 })
-const change = (payload: AsyncChangeAction['payload']): AsyncChangeAction => ({
-  type: ActionType.AsyncChange,
+const change = (payload: ChangeAction['payload']): ChangeAction => ({
+  type: ActionType.Change,
   payload
 })
 

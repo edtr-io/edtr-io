@@ -60,3 +60,10 @@ export function isStatelessPlugin(
   return !isStatefulPlugin(plugin)
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+export type PluginType = string
+
+export interface PluginState {
+  plugin: PluginType
+  state?: unknown
+}

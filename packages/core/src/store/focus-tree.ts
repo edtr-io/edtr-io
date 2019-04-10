@@ -1,5 +1,6 @@
 import { isStatefulPlugin } from '../plugin'
-import { getDocument, getPlugin, getRoot, State } from './reducer'
+import { getDocument, getPlugin, getRoot } from './selectors'
+import { State } from './reducer'
 
 export function getFocusTree(state: State): Node | null {
   const root = getRoot(state)

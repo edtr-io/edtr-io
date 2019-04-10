@@ -20,7 +20,6 @@ export {
   getDefaultPlugin,
   hasPendingChanges,
   isEditable,
-  PluginState,
   serializeDocument,
   State
 } from './store'

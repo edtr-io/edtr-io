@@ -1,7 +1,6 @@
 import {
   StatefulPluginEditorProps,
   getDocument,
-  PluginState,
   getPlugins,
   Plugin,
   copyToClipboard
@@ -27,6 +26,7 @@ import { Clipboard } from './clipboard'
 import { rowsState } from '.'
 import { CopyAction, State } from '@edtr-io/core/src/store'
 import { connect } from 'react-redux'
+import { PluginState } from '@edtr-io/core/src/plugin'
 
 export const FloatingButton = styled.button(
   ({ disabled }: { disabled?: boolean }) => ({

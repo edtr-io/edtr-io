@@ -1,53 +1,30 @@
 import * as R from 'ramda'
 
 import { getFocusTree, findNextNode, findPreviousNode } from './focus-tree'
-import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../plugin'
-import { StoreSerializeHelpers, StoreDeserializeHelpers } from '../plugin-state'
-
-export enum ActionType {
-  InitRoot = 'InitRoot',
-  Insert = 'Insert',
-  Remove = 'Remove',
-  Change = 'Change',
-  Focus = 'Focus',
-  FocusNext = 'FocusNext',
-  FocusPrevious = 'FocusPrevious',
-  Undo = 'Undo',
-  Redo = 'Redo',
-  Persist = 'Persist',
-  Reset = 'Reset',
-  CopyToClipboard = 'CopyToClipboard',
-  SwitchEditable = 'SwitchEditable',
-
-  AsyncChange = 'AsyncChange'
-}
-export enum ActionCommitType {
-  ForceCommit = 'ForceCommit',
-  ForceCombine = 'ForceCombine'
-}
-
-export const createInitialState = <K extends string>(
-  plugins: Record<K, Plugin>,
-  defaultPlugin: K,
-  editable: boolean
-): State => {
-  const initialState: BaseState = {
-    plugins,
-    defaultPlugin,
-    documents: {}
-  }
-  return {
-    ...initialState,
-    history: {
-      initialState,
-      actions: [],
-      redoStack: [],
-      pending: 0
-    },
-    clipboard: [],
-    editable: editable
-  }
-}
+import { isStatefulPlugin, Plugin, PluginState, PluginType } from '../plugin'
+import { StoreDeserializeHelpers } from '../plugin-state'
+import {
+  Action,
+  ActionType,
+  ChangeAction,
+  CopyAction,
+  FocusAction,
+  FocusNextAction,
+  FocusPreviousAction,
+  InitRootAction,
+  InsertAction,
+  RemoveAction,
+  SwitchEditableAction,
+  Undoable
+} from './actions'
+import {
+  getPluginOrDefault,
+  getPluginTypeOrDefault,
+  hasHistory,
+  hasPendingChanges
+} from './selectors'
+import { commit, commitAsIs } from './history'
+import { serializePlugin } from './serializers'
 
 export function reducer(
   state: BaseState | State | undefined,
@@ -98,85 +75,6 @@ export function reducer(
       return handleSwitchEditable(state, action)
     default:
       return state
-  }
-}
-
-function commitAsIs(state: State, actions: Undoable[]): State['history'] {
-  return {
-    ...state.history,
-    actions: R.append(actions, state.history.actions),
-    redoStack: [],
-    pending: state.history.pending + actions.length
-  }
-}
-
-let debounceTimeout: number | null = null
-function commit(state: State, action: Undoable): State['history'] {
-  if (action.commit === ActionCommitType.ForceCombine) {
-    if (state.history.actions.length) {
-      return {
-        ...state.history,
-        // @ts-ignore
-        actions: R.adjust(-1, R.append(action), state.history.actions),
-        pending: state.history.pending + 1
-      }
-    } else if (
-      hasHistory(state.history.initialState) &&
-      state.history.initialState.history.actions.length
-    ) {
-      return {
-        initialState: {
-          ...state.history.initialState,
-          history: {
-            ...state.history.initialState.history,
-            actions: R.adjust(
-              // @ts-ignore
-              -1,
-              R.append(action),
-              state.history.initialState.history.actions
-            ),
-            pending: state.history.pending + 1
-          }
-        },
-        actions: [],
-        redoStack: [],
-        pending: state.history.pending + 1
-      }
-    }
-  }
-
-  if (action.commit !== ActionCommitType.ForceCommit) {
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout)
-      const latestAction = R.last(R.last(state.history.actions) || [])
-      if (
-        latestAction &&
-        latestAction.commit !== ActionCommitType.ForceCommit
-      ) {
-        debounceTimeout = setTimeout(() => {
-          debounceTimeout = null
-        }, 1000)
-        return {
-          initialState: state.history.initialState,
-          // @ts-ignore
-          actions: R.adjust(-1, R.append(action), state.history.actions),
-          redoStack: [],
-          pending: state.history.pending + 1
-        }
-      }
-    }
-  }
-
-  // restart timeout
-  debounceTimeout = setTimeout(() => {
-    debounceTimeout = null
-  }, 1000)
-  // forced commit or timeout
-  return {
-    initialState: state.history.initialState,
-    actions: R.append([action], state.history.actions),
-    redoStack: [],
-    pending: state.history.pending + 1
   }
 }
 
@@ -485,196 +383,25 @@ export interface State extends BaseState {
   editable: boolean
 }
 
-export function hasHistory(state: BaseState | State): state is State {
-  return (state as State).history !== undefined
-}
-
-export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
-  commit?: ActionCommitType
-}
-export type Action =
-  | InitRootAction
-  | Undoable
-  | FocusAction
-  | FocusNextAction
-  | FocusPreviousAction
-  | UndoAction
-  | RedoAction
-  | PersistAction
-  | ResetAction
-  | CopyAction
-  | SwitchEditableAction
-
-type PluginType = string
-
-export interface InitRootAction {
-  type: ActionType.InitRoot
-  payload: {
-    plugin?: string
-    state?: unknown
-  }
-}
-
-export interface InsertAction {
-  type: ActionType.Insert
-  payload: {
-    id: string
-  } & Partial<PluginState>
-}
-
-export interface ChangeAction<S = unknown> {
-  type: ActionType.Change
-  payload: {
-    id: string
-    state: (value: S, helpers: StoreDeserializeHelpers) => S
-  }
-}
-
-export interface AsyncChangeAction<S = unknown> {
-  type: ActionType.AsyncChange
-  payload: {
-    id: string
-    state: (value: S, helpers: StoreDeserializeHelpers) => S
-  }
-}
-
-export interface RemoveAction {
-  type: ActionType.Remove
-  payload: string
-}
-
-export interface FocusAction {
-  type: ActionType.Focus
-  payload: string
-}
-
-export interface FocusNextAction {
-  type: ActionType.FocusNext
-}
-
-export interface FocusPreviousAction {
-  type: ActionType.FocusPrevious
-}
-
-export interface UndoAction {
-  type: ActionType.Undo
-}
-
-export interface RedoAction {
-  type: ActionType.Redo
-}
-
-export interface PersistAction {
-  type: ActionType.Persist
-}
-
-export interface ResetAction {
-  type: ActionType.Reset
-}
-
-export interface CopyAction {
-  type: ActionType.CopyToClipboard
-  payload: string
-}
-
-export interface SwitchEditableAction {
-  type: ActionType.SwitchEditable
-  payload: boolean
-}
-
-export interface PluginState {
-  plugin: PluginType
-  state?: unknown
-}
-
-/** Selectors */
-export function getRoot(state: State) {
-  return state.root
-}
-
-export function getDocuments(state: State): Record<string, PluginState> {
-  return state.documents
-}
-
-export function getDocument(state: State, id: string): PluginState | null {
-  return getDocuments(state)[id] || null
-}
-
-export function getPlugin(state: State, type: string): Plugin | null {
-  const plugins = getPlugins(state)
-
-  return plugins[type] || null
-}
-
-export function getClipboard(state: State): PluginState[] {
-  return state.clipboard
-}
-
-export function getPluginOrDefault(
-  state: State,
-  type = getDefaultPlugin(state)
-): Plugin | null {
-  return getPlugin(state, type)
-}
-
-export function getDefaultPlugin(state: State): PluginType {
-  return state.defaultPlugin
-}
-
-export function getPluginTypeOrDefault(
-  state: State,
-  type = getDefaultPlugin(state)
-): PluginType {
-  return type
-}
-
-export function getPlugins<K extends string = string>(
-  state: State
-): Record<K, Plugin> {
-  return state.plugins
-}
-
-export function isFocused(state: State, id: string): boolean {
-  return state.focus === id
-}
-
-export function isEditable(state: State): boolean {
-  return state.editable
-}
-
-export function hasPendingChanges(state: State): boolean {
-  return state.history.pending !== 0
-}
-export function pendingChanges(state: State): number {
-  return state.history.pending
-}
-
-export function serializePlugin(state: State, id: string): PluginState | null {
-  const document = getDocument(state, id)
-
-  if (!document) {
-    return null
-  }
-
-  const plugin = getPlugin(state, document.plugin)
-
-  if (!plugin) {
-    return null
-  }
-
-  const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => serializePlugin(state, id)
+export const createInitialState = <K extends string>(
+  plugins: Record<K, Plugin>,
+  defaultPlugin: K,
+  editable: boolean
+): State => {
+  const initialState: BaseState = {
+    plugins,
+    defaultPlugin,
+    documents: {}
   }
   return {
-    plugin: document.plugin,
-    ...(isStatelessPlugin(plugin)
-      ? {}
-      : { state: plugin.state.serialize(document.state, serializeHelpers) })
+    ...initialState,
+    history: {
+      initialState,
+      actions: [],
+      redoStack: [],
+      pending: 0
+    },
+    clipboard: [],
+    editable: editable
   }
-}
-
-export function serializeDocument(state: State): PluginState | null {
-  const root = getRoot(state)
-
-  return root ? serializePlugin(state, root) : null
 }

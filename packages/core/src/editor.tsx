@@ -8,20 +8,19 @@ import {
   getRoot,
   pendingChanges,
   State,
-  PluginState,
   InitRootAction,
   SwitchEditableAction,
   UndoAction,
   RedoAction,
-  CopyAction
+  CopyAction,
+  rootSaga
 } from './store'
-import { Plugin } from './plugin'
+import { Plugin, PluginState } from './plugin'
 import { OverlayContextProvider } from './overlay'
 import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
 import { createStore as createReduxStore, applyMiddleware } from 'redux'
 import { connect, Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
-import { rootSaga } from './store/sagas'
 
 export const createStore = <K extends string>(
   plugins: Record<K, Plugin>,
