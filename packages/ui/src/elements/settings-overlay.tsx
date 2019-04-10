@@ -202,10 +202,10 @@ export const HoveringOverlay: React.FunctionComponent<{
     const parentRect = menu.offsetParent.getBoundingClientRect()
     // only show menu if selection is inside of parent
     if (
-      parentRect.y - 5 > rect.y ||
-      parentRect.y + parentRect.height + 5 < rect.y + rect.height ||
-      parentRect.x - 5 > rect.x ||
-      parentRect.x + parentRect.width + 5 < rect.x + rect.width
+      parentRect.top - 5 > rect.top ||
+      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
+      parentRect.left - 5 > rect.left ||
+      parentRect.left + parentRect.width + 5 < rect.left + rect.width
     ) {
       menu.style.top = '-10000px'
       menu.style.left = '-10000px'
