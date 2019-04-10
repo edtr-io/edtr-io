@@ -200,17 +200,33 @@ export const HoveringOverlay: React.FunctionComponent<{
     // menu is set to display:none, shouldn't ever happen
     if (!menu.offsetParent) return
     const parentRect = menu.offsetParent.getBoundingClientRect()
+    // only show menu if selection is inside of parent
+    if (
+      parentRect.y - 5 > rect.y ||
+      parentRect.y + parentRect.height + 5 < rect.y + rect.height ||
+      parentRect.x - 5 > rect.x ||
+      parentRect.x + parentRect.width + 5 < rect.x + rect.width
+    ) {
+      menu.style.top = '-10000px'
+      menu.style.left = '-10000px'
+      return
+    }
     menu.style.opacity = '1'
+    const aboveValue = rect.top - menu.offsetHeight - 6
+    // if top becomes negative, place menu below
     menu.style.top =
-      (props.position == 'above'
-        ? rect.top - menu.offsetHeight - 6
+      (props.position == 'above' && aboveValue >= 0
+        ? aboveValue
         : rect.bottom + 3) -
       parentRect.top +
       'px'
 
-    menu.style.left = `${Math.max(
-      rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
-      0
+    menu.style.left = `${Math.min(
+      Math.max(
+        rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
+        0
+      ),
+      parentRect.width - menu.offsetWidth - 5
     )}px`
   }, [overlay, props.position])
 
