@@ -6,6 +6,7 @@ import { StoreDeserializeHelpers } from '../plugin-state'
 import {
   Action,
   ActionType,
+  AsyncInsertAction,
   ChangeAction,
   CopyAction,
   FocusAction,
@@ -134,7 +135,7 @@ export function handleChange(state: State, action: ChangeAction): State {
 
   const history = inserts.length
     ? commitAsIs(state, [
-        ...inserts,
+        //FIXME: ...inserts,
         {
           type: ActionType.Change,
           payload: {
@@ -291,9 +292,9 @@ function handleRecursiveInserts(
     plugin?: string
     state?: unknown
   }[]
-): InsertAction[] {
+): AsyncInsertAction[] {
   let pendingDocs = docs
-  const actions: InsertAction[] = []
+  const actions: AsyncInsertAction[] = []
 
   let helpers: StoreDeserializeHelpers = {
     createDocument(doc) {
@@ -313,21 +314,26 @@ function handleRecursiveInserts(
       return []
     }
 
-    let pluginState: unknown
+    let pluginState: {
+      tempState?: unknown
+      state?: Promise<unknown>
+    } = {}
     if (isStatefulPlugin(plugin)) {
       if (doc.state === undefined) {
+        // TODO: fix createInitialState
         pluginState = plugin.state.createInitialState(helpers)
       } else {
+        // TODO: fix deserialize
         pluginState = plugin.state.deserialize(doc.state, helpers)
       }
     }
 
     actions.push({
-      type: ActionType.Insert,
+      type: ActionType.AsyncInsert,
       payload: {
         id: doc.id,
         plugin: getPluginTypeOrDefault(state, doc.plugin),
-        state: pluginState
+        ...pluginState
       }
     })
   }

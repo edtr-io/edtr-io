@@ -17,7 +17,12 @@ export interface StateDescriptor<S = any, T = S, R = unknown> {
       updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
     ) => void
   ): R
-  createInitialState(helpers: StoreDeserializeHelpers): T
+  createInitialState(
+    helpers: StoreDeserializeHelpers
+  ): {
+    tempState?: T
+    state: Promise<T>
+  }
   deserialize(serialized: S, helpers: StoreDeserializeHelpers): T
   serialize(deserialized: T, helpers: StoreSerializeHelpers): S
 }
