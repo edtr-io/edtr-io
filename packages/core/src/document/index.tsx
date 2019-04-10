@@ -4,7 +4,7 @@ import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 import {
   ActionType,
-  ChangeAction,
+  AsyncChangeAction,
   FocusAction,
   getDocument,
   getPlugin,
@@ -15,10 +15,9 @@ import {
 } from '../store'
 import { Plugin } from '@edtr-io/core'
 import { connect } from 'react-redux'
-import { Row } from '@edtr-io/plugin-rows/src/row'
 
-export const Document: React.FunctionComponent<
-  DocumentProps & DocumentStateProps
+const DocumentConnector: React.FunctionComponent<
+  DocumentProps & DocumentStateProps & DocumentDispatchProps
 > = props => {
   return props.isEditable ? (
     <DocumentEditor {...props} />
@@ -43,8 +42,8 @@ const focus = (payload: string): FocusAction => ({
   type: ActionType.Focus,
   payload
 })
-const change = (payload: ChangeAction['payload']): ChangeAction => ({
-  type: ActionType.Change,
+const change = (payload: AsyncChangeAction['payload']): AsyncChangeAction => ({
+  type: ActionType.AsyncChange,
   payload
 })
 
@@ -53,10 +52,10 @@ const mapDispatchToProps: DocumentDispatchProps = {
   change
 }
 
-export const DocumentProvider = connect(
+export const Document = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Row)
+)(DocumentConnector)
 
 export interface DocumentStateProps {
   isEditable: boolean

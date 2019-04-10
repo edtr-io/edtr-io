@@ -30,11 +30,15 @@
     "_publish": "lerna publish --message \"chore: release %v\"",
     "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "redux-saga": "^1.0.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",

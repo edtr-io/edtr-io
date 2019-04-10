@@ -17,7 +17,9 @@ export enum ActionType {
   Persist = 'Persist',
   Reset = 'Reset',
   CopyToClipboard = 'CopyToClipboard',
-  SwitchEditable = 'SwitchEditable'
+  SwitchEditable = 'SwitchEditable',
+
+  AsyncChange = 'AsyncChange'
 }
 export enum ActionCommitType {
   ForceCommit = 'ForceCommit',
@@ -94,6 +96,8 @@ export function reducer(
       return handleCopyToClipboard(state, action)
     case ActionType.SwitchEditable:
       return handleSwitchEditable(state, action)
+    default:
+      return state
   }
 }
 
@@ -210,7 +214,7 @@ function handleRemove(state: State, action: RemoveAction): State {
   }
 }
 
-function handleChange(state: State, action: ChangeAction): State {
+export function handleChange(state: State, action: ChangeAction): State {
   const { id, state: stateHandler } = action.payload
 
   if (!state.documents[id]) {
@@ -242,7 +246,6 @@ function handleChange(state: State, action: ChangeAction): State {
         }
       ])
     : commit(state, action)
-
   return {
     ...newState,
     documents: {
@@ -521,6 +524,14 @@ export interface InsertAction {
 
 export interface ChangeAction<S = unknown> {
   type: ActionType.Change
+  payload: {
+    id: string
+    state: (value: S, helpers: StoreDeserializeHelpers) => S
+  }
+}
+
+export interface AsyncChangeAction<S = unknown> {
+  type: ActionType.AsyncChange
   payload: {
     id: string
     state: (value: S, helpers: StoreDeserializeHelpers) => S

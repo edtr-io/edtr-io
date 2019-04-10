@@ -4,10 +4,11 @@ import {
   getClipboard,
   PluginState,
   getPlugins,
-  Plugin
+  Plugin,
+  getDefaultPlugin,
+  State
 } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
-import { getDefaultPlugin, State } from '@edtr-io/core/src/store'
 import { connect } from 'react-redux'
 
 const ClipboardHeader = styled.div({
@@ -44,7 +45,7 @@ const PreventMouseEvents = styled.div({
   pointerEvents: 'none'
 })
 
-export const Clipboard: React.FunctionComponent<
+const ClipboardConnector: React.FunctionComponent<
   {
     onClose: (pluginState: PluginState) => void
   } & ClipboardProps
@@ -86,7 +87,7 @@ const mapStateToProps = (state: State): ClipboardProps => ({
   defaultPlugin: getDefaultPlugin(state)
 })
 
-export const ClipboardProvider = connect(mapStateToProps)(Clipboard)
+export const Clipboard = connect(mapStateToProps)(ClipboardConnector)
 
 export interface ClipboardProps {
   plugins: Record<string, Plugin>

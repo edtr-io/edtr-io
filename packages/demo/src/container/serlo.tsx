@@ -1,11 +1,31 @@
-import { useEditorHistory, useEditorMode } from '@edtr-io/core'
+import { State, useEditorHistory, useEditorMode } from '@edtr-io/core'
 import * as React from 'react'
 import { useLogState } from '../hooks'
+import { connect } from 'react-redux'
 
-export function SerloContainer({ children, controls }: SerloContainerProps) {
+export interface SerloContainerProps {
+  children: React.ReactNode
+  controls?: React.ReactNode
+}
+
+interface SerloContainerConnectorProps {
+  state: State
+}
+
+const mapStateToProps = (state: State): SerloContainerConnectorProps => ({
+  state: state
+})
+
+export const SerloContainer = connect(mapStateToProps)(SerloContainerConnector)
+
+export function SerloContainerConnector({
+  children,
+  controls,
+  state
+}: SerloContainerProps & SerloContainerConnectorProps) {
   const history = useEditorHistory()
   const [editable, setEditable] = useEditorMode()
-  const logState = useLogState()
+  const logState = useLogState(state)
 
   return (
     <React.Fragment>
@@ -564,9 +584,4 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
       </div>
     </React.Fragment>
   )
-}
-
-export interface SerloContainerProps {
-  children: React.ReactNode
-  controls?: React.ReactNode
 }

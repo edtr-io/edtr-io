@@ -1,10 +1,29 @@
-import { useEditorFocus, useEditorHistory, useEditorMode } from '@edtr-io/core'
+import {
+  State,
+  useEditorFocus,
+  useEditorHistory,
+  useEditorMode
+} from '@edtr-io/core'
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
+import { connect } from 'react-redux'
 
-export function PlainContainer({ children }: { children: React.ReactNode }) {
-  const logState = useLogState()
+interface PlainContainerProps {
+  state: State
+}
+
+const mapStateToProps = (state: State): PlainContainerProps => ({
+  state: state
+})
+
+export const PlainContainer = connect(mapStateToProps)(PlainContainerConnector)
+
+function PlainContainerConnector({
+  children,
+  state
+}: { children: React.ReactNode } & PlainContainerProps) {
+  const logState = useLogState(state)
   const { focusPrevious, focusNext } = useEditorFocus()
   const history = useEditorHistory()
   const [editable, setEditable] = useEditorMode()

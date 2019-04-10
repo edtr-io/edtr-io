@@ -9,6 +9,7 @@ module.exports = function(api) {
       '@babel/plugin-proposal-class-properties',
       ...(api.env(['development', 'test'])
         ? [
+            '@babel/transform-runtime',
             [
               'babel-plugin-module-resolver',
               {

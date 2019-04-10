@@ -1,5 +1,5 @@
 export { Document, DocumentProps } from './document'
-export { Editor, EditorConnectorProps } from './editor'
+export { Editor, EditorConnectorProps, copyToClipboard } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {
@@ -13,13 +13,15 @@ import * as StateType from './plugin-state'
 export { StateType }
 export {
   ActionType,
-  PluginState,
   ActionCommitType,
-  serializeDocument,
   getClipboard,
   getDocument,
   getPlugins,
+  getDefaultPlugin,
   hasPendingChanges,
-  isEditable
+  isEditable,
+  PluginState,
+  serializeDocument,
+  State
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

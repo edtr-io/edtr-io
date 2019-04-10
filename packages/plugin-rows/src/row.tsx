@@ -3,7 +3,8 @@ import {
   getDocument,
   PluginState,
   getPlugins,
-  Plugin
+  Plugin,
+  copyToClipboard
 } from '@edtr-io/core'
 import {
   styled,
@@ -28,7 +29,6 @@ import { Clipboard } from './clipboard'
 import { rowsState } from '.'
 import { CopyAction, State } from '@edtr-io/core/src/store'
 import { connect } from 'react-redux'
-import { copyToClipboard } from '@edtr-io/core/src/editor'
 
 export const FloatingButton = styled.button(
   ({ disabled }: { disabled?: boolean }) => ({
@@ -185,7 +185,7 @@ const Popup: React.FunctionComponent<{
   )
 }
 
-export const Row = (
+const RowConnector = (
   props: StatefulPluginEditorProps<typeof rowsState> & {
     index: number
   } & RowProps &
@@ -296,10 +296,10 @@ const mapDispatchToProps: RowDispatchProps = {
   copyToClipboard
 }
 
-export const RowProvider = connect(
+export const Row = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Row)
+)(RowConnector)
 
 export interface RowProps {
   plugins: Record<string, Plugin>

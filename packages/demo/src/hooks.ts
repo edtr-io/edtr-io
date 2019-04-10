@@ -1,10 +1,8 @@
-import { EditorContext, serializeDocument } from '@edtr-io/core'
-import * as React from 'react'
+import { serializeDocument, State } from '@edtr-io/core'
 
-export function useLogState() {
-  const store = React.useContext(EditorContext)
+export function useLogState(state: State) {
   return () => {
-    const serialized = serializeDocument(store.state)
+    const serialized = serializeDocument(state)
     const stringified = JSON.stringify({
       state: JSON.stringify(serialized)
     })

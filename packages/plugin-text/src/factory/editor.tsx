@@ -28,7 +28,9 @@ const mapStateToProps = (state: State): SlateEditorStateProps => ({
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
-  function SlateEditor(props: SlateEditorProps & SlateEditorStateProps) {
+  function SlateEditorConnector(
+    props: SlateEditorProps & SlateEditorStateProps
+  ) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
     const overlayContext = React.useContext(OverlayContext)
@@ -120,8 +122,8 @@ export const createTextEditor = (
       />
     )
   }
-  const SlateEditorProvider = connect(mapStateToProps)(SlateEditor)
-  return SlateEditorProvider
+  const SlateEditor = connect(mapStateToProps)(SlateEditorConnector)
+  return SlateEditor
 }
 
 // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use props

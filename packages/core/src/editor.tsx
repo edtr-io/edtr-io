@@ -17,18 +17,25 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
-import { createStore as createReduxStore } from 'redux'
+import { createStore as createReduxStore, applyMiddleware } from 'redux'
 import { connect, Provider } from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from './store/sagas'
 
 export const createStore = <K extends string>(
   plugins: Record<K, Plugin>,
   defaultPlugin: K,
   editable: boolean
-) =>
-  createReduxStore(
+) => {
+  const sagaMiddleware = createSagaMiddleware()
+  const store = createReduxStore(
     reducer,
-    createInitialState(plugins, defaultPlugin, editable)
+    createInitialState(plugins, defaultPlugin, editable),
+    applyMiddleware(sagaMiddleware)
   )
+  sagaMiddleware.run(rootSaga)
+  return store
+}
 
 export function Editor<K extends string = string>({
   plugins,
