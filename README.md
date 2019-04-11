@@ -1,8 +1,8 @@
 <p><br></p>
 <p align="center">
 	<img src="README_files/edtrio_full.svg" alt="edtr.io logo" width="277" height="68">
+<a href="https://edtr.io">www.edtr.io</a>
 </p>
-<a href="https://edtr.io" align="center">www.edtr.io</a>
 <br><br></p>
 
 <h2 align="center">Content Editing for the Modern Web</h2>
