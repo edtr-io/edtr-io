@@ -12,6 +12,7 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
+import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -19,7 +20,8 @@ export function Editor<K extends string = string>({
   initialState,
   changed,
   children,
-  editable = true
+  editable = true,
+  theme = {}
 }: EditorProps<K>) {
   const [state, dispatch] = React.useReducer(
     reducer,
@@ -71,29 +73,48 @@ export function Editor<K extends string = string>({
           })
       }}
     >
-      <EditorContext.Provider
-        value={{
-          state,
-          dispatch
-        }}
-      >
-        <OverlayContextProvider>
-          <Document id={id} />
-          {children}
-        </OverlayContextProvider>
-      </EditorContext.Provider>
+      <div style={{ position: 'relative' }}>
+        <EditorContext.Provider
+          value={{
+            state,
+            dispatch
+          }}
+        >
+          <RootEditorThemeProvider theme={theme}>
+            <OverlayContextProvider>
+              {renderChildren(id)}
+            </OverlayContextProvider>
+          </RootEditorThemeProvider>
+        </EditorContext.Provider>
+      </div>
     </HotKeys>
   )
+
+  function renderChildren(id: string) {
+    const document = <Document id={id} />
+
+    if (typeof children === 'function') {
+      return children(document)
+    }
+
+    return (
+      <React.Fragment>
+        {document}
+        {children}
+      </React.Fragment>
+    )
+  }
 }
 
 export interface EditorProps<K extends string = string> {
-  children?: React.ReactNode
+  children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
   plugins: Record<K, Plugin>
   defaultPlugin: K
   initialState?: {
     plugin: string
     state?: unknown
   }
+  theme?: CustomEditorTheme
   changed?: (changed: boolean) => void
   editable?: boolean
 }

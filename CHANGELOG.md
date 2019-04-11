@@ -2,6 +2,83 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.3..HEAD)
+
+### Breaking Changes
+
+- **plugin-image**. Image-plugin has new required `maxWidth` - state property
+- **ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.
+
+### Added
+
+- **plugin-h5p**. Add H5p.com plugin
+- **plugin-image**. Add MaxWidth for images
+- **ui**. Add consistent theming workflow
+
+### Changed
+
+- **plugin-text**. Hide placeholder in render mode
+- **plugin-text**. Hovering Menu for text formatting
+
+### Fixed
+
+- **plugin-image**. Hide config-overlay in render mode
+
+### Internal
+
+- **demo**. Log errors only
+
+## [0.4.3](https://github.com/edtr-io/edtr-io/compare/v0.4.2..v0.4.3) - March 29, 2019
+
+### Added
+
+- **ui**. Add `ContainerWithConfigButton` component for opening the Settings Overlay.
+- **plugin-geogebra**. Use ContainerWithConfigButton
+- **plugin-equations**. Add plugin for aligned equations
+- **plugin-hint**. Add plugin for hints
+- **plugin-image**. Use ContainerWithConfigButton
+- **plugin-input-exercise**. Add plugin for input exercises
+- **plugin-sc-mc-exercise**. Add plugin for single-choice & multiple-choice exercises
+- **plugin-solution**. Add plugin for solutions
+- **plugin-video**. Use ContainerWithConfigButton
+- **plugin-text**. Merge with previous / next text plugin on backspace / delete when at start / end of plugin
+
+### Fixed
+
+- **plugin-geogebra**. Scale applet with container size preserving aspect ratio
+- **plugin-geogebra**. Accept full GeoGebra material link too
+- **plugin-image**. Center image
+- **plugin-text**. Display Link-Overlay only when plugin is focused
+- **plugin-text**. Refocus after bold/italic button click
+
+## [0.4.2](https://github.com/edtr-io/edtr-io/compare/v0.4.1..v0.4.2) - March 25, 2019
+
+### Added
+
+- **core**. `Editor` now additionally accepts a render callback as `children` prop
+- **core**. Added `useEditorFocus`, `useEditorHistory`, `useEditorMode` custom React hooks to simplify the building of a custom ui
+- **core**. Added `Reset` action that resets the current editor state to the last persisted value
+- **core**. Handle focus for all documents
+- **core**. Added optional `onKeyDown` callback to plugins which allows plugins to cancel the default editor keydown handlers
+- **demo**. Added containers to demo storybook. Initially, we have a "plain" container (equivalent to the previosly existing demo) and a "Serlo" container (mocking integration into [serlo.org](https://de.serlo.org). You can select your preferred container in the storybook's addon panel on the right.
+- **core**. Added `name` prop to plugins
+- **ui**. Added Checkbox, Button and Textarea components for overlay
+- **plugin-image**. Added `onPaste` handler accepting jpg, png, bmp, gif, svg
+- **plugin-video**. Added video plugin
+
+### Fixed
+
+- **core**. Handle focus in nested documents correctly
+- **plugin-rows**. Align top and bottom add butons correctly in custom integrations
+- **plugin-text**. Disable slate undo/redo
+- **plugin-text**. Refocus after undo/redo
+
+### Internal
+
+- **demo**. Plugins available to the demo storybook are now defined in `demo/src/plugins.tsx`
+- **demo**. Added `build-demo` task that builds the demo storybook (and deploys it automatically to Netlify). The demo of the master branch is available on <https://demo.edtr.io>
+- **demo**. Brand the demo storybook
+
 ## [0.4.1](https://github.com/edtr-io/edtr-io/compare/v0.4.0..v0.4.1) - March 22, 2019
 
 ### Added

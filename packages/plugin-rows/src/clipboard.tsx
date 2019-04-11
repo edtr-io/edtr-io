@@ -27,8 +27,6 @@ const ButtonContainer = styled.div({
 
 const Preview = styled.div({
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '80px',
   height: '45px',
   overflow: 'hidden',

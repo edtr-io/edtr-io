@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-geogebra",
-  "version": "0.4.0",
+  "version": "0.4.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,13 +12,13 @@
     "lodash": "^4.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.4.0",
+    "@edtr-io/core": "^0.4.3",
     "@types/lodash": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.3.0",
+    "@edtr-io/core": "^0.4.0",
     "ory-editor-core": "^0.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"

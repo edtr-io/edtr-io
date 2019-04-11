@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { HotKeys } from 'react-hotkeys'
 
-import { DocumentProps } from '.'
 import { EditorContext } from '../editor-context'
+import { useEditorFocus } from '../hooks'
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
@@ -15,6 +16,7 @@ import {
   isFocused
 } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
+import { DocumentProps } from '.'
 
 export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   id,
@@ -22,13 +24,26 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
 }) => {
   const container = React.useRef<HTMLDivElement>(null)
   const store = React.useContext(EditorContext)
-
+  const { focusPrevious, focusNext } = useEditorFocus()
+  const focused = isFocused(store.state, id)
   const document = getDocument(store.state, id)
+  const plugin = document && getPlugin(store.state, document.plugin)
+
+  React.useEffect(() => {
+    if (
+      focused &&
+      container.current &&
+      plugin &&
+      (!isStatefulPlugin(plugin) || !plugin.getFocusableChildren)
+    ) {
+      container.current.focus()
+    }
+  }, [focused, plugin])
+
   if (!document) {
     return null
   }
 
-  const plugin = getPlugin(store.state, document.plugin)
   if (!plugin) {
     // TODO:
     // eslint-disable-next-line no-console
@@ -55,19 +70,41 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     StatefulPluginEditorProps | StatelessPluginEditorProps
   >
 
-  const focused = isFocused(store.state, id)
   const editable = isEditable(store.state)
   return (
-    <React.Fragment>
-      <div onMouseDown={handleFocus} ref={container} data-document>
+    <HotKeys
+      keyMap={{
+        FOCUS_PREVIOUS: 'up',
+        FOCUS_NEXT: 'down'
+      }}
+      handlers={{
+        FOCUS_PREVIOUS: e => {
+          handleKeyDown(e, () => {
+            focusPrevious()
+          })
+        },
+        FOCUS_NEXT: e => {
+          handleKeyDown(e, () => {
+            focusNext()
+          })
+        }
+      }}
+    >
+      <div
+        onMouseDown={handleFocus}
+        ref={container}
+        data-document
+        tabIndex={-1}
+      >
         <Comp
           {...pluginProps}
           editable={editable}
           focused={focused}
           state={state}
+          name={document.plugin}
         />
       </div>
-    </React.Fragment>
+    </HotKeys>
   )
 
   function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
@@ -80,5 +117,19 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
         payload: id
       })
     }
+  }
+
+  function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
+    if (
+      e &&
+      plugin &&
+      isStatefulPlugin(plugin) &&
+      typeof plugin.onKeyDown === 'function' &&
+      !plugin.onKeyDown(e)
+    ) {
+      return
+    }
+    e && e.preventDefault()
+    next()
   }
 }

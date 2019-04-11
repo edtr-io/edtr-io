@@ -7,38 +7,56 @@ import {
   toggleStrong,
   isStrong
 } from '../plugins/rich-text'
-import { Button, ButtonGroup } from '../toolbar/button'
+import { Button } from '../toolbar/button'
 import { TextPlugin } from '..'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import { Icon, faLink, faBold, faItalic, faUnlink } from '@edtr-io/ui'
+import {
+  Icon,
+  faLink,
+  faBold,
+  faItalic,
+  faUnlink,
+  HoveringOverlay
+} from '@edtr-io/ui'
 import { OverlayContext } from '@edtr-io/core'
 
 export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
   const { editor } = props
   const overlayContext = React.useContext(OverlayContext)
-  return (
-    <ButtonGroup>
-      <Button active={isStrong(editor)} onClick={() => toggleStrong(editor)}>
-        <Icon icon={faBold} />
-      </Button>
-      <Button
-        active={isEmphasized(editor)}
-        onClick={() => toggleEmphasize(editor)}
-      >
-        <Icon icon={faItalic} />
-      </Button>
-      <Button
-        active={isLink(editor)}
-        onClick={() =>
-          isLink(editor)
-            ? unwrapLink(editor)
-            : wrapLink()(editor, overlayContext)
-        }
-      >
-        <Icon icon={isLink(editor) ? faUnlink : faLink} />
-      </Button>
-    </ButtonGroup>
-  )
+  if (
+    editor.value.selection.isCollapsed &&
+    // show menu, if selection is strong or emphasized and hide it, if it's a link
+    ((!isStrong(editor) && !isEmphasized(editor)) || isLink(editor))
+  ) {
+    return null
+  } else {
+    return (
+      <HoveringOverlay position={'above'}>
+        <Button
+          active={isStrong(editor)}
+          onClick={() => toggleStrong(editor).focus()}
+        >
+          <Icon icon={faBold} />
+        </Button>
+        <Button
+          active={isEmphasized(editor)}
+          onClick={() => toggleEmphasize(editor).focus()}
+        >
+          <Icon icon={faItalic} />
+        </Button>
+        <Button
+          active={isLink(editor)}
+          onClick={() =>
+            isLink(editor)
+              ? unwrapLink(editor).focus()
+              : wrapLink()(editor, overlayContext)
+          }
+        >
+          <Icon icon={isLink(editor) ? faUnlink : faLink} />
+        </Button>
+      </HoveringOverlay>
+    )
+  }
 }
 
 export interface UiPluginOptions {

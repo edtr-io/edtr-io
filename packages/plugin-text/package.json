@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -8,28 +8,28 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
-    "@types/is-hotkey": "^0.1.1",
-    "is-hotkey": "^0.1.4",
-    "lodash": "^4.17.11",
-    "slate": "^0.44.10",
-    "slate-html-serializer": "^0.7.34",
-    "slate-react": "^0.21.16"
+    "is-hotkey": "^0.1.0",
+    "lodash": "^4.0.0",
+    "slate": "^0.44.0",
+    "slate-html-serializer": "^0.7.0",
+    "slate-react": "^0.21.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.4.0",
-    "@edtr-io/ui": "^0.4.1",
-    "@types/lodash": "^4.14.120",
+    "@edtr-io/core": "^0.4.3",
+    "@edtr-io/ui": "^0.4.3",
+    "@types/is-hotkey": "^0.1.0",
+    "@types/lodash": "^4.0.0",
     "@types/parse5": "^5.0.0",
     "@types/react": "^16.8.0",
-    "@types/slate": "^0.43.0",
-    "@types/slate-html-serializer": "^0.6.3",
-    "@types/slate-react": "^0.20.3",
+    "@types/slate": "^0.44.0",
+    "@types/slate-html-serializer": "^0.6.0",
+    "@types/slate-react": "^0.21.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.3.0",
-    "@edtr-io/ui": "^0.2.0",
+    "@edtr-io/core": "^0.4.0",
+    "@edtr-io/ui": "^0.4.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

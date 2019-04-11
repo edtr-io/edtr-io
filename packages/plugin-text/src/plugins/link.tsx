@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { AutoFocusInput, InlineOverlay, Overlay } from '@edtr-io/ui'
+import { AutoFocusInput, InlineSettings, Overlay } from '@edtr-io/ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {
@@ -57,12 +57,22 @@ export interface LinkPluginOptions {
 const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps
 > = props => {
-  const { attributes, children, node } = props
+  const { attributes, children, node, isSelected } = props
   const inline = node
   const href = inline.data.get('href')
 
   return (
-    <a {...attributes} href={href}>
+    <a
+      {...attributes}
+      href={href}
+      style={
+        isSelected
+          ? {
+              textDecoration: 'underline'
+            }
+          : undefined
+      }
+    >
       {children}
     </a>
   )
@@ -100,8 +110,11 @@ const DefaultControlsComponent: React.FunctionComponent<
   return (
     <React.Fragment>
       {props.children}
-      {isLink(editor) && !overlayContext.visible ? (
-        <InlineOverlay
+      {!props.readOnly &&
+      isLink(editor) &&
+      !overlayContext.visible &&
+      editor.value.selection.isCollapsed ? (
+        <InlineSettings
           key={`inlineoverlay${inline.key}`}
           onEdit={overlayContext.show}
           onDelete={() => unwrapLink(editor)}
@@ -109,9 +122,9 @@ const DefaultControlsComponent: React.FunctionComponent<
           <a href={value} target="_blank" rel="noopener noreferrer">
             {value}
           </a>
-        </InlineOverlay>
+        </InlineSettings>
       ) : null}
-      {isLink(editor) ? (
+      {!props.readOnly && isLink(editor) ? (
         <Overlay key={`overlay${inline.key}`} onClose={() => editor.focus()}>
           <AutoFocusInput
             label="URL"

@@ -1,64 +1,91 @@
+import { OverlayContext } from '@edtr-io/core'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import { HotKeys } from 'react-hotkeys'
+
 import {
   Icon,
-  styled,
   faTimes,
-  faTrashAlt,
   faPencilAlt,
-  EditorTheming,
-  defaultTheming
+  faTrashAlt,
+  faCog,
+  createUiElementTheme,
+  EditorThemeProps,
+  styled
 } from '..'
-import { OnClickOutside } from './onClickOutside'
-import { HotKeys } from 'react-hotkeys'
-import { OverlayContext } from '@edtr-io/core'
-import { ThemeProps } from 'styled-components'
+import { OnClickOutside } from '.'
 
-const OverlayWrapper = styled.div({
-  width: '100%',
-  height: '100%',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  backgroundColor: '#00000033',
-  zIndex: 99,
-  padding: '20px'
-})
-const OverlayBox = styled.div((props: ThemeProps<EditorTheming>) => ({
-  width: '60%',
-  height: '60%',
-  position: 'absolute',
-  zIndex: 100,
-  backgroundColor: props.theme.backgroundColor,
-  paddingBottom: '10px',
-  left: '20%',
-  top: '20%'
-}))
-OverlayBox.defaultProps = {
-  theme: defaultTheming
-}
-
-const CloseButton = styled.button((props: ThemeProps<EditorTheming>) => ({
-  float: 'right',
-  position: 'relative',
-  color: props.theme.textColor,
-  fontSize: 16,
-  zIndex: 98,
-  outline: 'none',
-  border: 'none',
-  backgroundColor: 'transparent',
-  paddingTop: '5px',
-  '&:hover': {
-    color: props.theme.highlightColor
+export const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
+  return {
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    overlayBackgroundColor: '#00000033',
+    highlightColor: theme.highlightColor
   }
-}))
-CloseButton.defaultProps = {
-  theme: defaultTheming
-}
+})
 
-export const Overlay: React.FunctionComponent<{
+const OverlayWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    overlayBackgroundColor: theme.overlayBackgroundColor,
+    zIndex: 99
+  }
+})
+
+export const OverlayBox = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    margin: '0 auto',
+    position: 'absolute',
+    zIndex: 100,
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    left: '8%',
+    right: '8%'
+  }
+})
+
+const OverlaySettingsBox = styled(OverlayBox)({
+  minHeight: '60%',
+  paddingBottom: '10px',
+  maxWidth: '1150px',
+  top: '20%'
+})
+
+const CloseButton = styled.button((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    float: 'right',
+    position: 'relative',
+    color: theme.color,
+    fontSize: 16,
+    zIndex: 98,
+    outline: 'none',
+    border: 'none',
+    backgroundColor: 'transparent',
+    paddingTop: '5px',
+    '&:hover': {
+      color: theme.highlightColor
+    }
+  }
+})
+
+const ContentWrapper = styled.div({
+  padding: '20px 15%'
+})
+
+export function Overlay(props: {
   onClose?: () => void
-}> = props => {
+  children?: React.ReactNode
+}) {
   const overlayContext = React.useContext(OverlayContext)
   function closeHandler() {
     overlayContext.hide()
@@ -78,7 +105,7 @@ export const Overlay: React.FunctionComponent<{
         >
           <OverlayWrapper>
             <OnClickOutside onClick={closeHandler}>
-              <OverlayBox>
+              <OverlaySettingsBox>
                 <CloseButton
                   onClick={closeHandler}
                   style={{
@@ -90,8 +117,8 @@ export const Overlay: React.FunctionComponent<{
                 >
                   <Icon icon={faTimes} />
                 </CloseButton>
-                {props.children}
-              </OverlayBox>
+                <ContentWrapper>{props.children}</ContentWrapper>
+              </OverlaySettingsBox>
             </OnClickOutside>
           </OverlayWrapper>
         </HotKeys>,
@@ -100,61 +127,52 @@ export const Overlay: React.FunctionComponent<{
     : null
 }
 
-const InlineOverlayWrapper = styled.div((props: ThemeProps<EditorTheming>) => ({
-  position: 'fixed',
-  opacity: 0,
-  transition: 'opacity 0.5s',
-  backgroundColor: props.theme.backgroundColor,
-  color: props.theme.textColor,
-  padding: '5px',
-  zIndex: 100,
-  '& a': {
-    color: props.theme.textColor,
-    '&:hover': {
-      color: props.theme.highlightColor
+const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    position: 'absolute',
+    top: '-10000px',
+    left: '-10000px',
+    opacity: 0,
+    transition: 'opacity 0.5s',
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    padding: '5px',
+    zIndex: 95,
+    '& a': {
+      color: theme.color,
+      '&:hover': {
+        color: theme.highlightColor
+      }
     }
   }
-}))
-InlineOverlayWrapper.defaultProps = { theme: defaultTheming }
+})
+
 const InlinePreview = styled.span({
   padding: '0px 8px'
 })
-const ChangeButton = styled.div((props: ThemeProps<EditorTheming>) => ({
-  padding: '5px 5px 5px 10px',
-  display: 'inline-block',
-  borderLeft: `2px solid ${props.theme.textColor}`,
-  cursor: 'pointer',
-  margin: '2px',
-  '&:hover': {
-    color: props.theme.highlightColor
-  }
-}))
-ChangeButton.defaultProps = { theme: defaultTheming }
+const ChangeButton = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
 
-export const InlineOverlay: React.FunctionComponent<{
+  return {
+    padding: '5px 5px 5px 10px',
+    display: 'inline-block',
+    borderLeft: `2px solid ${theme.color}`,
+    cursor: 'pointer',
+    margin: '2px',
+    '&:hover': {
+      color: theme.highlightColor
+    }
+  }
+})
+
+export const InlineSettings: React.FunctionComponent<{
   onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
 }> = props => {
-  const overlay = React.createRef<HTMLDivElement>()
-  React.useEffect(() => {
-    const menu = overlay.current
-    if (!menu) return
-
-    const native = window.getSelection()
-    const range = native.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
-    if (rect.height === 0) return
-    menu.style.opacity = '1'
-    menu.style.top = `${rect.bottom + window.pageYOffset + 3}px`
-
-    menu.style.left = `${Math.max(
-      rect.left + window.pageXOffset - menu.offsetWidth / 2 + rect.width / 2,
-      0
-    )}px`
-  }, [overlay])
-
   return (
-    <InlineOverlayWrapper ref={overlay}>
+    <HoveringOverlay position={'below'}>
       <InlinePreview>{props.children}</InlinePreview>
       <ChangeButton onClick={props.onEdit}>
         <Icon icon={faPencilAlt} />
@@ -162,6 +180,104 @@ export const InlineOverlay: React.FunctionComponent<{
       <ChangeButton onClick={props.onDelete}>
         <Icon icon={faTrashAlt} />
       </ChangeButton>
-    </InlineOverlayWrapper>
+    </HoveringOverlay>
   )
+}
+
+export type HoverPosition = 'above' | 'below'
+
+export const HoveringOverlay: React.FunctionComponent<{
+  position: HoverPosition
+}> = props => {
+  const overlay = React.createRef<HTMLDivElement>()
+  React.useEffect(() => {
+    const menu = overlay.current
+    if (!menu) return
+    const native = window.getSelection()
+    const range = native.getRangeAt(0)
+    const rect = range.getBoundingClientRect()
+    if (rect.height === 0) return
+    // menu is set to display:none, shouldn't ever happen
+    if (!menu.offsetParent) return
+    const parentRect = menu.offsetParent.getBoundingClientRect()
+    // only show menu if selection is inside of parent
+    if (
+      parentRect.top - 5 > rect.top ||
+      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
+      parentRect.left - 5 > rect.left ||
+      parentRect.left + parentRect.width + 5 < rect.left + rect.width
+    ) {
+      menu.style.top = null
+      menu.style.left = null
+      return
+    }
+    menu.style.opacity = '1'
+    const aboveValue = rect.top - menu.offsetHeight - 6
+    // if top becomes negative, place menu below
+    menu.style.top =
+      (props.position == 'above' && aboveValue >= 0
+        ? aboveValue
+        : rect.bottom + 3) -
+      parentRect.top +
+      'px'
+
+    menu.style.left = `${Math.min(
+      Math.max(
+        rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
+        0
+      ),
+      parentRect.width - menu.offsetWidth - 5
+    )}px`
+  }, [overlay, props.position])
+
+  return (
+    <InlineOverlayWrapper ref={overlay}>{props.children}</InlineOverlayWrapper>
+  )
+}
+
+const ConfigIconContainer = styled.div({
+  position: 'relative'
+})
+const ConfigIcon = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+
+  return {
+    position: 'absolute',
+    textAlign: 'center',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    opacity: 0,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease',
+      cursor: 'pointer'
+    }
+  }
+})
+
+export function ContainerWithConfigButton(props: {
+  children?: React.ReactNode
+}) {
+  const overlayContext = React.useContext(OverlayContext)
+  return (
+    <ConfigIconContainer onClick={overlayContext.show}>
+      {props.children}
+      <ConfigIcon>
+        <Icon icon={faCog} size="3x" />
+      </ConfigIcon>
+    </ConfigIconContainer>
+  )
+}
+
+export interface OverlayTheme {
+  backgroundColor: string
+  color: string
+  overlayBackgroundColor: string
+  highlightColor: string
 }

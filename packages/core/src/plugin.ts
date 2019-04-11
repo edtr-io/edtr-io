@@ -20,6 +20,7 @@ export interface StatelessPlugin<Props extends Record<string, unknown> = {}> {
 export type StatelessPluginEditorProps<
   Props extends Record<string, unknown> = {}
 > = {
+  name?: string
   editable?: boolean
   focused?: boolean
 } & Props
@@ -33,6 +34,7 @@ export interface StatefulPlugin<
   onPaste?: (
     data: DataTransfer
   ) => void | { state?: StateDescriptorSerializedType<S> }
+  onKeyDown?: (e: KeyboardEvent) => boolean
   getFocusableChildren?: (
     state: StateDescriptorReturnType<S>
   ) => { id: string }[]

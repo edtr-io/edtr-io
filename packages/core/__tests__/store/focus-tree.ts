@@ -55,6 +55,28 @@ describe('getFocusTree', () => {
 
     expect(tree.children).toHaveLength(4)
   })
+
+  test('blockquote in rows', () => {
+    state = reducer(state, {
+      type: ActionType.InitRoot,
+      payload: {
+        plugin: 'rows',
+        state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
+      }
+    })
+
+    const tree = getFocusTree(state)
+
+    if (!tree) {
+      throw new Error('Expected tree')
+    }
+
+    if (!tree.children) {
+      throw new Error('Expected children')
+    }
+
+    expect(tree.children[0].children).toHaveLength(1)
+  })
 })
 
 describe('findNextNode', () => {

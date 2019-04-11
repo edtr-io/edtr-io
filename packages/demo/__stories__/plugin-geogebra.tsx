@@ -1,10 +1,19 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Story } from '.'
 
-storiesOf('Geogebra Plugin', module).add('Initial State', () => {
-  const state = {
-    plugin: 'geogebra'
-  }
-  return <Story initialState={state} />
-})
+import { EditorStory } from '../src'
+
+storiesOf('Plugins/GeoGebra', module)
+  .add('Initial State', () => {
+    const state = {
+      plugin: 'geogebra'
+    }
+    return <EditorStory initialState={state} />
+  })
+  .add('Prefilled', () => {
+    const state = {
+      plugin: 'geogebra',
+      state: 'https://www.geogebra.org/m/Hfpaq7jQ'
+    }
+    return <EditorStory initialState={state} />
+  })
