@@ -1,6 +1,8 @@
 <p><br></p>
 <p align="center">
 	<img src="README_files/edtrio_full.svg" alt="edtr.io logo" width="277" height="68">
+</p>
+<p align="center">
 <a href="https://edtr.io">www.edtr.io</a>
 </p>
 <br><br></p>
