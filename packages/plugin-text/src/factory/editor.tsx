@@ -24,6 +24,18 @@ import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
+  const schema = {
+    inlines: {
+      [katexInlineNode]: {
+        isVoid: true
+      }
+    },
+    blocks: {
+      [katexBlockNode]: {
+        isVoid: true
+      }
+    }
+  }
   return function SlateEditor(props: SlateEditorProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
@@ -114,18 +126,7 @@ export const createTextEditor = (
         plugins={slatePlugins.current}
         readOnly={!props.focused}
         value={rawState}
-        schema={{
-          inlines: {
-            [katexInlineNode]: {
-              isVoid: true
-            }
-          },
-          blocks: {
-            [katexBlockNode]: {
-              isVoid: true
-            }
-          }
-        }}
+        schema={schema}
       />
     )
   }

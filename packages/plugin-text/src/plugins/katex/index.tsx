@@ -61,7 +61,7 @@ const DefaultEditorComponent: React.FunctionComponent<
       {formula ? (
         <Math formula={formula} inline={inline} />
       ) : (
-        <em>f(x) = ...</em>
+        <span style={{ backgroundColor: 'lightgrey' }}>[neue Formel]</span>
       )}
     </span>
   )
@@ -119,7 +119,13 @@ const DefaultControlsComponent: React.FunctionComponent<
         </InlineSettings>
       ) : null}
       {!props.readOnly && isKatex(editor) ? (
-        <Overlay onClose={() => editor.focus()}>
+        <Overlay
+          onClose={() => {
+            editor.focus()
+            editor.moveToEnd()
+            editor.moveForward(1)
+          }}
+        >
           <Textarea
             label="Formula"
             value={value}
