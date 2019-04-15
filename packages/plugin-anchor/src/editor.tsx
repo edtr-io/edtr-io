@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Icon, faLink } from '@edtr-io/ui'
+import { Icon, faLink } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { AnchorRenderer } from './renderer'

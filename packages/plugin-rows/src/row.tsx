@@ -19,7 +19,7 @@ import {
   OnClickOutside,
   Button,
   OverlayBox
-} from '@edtr-io/ui'
+} from '@edtr-io/editor-ui'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
 import * as React from 'react'

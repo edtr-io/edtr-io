@@ -8,7 +8,7 @@ import {
   Input,
   Checkbox,
   ContainerWithConfigButton
-} from '@edtr-io/ui'
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { FileError, ImageLoaded, ImageUploaded, Upload } from './upload'

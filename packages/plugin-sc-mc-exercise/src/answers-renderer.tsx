@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { styled, FetchDimensions } from '@edtr-io/ui'
+import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 import * as R from 'ramda'
 

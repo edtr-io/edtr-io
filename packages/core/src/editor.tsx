@@ -1,5 +1,7 @@
+import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
+
 import { Document } from './document'
 import { EditorContext } from './editor-context'
 import {
@@ -12,7 +14,6 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
-import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -80,11 +81,11 @@ export function Editor<K extends string = string>({
             dispatch
           }}
         >
-          <RootEditorThemeProvider theme={theme}>
+          <RootThemeProvider theme={theme}>
             <OverlayContextProvider>
               {renderChildren(id)}
             </OverlayContextProvider>
-          </RootEditorThemeProvider>
+          </RootThemeProvider>
         </EditorContext.Provider>
       </div>
     </HotKeys>
@@ -114,7 +115,7 @@ export interface EditorProps<K extends string = string> {
     plugin: string
     state?: unknown
   }
-  theme?: CustomEditorTheme
+  theme?: CustomTheme
   changed?: (changed: boolean) => void
   editable?: boolean
 }

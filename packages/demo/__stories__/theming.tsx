@@ -1,22 +1,24 @@
-import { CustomEditorTheme } from '@edtr-io/ui'
+import { CustomTheme } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { EditorStory } from '../src'
 
-storiesOf('Theming/Editor UI', module).add('Initial State', () => {
+storiesOf('Theming', module).add('Custom Theme', () => {
   const state = {
     plugin: 'rows',
     state: [{ plugin: 'text' }]
   }
 
-  const theme: CustomEditorTheme = {
+  const theme: CustomTheme = {
     editor: {
       color: '#222',
       backgroundColor: '#d9edf7',
-      highlightColor: '#007ec1'
+      primary: {
+        background: '#007ec1'
+      }
     },
-    ui: {
+    editorUi: {
       button: {
         color: 'green',
         backgroundColor: 'red',
@@ -37,6 +39,11 @@ storiesOf('Theming/Editor UI', module).add('Initial State', () => {
         color: 'red',
         backgroundColor: 'green',
         highlightColor: 'black'
+      }
+    },
+    rendererUi: {
+      expandableBox: {
+        toggleBorderColor: 'red'
       }
     }
   }

@@ -173,16 +173,18 @@ async function exec(): Promise<void> {
     {
       breakingChanges: [
         '**plugin-image**. Image-plugin has new required `maxWidth` - state property',
-        '**ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.'
+        '**ui**. Theming is handled differently. We now differentiate between editor ui elements, renderer ui elements and plugins. Furthermore, we now use a different (but more consistent) naming scheme.',
+        '**ui**. Moved editor ui elements (e.g. `Button`, `SettingsOverlay`) to the new package `@edtr-io/editor-ui`.',
+        '**ui**. Moved renderer ui elements (e.g. `ExpandableBox`) to the new package `@edtr-io/renderer-ui`'
       ],
       added: [
         '**plugin-h5p**. Add H5p.com plugin',
-        '**plugin-image**. Add MaxWidth for images',
-        '**ui**. Add consistent theming workflow'
+        '**plugin-image**. Add MaxWidth for images'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',
-        '**plugin-text**. Hovering Menu for text formatting'
+        '**plugin-text**. Hovering Menu for text formatting',
+        '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: ['**demo**. Log errors only']

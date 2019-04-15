@@ -1,5 +1,9 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Overlay, AutoFocusInput, ContainerWithConfigButton } from '@edtr-io/ui'
+import {
+  Overlay,
+  AutoFocusInput,
+  ContainerWithConfigButton
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { VideoRenderer } from './renderer'

@@ -1,26 +1,24 @@
 import * as React from 'react'
 
 import {
-  styled,
-  faCaretSquareDown,
-  faCaretSquareUp,
-  Icon,
-  createUiElementTheme,
-  EditorThemeProps
-} from '.'
+  createRendererUiElementTheme,
+  RendererThemeProps,
+  styled
+} from '../theme'
+import { faCaretSquareDown, faCaretSquareUp, Icon } from './icon'
 
-export const createExpandableBoxTheme = createUiElementTheme<
+export const createExpandableBoxTheme = createRendererUiElementTheme<
   ExpandableBoxTheme
 >(theme => {
   return {
     containerBorderColor: 'transparent',
-    toggleBackgroundColor: theme.backgroundColor,
+    toggleBackgroundColor: theme.primary.background,
     toggleBorderColor: 'transparent',
-    toggleColor: theme.color
+    toggleColor: theme.primary.color
   }
 })
 
-const Wrapper = styled.div<{ collapsed: boolean } & EditorThemeProps>(
+const Wrapper = styled.div<{ collapsed: boolean } & RendererThemeProps>(
   ({ collapsed, theme }) => {
     const { containerBorderColor } = createExpandableBoxTheme(
       'expandableBox',
@@ -38,7 +36,7 @@ const Wrapper = styled.div<{ collapsed: boolean } & EditorThemeProps>(
 )
 
 const Toggle = styled.div<
-  { collapsed: boolean; editable?: boolean } & EditorThemeProps
+  { collapsed: boolean; editable?: boolean } & RendererThemeProps
 >(({ collapsed, editable, theme }) => {
   const {
     toggleBackgroundColor,

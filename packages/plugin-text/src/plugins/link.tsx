@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { AutoFocusInput, InlineSettings, Overlay } from '@edtr-io/ui'
+import { AutoFocusInput, InlineSettings, Overlay } from '@edtr-io/editor-ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {

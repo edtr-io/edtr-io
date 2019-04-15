@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createEditorUiElementTheme, EditorThemeProps, styled } from '../theme'
 
-export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
+export const createCheckboxTheme = createEditorUiElementTheme<CheckboxTheme>(
   theme => {
     return {
       boxSelectedColor: theme.color,

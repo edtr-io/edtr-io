@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createEditorUiElementTheme, EditorThemeProps, styled } from '../theme'
 
-export const createTextareaTheme = createUiElementTheme<TextareaTheme>(
+export const createTextareaTheme = createEditorUiElementTheme<TextareaTheme>(
   theme => {
     return {
       backgroundColor: 'transparent',
       color: theme.color,
       borderColor: theme.color,
-      highlightColor: theme.highlightColor
+      highlightColor: theme.primary.background
     }
   }
 )
