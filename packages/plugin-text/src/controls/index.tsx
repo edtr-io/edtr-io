@@ -19,44 +19,57 @@ import {
   HoveringOverlay
 } from '@edtr-io/ui'
 import { OverlayContext } from '@edtr-io/core'
+import { insertKatex, isKatex } from '../plugins/katex'
 
 export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {
   const { editor } = props
   const overlayContext = React.useContext(OverlayContext)
-  if (
-    editor.value.selection.isCollapsed &&
-    // show menu, if selection is strong or emphasized and hide it, if it's a link
-    ((!isStrong(editor) && !isEmphasized(editor)) || isLink(editor))
-  ) {
-    return null
-  } else {
-    return (
-      <HoveringOverlay position={'above'}>
-        <Button
-          active={isStrong(editor)}
-          onClick={() => toggleStrong(editor).focus()}
-        >
-          <Icon icon={faBold} />
-        </Button>
-        <Button
-          active={isEmphasized(editor)}
-          onClick={() => toggleEmphasize(editor).focus()}
-        >
-          <Icon icon={faItalic} />
-        </Button>
-        <Button
-          active={isLink(editor)}
-          onClick={() =>
-            isLink(editor)
-              ? unwrapLink(editor).focus()
-              : wrapLink()(editor, overlayContext)
+  // if (
+  //   editor.value.selection.isCollapsed &&
+  //   // show menu, if selection is strong or emphasized and hide it, if it's a link
+  //   ((!isStrong(editor) && !isEmphasized(editor)) || isLink(editor))
+  // ) {
+  //   return null
+  // } else {
+  return (
+    <HoveringOverlay position={'above'}>
+      <Button
+        active={isStrong(editor)}
+        onClick={() => toggleStrong(editor).focus()}
+      >
+        <Icon icon={faBold} />
+      </Button>
+      <Button
+        active={isEmphasized(editor)}
+        onClick={() => toggleEmphasize(editor).focus()}
+      >
+        <Icon icon={faItalic} />
+      </Button>
+      <Button
+        active={isLink(editor)}
+        onClick={() =>
+          isLink(editor)
+            ? unwrapLink(editor).focus()
+            : wrapLink()(editor, overlayContext)
+        }
+      >
+        <Icon icon={isLink(editor) ? faUnlink : faLink} />
+      </Button>
+      <Button
+        active={isKatex(editor)}
+        onClick={() => {
+          const active = isKatex(editor)
+
+          if (!active) {
+            insertKatex(editor)
           }
-        >
-          <Icon icon={isLink(editor) ? faUnlink : faLink} />
-        </Button>
-      </HoveringOverlay>
-    )
-  }
+        }}
+      >
+        f(x)
+      </Button>
+    </HoveringOverlay>
+  )
+  // }
 }
 
 export interface UiPluginOptions {
