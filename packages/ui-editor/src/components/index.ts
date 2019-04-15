@@ -1,3 +1,4 @@
+export * from './bottom-toolbar'
 export * from './button'
 export * from './checkbox'
 export * from './icon'
