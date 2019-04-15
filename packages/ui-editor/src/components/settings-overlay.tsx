@@ -227,7 +227,7 @@ export const HoveringOverlay: React.FunctionComponent<{
   )
 }
 
-const ConfigIconContainer = styled.div({
+const ConfigIconContainer = styled.span({
   position: 'relative'
 })
 const ConfigIcon = styled.div((props: EditorThemeProps) => {

@@ -19,6 +19,7 @@ import {
 import { TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 import { textState } from '.'
+import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -113,6 +114,18 @@ export const createTextEditor = (
         plugins={slatePlugins.current}
         readOnly={!props.focused}
         value={rawState}
+        schema={{
+          inlines: {
+            [katexInlineNode]: {
+              isVoid: true
+            }
+          },
+          blocks: {
+            [katexBlockNode]: {
+              isVoid: true
+            }
+          }
+        }}
       />
     )
   }
