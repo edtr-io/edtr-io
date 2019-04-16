@@ -8,6 +8,7 @@ import {
   StateDescriptorReturnType,
   StateDescriptorsSerializedType
 } from './types'
+import { AsyncState } from '../plugin'
 
 export function object<Ds extends Record<string, StateDescriptor>>(
   types: Ds
@@ -46,10 +47,33 @@ export function object<Ds extends Record<string, StateDescriptor>>(
       return Object.assign(getObject, getObject())
     },
     {
-      createInitialState(helpers: StoreDeserializeHelpers): T {
-        return R.map(type => {
-          return type.createInitialState(helpers)
-        }, types) as T
+      createInitialState(helpers: StoreDeserializeHelpers) {
+        let state: AsyncState<T> = {
+          //@ts-ignore FIXME
+          immediateState: {},
+          //@ts-ignore FIXME
+          asyncState: Promise.resolve({})
+        }
+        for (let key in types) {
+          const type = types[key]
+          const initialState = type.createInitialState(helpers)
+          const asyncState =
+            initialState.asyncState || Promise.resolve(state.immediateState)
+          const mergedAsync = Promise.all([state.asyncState, asyncState]).then(
+            ([resolvedObj, resolvedState]) => ({
+              ...resolvedObj,
+              [key]: resolvedState
+            })
+          )
+          state = {
+            immediateState: {
+              ...state.immediateState,
+              [key]: initialState.immediateState
+            },
+            asyncState: mergedAsync
+          }
+        }
+        return state
       },
       deserialize(serialized: S, helpers: StoreDeserializeHelpers): T {
         return R.mapObjIndexed((type, key) => {

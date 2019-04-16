@@ -65,7 +65,8 @@ export function list<S, T = S, U = unknown>(
             const wrappedSubstate = wrap(
               options
                 ? type.deserialize(options, helpers)
-                : type.createInitialState(helpers)
+                : //FIXME: handel asyncState if set
+                  type.createInitialState(helpers).immediateState
             )
             return R.insert(
               index === undefined ? items.length : index,
@@ -85,10 +86,32 @@ export function list<S, T = S, U = unknown>(
       })
     },
     {
-      createInitialState(helpers: StoreDeserializeHelpers): WrappedValue[] {
-        return R.times(() => {
-          return wrap(type.createInitialState(helpers))
-        }, initialCount)
+      createInitialState(helpers: StoreDeserializeHelpers) {
+        const initialStates = R.times(
+          () => type.createInitialState(helpers),
+          initialCount
+        ).map(state => ({
+          immediateState: wrap(state.immediateState),
+          asyncState: state.asyncState
+            ? state.asyncState.then(resolvedState => wrap(resolvedState))
+            : // Promise existing state
+              Promise.resolve(wrap(state.immediateState))
+        }))
+        const immediateStates = R.reduce(
+          (acc, initialState) => {
+            return R.append(initialState.immediateState, acc)
+          },
+          [] as WrappedValue[],
+          initialStates
+        )
+
+        const asyncState = Promise.all(
+          initialStates.map(state => state.asyncState)
+        )
+        return {
+          immediateState: immediateStates,
+          asyncState: asyncState
+        }
       },
       deserialize(
         serialized: S[],

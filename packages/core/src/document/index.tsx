@@ -4,7 +4,7 @@ import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 import {
   ActionType,
-  ChangeAction,
+  EffectfulChangeAction,
   FocusAction,
   getDocument,
   getPlugin,
@@ -42,8 +42,10 @@ const focus = (payload: string): FocusAction => ({
   type: ActionType.Focus,
   payload
 })
-const change = (payload: ChangeAction['payload']): ChangeAction => ({
-  type: ActionType.Change,
+const change = (
+  payload: EffectfulChangeAction['payload']
+): EffectfulChangeAction => ({
+  type: ActionType.EffectfulChange,
   payload
 })
 

@@ -56,7 +56,9 @@ export function serializedScalar<S, T>(
       })
     },
     {
-      createInitialState: () => initialState,
+      createInitialState: () => ({
+        immediateState: initialState
+      }),
       deserialize(serialized: S) {
         return serializer.deserialize(serialized)
       },

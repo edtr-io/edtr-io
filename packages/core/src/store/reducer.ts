@@ -2,17 +2,14 @@ import * as R from 'ramda'
 
 import { getFocusTree, findNextNode, findPreviousNode } from './focus-tree'
 import { isStatefulPlugin, Plugin, PluginState, PluginType } from '../plugin'
-import { StoreDeserializeHelpers } from '../plugin-state'
 import {
   Action,
   ActionType,
-  AsyncInsertAction,
   ChangeAction,
   CopyAction,
   FocusAction,
   FocusNextAction,
   FocusPreviousAction,
-  InitRootAction,
   InsertAction,
   RemoveAction,
   SwitchEditableAction,
@@ -51,7 +48,7 @@ export function reducer(
 
   switch (action.type) {
     case ActionType.InitRoot:
-      return handleInitRoot(state, action)
+      return handleInitRoot(state)
     case ActionType.Insert:
       return handleInsert(state, action)
     case ActionType.Remove:
@@ -120,37 +117,14 @@ export function handleChange(state: State, action: ChangeAction): State {
     //TODO: console.warn: Missing Id
     return state
   }
-
-  let pendingDocs: { id: string; plugin?: string; state?: unknown }[] = []
-  let helpers: StoreDeserializeHelpers = {
-    createDocument(doc) {
-      pendingDocs.push(doc)
-    }
-  }
-  const pluginState = stateHandler(state.documents[id].state, helpers)
-  const inserts = handleRecursiveInserts(state, pendingDocs)
-  const newState = inserts.reduce((currentState, action) => {
-    return reducer(currentState, action)
-  }, state)
-
-  const history = inserts.length
-    ? commitAsIs(state, [
-        //FIXME: ...inserts,
-        {
-          type: ActionType.Change,
-          payload: {
-            id,
-            state: () => pluginState
-          }
-        }
-      ])
-    : commit(state, action)
+  const history = commit(state, action)
+  const pluginState = stateHandler(state.documents[id].state)
   return {
-    ...newState,
+    ...state,
     documents: {
-      ...newState.documents,
+      ...state.documents,
       [id]: {
-        ...newState.documents[id],
+        ...state.documents[id],
         state: pluginState
       }
     },
@@ -257,22 +231,8 @@ function handleReset(state: State): State {
   return newState
 }
 
-function handleInitRoot(state: State, action: InitRootAction): State {
-  const initialState = action.payload
-  const actions = handleRecursiveInserts(state, [
-    {
-      ...initialState,
-      id: 'root'
-    }
-  ])
-
-  const newState = actions.reduce((currentState, action) => {
-    return reducer(currentState, action)
-  }, state)
-
-  delete newState.history
-  delete newState.root
-
+function handleInitRoot(state: State): State {
+  const newState = R.omit(['history', 'root'], state)
   return {
     ...newState,
     root: 'root',
@@ -283,62 +243,6 @@ function handleInitRoot(state: State, action: InitRootAction): State {
       pending: 0
     }
   }
-}
-
-function handleRecursiveInserts(
-  state: State,
-  docs: {
-    id: string
-    plugin?: string
-    state?: unknown
-  }[]
-): AsyncInsertAction[] {
-  let pendingDocs = docs
-  const actions: AsyncInsertAction[] = []
-
-  let helpers: StoreDeserializeHelpers = {
-    createDocument(doc) {
-      pendingDocs.push(doc)
-    }
-  }
-
-  while (pendingDocs.length > 0) {
-    const doc = pendingDocs.pop()
-    if (!doc) {
-      return []
-    }
-
-    const plugin = getPluginOrDefault(state, doc.plugin)
-    if (!plugin) {
-      // TODO: Plugin does not exist
-      return []
-    }
-
-    let pluginState: {
-      tempState?: unknown
-      state?: Promise<unknown>
-    } = {}
-    if (isStatefulPlugin(plugin)) {
-      if (doc.state === undefined) {
-        // TODO: fix createInitialState
-        pluginState = plugin.state.createInitialState(helpers)
-      } else {
-        // TODO: fix deserialize
-        pluginState = plugin.state.deserialize(doc.state, helpers)
-      }
-    }
-
-    actions.push({
-      type: ActionType.AsyncInsert,
-      payload: {
-        id: doc.id,
-        plugin: getPluginTypeOrDefault(state, doc.plugin),
-        ...pluginState
-      }
-    })
-  }
-
-  return actions
 }
 
 function handleCopyToClipboard(state: State, action: CopyAction): State {

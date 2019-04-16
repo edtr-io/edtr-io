@@ -38,7 +38,7 @@ export function child<
       createInitialState({ createDocument }: StoreDeserializeHelpers<K, S>) {
         const id = v4()
         createDocument({ id, plugin, state })
-        return id
+        return { immediateState: id }
       },
       deserialize(
         serialized: { plugin: K; state?: S },

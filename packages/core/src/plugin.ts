@@ -67,3 +67,13 @@ export interface PluginState {
   plugin: PluginType
   state?: unknown
 }
+
+export interface AsyncPluginState<S = unknown> {
+  plugin: PluginType
+  state?: AsyncState
+}
+
+export interface AsyncState<S = unknown> {
+  immediateState: S
+  asyncState?: Promise<S>
+}
