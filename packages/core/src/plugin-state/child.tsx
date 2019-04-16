@@ -54,7 +54,7 @@ export function child<
       ): { plugin: K; state?: S } {
         const document = getDocument(id)
         if (document === null) {
-          throw new Error('There exists no document with the given id')
+          throw new Error('There exists no document with the given id: ' + id)
         }
         return document
       }

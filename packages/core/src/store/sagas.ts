@@ -12,7 +12,7 @@ import { getPluginOrDefault, getPluginTypeOrDefault } from './selectors'
 import { AsyncState, isStatefulPlugin } from '../plugin'
 import { State } from '@edtr-io/core'
 
-function* asyncInsertAction(action: AsyncInsertAction) {
+export function* asyncInsertAction(action: AsyncInsertAction) {
   let immediateState = undefined
   if (action.payload.state) {
     immediateState = action.payload.state.immediateState
@@ -41,7 +41,7 @@ function* asyncInsertAction(action: AsyncInsertAction) {
   }
 }
 
-function* effectfulChangeAction(action: EffectfulChangeAction) {
+export function* effectfulChangeAction(action: EffectfulChangeAction) {
   const payload = yield action.payload
 
   //resolve insert sideeffects first
@@ -69,7 +69,7 @@ function* effectfulChangeAction(action: EffectfulChangeAction) {
   yield put(change)
 }
 
-function* initRootAction(action: InitRootAction) {
+export function* initRootAction(action: InitRootAction) {
   const initialState = action.payload
   const state = yield select(state => state)
   const inserts = handleRecursiveInserts(state, [

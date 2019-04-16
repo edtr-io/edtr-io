@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+
 import { plugins } from '../../__fixtures__/plugins'
 import {
   ActionCommitType,
@@ -162,11 +163,9 @@ describe('focus', () => {
 
 describe('serialize', () => {
   test('stateless', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'stateless'
-      }
+    state = createInitialState({
+      ...state,
+      documents: { root: { plugin: 'stateless' } }
     })
     expect(serializeDocument(state)).toEqual({
       plugin: 'stateless'
@@ -174,12 +173,9 @@ describe('serialize', () => {
   })
 
   test('stateful', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
+    state = createInitialState({
+      ...state,
+      documents: { root: { plugin: 'stateful', state: { counter: 0 } } }
     })
     expect(serializeDocument(state)).toEqual({
       plugin: 'stateful',
@@ -188,13 +184,11 @@ describe('serialize', () => {
   })
 
   test('nested', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nested',
-        state: {
-          child: { plugin: 'stateful', state: 0 }
-        }
+    state = createInitialState({
+      ...state,
+      documents: {
+        root: { plugin: 'nested', state: { child: 'child0' } },
+        child0: { plugin: 'stateful', state: 0 }
       }
     })
     expect(serializeDocument(state)).toEqual({
@@ -209,13 +203,14 @@ describe('serialize', () => {
   })
 
   test('nested array', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nestedArray',
-        state: {
-          children: [{ plugin: 'stateful', state: 1 }]
-        }
+    state = createInitialState({
+      ...state,
+      documents: {
+        root: {
+          plugin: 'nestedArray',
+          state: { children: [{ id: 'pos0', value: 'child0' }] }
+        },
+        child0: { plugin: 'stateful', state: 1 }
       }
     })
     expect(serializeDocument(state)).toEqual({
@@ -232,24 +227,21 @@ describe('serialize', () => {
   })
 
   test('nested inside nested', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nestedArray',
-        state: {
-          children: [
-            { plugin: 'stateful', state: 1 },
-            {
-              plugin: 'nested',
-              state: {
-                child: {
-                  plugin: 'stateful',
-                  state: 2
-                }
-              }
-            }
-          ]
-        }
+    state = createInitialState({
+      ...state,
+      documents: {
+        root: {
+          plugin: 'nestedArray',
+          state: {
+            children: [
+              { id: 'pos0', value: 'child0' },
+              { id: 'pos1', value: 'child1' }
+            ]
+          }
+        },
+        child0: { plugin: 'stateful', state: 1 },
+        child1: { plugin: 'nested', state: { child: 'child2' } },
+        child2: { plugin: 'stateful', state: 2 }
       }
     })
 
@@ -689,6 +681,7 @@ function createInitialState(baseState: BaseState): State {
       pending: 0
     },
     clipboard: [],
-    editable: true
+    editable: true,
+    root: 'root'
   }
 }

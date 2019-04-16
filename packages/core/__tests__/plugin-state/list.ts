@@ -28,15 +28,21 @@ describe('list', () => {
 
   test('initial list with 0 children', () => {
     const state = list(child())
-    const initial = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
 
+    const initial = initialState.immediateState
     expect(initial).toEqual([])
   })
 
   test('initial list with one initial child', () => {
     const state = list(child(), 1)
-    const initial = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
 
+    const initial = initialState.immediateState
     expect(initial).toHaveLength(1)
     expect(typeof initial[0].id).toEqual('string')
     expect(typeof initial[0].value).toEqual('string')
@@ -44,8 +50,11 @@ describe('list', () => {
 
   test('initial list with two initial children', () => {
     const state = list(child(), 2)
-    const initial = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
 
+    const initial = initialState.immediateState
     expect(initial).toHaveLength(2)
     expect(initial[0].id).not.toEqual(initial[1].id)
     expect(initial[0].value).not.toEqual(initial[1].value)

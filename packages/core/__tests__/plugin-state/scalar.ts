@@ -19,7 +19,9 @@ describe('scalar', () => {
   test('initial', () => {
     const state = scalar(0)
 
-    expect(state.createInitialState(deserializeHelpers)).toEqual(0)
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      0
+    )
   })
 
   test('deserialize', () => {
@@ -56,7 +58,9 @@ describe('serialized scalar', () => {
   })
 
   test('initial', () => {
-    expect(state.createInitialState(deserializeHelpers)).toEqual({ value: 0 })
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      { value: 0 }
+    )
   })
 
   test('deserialize', () => {
@@ -96,12 +100,16 @@ describe('serialized scalar', () => {
 describe('boolean', () => {
   test('default initial value', () => {
     const state = boolean()
-    expect(state.createInitialState(deserializeHelpers)).toEqual(false)
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      false
+    )
   })
 
   test('initial value', () => {
     const state = boolean(true)
-    expect(state.createInitialState(deserializeHelpers)).toEqual(true)
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      true
+    )
   })
 
   test('return type', () => {
@@ -131,21 +139,29 @@ describe('boolean', () => {
 describe('number', () => {
   test('default initial value', () => {
     const state = number()
-    expect(state.createInitialState(deserializeHelpers)).toEqual(0)
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      0
+    )
   })
   test('initial value', () => {
     const state = number(1)
-    expect(state.createInitialState(deserializeHelpers)).toEqual(1)
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      1
+    )
   })
 })
 
 describe('string', () => {
   test('default initial value', () => {
     const state = string()
-    expect(state.createInitialState(deserializeHelpers)).toEqual('')
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      ''
+    )
   })
   test('initial value', () => {
     const state = string('foobar')
-    expect(state.createInitialState(deserializeHelpers)).toEqual('foobar')
+    expect(state.createInitialState(deserializeHelpers).immediateState).toEqual(
+      'foobar'
+    )
   })
 })

@@ -13,7 +13,10 @@ describe('Child', () => {
     const state = child()
 
     // Store
-    const id = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
+    const id = initialState.immediateState
     expect(typeof id).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
     expect(helpers.createDocument).toBeCalledWith({
@@ -25,7 +28,10 @@ describe('Child', () => {
     const state = child('counter')
 
     // Store
-    const id = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
+    const id = initialState.immediateState
     expect(typeof id).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
     expect(helpers.createDocument).toBeCalledWith({
@@ -38,7 +44,10 @@ describe('Child', () => {
     const state = child('counter', 3)
 
     // Store
-    const id = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
+    const id = initialState.immediateState
     expect(typeof id).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
     expect(helpers.createDocument).toBeCalledWith({

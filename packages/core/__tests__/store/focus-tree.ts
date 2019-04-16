@@ -5,7 +5,7 @@ import {
   findNextNode,
   findPreviousNode
 } from '../../src/store/focus-tree'
-import { ActionType, BaseState, State, reducer } from '../../src/store'
+import { BaseState, State } from '../../src/store'
 
 let state: State
 
@@ -19,12 +19,9 @@ beforeEach(() => {
 
 describe('getFocusTree', () => {
   test('empty tree initially', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'stateless',
-        id: '0'
-      }
+    state = createInitialState({
+      ...state,
+      documents: { root: { plugin: 'stateless' }, '0': { plugin: 'stateless' } }
     })
     expect(getFocusTree(state)).toEqual({
       id: 'root'
@@ -32,18 +29,24 @@ describe('getFocusTree', () => {
   })
 
   test('height 1', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nestedArray',
-        state: {
-          children: [
-            { plugin: 'stateful', state: 0 },
-            { plugin: 'stateful', state: 1 },
-            { plugin: 'stateful', state: 2 },
-            { plugin: 'stateful', state: 3 }
-          ]
-        }
+    state = createInitialState({
+      ...state,
+      documents: {
+        root: {
+          plugin: 'nestedArray',
+          state: {
+            children: [
+              { id: 'pos0', value: 'child0' },
+              { id: 'pos1', value: 'child1' },
+              { id: 'pos2', value: 'child2' },
+              { id: 'pos3', value: 'child3' }
+            ]
+          }
+        },
+        child0: { plugin: 'stateful', state: 0 },
+        child1: { plugin: 'stateful', state: 1 },
+        child2: { plugin: 'stateful', state: 2 },
+        child3: { plugin: 'stateful', state: 3 }
       }
     })
 
@@ -57,11 +60,12 @@ describe('getFocusTree', () => {
   })
 
   test('blockquote in rows', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'rows',
-        state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
+    state = createInitialState({
+      ...state,
+      documents: {
+        root: { plugin: 'rows', state: [{ id: 'pos0', value: 'child0' }] },
+        child0: { plugin: 'blockquote', state: { child: 'child1' } },
+        child1: { plugin: 'text' }
       }
     })
 
@@ -210,6 +214,7 @@ function createInitialState(baseState: BaseState): State {
       pending: 0
     },
     clipboard: [],
-    editable: true
+    editable: true,
+    root: 'root'
   }
 }

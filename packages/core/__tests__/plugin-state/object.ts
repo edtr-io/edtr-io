@@ -21,8 +21,11 @@ describe('object', () => {
       foo: child(),
       counter: number()
     })
-    const initial = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
 
+    const initial = initialState.immediateState
     expect(initial.counter).toEqual(0)
     expect(typeof initial.foo).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
@@ -33,8 +36,11 @@ describe('object', () => {
       foo: child(),
       bar: child()
     })
-    const initial = state.createInitialState(helpers)
+    const initialState = state.createInitialState(helpers)
+    expect(typeof initialState).toEqual('object')
+    expect(Object.keys(initialState)).toContain('immediateState')
 
+    const initial = initialState.immediateState
     expect(typeof initial.foo).toEqual('string')
     expect(typeof initial.bar).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(2)
