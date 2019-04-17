@@ -24,7 +24,7 @@ import { insertKatex, isKatex } from '../plugins/katex'
 
 export const Controls: React.FunctionComponent<{
   editor: Editor
-  readOnly: boolean
+  readOnly?: boolean
 }> = props => {
   const { editor } = props
   const overlayContext = React.useContext(OverlayContext)
@@ -67,7 +67,6 @@ export const Controls: React.FunctionComponent<{
 
               if (!active) {
                 insertKatex(editor)
-                setTimeout(overlayContext.show)
               }
             }}
           >
@@ -83,6 +82,7 @@ export interface UiPluginOptions {
   Component: React.ComponentType<
     Partial<EditorProps> & {
       editor: Editor
+      readOnly?: boolean
     }
   >
 }

@@ -7,6 +7,7 @@ import {
 import { debounce } from 'lodash'
 import * as React from 'react'
 import { Block, Editor, Inline, BlockJSON, InlineJSON } from 'slate'
+import { isHotkey } from 'is-hotkey'
 
 import { Math } from './math.component'
 import { OverlayContext } from '@edtr-io/core'
@@ -17,6 +18,11 @@ import {
   Overlay,
   Textarea
 } from '@edtr-io/ui'
+
+// @ts-ignore
+import MathQuill, { addStyles as addMathquillStyles } from 'react-mathquill'
+
+addMathquillStyles()
 
 export const katexBlockNode = '@splish-me/katex-block'
 export const katexInlineNode = '@splish-me/katex-inline'
@@ -50,11 +56,48 @@ export interface KatexPluginOptions {
 const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps
 > = props => {
-  const { attributes, node } = props
+  const { attributes, node, editor } = props
 
   const { data } = node as Block | Inline
-  const formula = data.get('formula')
   const inline = data.get('inline')
+  const formula = data.get('formula')
+  const setFormula = React.useState(
+    node ? node.data.get('formula') : undefined
+  )[1]
+
+  const handleChange = debounce((formula: string) => {
+    editor.setNodeByKey(node.key, {
+      type: node.type,
+      data: {
+        formula,
+        inline: node.data.get('inline')
+      }
+    })
+  }, 500)
+
+  if (props.isSelected && editor.value.selection.isCollapsed) {
+    return (
+      <div
+        onClick={e => {
+          e.stopPropagation()
+        }}
+        style={{
+          whiteSpace: undefined,
+          overflowWrap: undefined,
+          display: 'inline'
+        }}
+      >
+        <MathQuill
+          latex={formula} // Initial latex value for the input field
+          onChange={(latex: string) => {
+            // Called everytime the input changes
+            setFormula(latex)
+            handleChange(latex)
+          }}
+        />
+      </div>
+    )
+  }
 
   return (
     <span {...attributes}>
@@ -77,7 +120,7 @@ const DefaultControlsComponent: React.FunctionComponent<
     editor.value.inlines.find(inlineIsKatex)
   const lastNode = React.useRef(node)
   const [value, setValue] = React.useState(
-    node ? node.data.get('href') : undefined
+    node ? node.data.get('formula') : undefined
   )
   const [graphicalEditor, showGraphicalEditor] = React.useState(false)
   if (!node) return <React.Fragment>{props.children}</React.Fragment>
@@ -114,9 +157,7 @@ const DefaultControlsComponent: React.FunctionComponent<
         <InlineSettings
           onEdit={overlayContext.show}
           onDelete={() => editor.delete()}
-        >
-          {node.data.get('formula')}
-        </InlineSettings>
+        />
       ) : null}
       {!props.readOnly && isKatex(editor) ? (
         <Overlay
@@ -134,7 +175,7 @@ const DefaultControlsComponent: React.FunctionComponent<
               setValue(newValue)
               handleChange(newValue)
             }}
-            placeholder="\\frac{1}{2}"
+            placeholder="Gib hier LaTeX ein, wie z.B. \frac{1}{2}"
           />
           <Button
             onClick={() => {
@@ -237,6 +278,15 @@ export const createKatexPlugin = ({
       }
     },
 
+    onKeyDown(event, editor, next) {
+      const e = (event as unknown) as KeyboardEvent
+      if (isHotkey('mod+m')(e)) {
+        insertKatex(editor)
+        e.preventDefault()
+      }
+      next()
+    },
+
     renderNode(props, _editor, next) {
       const block = props.node as Block
       const inline = props.node as Inline
@@ -245,7 +295,7 @@ export const createKatexPlugin = ({
         (block.object === 'block' && block.type === katexBlockNode) ||
         (inline.object === 'inline' && inline.type === katexInlineNode)
       ) {
-        return <EditorComponent {...props} />
+        return <EditorComponent {...props} editor={_editor} />
       }
 
       return next()
