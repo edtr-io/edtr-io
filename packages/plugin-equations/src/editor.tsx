@@ -131,6 +131,6 @@ export class EquationsEditor extends React.Component<
       )
     }
 
-    return <EquationsRenderer state={state} />
+    return <EquationsRenderer {...this.props} />
   }
 }

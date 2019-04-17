@@ -33,10 +33,7 @@ export class ScMcRendererInteractive extends React.Component<
   public render() {
     return (
       <React.Fragment>
-        <ScMcAnswersRenderer
-          state={this.props.state}
-          showAnswer={this.showAnswer}
-        />
+        <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
         {this.showGlobalFeedback()}
         {this.showSubmitButton()}
       </React.Fragment>

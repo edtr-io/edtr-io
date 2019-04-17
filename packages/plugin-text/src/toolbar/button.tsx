@@ -1,19 +1,17 @@
 import {
   styled,
-  createEditorUiElementTheme,
+  createEditorUiTheme,
   EditorThemeProps
 } from '@edtr-io/editor-ui'
 
 // FIXME; Plugin theme
-export const createButtonTheme = createEditorUiElementTheme<ButtonTheme>(
-  theme => {
-    return {
-      activeColor: theme.primary.background,
-      color: theme.color,
-      hoverColor: theme.primary.background
-    }
+export const createButtonTheme = createEditorUiTheme<ButtonTheme>(theme => {
+  return {
+    activeColor: theme.primary.background,
+    color: theme.color,
+    hoverColor: theme.primary.background
   }
-)
+})
 
 export const Button = styled.button<{ active?: boolean }>(
   ({ active, ...props }: { active?: boolean } & EditorThemeProps) => {

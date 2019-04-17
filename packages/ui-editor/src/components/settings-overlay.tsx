@@ -3,20 +3,18 @@ import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
-import { createEditorUiElementTheme, EditorThemeProps, styled } from '../theme'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { Icon, faTimes, faPencilAlt, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'
 
-export const createOverlayTheme = createEditorUiElementTheme<OverlayTheme>(
-  theme => {
-    return {
-      backgroundColor: theme.backgroundColor,
-      color: theme.color,
-      overlayBackgroundColor: '#00000033',
-      highlightColor: theme.primary.background
-    }
+export const createOverlayTheme = createEditorUiTheme<OverlayTheme>(theme => {
+  return {
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    overlayBackgroundColor: '#00000033',
+    highlightColor: theme.primary.background
   }
-)
+})
 
 const OverlayWrapper = styled.div((props: EditorThemeProps) => {
   const theme = createOverlayTheme('overlay', props.theme)

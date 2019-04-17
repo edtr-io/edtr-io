@@ -17,7 +17,7 @@ export const GeogebraEditor = (
   return (
     <React.Fragment>
       <ContainerWithConfigButton>
-        <GeogebraRenderer state={state} disableCursorEvents={editable} />
+        <GeogebraRenderer {...props} disableCursorEvents={editable} />
       </ContainerWithConfigButton>
       {focused ? (
         <Overlay>

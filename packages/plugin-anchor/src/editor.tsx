@@ -5,15 +5,14 @@ import * as React from 'react'
 import { AnchorRenderer } from './renderer'
 import { anchorState } from '.'
 
-export const AnchorEditor = ({
-  editable,
-  focused,
-  state
-}: StatefulPluginEditorProps<typeof anchorState>) => {
+export const AnchorEditor = (
+  props: StatefulPluginEditorProps<typeof anchorState>
+) => {
+  const { editable, focused, state } = props
   return (
     <React.Fragment>
       {editable ? <Icon icon={faLink} /> : null}
-      <AnchorRenderer state={state} />
+      <AnchorRenderer {...props} />
       {focused ? (
         <React.Fragment>
           <hr />

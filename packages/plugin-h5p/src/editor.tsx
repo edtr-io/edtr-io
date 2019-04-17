@@ -18,7 +18,7 @@ export class H5pEditor extends React.Component<
     return (
       <React.Fragment>
         <ContainerWithConfigButton>
-          <H5pRenderer key={state.src()} state={state} />
+          <H5pRenderer {...this.props} key={state.src()} />
         </ContainerWithConfigButton>
         {focused ? (
           <Overlay>

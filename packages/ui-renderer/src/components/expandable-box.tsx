@@ -1,13 +1,9 @@
 import * as React from 'react'
 
-import {
-  createRendererUiElementTheme,
-  RendererThemeProps,
-  styled
-} from '../theme'
+import { createRendererUiTheme, RendererThemeProps, styled } from '../theme'
 import { faCaretSquareDown, faCaretSquareUp, Icon } from './icon'
 
-export const createExpandableBoxTheme = createRendererUiElementTheme<
+export const createExpandableBoxTheme = createRendererUiTheme<
   ExpandableBoxTheme
 >(theme => {
   return {

@@ -1,17 +1,15 @@
-import { createEditorUiElementTheme, EditorThemeProps, styled } from '../theme'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createButtonTheme = createEditorUiElementTheme<ButtonTheme>(
-  theme => {
-    return {
-      backgroundColor: 'transparent',
-      color: theme.color,
-      borderColor: theme.color,
-      hoverBackgroundColor: 'transparent',
-      hoverColor: theme.primary.background,
-      hoverBorderColor: theme.primary.background
-    }
+export const createButtonTheme = createEditorUiTheme<ButtonTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.color,
+    borderColor: theme.color,
+    hoverBackgroundColor: 'transparent',
+    hoverColor: theme.primary.background,
+    hoverBorderColor: theme.primary.background
   }
-)
+})
 
 export const Button = styled.button((props: EditorThemeProps) => {
   const theme = createButtonTheme('button', props.theme)

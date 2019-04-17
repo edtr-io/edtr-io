@@ -15,7 +15,7 @@ export class ScMcExerciseEditor extends React.Component<
     return (
       <React.Fragment>
         {!editable ? (
-          <ScMcExerciseRenderer state={state} />
+          <ScMcExerciseRenderer {...this.props} />
         ) : (
           <React.Fragment>
             <hr />

@@ -11,7 +11,7 @@ import {
 import * as R from 'ramda'
 import * as React from 'react'
 import styled, {
-  ThemeConsumer as StyledThemeConsumer,
+  ThemeContext as StyledThemeContext,
   ThemeProps as StyledThemeProps,
   ThemeProvider as StyledThemeProvider,
   ThemeProviderProps as StyledThemeProviderProps
@@ -45,9 +45,13 @@ export function RootThemeProvider(
   return <StyledThemeProvider {...props} theme={theme} />
 }
 
-export const ThemeConsumer: React.Context<
-  Theme
->['Consumer'] = StyledThemeConsumer
+export const ThemeContext: React.Context<Theme> = StyledThemeContext
+export const ThemeConsumer: React.Context<Theme>['Consumer'] =
+  ThemeContext.Consumer
+export function useTheme() {
+  return React.useContext(ThemeContext)
+}
+
 export function ThemeProvider(props: StyledThemeProviderProps<CustomTheme>) {
   return (
     <ThemeConsumer>
@@ -60,10 +64,7 @@ export function ThemeProvider(props: StyledThemeProviderProps<CustomTheme>) {
 }
 
 export function createPluginTheme<T>(
-  createDefaultTheme: (theme: {
-    editor: EditorTheme
-    renderer: RendererTheme
-  }) => T
+  createDefaultTheme: PluginThemeFactory<T>
 ) {
   return (pluginName: string, theme: Theme): T => {
     return (R.mergeDeepRight(
@@ -72,6 +73,18 @@ export function createPluginTheme<T>(
     ) as unknown) as T
   }
 }
+export function usePluginTheme<T>(
+  pluginName: string,
+  createDefaultTheme: PluginThemeFactory<T>
+) {
+  const theme = useTheme()
+  return createPluginTheme(createDefaultTheme)(pluginName, theme)
+}
+
+export type PluginThemeFactory<T> = (theme: {
+  editor: EditorTheme
+  renderer: RendererTheme
+}) => T
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

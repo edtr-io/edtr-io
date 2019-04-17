@@ -1,5 +1,8 @@
 import * as R from 'ramda'
-import styled, { ThemeProps as StyledThemeProps } from 'styled-components'
+import styled, {
+  ThemeProps as StyledThemeProps,
+  ThemeContext as StyledThemeContext
+} from 'styled-components'
 
 import {
   ButtonTheme,
@@ -8,6 +11,7 @@ import {
   OverlayTheme,
   TextareaTheme
 } from '.'
+import * as React from 'react'
 
 export { styled }
 
@@ -82,8 +86,15 @@ export type EditorThemeProps = StyledThemeProps<{
   editorUi: EditorUiTheme
 }>
 
-export function createEditorUiElementTheme<T>(
-  createDefaultTheme: (theme: EditorTheme) => T
+export function useEditorTheme(): {
+  editor: EditorTheme
+  editorUi: EditorUiTheme
+} {
+  return React.useContext(StyledThemeContext)
+}
+
+export function createEditorUiTheme<T>(
+  createDefaultTheme: EditorUiThemeFactory<T>
 ) {
   return (
     key: keyof EditorUiTheme,
@@ -95,6 +106,15 @@ export function createEditorUiElementTheme<T>(
     ) as unknown) as T
   }
 }
+export function useEditorUiTheme<T>(
+  key: keyof EditorUiTheme,
+  createDefaultTheme: EditorUiThemeFactory<T>
+) {
+  const theme = useEditorTheme()
+  return createEditorUiTheme(createDefaultTheme)(key, theme)
+}
+
+export type EditorUiThemeFactory<T> = (theme: EditorTheme) => T
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

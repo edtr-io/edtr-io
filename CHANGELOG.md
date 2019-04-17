@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Breaking Changes
 
+- **core**. Mark `name` as required in `StatelessEditorProps`
 - **plugin-image**. Image-plugin has new required `maxWidth` - state property
 - **ui**. Theming is handled differently. We now differentiate between editor ui elements, renderer ui elements and plugins. Furthermore, we now use a different (but more consistent) naming scheme.
 - **ui**. Moved editor ui elements (e.g. `Button`, `SettingsOverlay`) to the new package `@edtr-io/editor-ui`.

@@ -1,3 +1,4 @@
+import { SpoilerTheme } from '@edtr-io/plugin-spoiler'
 import { CustomTheme } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
@@ -10,6 +11,7 @@ storiesOf('Theming', module).add('Custom Theme', () => {
     state: [{ plugin: 'text' }]
   }
 
+  /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
   const theme: CustomTheme = {
     editor: {
       color: '#222',
@@ -45,8 +47,14 @@ storiesOf('Theming', module).add('Custom Theme', () => {
       expandableBox: {
         toggleBorderColor: 'red'
       }
+    },
+    plugins: {
+      spoiler: {
+        color: 'red'
+      } as SpoilerTheme
     }
   }
+  /* eslint-enable @typescript-eslint/no-object-literal-type-assertion */
 
   return <EditorStory defaultPlugin="text" initialState={state} theme={theme} />
 })
