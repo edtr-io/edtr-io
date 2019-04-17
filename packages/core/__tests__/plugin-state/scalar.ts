@@ -7,6 +7,7 @@ import {
   StoreDeserializeHelpers,
   string
 } from '../../src/plugin-state'
+import { AsyncState } from '../../src/plugin'
 
 const deserializeHelpers = {
   createDocument: () => {}
@@ -27,7 +28,7 @@ describe('scalar', () => {
   test('deserialize', () => {
     const state = scalar(0)
 
-    expect(state.deserialize(1, deserializeHelpers)).toEqual(1)
+    expect(state.deserialize(1, deserializeHelpers).immediateState).toEqual(1)
   })
 })
 
@@ -64,7 +65,9 @@ describe('serialized scalar', () => {
   })
 
   test('deserialize', () => {
-    expect(state.deserialize('{"value":1}', deserializeHelpers)).toEqual({
+    expect(
+      state.deserialize('{"value":1}', deserializeHelpers).immediateState
+    ).toEqual({
       value: 1
     })
   })
@@ -86,9 +89,9 @@ describe('serialized scalar', () => {
     const initial = { value: 0 }
     let store = initial
     const onChange = (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => AsyncState<T>
     ) => {
-      store = updater(store, deserializeHelpers)
+      store = updater(store, deserializeHelpers).immediateState
     }
     const scalarValue = state(initial, onChange)
 
@@ -124,9 +127,12 @@ describe('boolean', () => {
     const state = boolean(initial)
     let store = initial
     const onChange = (
-      updater: (oldValue: boolean, helpers: StoreDeserializeHelpers) => boolean
+      updater: (
+        oldValue: boolean,
+        helpers: StoreDeserializeHelpers
+      ) => AsyncState<boolean>
     ) => {
-      store = updater(store, deserializeHelpers)
+      store = updater(store, deserializeHelpers).immediateState
     }
 
     const booleanValue = state(initial, onChange)

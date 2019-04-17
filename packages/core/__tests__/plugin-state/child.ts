@@ -65,7 +65,7 @@ describe('Child', () => {
     }
 
     // Store
-    const id = state.deserialize(serialized, helpers)
+    const id = state.deserialize(serialized, helpers).immediateState
     expect(typeof id).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
     expect(helpers.createDocument).toBeCalledWith({

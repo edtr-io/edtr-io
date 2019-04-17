@@ -4,6 +4,7 @@ import {
   StoreDeserializeHelpers,
   string
 } from '../../src/plugin-state'
+import { AsyncState } from '../../src/plugin'
 
 describe('list', () => {
   interface T {
@@ -14,9 +15,12 @@ describe('list', () => {
   let helpers: StoreDeserializeHelpers & { createDocument: jest.Mock }
   let store: T[]
   let onChange = (
-    updater: (oldItems: T[], helpers: StoreDeserializeHelpers) => T[]
+    updater: (
+      oldItems: T[],
+      helpers: StoreDeserializeHelpers
+    ) => AsyncState<T[]>
   ) => {
-    store = updater(store, helpers)
+    store = updater(store, helpers).immediateState
   }
 
   beforeEach(() => {
@@ -66,7 +70,7 @@ describe('list', () => {
       { plugin: 'counter', state: 0 },
       { plugin: 'counter', state: 1 }
     ]
-    const deserialized = state.deserialize(serialized, helpers)
+    const deserialized = state.deserialize(serialized, helpers).immediateState
     expect(deserialized).toHaveLength(2)
     expect(typeof deserialized[0].id).toEqual('string')
     expect(typeof deserialized[0].value).toEqual('string')

@@ -4,6 +4,7 @@ import {
   object,
   StoreDeserializeHelpers
 } from '../../src/plugin-state'
+import { AsyncState } from '../../src/plugin'
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
@@ -58,7 +59,7 @@ describe('object', () => {
       counter: 5
     }
 
-    const deserialized = state.deserialize(serialized, helpers)
+    const deserialized = state.deserialize(serialized, helpers).immediateState
     expect(typeof deserialized.foo).toEqual('string')
     expect(deserialized.counter).toEqual(5)
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
@@ -125,9 +126,9 @@ describe('object', () => {
       updater: (
         oldValue: typeof initial,
         helpers: StoreDeserializeHelpers
-      ) => typeof initial
+      ) => AsyncState<typeof initial>
     ) => {
-      store = updater(store, helpers)
+      store = updater(store, helpers).immediateState
     }
 
     const objValue = state(initial, onChange)
