@@ -1,7 +1,10 @@
 import KaTeX from 'katex'
 import * as React from 'react'
 
-const createMathComponent = (Component, { displayMode }) => {
+const createMathComponent = (
+  Component: any,
+  { displayMode }: { displayMode: boolean }
+) => {
   interface MathComponentProps {
     math: string
     errorColor?: string
@@ -83,7 +86,12 @@ const InlineMath = createMathComponent(IInlineMath, {
   displayMode: false
 })
 
-const handleError = (formula, error, inline, oldErrorPosition) => {
+const handleError = (
+  formula: string,
+  error: any,
+  inline: boolean,
+  oldErrorPosition: number
+) => {
   const errorStyle = {
     color: '#CC0000'
   }
@@ -129,7 +137,7 @@ export class Math extends React.Component<MathProps> {
       <Component
         math={formula}
         renderError={error =>
-          handleError(formula, error, inline, oldErrorPosition)
+          handleError(formula, error, !inline, oldErrorPosition as number)
         }
       />
     )

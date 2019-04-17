@@ -217,7 +217,7 @@ export const HoveringOverlay: React.FunctionComponent<{
     menu.style.top =
       (props.position == 'above' && aboveValue >= 0
         ? aboveValue
-        : rect.bottom + 3) -
+        : rect.bottom + 6) -
       parentRect.top +
       'px'
 
