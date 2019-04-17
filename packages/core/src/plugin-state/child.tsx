@@ -43,10 +43,10 @@ export function child<
       deserialize(
         serialized: { plugin: K; state?: S },
         { createDocument }: StoreDeserializeHelpers<K, S>
-      ): string {
+      ) {
         const id = v4()
         createDocument({ id, ...serialized })
-        return id
+        return { immediateState: id }
       },
       serialize(
         id: string,

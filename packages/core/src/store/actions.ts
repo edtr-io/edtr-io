@@ -1,6 +1,6 @@
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { ActionCommitType } from '@edtr-io/core'
-import { AsyncPluginState, PluginState } from '../plugin'
+import { AsyncPluginState, AsyncState, PluginState } from '../plugin'
 
 export enum ActionType {
   InitRoot = 'InitRoot',
@@ -17,7 +17,7 @@ export enum ActionType {
   CopyToClipboard = 'CopyToClipboard',
   SwitchEditable = 'SwitchEditable',
 
-  EffectfulChange = 'AsyncChange',
+  AsyncChange = 'AsyncChange',
   AsyncInsert = 'AsyncInsert'
 }
 
@@ -67,11 +67,11 @@ export interface ChangeAction<S = unknown> {
   }
 }
 
-export interface EffectfulChangeAction<S = unknown> {
-  type: ActionType.EffectfulChange
+export interface AsyncChangeAction<S = unknown> {
+  type: ActionType.AsyncChange
   payload: {
     id: string
-    state: (value: S, helpers: StoreDeserializeHelpers) => S
+    state: (value: S, helpers: StoreDeserializeHelpers) => AsyncState<S>
   }
 }
 

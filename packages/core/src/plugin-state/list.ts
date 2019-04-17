@@ -6,6 +6,7 @@ import {
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
+import { AsyncState } from '../plugin'
 
 export function list<S, T = S, U = unknown>(
   type: StateDescriptor<S, T, U>,
@@ -35,7 +36,7 @@ export function list<S, T = S, U = unknown>(
         updater: (
           oldItems: WrappedValue[],
           helpers: StoreDeserializeHelpers
-        ) => WrappedValue[]
+        ) => AsyncState<WrappedValue[]>
       ) => void
     ) => {
       const getItems = () =>
@@ -43,16 +44,24 @@ export function list<S, T = S, U = unknown>(
 
       function createOnChange(id: string) {
         return (
-          updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+          updater: (
+            oldValue: T,
+            helpers: StoreDeserializeHelpers
+          ) => AsyncState<T>
         ) => {
           onChange(
             (oldItems: WrappedValue[], helpers: StoreDeserializeHelpers) => {
               const index = R.findIndex(R.propEq('id', id), oldItems)
-              return R.update(
-                index,
-                { value: updater(oldItems[index].value, helpers), id: id },
-                oldItems
-              )
+              const updatedValue = updater(oldItems[index].value, helpers)
+              return {
+                immediateState: updateValue(updatedValue.immediateState),
+                asyncState: updatedValue.asyncState
+                  ? updatedValue.asyncState.then(updateValue)
+                  : undefined
+              }
+              function updateValue(value: T) {
+                return R.update(index, { value: value, id: id }, oldItems)
+              }
             }
           )
         }
@@ -62,26 +71,48 @@ export function list<S, T = S, U = unknown>(
         items: getItems(),
         insert(index?: number, options?: S) {
           onChange((items, helpers) => {
-            const wrappedSubstate = wrap(
-              options
-                ? type.deserialize(options, helpers)
-                : //FIXME: handel asyncState if set
-                  type.createInitialState(helpers).immediateState
-            )
-            return R.insert(
-              index === undefined ? items.length : index,
-              wrappedSubstate,
-              items
-            )
+            const initial =
+              options === undefined
+                ? type.createInitialState(helpers)
+                : type.deserialize(options, helpers)
+
+            const wrappedSubstate = wrap(initial.immediateState)
+            let asyncState: Promise<WrappedValue[]> | undefined
+            if (initial.asyncState) {
+              asyncState = initial.asyncState
+                .then(wrap)
+                .then(resolvedSubstate => {
+                  return R.insert(
+                    index === undefined ? items.length : index,
+                    resolvedSubstate,
+                    items
+                  )
+                })
+            }
+
+            return {
+              immediateState: R.insert(
+                index === undefined ? items.length : index,
+                wrappedSubstate,
+                items
+              ),
+              asyncState
+            }
           })
         },
         remove(index: number) {
           onChange(items => {
-            return R.remove(index, 1, items)
+            return {
+              immediateState: R.remove(index, 1, items)
+            }
           })
         },
         move(from: number, to: number) {
-          onChange(items => R.move(from, to, items))
+          onChange(items => {
+            return {
+              immediateState: R.move(from, to, items)
+            }
+          })
         }
       })
     },
@@ -90,36 +121,14 @@ export function list<S, T = S, U = unknown>(
         const initialStates = R.times(
           () => type.createInitialState(helpers),
           initialCount
-        ).map(state => ({
-          immediateState: wrap(state.immediateState),
-          asyncState: state.asyncState
-            ? state.asyncState.then(resolvedState => wrap(resolvedState))
-            : // Promise existing state
-              Promise.resolve(wrap(state.immediateState))
-        }))
-        const immediateStates = R.reduce(
-          (acc, initialState) => {
-            return R.append(initialState.immediateState, acc)
-          },
-          [] as WrappedValue[],
-          initialStates
         )
-
-        const asyncState = Promise.all(
-          initialStates.map(state => state.asyncState)
-        )
-        return {
-          immediateState: immediateStates,
-          asyncState: asyncState
-        }
+        return createAsyncState(initialStates)
       },
-      deserialize(
-        serialized: S[],
-        helpers: StoreDeserializeHelpers
-      ): WrappedValue[] {
-        return R.map(s => {
-          return wrap(type.deserialize(s, helpers))
-        }, serialized)
+      deserialize(serialized: S[], helpers: StoreDeserializeHelpers) {
+        const deserializedStates = serialized.map(s =>
+          type.deserialize(s, helpers)
+        )
+        return createAsyncState(deserializedStates)
       },
       serialize(
         deserialized: WrappedValue[],
@@ -132,6 +141,30 @@ export function list<S, T = S, U = unknown>(
     }
   )
 
+  function createAsyncState(
+    states: AsyncState<T>[]
+  ): AsyncState<WrappedValue[]> {
+    const initialStates = states.map(state => ({
+      immediateState: wrap(state.immediateState),
+      asyncState: state.asyncState
+        ? state.asyncState.then(resolvedState => wrap(resolvedState))
+        : // Promise existing state
+          Promise.resolve(wrap(state.immediateState))
+    }))
+    const immediateStates = R.reduce(
+      (acc, initialState) => {
+        return R.append(initialState.immediateState, acc)
+      },
+      [] as WrappedValue[],
+      initialStates
+    )
+
+    const asyncState = Promise.all(initialStates.map(state => state.asyncState))
+    return {
+      immediateState: immediateStates,
+      asyncState: asyncState
+    }
+  }
   function wrap(value: T): WrappedValue {
     return {
       id: v4(),

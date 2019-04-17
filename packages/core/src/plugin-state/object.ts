@@ -5,8 +5,8 @@ import {
   StateDescriptor,
   StoreDeserializeHelpers,
   StoreSerializeHelpers,
-  StateDescriptorReturnType,
-  StateDescriptorsSerializedType
+  StateDescriptorsSerializedType,
+  StateDescriptorValueType
 } from './types'
 import { AsyncState } from '../plugin'
 
@@ -22,24 +22,40 @@ export function object<Ds extends Record<string, StateDescriptor>>(
   type S = StateDescriptorsSerializedType<Ds>
   type T = StateDescriptorsValueType<Ds>
   type U = StateDescriptorsReturnType<Ds>
+  type AsyncStates = {
+    [K in keyof Ds]: AsyncState<StateDescriptorValueType<Ds[K]>>
+  }
   return Object.assign(
     (
       initialValue: T,
       onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+        updater: (
+          oldValue: T,
+          helpers: StoreDeserializeHelpers
+        ) => AsyncState<T>
       ) => void
     ) => {
       const getObject = (): U =>
         R.mapObjIndexed((type, key) => {
+          type InnerValueType = StateDescriptorValueType<typeof type>
           function innerOnChange(
             updater: (
-              oldValue: StateDescriptorReturnType<typeof type>,
+              oldValue: InnerValueType,
               helpers: StoreDeserializeHelpers
-            ) => StateDescriptorReturnType<typeof type>
+            ) => AsyncState<InnerValueType>
           ): void {
-            onChange((oldObj, helpers) =>
-              R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
-            )
+            onChange((oldObj, helpers) => {
+              const updatedValue = updater(oldObj[key], helpers)
+              return {
+                immediateState: updateValue(updatedValue.immediateState),
+                asyncState: updatedValue.asyncState
+                  ? updatedValue.asyncState.then(updateValue)
+                  : undefined
+              }
+              function updateValue(value: InnerValueType) {
+                return R.set(R.lensProp(key), value, oldObj)
+              }
+            })
           }
           return type(initialValue[key], innerOnChange)
         }, types) as U
@@ -48,37 +64,16 @@ export function object<Ds extends Record<string, StateDescriptor>>(
     },
     {
       createInitialState(helpers: StoreDeserializeHelpers) {
-        let state: AsyncState<T> = {
-          //@ts-ignore FIXME
-          immediateState: {},
-          //@ts-ignore FIXME
-          asyncState: Promise.resolve({})
-        }
-        for (let key in types) {
-          const type = types[key]
-          const initialState = type.createInitialState(helpers)
-          const asyncState =
-            initialState.asyncState || Promise.resolve(state.immediateState)
-          const mergedAsync = Promise.all([state.asyncState, asyncState]).then(
-            ([resolvedObj, resolvedState]) => ({
-              ...resolvedObj,
-              [key]: resolvedState
-            })
-          )
-          state = {
-            immediateState: {
-              ...state.immediateState,
-              [key]: initialState.immediateState
-            },
-            asyncState: mergedAsync
-          }
-        }
-        return state
+        const initialStates = R.mapObjIndexed(type => {
+          return type.createInitialState(helpers)
+        }, types) as AsyncStates
+        return createAsyncState(initialStates)
       },
-      deserialize(serialized: S, helpers: StoreDeserializeHelpers): T {
-        return R.mapObjIndexed((type, key) => {
+      deserialize(serialized: S, helpers: StoreDeserializeHelpers) {
+        const deserializedStates = R.mapObjIndexed((type, key) => {
           return type.deserialize(serialized[key], helpers)
-        }, types) as T
+        }, types) as AsyncStates
+        return createAsyncState(deserializedStates)
       },
       serialize(deserialized: T, helpers: StoreSerializeHelpers): S {
         return R.mapObjIndexed((type, key) => {
@@ -87,4 +82,24 @@ export function object<Ds extends Record<string, StateDescriptor>>(
       }
     }
   )
+
+  function createAsyncState(states: AsyncStates): AsyncState<T> {
+    const immediateStates: T = R.map(s => s.immediateState, states)
+    const state = {
+      immediateState: immediateStates,
+      asyncState: Promise.resolve(immediateStates)
+    }
+    R.forEachObjIndexed((initialState, key) => {
+      if (initialState.asyncState) {
+        state.asyncState = Promise.all([
+          state.asyncState,
+          initialState.asyncState
+        ]).then(([resolvedObj, resolvedState]) => ({
+          ...resolvedObj,
+          [key]: resolvedState
+        }))
+      }
+    }, states)
+    return state
+  }
 }

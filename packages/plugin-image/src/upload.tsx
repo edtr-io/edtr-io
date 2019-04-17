@@ -10,6 +10,21 @@ enum FileErrorCode {
   FILE_TOO_BIG,
   UPLOAD_FAILED
 }
+
+export function readFile(file: File): Promise<ImageLoaded> {
+  return new Promise(resolve => {
+    const reader = new FileReader()
+
+    reader.onload = function(e: ProgressEvent) {
+      // @ts-ignore FIXME
+      const dataUrl = e.target.result
+      resolve({ file, dataUrl })
+    }
+
+    reader.readAsDataURL(file)
+  })
+}
+
 export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
   private matchesAllowedExtensions(fileName: string) {
     const extension = fileName.slice(fileName.lastIndexOf('.') + 1)
@@ -72,20 +87,6 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
     }
   }
 
-  private readFile(file: File) {
-    return new Promise(resolve => {
-      const reader = new FileReader()
-
-      reader.onload = function(e: ProgressEvent) {
-        // @ts-ignore FIXME
-        const dataUrl = e.target.result
-        resolve({ file, dataUrl })
-      }
-
-      reader.readAsDataURL(file)
-    })
-  }
-
   public render() {
     const { config } = this.props
     return (
@@ -140,9 +141,7 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
                 } else {
                   const { onImageLoaded } = this.props
                   if (onImageLoaded) {
-                    this.readFile(files[0]).then(data =>
-                      onImageLoaded(data as ImageLoaded)
-                    )
+                    readFile(files[0]).then(data => onImageLoaded(data))
                   }
                   onFiles(files)
                 }

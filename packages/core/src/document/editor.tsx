@@ -3,6 +3,7 @@ import { HotKeys } from 'react-hotkeys'
 
 import { useEditorFocus } from '../hooks'
 import {
+  AsyncState,
   isStatefulPlugin,
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
@@ -44,7 +45,10 @@ export const DocumentEditor: React.FunctionComponent<
   let state: unknown
   if (isStatefulPlugin(plugin)) {
     const onChange = (
-      updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
+      updater: (
+        value: unknown,
+        helpers: StoreDeserializeHelpers
+      ) => AsyncState<unknown>
     ) => {
       props.change({
         id,

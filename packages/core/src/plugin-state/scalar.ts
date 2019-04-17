@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { StateDescriptor, StoreDeserializeHelpers } from './types'
+import { AsyncState } from '../plugin'
 
 export function boolean(initialValue?: boolean) {
   return scalar<boolean>(initialValue || false)
@@ -38,7 +39,10 @@ export function serializedScalar<S, T>(
     (
       value: T,
       onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+        updater: (
+          oldValue: T,
+          helpers: StoreDeserializeHelpers
+        ) => AsyncState<T>
       ) => void
     ) => {
       return Object.assign(() => value, {
@@ -47,9 +51,9 @@ export function serializedScalar<S, T>(
           onChange((currentValue: T) => {
             if (typeof param === 'function') {
               const updater = param as ((currentValue: T) => T)
-              return updater(currentValue)
+              return { immediateState: updater(currentValue) }
             } else {
-              return param
+              return { immediateState: param }
             }
           })
         }
@@ -60,7 +64,9 @@ export function serializedScalar<S, T>(
         immediateState: initialState
       }),
       deserialize(serialized: S) {
-        return serializer.deserialize(serialized)
+        return {
+          immediateState: serializer.deserialize(serialized)
+        }
       },
       serialize(deserialized: T) {
         return serializer.serialize(deserialized)

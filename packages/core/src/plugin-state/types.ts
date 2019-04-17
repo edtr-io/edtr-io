@@ -16,11 +16,11 @@ export interface StateDescriptor<S = any, T = S, R = unknown> {
   (
     value: T,
     onChange: (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => AsyncState<T>
     ) => void
   ): R
   createInitialState(helpers: StoreDeserializeHelpers): AsyncState<T>
-  deserialize(serialized: S, helpers: StoreDeserializeHelpers): T
+  deserialize(serialized: S, helpers: StoreDeserializeHelpers): AsyncState<T>
   serialize(deserialized: T, helpers: StoreSerializeHelpers): S
 }
 

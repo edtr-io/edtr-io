@@ -1,7 +1,7 @@
 import { all, put, select, takeEvery } from 'redux-saga/effects'
 import {
   ActionType,
-  EffectfulChangeAction,
+  AsyncChangeAction,
   AsyncInsertAction,
   ChangeAction,
   InitRootAction,
@@ -41,8 +41,8 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
   }
 }
 
-export function* effectfulChangeAction(action: EffectfulChangeAction) {
-  const payload = yield action.payload
+export function* asyncChangeAction(action: AsyncChangeAction) {
+  const payload = action.payload
 
   //resolve insert sideeffects first
   const state = yield select(state => state)
@@ -62,11 +62,21 @@ export function* effectfulChangeAction(action: EffectfulChangeAction) {
     type: ActionType.Change,
     payload: {
       id: payload.id,
-      state: () => pluginState
+      state: () => pluginState.immediateState
     }
   }
 
   yield put(change)
+  if (pluginState.asyncState) {
+    const resolvedPluginState = yield pluginState.asyncState
+    yield put({
+      type: ActionType.Change,
+      payload: {
+        id: payload.id,
+        state: () => resolvedPluginState
+      }
+    })
+  }
 }
 
 export function* initRootAction(action: InitRootAction) {
@@ -87,7 +97,7 @@ export function* watchInsertAction() {
   yield takeEvery(ActionType.AsyncInsert, asyncInsertAction)
 }
 export function* watchChangeAction() {
-  yield takeEvery(ActionType.EffectfulChange, effectfulChangeAction)
+  yield takeEvery(ActionType.AsyncChange, asyncChangeAction)
 }
 export function* watchInitRootAction() {
   yield takeEvery(ActionType.InitRoot, initRootAction)
@@ -131,9 +141,7 @@ function handleRecursiveInserts(
       if (doc.state === undefined) {
         pluginState = plugin.state.createInitialState(helpers)
       } else {
-        pluginState = {
-          immediateState: plugin.state.deserialize(doc.state, helpers)
-        }
+        pluginState = plugin.state.deserialize(doc.state, helpers)
       }
     }
 
