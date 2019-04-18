@@ -8,7 +8,7 @@ import {
   Input,
   Checkbox,
   ContainerWithConfigButton
-} from '@edtr-io/ui'
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { FileError, ImageLoaded, ImageUploaded, Upload } from './upload'
@@ -34,11 +34,7 @@ export function createImageEditor<T = unknown>(
     const { editable, focused, state } = props
     const imageComponent =
       state.src.value || imagePreview ? (
-        <ImageRenderer
-          state={state}
-          imagePreview={imagePreview}
-          disableMouseEvents={editable}
-        />
+        <ImageRenderer {...props} disableMouseEvents={editable} />
       ) : (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />

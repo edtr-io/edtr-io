@@ -1,22 +1,26 @@
-import { CustomEditorTheme } from '@edtr-io/ui'
+import { SpoilerTheme } from '@edtr-io/plugin-spoiler'
+import { CustomTheme } from '@edtr-io/ui'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { EditorStory } from '../src'
 
-storiesOf('Theming/Editor UI', module).add('Initial State', () => {
+storiesOf('Theming', module).add('Custom Theme', () => {
   const state = {
     plugin: 'rows',
     state: [{ plugin: 'text' }]
   }
 
-  const theme: CustomEditorTheme = {
+  /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
+  const theme: CustomTheme = {
     editor: {
       color: '#222',
       backgroundColor: '#d9edf7',
-      highlightColor: '#007ec1'
+      primary: {
+        background: '#007ec1'
+      }
     },
-    ui: {
+    editorUi: {
       button: {
         color: 'green',
         backgroundColor: 'red',
@@ -38,8 +42,19 @@ storiesOf('Theming/Editor UI', module).add('Initial State', () => {
         backgroundColor: 'green',
         highlightColor: 'black'
       }
+    },
+    rendererUi: {
+      expandableBox: {
+        toggleBorderColor: 'red'
+      }
+    },
+    plugins: {
+      spoiler: {
+        color: 'red'
+      } as SpoilerTheme
     }
   }
+  /* eslint-enable @typescript-eslint/no-object-literal-type-assertion */
 
   return <EditorStory defaultPlugin="text" initialState={state} theme={theme} />
 })

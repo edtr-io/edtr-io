@@ -2,7 +2,7 @@ import { StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
 import { videoState } from '.'
-import { Icon, styled, faFilm } from '@edtr-io/ui'
+import { Icon, styled, faFilm } from '@edtr-io/editor-ui'
 
 const VideoPlaceholderWrapper = styled.div({
   position: 'relative',

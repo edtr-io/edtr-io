@@ -4,8 +4,6 @@ export const Icon = FontAwesomeIcon
 
 export {
   faBold,
-  faCaretSquareDown,
-  faCaretSquareUp,
   faCheck,
   faCut,
   faCog,
@@ -21,5 +19,7 @@ export {
   faSpinner,
   faTimes,
   faTrashAlt,
-  faFilm
+  faFilm,
+  faCaretSquareUp,
+  faCaretSquareDown
 } from '@fortawesome/free-solid-svg-icons'

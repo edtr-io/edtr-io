@@ -1,19 +1,22 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Overlay, AutoFocusInput, ContainerWithConfigButton } from '@edtr-io/ui'
+import {
+  Overlay,
+  AutoFocusInput,
+  ContainerWithConfigButton
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { VideoRenderer } from './renderer'
 import { videoState } from '.'
 
-export const VideoEditor = ({
-  editable,
-  focused,
-  state
-}: StatefulPluginEditorProps<typeof videoState>) => {
+export const VideoEditor = (
+  props: StatefulPluginEditorProps<typeof videoState>
+) => {
+  const { editable, focused, state } = props
   return (
     <React.Fragment>
       <ContainerWithConfigButton>
-        <VideoRenderer state={state} disableCursorEvents={editable} />
+        <VideoRenderer {...props} disableCursorEvents={editable} />
       </ContainerWithConfigButton>
       {focused ? (
         <Overlay>

@@ -1,5 +1,9 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Overlay, AutoFocusInput, ContainerWithConfigButton } from '@edtr-io/ui'
+import {
+  Overlay,
+  AutoFocusInput,
+  ContainerWithConfigButton
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { H5pRenderer } from './renderer'
@@ -14,7 +18,7 @@ export class H5pEditor extends React.Component<
     return (
       <React.Fragment>
         <ContainerWithConfigButton>
-          <H5pRenderer key={state.src()} state={state} />
+          <H5pRenderer {...this.props} key={state.src()} />
         </ContainerWithConfigButton>
         {focused ? (
           <Overlay>

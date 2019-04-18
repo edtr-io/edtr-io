@@ -11,3 +11,7 @@ export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
   Component: SpoilerEditor,
   state: spoilerState
 }
+
+export interface SpoilerTheme {
+  color: string
+}

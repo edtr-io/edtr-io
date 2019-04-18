@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { Feedback, styled } from '@edtr-io/ui'
+import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -33,10 +33,7 @@ export class ScMcRendererInteractive extends React.Component<
   public render() {
     return (
       <React.Fragment>
-        <ScMcAnswersRenderer
-          state={this.props.state}
-          showAnswer={this.showAnswer}
-        />
+        <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
         {this.showGlobalFeedback()}
         {this.showSubmitButton()}
       </React.Fragment>

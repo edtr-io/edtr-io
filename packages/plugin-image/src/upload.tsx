@@ -1,4 +1,4 @@
-import { Button, UploadProgress } from '@edtr-io/ui'
+import { Button, UploadProgress } from '@edtr-io/editor-ui'
 // @ts-ignore
 import { Uploader, UploadField } from '@navjobs/upload'
 import * as React from 'react'
