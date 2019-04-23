@@ -1,42 +1,38 @@
 import React, { useState, useEffect } from 'react'
-import styled, { css } from 'styled-components'
+import { styled } from '@edtr-io/ui'
+import { rowsState, rowState } from '..'
+import { StateType } from '@edtr-io/core'
 
-const StyledControls = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translateX(calc(100% + 3px));
-  background-color: rgba(177, 4, 56, 1);
-  width: 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 0 3px 3px 0;
-  opacity: 0;
-  z-index: ${props => 100 - props.index};
-  transition: 250ms all ease-in-out;
-`
-
-const StyledIcon = styled.img`
-  height: 20px;
-
-  ${props =>
-    props.disabled
-      ? css`
-          opacity: 0.2;
-          cursor: not-allowed;
-        `
-      : css`
-          cursor: pointer;
-          opacity: 0.8;
-        `}
-
-  &:hover {
-    opacity: ${props => !props.disabled && 1};
+const StyledControls = styled.div((index: number) => {
+  return {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    transform: 'translateX(calc(100% + 3px))',
+    backgroundColor: 'rgba(177, 4, 56, 1)',
+    width: '25px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '0 3px 3px 0',
+    opacity: 0,
+    zIndex: `${100 - index}`,
+    transition: '250ms all ease-in-out'
   }
-`
+})
 
-const MoveUp = ({ rows, index, row, ...props }) => (
+const StyledIcon = styled.img((disabled: boolean) => {
+  return {
+    height: '20px',
+    cursor: `${disabled ? 'not-allowed' : 'pointer'}`,
+    opacity: `${disabled ? 0.2 : 0.8}`,
+    '&:hover': {
+      opacity: `${disabled && 1}`
+    }
+  }
+})
+
+const MoveUp: Icon = ({ rows, index }) => (
   <StyledIcon
     disabled={index === 0}
     src={require('../assets/angle-up-white.svg')}
@@ -47,7 +43,7 @@ const MoveUp = ({ rows, index, row, ...props }) => (
   />
 )
 
-const MoveDown = ({ rows, index, row, ...props }) => (
+const MoveDown: Icon = ({ rows, index }) => (
   <StyledIcon
     disabled={index + 1 >= rows.items.length}
     src={require('../assets/angle-down-white.svg')}
@@ -57,7 +53,7 @@ const MoveDown = ({ rows, index, row, ...props }) => (
   />
 )
 
-const More = ({ open, setOpen, ...props }) => {
+const More: Icon = ({ open, setOpen }) => {
   return (
     <StyledIcon
       src={require('../assets/more-white.svg')}
@@ -66,7 +62,7 @@ const More = ({ open, setOpen, ...props }) => {
   )
 }
 
-const Copy = ({ row, copyToClipboard, ...props }) => {
+const Copy: Icon = ({ row, copyToClipboard }) => {
   return (
     <StyledIcon
       src={require('../assets/copy-white.svg')}
@@ -76,7 +72,7 @@ const Copy = ({ row, copyToClipboard, ...props }) => {
   )
 }
 
-const Cut = ({ rows, row, index, copyToClipboard, ...props }) => {
+const Cut: Icon = ({ rows, row, index, copyToClipboard }) => {
   return (
     <StyledIcon
       src={require('../assets/cut-white.svg')}
@@ -91,7 +87,7 @@ const Cut = ({ rows, row, index, copyToClipboard, ...props }) => {
   )
 }
 
-const Remove = ({ rows, index, ...props }) => {
+const Remove: Icon = ({ rows, index }) => {
   return (
     <StyledIcon
       disabled={rows.items.length === 1}
@@ -105,7 +101,21 @@ const Remove = ({ rows, index, ...props }) => {
   )
 }
 
-const icons = [
+type Icon = React.FunctionComponent<IconProps>
+interface IconProps {
+  key: number
+  index: number
+  rows: StateType.StateDescriptorReturnType<typeof rowsState>
+  open: boolean
+  setOpen: (newValue: boolean) => void
+  copyToClipboard: (
+    row: StateType.StateDescriptorValueType<typeof rowState>
+  ) => void
+  row: StateType.StateDescriptorReturnType<typeof rowState>
+}
+const icons: {
+  icon: Icon
+}[] = [
   { icon: MoveUp },
   { icon: MoveDown },
   { icon: More },
