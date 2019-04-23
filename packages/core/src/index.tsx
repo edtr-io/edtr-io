@@ -20,6 +20,7 @@ export {
   getDocument,
   getPlugins,
   hasPendingChanges,
-  isEditable
+  isEditable,
+  isEmpty
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

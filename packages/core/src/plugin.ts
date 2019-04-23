@@ -3,7 +3,8 @@ import * as React from 'react'
 import {
   StateDescriptor,
   StateDescriptorReturnType,
-  StateDescriptorSerializedType
+  StateDescriptorSerializedType,
+  StateDescriptorValueType
 } from './plugin-state'
 
 export type Plugin<
@@ -40,6 +41,7 @@ export interface StatefulPlugin<
   title?: string
   icon?: React.ComponentType
   description?: string
+  isEmpty?: (state: StateDescriptorValueType<S>) => boolean
   onKeyDown?: (e: KeyboardEvent) => boolean
   getFocusableChildren?: (
     state: StateDescriptorReturnType<S>
