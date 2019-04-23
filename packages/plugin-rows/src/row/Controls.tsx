@@ -3,7 +3,7 @@ import { styled } from '@edtr-io/ui'
 import { rowsState, rowState } from '..'
 import { StateType } from '@edtr-io/core'
 
-const StyledControls = styled.div((index: number) => {
+const StyledControls = styled.div<{ index: number }>(({ index }) => {
   return {
     position: 'absolute',
     top: 0,
@@ -16,18 +16,18 @@ const StyledControls = styled.div((index: number) => {
     alignItems: 'center',
     borderRadius: '0 3px 3px 0',
     opacity: 0,
-    zIndex: `${100 - index}`,
+    zIndex: 100 - index,
     transition: '250ms all ease-in-out'
   }
 })
 
-const StyledIcon = styled.img((disabled: boolean) => {
+const StyledIcon = styled.img<{ disabled?: boolean }>(({ disabled }) => {
   return {
     height: '20px',
-    cursor: `${disabled ? 'not-allowed' : 'pointer'}`,
-    opacity: `${disabled ? 0.2 : 0.8}`,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.2 : 0.8,
     '&:hover': {
-      opacity: `${disabled && 1}`
+      opacity: disabled ? 0.2 : 1
     }
   }
 })
@@ -35,7 +35,7 @@ const StyledIcon = styled.img((disabled: boolean) => {
 const MoveUp: Icon = ({ rows, index }) => (
   <StyledIcon
     disabled={index === 0}
-    src={require('../assets/angle-up-white.svg')}
+    src={require('../../assets/angle-up-white.svg')}
     onClick={() => {
       if (index === 0) return
       rows.move(index, index - 1)
@@ -46,7 +46,7 @@ const MoveUp: Icon = ({ rows, index }) => (
 const MoveDown: Icon = ({ rows, index }) => (
   <StyledIcon
     disabled={index + 1 >= rows.items.length}
-    src={require('../assets/angle-down-white.svg')}
+    src={require('../../assets/angle-down-white.svg')}
     onClick={() => {
       index + 1 < rows.items.length && rows.move(index, index + 1)
     }}
@@ -56,7 +56,7 @@ const MoveDown: Icon = ({ rows, index }) => (
 const More: Icon = ({ open, setOpen }) => {
   return (
     <StyledIcon
-      src={require('../assets/more-white.svg')}
+      src={require('../../assets/more-white.svg')}
       onClick={() => setOpen(!open)}
     />
   )
@@ -65,7 +65,7 @@ const More: Icon = ({ open, setOpen }) => {
 const Copy: Icon = ({ row, copyToClipboard }) => {
   return (
     <StyledIcon
-      src={require('../assets/copy-white.svg')}
+      src={require('../../assets/copy-white.svg')}
       style={{ marginTop: 5, marginBottom: 5, marginRight: -1 }}
       onClick={() => copyToClipboard(row())}
     />
@@ -75,7 +75,7 @@ const Copy: Icon = ({ row, copyToClipboard }) => {
 const Cut: Icon = ({ rows, row, index, copyToClipboard }) => {
   return (
     <StyledIcon
-      src={require('../assets/cut-white.svg')}
+      src={require('../../assets/cut-white.svg')}
       disabled={rows.items.length === 1}
       style={{ marginBottom: 5 }}
       onClick={() => {
@@ -91,7 +91,7 @@ const Remove: Icon = ({ rows, index }) => {
   return (
     <StyledIcon
       disabled={rows.items.length === 1}
-      src={require('../assets/remove-white.svg')}
+      src={require('../../assets/remove-white.svg')}
       style={{ marginBottom: 3 }}
       onClick={() => {
         if (rows.items.length === 1) return
@@ -115,6 +115,8 @@ interface IconProps {
 }
 const icons: {
   icon: Icon
+  onlyOpen?: boolean
+  onlyClosed?: boolean
 }[] = [
   { icon: MoveUp },
   { icon: MoveDown },
@@ -124,7 +126,13 @@ const icons: {
   { icon: Remove, onlyOpen: true }
 ]
 
-const Controls = ({ index, rows, copyToClipboard, row, hover }) => {
+export const Controls: React.FunctionComponent<{
+  index: number
+  rows: StateType.StateDescriptorReturnType<typeof rowsState>
+  copyToClipboard: (id: string) => void
+  row: StateType.StateDescriptorReturnType<typeof rowState>
+  hover: boolean
+}> = ({ index, rows, copyToClipboard, row, hover }) => {
   const [open, setOpen] = useState(false)
   useEffect(() => {
     if (!hover) setOpen(false)
@@ -149,5 +157,3 @@ const Controls = ({ index, rows, copyToClipboard, row, hover }) => {
     </StyledControls>
   )
 }
-
-export default Controls

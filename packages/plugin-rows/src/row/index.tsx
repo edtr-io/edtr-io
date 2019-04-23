@@ -1,43 +1,54 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import { styled } from '@edtr-io/ui'
 import {
   getDocument,
   EditorContext,
   ActionType,
-  getPlugins
+  StatefulPluginEditorProps,
+  PluginState,
+  isEmpty
 } from '@edtr-io/core'
 
-import Menu from './Menu'
-import Controls from './Controls'
-import Separator, { Add } from './Separator'
+import { Menu } from './menu'
+import { Controls } from './Controls'
+import { Add, Separator } from './Separator'
 import render from './render'
+import { rowsState } from '..'
 
-export const RowContainer = styled.div`
-  min-height: 10px;
-  position: relative;
-  border-right: 3px solid transparent;
-  transition: 250ms all ease-in-out;
-  margin: 25px;
-  margin-top: ${props => (props.isFirst ? 25 : 0)}px;
+export const RowContainer = styled.div<{
+  isFirst?: boolean
+  editable?: boolean
+}>(({ isFirst, editable }) => {
+  return {
+    minHeight: '10px',
+    position: 'relative',
+    borderRight: '3px solid transparent',
+    transition: '250ms all ease-in-out',
+    margin: '25px',
+    marginTop: isFirst ? '25px' : 0,
+    '&:hover': {
+      borderColor: editable ? 'rgba(177, 4, 56, 1)' : 'transparent'
+    },
 
-  &:hover {
-    border-color: ${props => props.editable && 'rgba(177, 4, 56, 1)'};
+    '&:hover .row-controls': {
+      opacity: 1
+    }
   }
+})
 
-  &:hover .row-controls {
-    opacity: 1;
-  }
-`
-
-export const Row = props => {
-  const [hover, setHover] = React.useState(false)
-  const [menu, setMenu] = React.useState(undefined)
+export const Row = (
+  props: StatefulPluginEditorProps<typeof rowsState> & { index: number }
+) => {
+  const [hover, setHover] = React.useState<boolean>(false)
+  const [menu, setMenu] = React.useState<
+    { index: number; onClose: (pluginState: PluginState) => void } | undefined
+  >(undefined)
   const store = React.useContext(EditorContext)
   const rows = props.state
   const index = props.index
   const row = rows()[index]
 
-  function openMenu(insertIndex) {
+  function openMenu(insertIndex: number) {
     setMenu({
       index: insertIndex,
       onClose: pluginState => {
@@ -47,15 +58,14 @@ export const Row = props => {
     })
   }
 
-  function copyToClipboard(id) {
+  function copyToClipboard(id: string) {
     store.dispatch({
       type: ActionType.CopyToClipboard,
       payload: id
     })
   }
 
-  const doc = getDocument(store.state, row.id)
-  const isEmptyTextPlugin = doc.plugin === 'text' && !doc.state.document.data
+  const isEmptyTextPlugin = isEmpty(store.state, row.id)
 
   return (
     <RowContainer
@@ -68,7 +78,7 @@ export const Row = props => {
         <Separator isFirst={true} onClick={() => openMenu(index)} />
       )}
 
-      {render({ row, rows, index, store, getDocument })}
+      {render({ row, rows, index, state: store.state, getDocument })}
       <Separator onClick={() => openMenu(index + 1)} />
       {props.editable && (
         <Controls
@@ -86,7 +96,7 @@ export const Row = props => {
         visible={!!menu}
         menu={menu}
         setMenu={setMenu}
-        store={store}
+        state={store.state}
         name={props.name}
       />
     </RowContainer>

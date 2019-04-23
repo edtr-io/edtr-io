@@ -2,10 +2,7 @@ import { createTextEditor, SlateEditorAdditionalProps } from './editor'
 import { TextPluginOptions } from './types'
 import { StateType, StatefulPlugin } from '@edtr-io/core'
 import { Value, ValueJSON } from 'slate'
-import {
-  StateDescriptorReturnType,
-  StateDescriptorValueType
-} from '@edtr-io/core/src/plugin-state'
+import { StateDescriptorValueType } from '@edtr-io/core/src/plugin-state'
 
 export const defaultNode = 'paragraph'
 

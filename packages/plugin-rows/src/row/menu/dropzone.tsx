@@ -38,10 +38,10 @@ const StyledImage = styled.img({
 export const Dropzone = () => {
   return (
     <StyledDropzone>
-      <StyledImage src={require('../../assets/upload.svg')} />
+      <StyledImage src={require('../../../assets/upload.svg')} />
       <p style={{ opacity: 0.8 }}>
-        Du kannst überall Dateien per Drag'n'Drop hinzufügen. Alternativ kannst
-        du auch hier klicken...
+        Du kannst überall Dateien per Drag&#39;n&#39;Drop hinzufügen. Alternativ
+        kannst du auch hier klicken...
       </p>
     </StyledDropzone>
   )

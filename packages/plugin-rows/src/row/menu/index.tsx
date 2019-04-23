@@ -46,18 +46,14 @@ const PluginList = styled.div({
 interface MenuProps {
   visible: boolean
   menu:
-    | {
-        onClose: (pluginState: PluginState) => void
-        plugins: Record<string, Plugin>
-      }
+    | { index: number; onClose: (pluginState: PluginState) => void }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  index: number
   state: State
-  name: string
+  name?: string
 }
 
-const Menu = ({ visible, menu, setMenu, index, state, name }: MenuProps) => {
+export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
   const [search, setSearch] = useState('')
 
   const close = useCallback(
@@ -114,11 +110,9 @@ const Menu = ({ visible, menu, setMenu, index, state, name }: MenuProps) => {
         <Dropzone />
         <CloseButton
           onClick={() => setMenu(undefined)}
-          src={require('../../assets/close.svg')}
+          src={require('../../../assets/close.svg')}
         />
       </Wrapper>
     </Portal>
   )
 }
-
-export default Menu

@@ -1,18 +1,18 @@
 import React from 'react'
 import { Icon, faPlus, styled } from '@edtr-io/ui'
 
-const StyledSeparator = styled.div((isFirst: boolean) => {
+const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   return {
     position: 'absolute',
     height: 'auto',
     width: '100%',
-    transform: `${isFirst ? 'translateY(-100%)' : 'translateY(100%)'}`,
-    top: `${isFirst ? 0 : undefined}`,
-    bottom: `${isFirst ? undefined : 0}`
+    transform: isFirst ? 'translateY(-100%)' : 'translateY(100%)',
+    top: isFirst ? 0 : undefined,
+    bottom: isFirst ? undefined : 0
   }
 })
 
-const AddTrigger = styled.div((inline: boolean) => {
+const AddTrigger = styled.div<{ inline: boolean }>(({ inline }) => {
   return {
     width: '26px',
     height: '26px',
@@ -31,7 +31,7 @@ const AddTrigger = styled.div((inline: boolean) => {
     transform: inline ? 'translate(-50%)' : undefined,
 
     '&:hover': {
-      opacity: '1 !important',
+      opacity: 1,
       cursor: 'pointer'
     }
   }
@@ -47,15 +47,25 @@ const TriggerArea = styled.div({
   }
 })
 
-export const Add = (onClick: () => void, inline: boolean) => {
+export const Add: React.FunctionComponent<{
+  onClick: () => void
+  inline?: boolean
+}> = props => {
   return (
-    <AddTrigger inline={inline} className="add-trigger" onClick={onClick}>
+    <AddTrigger
+      inline={props.inline || false}
+      className="add-trigger"
+      onClick={props.onClick}
+    >
       <Icon style={{ width: 14, height: 14 }} icon={faPlus} />
     </AddTrigger>
   )
 }
 
-const Separator = (isFirst: boolean, onClick: () => void) => {
+export const Separator: React.FunctionComponent<{
+  isFirst?: boolean
+  onClick: () => void
+}> = ({ isFirst, onClick }) => {
   return (
     <StyledSeparator isFirst={isFirst}>
       <TriggerArea>
@@ -64,5 +74,3 @@ const Separator = (isFirst: boolean, onClick: () => void) => {
     </StyledSeparator>
   )
 }
-
-export default Separator

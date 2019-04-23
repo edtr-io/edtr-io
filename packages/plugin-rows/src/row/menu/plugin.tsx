@@ -51,7 +51,7 @@ export const Plugin = ({
       {plugin.icon ? (
         <plugin.icon />
       ) : (
-        <DefaultIcon src={require('../../assets/default-plugin.svg')} />
+        <DefaultIcon src={require('../../../assets/default-plugin.svg')} />
       )}
       <Title>{plugin.title || pluginName}</Title>
       {plugin.description && <Description>{plugin.description}</Description>}
