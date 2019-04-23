@@ -6,7 +6,7 @@ import {
   PluginState,
   getPlugins
 } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/editor-ui'
 
 const ClipboardHeader = styled.div({
   fontSize: 20,

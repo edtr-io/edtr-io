@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/editor-ui'
 import { Portal } from 'react-portal'
 import { getPlugins, PluginState } from '@edtr-io/core'
 

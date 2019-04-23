@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/editor-ui'
 import { rowsState, rowState } from '..'
 import { StateType } from '@edtr-io/core'
 

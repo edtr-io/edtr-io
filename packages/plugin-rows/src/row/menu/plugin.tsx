@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Plugin as EditorPlugin } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/editor-ui'
 
 const StyledPlugin = styled.div({
   display: 'flex',

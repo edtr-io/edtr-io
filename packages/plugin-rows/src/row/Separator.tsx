@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, faPlus, styled } from '@edtr-io/ui'
+import { Icon, faPlus, styled } from '@edtr-io/editor-ui'
 
 const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   return {
