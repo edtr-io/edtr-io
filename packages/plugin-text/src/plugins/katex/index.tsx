@@ -52,6 +52,8 @@ const DefaultEditorComponent: React.FunctionComponent<
 > = props => {
   const { attributes, node, editor } = props
 
+  const overlayContext = React.useContext(OverlayContext)
+
   const { data } = node as Block | Inline
   const inline = data.get('inline')
   const formula = data.get('formula')
@@ -107,6 +109,7 @@ const DefaultEditorComponent: React.FunctionComponent<
           }}
           // @ts-ignore
           ref={(x: unknown) => {
+            if (overlayContext.visible) return
             if (x) {
               setTimeout(() => {
                 editor.blur()
@@ -194,15 +197,24 @@ const DefaultControlsComponent: React.FunctionComponent<
         >
           <a
             href="#"
-            onClick={() => {
+            onClick={e => {
               setValue(node.data.get('formula'))
               overlayContext.show()
+              e.stopPropagation()
+              return false
             }}
           >
             LaTeX
           </a>{' '}
           &nbsp; &nbsp;
-          <a href="#" onClick={() => editor.delete()}>
+          <a
+            href="#"
+            onClick={e => {
+              editor.delete()
+              e.stopPropagation()
+              return false
+            }}
+          >
             X
           </a>
         </div>
