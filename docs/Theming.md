@@ -1,13 +1,68 @@
 # Theming
 
-You can provide a theme for the main editor UI elements
+You can provide a theme for core editor and rendering UI elements
 
 ```typescript
-interface EditorTheming {
-  highlightColor: string
-  textColor: string
-  backgroundColor: string
-  buttonBackgroundColor: string
+interface Theme {
+  editor: {
+    backgroundColor: string
+    color: string
+    primary: {
+      color: string
+      background: string
+    }
+    secondary: {
+      color: string
+      background: string
+    }
+    success: {
+      color: string
+      background: string
+    }
+    info: {
+      color: string
+      background: string
+    }
+    warning: {
+      color: string
+      background: string
+    }
+    danger: {
+      color: string
+      background: string
+    }
+  }
+  renderer: {
+    backgroundColor: string
+    color: string
+    primary: {
+      color: string
+      background: string
+    }
+    secondary: {
+      color: string
+      background: string
+    }
+    success: {
+      color: string
+      background: string
+    }
+    info: {
+      color: string
+      background: string
+    }
+    warning: {
+      color: string
+      background: string
+    }
+    danger: {
+      color: string
+      background: string
+    }
+  }
+  editorUi: DeepPartial<EditorUiTheme>
+  rendererUi: DeepPartial<RendererUiTheme>
+  plugins: Record<string, unknown>
 }
 ```
 
@@ -15,16 +70,24 @@ interface EditorTheming {
 
 ```typescript
 import * as React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { EditorTheming } from '@edtr-io/ui'
+import { CustomTheme, ThemeProvider } from '@edtr-io/ui'
 
 const Themed: React.FunctionComponent = () => {
-  const theme: EditorTheming = {
-    //this is the default theme
-    highlightColor: 'rgb(70, 155, 255)',
-    textColor: '#EEEEEE',
-    backgroundColor: 'rgb(51,51,51,0.95)',
-    buttonBackgroundColor: 'transparent'
+  const theme: CustomTheme = {
+    // Override shared theme for editor ui elements
+    editor: {
+      color: '#eeeeee',
+      background: 'rgb(51,51,51,0.95)',
+      primary: {
+        background: 'rgb(70, 155, 255)'
+      }
+    },
+    editorUi: {
+      // Override the button editor ui element
+      button: {
+        background: 'red'
+      }
+    }
   }
   return <ThemeProvider theme={theme}>{/* render Editor here */}</ThemeProvider>
 }

@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
+export const createInputTheme = createEditorUiTheme<InputTheme>(theme => {
   return {
     backgroundColor: 'transparent',
     color: theme.color,
-    highlightColor: theme.highlightColor
+    highlightColor: theme.primary.background
   }
 })
 

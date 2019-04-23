@@ -17,7 +17,7 @@ import {
   faItalic,
   faUnlink,
   HoveringOverlay
-} from '@edtr-io/ui'
+} from '@edtr-io/editor-ui'
 import { OverlayContext } from '@edtr-io/core'
 
 export const Controls: React.FunctionComponent<{ editor: Editor }> = props => {

@@ -1,5 +1,6 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Feedback, Icon, faPlus, styled } from '@edtr-io/ui'
+import { Icon, faPlus } from '@edtr-io/editor-ui'
+import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 import { ScMcChoiceEditor } from './choice-editor'
@@ -14,7 +15,7 @@ export class ScMcExerciseEditor extends React.Component<
     return (
       <React.Fragment>
         {!editable ? (
-          <ScMcExerciseRenderer state={state} />
+          <ScMcExerciseRenderer {...this.props} />
         ) : (
           <React.Fragment>
             <hr />

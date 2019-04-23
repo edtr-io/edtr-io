@@ -1,5 +1,6 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { ExpandableBox, EditorThemeProvider } from '@edtr-io/ui'
+import { ThemeProvider } from '@edtr-io/ui'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 import { hintState } from '.'
@@ -24,9 +25,9 @@ export function HintEditor({
   )
 
   return (
-    <EditorThemeProvider
+    <ThemeProvider
       theme={{
-        ui: {
+        rendererUi: {
           expandableBox: {
             toggleBackgroundColor: '#a7d21d',
             toggleColor: undefined,
@@ -38,6 +39,6 @@ export function HintEditor({
       <ExpandableBox title={title} editable={editable}>
         {state.content.render()}
       </ExpandableBox>
-    </EditorThemeProvider>
+    </ThemeProvider>
   )
 }

@@ -24,7 +24,7 @@ export interface StatelessPlugin<Props extends Record<string, unknown> = {}> {
 export type StatelessPluginEditorProps<
   Props extends Record<string, unknown> = {}
 > = {
-  name?: string
+  name: string
   editable?: boolean
   focused?: boolean
 } & Props

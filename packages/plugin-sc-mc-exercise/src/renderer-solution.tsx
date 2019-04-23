@@ -9,12 +9,7 @@ export class ScMcRendererSolution extends React.Component<
   StatefulPluginEditorProps<typeof scMcState>
 > {
   public render() {
-    return (
-      <ScMcAnswersRenderer
-        state={this.props.state}
-        showAnswer={this.showAnswer}
-      />
-    )
+    return <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
   }
 
   private showAnswer = (
