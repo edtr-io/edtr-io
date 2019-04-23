@@ -8,7 +8,8 @@ import * as React from 'react'
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
 
-export const rowsState = StateType.list(StateType.child(), 1)
+export const rowState = StateType.child()
+export const rowsState = StateType.list(rowState, 1)
 
 const RowsPlugin = (props: StatefulPluginEditorProps<typeof rowsState>) => {
   return props.editable ? (

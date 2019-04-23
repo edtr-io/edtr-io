@@ -15,6 +15,9 @@ export type Plugin<
 export interface StatelessPlugin<Props extends Record<string, unknown> = {}> {
   Component: React.ComponentType<StatelessPluginEditorProps<Props>>
   onPaste?: (data: DataTransfer) => void | { state?: undefined }
+  title?: string
+  icon?: React.ComponentType
+  description?: string
 }
 
 export type StatelessPluginEditorProps<
@@ -34,6 +37,9 @@ export interface StatefulPlugin<
   onPaste?: (
     data: DataTransfer
   ) => void | { state?: StateDescriptorSerializedType<S> }
+  title?: string
+  icon?: React.ComponentType
+  description?: string
   onKeyDown?: (e: KeyboardEvent) => boolean
   getFocusableChildren?: (
     state: StateDescriptorReturnType<S>

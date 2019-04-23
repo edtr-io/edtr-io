@@ -9,13 +9,16 @@ import {
 import { styled } from '@edtr-io/ui'
 
 const ClipboardHeader = styled.div({
-  fontSize: '130%',
+  fontSize: 20,
   textAlign: 'center',
   marginBottom: '10px'
 })
 
 const Container = styled.div({
-  textAlign: 'center'
+  textAlign: 'center',
+  backgroundColor: 'rgb(245,245,245)',
+  padding: 15,
+  borderRadius: 5
 })
 
 const ButtonContainer = styled.div({

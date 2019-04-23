@@ -24,7 +24,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { Clipboard } from './clipboard'
+import { Clipboard } from './row/clipboard'
 import { rowsState } from '.'
 
 export const FloatingButton = styled.button(
