@@ -12,18 +12,18 @@ import { State } from '@edtr-io/core/src/store'
 const Wrapper = styled.div({
   display: 'flex',
   padding: '25px calc((100vw - 960px) / 2) 150px',
-  paddingBottom: '200px',
+  paddingBottom: '155px',
   flexDirection: 'column',
   backgroundColor: 'rgba(255, 255, 255, 0.95)',
   position: 'fixed',
   top: 0,
   left: 0,
-  width: '100vw',
+  width: '100%',
   height: '100vh',
   zIndex: 9999,
 
   '@media (max-width: 1000px)': {
-    padding: '25px 20px 150px'
+    padding: '25px 20px 155px'
   }
 })
 

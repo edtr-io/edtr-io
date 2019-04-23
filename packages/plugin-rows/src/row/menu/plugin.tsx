@@ -20,7 +20,7 @@ const StyledPlugin = styled.div({
 })
 
 const DefaultIcon = styled.img({
-  width: '75%'
+  width: '30%'
 })
 
 const Title = styled.h3({

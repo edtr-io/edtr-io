@@ -5,13 +5,13 @@ const StyledDropzone = styled.div({
   position: 'absolute',
   bottom: 0,
   left: 0,
-  height: '200px',
+  height: '150px',
   width: '100%',
   backgroundColor: 'rgb(245,245,245)',
   border: '3px dashed rgba(0, 0, 0, 0.4)',
   transition: '250mx all ease-in-out',
   cursor: 'pointer',
-  padding: '0 calc((100vw - 960px) /2)',
+  padding: '20px calc((100vw - 960px) /2)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -24,7 +24,7 @@ const StyledDropzone = styled.div({
     opacity: 1
   },
   '@media (max-width: 1000px)': {
-    padding: '0 20px'
+    padding: '20px'
   }
 })
 

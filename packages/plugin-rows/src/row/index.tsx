@@ -65,7 +65,9 @@ export const Row = (
     })
   }
 
-  const isEmptyTextPlugin = isEmpty(store.state, row.id)
+  const doc = getDocument(store.state, row.id)
+  const isEmptyTextPlugin =
+    doc && doc.plugin === 'text' && isEmpty(store.state, row.id)
 
   return (
     <RowContainer
