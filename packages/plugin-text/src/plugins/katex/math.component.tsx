@@ -2,18 +2,18 @@ import KaTeX from 'katex'
 import * as React from 'react'
 
 const createMathComponent = (
-  Component: any,
+  Component: React.ComponentType<{ html: string }>,
   { displayMode }: { displayMode: boolean }
 ) => {
   interface MathComponentProps {
     math: string
     errorColor?: string
-    renderError: (error: Error) => React.ReactNode
+    renderError: (error: KaTeX.ParseError) => React.ReactNode
   }
 
   interface MathComponentState {
     html: string
-    error?: Error
+    error?: KaTeX.ParseError
   }
 
   class MathComponent extends React.Component<
@@ -55,7 +55,7 @@ const createMathComponent = (
 
         return { html, error: undefined }
       } catch (error) {
-        if (error instanceof KaTeX.ParseError || error instanceof TypeError) {
+        if (error instanceof KaTeX.ParseError) {
           return { error }
         }
 
@@ -88,7 +88,7 @@ const InlineMath = createMathComponent(IInlineMath, {
 
 const handleError = (
   formula: string,
-  error: any,
+  error: KaTeX.ParseError,
   inline: boolean,
   oldErrorPosition: number
 ) => {

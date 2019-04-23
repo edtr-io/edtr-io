@@ -11,13 +11,7 @@ import { isHotkey } from 'is-hotkey'
 
 import { Math } from './math.component'
 import { OverlayContext } from '@edtr-io/core'
-import {
-  Button,
-  Checkbox,
-  InlineSettings,
-  Overlay,
-  Textarea
-} from '@edtr-io/ui'
+import { Button, Checkbox, Overlay, Textarea } from '@edtr-io/ui'
 
 // @ts-ignore
 import MathQuill, { addStyles as addMathquillStyles } from 'react-mathquill'
@@ -73,7 +67,7 @@ const DefaultEditorComponent: React.FunctionComponent<
         inline: node.data.get('inline')
       }
     })
-  }, 500)
+  }, 50)
 
   if (props.isSelected && editor.value.selection.isCollapsed) {
     return (
@@ -93,6 +87,35 @@ const DefaultEditorComponent: React.FunctionComponent<
             // Called everytime the input changes
             setFormula(latex)
             handleChange(latex)
+          }}
+          config={{
+            handlers: {
+              moveOutOf: (dir: number) => {
+                if (dir == 1) {
+                  // leave right
+                  editor.moveToEnd()
+                  editor.moveForward(1)
+                  editor.focus()
+                } else if (dir == -1) {
+                  // leave left
+                  editor.moveToStart()
+                  editor.moveBackward(1)
+                  editor.focus()
+                }
+              }
+            }
+          }}
+          // @ts-ignore
+          ref={(x: unknown) => {
+            if (x) {
+              setTimeout(() => {
+                editor.blur()
+                setTimeout(() => {
+                  // @ts-ignore
+                  x.mathField.focus()
+                })
+              }, 0)
+            }
           }}
         />
       </div>
@@ -149,15 +172,40 @@ const DefaultControlsComponent: React.FunctionComponent<
 
   return (
     <React.Fragment>
+      {/*<InlineSettings
+          onEdit={() => {
+            setValue(node.data.get('formula'))
+            overlayContext.show()
+          }}
+          onDelete={() => editor.delete()}
+        />*/}
       {props.children}
       {!props.readOnly &&
       isKatex(editor) &&
       !overlayContext.visible &&
       editor.value.selection.isCollapsed ? (
-        <InlineSettings
-          onEdit={overlayContext.show}
-          onDelete={() => editor.delete()}
-        />
+        <div
+          style={{
+            position: 'absolute',
+            top: -20,
+            left: 0,
+            backgroundColor: 'yellow'
+          }}
+        >
+          <a
+            href="#"
+            onClick={() => {
+              setValue(node.data.get('formula'))
+              overlayContext.show()
+            }}
+          >
+            LaTeX
+          </a>{' '}
+          &nbsp; &nbsp;
+          <a href="#" onClick={() => editor.delete()}>
+            X
+          </a>
+        </div>
       ) : null}
       {!props.readOnly && isKatex(editor) ? (
         <Overlay
