@@ -31,7 +31,8 @@ async function exec(): Promise<void> {
         'Add `<Editor />` that replaces `<EditorProvider />`',
         'Add `StateType.scalar` that represents a value of the given type (more specifically: `StateType.boolean`, `StateType.number`, `StateType.child`',
         'Add `StateType.list`, `State.object`',
-        'Add slate for rich text and links. Standard Bold + Italic hotkeys supported.'
+        'Add slate for rich text and links. Standard Bold + Italic hotkeys supported.',
+        'Add additional examples for plugin-usage in Storybook'
       ],
       changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']

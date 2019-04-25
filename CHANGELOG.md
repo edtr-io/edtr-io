@@ -189,6 +189,7 @@ All notable changes to this project will be documented in this file.
 - Add `StateType.scalar` that represents a value of the given type (more specifically: `StateType.boolean`, `StateType.number`, `StateType.child`
 - Add `StateType.list`, `State.object`
 - Add slate for rich text and links. Standard Bold + Italic hotkeys supported.
+- Add additional examples for plugin-usage in Storybook
 
 ### Changed
 
