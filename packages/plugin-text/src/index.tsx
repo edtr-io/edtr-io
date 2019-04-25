@@ -17,7 +17,9 @@ export interface MarkRendererProps {
 }
 
 export type NodeEditorProps = RenderNodeProps
-export type NodeControlsProps = EditorProps & { editor: Editor }
+export type NodeControlsProps = EditorProps & {
+  editor: Editor
+}
 export interface NodeRendererProps {
   node: NodeJSON
 }

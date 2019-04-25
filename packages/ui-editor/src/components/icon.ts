@@ -21,5 +21,11 @@ export {
   faTrashAlt,
   faFilm,
   faCaretSquareUp,
-  faCaretSquareDown
+  faCaretSquareDown,
+  faSortUp,
+  faSortDown,
+  faToolbox,
+  faEllipsisH,
+  faSearch,
+  faCloudUploadAlt
 } from '@fortawesome/free-solid-svg-icons'

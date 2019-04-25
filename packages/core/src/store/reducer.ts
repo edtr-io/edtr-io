@@ -625,6 +625,27 @@ export function isEditable(state: State): boolean {
   return state.editable
 }
 
+export function isEmpty(state: State, id: string): boolean {
+  const doc = getDocument(state, id)
+  if (!doc) {
+    return false
+  }
+
+  const plugin = getPlugin(state, doc.plugin)
+  if (!plugin || isStatelessPlugin(plugin)) {
+    return false
+  }
+
+  if (typeof plugin.isEmpty === 'function') {
+    return plugin.isEmpty(doc.state)
+  }
+
+  const initialState = plugin.state.createInitialState({
+    createDocument: () => {}
+  })
+  return R.equals(doc.state, initialState)
+}
+
 export function hasPendingChanges(state: State): boolean {
   return state.history.pending !== 0
 }

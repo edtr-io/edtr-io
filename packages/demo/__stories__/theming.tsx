@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { EditorStory } from '../src'
+import { RowTheme } from '@edtr-io/plugin-rows'
 
 storiesOf('Theming', module).add('Custom Theme', () => {
   const state = {
@@ -51,7 +52,24 @@ storiesOf('Theming', module).add('Custom Theme', () => {
     plugins: {
       spoiler: {
         color: 'red'
-      } as SpoilerTheme
+      } as SpoilerTheme,
+      rows: {
+        backgroundColor: 'red',
+        color: 'green',
+        highlightColor: 'purple',
+        lightBackgroundColor: 'pink',
+        menu: {
+          highlightColor: 'purple',
+          primary: {
+            backgroundColor: 'red',
+            color: 'green'
+          },
+          secondary: {
+            backgroundColor: 'pink',
+            color: 'lightgreen'
+          }
+        }
+      } as RowTheme
     }
   }
   /* eslint-enable @typescript-eslint/no-object-literal-type-assertion */

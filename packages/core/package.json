@@ -10,6 +10,7 @@
   "dependencies": {
     "ramda": "^0.26.1",
     "react-hotkeys": "^1.1.4",
+    "react-portal": "^4.2.0",
     "uuid": "^3.0.0"
   },
   "devDependencies": {

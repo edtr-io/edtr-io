@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { rowsState } from '@edtr-io/plugin-rows'
+import { rowsState } from '.'
 import * as React from 'react'
 
 import { RowContainer } from './row'
@@ -10,7 +10,11 @@ export const RowsRenderer = (
   return (
     <React.Fragment>
       {props.state().map(row => {
-        return <RowContainer key={row.id}>{row.render()}</RowContainer>
+        return (
+          <RowContainer name={props.name} key={row.id}>
+            {row.render()}
+          </RowContainer>
+        )
       })}
     </React.Fragment>
   )

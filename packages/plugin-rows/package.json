@@ -12,7 +12,8 @@
     "@edtr-io/ui": "^0.4.3",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "@types/react-portal": "^4.0.2"
   },
   "peerDependencies": {
     "@edtr-io/core": "^0.4.0",
@@ -23,5 +24,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "react-portal": "^4.2.0"
   }
 }

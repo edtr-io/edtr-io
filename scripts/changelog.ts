@@ -185,7 +185,11 @@ async function exec(): Promise<void> {
       changed: [
         '**plugin-text**. Hide placeholder in render mode',
         '**plugin-text**. Hovering Menu for text formatting',
-        '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow'
+        '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow',
+        '**plugin-rows**. Improved styling of add menu and controls',
+        '**plugin-rows**. Added more theming options',
+        '**core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty',
+        '**core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: ['**demo**. Log errors only']
