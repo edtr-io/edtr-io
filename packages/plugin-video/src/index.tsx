@@ -13,7 +13,7 @@ export const videoPlugin: StatefulPlugin<typeof videoState> = {
   onPaste(clipboardData: DataTransfer) {
     const value = clipboardData.getData('text')
 
-    const regex = /^(https?:\/\/)?(.*?(youtube\.com\/watch\?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))/
+    const regex = /^(https?:\/\/)?(.*?(youtube\.com\/watch\?(.*&)?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))/
     if (regex.test(value)) {
       return { state: value }
     }
