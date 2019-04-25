@@ -25,6 +25,7 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
       state: immediateState
     }
   }
+
   yield put(immediateInsert)
 
   if (action.payload.state && action.payload.state.asyncState) {
@@ -37,6 +38,7 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
         state: resolvedAsyncState
       }
     }
+
     yield put(insertAsyncState)
   }
 }

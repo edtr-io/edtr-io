@@ -29,7 +29,7 @@ test('default plugin', () => {
   expect(document.plugin).toEqual('stateless')
 })
 
-function renderDocument(
+export function renderDocument(
   store: Store,
   state?: { plugin: string; state?: unknown }
 ) {
