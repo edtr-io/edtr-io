@@ -34,7 +34,7 @@ const AddTrigger = styled.div<{ inline: boolean; name: string }>(
       opacity: inline ? 0.6 : 0,
       transition: '250ms all ease-in-out',
       position: inline ? 'absolute' : 'relative',
-      zIndex: 999,
+      zIndex: 70,
       right: inline ? '15px' : undefined,
       top: inline ? '10%' : undefined,
       transform: inline ? 'translate(-50%)' : undefined,
