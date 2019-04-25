@@ -1,27 +1,31 @@
 import * as React from 'react'
 import { Plugin as EditorPlugin } from '@edtr-io/core'
-import { styled } from '@edtr-io/editor-ui'
+import { styled, faToolbox, Icon } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
+import { createRowPluginTheme } from '../..'
 
-const StyledPlugin = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  margin: '15px',
-  width: '175px',
-  borderRadius: '5px',
-  padding: '15px',
-  cursor: 'pointer',
-  transition: '250ms all ease-in-out',
+const StyledPlugin = styled.div(
+  ({ name, ...props }: ThemeProps & { name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '15px',
+      width: '175px',
+      borderRadius: '5px',
+      padding: '15px',
+      cursor: 'pointer',
+      transition: '250ms all ease-in-out',
+      color: theme.menu.primary.color,
 
-  '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)'
+      '&:hover': {
+        backgroundColor: theme.menu.secondary.backgroundColor
+      }
+    }
   }
-})
-
-const DefaultIcon = styled.img({
-  width: '30%'
-})
+)
 
 const Title = styled.h3({
   marginTop: '15px',
@@ -40,19 +44,17 @@ const Description = styled.p({
 export const Plugin = ({
   plugin,
   pluginName,
-  onClick
+  onClick,
+  name
 }: {
   plugin: EditorPlugin
   pluginName: string
   onClick: () => void
+  name: string
 }) => {
   return (
-    <StyledPlugin onClick={onClick}>
-      {plugin.icon ? (
-        <plugin.icon />
-      ) : (
-        <DefaultIcon src={require('../../../assets/default-plugin.svg')} />
-      )}
+    <StyledPlugin onClick={onClick} name={name}>
+      {plugin.icon ? <plugin.icon /> : <Icon icon={faToolbox} size="5x" />}
       <Title>{plugin.title || pluginName}</Title>
       {plugin.description && <Description>{plugin.description}</Description>}
     </StyledPlugin>

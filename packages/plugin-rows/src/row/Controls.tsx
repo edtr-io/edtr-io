@@ -1,81 +1,105 @@
 import React, { useState, useEffect } from 'react'
-import { styled } from '@edtr-io/editor-ui'
-import { rowsState, rowState } from '..'
+import {
+  styled,
+  faSortUp,
+  faSortDown,
+  faEllipsisH,
+  faCopy,
+  faCut,
+  faTrashAlt
+} from '@edtr-io/editor-ui'
+import { rowsState, rowState, createRowPluginTheme } from '..'
 import { StateType } from '@edtr-io/core'
+import { Icon } from '@edtr-io/renderer-ui'
+import { ThemeProps } from '@edtr-io/ui'
 
-const StyledControls = styled.div<{ index: number }>(({ index }) => {
-  return {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    transform: 'translateX(calc(100% + 3px))',
-    backgroundColor: 'rgba(177, 4, 56, 1)',
-    width: '25px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderRadius: '0 3px 3px 0',
-    opacity: 0,
-    zIndex: 100 - index,
-    transition: '250ms all ease-in-out'
-  }
-})
-
-const StyledIcon = styled.img<{ disabled?: boolean }>(({ disabled }) => {
-  return {
-    height: '20px',
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 0.2 : 0.8,
-    '&:hover': {
-      opacity: disabled ? 0.2 : 1
+const StyledControls = styled.div(
+  ({ index, name, ...props }: ThemeProps & { index: number; name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      transform: 'translateX(calc(100% + 3px))',
+      backgroundColor: theme.backgroundColor,
+      color: theme.color,
+      width: '25px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      borderRadius: '0 3px 3px 0',
+      opacity: 0,
+      zIndex: 100 - index,
+      transition: '250ms all ease-in-out'
     }
   }
-})
+)
 
-const MoveUp: Icon = ({ rows, index }) => (
-  <StyledIcon
+const IconContainer = styled.div<{ disabled?: boolean; name: string }>(
+  ({ disabled, name, ...props }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      height: '20px',
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      opacity: disabled ? 0.2 : 0.8,
+      color: theme.color,
+      '&:hover': {
+        opacity: disabled ? 0.2 : 1,
+        color: disabled ? theme.color : theme.highlightColor
+      }
+    }
+  }
+)
+
+const MoveUp: IconInterface = ({ rows, index, name }) => (
+  <IconContainer
+    name={name}
     disabled={index === 0}
-    src={require('../../assets/angle-up-white.svg')}
     onClick={() => {
       if (index === 0) return
       rows.move(index, index - 1)
     }}
-  />
+  >
+    <Icon icon={faSortUp} />
+  </IconContainer>
 )
 
-const MoveDown: Icon = ({ rows, index }) => (
-  <StyledIcon
+const MoveDown: IconInterface = ({ rows, index, name }) => (
+  <IconContainer
+    name={name}
     disabled={index + 1 >= rows.items.length}
-    src={require('../../assets/angle-down-white.svg')}
     onClick={() => {
       index + 1 < rows.items.length && rows.move(index, index + 1)
     }}
-  />
+  >
+    <Icon icon={faSortDown} />
+  </IconContainer>
 )
 
-const More: Icon = ({ open, setOpen }) => {
+const More: IconInterface = ({ open, setOpen, name }) => {
   return (
-    <StyledIcon
-      src={require('../../assets/more-white.svg')}
-      onClick={() => setOpen(!open)}
-    />
+    <IconContainer name={name} onClick={() => setOpen(!open)}>
+      <Icon icon={faEllipsisH} />
+    </IconContainer>
   )
 }
 
-const Copy: Icon = ({ row, copyToClipboard }) => {
+const Copy: IconInterface = ({ row, copyToClipboard, name }) => {
   return (
-    <StyledIcon
-      src={require('../../assets/copy-white.svg')}
+    <IconContainer
+      name={name}
       style={{ marginTop: 5, marginBottom: 5, marginRight: -1 }}
       onClick={() => copyToClipboard(row())}
-    />
+    >
+      <Icon icon={faCopy} />
+    </IconContainer>
   )
 }
 
-const Cut: Icon = ({ rows, row, index, copyToClipboard }) => {
+const Cut: IconInterface = ({ rows, row, index, copyToClipboard, name }) => {
   return (
-    <StyledIcon
-      src={require('../../assets/cut-white.svg')}
+    <IconContainer
+      name={name}
       disabled={rows.items.length === 1}
       style={{ marginBottom: 5 }}
       onClick={() => {
@@ -83,27 +107,32 @@ const Cut: Icon = ({ rows, row, index, copyToClipboard }) => {
         copyToClipboard(row())
         rows.remove(index)
       }}
-    />
+    >
+      <Icon icon={faCut} />
+    </IconContainer>
   )
 }
 
-const Remove: Icon = ({ rows, index }) => {
+const Remove: IconInterface = ({ rows, index, name }) => {
   return (
-    <StyledIcon
+    <IconContainer
+      name={name}
       disabled={rows.items.length === 1}
-      src={require('../../assets/remove-white.svg')}
       style={{ marginBottom: 3 }}
       onClick={() => {
         if (rows.items.length === 1) return
         rows.remove(index)
       }}
-    />
+    >
+      <Icon icon={faTrashAlt} />
+    </IconContainer>
   )
 }
 
-type Icon = React.FunctionComponent<IconProps>
+type IconInterface = React.FunctionComponent<IconProps>
 interface IconProps {
   key: number
+  name: string
   index: number
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   open: boolean
@@ -114,7 +143,7 @@ interface IconProps {
   row: StateType.StateDescriptorReturnType<typeof rowState>
 }
 const icons: {
-  icon: Icon
+  icon: IconInterface
   onlyOpen?: boolean
   onlyClosed?: boolean
 }[] = [
@@ -128,18 +157,19 @@ const icons: {
 
 export const Controls: React.FunctionComponent<{
   index: number
+  name: string
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   copyToClipboard: (id: string) => void
   row: StateType.StateDescriptorReturnType<typeof rowState>
   hover: boolean
-}> = ({ index, rows, copyToClipboard, row, hover }) => {
+}> = ({ index, rows, copyToClipboard, row, hover, name }) => {
   const [open, setOpen] = useState(false)
   useEffect(() => {
     if (!hover) setOpen(false)
   }, [hover])
 
   return (
-    <StyledControls index={index} className="row-controls">
+    <StyledControls name={name} index={index} className="row-controls">
       {icons
         .filter(el => (!open ? !el.onlyOpen : true))
         .filter(el => (open ? !el.onlyClosed : true))
@@ -148,6 +178,7 @@ export const Controls: React.FunctionComponent<{
             key={i}
             index={index}
             rows={rows}
+            name={name}
             open={open}
             setOpen={setOpen}
             copyToClipboard={copyToClipboard}

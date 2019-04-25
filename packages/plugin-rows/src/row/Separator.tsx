@@ -1,5 +1,7 @@
 import React from 'react'
 import { Icon, faPlus, styled } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
+import { createRowPluginTheme } from '..'
 
 const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   return {
@@ -12,30 +14,40 @@ const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   }
 })
 
-const AddTrigger = styled.div<{ inline: boolean }>(({ inline }) => {
-  return {
-    width: '26px',
-    height: '26px',
-    borderRadius: '13px',
-    border: '2px solid black',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    opacity: inline ? 0.6 : 0,
-    transition: '250ms all ease-in-out',
-    position: inline ? 'absolute' : 'relative',
-    zIndex: 999,
-    right: inline ? '15px' : undefined,
-    top: inline ? '10%' : undefined,
-    transform: inline ? 'translate(-50%)' : undefined,
+const AddTrigger = styled.div<{ inline: boolean; name: string }>(
+  ({
+    inline,
+    name,
+    ...props
+  }: ThemeProps & { inline: boolean; name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      width: '26px',
+      height: '26px',
+      borderRadius: '13px',
+      border: `2px solid ${theme.backgroundColor}`,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: theme.backgroundColor,
+      backgroundColor: theme.lightBackgroundColor,
+      opacity: inline ? 0.6 : 0,
+      transition: '250ms all ease-in-out',
+      position: inline ? 'absolute' : 'relative',
+      zIndex: 999,
+      right: inline ? '15px' : undefined,
+      top: inline ? '10%' : undefined,
+      transform: inline ? 'translate(-50%)' : undefined,
 
-    '&:hover': {
-      opacity: 1,
-      cursor: 'pointer'
+      '&:hover': {
+        color: theme.highlightColor,
+        borderColor: theme.highlightColor,
+        opacity: 1,
+        cursor: 'pointer'
+      }
     }
   }
-})
+)
 
 const TriggerArea = styled.div({
   width: '100%',
@@ -49,6 +61,7 @@ const TriggerArea = styled.div({
 
 export const Add: React.FunctionComponent<{
   onClick: () => void
+  name: string
   inline?: boolean
 }> = props => {
   return (
@@ -56,6 +69,7 @@ export const Add: React.FunctionComponent<{
       inline={props.inline || false}
       className="add-trigger"
       onClick={props.onClick}
+      name={props.name}
     >
       <Icon style={{ width: 14, height: 14 }} icon={faPlus} />
     </AddTrigger>
@@ -64,12 +78,13 @@ export const Add: React.FunctionComponent<{
 
 export const Separator: React.FunctionComponent<{
   isFirst?: boolean
+  name: string
   onClick: () => void
-}> = ({ isFirst, onClick }) => {
+}> = ({ isFirst, onClick, name }) => {
   return (
     <StyledSeparator isFirst={isFirst}>
       <TriggerArea>
-        <Add onClick={onClick} />
+        <Add name={name} onClick={onClick} />
       </TriggerArea>
     </StyledSeparator>
   )

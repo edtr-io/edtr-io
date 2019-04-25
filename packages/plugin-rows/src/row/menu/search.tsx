@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { styled } from '@edtr-io/ui'
+import { styled, ThemeProps } from '@edtr-io/ui'
+import { faSearch, Icon, faTimes } from '@edtr-io/editor-ui'
+import { createRowPluginTheme } from '@edtr-io/plugin-rows'
 
 const StyledSearch = styled.div({
   paddingTop: '25px',
@@ -13,70 +15,93 @@ const InputWrapper = styled.div({
   width: '100%'
 })
 
-const StyledInput = styled.input({
-  padding: '5px 30px',
-  border: '2px solid rgb(180, 180, 180)',
-  borderRadius: '5px',
-  fontSize: '20px',
-  outline: 'none',
-  backgroundColor: 'transparent',
-  transition: '250ms all ease-in-out',
-  width: '100%',
+const StyledInput = styled.input(
+  ({ name, ...props }: { name: string } & ThemeProps) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      padding: '5px 40px',
+      border: `2px solid ${theme.menu.primary.color}`,
+      borderRadius: '5px',
+      fontSize: '20px',
+      outline: 'none',
+      backgroundColor: 'transparent',
+      transition: '250ms all ease-in-out',
+      width: '100%',
 
-  '&:focus': {
-    borderColor: 'rgba(177, 4, 56, 1)'
-  },
+      '&:focus': {
+        borderColor: theme.menu.highlightColor
+      },
 
-  '&::placeholder': {
-    color: 'rgb(180, 180, 180)'
+      '&::placeholder': {
+        color: theme.menu.primary.color
+      }
+    }
   }
-})
+)
 
-const ClearSearch = styled.img<{ visible: boolean }>(props => ({
-  height: '55%',
-  position: 'absolute',
-  top: '50%',
-  right: '5px',
-  transform: 'translateY(-50%)',
-  opacity: props.visible ? 0.4 : 0,
-  transition: '250ms all ease-in-out',
-  cursor: 'pointer',
+const ClearSearchContainer = styled.div<{ visible: boolean; name: string }>(
+  props => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      height: '70%',
+      position: 'absolute',
+      top: '50%',
+      right: '10px',
+      transform: 'translateY(-50%)',
+      opacity: props.visible ? 0.4 : 0,
+      transition: '250ms all ease-in-out',
+      cursor: 'pointer',
+      color: theme.menu.secondary.color,
 
-  '&:hover': {
-    opacity: props.visible ? 6 : 0
+      '&:hover': {
+        opacity: props.visible ? 0.6 : 0,
+        color: theme.menu.highlightColor
+      }
+    }
   }
-}))
+)
 
-const SearchIcon = styled.img({
-  height: '55%',
-  position: 'absolute',
-  top: '50%',
-  left: '5px',
-  transform: 'translateY(-50%)',
-  opacity: 0.4
-})
+const SearchIcon = styled(Icon)(
+  ({ name, ...props }: { name: string } & ThemeProps) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      height: '70%',
+      position: 'absolute',
+      color: theme.menu.secondary.color,
+      top: '50%',
+      left: '5px',
+      transform: 'translateY(-50%)',
+      opacity: 0.4
+    }
+  }
+)
 
 export const Search = ({
   search,
-  setSearch
+  setSearch,
+  name
 }: {
   search: string
   setSearch: (newValue: string) => void
+  name: string
 }) => {
   return (
     <StyledSearch>
       <InputWrapper>
         <StyledInput
+          name={name}
           placeholder="Suche hier nach Tools..."
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <ClearSearch
+        <ClearSearchContainer
+          name={name}
           visible={search.length > 0}
-          src={require('../../../assets/close.svg')}
           onClick={() => setSearch('')}
-        />
-        <SearchIcon src={require('../../../assets/search.svg')} />
+        >
+          <Icon icon={faTimes} size="2x" />
+        </ClearSearchContainer>
+        <SearchIcon name={name} icon={faSearch} size="2x" />
       </InputWrapper>
     </StyledSearch>
   )

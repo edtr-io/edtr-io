@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { styled } from '@edtr-io/editor-ui'
+import { styled, faTimes, Icon } from '@edtr-io/editor-ui'
 import { Portal } from 'react-portal'
 import { getPlugins, PluginState } from '@edtr-io/core'
 
@@ -8,26 +8,33 @@ import { Search } from './search'
 import { Plugin } from './plugin'
 import { Dropzone } from './dropzone'
 import { State } from '@edtr-io/core/src/store'
+import { ThemeProps } from '@edtr-io/ui'
+import { createRowPluginTheme } from '@edtr-io/plugin-rows'
 
-const Wrapper = styled.div({
-  display: 'flex',
-  padding: '25px calc((100vw - 960px) / 2) 150px',
-  paddingBottom: '155px',
-  flexDirection: 'column',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100vh',
-  zIndex: 9999,
+const Wrapper = styled.div<{ name: string }>(
+  ({ name, ...props }: ThemeProps & { name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      display: 'flex',
+      padding: '25px calc((100vw - 960px) / 2) 150px',
+      paddingBottom: '155px',
+      flexDirection: 'column',
+      backgroundColor: theme.menu.primary.backgroundColor,
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100vh',
+      zIndex: 9999,
 
-  '@media (max-width: 1000px)': {
-    padding: '25px 20px 155px'
+      '@media (max-width: 1000px)': {
+        padding: '25px 20px 155px'
+      }
+    }
   }
-})
+)
 
-const CloseButton = styled.img({
+const CloseButtonContainer = styled.div({
   position: 'absolute',
   top: '15px',
   right: '15px',
@@ -50,7 +57,7 @@ interface MenuProps {
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
   state: State
-  name?: string
+  name: string
 }
 
 export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
@@ -99,19 +106,19 @@ export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
         key={pluginName}
         pluginName={pluginName}
         plugin={plugins[pluginName]}
+        name={name}
       />
     ))
   return (
     <Portal>
-      <Wrapper>
-        <Search search={search} setSearch={setSearch} />
-        <Clipboard onClose={menu.onClose} />
+      <Wrapper name={name}>
+        <Search search={search} name={name} setSearch={setSearch} />
+        <Clipboard onClose={menu.onClose} name={name} />
         <PluginList>{mappedPlugins}</PluginList>
-        <Dropzone />
-        <CloseButton
-          onClick={() => setMenu(undefined)}
-          src={require('../../../assets/close.svg')}
-        />
+        <Dropzone name={name} />
+        <CloseButtonContainer onClick={() => setMenu(undefined)}>
+          <Icon icon={faTimes} />
+        </CloseButtonContainer>
       </Wrapper>
     </Portal>
   )
