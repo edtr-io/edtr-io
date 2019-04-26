@@ -10,7 +10,7 @@ import { isHotkey } from 'is-hotkey'
 
 import { Math } from './math.component'
 import { OverlayContext } from '@edtr-io/core'
-import { Checkbox, Overlay, Textarea, InlineSettings } from '@edtr-io/ui'
+import { Checkbox, Overlay, Textarea, InlineSettings } from '@edtr-io/editor-ui'
 
 // @ts-ignore
 import MathQuill, { addStyles as addMathquillStyles } from 'react-mathquill'

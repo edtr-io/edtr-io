@@ -16,7 +16,7 @@ import {
   faBold,
   faItalic,
   faUnlink,
-  HoveringOverlay
+  HoveringOverlay,
   BottomToolbar
 } from '@edtr-io/editor-ui'
 import { OverlayContext } from '@edtr-io/core'

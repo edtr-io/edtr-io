@@ -1,4 +1,4 @@
-import { styled } from '..'
+import { styled } from '../theme'
 
 // Toolbar at the bottom of the browser.
 // TODO: Needs theming support

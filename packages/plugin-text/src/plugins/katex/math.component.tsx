@@ -90,7 +90,7 @@ const handleError = (
   formula: string,
   error: KaTeX.ParseError,
   inline: boolean,
-  oldErrorPosition: number
+  oldErrorPosition?: number
 ) => {
   const errorStyle = {
     color: '#CC0000'
@@ -130,7 +130,6 @@ export class Math extends React.Component<MathProps> {
     if (!formula) {
       return null
     }
-    if (!oldErrorPosition) return null
 
     const Component = inline ? InlineMath : BlockMath
 
