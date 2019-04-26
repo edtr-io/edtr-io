@@ -5,9 +5,14 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/Input Exercise', module)
   .add('Initial State', () => {
-    const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"inputExercise","state":{"type":"Text","correctAnswers":[],"wrongAnswers":[]}}]}'
-    )
+    const state = {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'inputExercise'
+        }
+      ]
+    }
     return <EditorStory initialState={state} />
   })
   .add('Prefilled Example', () => {

@@ -6,7 +6,12 @@ import { EditorStory } from '../src'
 storiesOf('Plugins/Solution', module)
   .add('Initial State', () => {
     const state = {
-      plugin: 'solution'
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'solution'
+        }
+      ]
     }
     return <EditorStory initialState={state} />
   })

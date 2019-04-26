@@ -31,8 +31,7 @@ async function exec(): Promise<void> {
         'Add `<Editor />` that replaces `<EditorProvider />`',
         'Add `StateType.scalar` that represents a value of the given type (more specifically: `StateType.boolean`, `StateType.number`, `StateType.child`',
         'Add `StateType.list`, `State.object`',
-        'Add slate for rich text and links. Standard Bold + Italic hotkeys supported.',
-        'Add additional examples for plugin-usage in Storybook'
+        'Add slate for rich text and links. Standard Bold + Italic hotkeys supported.'
       ],
       changed: ['Rename `createDocumentIdentifier` to `createDocument`'],
       removed: ['Remove `<EditorProvider />` in favor of `<Editor />`']
@@ -193,7 +192,10 @@ async function exec(): Promise<void> {
         '**core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
-      internal: ['**demo**. Log errors only']
+      internal: [
+        '**demo**. Log errors only',
+        '**demo**. Add additional examples for plugin-usage in Storybook'
+      ]
     }
   ])
 

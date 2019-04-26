@@ -6,7 +6,12 @@ import { EditorStory } from '../src'
 storiesOf('Plugins/Hint', module)
   .add('Initial State', () => {
     const state = {
-      plugin: 'hint'
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'hint'
+        }
+      ]
     }
     return <EditorStory initialState={state} />
   })

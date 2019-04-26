@@ -5,9 +5,14 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/Single-Choice-Multiple-Choice Exercise', module)
   .add('Initial State', () => {
-    const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"scMcExercise","state":{"isSingleChoice":false,"answers":[]}}]}'
-    )
+    const state = {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'scMcExercise'
+        }
+      ]
+    }
     return <EditorStory initialState={state} />
   })
   .add('Prefilled Example', () => {

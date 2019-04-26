@@ -5,9 +5,14 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/Blockquote', module)
   .add('Initial State', () => {
-    const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"text","state":{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"Hier ist ein Beispiel für ein leeres Zitat:","marks":[]}]}]}]}}},{"plugin":"blockquote","state":{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":""}]}]}]}}}},{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"","marks":[]}]}]}]}}}]}'
-    )
+    const state = {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'blockquote'
+        }
+      ]
+    }
     return <EditorStory defaultPlugin="text" initialState={state} />
   })
   .add('Prefilled Example', () => {

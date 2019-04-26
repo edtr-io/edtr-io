@@ -5,9 +5,14 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/Highlight', module)
   .add('Initial State', () => {
-    const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"highlight","state":{"text":"","language":"text","lineNumbers":false}}]}'
-    )
+    const state = {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'highlight'
+        }
+      ]
+    }
     return <EditorStory initialState={state} />
   })
   .add('Prefilled Example', () => {

@@ -6,7 +6,12 @@ import { EditorStory } from '../src'
 storiesOf('Plugins/Spoiler', module)
   .add('Initial State', () => {
     const state = {
-      plugin: 'spoiler'
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'spoiler'
+        }
+      ]
     }
     return <EditorStory initialState={state} />
   })

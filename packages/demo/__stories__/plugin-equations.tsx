@@ -5,9 +5,14 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/Equations', module)
   .add('Initial State', () => {
-    const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"equations","state":{"steps":[{"left":{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":""}]}]}]}}},"right":{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":""}]}]}]}}},"transform":{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","nodes":[{"object":"text","leaves":[{"object":"leaf","text":""}]}]}]}}}}]}}]}'
-    )
+    const state = {
+      plugin: 'rows',
+      state: [
+        {
+          plugin: 'equations'
+        }
+      ]
+    }
     return <EditorStory initialState={state} />
   })
   .add('Prefilled Example', () => {
