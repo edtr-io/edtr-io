@@ -130,6 +130,7 @@ export class Math extends React.Component<MathProps> {
     if (!formula) {
       return null
     }
+    if (!oldErrorPosition) return null
 
     const Component = inline ? InlineMath : BlockMath
 
@@ -137,7 +138,7 @@ export class Math extends React.Component<MathProps> {
       <Component
         math={formula}
         renderError={error =>
-          handleError(formula, error, !inline, oldErrorPosition as number)
+          handleError(formula, error, !inline, oldErrorPosition)
         }
       />
     )
@@ -147,5 +148,5 @@ export class Math extends React.Component<MathProps> {
 export interface MathProps {
   formula?: string
   inline?: boolean
-  oldErrorPosition?: unknown
+  oldErrorPosition?: number
 }
