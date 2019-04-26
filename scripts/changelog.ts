@@ -192,7 +192,10 @@ async function exec(): Promise<void> {
         '**core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
-      internal: ['**demo**. Log errors only']
+      internal: [
+        '**demo**. Log errors only',
+        '**demo**. Add additional examples for plugin-usage in Storybook'
+      ]
     }
   ])
 
