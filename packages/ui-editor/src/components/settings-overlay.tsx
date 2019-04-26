@@ -162,9 +162,11 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
 export const InlineSettings: React.FunctionComponent<{
   onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
-}> = props => {
+  position: HoverPosition
+  anchor?: React.RefObject<HTMLElement>
+}> = ({ position = 'below', ...props }) => {
   return (
-    <HoveringOverlay position={'below'}>
+    <HoveringOverlay position={position} anchor={props.anchor}>
       <InlinePreview>{props.children}</InlinePreview>
       <ChangeButton onClick={props.onEdit}>
         <Icon icon={faPencilAlt} />
@@ -176,18 +178,27 @@ export const InlineSettings: React.FunctionComponent<{
   )
 }
 
-export type HoverPosition = 'above' | 'below'
+export type HoverPosition = 'above' | 'below' | HTMLElement
 
 export const HoveringOverlay: React.FunctionComponent<{
   position: HoverPosition
+  anchor?: React.RefObject<HTMLElement>
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
   React.useEffect(() => {
     const menu = overlay.current
     if (!menu) return
-    const native = window.getSelection()
-    const range = native.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
+    let rect = undefined
+    if (props.anchor && props.anchor.current !== null) {
+      rect = props.anchor.current.getBoundingClientRect()
+    } else {
+      const native = window.getSelection()
+      if (native.rangeCount > 0) {
+        const range = native.getRangeAt(0)
+        rect = range.getBoundingClientRect()
+      }
+    }
+    if (!rect) return
     if (rect.height === 0) return
     // menu is set to display:none, shouldn't ever happen
     if (!menu.offsetParent) return
@@ -220,14 +231,14 @@ export const HoveringOverlay: React.FunctionComponent<{
       ),
       parentRect.width - menu.offsetWidth - 5
     )}px`
-  }, [overlay, props.position])
+  }, [overlay, props.position, props.anchor])
 
   return (
     <InlineOverlayWrapper ref={overlay}>{props.children}</InlineOverlayWrapper>
   )
 }
 
-const ConfigIconContainer = styled.span({
+const ConfigIconContainer = styled.div({
   position: 'relative'
 })
 const ConfigIcon = styled.div((props: EditorThemeProps) => {

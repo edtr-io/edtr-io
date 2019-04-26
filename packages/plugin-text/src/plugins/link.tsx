@@ -118,6 +118,7 @@ const DefaultControlsComponent: React.FunctionComponent<
           key={`inlineoverlay${inline.key}`}
           onEdit={overlayContext.show}
           onDelete={() => unwrapLink(editor)}
+          position={'below'}
         >
           <a href={value} target="_blank" rel="noopener noreferrer">
             {value}
