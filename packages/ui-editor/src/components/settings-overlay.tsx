@@ -119,18 +119,38 @@ export function Overlay(props: {
     : null
 }
 
-const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+const OverlayTriangle = styled.div(
+  (props: EditorThemeProps & { positionAbove: boolean }) => {
+    const theme = createOverlayTheme('overlay', props.theme)
+    const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
+    return {
+      width: 0,
+      height: 0,
+      borderLeft: '5px solid transparent',
+      borderRight: '5px solid transparent',
+      [borderPosition]: `10px solid ${theme.backgroundColor}`,
+      zIndex: 95
+    }
+  }
+)
+const InlineOverlayWrapper = styled.div({
+  position: 'absolute',
+  top: '-10000px',
+  left: '-10000px',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  opacity: 0,
+  transition: 'opacity 0.5s'
+})
 
+const InlineOverlayContentWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
   return {
-    position: 'absolute',
-    top: '-10000px',
-    left: '-10000px',
-    opacity: 0,
-    transition: 'opacity 0.5s',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
     backgroundColor: theme.backgroundColor,
     color: theme.color,
-    padding: '5px',
+    borderRadius: '4px',
     zIndex: 95,
     '& a': {
       color: theme.color,
@@ -182,6 +202,9 @@ export const HoveringOverlay: React.FunctionComponent<{
   position: HoverPosition
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
+  const [positionAbove, setPositionAbove] = React.useState(
+    props.position === 'above'
+  )
   React.useEffect(() => {
     const menu = overlay.current
     if (!menu) return
@@ -206,12 +229,9 @@ export const HoveringOverlay: React.FunctionComponent<{
     menu.style.opacity = '1'
     const aboveValue = rect.top - menu.offsetHeight - 6
     // if top becomes negative, place menu below
+    setPositionAbove(props.position == 'above' && aboveValue >= 0)
     menu.style.top =
-      (props.position == 'above' && aboveValue >= 0
-        ? aboveValue
-        : rect.bottom + 3) -
-      parentRect.top +
-      'px'
+      (positionAbove ? aboveValue : rect.bottom + 3) - parentRect.top + 'px'
 
     menu.style.left = `${Math.min(
       Math.max(
@@ -220,10 +240,16 @@ export const HoveringOverlay: React.FunctionComponent<{
       ),
       parentRect.width - menu.offsetWidth - 5
     )}px`
-  }, [overlay, props.position])
+  }, [overlay, props.position, positionAbove])
 
   return (
-    <InlineOverlayWrapper ref={overlay}>{props.children}</InlineOverlayWrapper>
+    <InlineOverlayWrapper ref={overlay}>
+      {!positionAbove && <OverlayTriangle positionAbove={false} />}
+      <InlineOverlayContentWrapper>
+        {props.children}
+      </InlineOverlayContentWrapper>
+      {positionAbove && <OverlayTriangle positionAbove={true} />}
+    </InlineOverlayWrapper>
   )
 }
 
