@@ -26,12 +26,14 @@ const CheckboxInlineLabel = styled.label((props: EditorThemeProps) => {
   const theme = createCheckboxTheme('checkbox', props.theme)
   return {
     color: theme.color,
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+    margin: '5px 10px',
+    display: 'inline-block'
   }
 })
 
 const CheckboxInlineLabelInner = styled.span({
-  margin: '0 10px',
+  marginRight: '10px',
   verticalAlign: 'middle'
 })
 

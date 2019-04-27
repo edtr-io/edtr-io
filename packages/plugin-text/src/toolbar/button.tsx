@@ -1,38 +1,27 @@
-import {
-  styled,
-  createEditorUiTheme,
-  EditorThemeProps
-} from '@edtr-io/editor-ui'
-
-// FIXME; Plugin theme
-export const createButtonTheme = createEditorUiTheme<ButtonTheme>(theme => {
-  return {
-    activeColor: theme.primary.background,
-    color: theme.color,
-    hoverColor: theme.primary.background
-  }
-})
+import { styled } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
+import { createTextPluginTheme } from '..'
 
 export const Button = styled.button<{ active?: boolean }>(
-  ({ active, ...props }: { active?: boolean } & EditorThemeProps) => {
-    const theme = createButtonTheme('button', props.theme)
+  ({ active, ...props }: { active?: boolean } & ThemeProps) => {
+    const theme = createTextPluginTheme(name, props.theme)
     return {
-      backgroundColor: 'transparent',
+      backgroundColor: active
+        ? theme.active.backgroundColor
+        : theme.backgroundColor,
       cursor: 'pointer',
-      color: active ? theme.activeColor : theme.color,
+      boxShadow: active ? 'inset 0 1px 3px 0 rgba(0,0,0,0.50)' : undefined,
+      color: active ? theme.active.color : theme.color,
       outline: 'none',
       height: '25px',
       border: 'none',
-      width: '40px',
+      borderRadius: '4px',
+      margin: '5px',
+      padding: '0px',
+      width: '25px',
       '&:hover': {
         color: theme.hoverColor
       }
     }
   }
 )
-
-export interface ButtonTheme {
-  activeColor: string
-  color: string
-  hoverColor: string
-}

@@ -15,7 +15,6 @@ import {
   faLink,
   faBold,
   faItalic,
-  faUnlink,
   HoveringOverlay,
   BottomToolbar
 } from '@edtr-io/editor-ui'
@@ -54,7 +53,7 @@ export const Controls: React.FunctionComponent<{
                 : wrapLink()(editor, overlayContext)
             }
           >
-            <Icon icon={isLink(editor) ? faUnlink : faLink} />
+            <Icon icon={faLink} />
           </Button>
         </HoveringOverlay>
       )}
