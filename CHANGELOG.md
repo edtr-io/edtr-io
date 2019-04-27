@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-text**. Hide placeholder in render mode
 - **plugin-text**. Hovering Menu for text formatting
+- **plugin-text**. Styling of inline-overlay improved
 - **ui** / **editor-ui** / **renderer-ui**. Revised theming workflow
 - **plugin-rows**. Improved styling of add menu and controls
 - **plugin-rows**. Added more theming options
