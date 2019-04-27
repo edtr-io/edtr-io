@@ -9,8 +9,7 @@ import { Block, Editor, Inline, BlockJSON, InlineJSON } from 'slate'
 import { isHotkey } from 'is-hotkey'
 
 import { Math } from './math.component'
-import { OverlayContext } from '@edtr-io/core'
-import { Checkbox, Overlay, Textarea, InlineSettings } from '@edtr-io/editor-ui'
+import { HoveringOverlay, styled, InlineCheckbox } from '@edtr-io/editor-ui'
 
 // @ts-ignore
 import MathQuill, { addStyles as addMathquillStyles } from 'react-mathquill'
@@ -46,12 +45,27 @@ export interface KatexPluginOptions {
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
+const Wrapper = styled.div<{ inline: boolean }>(props => {
+  return {
+    whiteSpace: undefined,
+    overflowWrap: undefined,
+    ...(props.inline
+      ? {
+          display: 'inline-block'
+        }
+      : {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginTop: '15px'
+        })
+  }
+})
+
 const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps
 > = props => {
   const { attributes, node, editor, readOnly } = props
-
-  const overlayContext = React.useContext(OverlayContext)
 
   const { data } = node as Block | Inline
   const inline = data.get('inline')
@@ -69,8 +83,10 @@ const DefaultEditorComponent: React.FunctionComponent<
 
   const [useVisual, setUseVisual] = React.useState(true)
 
-  const mathQuillRef = React.createRef<{ element: HTMLElement }>()
-  const latexInputRef = React.createRef<HTMLInputElement>()
+  const mathQuillRef = React.createRef<typeof MathQuill>()
+  const latexInputRef = React.useRef<
+    HTMLInputElement | HTMLTextAreaElement | null
+  >()
 
   const wrappedMathquillRef = Object.defineProperty({}, 'current', {
     // wrapper around Mathquill component
@@ -78,53 +94,87 @@ const DefaultEditorComponent: React.FunctionComponent<
       return mathQuillRef.current ? mathQuillRef.current.element : null
     }
   })
+  const [formulaState, setFormulaState] = React.useState(formula)
 
-  if (props.isSelected && editor.value.selection.isCollapsed && !readOnly) {
+  // if math formula gets selected or leaves edit, update formula from state
+  const edit = React.useRef(
+    props.isSelected && editor.value.selection.isCollapsed && !readOnly
+  )
+  if (
+    edit.current !==
+    (props.isSelected && editor.value.selection.isCollapsed && !readOnly)
+  ) {
+    if (formula !== formulaState) {
+      setFormula(formulaState)
+    }
+    edit.current =
+      props.isSelected && editor.value.selection.isCollapsed && !readOnly
+  }
+
+  function checkLeaveLatexInput(e: React.KeyboardEvent) {
+    if (!latexInputRef.current) return
+    const { selectionEnd, value } = latexInputRef.current
+    if (e.key === 'ArrowLeft' && selectionEnd === 0) {
+      // leave left
+      editor
+        .moveToStart()
+        .moveBackward(1)
+        .focus()
+    } else if (e.key === 'ArrowRight' && selectionEnd === value.length) {
+      // leave right
+      editor
+        .moveToEnd()
+        .moveForward(1)
+        .focus()
+    }
+  }
+
+  if (edit.current) {
     return (
-      <div
+      <Wrapper
         {...attributes}
         onClick={e => {
           e.stopPropagation()
         }}
-        style={{
-          whiteSpace: undefined,
-          overflowWrap: undefined,
-          display: 'inline-block'
-        }}
+        inline={inline}
       >
         {useVisual ? (
           <MathQuill
-            latex={formula} // Initial latex value for the input field
+            latex={formulaState} // Initial latex value for the input field
             onChange={(latex: string) => {
               // Called everytime the input changes
-              setFormula(latex)
+              setFormulaState(latex)
             }}
             config={{
               handlers: {
                 moveOutOf: (dir: number) => {
                   if (dir == 1) {
                     // leave right
-                    editor.moveToEnd()
-                    editor.moveForward(1)
-                    editor.focus()
+                    editor
+                      .moveToEnd()
+                      .moveForward(1)
+                      .focus()
                   } else if (dir == -1) {
                     // leave left
-                    editor.moveToStart()
-                    editor.moveBackward(1)
-                    editor.focus()
+                    editor
+                      .moveToStart()
+                      .moveBackward(1)
+                      .focus()
                   }
                 }
               }
             }}
             ref={mathQuillRef}
-            // @ts-ignore
-            mathquillDidMount={x => {
-              if (x.latex() == '' && formula != '') {
-                // Error occured
-                alert('Error while parsing LaTeX.')
-                setUseVisual(false)
-              }
+            mathquillDidMount={(x: {
+              latex: () => string
+              focus: () => void
+            }) => {
               if (x) {
+                if (x.latex() == '' && formula != '') {
+                  // Error occured
+                  alert('Error while parsing LaTeX.')
+                  setUseVisual(false)
+                }
                 setTimeout(() => {
                   editor.blur()
                   setTimeout(() => {
@@ -134,25 +184,30 @@ const DefaultEditorComponent: React.FunctionComponent<
               }
             }}
           />
-        ) : (
+        ) : inline ? (
           <input
-            ref={latexInputRef}
+            ref={ref => (latexInputRef.current = ref)}
             type="text"
-            value={formula}
+            value={formulaState}
             onChange={e => {
-              // Called everytime the input changes
-              setFormula(e.target.value)
+              //cant set formula directly, because otherwise focus jumps to end of input field
+              setFormulaState(e.target.value)
             }}
+            onKeyDown={checkLeaveLatexInput}
+            autoFocus
+          />
+        ) : (
+          <textarea
+            style={{ width: '100%' }}
+            ref={ref => (latexInputRef.current = ref)}
+            value={formulaState}
+            onChange={e => setFormulaState(e.target.value)}
+            onKeyDown={checkLeaveLatexInput}
+            autoFocus
           />
         )}
-        <InlineSettings
-          onEdit={() => {
-            overlayContext.show()
-          }}
-          onDelete={() => {
-            editor.delete()
-          }}
-          position={'below'}
+        <HoveringOverlay
+          position={'above'}
           anchor={useVisual ? wrappedMathquillRef : latexInputRef}
         >
           <select
@@ -165,8 +220,28 @@ const DefaultEditorComponent: React.FunctionComponent<
             <option value="visual">visual</option>
             <option value="latex">latex</option>
           </select>
-        </InlineSettings>
-      </div>
+          <InlineCheckbox
+            label="Inline"
+            checked={inline}
+            onChange={checked => {
+              const newData = { formula, inline: checked }
+
+              editor.removeNodeByKey(node.key)
+              if (checked) {
+                editor.insertInline({
+                  type: katexInlineNode,
+                  data: newData
+                })
+              } else {
+                editor.insertBlock({
+                  type: katexBlockNode,
+                  data: newData
+                })
+              }
+            }}
+          />
+        </HoveringOverlay>
+      </Wrapper>
     )
   }
 
@@ -181,86 +256,6 @@ const DefaultEditorComponent: React.FunctionComponent<
   )
 }
 
-const DefaultControlsComponent: React.FunctionComponent<
-  NodeControlsProps
-> = props => {
-  const { editor } = props
-  const node: Block | Inline =
-    editor.value.blocks.find(blockIsKatex) ||
-    editor.value.inlines.find(inlineIsKatex)
-  //const lastNode = React.useRef(node)
-
-  if (!node) return <React.Fragment>{props.children}</React.Fragment>
-
-  // What is this for?
-  /*if (lastNode.current.key !== node.key) {
-    lastNode.current = node
-  }*/
-
-  function inlineIsKatex(inline: Inline | undefined) {
-    return inline ? inline.type === katexInlineNode : false
-  }
-  function blockIsKatex(block: Block | undefined) {
-    return block ? block.type === katexBlockNode : false
-  }
-
-  return (
-    <React.Fragment>
-      {props.children}
-      {!props.readOnly && isKatex(editor) ? (
-        <Overlay
-          onClose={() => {
-            editor.focus()
-            editor.moveToEnd()
-            editor.moveForward(1)
-          }}
-        >
-          <Textarea
-            label="Formula"
-            value={node.data.get('formula')}
-            onChange={e => {
-              const newValue = e.target.value
-              editor.setNodeByKey(node.key, {
-                type: node.type,
-                data: {
-                  formula: newValue,
-                  inline: node.data.get('inline')
-                }
-              })
-            }}
-            placeholder="Gib hier LaTeX ein, wie z.B. \frac{1}{2}"
-          />
-          <Checkbox
-            checked={node.data.get('inline')}
-            label="Inline"
-            onChange={checked => {
-              const inline = checked
-              const data = { formula: node.data.get('formula'), inline }
-
-              editor.removeNodeByKey(node.key)
-              if (inline) {
-                editor.insertInline({
-                  type: katexInlineNode,
-                  data
-                })
-              } else {
-                editor.insertBlock({
-                  type: katexBlockNode,
-                  data
-                })
-              }
-            }}
-          />
-          <span> Preview: </span>
-          <Math
-            formula={node.data.get('formula')}
-            inline={node.data.get('inline')}
-          />
-        </Overlay>
-      ) : null}
-    </React.Fragment>
-  )
-}
 class DefaultRendererComponent extends React.Component<NodeRendererProps> {
   public render() {
     const { node } = this.props
@@ -280,8 +275,7 @@ class DefaultRendererComponent extends React.Component<NodeRendererProps> {
 
 export const createKatexPlugin = ({
   EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent,
-  ControlsComponent = DefaultControlsComponent
+  RenderComponent = DefaultRendererComponent
 }: KatexPluginOptions = {}) => (): TextPlugin => {
   return {
     deserialize(el, next) {
@@ -344,15 +338,6 @@ export const createKatexPlugin = ({
       }
 
       return next()
-    },
-
-    renderEditor(props, editor, next) {
-      const children = next()
-      return (
-        <ControlsComponent {...props} editor={editor}>
-          {children}
-        </ControlsComponent>
-      )
     }
   }
 }

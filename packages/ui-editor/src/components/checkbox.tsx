@@ -22,6 +22,19 @@ const CheckboxLabel = styled.label((props: EditorThemeProps) => {
   }
 })
 
+const CheckboxInlineLabel = styled.label((props: EditorThemeProps) => {
+  const theme = createCheckboxTheme('checkbox', props.theme)
+  return {
+    color: theme.color,
+    verticalAlign: 'middle'
+  }
+})
+
+const CheckboxInlineLabelInner = styled.span({
+  margin: '0 10px',
+  verticalAlign: 'middle'
+})
+
 const CheckboxToggleContainer = styled.div<{
   value?: boolean
 }>(({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
@@ -34,6 +47,7 @@ const CheckboxToggleContainer = styled.div<{
     width: '10px',
     height: '10px',
     display: 'inline-block',
+    verticalAlign: 'middle',
     backgroundColor: value ? theme.boxSelectedColor : theme.boxDeselectedColor
   }
 })
@@ -86,6 +100,28 @@ export class Checkbox extends React.Component<CheckboxProps> {
       </CheckboxLabel>
     )
   }
+}
+
+export const InlineCheckbox: React.FunctionComponent<CheckboxProps> = ({
+  checked,
+  onChange,
+  label
+}) => {
+  return (
+    <CheckboxInlineLabel>
+      <CheckboxInlineLabelInner>{label}</CheckboxInlineLabelInner>
+      <CheckboxToggleContainer
+        onClick={() => {
+          if (onChange) {
+            onChange(!checked)
+          }
+        }}
+        value={checked}
+      >
+        <CheckboxToggle value={checked} />
+      </CheckboxToggleContainer>
+    </CheckboxInlineLabel>
+  )
 }
 
 export interface CheckboxProps {
