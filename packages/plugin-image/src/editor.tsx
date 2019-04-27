@@ -5,7 +5,7 @@ import {
   styled,
   Textarea,
   Overlay,
-  Input,
+  OverlayInput,
   Checkbox,
   ContainerWithConfigButton
 } from '@edtr-io/editor-ui'
@@ -49,7 +49,7 @@ export function createImageEditor<T = unknown>(
         <ContainerWithConfigButton>{imageComponent}</ContainerWithConfigButton>
         {focused ? (
           <Overlay>
-            <Input
+            <OverlayInput
               label="Image location (url)"
               placeholder="http://example.com/image.png"
               value={state.src.value}
@@ -74,7 +74,7 @@ export function createImageEditor<T = unknown>(
               onChange={handleChange('description')}
             />
 
-            <Input
+            <OverlayInput
               label="Link location (url)"
               placeholder="http://example.com"
               type="text"
@@ -90,7 +90,7 @@ export function createImageEditor<T = unknown>(
                 />
               </React.Fragment>
             ) : null}
-            <Input
+            <OverlayInput
               label="Maximale Breite (px)"
               placeholder="Gib hier die Breite ein"
               type="number"
