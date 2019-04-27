@@ -39,7 +39,35 @@ const InputInner = styled.input((props: EditorThemeProps) => {
     }
   }
 })
+const InputInlineInner = styled.input((props: EditorThemeProps) => {
+  const theme = createInputTheme('input', props.theme)
 
+  return {
+    backgroundColor: theme.backgroundColor,
+    border: 'none',
+    borderBottom: `2px solid ${theme.color}`,
+    color: theme.color,
+    '&:focus': {
+      outline: 'none',
+      borderBottom: `2px solid ${theme.highlightColor}`
+    }
+  }
+})
+
+export class InlineInput extends React.Component<InputProps> {
+  private input = React.createRef<HTMLInputElement>()
+
+  public focus() {
+    const input = this.input.current
+    if (input) {
+      input.focus()
+    }
+  }
+
+  public render() {
+    return <InputInlineInner {...this.props} ref={this.input} />
+  }
+}
 export class Input extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
 

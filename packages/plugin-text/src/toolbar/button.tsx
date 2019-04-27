@@ -17,6 +17,7 @@ export const Button = styled.button<{ active?: boolean }>(
       border: 'none',
       borderRadius: '4px',
       margin: '5px',
+      padding: '0px',
       width: '25px',
       '&:hover': {
         color: theme.hoverColor
@@ -24,10 +25,3 @@ export const Button = styled.button<{ active?: boolean }>(
     }
   }
 )
-
-export interface ButtonTheme {
-  activeBackgroundColor: string
-  activeColor: string
-  color: string
-  hoverColor: string
-}

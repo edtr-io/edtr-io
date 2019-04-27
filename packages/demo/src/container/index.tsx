@@ -20,7 +20,7 @@ const Components = {
 export function EditorStory(props: Partial<EditorProps>) {
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
-    Container.Plain
+    Container.Serlo
   const container = select('Container', R.values(Container), defaultContainer)
   React.useEffect(() => {
     localStorage.setItem('storybook.container', container)
