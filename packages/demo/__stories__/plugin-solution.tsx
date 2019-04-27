@@ -17,7 +17,7 @@ storiesOf('Plugins/Solution', module)
   })
   .add('Example', () => {
     const state = JSON.parse(
-      '{"plugin":"rows","state":[{"plugin":"solution","state":{"title":"(mit Binomischen Formeln)","content":{"plugin":"text","state":{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"Hier habe ich eine Lösung. ","marks":[]}]}]},{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"","marks":[]}]}]},{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"Lösungen sollten immer ausführlich sein und für Lernende verständlich.","marks":[]}]}]}]}}}}}]}'
+      '{"plugin":"rows","state":[{"plugin":"solution","state":{"title":"Binomische Formeln","content":{"plugin":"rows","state":[{"plugin":"text","state":{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"Hier habe ich eine Lösung. ","marks":[]}]}]}]}}},{"plugin":"text","state":{"document":{"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"Lösungen sollten immer ausführlich sein und für Lernende verständlich.","marks":[]}]}]}]}}}]}}}]}'
     )
     return <EditorStory initialState={state} />
   })
