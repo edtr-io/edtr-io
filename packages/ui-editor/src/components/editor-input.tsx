@@ -1,16 +1,15 @@
 import * as React from 'react'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { InputProps, InputTheme } from './overlay-input'
 
-export const createEditorInputTheme = createEditorUiTheme<EditorInputTheme>(
-  theme => {
-    return {
-      color: theme.backgroundColor,
-      backgroundColor: 'transparent',
-      highlightColor: theme.primary.background
-    }
+export const createEditorInputTheme = createEditorUiTheme<InputTheme>(theme => {
+  return {
+    color: theme.backgroundColor,
+    backgroundColor: 'transparent',
+    highlightColor: theme.primary.background
   }
-)
+})
 
 const EditorInputLabel = styled.label((props: EditorThemeProps) => {
   const theme = createEditorInputTheme('input', props.theme)
@@ -30,6 +29,7 @@ const EditorInputInner = styled.input((props: EditorThemeProps) => {
     border: 'none',
     borderBottom: `2px solid ${theme.color}`,
     color: theme.color,
+    paddingLeft: '10px',
     '&:focus': {
       outline: 'none',
       borderBottom: `2px solid ${theme.highlightColor}`
@@ -37,7 +37,7 @@ const EditorInputInner = styled.input((props: EditorThemeProps) => {
   }
 })
 
-export class EditorInput extends React.Component<EditorInputProps> {
+export class EditorInput extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
 
   public focus() {
@@ -56,18 +56,4 @@ export class EditorInput extends React.Component<EditorInputProps> {
       </EditorInputLabel>
     )
   }
-}
-
-export interface EditorInputTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
-}
-
-export interface EditorInputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
-  label?: string
 }

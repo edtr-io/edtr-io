@@ -1,5 +1,6 @@
 export * from './button'
-export * from './checkbox'
+export * from './overlay-checkbox'
+export * from './editor-checkbox'
 export * from './icon'
 export * from './overlay-input'
 export * from './editor-input'

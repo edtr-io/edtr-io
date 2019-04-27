@@ -27,5 +27,6 @@ export {
   faToolbox,
   faEllipsisH,
   faSearch,
-  faCloudUploadAlt
+  faCloudUploadAlt,
+  faQuestionCircle
 } from '@fortawesome/free-solid-svg-icons'
