@@ -32,8 +32,6 @@ All notable changes to this project will be documented in this file.
 - **ui** / **editor-ui** / **renderer-ui**. Revised theming workflow
 - **ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)
 - **plugin-rows**. Improved styling of add menu and controls
-- **plugin-rows**. Added more theming options
-- **plugin-rows**. Improved styling of add menu and controls
 
 ### Fixed
 
