@@ -28,6 +28,7 @@ export {
   faEllipsisH,
   faSearch,
   faCloudUploadAlt,
+  faQuestionCircle,
   faListUl,
   faListOl
 } from '@fortawesome/free-solid-svg-icons'

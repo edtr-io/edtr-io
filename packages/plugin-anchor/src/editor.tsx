@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Icon, faLink } from '@edtr-io/editor-ui'
+import { Icon, faLink, EditorInput } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { AnchorRenderer } from './renderer'
@@ -11,21 +11,16 @@ export const AnchorEditor = (
   const { editable, focused, state } = props
   return (
     <React.Fragment>
-      {editable ? <Icon icon={faLink} /> : null}
+      {editable ? <Icon icon={faLink} style={{ marginRight: '5px' }} /> : null}
       <AnchorRenderer {...props} />
       {focused ? (
-        <React.Fragment>
-          <hr />
-          <label>
-            Identifier:
-            <input
-              value={state.value}
-              onChange={e => {
-                state.set(e.target.value)
-              }}
-            />
-          </label>
-        </React.Fragment>
+        <EditorInput
+          label="Identifier:"
+          value={state.value}
+          onChange={e => {
+            state.set(e.target.value)
+          }}
+        />
       ) : null}
     </React.Fragment>
   )
