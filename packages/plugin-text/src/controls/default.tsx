@@ -17,6 +17,8 @@ import {
   toggleList,
   unorderedListNode
 } from '../plugins/list'
+import { ColoredTextIcon } from './colors'
+import { getColorIndex } from '../plugins/colors'
 
 export const DefaultControls: React.FunctionComponent<
   ControlProps & { switchControls: (controlType: VisibleControls) => void }
@@ -51,7 +53,13 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         onClick={() => props.switchControls(VisibleControls.Headings)}
       >
-        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'Text'}
+        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'T'}
+      </Button>
+      <Button
+        name={name}
+        onClick={() => props.switchControls(VisibleControls.Colors)}
+      >
+        <ColoredTextIcon index={getColorIndex(editor)} />
       </Button>
       <Button
         name={name}

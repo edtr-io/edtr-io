@@ -1,4 +1,4 @@
-//@ts-ignore
+//@ts-ignore FIXME
 import List from '@convertkit/slate-lists'
 import { Block, Editor } from 'slate'
 import { defaultNode } from '../factory'

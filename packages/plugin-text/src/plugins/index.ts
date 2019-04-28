@@ -5,6 +5,7 @@ import { TextPluginOptions } from '../factory/types'
 import { createKatexPlugin } from './katex'
 import { createHeadingsPlugin } from './headings'
 import { createListPlugin } from './list'
+import { createColorPlugin } from './colors'
 
 export const plugins: TextPluginOptions['plugins'] = [
   createParagraphPlugin(),
@@ -12,5 +13,6 @@ export const plugins: TextPluginOptions['plugins'] = [
   createLinkPlugin(),
   createKatexPlugin(),
   createHeadingsPlugin(),
-  createListPlugin()
+  createListPlugin(),
+  createColorPlugin()
 ]

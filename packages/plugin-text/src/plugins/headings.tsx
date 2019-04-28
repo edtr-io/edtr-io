@@ -32,7 +32,7 @@ const Heading = ({
 }) => {
   if (level <= 6 && level >= 1)
     return React.createElement(`h${level}`, props, children)
-  else return React.createElement(`h6`, props, children)
+  else return <h6 {...props}>{children}</h6>
 }
 
 class DefaultEditorComponent extends React.Component<

@@ -20,6 +20,7 @@ export const HeadingControls: React.FunctionComponent<
         const active = createIsHeading(level)(props.editor)
         return (
           <Button
+            key={index}
             name={props.name}
             active={active}
             onClick={() => {

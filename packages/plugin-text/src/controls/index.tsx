@@ -7,11 +7,12 @@ import { SlatePluginClosure } from '../factory/types'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
 import { ListControls } from './lists'
-
+import { ColorControls } from './colors'
 export enum VisibleControls {
   All,
   Headings,
-  Lists
+  Lists,
+  Colors
 }
 
 export interface ControlProps {
@@ -38,6 +39,8 @@ const ControlsSwitch: React.FunctionComponent<{
       return <HeadingControls {...props} switchControls={setVisibleControls} />
     case VisibleControls.Lists:
       return <ListControls {...props} switchControls={setVisibleControls} />
+    case VisibleControls.Colors:
+      return <ColorControls {...props} switchControls={setVisibleControls} />
   }
 }
 
