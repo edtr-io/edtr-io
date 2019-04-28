@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Block, Editor } from 'slate'
 
-import { defaultNode, NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
+import { defaultNode } from '../factory'
+import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
 
 export const paragraphNode = defaultNode
 
@@ -18,7 +19,7 @@ class DefaultEditorComponent extends React.Component<NodeEditorProps> {
   public render() {
     const { attributes, children } = this.props
 
-    return <p {...attributes}>{children}</p>
+    return <div {...attributes}>{children}</div>
   }
 }
 

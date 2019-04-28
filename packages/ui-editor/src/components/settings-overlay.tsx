@@ -186,7 +186,7 @@ export const InlineSettings: React.FunctionComponent<{
   anchor?: React.RefObject<HTMLElement>
 }> = ({ position = 'below', ...props }) => {
   return (
-    <HoveringOverlay position={position} anchor={props.anchor}>
+    <HoveringOverlay position={position as HoverPosition} anchor={props.anchor}>
       <InlinePreview>{props.children}</InlinePreview>
       <ChangeButton onClick={props.onEdit}>
         <Icon icon={faPencilAlt} />

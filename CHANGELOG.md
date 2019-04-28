@@ -16,6 +16,11 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-h5p**. Add H5p.com plugin
 - **plugin-image**. Add MaxWidth for images
+- **plugin-rows**. Added more theming options
+- **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
+- **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
+- **plugin-text**. Added visual latex editor
+- **plugin-text**. Added headings plugin
 
 ### Changed
 
@@ -29,6 +34,7 @@ All notable changes to this project will be documented in this file.
 - **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
 - **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
 - **plugin-text**. Added visual latex editor
+- **plugin-rows**. Improved styling of add menu and controls
 
 ### Fixed
 
