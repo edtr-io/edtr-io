@@ -9,6 +9,7 @@ import {
 import { plugins } from './plugins'
 import { createTextPlugin } from './factory'
 import { createUiPlugin, Controls } from './controls'
+import { createPluginTheme } from '@edtr-io/ui'
 
 export type MarkEditorProps = RenderMarkProps
 
@@ -29,6 +30,28 @@ export type TextPlugin = Plugin & Rule
 export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],
   placeholder: 'Write some text here...'
+})
+
+export interface TextTheme {
+  backgroundColor: string
+  color: string
+  hoverColor: string
+  active: {
+    backgroundColor: string
+    color: string
+  }
+}
+
+export const createTextPluginTheme = createPluginTheme<TextTheme>(theme => {
+  return {
+    backgroundColor: 'transparent',
+    color: theme.editor.color,
+    hoverColor: theme.editor.primary.background,
+    active: {
+      backgroundColor: '#b6b6b6',
+      color: theme.editor.backgroundColor
+    }
+  }
 })
 
 export * from './factory'
