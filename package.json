@@ -63,6 +63,11 @@
       "pre-commit": "lint-staged"
     }
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/jest.styleMock.js"
+    }
+  },
   "workspaces": [
     "packages/*"
   ],
