@@ -22,8 +22,6 @@ const EditorInputLabel = styled.label(
   }
 )
 
-// const EditorInputLabelInner = styled.span({ width: '20%' })
-
 const EditorInputInner = styled.input(
   (props: EditorThemeProps & { textWidth: string | undefined }) => {
     const theme = createEditorInputTheme('input', props.theme)
@@ -58,7 +56,6 @@ export class EditorInput extends React.Component<InputProps> {
     return (
       <EditorInputLabel width={props.editorInputWidth}>
         {label}
-        {/* <EditorInputLabelInner></EditorInputLabelInner> */}
         <EditorInputInner
           textWidth={props.textfieldWidth}
           {...props}

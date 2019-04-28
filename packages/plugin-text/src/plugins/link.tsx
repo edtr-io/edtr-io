@@ -130,13 +130,15 @@ const DefaultControlsComponent: React.FunctionComponent<
         >
           <InlineInput
             value={value}
-            onChange={e => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newValue = e.target.value
               setValue(newValue)
+              handleHrefChange(newValue, inline, editor)
             }}
-            onKeyDown={event => {
+            onKeyDown={(event: React.KeyboardEvent) => {
               if (((event as unknown) as React.KeyboardEvent).key === 'Enter') {
                 event.preventDefault()
+                handleHrefChange(value, inline, editor)
                 editor.focus()
               }
             }}
