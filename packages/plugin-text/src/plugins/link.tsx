@@ -1,4 +1,3 @@
-import { debounce } from 'lodash'
 import { InlineInput, InlineSettings } from '@edtr-io/editor-ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
@@ -8,7 +7,6 @@ import {
   NodeRendererProps,
   TextPlugin
 } from '..'
-import { OverlayContextValue } from '@edtr-io/core'
 
 export const linkNode = '@splish-me/a'
 
@@ -23,10 +21,8 @@ export const unwrapLink = (editor: Editor) => {
 }
 
 export const wrapLink = (data: { href: string } = { href: '' }) => (
-  editor: Editor,
-  overlayContext: OverlayContextValue
+  editor: Editor
 ) => {
-  setTimeout(overlayContext.show)
   if (editor.value.selection.isExpanded) {
     return editor
       .wrapInline({
@@ -34,11 +30,13 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
         data
       })
       .moveToEnd()
+      .focus()
       .moveBackward(1)
   }
 
   return editor
     .insertText(' ')
+    .focus()
     .moveFocusBackward(1)
     .wrapInline({
       type: linkNode,
@@ -86,28 +84,34 @@ const DefaultControlsComponent: React.FunctionComponent<
   const [value, setValue] = React.useState(
     inline ? inline.data.get('href') : undefined
   )
-  const [edit, setEdit] = React.useState(value === undefined)
+  const edit =
+    !props.readOnly && isLink(editor) && editor.value.selection.isCollapsed
+  const lastEdit = React.useRef(edit)
+
   React.useEffect(() => {
-    if (!isLink(editor)) {
-      setEdit(false)
+    if (lastEdit.current !== edit) {
+      if (inline && value !== inline.data.get('href')) {
+        handleHrefChange(value, inline, editor)
+      }
+      lastEdit.current = edit
     }
-  }, [editor])
+  }, [edit, inline, value, editor])
+
   if (!inline) return <React.Fragment>{props.children}</React.Fragment>
 
   if (value === undefined || lastInline.current.key !== inline.key) {
     const href = inline.data.get('href')
     setValue(href)
-    setEdit(!href)
     lastInline.current = inline
   }
-  const handleHrefChange = debounce((href: string) => {
+  function handleHrefChange(href: string, inline: Inline, editor: Editor) {
     editor.setNodeByKey(inline.key, {
       type: inline.type,
       data: {
         href
       }
     })
-  }, 1000)
+  }
 
   function nodeIsLink(inline: Inline | undefined) {
     return inline ? inline.type === linkNode : false
@@ -121,34 +125,34 @@ const DefaultControlsComponent: React.FunctionComponent<
       editor.value.selection.isCollapsed ? (
         <InlineSettings
           key={`inlineoverlay${inline.key}`}
-          onEdit={() => setEdit(true)}
           onDelete={() => unwrapLink(editor)}
           position={'below'}
         >
-          {edit ? (
-            <InlineInput
-              value={value}
-              onChange={e => {
-                const newValue = e.target.value
-                setValue(newValue)
-                handleHrefChange(newValue)
-              }}
-              onKeyDown={event => {
-                if (
-                  ((event as unknown) as React.KeyboardEvent).key === 'Enter'
-                ) {
-                  event.preventDefault()
-                  setEdit(false)
-                  editor.focus()
-                }
-              }}
-              autoFocus
-            />
-          ) : (
-            <a href={value} target="_blank" rel="noopener noreferrer">
-              {value}
-            </a>
-          )}
+          <InlineInput
+            value={value}
+            onChange={e => {
+              const newValue = e.target.value
+              setValue(newValue)
+            }}
+            onKeyDown={event => {
+              if (((event as unknown) as React.KeyboardEvent).key === 'Enter') {
+                event.preventDefault()
+                editor.focus()
+              }
+            }}
+            //@ts-ignore FIXME
+            ref={(ref: InlineInput | null) => {
+              if (!ref) return
+              if (!lastEdit.current && !value) {
+                setTimeout(() => {
+                  editor.blur()
+                  setTimeout(() => {
+                    ref.focus()
+                  })
+                })
+              }
+            }}
+          />
         </InlineSettings>
       ) : null}
     </React.Fragment>

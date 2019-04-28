@@ -25,7 +25,7 @@ export interface NodeRendererProps {
   node: NodeJSON
 }
 
-export type TextPlugin = Plugin & Rule
+export type TextPlugin = Plugin & Rule & { onKeyDownHandlers?: string[] }
 
 export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],

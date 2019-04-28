@@ -90,12 +90,14 @@ export const createRichTextPlugin = ({
     onKeyDown(event, editor, next) {
       const e = (event as unknown) as KeyboardEvent
       if (isHotkey('mod+b')(e)) {
-        toggleStrong(editor)
+        e.preventDefault()
+        return toggleStrong(editor)
       } else if (isHotkey('mod+i')(e)) {
-        toggleEmphasize(editor)
+        e.preventDefault()
+        return toggleEmphasize(editor)
       }
 
-      next()
+      return next()
     },
 
     serialize(obj, children) {

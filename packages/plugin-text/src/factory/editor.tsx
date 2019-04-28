@@ -59,13 +59,6 @@ export const createTextEditor = (
       }
     }, [lastValue, props.focused, props.state.value])
 
-    const pluginClosure = React.useRef({ overlayContext, name: props.name })
-    const slatePlugins = React.useRef<TextPlugin[]>()
-    if (slatePlugins.current === undefined) {
-      slatePlugins.current = options.plugins.map(slatePluginFactory =>
-        slatePluginFactory(pluginClosure)
-      )
-    }
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
       name: props.name,
@@ -93,6 +86,17 @@ export const createTextEditor = (
         editor.current.blur()
       }
     }, [props.focused])
+
+    const pluginClosure = React.useRef({ overlayContext, name: props.name })
+    const slatePlugins = React.useRef<TextPlugin[]>()
+    if (slatePlugins.current === undefined) {
+      slatePlugins.current = [
+        ...options.plugins.map(slatePluginFactory =>
+          slatePluginFactory(pluginClosure)
+        ),
+        newSlateOnEnter(slateClosure)
+      ]
+    }
 
     return (
       <Editor
@@ -184,24 +188,6 @@ function createOnKeyDown(
       return
     }
 
-    if (isHotkey('enter', e as KeyboardEvent)) {
-      if (
-        slateClosure.current &&
-        typeof slateClosure.current.insert === 'function'
-      ) {
-        e.preventDefault()
-        const nextSlateState = splitBlockAtSelection(editor)
-
-        setTimeout(() => {
-          if (!slateClosure.current) return
-          const { insert } = slateClosure.current
-          if (typeof insert !== 'function') return
-          insert({ plugin: slateClosure.current.name, state: nextSlateState })
-        })
-        return
-      }
-    }
-
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       const lastRange = getRange()
 
@@ -260,7 +246,7 @@ function createOnKeyDown(
       return
     }
 
-    next()
+    return next()
   }
 
   function getRange(): Range | null {
@@ -291,6 +277,37 @@ function createOnKeyDown(
       editor.value.endText.key === endNode.key &&
       selection.end.offset === editor.value.endText.text.length
     )
+  }
+}
+function newSlateOnEnter(
+  slateClosure: React.RefObject<SlateClosure>
+): TextPlugin {
+  return {
+    onKeyDown(e, editor, next) {
+      if (isHotkey('enter', e as KeyboardEvent)) {
+        if (
+          slateClosure.current &&
+          typeof slateClosure.current.insert === 'function'
+        ) {
+          e.preventDefault()
+          // const handled = next()
+          // console.log(handled)
+          // if (handled) return handled
+          //
+          //if not handled by subplugin
+          const nextSlateState = splitBlockAtSelection(editor)
+
+          setTimeout(() => {
+            if (!slateClosure.current) return
+            const { insert } = slateClosure.current
+            if (typeof insert !== 'function') return
+            insert({ plugin: slateClosure.current.name, state: nextSlateState })
+          })
+          return
+        }
+      }
+      return next()
+    }
   }
 }
 

@@ -106,10 +106,10 @@ export const createKatexPlugin = ({
     onKeyDown(event, editor, next) {
       const e = event as KeyboardEvent
       if (isHotkey('mod+m')(e)) {
-        insertKatex(editor)
         e.preventDefault()
+        return insertKatex(editor)
       }
-      next()
+      return next()
     },
 
     renderNode(props, editor, next) {
