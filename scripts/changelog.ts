@@ -187,6 +187,7 @@ async function exec(): Promise<void> {
         '**plugin-text**. Hovering Menu for text formatting',
         '**plugin-text**. Styling of inline-overlay improved',
         '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow',
+        '**ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)',
         '**plugin-rows**. Improved styling of add menu and controls',
         '**plugin-rows**. Added more theming options',
         '**core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty',
