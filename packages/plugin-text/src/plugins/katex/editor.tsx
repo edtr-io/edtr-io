@@ -1,11 +1,13 @@
 import { HoveringOverlay, InlineCheckbox, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
-import { NodeEditorProps } from '@edtr-io/plugin-text'
-import { Block, Inline } from 'slate'
-import { Math } from './math.component'
-import { katexBlockNode, katexInlineNode } from './index'
 //@ts-ignore
 import MathQuill from 'react-mathquill'
+import { Block, Inline } from 'slate'
+
+import { NodeEditorProps } from '../..'
+import { Dropdown, Option } from '../../toolbar/dropdown'
+import { Math } from './math.component'
+import { katexBlockNode, katexInlineNode } from './index'
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -25,9 +27,9 @@ const Wrapper = styled.div<{ inline: boolean }>(props => {
 })
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps
+  NodeEditorProps & { name: string }
 > = props => {
-  const { attributes, node, editor, readOnly } = props
+  const { attributes, node, editor, readOnly, name } = props
 
   const { data } = node as Block | Inline
   const inline = data.get('inline')
@@ -168,21 +170,25 @@ export const DefaultEditorComponent: React.FunctionComponent<
           position={'above'}
           anchor={useVisual ? wrappedMathquillRef : latexInputRef}
         >
-          <select
+          <Dropdown
+            name={name}
             value={useVisual ? 'visual' : 'latex'}
-            style={{ color: 'black' }}
             onChange={e => {
               setUseVisual(e.target.value == 'visual')
             }}
           >
-            <option value="visual">visual</option>
-            <option value="latex">latex</option>
-          </select>
+            <Option active={useVisual} value="visual" name={name}>
+              visual
+            </Option>
+            <Option active={!useVisual} value="latex" name={name}>
+              latex
+            </Option>
+          </Dropdown>
           <InlineCheckbox
             label="Inline"
             checked={inline}
             onChange={checked => {
-              const newData = { formula, inline: checked }
+              const newData = { formula: formulaState, inline: checked }
 
               editor.removeNodeByKey(node.key)
               if (checked) {

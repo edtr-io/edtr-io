@@ -9,4 +9,5 @@ export interface TextPluginOptions {
 
 export type SlatePluginClosure = React.RefObject<{
   overlayContext: OverlayContextValue
+  name: string
 }>

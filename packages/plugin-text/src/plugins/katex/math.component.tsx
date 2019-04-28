@@ -1,6 +1,8 @@
 import KaTeX from 'katex'
 import * as React from 'react'
 
+import 'katex/dist/katex.min.css'
+
 const createMathComponent = (
   Component: React.ComponentType<{ html: string }>,
   { displayMode }: { displayMode: boolean }

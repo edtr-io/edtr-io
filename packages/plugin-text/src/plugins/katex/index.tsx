@@ -12,6 +12,7 @@ import { isHotkey } from 'is-hotkey'
 import { addStyles as addMathquillStyles } from 'react-mathquill'
 import { DefaultRendererComponent } from './renderer'
 import { DefaultEditorComponent } from './editor'
+import { SlatePluginClosure } from '../../factory/types'
 
 addMathquillStyles()
 
@@ -37,9 +38,21 @@ export const insertKatex = (editor: Editor) => {
     }
   })
 }
+export const removeKatex = (editor: Editor) => {
+  const node =
+    editor.value.blocks
+      .toArray()
+      .find(block => block.type === katexBlockNode) ||
+    editor.value.inlines
+      .toArray()
+      .find(inline => inline.type === katexInlineNode)
+
+  if (!node) return editor
+  return editor.removeNodeByKey(node.key)
+}
 
 export interface KatexPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
+  EditorComponent?: React.ComponentType<NodeEditorProps & { name: string }>
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
@@ -47,7 +60,9 @@ export interface KatexPluginOptions {
 export const createKatexPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent
-}: KatexPluginOptions = {}) => (): TextPlugin => {
+}: KatexPluginOptions = {}) => (
+  pluginClosure: SlatePluginClosure
+): TextPlugin => {
   return {
     deserialize(el, next) {
       switch (el.tagName.toLowerCase()) {
@@ -97,15 +112,16 @@ export const createKatexPlugin = ({
       next()
     },
 
-    renderNode(props, _editor, next) {
+    renderNode(props, editor, next) {
       const block = props.node as Block
       const inline = props.node as Inline
 
+      const name = pluginClosure.current ? pluginClosure.current.name : ''
       if (
         (block.object === 'block' && block.type === katexBlockNode) ||
         (inline.object === 'inline' && inline.type === katexInlineNode)
       ) {
-        return <EditorComponent {...props} editor={_editor} />
+        return <EditorComponent {...props} editor={editor} name={name} />
       }
 
       return next()

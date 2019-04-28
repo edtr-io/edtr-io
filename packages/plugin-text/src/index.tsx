@@ -40,6 +40,9 @@ export interface TextTheme {
     backgroundColor: string
     color: string
   }
+  dropDown: {
+    backgroundColor: string
+  }
 }
 
 export const createTextPluginTheme = createPluginTheme<TextTheme>(theme => {
@@ -50,6 +53,9 @@ export const createTextPluginTheme = createPluginTheme<TextTheme>(theme => {
     active: {
       backgroundColor: '#b6b6b6',
       color: theme.editor.backgroundColor
+    },
+    dropDown: {
+      backgroundColor: theme.editor.backgroundColor
     }
   }
 })

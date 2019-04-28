@@ -59,7 +59,7 @@ export const createTextEditor = (
       }
     }, [lastValue, props.focused, props.state.value])
 
-    const pluginClosure = React.useRef({ overlayContext })
+    const pluginClosure = React.useRef({ overlayContext, name: props.name })
     const slatePlugins = React.useRef<TextPlugin[]>()
     if (slatePlugins.current === undefined) {
       slatePlugins.current = options.plugins.map(slatePluginFactory =>
@@ -68,7 +68,7 @@ export const createTextEditor = (
     }
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
-      name: props.name || 'text',
+      name: props.name,
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
@@ -77,7 +77,7 @@ export const createTextEditor = (
       mergeWithPrevious: props.mergeWithPrevious
     })
     slateClosure.current = {
-      name: props.name || 'text',
+      name: props.name,
       plugins: plugins,
       insert: props.insert,
       focusPrevious: focusPrevious,
