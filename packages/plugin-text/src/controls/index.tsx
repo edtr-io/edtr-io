@@ -6,10 +6,13 @@ import { HoveringOverlay, BottomToolbar } from '@edtr-io/editor-ui'
 import { SlatePluginClosure } from '../factory/types'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
-
+import { ListControls } from './lists'
+import { ColorControls } from './colors'
 export enum VisibleControls {
   All,
-  Headings
+  Headings,
+  Lists,
+  Colors
 }
 
 export interface ControlProps {
@@ -34,6 +37,10 @@ const ControlsSwitch: React.FunctionComponent<{
       return <DefaultControls {...props} switchControls={setVisibleControls} />
     case VisibleControls.Headings:
       return <HeadingControls {...props} switchControls={setVisibleControls} />
+    case VisibleControls.Lists:
+      return <ListControls {...props} switchControls={setVisibleControls} />
+    case VisibleControls.Colors:
+      return <ColorControls {...props} switchControls={setVisibleControls} />
   }
 }
 

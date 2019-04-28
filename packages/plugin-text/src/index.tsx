@@ -9,7 +9,7 @@ import {
 import { plugins } from './plugins'
 import { createTextPlugin } from './factory'
 import { createUiPlugin, Controls } from './controls'
-import { createPluginTheme } from '@edtr-io/ui'
+import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 
 export type MarkEditorProps = RenderMarkProps
 
@@ -25,7 +25,7 @@ export interface NodeRendererProps {
   node: NodeJSON
 }
 
-export type TextPlugin = Plugin & Rule
+export type TextPlugin = Plugin & Rule & { onKeyDownHandlers?: string[] }
 
 export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],
@@ -43,9 +43,18 @@ export interface TextTheme {
   dropDown: {
     backgroundColor: string
   }
+  plugins: {
+    colors: {
+      colors: string[]
+      defaultColor: string
+    }
+  }
 }
 
-export const createTextPluginTheme = createPluginTheme<TextTheme>(theme => {
+export const textPluginThemeFactory: PluginThemeFactory<TextTheme> = theme => {
+  const blue = '#1794c1',
+    green = '#469a40',
+    orange = '#ff6703'
   return {
     backgroundColor: 'transparent',
     color: theme.editor.color,
@@ -56,8 +65,17 @@ export const createTextPluginTheme = createPluginTheme<TextTheme>(theme => {
     },
     dropDown: {
       backgroundColor: theme.editor.backgroundColor
+    },
+    plugins: {
+      colors: {
+        colors: [blue, green, orange],
+        defaultColor: 'black'
+      }
     }
   }
-})
+}
+export const createTextPluginTheme = createPluginTheme<TextTheme>(
+  textPluginThemeFactory
+)
 
 export * from './factory'

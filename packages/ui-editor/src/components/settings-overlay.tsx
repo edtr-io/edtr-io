@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
-import { Icon, faTimes, faPencilAlt, faTrashAlt, faCog } from './icon'
+import { Icon, faTimes, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'
 
 export const createOverlayTheme = createEditorUiTheme<OverlayTheme>(theme => {
@@ -180,7 +180,6 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
 })
 
 export const InlineSettings: React.FunctionComponent<{
-  onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
   position: HoverPosition
   anchor?: React.RefObject<HTMLElement>
@@ -188,9 +187,6 @@ export const InlineSettings: React.FunctionComponent<{
   return (
     <HoveringOverlay position={position as HoverPosition} anchor={props.anchor}>
       <InlinePreview>{props.children}</InlinePreview>
-      <ChangeButton onClick={props.onEdit}>
-        <Icon icon={faPencilAlt} />
-      </ChangeButton>
       <ChangeButton onClick={props.onDelete}>
         <Icon icon={faTrashAlt} />
       </ChangeButton>

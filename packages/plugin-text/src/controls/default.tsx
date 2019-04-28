@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Icon, faBold, faItalic, faLink } from '@edtr-io/editor-ui'
-import { OverlayContext } from '@edtr-io/core'
+import { Icon, faBold, faItalic, faLink, faListUl } from '@edtr-io/editor-ui'
 import { Button } from '../toolbar/button'
 import {
   isEmphasized,
@@ -12,12 +11,19 @@ import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
 import { getHeadingLevel } from '../plugins/headings'
 import { ControlProps, VisibleControls } from '.'
+import {
+  isList,
+  orderedListNode,
+  toggleList,
+  unorderedListNode
+} from '../plugins/list'
+import { ColoredTextIcon } from './colors'
+import { getColorIndex } from '../plugins/colors'
 
 export const DefaultControls: React.FunctionComponent<
   ControlProps & { switchControls: (controlType: VisibleControls) => void }
 > = props => {
   const { editor, name } = props
-  const overlayContext = React.useContext(OverlayContext)
   return (
     <React.Fragment>
       <Button
@@ -38,9 +44,7 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         active={isLink(editor)}
         onClick={() =>
-          isLink(editor)
-            ? unwrapLink(editor).focus()
-            : wrapLink()(editor, overlayContext)
+          isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
         }
       >
         <Icon icon={faLink} />
@@ -49,7 +53,27 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         onClick={() => props.switchControls(VisibleControls.Headings)}
       >
-        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'Text'}
+        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'T'}
+      </Button>
+      <Button
+        name={name}
+        onClick={() => props.switchControls(VisibleControls.Colors)}
+      >
+        <ColoredTextIcon index={getColorIndex(editor)} />
+      </Button>
+      <Button
+        name={name}
+        onClick={() => {
+          if (
+            !isList(unorderedListNode)(editor) &&
+            !isList(orderedListNode)(editor)
+          ) {
+            toggleList(unorderedListNode)(props.editor)
+          }
+          props.switchControls(VisibleControls.Lists)
+        }}
+      >
+        <Icon icon={faListUl} />
       </Button>
       <Button
         name={name}
