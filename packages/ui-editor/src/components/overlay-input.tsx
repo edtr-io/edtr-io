@@ -120,4 +120,6 @@ export interface InputProps
     HTMLInputElement
   > {
   label?: string
+  textfieldWidth?: string
+  editorInputWidth?: string
 }

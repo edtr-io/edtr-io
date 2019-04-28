@@ -1,4 +1,4 @@
-import { Button, UploadProgress } from '@edtr-io/editor-ui'
+import { EditorButton, UploadProgress } from '@edtr-io/editor-ui'
 // @ts-ignore
 import { Uploader, UploadField } from '@navjobs/upload'
 import * as React from 'react'
@@ -10,6 +10,7 @@ enum FileErrorCode {
   FILE_TOO_BIG,
   UPLOAD_FAILED
 }
+
 export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
   private matchesAllowedExtensions(fileName: string) {
     const extension = fileName.slice(fileName.lastIndexOf('.') + 1)
@@ -151,7 +152,7 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
                 accept: 'image/*'
               }}
             >
-              <Button>Durchsuchen...</Button>
+              <EditorButton>Durchsuchen...</EditorButton>
               <UploadProgress {...progressProps} />
             </UploadField>
           </div>

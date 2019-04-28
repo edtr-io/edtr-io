@@ -23,6 +23,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
     width: '100%',
     height: '100%',
     position: 'fixed',
+
     top: 0,
     left: 0,
     overlayBackgroundColor: theme.overlayBackgroundColor,
@@ -36,6 +37,8 @@ export const OverlayBox = styled.div((props: EditorThemeProps) => {
   return {
     margin: '0 auto',
     position: 'absolute',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+    borderRadius: '4px',
     zIndex: 100,
     backgroundColor: theme.backgroundColor,
     color: theme.color,

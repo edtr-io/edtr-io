@@ -11,31 +11,37 @@ export const createEditorInputTheme = createEditorUiTheme<InputTheme>(theme => {
   }
 })
 
-const EditorInputLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createEditorInputTheme('input', props.theme)
+const EditorInputLabel = styled.label(
+  (props: EditorThemeProps & { width: string | undefined }) => {
+    const theme = createEditorInputTheme('input', props.theme)
 
-  return {
-    color: theme.color
-  }
-})
-
-const EditorInputLabelInner = styled.span({ width: '5%' })
-
-const EditorInputInner = styled.input((props: EditorThemeProps) => {
-  const theme = createEditorInputTheme('input', props.theme)
-
-  return {
-    backgroundColor: theme.backgroundColor,
-    border: 'none',
-    borderBottom: `2px solid ${theme.color}`,
-    color: theme.color,
-    paddingLeft: '10px',
-    '&:focus': {
-      outline: 'none',
-      borderBottom: `2px solid ${theme.highlightColor}`
+    return {
+      width: props.width,
+      color: theme.color
     }
   }
-})
+)
+
+// const EditorInputLabelInner = styled.span({ width: '20%' })
+
+const EditorInputInner = styled.input(
+  (props: EditorThemeProps & { textWidth: string | undefined }) => {
+    const theme = createEditorInputTheme('input', props.theme)
+
+    return {
+      backgroundColor: theme.backgroundColor,
+      border: 'none',
+      width: props.textWidth,
+      borderBottom: `2px solid ${theme.color}`,
+      color: theme.color,
+      paddingLeft: '10px',
+      '&:focus': {
+        outline: 'none',
+        borderBottom: `2px solid ${theme.highlightColor}`
+      }
+    }
+  }
+)
 
 export class EditorInput extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
@@ -50,9 +56,14 @@ export class EditorInput extends React.Component<InputProps> {
   public render() {
     const { label, ...props } = this.props
     return (
-      <EditorInputLabel>
-        <EditorInputLabelInner>{label}</EditorInputLabelInner>
-        <EditorInputInner {...props} ref={this.input} />
+      <EditorInputLabel width={props.editorInputWidth}>
+        {label}
+        {/* <EditorInputLabelInner></EditorInputLabelInner> */}
+        <EditorInputInner
+          textWidth={props.textfieldWidth}
+          {...props}
+          ref={this.input}
+        />
       </EditorInputLabel>
     )
   }

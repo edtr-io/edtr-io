@@ -1,5 +1,6 @@
 export * from './bottom-toolbar'
 export * from './button'
+export * from './editor-button'
 export * from './overlay-checkbox'
 export * from './editor-checkbox'
 export * from './icon'

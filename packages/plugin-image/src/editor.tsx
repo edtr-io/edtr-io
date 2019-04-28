@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, OverlayContext } from '@edtr-io/core'
 import {
   Icon,
   faImages,
@@ -7,7 +7,9 @@ import {
   Overlay,
   OverlayInput,
   Checkbox,
-  ContainerWithConfigButton
+  EditorInput,
+  EditorButton,
+  faCog
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
@@ -20,8 +22,12 @@ const ImgPlaceholderWrapper = styled.div({
   width: '100%',
   textAlign: 'center'
 })
-const UploadButtonWrapper = styled.div({
-  textAlign: 'right'
+const UploadButtonWrapper = styled.span({
+  float: 'right',
+  display: 'flex',
+  flexDirection: 'row',
+
+  justifyContent: 'flex-end'
 })
 
 export function createImageEditor<T = unknown>(
@@ -31,6 +37,7 @@ export function createImageEditor<T = unknown>(
     const [imagePreview, setImagePreview] = React.useState<
       ImageLoaded | undefined
     >(undefined)
+    const overlayContext = React.useContext(OverlayContext)
     const { editable, focused, state } = props
     const imageComponent =
       state.src.value || imagePreview ? (
@@ -46,60 +53,68 @@ export function createImageEditor<T = unknown>(
 
     return (
       <React.Fragment>
-        <ContainerWithConfigButton>{imageComponent}</ContainerWithConfigButton>
+        {imageComponent}
         {focused ? (
-          <Overlay>
-            <OverlayInput
-              label="Image location (url)"
-              placeholder="http://example.com/image.png"
-              value={state.src.value}
-              onChange={handleChange('src')}
-            />
-            <UploadButtonWrapper>
-              <Upload
-                config={config.upload}
-                onImageLoaded={handleImageLoaded}
-                onImageUploaded={handleImageUploaded}
-                onError={(errors: FileError[]): void => {
-                  alert(errors.map(error => error.message).join('\n'))
-                  setImagePreview(undefined)
+          <React.Fragment>
+            <React.Fragment>
+              <EditorInput
+                label="Image location (URL):"
+                placeholder="http://example.com/image.png"
+                value={state.src.value}
+                onChange={handleChange('src')}
+                editorInputWidth="70%"
+                textfieldWidth="60%"
+              />
+              <UploadButtonWrapper>
+                <Upload
+                  config={config.upload}
+                  onImageLoaded={handleImageLoaded}
+                  onImageUploaded={handleImageUploaded}
+                  onError={(errors: FileError[]): void => {
+                    alert(errors.map(error => error.message).join('\n'))
+                    setImagePreview(undefined)
+                  }}
+                />
+                <EditorButton onClick={overlayContext.show}>
+                  <Icon icon={faCog} />
+                </EditorButton>
+              </UploadButtonWrapper>
+            </React.Fragment>
+            <Overlay>
+              <Textarea
+                label="Image description"
+                placeholder="Gib hier eine Bildbeschreibung ein"
+                value={state.description.value}
+                onChange={handleChange('description')}
+              />
+
+              <OverlayInput
+                label="Link location (url)"
+                placeholder="http://example.com"
+                type="text"
+                value={state.href.value}
+                onChange={handleChange('href')}
+              />
+              {state.href.value ? (
+                <React.Fragment>
+                  <Checkbox
+                    label="Open in new window"
+                    checked={state.target.value === '_blank'}
+                    onChange={handleTargetChange}
+                  />
+                </React.Fragment>
+              ) : null}
+              <OverlayInput
+                label="Maximale Breite (px)"
+                placeholder="Gib hier die Breite ein"
+                type="number"
+                value={state.maxWidth.value || ''}
+                onChange={event => {
+                  state.maxWidth.set(parseInt(event.target.value))
                 }}
               />
-            </UploadButtonWrapper>
-
-            <Textarea
-              label="Image description"
-              placeholder="Gib hier eine Bildbeschreibung ein"
-              value={state.description.value}
-              onChange={handleChange('description')}
-            />
-
-            <OverlayInput
-              label="Link location (url)"
-              placeholder="http://example.com"
-              type="text"
-              value={state.href.value}
-              onChange={handleChange('href')}
-            />
-            {state.href.value ? (
-              <React.Fragment>
-                <Checkbox
-                  label="Open in new window"
-                  checked={state.target.value === '_blank'}
-                  onChange={handleTargetChange}
-                />
-              </React.Fragment>
-            ) : null}
-            <OverlayInput
-              label="Maximale Breite (px)"
-              placeholder="Gib hier die Breite ein"
-              type="number"
-              value={state.maxWidth.value || ''}
-              onChange={event => {
-                state.maxWidth.set(parseInt(event.target.value))
-              }}
-            />
-          </Overlay>
+            </Overlay>
+          </React.Fragment>
         ) : null}
       </React.Fragment>
     )
