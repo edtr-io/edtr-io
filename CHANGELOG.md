@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 - **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
 - **plugin-text**. Added visual latex editor
 - **plugin-text**. Added headings plugin
+- **plugin-text**. Added list plugin
+- **plugin-text**. Added colors plugin
 
 ### Changed
 
@@ -31,9 +33,6 @@ All notable changes to this project will be documented in this file.
 - **ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)
 - **plugin-rows**. Improved styling of add menu and controls
 - **plugin-rows**. Added more theming options
-- **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
-- **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
-- **plugin-text**. Added visual latex editor
 - **plugin-rows**. Improved styling of add menu and controls
 
 ### Fixed
