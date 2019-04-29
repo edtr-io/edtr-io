@@ -142,7 +142,8 @@ const InlineOverlayWrapper = styled.div({
   left: '-10000px',
   opacity: 0,
   transition: 'opacity 0.5s',
-  zIndex: 95
+  zIndex: 95,
+  whiteSpace: 'nowrap'
 })
 
 const InlineOverlayContentWrapper = styled.div((props: EditorThemeProps) => {
@@ -205,7 +206,8 @@ export const HoveringOverlay: React.FunctionComponent<{
   const [positionAbove, setPositionAbove] = React.useState(
     props.position === 'above'
   )
-  React.useEffect(() => {
+
+  React.useLayoutEffect(() => {
     if (!overlay.current || !triangle.current) return
     const menu = overlay.current
     let rect = undefined

@@ -13,6 +13,7 @@ export const BottomToolbar = styled.div((props: EditorThemeProps) => {
     left: '50%',
     transform: 'translate(-50%,-50%)',
     bottom: '0',
-    zIndex: 90
+    zIndex: 90,
+    whiteSpace: 'nowrap'
   }
 })

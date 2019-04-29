@@ -28,10 +28,9 @@ export interface UiPluginOptions {
 const ControlsSwitch: React.FunctionComponent<{
   editor: Editor
   name: string
-}> = props => {
-  const [visibleControls, setVisibleControls] = React.useState(
-    VisibleControls.All
-  )
+  visibleControls: VisibleControls
+  setVisibleControls: (x: VisibleControls) => void
+}> = ({ visibleControls, setVisibleControls, ...props }) => {
   switch (visibleControls) {
     case VisibleControls.All:
       return <DefaultControls {...props} switchControls={setVisibleControls} />
@@ -46,16 +45,27 @@ const ControlsSwitch: React.FunctionComponent<{
 
 export const Controls: React.FunctionComponent<ControlProps> = props => {
   const selectionCollapsed = props.editor.value.selection.isCollapsed
+  const [visibleControls, setVisibleControls] = React.useState(
+    VisibleControls.All
+  )
   return (
     <React.Fragment>
       {!selectionCollapsed && (
         <HoveringOverlay position={'above'}>
-          <ControlsSwitch {...props} />
+          <ControlsSwitch
+            {...props}
+            visibleControls={visibleControls}
+            setVisibleControls={setVisibleControls}
+          />
         </HoveringOverlay>
       )}
       {!props.readOnly && selectionCollapsed && (
         <BottomToolbar>
-          <ControlsSwitch {...props} />
+          <ControlsSwitch
+            {...props}
+            visibleControls={visibleControls}
+            setVisibleControls={setVisibleControls}
+          />
         </BottomToolbar>
       )}
     </React.Fragment>
