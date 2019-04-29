@@ -30,6 +30,23 @@ export const isKatex = (editor: Editor) => {
   )
 }
 export const insertKatex = (editor: Editor) => {
+  if (editor.value.selection.isExpanded) {
+    const selection = document.getSelection()
+    const handleWhitespace = selection && selection.toString().endsWith(' ')
+    editor
+      .wrapInline({
+        type: katexInlineNode,
+        data: {
+          formula: selection ? selection.toString() : '',
+          inline: true
+        }
+      })
+      .moveToEnd()
+    if (handleWhitespace) {
+      editor.insertText(' ').moveBackward(1)
+    }
+    return editor.focus().moveBackward(1)
+  }
   return editor.insertInline({
     type: katexInlineNode,
     data: {
