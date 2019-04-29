@@ -27,6 +27,7 @@ export const ColorControls: React.FunctionComponent<
           removeColor(props.editor)
           props.switchControls(VisibleControls.All)
         }}
+        title="Farbe zurücksetzen"
       >
         <ColorPaletteIcon color={defaultColor} />
       </Button>
@@ -40,6 +41,7 @@ export const ColorControls: React.FunctionComponent<
             createToggleColor(index)(props.editor)
             props.switchControls(VisibleControls.All)
           }}
+          title="Einfärben"
         >
           <ColorPaletteIcon color={color} />
         </Button>
@@ -47,6 +49,7 @@ export const ColorControls: React.FunctionComponent<
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
+        title="Untermenü schließen"
       >
         <Icon icon={faTimes} />
       </Button>

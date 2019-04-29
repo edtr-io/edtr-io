@@ -18,6 +18,7 @@ export const ListControls: React.FunctionComponent<
         name={props.name}
         active={isList(orderedListNode)(props.editor)}
         onClick={() => toggleList(orderedListNode)(props.editor)}
+        title={'Nummerierte Liste'}
       >
         <Icon icon={faListOl} />
       </Button>
@@ -25,12 +26,14 @@ export const ListControls: React.FunctionComponent<
         name={props.name}
         active={isList(unorderedListNode)(props.editor)}
         onClick={() => toggleList(unorderedListNode)(props.editor)}
+        title={'Aufzählung'}
       >
         <Icon icon={faListUl} />
       </Button>
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
+        title={'Untermenü schließen'}
       >
         <Icon icon={faTimes} />
       </Button>

@@ -17,6 +17,7 @@ import {
 } from '../plugins/rich-text'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
+import { Math } from '../plugins/katex/math.component'
 import { getHeadingLevel } from '../plugins/headings'
 import { ControlProps, VisibleControls } from '.'
 import {
@@ -38,6 +39,7 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         active={isStrong(editor)}
         onClick={() => toggleStrong(editor).focus()}
+        title="Fett (Strg + B)"
       >
         <Icon icon={faBold} />
       </Button>
@@ -45,6 +47,7 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         active={isEmphasized(editor)}
         onClick={() => toggleEmphasize(editor).focus()}
+        title="Kursiv (Strg + I)"
       >
         <Icon icon={faItalic} />
       </Button>
@@ -54,18 +57,21 @@ export const DefaultControls: React.FunctionComponent<
         onClick={() =>
           isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
         }
+        title="Link (Strg + K)"
       >
         <Icon icon={faLink} />
       </Button>
       <Button
         name={name}
         onClick={() => props.switchControls(VisibleControls.Headings)}
+        title={'Überschriften'}
       >
         {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'T'}
       </Button>
       <Button
         name={name}
         onClick={() => props.switchControls(VisibleControls.Colors)}
+        title={'Textfarben'}
       >
         <ColoredTextIcon index={getColorIndex(editor)} />
       </Button>
@@ -80,6 +86,7 @@ export const DefaultControls: React.FunctionComponent<
           }
           props.switchControls(VisibleControls.Lists)
         }}
+        title={'Listen'}
       >
         <Icon icon={isList(orderedListNode)(editor) ? faListOl : faListUl} />
       </Button>
@@ -94,6 +101,7 @@ export const DefaultControls: React.FunctionComponent<
             }
           })
         }}
+        title={'Zitat'}
       >
         <Icon icon={faQuoteLeft} />
       </Button>
@@ -103,8 +111,9 @@ export const DefaultControls: React.FunctionComponent<
         onClick={() =>
           isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
         }
+        title="Matheformel (Strg + M)"
       >
-        f(x)
+        <Math formula="f_{\normalsize x}" inline={true} />
       </Button>
     </React.Fragment>
   )

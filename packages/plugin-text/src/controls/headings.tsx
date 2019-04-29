@@ -29,6 +29,7 @@ export const HeadingControls: React.FunctionComponent<
                 : createSetHeading(level)(props.editor)
               props.switchControls(VisibleControls.All)
             }}
+            title={`Überschrift ${level}`}
           >
             H{level}
           </Button>
@@ -37,6 +38,7 @@ export const HeadingControls: React.FunctionComponent<
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
+        title={'Untermenü schließen'}
       >
         <Icon icon={faTimes} />
       </Button>

@@ -7,6 +7,7 @@ import {
   NodeRendererProps,
   TextPlugin
 } from '..'
+import isHotkey from 'is-hotkey'
 
 export const linkNode = '@splish-me/a'
 
@@ -180,6 +181,15 @@ export const createLinkPlugin = ({
   ControlsComponent = DefaultControlsComponent
 }: LinkPluginOptions = {}) => (): TextPlugin => {
   return {
+    onKeyDown(event, editor, next) {
+      const e = (event as unknown) as KeyboardEvent
+      if (isHotkey('mod+k', e)) {
+        e.preventDefault()
+        return isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
+      }
+
+      return next()
+    },
     deserialize(el, next) {
       if (el.tagName.toLowerCase() === 'a') {
         // @ts-ignore FIXME
