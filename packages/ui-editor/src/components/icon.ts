@@ -30,5 +30,6 @@ export {
   faCloudUploadAlt,
   faQuestionCircle,
   faListUl,
-  faListOl
+  faListOl,
+  faQuoteLeft
 } from '@fortawesome/free-solid-svg-icons'

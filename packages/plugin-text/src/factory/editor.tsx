@@ -64,6 +64,7 @@ export const createTextEditor = (
       name: props.name,
       plugins: plugins,
       insert: props.insert,
+      replace: props.replace,
       focusPrevious: focusPrevious,
       focusNext: focusNext,
       mergeWithNext: props.mergeWithNext,
@@ -73,6 +74,7 @@ export const createTextEditor = (
       name: props.name,
       plugins: plugins,
       insert: props.insert,
+      replace: props.replace,
       focusPrevious: focusPrevious,
       focusNext: focusNext,
       mergeWithNext: props.mergeWithNext,
@@ -221,12 +223,15 @@ function createOnKeyDown(
       mergeWithPrevious(previous => {
         const value = Value.fromJSON(previous)
         const selection = CoreRange.create(editor.value.selection)
-        editor
-          // hack because empty slate looses focus
-          .insertTextAtRange(selection, ' ')
-          .insertFragmentAtRange(selection, value.document)
-          .moveFocusBackward(1)
-          .delete()
+        return (
+          editor
+            // hack because empty slate looses focus
+            .insertTextAtRange(selection, ' ')
+            .insertFragmentAtRange(selection, value.document)
+            .moveFocusBackward(1)
+            .delete()
+            .value.toJSON()
+        )
       })
       return
     }
@@ -283,6 +288,15 @@ function newSlateOnEnter(
   slateClosure: React.RefObject<SlateClosure>
 ): TextPlugin {
   return {
+    commands: {
+      replaceWithPlugin(editor, options?: { plugin: string; state: unknown }) {
+        if (!slateClosure.current) return editor
+        const { replace } = slateClosure.current
+        if (typeof replace !== 'function') return editor
+        replace(options)
+        return editor
+      }
+    },
     onKeyDown(e, editor, next) {
       if (isHotkey('enter', e as KeyboardEvent)) {
         if (
@@ -342,6 +356,7 @@ export type SlateEditorProps = StatefulPluginEditorProps<
 
 export interface SlateEditorAdditionalProps {
   insert?: (options?: { plugin: string; state?: unknown }) => void
+  replace?: (options?: { plugin: string; state?: unknown }) => void
   mergeWithNext?: (merge: (next: ValueJSON) => void) => void
   mergeWithPrevious?: (merge: (previous: ValueJSON) => void) => void
 }

@@ -187,7 +187,9 @@ async function exec(): Promise<void> {
         '**plugin-text**. Added visual latex editor',
         '**plugin-text**. Added headings plugin',
         '**plugin-text**. Added list plugin',
-        '**plugin-text**. Added colors plugin'
+        '**plugin-text**. Added colors plugin',
+        '**plugin-text**. Added button to wrap in a blockquote plugin',
+        '**plugin-rows**. Pass `remove` and `replace` functions to childs'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',
@@ -195,7 +197,8 @@ async function exec(): Promise<void> {
         '**plugin-text**. Styling of inline-overlay improved',
         '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow',
         '**ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)',
-        '**plugin-rows**. Improved styling of add menu and controls'
+        '**plugin-rows**. Improved styling of add menu and controls',
+        '**core**. Add new text plugin on Enter and delete empty plugins on backspace and delete'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: [

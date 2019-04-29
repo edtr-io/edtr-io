@@ -22,6 +22,9 @@ export {
   hasPendingChanges,
   isEditable,
   isEmpty,
-  State
+  State,
+  findNextNode,
+  findPreviousNode,
+  getFocusTree
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

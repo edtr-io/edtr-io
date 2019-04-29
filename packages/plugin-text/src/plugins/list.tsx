@@ -12,7 +12,7 @@ type ListType = typeof orderedListNode | typeof unorderedListNode
 
 export const isList = (type: ListType) => (editor: Editor) => {
   const { document, startBlock } = editor.value
-  if (startBlock.type !== listItemChildNode) return false
+  if (!startBlock || startBlock.type !== listItemChildNode) return false
   const listItem = document.getParent(startBlock.key) as Block
   const list = document.getParent(listItem.key) as Block
   return list.type === type

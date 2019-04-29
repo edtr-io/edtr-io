@@ -34,7 +34,12 @@ export const createTextPlugin = (
   return {
     Component: createTextEditor(options),
     state: textState,
-    onKeyDown() {
+    onKeyDown(e) {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        // let editor handle backspace and delete
+        // this will remove the plugin if its empty
+        return true
+      }
       return false
     },
     isEmpty: (state: StateDescriptorValueType<typeof textState>) => {

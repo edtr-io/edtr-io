@@ -1,5 +1,13 @@
 import * as React from 'react'
-import { Icon, faBold, faItalic, faLink, faListUl } from '@edtr-io/editor-ui'
+import {
+  Icon,
+  faBold,
+  faItalic,
+  faLink,
+  faListUl,
+  faQuoteLeft,
+  faListOl
+} from '@edtr-io/editor-ui'
 import { Button } from '../toolbar/button'
 import {
   isEmphasized,
@@ -73,7 +81,21 @@ export const DefaultControls: React.FunctionComponent<
           props.switchControls(VisibleControls.Lists)
         }}
       >
-        <Icon icon={faListUl} />
+        <Icon icon={isList(orderedListNode)(editor) ? faListOl : faListUl} />
+      </Button>
+      <Button
+        name={name}
+        onClick={() => {
+          editor.command('replaceWithPlugin', {
+            plugin: 'blockquote',
+            state: {
+              plugin: name,
+              state: editor.value.toJSON()
+            }
+          })
+        }}
+      >
+        <Icon icon={faQuoteLeft} />
       </Button>
       <Button
         name={name}

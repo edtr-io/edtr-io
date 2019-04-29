@@ -25,7 +25,12 @@ export interface NodeRendererProps {
   node: NodeJSON
 }
 
-export type TextPlugin = Plugin & Rule & { onKeyDownHandlers?: string[] }
+export type TextPlugin = Plugin &
+  Rule & {
+    // FIXME: This type should exist in slate somewhere...
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
+  }
 
 export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],
