@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { GeogebraEditor } from './editor'
 import { GeogebraRenderer } from './renderer'
+import { createIcon, faCubes } from '@edtr-io/editor-ui'
 
 export const geogebraState = StateType.string()
 export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {
@@ -14,6 +15,7 @@ export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {
       <GeogebraRenderer {...props} />
     ),
   state: geogebraState,
+  icon: createIcon(faCubes),
   onPaste(clipboardData: DataTransfer) {
     const value = clipboardData.getData('text')
 

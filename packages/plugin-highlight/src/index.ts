@@ -1,6 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { HighlightEditor } from './editor'
+import { createIcon, faCode } from '@edtr-io/editor-ui'
 
 export const highlightState = StateType.object({
   text: StateType.string(''),
@@ -10,5 +11,6 @@ export const highlightState = StateType.object({
 
 export const highlightPlugin: StatefulPlugin<typeof highlightState> = {
   Component: HighlightEditor,
-  state: highlightState
+  state: highlightState,
+  icon: createIcon(faCode)
 }
