@@ -18,7 +18,7 @@ export const GeogebraEditor = (
           label="Geogebra Link oder ID:"
           placeholder="12345"
           value={state.value}
-          onChange={e => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             state.set(e.target.value)
           }}
           textfieldWidth="70%"

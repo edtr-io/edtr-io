@@ -39,7 +39,6 @@ export function HintEditor({
         rendererUi: {
           expandableBox: {
             toggleBackgroundColor: '#d9edf7',
-
             containerBorderColor: '#333'
           }
         }
