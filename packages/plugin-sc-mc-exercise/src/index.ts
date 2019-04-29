@@ -18,5 +18,6 @@ export const scMcState = StateType.object({
 export const scMcExercisePlugin: StatefulPlugin<typeof scMcState> = {
   Component: ScMcExerciseEditor,
   state: scMcState,
-  icon: createIcon(faDotCircle)
+  icon: createIcon(faDotCircle),
+  description: 'Create multiple or single Choice answers for your exercises.'
 }

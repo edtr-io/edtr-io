@@ -11,5 +11,6 @@ export const hintState = StateType.object({
 export const hintPlugin: StatefulPlugin<typeof hintState> = {
   Component: HintEditor,
   state: hintState,
+  description: 'Collapsible box with additional hints for your exercises.',
   icon: createIcon(faLightbulb)
 }

@@ -11,6 +11,7 @@ export const videoPlugin: StatefulPlugin<typeof videoState> = {
   Component: props =>
     props.editable ? <VideoEditor {...props} /> : <VideoRenderer {...props} />,
   state: videoState,
+  description: 'Include Videos from Youtube, Vimeo, Wikimedia and BR.',
   icon: createIcon(faFilm),
   onPaste(clipboardData: DataTransfer) {
     const value = clipboardData.getData('text')

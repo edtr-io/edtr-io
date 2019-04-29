@@ -15,5 +15,6 @@ export const inputExerciseState = StateType.object({
 export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,
   state: inputExerciseState,
-  icon: createIcon(faKeyboard)
+  icon: createIcon(faKeyboard),
+  description: 'Create an inputfield for exercises.'
 }

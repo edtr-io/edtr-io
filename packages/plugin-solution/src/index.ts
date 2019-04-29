@@ -11,5 +11,6 @@ export const solutionState = StateType.object({
 export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
   Component: SolutionEditor,
   state: solutionState,
-  icon: createIcon(faCheckSquare)
+  icon: createIcon(faCheckSquare),
+  description: 'Collapsible Box with the solution of an exercise.'
 }

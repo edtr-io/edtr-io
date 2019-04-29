@@ -11,7 +11,8 @@ export const spoilerState = StateType.object({
 export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
   Component: SpoilerEditor,
   state: spoilerState,
-  icon: createIcon(faCaretSquareDown)
+  icon: createIcon(faCaretSquareDown),
+  description: 'Collapsible Box to hide additional content in.'
 }
 
 export interface SpoilerTheme {

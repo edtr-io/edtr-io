@@ -15,6 +15,7 @@ export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {
       <GeogebraRenderer {...props} />
     ),
   state: geogebraState,
+  description: 'Include Geogebra-Applets via GeogebraTube-link or -ID.',
   icon: createIcon(faCubes),
   onPaste(clipboardData: DataTransfer) {
     const value = clipboardData.getData('text')
