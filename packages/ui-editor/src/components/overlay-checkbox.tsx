@@ -113,8 +113,11 @@ export const InlineCheckbox: React.FunctionComponent<CheckboxProps> = ({
     <CheckboxInlineLabel>
       <CheckboxInlineLabelInner>{label}</CheckboxInlineLabelInner>
       <CheckboxToggleContainer
-        // quick fix
-        onMouseDown={() => {
+        onMouseDown={e => {
+          // avoid loosing focus
+          e.stopPropagation()
+        }}
+        onClick={() => {
           if (onChange) {
             onChange(!checked)
           }
