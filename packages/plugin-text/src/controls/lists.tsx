@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { faListOl, faListUl, faTimes, Icon } from '@edtr-io/editor-ui'
+import { EdtrIcon, edtrIconSet } from '@edtr-io/editor-ui'
 import { ControlProps, VisibleControls } from './index'
 import { Button } from '../toolbar/button'
 import {
@@ -20,7 +20,7 @@ export const ListControls: React.FunctionComponent<
         onClick={() => toggleList(orderedListNode)(props.editor)}
         title={'Nummerierte Liste'}
       >
-        <Icon icon={faListOl} />
+        <EdtrIcon icon={edtrIconSet.listNumbered} />
       </Button>
       <Button
         name={props.name}
@@ -28,14 +28,14 @@ export const ListControls: React.FunctionComponent<
         onClick={() => toggleList(unorderedListNode)(props.editor)}
         title={'Aufzählung'}
       >
-        <Icon icon={faListUl} />
+        <EdtrIcon icon={edtrIconSet.listBullets} />
       </Button>
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
         title={'Untermenü schließen'}
       >
-        <Icon icon={faTimes} />
+        <EdtrIcon icon={edtrIconSet.close} />
       </Button>
     </React.Fragment>
   )

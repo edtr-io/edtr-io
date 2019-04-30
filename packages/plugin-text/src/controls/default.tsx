@@ -1,13 +1,7 @@
 import * as React from 'react'
-import {
-  Icon,
-  faBold,
-  faItalic,
-  faLink,
-  faListUl,
-  faQuoteLeft,
-  faListOl
-} from '@edtr-io/editor-ui'
+
+import { EdtrIcon, edtrIconSet } from '@edtr-io/editor-ui'
+
 import { Button } from '../toolbar/button'
 import {
   isEmphasized,
@@ -17,8 +11,6 @@ import {
 } from '../plugins/rich-text'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
-import { Math } from '../plugins/katex/math.component'
-import { getHeadingLevel } from '../plugins/headings'
 import { ControlProps, VisibleControls } from '.'
 import {
   isList,
@@ -43,7 +35,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Fett (Strg + B)"
       >
-        <Icon icon={faBold} />
+        <EdtrIcon icon={edtrIconSet.bold} />
       </Button>
       <Button
         name={name}
@@ -53,7 +45,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Kursiv (Strg + I)"
       >
-        <Icon icon={faItalic} />
+        <EdtrIcon icon={edtrIconSet.italic} />
       </Button>
       <Button
         name={name}
@@ -63,14 +55,14 @@ export const DefaultControls: React.FunctionComponent<
         }
         title="Link (Strg + K)"
       >
-        <Icon icon={faLink} />
+        <EdtrIcon icon={edtrIconSet.link} />
       </Button>
       <Button
         name={name}
         onClick={() => props.switchControls(VisibleControls.Headings)}
         title={'Überschriften'}
       >
-        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'T'}
+        <EdtrIcon icon={edtrIconSet.text} />
       </Button>
       <Button
         name={name}
@@ -92,7 +84,13 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title={'Listen'}
       >
-        <Icon icon={isList(orderedListNode)(editor) ? faListOl : faListUl} />
+        <EdtrIcon
+          icon={
+            isList(orderedListNode)(editor)
+              ? edtrIconSet.listNumbered
+              : edtrIconSet.listBullets
+          }
+        />
       </Button>
       <Button
         name={name}
@@ -107,7 +105,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title={'Zitat'}
       >
-        <Icon icon={faQuoteLeft} />
+        <EdtrIcon icon={edtrIconSet.quote} />
       </Button>
       <Button
         name={name}
@@ -117,7 +115,7 @@ export const DefaultControls: React.FunctionComponent<
         }
         title="Matheformel (Strg + M)"
       >
-        <Math formula="f_{\normalsize x}" inline={true} />
+        <EdtrIcon icon={edtrIconSet.formel} />
       </Button>
     </React.Fragment>
   )
