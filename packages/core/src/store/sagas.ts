@@ -1,11 +1,10 @@
 import { all, put, select, takeEvery } from 'redux-saga/effects'
 import {
+  Action,
   ActionType,
   AsyncChangeAction,
   AsyncInsertAction,
-  ChangeAction,
-  InitRootAction,
-  InsertAction
+  InitRootAction
 } from './actions'
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { getPluginOrDefault, getPluginTypeOrDefault } from './selectors'
@@ -17,7 +16,7 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
   if (action.payload.state) {
     immediateState = action.payload.state.immediateState
   }
-  const immediateInsert: InsertAction = {
+  const immediateInsert: Action = {
     type: ActionType.Insert,
     payload: {
       id: action.payload.id,
@@ -25,12 +24,15 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
       state: immediateState
     }
   }
+  if (action.commit) {
+    immediateInsert.commit = action.commit
+  }
 
   yield put(immediateInsert)
 
   if (action.payload.state && action.payload.state.asyncState) {
     const resolvedAsyncState = yield action.payload.state.asyncState
-    const insertAsyncState: InsertAction = {
+    const asyncInsert: Action = {
       type: ActionType.Insert,
       payload: {
         id: action.payload.id,
@@ -38,8 +40,11 @@ export function* asyncInsertAction(action: AsyncInsertAction) {
         state: resolvedAsyncState
       }
     }
+    if (action.commit) {
+      asyncInsert.commit = action.commit
+    }
 
-    yield put(insertAsyncState)
+    yield put(asyncInsert)
   }
 }
 
@@ -60,24 +65,31 @@ export function* asyncChangeAction(action: AsyncChangeAction) {
   for (let insert of inserts) {
     yield asyncInsertAction(insert)
   }
-  const change: ChangeAction = {
+  const immediateChange: Action = {
     type: ActionType.Change,
     payload: {
       id: payload.id,
       state: () => pluginState.immediateState
     }
   }
+  if (action.commit) {
+    immediateChange.commit = action.commit
+  }
+  yield put(immediateChange)
 
-  yield put(change)
   if (pluginState.asyncState) {
     const resolvedPluginState = yield pluginState.asyncState
-    yield put({
+    const asyncChange: Action = {
       type: ActionType.Change,
       payload: {
         id: payload.id,
         state: () => resolvedPluginState
       }
-    })
+    }
+    if (action.commit) {
+      asyncChange.commit = action.commit
+    }
+    yield put(asyncChange)
   }
 }
 

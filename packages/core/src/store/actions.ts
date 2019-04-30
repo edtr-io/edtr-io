@@ -21,9 +21,12 @@ export enum ActionType {
   AsyncInsert = 'AsyncInsert'
 }
 
-export type Undoable = (InsertAction | ChangeAction | RemoveAction) & {
+export interface CommitableAction {
   commit?: ActionCommitType
 }
+
+export type Undoable = (InsertAction | ChangeAction | RemoveAction) &
+  CommitableAction
 export type Action =
   | InitRootAction
   | Undoable
@@ -52,7 +55,7 @@ export interface InsertAction {
   } & Partial<PluginState>
 }
 
-export interface AsyncInsertAction<S = unknown> {
+export interface AsyncInsertAction<S = unknown> extends CommitableAction {
   type: ActionType.AsyncInsert
   payload: {
     id: string
@@ -67,7 +70,7 @@ export interface ChangeAction<S = unknown> {
   }
 }
 
-export interface AsyncChangeAction<S = unknown> {
+export interface AsyncChangeAction<S = unknown> extends CommitableAction {
   type: ActionType.AsyncChange
   payload: {
     id: string

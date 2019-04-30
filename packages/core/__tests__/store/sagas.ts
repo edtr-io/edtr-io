@@ -9,7 +9,7 @@ import { plugins } from '../../__fixtures__/plugins'
 import { Store } from 'redux'
 import { renderDocument } from '../index'
 
-describe('runSagas', () => {
+describe('run sagas', () => {
   let store: Store
 
   beforeEach(() => {
@@ -49,7 +49,7 @@ describe('runSagas', () => {
     )
   })
 
-  test('asyncChangeAction', async () => {
+  test('asyncChangeAction', () => {
     const action: AsyncChangeAction = {
       type: ActionType.AsyncChange,
       payload: {

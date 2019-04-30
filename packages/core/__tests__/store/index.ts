@@ -4,6 +4,8 @@ import { plugins } from '../../__fixtures__/plugins'
 import {
   ActionCommitType,
   ActionType,
+  AsyncChangeAction,
+  AsyncInsertAction,
   BaseState,
   ChangeAction,
   getClipboard,
@@ -17,6 +19,9 @@ import {
   State,
   Undoable
 } from '../../src/store'
+import { Store } from 'redux'
+import { createStore } from '../../src/editor'
+import { renderDocument } from '../index'
 
 let state: State
 
@@ -668,6 +673,360 @@ describe('copyToClipboard', () => {
         }
       }
     ])
+  })
+})
+
+describe('history for sagas', () => {
+  let store: Store
+
+  beforeEach(() => {
+    store = createStore(plugins, 'stateful', true)
+    renderDocument(store)
+  })
+
+  test('history remembers actions', () => {
+    const action: AsyncInsertAction = {
+      type: ActionType.AsyncInsert,
+      payload: {
+        id: 'root',
+        plugin: 'stateful',
+        state: {
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        }
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    store.dispatch(action)
+
+    let insertAction: Undoable = {
+      type: ActionType.Insert,
+      payload: {
+        id: 'root',
+        plugin: 'stateful',
+        state: 1
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    state = store.getState()
+    expect(state.history.actions).toHaveLength(2)
+    expect(state.history.actions[1]).toHaveLength(1)
+    expect(state.history.actions[1][0]).toEqual(insertAction)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        insertAction = {
+          type: ActionType.Insert,
+          payload: {
+            id: 'root',
+            plugin: 'stateful',
+            state: 2
+          },
+          commit: ActionCommitType.ForceCommit
+        }
+
+        state = store.getState()
+        expect(state.history.actions).toHaveLength(3)
+        expect(state.history.actions[2]).toHaveLength(1)
+        expect(state.history.actions[2][0]).toEqual(insertAction)
+        resolve(true)
+      }, 200)
+    )
+  })
+
+  test('history remembers undos for redo', () => {
+    const action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+
+    store.dispatch(action)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        store.dispatch({
+          type: ActionType.Undo
+        })
+
+        state = store.getState()
+        expect(state.history.redoStack).toHaveLength(1)
+        expect(state.history.actions).toHaveLength(2)
+
+        store.dispatch({
+          type: ActionType.Redo
+        })
+
+        state = store.getState()
+        expect(state.history.redoStack).toHaveLength(0)
+        expect(state.history.actions).toHaveLength(3)
+
+        resolve(true)
+      }, 200)
+    )
+  })
+
+  test('history purges redos after change', () => {
+    let action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    store.dispatch(action)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        store.dispatch({
+          type: ActionType.Undo
+        })
+
+        state = store.getState()
+        expect(state.history.redoStack).toHaveLength(1)
+        expect(state.history.actions).toHaveLength(2)
+
+        action = {
+          type: ActionType.AsyncChange,
+          payload: {
+            id: 'root',
+            state: () => ({
+              immediateState: 3
+            })
+          },
+          commit: ActionCommitType.ForceCommit
+        }
+        store.dispatch(action)
+
+        state = store.getState()
+        expect(state.history.redoStack).toHaveLength(0)
+        expect(state.history.actions).toHaveLength(3)
+
+        resolve(true)
+      }, 200)
+    )
+  })
+
+  test('history combines debounced changes', () => {
+    let action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      }
+    }
+    store.dispatch(action)
+
+    state = store.getState()
+    expect(state.history.actions).toHaveLength(1)
+    expect(state.history.actions[0]).toHaveLength(2)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        state = store.getState()
+        expect(state.history.actions).toHaveLength(1)
+        expect(state.history.actions[0]).toHaveLength(3)
+
+        action = {
+          type: ActionType.AsyncChange,
+          payload: {
+            id: 'root',
+            state: () => ({
+              immediateState: 3,
+              asyncState: new Promise(resolve =>
+                setTimeout(function() {
+                  resolve(4)
+                }, 100)
+              )
+            })
+          },
+          commit: ActionCommitType.ForceCommit
+        }
+        store.dispatch(action)
+
+        state = store.getState()
+        expect(state.history.actions).toHaveLength(2)
+
+        return new Promise(resolveInner =>
+          setTimeout(function() {
+            state = store.getState()
+            expect(state.history.actions).toHaveLength(3)
+
+            resolveInner(true)
+            resolve(true)
+          }, 200)
+        )
+      }, 200)
+    )
+  })
+
+  test('undo change action', () => {
+    let action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    store.dispatch(action)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 2
+        })
+
+        store.dispatch({
+          type: ActionType.Undo
+        })
+
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 1
+        })
+
+        resolve(true)
+      }, 200)
+    )
+  })
+
+  test('redo change action', () => {
+    let action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    store.dispatch(action)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 2
+        })
+
+        store.dispatch({
+          type: ActionType.Undo
+        })
+        store.dispatch({
+          type: ActionType.Redo
+        })
+
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 2
+        })
+
+        resolve(true)
+      }, 200)
+    )
+  })
+
+  test('undo/redo works with debounced changes', () => {
+    let action: AsyncChangeAction = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 0
+        })
+      },
+      commit: ActionCommitType.ForceCommit
+    }
+    store.dispatch(action)
+
+    action = {
+      type: ActionType.AsyncChange,
+      payload: {
+        id: 'root',
+        state: () => ({
+          immediateState: 1,
+          asyncState: new Promise(resolve =>
+            setTimeout(function() {
+              resolve(2)
+            }, 100)
+          )
+        })
+      }
+    }
+    store.dispatch(action)
+
+    return new Promise(resolve =>
+      setTimeout(function() {
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 2
+        })
+
+        store.dispatch({
+          type: ActionType.Undo
+        })
+
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 0
+        })
+
+        store.dispatch({
+          type: ActionType.Redo
+        })
+
+        expect(getDocument(store.getState(), 'root')).toEqual({
+          plugin: 'stateful',
+          state: 2
+        })
+
+        resolve(true)
+      }, 200)
+    )
   })
 })
 
