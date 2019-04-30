@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Editor } from 'slate'
 import { EditorProps } from 'slate-react'
 import { TextPlugin } from '..'
-import { HoveringOverlay, BottomToolbar } from '@edtr-io/editor-ui'
+import { HoveringOverlay, BottomToolbar, styled } from '@edtr-io/editor-ui'
 import { SlatePluginClosure } from '../factory/types'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
@@ -43,11 +43,48 @@ const ControlsSwitch: React.FunctionComponent<{
   }
 }
 
+const TimeoutBottomToolbar = styled(BottomToolbar)<{ visible: boolean }>(
+  props => {
+    return {
+      opacity: props.visible ? 1 : 0,
+      transition: '500ms opacity ease-in-out'
+    }
+  }
+)
+
+let debounceTimeout: number
 export const Controls: React.FunctionComponent<ControlProps> = props => {
   const selectionCollapsed = props.editor.value.selection.isCollapsed
   const [visibleControls, setVisibleControls] = React.useState(
     VisibleControls.All
   )
+  const [bottomToolbarVisible, setBottomToolbarVisible] = React.useState(false)
+  if (!debounceTimeout) {
+    debounceTimeout = setTimeout(() => setBottomToolbarVisible(true), 2500)
+  }
+  const currentValue = JSON.stringify(props.editor.value.toJSON())
+  const memoized = React.useRef({
+    value: currentValue,
+    selectionCollapsed
+  })
+  React.useEffect(() => {
+    const valueChanged = memoized.current.value !== currentValue
+    if (
+      valueChanged ||
+      memoized.current.selectionCollapsed !== selectionCollapsed
+    ) {
+      memoized.current = {
+        value: currentValue,
+        selectionCollapsed
+      }
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout)
+      }
+      const timeout = valueChanged ? 2500 : 1000
+      debounceTimeout = setTimeout(() => setBottomToolbarVisible(true), timeout)
+      setBottomToolbarVisible(false)
+    }
+  }, [currentValue, selectionCollapsed])
   return (
     <React.Fragment>
       {!selectionCollapsed && (
@@ -59,14 +96,16 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
           />
         </HoveringOverlay>
       )}
-      {!props.readOnly && selectionCollapsed && (
-        <BottomToolbar>
+      {!props.readOnly && (
+        <TimeoutBottomToolbar
+          visible={selectionCollapsed && bottomToolbarVisible}
+        >
           <ControlsSwitch
             {...props}
             visibleControls={visibleControls}
             setVisibleControls={setVisibleControls}
           />
-        </BottomToolbar>
+        </TimeoutBottomToolbar>
       )}
     </React.Fragment>
   )
