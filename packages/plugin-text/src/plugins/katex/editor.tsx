@@ -121,6 +121,11 @@ export const DefaultEditorComponent: React.FunctionComponent<
                       .moveBackward(1)
                       .focus()
                   }
+                },
+                deleteOutOf: (dir: number) => {
+                  if (dir == -1) {
+                    editor.delete().focus()
+                  }
                 }
               }
             }}
@@ -190,7 +195,17 @@ export const DefaultEditorComponent: React.FunctionComponent<
             onChange={checked => {
               const newData = { formula: formulaState, inline: checked }
 
-              editor.removeNodeByKey(node.key)
+              // remove old node, merge blocks if necessary
+              if (node.isLeafBlock()) {
+                const n = editor.value.document.getNextBlock(node.key)
+                editor.removeNodeByKey(node.key)
+                if (n) {
+                  editor.mergeNodeByKey(n.key)
+                }
+              } else {
+                editor.removeNodeByKey(node.key)
+              }
+
               if (checked) {
                 editor.insertInline({
                   type: katexInlineNode,

@@ -330,7 +330,13 @@ function newSlateOnEnter(
 }
 
 function splitBlockAtSelection(editor: CoreEditor) {
-  editor.splitBlock(1)
+  if (editor.value.focusBlock.type == katexBlockNode) {
+    // If katex block node is focused, don't attempt to split it, insert empty paragraph instead
+    editor.moveToEndOfBlock()
+    editor.insertBlock('paragraph')
+  } else {
+    editor.splitBlock(1)
+  }
   const blocks = editor.value.document.getBlocks()
 
   const afterSelected = blocks.skipUntil(block => {
