@@ -15,7 +15,8 @@ export const equationsState = StateType.object({
 export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
   Component: EquationsEditor,
   state: equationsState,
-  description: 'Create mathematical equations with explanations.',
+  title: 'Gleichungen',
+  description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
   icon: createIcon(faEquals)
 }
 

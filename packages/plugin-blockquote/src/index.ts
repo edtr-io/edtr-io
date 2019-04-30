@@ -8,8 +8,8 @@ export const blockquoteState = StateType.child()
 export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
   Component: BlockquoteRenderer,
   state: blockquoteState,
-  description:
-    'Create higlighted text for e.g. quotes, important statements,...',
+  title: 'Zitat',
+  description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
   getFocusableChildren(state) {
     return [state]
   },

@@ -12,7 +12,9 @@ export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
   Component: SpoilerEditor,
   state: spoilerState,
   icon: createIcon(faCaretSquareDown),
-  description: 'Collapsible Box to hide additional content in.'
+  title: 'Spoiler',
+  description:
+    'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.'
 }
 
 export interface SpoilerTheme {

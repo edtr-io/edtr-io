@@ -12,6 +12,8 @@ export const highlightState = StateType.object({
 export const highlightPlugin: StatefulPlugin<typeof highlightState> = {
   Component: HighlightEditor,
   state: highlightState,
-  description: 'Write code and highlight it correctly.',
+  title: 'Code',
+  description:
+    'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
   icon: createIcon(faCode)
 }

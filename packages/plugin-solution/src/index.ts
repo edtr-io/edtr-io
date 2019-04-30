@@ -12,5 +12,7 @@ export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
   Component: SolutionEditor,
   state: solutionState,
   icon: createIcon(faCheckSquare),
-  description: 'Collapsible Box with the solution of an exercise.'
+  title: 'Lösung',
+  description:
+    'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.'
 }

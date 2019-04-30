@@ -36,7 +36,8 @@ export const createTextPlugin = (
     Component: createTextEditor(options),
     state: textState,
     icon: createIcon(faParagraph),
-    description: 'Write enriched text.',
+    title: 'Text',
+    description: 'Schreibe Text und Matheformeln und formatiere sie.',
     onKeyDown() {
       return false
     },

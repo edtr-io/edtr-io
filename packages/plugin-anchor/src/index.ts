@@ -8,7 +8,7 @@ export const anchorState = StateType.string()
 export const anchorPlugin: StatefulPlugin<typeof anchorState> = {
   Component: AnchorEditor,
   state: anchorState,
-  description:
-    'Allows you to make marks within content to where you could jump to.',
+  title: 'Anker',
+  description: 'Füge eine Sprungmarke innerhalb deines Inhalts hinzu.',
   icon: createIcon(faAnchor)
 }

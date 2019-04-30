@@ -19,5 +19,7 @@ export const scMcExercisePlugin: StatefulPlugin<typeof scMcState> = {
   Component: ScMcExerciseEditor,
   state: scMcState,
   icon: createIcon(faDotCircle),
-  description: 'Create multiple or single Choice answers for your exercises.'
+  title: 'Auswahlaufgabe',
+  description:
+    'Füge deiner Aufgabe mehrere Single- oder Multiplechoice-Antworten hinzu.'
 }

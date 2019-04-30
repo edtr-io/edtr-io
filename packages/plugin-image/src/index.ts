@@ -18,7 +18,9 @@ export const createImagePlugin = <T = unknown>(
   return {
     Component: createImageEditor(config),
     state: imageState,
-    description: 'Upload images or include images that are already online.',
+    title: 'Bild',
+    description:
+      'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
     icon: createIcon(faImages),
     onPaste: (clipboardData: DataTransfer) => {
       const value = clipboardData.getData('text')
