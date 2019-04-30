@@ -20,6 +20,7 @@ import { TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
+import { linkNode } from '../plugins/link'
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -28,6 +29,9 @@ export const createTextEditor = (
     inlines: {
       [katexInlineNode]: {
         isVoid: true
+      },
+      [linkNode]: {
+        text: /.+/
       }
     },
     blocks: {
