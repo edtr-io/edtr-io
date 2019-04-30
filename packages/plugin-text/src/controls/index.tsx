@@ -59,9 +59,10 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
     VisibleControls.All
   )
   const [bottomToolbarVisible, setBottomToolbarVisible] = React.useState(false)
-  if (!debounceTimeout) {
+
+  React.useEffect(() => {
     debounceTimeout = setTimeout(() => setBottomToolbarVisible(true), 2500)
-  }
+  }, [])
   const currentValue = JSON.stringify(props.editor.value.toJSON())
   const memoized = React.useRef({
     value: currentValue,
