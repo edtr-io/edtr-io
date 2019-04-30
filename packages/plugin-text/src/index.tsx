@@ -1,4 +1,4 @@
-import { Editor, MarkJSON, NodeJSON } from 'slate'
+import { Editor, MarkJSON, NodeJSON, Range as CoreRange } from 'slate'
 import { Rule } from 'slate-html-serializer'
 import {
   EditorProps,
@@ -97,6 +97,24 @@ export function trimSelection(editor: Editor) {
       str = str.substring(0, str.length - 1)
     }
   }
+}
+
+export function getTrimmedSelectionRange(editor: Editor) {
+  // get trimmed selection, without changing editor (e.g. for checking active marks)
+  const native = document.getSelection()
+  let selection = editor.value.selection.toRange()
+  if (native) {
+    let str = native.toString()
+    while (str.startsWith(' ')) {
+      selection = selection.moveStartForward(1)
+      str = str.substring(1)
+    }
+    while (str.endsWith(' ')) {
+      selection = selection.moveEndBackward(1)
+      str = str.substring(0, str.length - 1)
+    }
+  }
+  return CoreRange.create(selection)
 }
 
 export * from './factory'

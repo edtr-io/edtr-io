@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ControlProps, VisibleControls } from './index'
+import { SubControlProps, VisibleControls } from './index'
 import { Button } from '../toolbar/button'
 import {
   createIsColor,
@@ -11,11 +11,11 @@ import {
   createTextPluginTheme,
   textPluginThemeFactory,
   trimSelection
-} from '@edtr-io/plugin-text'
+} from '../'
 import { EdtrIcon, edtrIconSet } from '@edtr-io/editor-ui'
 
 export const ColorControls: React.FunctionComponent<
-  ControlProps & { switchControls: (controlType: VisibleControls) => void }
+  SubControlProps
 > = props => {
   const theme = usePluginTheme(props.name, textPluginThemeFactory)
   const { colors, defaultColor } = theme.plugins.colors
@@ -26,9 +26,10 @@ export const ColorControls: React.FunctionComponent<
         name={props.name}
         onClick={() => {
           removeColor(props.editor)
-          props.editor.moveToEnd()
+            .moveToEnd()
+            .focus()
           props.switchControls(VisibleControls.All)
-          props.editor.focus()
+          props.onChange(props.editor)
         }}
         title="Farbe zurücksetzen"
       >
@@ -43,9 +44,10 @@ export const ColorControls: React.FunctionComponent<
           onClick={() => {
             trimSelection(props.editor)
             createToggleColor(index)(props.editor)
-            props.editor.moveToEnd()
+              .moveToEnd()
+              .focus()
             props.switchControls(VisibleControls.All)
-            props.editor.focus()
+            props.onChange(props.editor)
           }}
           title="Einfärben"
         >

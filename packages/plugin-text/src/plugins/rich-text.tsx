@@ -2,6 +2,7 @@ import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
 import {
+  getTrimmedSelectionRange,
   MarkEditorProps,
   MarkRendererProps,
   TextPlugin,
@@ -16,14 +17,19 @@ export interface RichTextPluginOptions {
   RenderComponent?: React.ComponentType<MarkRendererProps>
 }
 
+const getActiveMarks = (editor: Editor) => {
+  return editor.value.document.getActiveMarksAtRange(
+    getTrimmedSelectionRange(editor)
+  )
+}
 export const isStrong = (editor: Editor) => {
-  return editor.value.activeMarks.some(mark =>
+  return getActiveMarks(editor).some(mark =>
     mark ? mark.type === strongMark : false
   )
 }
 
 export const isEmphasized = (editor: Editor) => {
-  return editor.value.activeMarks.some(mark =>
+  return getActiveMarks(editor).some(mark =>
     mark ? mark.type === emphasizeMark : false
   )
 }

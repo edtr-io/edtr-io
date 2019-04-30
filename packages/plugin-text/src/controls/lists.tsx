@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { EdtrIcon, edtrIconSet } from '@edtr-io/editor-ui'
-import { ControlProps, VisibleControls } from './index'
+import { SubControlProps, VisibleControls } from './index'
 import { Button } from '../toolbar/button'
 import {
   isList,
@@ -9,15 +9,16 @@ import {
   unorderedListNode
 } from '../plugins/list'
 
-export const ListControls: React.FunctionComponent<
-  ControlProps & { switchControls: (controlType: VisibleControls) => void }
-> = props => {
+export const ListControls: React.FunctionComponent<SubControlProps> = props => {
   return (
     <React.Fragment>
       <Button
         name={props.name}
         active={isList(orderedListNode)(props.editor)}
-        onClick={() => toggleList(orderedListNode)(props.editor)}
+        onClick={() => {
+          toggleList(orderedListNode)(props.editor).focus()
+          props.onChange(props.editor)
+        }}
         title={'Nummerierte Liste'}
       >
         <EdtrIcon icon={edtrIconSet.listNumbered} />
@@ -25,7 +26,10 @@ export const ListControls: React.FunctionComponent<
       <Button
         name={props.name}
         active={isList(unorderedListNode)(props.editor)}
-        onClick={() => toggleList(unorderedListNode)(props.editor)}
+        onClick={() => {
+          toggleList(unorderedListNode)(props.editor).focus()
+          props.onChange(props.editor)
+        }}
         title={'Aufzählung'}
       >
         <EdtrIcon icon={edtrIconSet.listBullets} />

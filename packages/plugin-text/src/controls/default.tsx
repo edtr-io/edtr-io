@@ -11,7 +11,7 @@ import {
 } from '../plugins/rich-text'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
-import { ControlProps, VisibleControls } from '.'
+import { SubControlProps, VisibleControls } from '.'
 import {
   isList,
   orderedListNode,
@@ -22,7 +22,7 @@ import { ColoredTextIcon } from './colors'
 import { getColorIndex } from '../plugins/colors'
 
 export const DefaultControls: React.FunctionComponent<
-  ControlProps & { switchControls: (controlType: VisibleControls) => void }
+  SubControlProps
 > = props => {
   const { editor, name } = props
   return (
@@ -32,6 +32,7 @@ export const DefaultControls: React.FunctionComponent<
         active={isStrong(editor)}
         onClick={() => {
           toggleStrong(editor).focus()
+          props.onChange(editor)
         }}
         title="Fett (Strg + B)"
       >
@@ -42,6 +43,7 @@ export const DefaultControls: React.FunctionComponent<
         active={isEmphasized(editor)}
         onClick={() => {
           toggleEmphasize(editor).focus()
+          props.onChange(editor)
         }}
         title="Kursiv (Strg + I)"
       >
@@ -50,9 +52,10 @@ export const DefaultControls: React.FunctionComponent<
       <Button
         name={name}
         active={isLink(editor)}
-        onClick={() =>
+        onClick={() => {
           isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
-        }
+          props.onChange(editor)
+        }}
         title="Link (Strg + K)"
       >
         <EdtrIcon icon={edtrIconSet.link} />
@@ -78,7 +81,8 @@ export const DefaultControls: React.FunctionComponent<
             !isList(unorderedListNode)(editor) &&
             !isList(orderedListNode)(editor)
           ) {
-            toggleList(unorderedListNode)(props.editor)
+            toggleList(unorderedListNode)(props.editor).focus()
+            props.onChange(editor)
           }
           props.switchControls(VisibleControls.Lists)
         }}
@@ -102,6 +106,7 @@ export const DefaultControls: React.FunctionComponent<
               state: editor.value.toJSON()
             }
           })
+          props.onChange(editor)
         }}
         title={'Zitat'}
       >
@@ -110,9 +115,10 @@ export const DefaultControls: React.FunctionComponent<
       <Button
         name={name}
         active={isKatex(editor)}
-        onClick={() =>
+        onClick={() => {
           isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
-        }
+          props.onChange(editor)
+        }}
         title="Matheformel (Strg + M)"
       >
         <EdtrIcon icon={edtrIconSet.formel} />

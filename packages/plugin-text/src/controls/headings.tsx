@@ -8,10 +8,10 @@ import {
 } from '../plugins/headings'
 import { Button } from '../toolbar/button'
 import { setParagraph } from '../plugins/paragraph'
-import { ControlProps, VisibleControls } from '.'
+import { SubControlProps, VisibleControls } from '.'
 
 export const HeadingControls: React.FunctionComponent<
-  ControlProps & { switchControls: (controlType: VisibleControls) => void }
+  SubControlProps
 > = props => {
   return (
     <React.Fragment>
@@ -27,6 +27,8 @@ export const HeadingControls: React.FunctionComponent<
               active
                 ? setParagraph(props.editor)
                 : createSetHeading(level)(props.editor)
+              props.editor.focus()
+              props.onChange(props.editor)
               props.switchControls(VisibleControls.All)
             }}
             title={`Überschrift ${level}`}

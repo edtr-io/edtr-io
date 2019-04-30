@@ -21,25 +21,55 @@ export interface ControlProps {
   readOnly?: boolean
 }
 
+export interface SubControlProps extends ControlProps {
+  switchControls: (control: VisibleControls) => void
+  onChange: (editor: Editor) => Editor
+}
+
 export interface UiPluginOptions {
   Component: React.ComponentType<Partial<EditorProps> & ControlProps>
 }
 
-const ControlsSwitch: React.FunctionComponent<{
-  editor: Editor
-  name: string
-  visibleControls: VisibleControls
-  setVisibleControls: (x: VisibleControls) => void
-}> = ({ visibleControls, setVisibleControls, ...props }) => {
+const ControlsSwitch: React.FunctionComponent<
+  {
+    visibleControls: VisibleControls
+    setVisibleControls: (controls: VisibleControls) => void
+    onChange: (editor: Editor) => Editor
+  } & ControlProps
+> = ({ visibleControls, setVisibleControls, onChange, ...props }) => {
   switch (visibleControls) {
     case VisibleControls.All:
-      return <DefaultControls {...props} switchControls={setVisibleControls} />
+      return (
+        <DefaultControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
     case VisibleControls.Headings:
-      return <HeadingControls {...props} switchControls={setVisibleControls} />
+      return (
+        <HeadingControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
     case VisibleControls.Lists:
-      return <ListControls {...props} switchControls={setVisibleControls} />
+      return (
+        <ListControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
     case VisibleControls.Colors:
-      return <ColorControls {...props} switchControls={setVisibleControls} />
+      return (
+        <ColorControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
   }
 }
 
@@ -60,8 +90,16 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
   )
   const [bottomToolbarVisible, setBottomToolbarVisible] = React.useState(false)
 
+  function showBottomToolbar() {
+    setVisibleControls(VisibleControls.All)
+    setBottomToolbarVisible(true)
+  }
   React.useEffect(() => {
-    debounceTimeout = setTimeout(() => setBottomToolbarVisible(true), 2500)
+    debounceTimeout = setTimeout(showBottomToolbar, 2500)
+
+    return function cleanUp() {
+      clearTimeout(debounceTimeout)
+    }
   }, [])
   const currentValue = JSON.stringify(props.editor.value.toJSON())
   const memoized = React.useRef({
@@ -82,10 +120,20 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
         clearTimeout(debounceTimeout)
       }
       const timeout = valueChanged ? 2500 : 1000
-      debounceTimeout = setTimeout(() => setBottomToolbarVisible(true), timeout)
+      if (selectionCollapsed) {
+        debounceTimeout = setTimeout(showBottomToolbar, timeout)
+      }
       setBottomToolbarVisible(false)
     }
   }, [currentValue, selectionCollapsed])
+
+  const onChange = React.useCallback((editor: Editor) => {
+    memoized.current = {
+      ...memoized.current,
+      value: JSON.stringify(editor.value.toJSON())
+    }
+    return editor
+  }, [])
   return (
     <React.Fragment>
       {!selectionCollapsed && (
@@ -94,6 +142,7 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
             {...props}
             visibleControls={visibleControls}
             setVisibleControls={setVisibleControls}
+            onChange={onChange}
           />
         </HoveringOverlay>
       )}
@@ -105,6 +154,7 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
             {...props}
             visibleControls={visibleControls}
             setVisibleControls={setVisibleControls}
+            onChange={onChange}
           />
         </TimeoutBottomToolbar>
       )}

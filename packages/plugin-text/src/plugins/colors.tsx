@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Editor, Mark } from 'slate'
 import {
   createTextPluginTheme,
+  getTrimmedSelectionRange,
   MarkEditorProps,
   MarkRendererProps,
   TextPlugin
@@ -19,8 +20,14 @@ export interface ColorPluginOptions {
   >
 }
 
+const getActiveMarks = (editor: Editor) => {
+  return editor.value.document.getActiveMarksAtRange(
+    getTrimmedSelectionRange(editor)
+  )
+}
+
 export const createIsColor = (colorIndex?: number) => (editor: Editor) => {
-  return editor.value.activeMarks.some(mark => {
+  return getActiveMarks(editor).some(mark => {
     if (!mark) {
       return false
     }
@@ -53,7 +60,7 @@ export const getColorIndex = (editor: Editor) => {
   if (!createIsColor()(editor)) {
     return undefined
   } else {
-    const mark = editor.value.activeMarks.find(mark =>
+    const mark = getActiveMarks(editor).find(mark =>
       mark ? mark.type === colorMark : false
     )
     return mark.data.get('colorIndex')
