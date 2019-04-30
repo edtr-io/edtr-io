@@ -2,7 +2,8 @@ import {
   NodeRendererProps,
   NodeEditorProps,
   TextPlugin,
-  NodeControlsProps
+  NodeControlsProps,
+  trimSelection
 } from '../..'
 import * as React from 'react'
 import { Block, Editor, Inline } from 'slate'
@@ -31,8 +32,8 @@ export const isKatex = (editor: Editor) => {
 }
 export const insertKatex = (editor: Editor) => {
   if (editor.value.selection.isExpanded) {
+    trimSelection(editor)
     const selection = document.getSelection()
-    const handleWhitespace = selection && selection.toString().endsWith(' ')
     editor
       .wrapInline({
         type: katexInlineNode,
@@ -42,9 +43,6 @@ export const insertKatex = (editor: Editor) => {
         }
       })
       .moveToEnd()
-    if (handleWhitespace) {
-      editor.insertText(' ').moveBackward(1)
-    }
     return editor.focus().moveBackward(1)
   }
   return editor.insertInline({

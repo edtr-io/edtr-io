@@ -38,7 +38,9 @@ export const DefaultControls: React.FunctionComponent<
       <Button
         name={name}
         active={isStrong(editor)}
-        onClick={() => toggleStrong(editor).focus()}
+        onClick={() => {
+          toggleStrong(editor).focus()
+        }}
         title="Fett (Strg + B)"
       >
         <Icon icon={faBold} />
@@ -46,7 +48,9 @@ export const DefaultControls: React.FunctionComponent<
       <Button
         name={name}
         active={isEmphasized(editor)}
-        onClick={() => toggleEmphasize(editor).focus()}
+        onClick={() => {
+          toggleEmphasize(editor).focus()
+        }}
         title="Kursiv (Strg + I)"
       >
         <Icon icon={faItalic} />

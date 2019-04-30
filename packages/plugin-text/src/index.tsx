@@ -83,4 +83,20 @@ export const createTextPluginTheme = createPluginTheme<TextTheme>(
   textPluginThemeFactory
 )
 
+export function trimSelection(editor: Editor) {
+  // Trimm selection before applying transformation
+  const selection = document.getSelection()
+  if (selection) {
+    let str = selection.toString()
+    while (str.startsWith(' ')) {
+      editor.moveStartForward(1)
+      str = str.substring(1)
+    }
+    while (str.endsWith(' ')) {
+      editor.moveEndBackward(1)
+      str = str.substring(0, str.length - 1)
+    }
+  }
+}
+
 export * from './factory'

@@ -9,7 +9,8 @@ import {
 import { styled, ThemeProps, usePluginTheme } from '@edtr-io/ui'
 import {
   createTextPluginTheme,
-  textPluginThemeFactory
+  textPluginThemeFactory,
+  trimSelection
 } from '@edtr-io/plugin-text'
 import { Icon, faTimes } from '@edtr-io/editor-ui'
 
@@ -25,7 +26,9 @@ export const ColorControls: React.FunctionComponent<
         name={props.name}
         onClick={() => {
           removeColor(props.editor)
+          props.editor.moveToEnd()
           props.switchControls(VisibleControls.All)
+          props.editor.focus()
         }}
         title="Farbe zurücksetzen"
       >
@@ -38,8 +41,11 @@ export const ColorControls: React.FunctionComponent<
           active={createIsColor(index)(props.editor)}
           name={props.name}
           onClick={() => {
+            trimSelection(props.editor)
             createToggleColor(index)(props.editor)
+            props.editor.moveToEnd()
             props.switchControls(VisibleControls.All)
+            props.editor.focus()
           }}
           title="Einfärben"
         >

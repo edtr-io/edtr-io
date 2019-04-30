@@ -125,12 +125,12 @@ export const DefaultEditorComponent: React.FunctionComponent<
               }
             }}
             ref={mathQuillRef}
-            mathquillDidMount={(x: {
+            mathquillDidMount={(mathquill: {
               latex: () => string
               focus: () => void
             }) => {
-              if (x) {
-                if (x.latex() == '' && formula != '') {
+              if (mathquill) {
+                if (mathquill.latex() == '' && formula != '') {
                   // Error occured
                   alert('Error while parsing LaTeX.')
                   setUseVisual(false)
@@ -138,7 +138,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
                 setTimeout(() => {
                   editor.blur()
                   setTimeout(() => {
-                    x.focus()
+                    mathquill.focus()
                   })
                 })
               }

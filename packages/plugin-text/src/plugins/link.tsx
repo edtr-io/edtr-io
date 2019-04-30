@@ -5,7 +5,8 @@ import {
   NodeControlsProps,
   NodeEditorProps,
   NodeRendererProps,
-  TextPlugin
+  TextPlugin,
+  trimSelection
 } from '..'
 import isHotkey from 'is-hotkey'
 
@@ -25,6 +26,7 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
   editor: Editor
 ) => {
   if (editor.value.selection.isExpanded) {
+    trimSelection(editor)
     return editor
       .wrapInline({
         type: linkNode,
@@ -126,7 +128,7 @@ const DefaultControlsComponent: React.FunctionComponent<
       editor.value.selection.isCollapsed ? (
         <InlineSettings
           key={`inlineoverlay${inline.key}`}
-          onDelete={() => unwrapLink(editor)}
+          onDelete={() => unwrapLink(editor).focus()}
           position={'below'}
         >
           <InlineInput

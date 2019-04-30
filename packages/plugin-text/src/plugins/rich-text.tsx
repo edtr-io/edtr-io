@@ -1,7 +1,12 @@
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
-import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
+import {
+  MarkEditorProps,
+  MarkRendererProps,
+  TextPlugin,
+  trimSelection
+} from '..'
 
 export const strongMark = '@splish-me/strong'
 export const emphasizeMark = '@splish-me/em'
@@ -24,10 +29,12 @@ export const isEmphasized = (editor: Editor) => {
 }
 
 export const toggleStrong = (editor: Editor) => {
+  trimSelection(editor)
   return editor.toggleMark(strongMark)
 }
 
 export const toggleEmphasize = (editor: Editor) => {
+  trimSelection(editor)
   return editor.toggleMark(emphasizeMark)
 }
 
