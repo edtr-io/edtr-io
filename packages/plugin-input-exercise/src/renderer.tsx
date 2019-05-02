@@ -1,10 +1,31 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Feedback } from '@edtr-io/renderer-ui'
+import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/editor-ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState } from '.'
+import { inputExerciseState, createInputExerciseTheme } from '.'
+import { ThemeProps } from '@edtr-io/ui'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
+
+const InputExerciseField = styled.input(
+  ({ name, ...props }: { name: string } & ThemeProps) => {
+    const theme = createInputExerciseTheme(name, props.theme)
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+      float: 'right',
+      textAlign: 'center',
+      outline: 'none'
+    }
+  }
+)
 
 export class InputExerciseRenderer extends React.Component<
   StatefulPluginEditorProps<typeof inputExerciseState>,
@@ -13,7 +34,8 @@ export class InputExerciseRenderer extends React.Component<
   public state = {
     positiveFeedback: false,
     negativeFeedbackIndex: -1,
-    showFeedback: false
+    showFeedback: false,
+    exerciseState: ExerciseState.Default
   }
   private input = React.createRef<HTMLInputElement>()
 
@@ -34,7 +56,11 @@ export class InputExerciseRenderer extends React.Component<
           input.value
         )
       ) {
-        this.setState({ positiveFeedback: true, showFeedback: true })
+        this.setState({
+          positiveFeedback: true,
+          showFeedback: true,
+          exerciseState: ExerciseState.SolvedRight
+        })
         correct = true
       }
     })
@@ -49,9 +75,18 @@ export class InputExerciseRenderer extends React.Component<
       this.setState({
         negativeFeedbackIndex: index,
         showFeedback: true,
-        positiveFeedback: false
+        positiveFeedback: false,
+        exerciseState: this.handleWrongAnswer()
       })
     }
+  }
+
+  private handleWrongAnswer = () => {
+    setTimeout(
+      () => this.setState({ exerciseState: ExerciseState.Default }),
+      3000
+    )
+    return ExerciseState.SolvedWrong
   }
 
   private matchesInput = (
@@ -99,11 +134,11 @@ export class InputExerciseRenderer extends React.Component<
   public render() {
     const { state } = this.props
     return (
-      <div className="new-text-exercise active">
-        <form className="input-challenge-group" onSubmit={this.checkAnswer}>
-          <div className="input-challenge-input-wrapper pull-right">
-            <input
-              className="input-challenge-input"
+      <div>
+        <form onSubmit={this.checkAnswer}>
+          <div>
+            <InputExerciseField
+              name={this.props.name}
               data-type={state.type()}
               type="text"
               placeholder="Deine Lösung"
@@ -132,17 +167,10 @@ export class InputExerciseRenderer extends React.Component<
               <Feedback boxFree> Leider falsch!</Feedback>
             )
           ) : null}
-          <div className="input-challenge-solution">
-            <button className="btn btn-primary btn-xs input-challenge-submit pull-right">
-              <span className="input-challenge-submit-check">
-                <i className="fa fa-check-circle" />
-                Stimmts?
-              </span>
-              <span className="input-challenge-submit-correct">
-                <i className="fa fa-smile-o" />
-                Stimmt!
-              </span>
-            </button>
+          <div>
+            <SubmitButton exerciseState={this.state.exerciseState}>
+              Submit
+            </SubmitButton>
             <div style={{ clear: 'both' }} />
           </div>
         </form>
@@ -155,4 +183,5 @@ interface InputExerciseRendererState {
   positiveFeedback: boolean
   negativeFeedbackIndex: number
   showFeedback: boolean
+  exerciseState: ExerciseState
 }

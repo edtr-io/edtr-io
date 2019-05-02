@@ -29,6 +29,7 @@ All notable changes to this project will be documented in this file.
 - **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
 - **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
 - **plugin-text**. Added visual latex editor
+- \*\*plugin-input-exercise: improved UI/UX and added theming options
 
 ### Fixed
 

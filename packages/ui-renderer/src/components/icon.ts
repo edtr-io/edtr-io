@@ -4,5 +4,7 @@ export const Icon = FontAwesomeIcon
 
 export {
   faCaretSquareDown,
-  faCaretSquareUp
+  faCaretSquareUp,
+  faSmile,
+  faCheckCircle
 } from '@fortawesome/free-solid-svg-icons'
