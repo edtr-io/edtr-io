@@ -180,7 +180,8 @@ async function exec(): Promise<void> {
       ],
       added: [
         '**plugin-h5p**. Add H5p.com plugin',
-        '**plugin-image**. Add MaxWidth for images'
+        '**plugin-image**. Add MaxWidth for images',
+        '**all**. Added plugin icons and descriptions'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',
