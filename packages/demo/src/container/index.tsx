@@ -2,6 +2,7 @@ import { Editor, EditorProps } from '@edtr-io/core'
 import { select } from '@storybook/addon-knobs'
 import * as R from 'ramda'
 import * as React from 'react'
+import { GlobalStyle } from '@edtr-io/editor-ui'
 
 import { plugins } from '../plugins'
 import { PlainContainer } from './plain'
@@ -30,7 +31,12 @@ export function EditorStory(props: Partial<EditorProps>) {
   return (
     <Editor plugins={plugins} defaultPlugin="text" {...props}>
       {document => {
-        return <Component>{document}</Component>
+        return (
+          <React.Fragment>
+            <GlobalStyle />
+            <Component>{document}</Component>
+          </React.Fragment>
+        )
       }}
     </Editor>
   )

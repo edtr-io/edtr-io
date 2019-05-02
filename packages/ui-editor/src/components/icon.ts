@@ -1,7 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styled from 'styled-components'
-import '../assets/icon-font.css'
-
+import styled, { createGlobalStyle } from 'styled-components'
+// @ts-ignore
+import edtrIoFontEOT from '../assets/edtr-io-icons.eot'
+// @ts-ignore
+import edtrIoFontTTF from '../assets/edtr-io-icons.ttf'
+// @ts-ignore
+import edtrIoFontWOFF from '../assets/edtr-io-icons.woff'
+// @ts-ignore
+import edtrIoFontSVG from '../assets/edtr-io-icons.svg'
 export const Icon = FontAwesomeIcon
 
 export {
@@ -71,3 +77,16 @@ export const edtrIconSet = {
   link: '\\e90e',
   text: '\\e90f'
 }
+
+export const GlobalStyle = createGlobalStyle`
+  @font-face {
+  font-family: 'edtr-io-icons';
+  src:  url('${edtrIoFontEOT}?h3ysfi');
+  src:  url('${edtrIoFontEOT}?h3ysfi#iefix') format('embedded-opentype'),
+    url('${edtrIoFontTTF}?h3ysfi') format('truetype'),
+    url('${edtrIoFontWOFF}?h3ysfi') format('woff'),
+    url('${edtrIoFontSVG}?h3ysfi#edtr-io-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+`
