@@ -67,7 +67,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/jest.styleMock.js"
+      "\\.(css|less|eot|svg|ttf|woff|woff2)$": "<rootDir>/jest.styleMock.js"
     }
   },
   "workspaces": [
