@@ -8,5 +8,7 @@ export const h5pState = StateType.object({
 
 export const h5pPlugin: StatefulPlugin<typeof h5pState> = {
   Component: H5pEditor,
+  title: 'H5P Plugin',
+  description: 'Füge Inhalte von H5P via ID oder Link ein.',
   state: h5pState
 }
