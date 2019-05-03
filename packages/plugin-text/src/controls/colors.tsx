@@ -11,8 +11,8 @@ import {
   createTextPluginTheme,
   textPluginThemeFactory,
   trimSelection
-} from '../'
-import { EdtrIcon, edtrIconSet } from '@edtr-io/editor-ui'
+} from '@edtr-io/plugin-text'
+import { Icon, faTimes } from '@edtr-io/editor-ui'
 
 export const ColorControls: React.FunctionComponent<
   SubControlProps
@@ -59,7 +59,7 @@ export const ColorControls: React.FunctionComponent<
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >
-        <EdtrIcon icon={edtrIconSet.close} />
+        <Icon icon={faTimes} />
       </Button>
     </React.Fragment>
   )
@@ -89,10 +89,7 @@ const Line = styled.span<{ index?: number }>(
           : colors[props.index % colors.length]
       }`,
       borderRadius: '4px',
-      bottom: '-0.15em',
-      left: '10%',
-
-      position: 'absolute'
+      marginTop: '-0.15em'
     }
   }
 )
@@ -100,8 +97,9 @@ const ColoredText = styled.span((props: ThemeProps) => {
   const theme = createTextPluginTheme(name, props.theme)
   return {
     color: theme.color,
-    position: 'relative',
-    verticalAlign: 'middle'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 })
 
@@ -110,7 +108,7 @@ export const ColoredTextIcon: React.FunctionComponent<{
 }> = props => {
   return (
     <ColoredText>
-      <EdtrIcon icon={edtrIconSet.colorText} />
+      A
       <Line index={props.index} />
     </ColoredText>
   )
