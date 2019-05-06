@@ -48,7 +48,11 @@ export const createTextPlugin = (
     },
     isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
       const value = Value.fromJSON(state)
-      return value.document.text === ''
+      return (
+        value.document.text === '' &&
+        value.document.nodes.size === 1 &&
+        value.document.getTexts().size === 1
+      )
     }
   }
 }
