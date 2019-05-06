@@ -18,7 +18,7 @@ import { videoPlugin } from '@edtr-io/plugin-video'
 interface SerloResponse {
   files: { location: string }[]
 }
-const uploadConfig: UploadConfig<SerloResponse> = {
+export const uploadConfig: UploadConfig<SerloResponse> = {
   url: 'https://de.serlo.org/attachment/upload',
   paramName: 'attachment[file]',
   maxFileSize: 2 * 1024 * 1024,
@@ -44,7 +44,10 @@ export const plugins: Record<string, Plugin> = {
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
   hint: hintPlugin,
-  image: createImagePlugin({ upload: uploadConfig }),
+  image: createImagePlugin({
+    upload: uploadConfig,
+    secondInput: 'description'
+  }),
   inputExercise: inputExercisePlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,

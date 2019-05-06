@@ -11,7 +11,6 @@ import { plugins } from './plugins'
 import { createTextPlugin } from './factory'
 import { createUiPlugin, Controls } from './controls'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
-import { Icon, faPlus } from '@edtr-io/editor-ui'
 
 export type MarkEditorProps = RenderMarkProps
 

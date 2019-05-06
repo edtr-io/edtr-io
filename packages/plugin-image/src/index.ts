@@ -41,8 +41,11 @@ export const createImagePlugin = <T = unknown>(
   }
 }
 
+export type SecondInputType = 'description' | 'link'
+
 export interface ImagePluginConfig<T> {
   upload: UploadConfig<T>
+  secondInput?: SecondInputType
 }
 
 export { ImageLoaded, ImageUploaded, Upload, UploadConfig } from './upload'
