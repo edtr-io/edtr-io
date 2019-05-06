@@ -81,7 +81,6 @@ export function ExpandableBox({
   title: React.ReactNode
 }) {
   let [collapsed, setCollapsed] = React.useState(true)
-  collapsed = !editable && collapsed
 
   return (
     <Wrapper collapsed={collapsed}>
@@ -93,17 +92,13 @@ export function ExpandableBox({
           setCollapsed(!collapsed)
         }}
       >
-        {editable ? (
-          <span>{title}</span>
-        ) : (
-          <React.Fragment>
-            <StyledIcon
-              collapsed={collapsed}
-              icon={collapsed ? faSortDown : faSortUp}
-            />
-            <a>{title}</a>
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <StyledIcon
+            collapsed={collapsed}
+            icon={collapsed ? faSortDown : faSortUp}
+          />
+          <a>{title}</a>
+        </React.Fragment>
       </Toggle>
       <Content collapsed={collapsed}>{children}</Content>
     </Wrapper>

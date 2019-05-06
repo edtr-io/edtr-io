@@ -9,6 +9,7 @@ import { EditorInput } from '@edtr-io/editor-ui'
 export function SpoilerEditor({
   state,
   editable,
+  focused,
   name
 }: StatefulPluginEditorProps<typeof spoilerState>) {
   const theme = usePluginTheme<SpoilerTheme>(name, () => {
@@ -17,17 +18,18 @@ export function SpoilerEditor({
     }
   })
 
-  const title = editable ? (
-    <EditorInput
-      onChange={e => state.title.set(e.target.value)}
-      value={state.title()}
-      placeholder="Titel eingeben"
-    />
-  ) : state.title() ? (
-    state.title()
-  ) : (
-    'Spoiler'
-  )
+  const title =
+    focused && editable ? (
+      <EditorInput
+        onChange={e => state.title.set(e.target.value)}
+        value={state.title()}
+        placeholder="Titel eingeben"
+      />
+    ) : state.title() ? (
+      state.title()
+    ) : (
+      'Spoiler'
+    )
 
   return (
     <ThemeProvider
