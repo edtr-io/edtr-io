@@ -1,6 +1,7 @@
 import { StateType, StatefulPlugin } from '@edtr-io/core'
 
 import { ScMcExerciseEditor } from './editor'
+import { createIcon, faDotCircle } from '@edtr-io/editor-ui'
 
 export const AnswerProps = StateType.object({
   id: StateType.child(),
@@ -16,5 +17,9 @@ export const scMcState = StateType.object({
 
 export const scMcExercisePlugin: StatefulPlugin<typeof scMcState> = {
   Component: ScMcExerciseEditor,
-  state: scMcState
+  state: scMcState,
+  icon: createIcon(faDotCircle),
+  title: 'Auswahlaufgabe',
+  description:
+    'Füge deiner Aufgabe mehrere Single- oder Multiplechoice-Antworten hinzu.'
 }

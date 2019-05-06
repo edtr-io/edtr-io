@@ -15,12 +15,13 @@ const EditorInputWithMarginLeft = styled(EditorInput)({
 })
 export function SolutionEditor({
   state,
-  editable
+  editable,
+  focused
 }: StatefulPluginEditorProps<typeof solutionState>) {
   const title = (
     <React.Fragment>
-      Lösung{''}
-      {editable ? (
+      Lösung
+      {editable && focused ? (
         <EditorInputWithMarginLeft
           onChange={e => state.title.set(e.target.value)}
           value={state.title()}

@@ -16,12 +16,13 @@ const EditorInputWithMarginLeft = styled(EditorInput)({
 
 export function HintEditor({
   state,
-  editable
+  editable,
+  focused
 }: StatefulPluginEditorProps<typeof hintState>) {
   const title = (
     <React.Fragment>
       Hinweis
-      {editable ? (
+      {editable && focused ? (
         <EditorInputWithMarginLeft
           onChange={e => state.title.set(e.target.value)}
           value={state.title()}

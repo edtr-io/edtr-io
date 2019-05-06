@@ -189,7 +189,8 @@ async function exec(): Promise<void> {
         '**plugin-text**. Added list plugin',
         '**plugin-text**. Added colors plugin',
         '**plugin-text**. Added button to wrap in a blockquote plugin',
-        '**plugin-rows**. Pass `remove` and `replace` functions to childs'
+        '**plugin-rows**. Pass `remove` and `replace` functions to childs',
+        '**all**. Added plugin icons and descriptions'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',

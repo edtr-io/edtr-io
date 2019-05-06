@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { Editor, MarkJSON, NodeJSON, Range as CoreRange } from 'slate'
 import { Rule } from 'slate-html-serializer'
 import {
@@ -34,7 +35,11 @@ export type TextPlugin = Plugin &
 
 export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],
-  placeholder: 'Write some text here...'
+  placeholder: (
+    <React.Fragment>
+      Schreibe etwas oder füge mit &#x2295; Aufgaben und Tools hinzu
+    </React.Fragment>
+  )
 })
 
 export interface TextTheme {

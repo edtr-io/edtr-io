@@ -22,12 +22,17 @@ const ImgPlaceholderWrapper = styled.div({
   width: '100%',
   textAlign: 'center'
 })
-const UploadButtonWrapper = styled.span({
+const ButtonWrapper = styled.span({
   float: 'right',
   display: 'flex',
   flexDirection: 'row',
 
   justifyContent: 'flex-end'
+})
+
+const OverlayButtonWrapper = styled.div({
+  marginTop: '5px',
+  textAlign: 'right'
 })
 
 export function createImageEditor<T = unknown>(
@@ -56,16 +61,20 @@ export function createImageEditor<T = unknown>(
         {imageComponent}
         {focused ? (
           <React.Fragment>
-            <React.Fragment>
+            {state.src() === '' ? (
               <EditorInput
-                label="Image location (URL):"
-                placeholder="http://example.com/image.png"
+                label="Bild-Adresse (URL):"
+                placeholder="http://beispiel.de/bild.png"
                 value={state.src.value}
                 onChange={handleChange('src')}
                 editorInputWidth="70%"
                 textfieldWidth="60%"
               />
-              <UploadButtonWrapper>
+            ) : (
+              showAlternativeMenu()
+            )}
+            <ButtonWrapper>
+              {state.src() === '' && (
                 <Upload
                   config={config.upload}
                   onImageLoaded={handleImageLoaded}
@@ -75,22 +84,44 @@ export function createImageEditor<T = unknown>(
                     setImagePreview(undefined)
                   }}
                 />
-                <EditorButton onClick={overlayContext.show}>
-                  <Icon icon={faCog} />
-                </EditorButton>
-              </UploadButtonWrapper>
-            </React.Fragment>
+              )}
+              <EditorButton
+                onClick={overlayContext.show}
+                title="Weitere Einstellungen"
+              >
+                <Icon icon={faCog} />
+              </EditorButton>
+            </ButtonWrapper>
+
             <Overlay>
+              <OverlayInput
+                label="Bild-Adresse (URL)"
+                placeholder="http://beispiel.de/bild.png"
+                value={state.src.value}
+                onChange={handleChange('src')}
+              />
+              <OverlayButtonWrapper>
+                <Upload
+                  inOverlay
+                  config={config.upload}
+                  onImageLoaded={handleImageLoaded}
+                  onImageUploaded={handleImageUploaded}
+                  onError={(errors: FileError[]): void => {
+                    alert(errors.map(error => error.message).join('\n'))
+                    setImagePreview(undefined)
+                  }}
+                />
+              </OverlayButtonWrapper>
               <Textarea
-                label="Image description"
-                placeholder="Gib hier eine Bildbeschreibung ein"
+                label="Bildbeschreibung"
+                placeholder="Gib hier eine Bildbeschreibung ein (mindestens 3 Wörter)"
                 value={state.description.value}
                 onChange={handleChange('description')}
               />
 
               <OverlayInput
-                label="Link location (url)"
-                placeholder="http://example.com"
+                label="Verlinke das Bild (optional)"
+                placeholder="http://beispiel.de"
                 type="text"
                 value={state.href.value}
                 onChange={handleChange('href')}
@@ -98,7 +129,7 @@ export function createImageEditor<T = unknown>(
               {state.href.value ? (
                 <React.Fragment>
                   <Checkbox
-                    label="Open in new window"
+                    label="In neuem Fenster öffnen"
                     checked={state.target.value === '_blank'}
                     onChange={handleTargetChange}
                   />
@@ -118,7 +149,38 @@ export function createImageEditor<T = unknown>(
         ) : null}
       </React.Fragment>
     )
-
+    function showAlternativeMenu() {
+      switch (config.secondInput) {
+        case 'description':
+          return (
+            <React.Fragment>
+              <EditorInput
+                label="Bildbeschreibung:"
+                placeholder="Gib eine Bildbeschreibung ein (mind. 3 Wörter)"
+                value={state.description.value}
+                onChange={handleChange('description')}
+                editorInputWidth="90%"
+                textfieldWidth="70%"
+              />
+            </React.Fragment>
+          )
+        case 'link':
+          return (
+            <React.Fragment>
+              <EditorInput
+                label="Link: "
+                placeholder="Verlinke das Bild (optional)"
+                value={state.href.value}
+                onChange={handleChange('href')}
+                editorInputWidth="90%"
+                textfieldWidth="70%"
+              />
+            </React.Fragment>
+          )
+        default:
+          return null
+      }
+    }
     function handleChange(name: 'src' | 'description' | 'href') {
       return (
         event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

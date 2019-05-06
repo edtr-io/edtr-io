@@ -3,6 +3,7 @@ import { TextPluginOptions } from './types'
 import { StateType, StatefulPlugin } from '@edtr-io/core'
 import { Value, ValueJSON } from 'slate'
 import { StateDescriptorValueType } from '@edtr-io/core/src/plugin-state'
+import { createIcon, faParagraph } from '@edtr-io/editor-ui'
 
 export const defaultNode = 'paragraph'
 
@@ -34,6 +35,9 @@ export const createTextPlugin = (
   return {
     Component: createTextEditor(options),
     state: textState,
+    icon: createIcon(faParagraph),
+    title: 'Text',
+    description: 'Schreibe Text und Matheformeln und formatiere sie.',
     onKeyDown(e) {
       if (e.key === 'Backspace' || e.key === 'Delete') {
         // let editor handle backspace and delete
@@ -44,7 +48,11 @@ export const createTextPlugin = (
     },
     isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
       const value = Value.fromJSON(state)
-      return value.document.text === ''
+      return (
+        value.document.text === '' &&
+        value.document.nodes.size === 1 &&
+        value.document.getTexts().size === 1
+      )
     }
   }
 }
