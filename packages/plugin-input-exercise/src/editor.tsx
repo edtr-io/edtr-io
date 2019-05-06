@@ -1,10 +1,10 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { InputExerciseRenderer } from './renderer'
 import { inputExerciseState } from '.'
+import { faTrashAlt, faPlus, styled, Icon } from '@edtr-io/editor-ui'
 
 const types = [
   {
@@ -21,6 +21,9 @@ const types = [
   }
 ]
 
+const FloatRightButton = styled.button({
+  float: 'right'
+})
 export class InputExerciseEditor extends React.Component<
   StatefulPluginEditorProps<typeof inputExerciseState>
 > {
@@ -42,9 +45,9 @@ export class InputExerciseEditor extends React.Component<
 
     return (
       <React.Fragment>
-        {editable ? (
+        <InputExerciseRenderer {...this.props} />
+        {editable && focused ? (
           <React.Fragment>
-            <InputExerciseRenderer {...this.props} />
             {state.correctAnswers().map((correctAnswer, index: number) => {
               return (
                 <div key={index}>
@@ -60,13 +63,13 @@ export class InputExerciseEditor extends React.Component<
                     />
                   </label>
                   <button onClick={() => state.correctAnswers.remove(index)}>
-                    Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
+                    <Icon icon={faTrashAlt} />
                   </button>
                 </div>
               )
             })}
             <button onClick={() => state.correctAnswers.insert()}>
-              Richtige Antwort hinzufügen
+              <Icon icon={faPlus} /> richtige Antwort
             </button>
             {state.wrongAnswers().map((wrongAnswer, index: number) => {
               return (
@@ -85,47 +88,49 @@ export class InputExerciseEditor extends React.Component<
                     />
                   </label>
                   <button onClick={() => state.wrongAnswers.remove(index)}>
-                    Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
+                    <Icon icon={faTrashAlt} />
                   </button>
-                  {wrongAnswer.feedback ? (
-                    <this.Label>
-                      Feedback:
-                      <Feedback>{wrongAnswer.feedback.render()}</Feedback>
-                    </this.Label>
-                  ) : null}
+                  <label>
+                    Feedback:
+                    <input
+                      type="text"
+                      value={wrongAnswer.feedback()}
+                      placeholder="Gib dein Feedback ein!"
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        state
+                          .wrongAnswers()
+                          [index].feedback.set(event.target.value)
+                      }}
+                    />
+                  </label>
                 </div>
               )
             })}
             <button onClick={() => state.wrongAnswers.insert()}>
-              Falsche Antwort hinzufügen
+              <Icon icon={faPlus} /> falsche Antwort
             </button>
-          </React.Fragment>
-        ) : (
-          <InputExerciseRenderer {...this.props} />
-        )}
-        {focused ? (
-          <React.Fragment>
-            <hr />
-            Wähle den Antworttyp:
-            <select
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                state.type.set(this.translateDataName(event.target.value))
-              }
-              value={this.translateDataType(state.type())}
-            >
-              {R.map(dataType => {
-                return (
-                  <option key={dataType.name} value={dataType.name}>
-                    {dataType.name}
-                  </option>
-                )
-              }, types)}
-            </select>
+            <div>
+              Wähle den Antworttyp:
+              <select
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                  state.type.set(this.translateDataName(event.target.value))
+                }
+                value={this.translateDataType(state.type())}
+              >
+                {R.map(dataType => {
+                  return (
+                    <option key={dataType.name} value={dataType.name}>
+                      {dataType.name}
+                    </option>
+                  )
+                }, types)}
+              </select>
+            </div>
           </React.Fragment>
         ) : null}
       </React.Fragment>
     )
   }
-
-  private Label = styled.label({ clear: 'both' })
 }

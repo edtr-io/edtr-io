@@ -22,7 +22,8 @@ const InputExerciseField = styled.input(
       borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
       float: 'right',
       textAlign: 'center',
-      outline: 'none'
+      outline: 'none',
+      marginBottom: '10px'
     }
   }
 )
@@ -161,7 +162,7 @@ export class InputExerciseRenderer extends React.Component<
               <Feedback boxFree>
                 {state
                   .wrongAnswers()
-                  [this.state.negativeFeedbackIndex].feedback.render()}
+                  [this.state.negativeFeedbackIndex].feedback()}
               </Feedback>
             ) : (
               <Feedback boxFree> Leider falsch!</Feedback>

@@ -6,7 +6,7 @@ import { createPluginTheme } from '@edtr-io/ui'
 
 export const wrongAnswerObject = StateType.object({
   value: StateType.string(''),
-  feedback: StateType.child()
+  feedback: StateType.string('')
 })
 export const inputExerciseState = StateType.object({
   type: StateType.string('Text'),
