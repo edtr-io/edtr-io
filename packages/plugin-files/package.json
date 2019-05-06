@@ -1,0 +1,28 @@
+{
+  "name": "@edtr-io/plugin-files",
+  "version": "0.4.3",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {
+    "@navjobs/upload": "^3.0.0"
+  },
+  "devDependencies": {
+    "@edtr-io/core": "^0.4.3",
+    "@edtr-io/ui": "^0.4.3",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "@edtr-io/core": "^0.4.0",
+    "@edtr-io/ui": "^0.4.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -9,6 +9,7 @@ export {
   faCut,
   faCog,
   faCopy,
+  faFileAlt,
   faImages,
   faItalic,
   faLink,
