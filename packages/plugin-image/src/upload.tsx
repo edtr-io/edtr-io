@@ -1,4 +1,4 @@
-import { EditorButton, UploadProgress } from '@edtr-io/editor-ui'
+import { EditorButton, UploadProgress, Button } from '@edtr-io/editor-ui'
 // @ts-ignore
 import { Uploader, UploadField } from '@navjobs/upload'
 import * as React from 'react'
@@ -152,7 +152,12 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
                 accept: 'image/*'
               }}
             >
-              <EditorButton>Durchsuchen...</EditorButton>
+              {this.props.inOverlay ? (
+                <Button>Durchsuchen ...</Button>
+              ) : (
+                <EditorButton>Durchsuchen...</EditorButton>
+              )}
+
               <UploadProgress {...progressProps} />
             </UploadField>
           </div>
@@ -163,6 +168,7 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
 }
 
 export interface UploadProps<T> {
+  inOverlay?: boolean
   config: UploadConfig<T>
   onError?: (errors: FileError[]) => void
   onImageLoaded?: (image: ImageLoaded) => void

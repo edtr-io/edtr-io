@@ -41,12 +41,6 @@ module.exports = function(api) {
             ]
           ]
         : [])
-      // ["transform-imports", {
-      //   "@fortawesome/free-solid-svg-icons": {
-      //     "transform": "@fortawesome/free-solid-svg-icons/${member}",
-      //     "skipDefaultConversion": true
-      //   }
-      // }]
     ]
   }
 }
