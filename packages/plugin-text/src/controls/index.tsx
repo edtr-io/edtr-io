@@ -150,12 +150,14 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
         <TimeoutBottomToolbar
           visible={selectionCollapsed && bottomToolbarVisible}
         >
-          <ControlsSwitch
-            {...props}
-            visibleControls={visibleControls}
-            setVisibleControls={setVisibleControls}
-            onChange={onChange}
-          />
+          {bottomToolbarVisible && (
+            <ControlsSwitch
+              {...props}
+              visibleControls={visibleControls}
+              setVisibleControls={setVisibleControls}
+              onChange={onChange}
+            />
+          )}
         </TimeoutBottomToolbar>
       )}
     </React.Fragment>
