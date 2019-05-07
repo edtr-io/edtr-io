@@ -171,6 +171,9 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: 'v0.5.0',
+      name: '0.5.0',
+      date: '2019-05-07',
       breakingChanges: [
         '**core**. Mark `name` as required in `StatelessEditorProps`',
         '**plugin-image**. Image-plugin has new required `maxWidth` - state property',
