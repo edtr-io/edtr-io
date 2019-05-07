@@ -20,6 +20,7 @@ module.exports = function(api) {
                   '@edtr-io/plugin-blockquote':
                     '@edtr-io/plugin-blockquote/src',
                   '@edtr-io/plugin-equations': '@edtr-io/plugin-equations/src',
+                  '@edtr-io/plugin-files': '@edtr-io/plugin-files/src',
                   '@edtr-io/plugin-geogebra': '@edtr-io/plugin-geogebra/src',
                   '@edtr-io/plugin-h5p': '@edtr-io/plugin-h5p/src',
                   '@edtr-io/plugin-highlight': '@edtr-io/plugin-highlight/src',

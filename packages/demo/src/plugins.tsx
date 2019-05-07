@@ -7,6 +7,7 @@ import { h5pPlugin } from '@edtr-io/plugin-h5p'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin, UploadConfig } from '@edtr-io/plugin-image'
+import { createFilePlugin } from '@edtr-io/plugin-files'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -40,6 +41,7 @@ export const plugins: Record<string, Plugin> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   equations: equationsPlugin,
+  file: createFilePlugin({ upload: uploadConfig }),
   h5p: h5pPlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,

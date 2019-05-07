@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 export const Icon = FontAwesomeIcon
 
@@ -10,6 +11,17 @@ export {
   faCut,
   faCog,
   faCopy,
+  faFileAlt,
+  faFileArchive,
+  faFileAudio,
+  faFileDownload,
+  faFileExcel,
+  faFileImage,
+  faFilePdf,
+  faFilePowerpoint,
+  faFileVideo,
+  faFileWord,
+  faFilm,
   faImages,
   faItalic,
   faLink,
@@ -21,5 +33,9 @@ export {
   faSpinner,
   faTimes,
   faTrashAlt,
-  faFilm
 } from '@fortawesome/free-solid-svg-icons'
+
+export function createIcon(i: IconDefinition): React.FunctionComponent {
+  const I = () => <Icon icon={i} size="5x" />
+  return I
+}
