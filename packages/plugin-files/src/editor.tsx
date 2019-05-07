@@ -1,19 +1,22 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { UploadProgress } from '@edtr-io/editor-ui'
-import * as React from 'react'
-
-import { FileRenderer } from './renderer'
-import { fileState } from '.'
-import { parseFileType, readFile, Upload, uploadFile } from './upload'
 import {
   FileError,
   FileErrorCode,
   LoadedFile,
-  FileUploadConfig,
-  UploadedFile
-} from './types'
+  parseFileType,
+  readFile,
+  Upload,
+  UploadConfig,
+  UploadedFile,
+  uploadFile,
+  UploadProgress
+} from '@edtr-io/editor-ui'
+import * as React from 'react'
 
-export function createFileEditor<T>(config: FileUploadConfig<T>) {
+import { FileRenderer } from './renderer'
+import { fileState } from '.'
+
+export function createFileEditor<T>(config: UploadConfig<T>) {
   const FileEditor: React.FunctionComponent<
     StatefulPluginEditorProps<typeof fileState>
   > = props => {

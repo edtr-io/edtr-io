@@ -1,9 +1,9 @@
-import { EditorButton, UploadProgress, Button } from '@edtr-io/editor-ui'
+import { Button, EditorButton, UploadProgress } from '@edtr-io/editor-ui'
 // @ts-ignore
-import { Uploader, UploadField } from '@navjobs/upload'
+import { Uploader, UploadField, UploadRequest } from '@navjobs/upload'
 import * as React from 'react'
 
-enum FileErrorCode {
+export enum FileErrorCode {
   TOO_MANY_FILES,
   NO_FILE_SELECTED,
   BAD_EXTENSION,
@@ -11,7 +11,7 @@ enum FileErrorCode {
   UPLOAD_FAILED
 }
 
-export function readFile(file: File): Promise<ImageLoaded> {
+export function readFile(file: File): Promise<LoadedFile> {
   return new Promise(resolve => {
     const reader = new FileReader()
 
@@ -27,8 +27,12 @@ export function readFile(file: File): Promise<ImageLoaded> {
 
 export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
   private matchesAllowedExtensions(fileName: string) {
-    const extension = fileName.slice(fileName.lastIndexOf('.') + 1)
-    return this.props.config.allowedExtensions.indexOf(extension) >= 0
+    if (this.props.config.allowedExtensions === undefined) {
+      return true
+    } else {
+      const extension = fileName.slice(fileName.lastIndexOf('.') + 1)
+      return this.props.config.allowedExtensions.indexOf(extension) >= 0
+    }
   }
 
   private handleErrors(errors: FileErrorCode[]): FileError[] {
@@ -91,21 +95,11 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
     const { config } = this.props
     return (
       <Uploader
-        request={{
-          fileName: config.paramName,
-          url: config.url,
-          method: 'POST',
-          fields: config.getAdditionalFields
-            ? config.getAdditionalFields()
-            : {},
-          headers: {
-            Accept: 'application/json'
-          }
-        }}
+        request={createRequest(config)}
         onComplete={({ response }: { response: T }) => {
-          if (this.props.onImageUploaded) {
+          if (this.props.onFileUploaded) {
             const uploadedState = config.getStateFromResponse(response)
-            this.props.onImageUploaded(uploadedState)
+            this.props.onFileUploaded(uploadedState)
           }
         }}
         onError={() => {
@@ -139,15 +133,17 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
                     this.defaultOnError(validation.errors)
                   }
                 } else {
-                  const { onImageLoaded } = this.props
-                  if (onImageLoaded) {
-                    readFile(files[0]).then(data => onImageLoaded(data))
+                  const { onFileLoaded } = this.props
+                  if (onFileLoaded) {
+                    readFile(files[0]).then(data =>
+                      onFileLoaded(data as LoadedFile)
+                    )
                   }
                   onFiles(files)
                 }
               }}
               uploadProps={{
-                accept: 'image/*'
+                accept: '*' // FIXME: image/*
               }}
             >
               {this.props.inOverlay ? (
@@ -167,19 +163,19 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
 
 export interface UploadProps<T> {
   inOverlay?: boolean
-  config: ImageUploadConfig<T>
+  config: UploadConfig<T>
   onError?: (errors: FileError[]) => void
-  onImageLoaded?: (image: ImageLoaded) => void
-  onImageUploaded?: (state: ImageUploaded) => void
+  onFileLoaded?: (image: LoadedFile) => void
+  onFileUploaded?: (state: UploadedFile) => void
 }
 
-export interface ImageUploadConfig<T> {
+export interface UploadConfig<T> {
   url: string
   maxFileSize: number
-  allowedExtensions: string[]
+  allowedExtensions?: string[]
   paramName?: string
   getAdditionalFields?: Function
-  getStateFromResponse: (response: T) => { src: string }
+  getStateFromResponse: (response: T) => UploadedFile
 }
 
 export interface FileError {
@@ -187,11 +183,87 @@ export interface FileError {
   message: string
 }
 
-export interface ImageLoaded {
+export function createRequest<T>(config: UploadConfig<T>) {
+  return {
+    fileName: config.paramName,
+    url: config.url,
+    method: 'POST',
+    fields: config.getAdditionalFields ? config.getAdditionalFields() : {},
+    headers: {
+      Accept: 'application/json'
+    }
+  }
+}
+
+export function uploadFile<T>(
+  file: File,
+  config: UploadConfig<T>,
+  onProgress?: (progress: number) => void
+): Promise<UploadedFile | undefined> {
+  return UploadRequest({
+    request: createRequest(config),
+    files: [file],
+    progress: (value: number) => {
+      if (onProgress) {
+        onProgress(value)
+      }
+    }
+  }).then(({ response, error }: { response: T; error: boolean }) => {
+    if (!error) {
+      return config.getStateFromResponse(response)
+    }
+  })
+}
+
+export enum FileType {
+  Image = 'image',
+  Archive = 'archive',
+  Audio = 'audio',
+  Video = 'video',
+  PDF = 'pdf',
+  Word = 'word',
+  PowerPoint = 'powerpoint',
+  Excel = 'excel',
+  Other = 'other'
+}
+
+export interface LoadedFile {
   file: File
   dataUrl: string
 }
 
-export interface ImageUploaded {
-  src: string
+export interface UploadedFile {
+  location: string
+  type?: FileType
+  name?: string
+}
+
+export function parseFileType(name: string): FileType {
+  const normalized = name.toLowerCase()
+  if (/\.(zip|rar|tar|7z)$/.test(normalized)) {
+    return FileType.Archive
+  }
+  if (/\.(mp3|wav|wma)?$/.test(normalized)) {
+    return FileType.Audio
+  }
+  if (/\.(jpe?g|png|bmp|gif|svg)$/.test(normalized)) {
+    return FileType.Image
+  }
+  if (/\.pdf$/.test(normalized)) {
+    return FileType.PDF
+  }
+  if (/\.(pptx?|odp)$/.test(normalized)) {
+    return FileType.PowerPoint
+  }
+  if (/\.(mov|avi|wmv|flv|3gp|mp4|mpg|webm)$/.test(normalized)) {
+    return FileType.Video
+  }
+  if (/\.(docx?|odt)$/.test(normalized)) {
+    return FileType.Word
+  }
+  if (/\.(xlsx?|ods)?$/.test(normalized)) {
+    return FileType.Excel
+  }
+
+  return FileType.Other
 }

@@ -9,11 +9,14 @@ import {
   Checkbox,
   EditorInput,
   EditorButton,
-  faCog
+  faCog,
+  FileError,
+  LoadedFile,
+  UploadedFile,
+  Upload
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { FileError, ImageLoaded, ImageUploaded, Upload } from './upload'
 import { ImageRenderer } from './renderer'
 import { ImagePluginConfig, imageState } from '.'
 
@@ -40,7 +43,7 @@ export function createImageEditor<T = unknown>(
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof imageState>> {
   return props => {
     const [imagePreview, setImagePreview] = React.useState<
-      ImageLoaded | undefined
+      LoadedFile | undefined
     >(undefined)
     const overlayContext = React.useContext(OverlayContext)
     const { editable, focused, state } = props
@@ -77,8 +80,8 @@ export function createImageEditor<T = unknown>(
               {state.src() === '' && (
                 <Upload
                   config={config.upload}
-                  onImageLoaded={handleImageLoaded}
-                  onImageUploaded={handleImageUploaded}
+                  onFileLoaded={handleImageLoaded}
+                  onFileUploaded={handleImageUploaded}
                   onError={(errors: FileError[]): void => {
                     alert(errors.map(error => error.message).join('\n'))
                     setImagePreview(undefined)
@@ -104,8 +107,8 @@ export function createImageEditor<T = unknown>(
                 <Upload
                   inOverlay
                   config={config.upload}
-                  onImageLoaded={handleImageLoaded}
-                  onImageUploaded={handleImageUploaded}
+                  onFileLoaded={handleImageLoaded}
+                  onFileUploaded={handleImageUploaded}
                   onError={(errors: FileError[]): void => {
                     alert(errors.map(error => error.message).join('\n'))
                     setImagePreview(undefined)
@@ -201,13 +204,13 @@ export function createImageEditor<T = unknown>(
       }
     }
 
-    function handleImageLoaded(image: ImageLoaded) {
+    function handleImageLoaded(image: LoadedFile) {
       setImagePreview(image)
     }
 
-    function handleImageUploaded(image: ImageUploaded) {
+    function handleImageUploaded(image: UploadedFile) {
       setImagePreview(undefined)
-      props.state.src.set(image.src)
+      props.state.src.set(image.location)
     }
   }
 }

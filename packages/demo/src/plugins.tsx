@@ -6,12 +6,10 @@ import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { h5pPlugin } from '@edtr-io/plugin-h5p'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
-import { createImagePlugin, ImageUploadConfig } from '@edtr-io/plugin-image'
-import {
-  createFilePlugin,
-  FileUploadConfig,
-  parseFileType
-} from '@edtr-io/plugin-files'
+import { createImagePlugin } from '@edtr-io/plugin-image'
+import { UploadConfig, parseFileType } from '@edtr-io/editor-ui'
+
+import { createFilePlugin } from '@edtr-io/plugin-files'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -30,7 +28,7 @@ interface SerloResponse {
   }[]
 }
 
-export const imageUploadConfig: ImageUploadConfig<SerloResponse> = {
+export const imageUploadConfig: UploadConfig<SerloResponse> = {
   url: 'https://de.serlo.org/attachment/upload',
   paramName: 'attachment[file]',
   maxFileSize: 2 * 1024 * 1024,
@@ -43,12 +41,12 @@ export const imageUploadConfig: ImageUploadConfig<SerloResponse> = {
   },
   getStateFromResponse: response => {
     return {
-      src: response.files[0].location
+      location: response.files[0].location
     }
   }
 }
 
-export const fileUploadConfig: FileUploadConfig<SerloResponse> = {
+export const fileUploadConfig: UploadConfig<SerloResponse> = {
   url: 'https://de.serlo.org/attachment/upload',
   paramName: 'attachment[file]',
   maxFileSize: 2 * 1024 * 1024,

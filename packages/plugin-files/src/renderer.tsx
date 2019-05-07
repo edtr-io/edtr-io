@@ -15,7 +15,7 @@ import {
 import * as React from 'react'
 
 import { fileState } from '.'
-import { FileType } from './types'
+import { FileType } from '@edtr-io/editor-ui'
 
 const Download = styled.a({
   display: 'inline-block',
@@ -50,7 +50,7 @@ export function FileRenderer(
   )
 }
 
-function getIconFromType(type: FileType) {
+function getIconFromType(type: FileType | undefined) {
   switch (type) {
     case FileType.Archive:
       return faFileArchive
