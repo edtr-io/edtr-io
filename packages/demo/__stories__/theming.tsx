@@ -46,7 +46,7 @@ storiesOf('Theming', module).add('Custom Theme', () => {
     },
     rendererUi: {
       expandableBox: {
-        toggleBorderColor: 'red'
+        toggleColor: 'red'
       }
     },
     plugins: {

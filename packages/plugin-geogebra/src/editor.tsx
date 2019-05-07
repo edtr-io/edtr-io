@@ -3,11 +3,7 @@ import * as React from 'react'
 
 import { GeogebraRenderer } from './renderer'
 import { geogebraState } from '.'
-import {
-  AutoFocusInput,
-  ContainerWithConfigButton,
-  Overlay
-} from '@edtr-io/editor-ui'
+import { EditorInput } from '@edtr-io/editor-ui'
 
 export const GeogebraEditor = (
   props: StatefulPluginEditorProps<typeof geogebraState>
@@ -16,20 +12,18 @@ export const GeogebraEditor = (
 
   return (
     <React.Fragment>
-      <ContainerWithConfigButton>
-        <GeogebraRenderer {...props} disableCursorEvents={editable} />
-      </ContainerWithConfigButton>
+      <GeogebraRenderer {...props} disableCursorEvents={editable} />
       {focused ? (
-        <Overlay>
-          <AutoFocusInput
-            label="Geogebra Link oder ID"
-            placeholder="12345"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              state.set(e.target.value)
-            }}
-            value={state.value}
-          />
-        </Overlay>
+        <EditorInput
+          label="Geogebra Link oder ID:"
+          placeholder="12345"
+          value={state.value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            state.set(e.target.value)
+          }}
+          textfieldWidth="70%"
+          editorInputWidth="100%"
+        />
       ) : null}
     </React.Fragment>
   )

@@ -1,16 +1,19 @@
-import { styled } from '../theme'
+import { EditorThemeProps, styled } from '../theme'
+import { createOverlayTheme } from './settings-overlay'
 
 // Toolbar at the bottom of the browser.
-// TODO: Needs theming support
-export const BottomToolbar = styled.div({
-  position: 'fixed',
-  left: '50%',
-  transform: 'translate(-50%,-50%)',
-  opacity: 0.7,
-  bottom: '0',
-  backgroundColor: 'black',
-  color: 'white',
-  padding: '5px',
-  zIndex: 90,
-  borderRadius: '3px'
+export const BottomToolbar = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
+  return {
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+    backgroundColor: theme.backgroundColor,
+    color: theme.color,
+    borderRadius: '4px',
+    position: 'fixed',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    bottom: '0',
+    zIndex: 90,
+    whiteSpace: 'nowrap'
+  }
 })

@@ -1,92 +1,172 @@
 import * as React from 'react'
 import { Editor } from 'slate'
 import { EditorProps } from 'slate-react'
-import {
-  toggleEmphasize,
-  isEmphasized,
-  toggleStrong,
-  isStrong
-} from '../plugins/rich-text'
-import { Button } from '../toolbar/button'
 import { TextPlugin } from '..'
-import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import {
-  Icon,
-  faLink,
-  faBold,
-  faItalic,
-  HoveringOverlay,
-  BottomToolbar
-} from '@edtr-io/editor-ui'
-import { OverlayContext } from '@edtr-io/core'
-import { insertKatex, isKatex } from '../plugins/katex'
+import { HoveringOverlay, BottomToolbar, styled } from '@edtr-io/editor-ui'
+import { SlatePluginClosure } from '../factory/types'
+import { DefaultControls } from './default'
+import { HeadingControls } from './headings'
+import { ListControls } from './lists'
+import { ColorControls } from './colors'
+export enum VisibleControls {
+  All,
+  Headings,
+  Lists,
+  Colors
+}
 
-export const Controls: React.FunctionComponent<{
+export interface ControlProps {
   editor: Editor
+  name: string
   readOnly?: boolean
-}> = props => {
-  const { editor } = props
-  const overlayContext = React.useContext(OverlayContext)
+}
+
+export interface SubControlProps extends ControlProps {
+  switchControls: (control: VisibleControls) => void
+  onChange: (editor: Editor) => Editor
+}
+
+export interface UiPluginOptions {
+  Component: React.ComponentType<Partial<EditorProps> & ControlProps>
+}
+
+const ControlsSwitch: React.FunctionComponent<
+  {
+    visibleControls: VisibleControls
+    setVisibleControls: (controls: VisibleControls) => void
+    onChange: (editor: Editor) => Editor
+  } & ControlProps
+> = ({ visibleControls, setVisibleControls, onChange, ...props }) => {
+  switch (visibleControls) {
+    case VisibleControls.All:
+      return (
+        <DefaultControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
+    case VisibleControls.Headings:
+      return (
+        <HeadingControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
+    case VisibleControls.Lists:
+      return (
+        <ListControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
+    case VisibleControls.Colors:
+      return (
+        <ColorControls
+          {...props}
+          switchControls={setVisibleControls}
+          onChange={onChange}
+        />
+      )
+  }
+}
+
+const TimeoutBottomToolbar = styled(BottomToolbar)<{ visible: boolean }>(
+  props => {
+    return {
+      opacity: props.visible ? 1 : 0,
+      transition: '500ms opacity ease-in-out'
+    }
+  }
+)
+
+let debounceTimeout: number
+export const Controls: React.FunctionComponent<ControlProps> = props => {
+  const selectionCollapsed = props.editor.value.selection.isCollapsed
+  const [visibleControls, setVisibleControls] = React.useState(
+    VisibleControls.All
+  )
+  const [bottomToolbarVisible, setBottomToolbarVisible] = React.useState(false)
+
+  function showBottomToolbar() {
+    setVisibleControls(VisibleControls.All)
+    setBottomToolbarVisible(true)
+  }
+  React.useEffect(() => {
+    debounceTimeout = setTimeout(showBottomToolbar, 2500)
+
+    return function cleanUp() {
+      clearTimeout(debounceTimeout)
+    }
+  }, [])
+  const currentValue = JSON.stringify(props.editor.value.toJSON())
+  const memoized = React.useRef({
+    value: currentValue,
+    selectionCollapsed
+  })
+  React.useEffect(() => {
+    const valueChanged = memoized.current.value !== currentValue
+    if (
+      valueChanged ||
+      memoized.current.selectionCollapsed !== selectionCollapsed
+    ) {
+      memoized.current = {
+        value: currentValue,
+        selectionCollapsed
+      }
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout)
+      }
+      const timeout = valueChanged ? 2500 : 1000
+      if (selectionCollapsed) {
+        debounceTimeout = setTimeout(showBottomToolbar, timeout)
+      }
+      setBottomToolbarVisible(false)
+    }
+  }, [currentValue, selectionCollapsed])
+
+  const onChange = React.useCallback((editor: Editor) => {
+    memoized.current = {
+      ...memoized.current,
+      value: JSON.stringify(editor.value.toJSON())
+    }
+    return editor
+  }, [])
   return (
     <React.Fragment>
-      {editor.value.selection.isCollapsed &&
-      ((!isStrong(editor) && !isEmphasized(editor)) ||
-        isLink(editor)) ? null : (
+      {!selectionCollapsed && (
         <HoveringOverlay position={'above'}>
-          <Button
-            active={isStrong(editor)}
-            onClick={() => toggleStrong(editor).focus()}
-          >
-            <Icon icon={faBold} />
-          </Button>
-          <Button
-            active={isEmphasized(editor)}
-            onClick={() => toggleEmphasize(editor).focus()}
-          >
-            <Icon icon={faItalic} />
-          </Button>
-          <Button
-            active={isLink(editor)}
-            onClick={() =>
-              isLink(editor)
-                ? unwrapLink(editor).focus()
-                : wrapLink()(editor, overlayContext)
-            }
-          >
-            <Icon icon={faLink} />
-          </Button>
+          <ControlsSwitch
+            {...props}
+            visibleControls={visibleControls}
+            setVisibleControls={setVisibleControls}
+            onChange={onChange}
+          />
         </HoveringOverlay>
       )}
       {!props.readOnly && (
-        <BottomToolbar>
-          <Button
-            active={false}
-            onClick={() => {
-              const active = isKatex(editor)
-
-              if (!active) {
-                insertKatex(editor)
-              }
-            }}
-          >
-            f(x)
-          </Button>
-        </BottomToolbar>
+        <TimeoutBottomToolbar
+          visible={selectionCollapsed && bottomToolbarVisible}
+        >
+          {bottomToolbarVisible && (
+            <ControlsSwitch
+              {...props}
+              visibleControls={visibleControls}
+              setVisibleControls={setVisibleControls}
+              onChange={onChange}
+            />
+          )}
+        </TimeoutBottomToolbar>
       )}
     </React.Fragment>
   )
 }
 
-export interface UiPluginOptions {
-  Component: React.ComponentType<
-    Partial<EditorProps> & {
-      editor: Editor
-      readOnly?: boolean
-    }
-  >
-}
-
-export const createUiPlugin = (options: UiPluginOptions) => (): TextPlugin => {
+export const createUiPlugin = (options: UiPluginOptions) => (
+  pluginClosure: SlatePluginClosure
+): TextPlugin => {
   const { Component } = options
 
   return {
@@ -95,10 +175,13 @@ export const createUiPlugin = (options: UiPluginOptions) => (): TextPlugin => {
       if (readOnly) {
         editor.blur()
       }
+      const name = pluginClosure.current ? pluginClosure.current.name : ''
       const children = next()
       return (
         <React.Fragment>
-          {!readOnly ? <Component editor={editor} {...props} /> : null}
+          {!readOnly ? (
+            <Component editor={editor} {...props} name={name} />
+          ) : null}
           {children}
         </React.Fragment>
       )

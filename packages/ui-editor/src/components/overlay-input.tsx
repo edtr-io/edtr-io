@@ -2,16 +2,18 @@ import * as React from 'react'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createInputTheme = createEditorUiTheme<InputTheme>(theme => {
-  return {
-    backgroundColor: 'transparent',
-    color: theme.color,
-    highlightColor: theme.primary.background
+export const createOverlayInputTheme = createEditorUiTheme<InputTheme>(
+  theme => {
+    return {
+      backgroundColor: 'transparent',
+      color: theme.color,
+      highlightColor: theme.primary.background
+    }
   }
-})
+)
 
 const InputLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createInputTheme('input', props.theme)
+  const theme = createOverlayInputTheme('input', props.theme)
 
   return {
     color: theme.color,
@@ -25,7 +27,7 @@ const InputLabel = styled.label((props: EditorThemeProps) => {
 const InputLabelInner = styled.span({ width: '20%' })
 
 const InputInner = styled.input((props: EditorThemeProps) => {
-  const theme = createInputTheme('input', props.theme)
+  const theme = createOverlayInputTheme('input', props.theme)
 
   return {
     backgroundColor: theme.backgroundColor,
@@ -40,7 +42,7 @@ const InputInner = styled.input((props: EditorThemeProps) => {
   }
 })
 const InputInlineInner = styled.input((props: EditorThemeProps) => {
-  const theme = createInputTheme('input', props.theme)
+  const theme = createOverlayInputTheme('input', props.theme)
 
   return {
     backgroundColor: theme.backgroundColor,
@@ -68,7 +70,8 @@ export class InlineInput extends React.Component<InputProps> {
     return <InputInlineInner {...this.props} ref={this.input} />
   }
 }
-export class Input extends React.Component<InputProps> {
+
+export class OverlayInput extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
 
   public focus() {
@@ -92,7 +95,7 @@ export class Input extends React.Component<InputProps> {
 export class AutoFocusInput extends React.Component<InputProps> {
   public render() {
     return (
-      <Input
+      <OverlayInput
         {...this.props}
         //@ts-ignore FIXME
         ref={(ref: Input | null) => {
@@ -117,4 +120,6 @@ export interface InputProps
     HTMLInputElement
   > {
   label?: string
+  textfieldWidth?: string
+  editorInputWidth?: string
 }

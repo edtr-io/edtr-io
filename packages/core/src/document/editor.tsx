@@ -13,6 +13,7 @@ import {
   getDocument,
   getPlugin,
   isEditable,
+  isEmpty,
   isFocused
 } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
@@ -75,7 +76,9 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     <HotKeys
       keyMap={{
         FOCUS_PREVIOUS: 'up',
-        FOCUS_NEXT: 'down'
+        FOCUS_NEXT: 'down',
+        INSERT_TEXT: 'enter',
+        DELETE_EMPTY: ['backspace', 'del']
       }}
       handlers={{
         FOCUS_PREVIOUS: e => {
@@ -87,6 +90,29 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
           handleKeyDown(e, () => {
             focusNext()
           })
+        },
+        INSERT_TEXT: e => {
+          handleKeyDown(e, () => {
+            if (pluginProps && typeof pluginProps.insert === 'function') {
+              pluginProps.insert({ plugin: 'text' })
+            }
+          })
+        },
+        DELETE_EMPTY: e => {
+          if (isEmpty(store.state, id)) {
+            handleKeyDown(e, () => {
+              if (!e) return
+
+              if (pluginProps && typeof pluginProps.remove === 'function') {
+                if (e.key === 'Backspace') {
+                  focusPrevious()
+                } else if (e.key === 'Delete') {
+                  focusNext()
+                }
+                setTimeout(pluginProps.remove)
+              }
+            })
+          }
         }
       }}
     >

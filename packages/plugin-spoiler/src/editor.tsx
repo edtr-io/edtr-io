@@ -4,10 +4,12 @@ import { ExpandableBox } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 import { spoilerState, SpoilerTheme } from '.'
+import { EditorInput } from '@edtr-io/editor-ui'
 
 export function SpoilerEditor({
   state,
   editable,
+  focused,
   name
 }: StatefulPluginEditorProps<typeof spoilerState>) {
   const theme = usePluginTheme<SpoilerTheme>(name, () => {
@@ -16,15 +18,18 @@ export function SpoilerEditor({
     }
   })
 
-  const title = editable ? (
-    <input
-      onChange={e => state.title.set(e.target.value)}
-      value={state.title()}
-      placeholder="Titel eingeben"
-    />
-  ) : state.title() ? (
-    state.title()
-  ) : null
+  const title =
+    focused && editable ? (
+      <EditorInput
+        onChange={e => state.title.set(e.target.value)}
+        value={state.title()}
+        placeholder="Titel eingeben"
+      />
+    ) : state.title() ? (
+      state.title()
+    ) : (
+      'Spoiler'
+    )
 
   return (
     <ThemeProvider
@@ -32,13 +37,13 @@ export function SpoilerEditor({
         rendererUi: {
           expandableBox: {
             toggleBackgroundColor: theme.color,
-            toggleColor: undefined,
+            toggleColor: '#333',
             containerBorderColor: theme.color
           }
         }
       }}
     >
-      <ExpandableBox title={title} editable={editable}>
+      <ExpandableBox title={title} editable={editable} alwaysVisible>
         {state.content.render()}
       </ExpandableBox>
     </ThemeProvider>

@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
-import { Icon, faTimes, faPencilAlt, faTrashAlt, faCog } from './icon'
+import { Icon, faTimes, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'
 
 export const createOverlayTheme = createEditorUiTheme<OverlayTheme>(theme => {
@@ -23,6 +23,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
     width: '100%',
     height: '100%',
     position: 'fixed',
+
     top: 0,
     left: 0,
     overlayBackgroundColor: theme.overlayBackgroundColor,
@@ -36,6 +37,8 @@ export const OverlayBox = styled.div((props: EditorThemeProps) => {
   return {
     margin: '0 auto',
     position: 'absolute',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+    borderRadius: '4px',
     zIndex: 100,
     backgroundColor: theme.backgroundColor,
     color: theme.color,
@@ -139,7 +142,8 @@ const InlineOverlayWrapper = styled.div({
   left: '-10000px',
   opacity: 0,
   transition: 'opacity 0.5s',
-  zIndex: 95
+  zIndex: 95,
+  whiteSpace: 'nowrap'
 })
 
 const InlineOverlayContentWrapper = styled.div((props: EditorThemeProps) => {
@@ -177,17 +181,13 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
 })
 
 export const InlineSettings: React.FunctionComponent<{
-  onEdit: React.MouseEventHandler
   onDelete: React.MouseEventHandler
   position: HoverPosition
   anchor?: React.RefObject<HTMLElement>
 }> = ({ position = 'below', ...props }) => {
   return (
-    <HoveringOverlay position={position} anchor={props.anchor}>
+    <HoveringOverlay position={position as HoverPosition} anchor={props.anchor}>
       <InlinePreview>{props.children}</InlinePreview>
-      <ChangeButton onClick={props.onEdit}>
-        <Icon icon={faPencilAlt} />
-      </ChangeButton>
       <ChangeButton onClick={props.onDelete}>
         <Icon icon={faTrashAlt} />
       </ChangeButton>
@@ -206,7 +206,8 @@ export const HoveringOverlay: React.FunctionComponent<{
   const [positionAbove, setPositionAbove] = React.useState(
     props.position === 'above'
   )
-  React.useEffect(() => {
+
+  React.useLayoutEffect(() => {
     if (!overlay.current || !triangle.current) return
     const menu = overlay.current
     let rect = undefined
