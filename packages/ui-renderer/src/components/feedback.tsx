@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { styled } from './styled'
+import { styled } from '../theme'
 
 export class Feedback extends React.Component<FeedbackProps> {
   public render() {

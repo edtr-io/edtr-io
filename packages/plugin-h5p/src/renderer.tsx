@@ -28,6 +28,7 @@ export class H5pRenderer extends React.Component<
           ref={this.iframe}
           src={`https://serlo.h5p.com/content/${state.src()}/embed`}
           frameBorder="0"
+          width="100%"
           allowFullScreen
           allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"
         />

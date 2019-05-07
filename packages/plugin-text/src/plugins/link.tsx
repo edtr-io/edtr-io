@@ -1,15 +1,14 @@
-import { debounce } from 'lodash'
-import { AutoFocusInput, InlineOverlay, Overlay } from '@edtr-io/ui'
+import { InlineInput, InlineSettings } from '@edtr-io/editor-ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {
   NodeControlsProps,
   NodeEditorProps,
   NodeRendererProps,
-  TextPlugin
+  TextPlugin,
+  trimSelection
 } from '..'
-import { OverlayContext, OverlayContextValue } from '@edtr-io/core'
-import { SlatePluginClosure } from '../factory/types'
+import isHotkey from 'is-hotkey'
 
 export const linkNode = '@splish-me/a'
 
@@ -24,22 +23,23 @@ export const unwrapLink = (editor: Editor) => {
 }
 
 export const wrapLink = (data: { href: string } = { href: '' }) => (
-  editor: Editor,
-  overlayContext: OverlayContextValue
+  editor: Editor
 ) => {
-  setTimeout(overlayContext.show)
   if (editor.value.selection.isExpanded) {
+    trimSelection(editor)
     return editor
       .wrapInline({
         type: linkNode,
         data
       })
       .moveToEnd()
+      .focus()
       .moveBackward(1)
   }
 
   return editor
     .insertText(' ')
+    .focus()
     .moveFocusBackward(1)
     .wrapInline({
       type: linkNode,
@@ -81,27 +81,40 @@ const DefaultEditorComponent: React.FunctionComponent<
 const DefaultControlsComponent: React.FunctionComponent<
   NodeControlsProps
 > = props => {
-  const overlayContext = React.useContext(OverlayContext)
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
   const [value, setValue] = React.useState(
     inline ? inline.data.get('href') : undefined
   )
+  const edit =
+    !props.readOnly && isLink(editor) && editor.value.selection.isCollapsed
+  const lastEdit = React.useRef(edit)
+
+  React.useEffect(() => {
+    if (lastEdit.current !== edit) {
+      if (inline && value !== inline.data.get('href')) {
+        handleHrefChange(value, inline, editor)
+      }
+      lastEdit.current = edit
+    }
+  }, [edit, inline, value, editor])
+
   if (!inline) return <React.Fragment>{props.children}</React.Fragment>
 
   if (value === undefined || lastInline.current.key !== inline.key) {
-    setValue(inline.data.get('href'))
+    const href = inline.data.get('href')
+    setValue(href)
     lastInline.current = inline
   }
-  const handleHrefChange = debounce((href: string) => {
+  function handleHrefChange(href: string, inline: Inline, editor: Editor) {
     editor.setNodeByKey(inline.key, {
       type: inline.type,
       data: {
         href
       }
     })
-  }, 1000)
+  }
 
   function nodeIsLink(inline: Inline | undefined) {
     return inline ? inline.type === linkNode : false
@@ -110,29 +123,42 @@ const DefaultControlsComponent: React.FunctionComponent<
   return (
     <React.Fragment>
       {props.children}
-      {!props.readOnly && isLink(editor) && !overlayContext.visible ? (
-        <InlineOverlay
+      {!props.readOnly &&
+      isLink(editor) &&
+      editor.value.selection.isCollapsed ? (
+        <InlineSettings
           key={`inlineoverlay${inline.key}`}
-          onEdit={overlayContext.show}
-          onDelete={() => unwrapLink(editor)}
+          onDelete={() => unwrapLink(editor).focus()}
+          position={'below'}
         >
-          <a href={value} target="_blank" rel="noopener noreferrer">
-            {value}
-          </a>
-        </InlineOverlay>
-      ) : null}
-      {!props.readOnly && isLink(editor) ? (
-        <Overlay key={`overlay${inline.key}`} onClose={() => editor.focus()}>
-          <AutoFocusInput
-            label="URL"
+          <InlineInput
             value={value}
-            onChange={e => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newValue = e.target.value
               setValue(newValue)
-              handleHrefChange(newValue)
+              handleHrefChange(newValue, inline, editor)
+            }}
+            onKeyDown={(event: React.KeyboardEvent) => {
+              if (((event as unknown) as React.KeyboardEvent).key === 'Enter') {
+                event.preventDefault()
+                handleHrefChange(value, inline, editor)
+                editor.focus()
+              }
+            }}
+            //@ts-ignore FIXME
+            ref={(ref: InlineInput | null) => {
+              if (!ref) return
+              if (!lastEdit.current && !value) {
+                setTimeout(() => {
+                  editor.blur()
+                  setTimeout(() => {
+                    ref.focus()
+                  })
+                })
+              }
             }}
           />
-        </Overlay>
+        </InlineSettings>
       ) : null}
     </React.Fragment>
   )
@@ -155,10 +181,17 @@ export const createLinkPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent,
   ControlsComponent = DefaultControlsComponent
-}: LinkPluginOptions = {}) => (
-  pluginClosure: SlatePluginClosure
-): TextPlugin => {
+}: LinkPluginOptions = {}) => (): TextPlugin => {
   return {
+    onKeyDown(event, editor, next) {
+      const e = (event as unknown) as KeyboardEvent
+      if (isHotkey('mod+k', e)) {
+        e.preventDefault()
+        return isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
+      }
+
+      return next()
+    },
     deserialize(el, next) {
       if (el.tagName.toLowerCase() === 'a') {
         // @ts-ignore FIXME
@@ -181,18 +214,6 @@ export const createLinkPlugin = ({
       if (block.object === 'inline' && block.type === linkNode) {
         return <RenderComponent node={obj}>{children}</RenderComponent>
       }
-    },
-
-    onKeyDown(event, editor, next) {
-      if (
-        ((event as unknown) as React.KeyboardEvent).key === 'Enter' &&
-        isLink(editor) &&
-        pluginClosure.current
-      ) {
-        pluginClosure.current.overlayContext.show()
-        return
-      }
-      return next()
     },
 
     renderNode(props, _editor, next) {

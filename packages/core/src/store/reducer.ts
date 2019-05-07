@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import { getFocusTree, findNextNode, findPreviousNode } from './focus-tree'
+import { findNextNode, findPreviousNode, getFocusTree } from './focus-tree'
 import { isStatefulPlugin, Plugin, PluginState, PluginType } from '../plugin'
 import {
   Action,
@@ -292,7 +292,6 @@ export interface State extends BaseState {
   clipboard: PluginState[]
   editable: boolean
 }
-
 export const createInitialState = <K extends string>(
   plugins: Record<K, Plugin>,
   defaultPlugin: K,

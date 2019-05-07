@@ -1,35 +1,28 @@
-import { defaultTheming, styled, EditorTheming } from '@edtr-io/ui'
+import { styled, ThemeProps } from '@edtr-io/ui'
+import { createTextPluginTheme } from '..'
 
-export const ButtonGroup = styled.div({
-  position: 'absolute',
-  top: '-1em',
-  zIndex: 20
-})
-
-export const Button = styled.button<{ active?: boolean }>(
-  ({ active, theme }: { active?: boolean; theme: EditorTheming }) => {
+export const Button = styled.button(
+  (props: { active?: boolean; name: string } & ThemeProps) => {
+    const theme = createTextPluginTheme(props.name, props.theme)
     return {
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: props.active
+        ? theme.active.backgroundColor
+        : theme.backgroundColor,
       cursor: 'pointer',
-      color: active ? theme.highlightColor : theme.textColor,
+      boxShadow: props.active
+        ? 'inset 0 1px 3px 0 rgba(0,0,0,0.50)'
+        : undefined,
+      color: props.active ? theme.active.color : theme.color,
       outline: 'none',
       height: '25px',
       border: 'none',
-      width: '40px',
-      borderRight: `1px solid ${theme.textColor}`,
-      '&:first-child': {
-        borderBottomLeftRadius: '8px',
-        borderTopLeftRadius: '8px'
-      },
-      '&:last-child': {
-        borderBottomRightRadius: '8px',
-        borderTopRightRadius: '8px',
-        border: 'none'
-      },
+      borderRadius: '4px',
+      margin: '5px',
+      padding: '0px',
+      width: '25px',
       '&:hover': {
-        color: theme.highlightColor
+        color: theme.hoverColor
       }
     }
   }
 )
-Button.defaultProps = { theme: defaultTheming }

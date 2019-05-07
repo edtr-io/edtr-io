@@ -1,13 +1,13 @@
-import { createUiElementTheme, EditorThemeProps, styled } from '@edtr-io/ui'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createButtonTheme = createUiElementTheme<ButtonTheme>(theme => {
+export const createButtonTheme = createEditorUiTheme<ButtonTheme>(theme => {
   return {
     backgroundColor: 'transparent',
     color: theme.color,
     borderColor: theme.color,
     hoverBackgroundColor: 'transparent',
-    hoverColor: theme.highlightColor,
-    hoverBorderColor: theme.highlightColor
+    hoverColor: theme.primary.background,
+    hoverBorderColor: theme.primary.background
   }
 })
 

@@ -11,7 +11,7 @@ import {
   faFileWord,
   Icon,
   styled
-} from '@edtr-io/ui'
+} from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 import { fileState } from '.'

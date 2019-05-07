@@ -1,6 +1,7 @@
+import * as R from 'ramda'
 import { Plugin, State } from '@edtr-io/core'
 import { BaseState } from './reducer'
-import { PluginState, PluginType } from '../plugin'
+import { isStatelessPlugin, PluginState, PluginType } from '../plugin'
 
 /** Selectors */
 export function getRoot(state: State) {
@@ -66,4 +67,25 @@ export function pendingChanges(state: State): number {
 
 export function hasHistory(state: BaseState | State): state is State {
   return (state as State).history !== undefined
+}
+
+export function isEmpty(state: State, id: string): boolean {
+  const doc = getDocument(state, id)
+  if (!doc) {
+    return false
+  }
+
+  const plugin = getPlugin(state, doc.plugin)
+  if (!plugin || isStatelessPlugin(plugin)) {
+    return false
+  }
+
+  if (typeof plugin.isEmpty === 'function') {
+    return plugin.isEmpty(doc.state)
+  }
+
+  const initialState = plugin.state.createInitialState({
+    createDocument: () => {}
+  })
+  return R.equals(doc.state, initialState)
 }

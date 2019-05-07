@@ -8,13 +8,13 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "dependencies": {
+    "@edtr-io/editor-ui": "^0.0.0",
+    "@edtr-io/renderer-ui": "^0.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
     "@types/react-onclickoutside": "^6.7.0",
-    "ramda": "^0.26.1",
-    "react-hotkeys": "^1.1.4",
-    "react-onclickoutside": "^6.8.0"
+    "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@types/ramda": "^0.26.1",

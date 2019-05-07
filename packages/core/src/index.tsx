@@ -1,5 +1,5 @@
 export { Document, DocumentProps } from './document'
-export { Editor, EditorProps, copyToClipboard } from './editor'
+export { Editor, EditorProps, copyToClipboard, change } from './editor'
 export { EditorContext, EditorContextValue } from './editor-context'
 export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {
@@ -7,7 +7,8 @@ export {
   StatefulPluginEditorProps,
   StatelessPluginEditorProps,
   StatefulPlugin,
-  StatelessPlugin
+  StatelessPlugin,
+  PluginState
 } from './plugin'
 import * as StateType from './plugin-state'
 export { StateType }
@@ -21,6 +22,10 @@ export {
   hasPendingChanges,
   isEditable,
   serializeDocument,
-  State
+  isEmpty,
+  State,
+  findNextNode,
+  findPreviousNode,
+  getFocusTree
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

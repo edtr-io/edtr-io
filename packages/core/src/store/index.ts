@@ -1,6 +1,7 @@
 export * from './actions'
 export * from './history'
 export * from './reducer'
+export * from './focus-tree'
 export * from './sagas'
 export * from './selectors'
 export * from './serializers'

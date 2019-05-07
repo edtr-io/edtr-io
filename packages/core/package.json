@@ -13,6 +13,7 @@
     "react-hotkeys": "^1.1.4",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
+    "react-portal": "^4.2.0",
     "uuid": "^3.0.0"
   },
   "devDependencies": {

@@ -1,24 +1,27 @@
+import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
+
 import { Document } from './document'
 import {
   ActionType,
-  reducer,
-  createInitialState,
-  getRoot,
-  pendingChanges,
-  State,
-  InitRootAction,
-  SwitchEditableAction,
-  UndoAction,
-  RedoAction,
+  AsyncChangeAction,
   CopyAction,
-  rootSaga
+  createInitialState,
+  FocusAction,
+  getRoot,
+  InitRootAction,
+  pendingChanges,
+  RedoAction,
+  reducer,
+  rootSaga,
+  State,
+  SwitchEditableAction,
+  UndoAction
 } from './store'
 import { Plugin, PluginState } from './plugin'
 import { OverlayContextProvider } from './overlay'
-import { CustomEditorTheme, RootEditorThemeProvider } from '@edtr-io/ui'
-import { createStore as createReduxStore, applyMiddleware } from 'redux'
+import { applyMiddleware, createStore as createReduxStore } from 'redux'
 import { connect, Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -81,6 +84,17 @@ export const copyToClipboard = (payload: string): CopyAction => ({
   type: ActionType.CopyToClipboard,
   payload
 })
+export const focus = (payload: string): FocusAction => ({
+  type: ActionType.Focus,
+  payload
+})
+
+export const change = (
+  payload: AsyncChangeAction['payload']
+): AsyncChangeAction => ({
+  type: ActionType.AsyncChange,
+  payload
+})
 
 const mapDispatchToProps: StateDispatchProps = {
   initRoot,
@@ -139,11 +153,11 @@ export function EditorConnector<K extends string = string>({
       }}
     >
       <div style={{ position: 'relative' }}>
-        <RootEditorThemeProvider theme={theme}>
+        <RootThemeProvider theme={theme}>
           <OverlayContextProvider>
             {renderChildren(root)}
           </OverlayContextProvider>
-        </RootEditorThemeProvider>
+        </RootThemeProvider>
       </div>
     </HotKeys>
   )
@@ -169,7 +183,7 @@ export interface EditorProps<K extends string = string> {
   plugins: Record<K, Plugin>
   defaultPlugin: K
   initialState?: PluginState
-  theme?: CustomEditorTheme
+  theme?: CustomTheme
   changed?: (changed: boolean) => void
   editable?: boolean
 }
@@ -179,7 +193,7 @@ export interface EditorConnectorProps {
   initialState?: PluginState
   changed?: (changed: boolean) => void
   editable?: boolean
-  theme: CustomEditorTheme
+  theme: CustomTheme
 }
 
 export interface StateProps {

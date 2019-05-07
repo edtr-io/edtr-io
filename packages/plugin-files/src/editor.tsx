@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { UploadProgress } from '@edtr-io/ui'
+import { UploadProgress } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { FileRenderer } from './renderer'
@@ -9,35 +9,41 @@ import {
   FileError,
   FileErrorCode,
   LoadedFile,
-  UploadConfig,
+  FileUploadConfig,
   UploadedFile
 } from './types'
 
-export function createFileEditor<T>(
-  config: UploadConfig<T>
-): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
-  return props => {
+export function createFileEditor<T>(config: FileUploadConfig<T>) {
+  const FileEditor: React.FunctionComponent<
+    StatefulPluginEditorProps<typeof fileState>
+  > = props => {
     const { editable, focused, state } = props
-    function handleFileLoaded(loaded: LoadedFile) {
-      const rest = state.value.files ? state.value.files.slice(1) : undefined
-      state.set({
-        files: rest,
-        uploaded: [
-          ...state.value.uploaded,
-          {
-            name: loaded.file.name,
-            type: parseFileType(loaded.file.name),
-            location: loaded.dataUrl
-          }
-        ]
-      })
-    }
-    function handleFileUploaded(uploaded: UploadedFile) {
-      state.set({
-        files: state.value.files ? state.value.files.slice(1) : undefined,
-        uploaded: [...state.value.uploaded, uploaded]
-      })
-    }
+    const handleFileLoaded = React.useCallback(
+      (loaded: LoadedFile) => {
+        const rest = state.value.files ? state.value.files.slice(1) : undefined
+        state.set({
+          files: rest,
+          uploaded: [
+            ...state.value.uploaded,
+            {
+              name: loaded.file.name,
+              type: parseFileType(loaded.file.name),
+              location: loaded.dataUrl
+            }
+          ]
+        })
+      },
+      [state]
+    )
+    const handleFileUploaded = React.useCallback(
+      (uploaded: UploadedFile) => {
+        state.set({
+          files: state.value.files ? state.value.files.slice(1) : undefined,
+          uploaded: [...state.value.uploaded, uploaded]
+        })
+      },
+      [state]
+    )
 
     const uploading = React.useRef(false)
     const [progress, setProgress] = React.useState(0)
@@ -61,7 +67,7 @@ export function createFileEditor<T>(
           }
         })
       }
-    }, [state])
+    }, [handleFileLoaded, handleFileUploaded, state])
 
     return (
       <React.Fragment>
@@ -87,4 +93,5 @@ export function createFileEditor<T>(
       </React.Fragment>
     )
   }
+  return FileEditor
 }

@@ -3,18 +3,17 @@ import * as React from 'react'
 import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 import {
-  ActionType,
-  AsyncChangeAction,
-  FocusAction,
   getDocument,
   getPlugin,
   isEditable,
+  isEmpty,
   isFocused,
   State
 } from '../store'
 import { Plugin } from '@edtr-io/core'
 import { connect } from 'react-redux'
 import { PluginState } from '../plugin'
+import { change, focus } from '../editor'
 
 const DocumentConnector: React.FunctionComponent<
   DocumentProps & DocumentStateProps & DocumentDispatchProps
@@ -35,16 +34,8 @@ const mapStateToProps = (state: State): DocumentStateProps => ({
   isEditable: isEditable(state),
   isFocused: (id: string) => isFocused(state, id),
   getDocument: (id: string) => getDocument(state, id),
-  getPlugin: (type: string) => getPlugin(state, type)
-})
-
-const focus = (payload: string): FocusAction => ({
-  type: ActionType.Focus,
-  payload
-})
-const change = (payload: AsyncChangeAction['payload']): AsyncChangeAction => ({
-  type: ActionType.AsyncChange,
-  payload
+  getPlugin: (type: string) => getPlugin(state, type),
+  isEmpty: (id: string) => isEmpty(state, id)
 })
 
 const mapDispatchToProps: DocumentDispatchProps = {
@@ -62,6 +53,7 @@ export interface DocumentStateProps {
   isFocused: (id: string) => boolean
   getDocument: (id: string) => PluginState | null
   getPlugin: (type: string) => Plugin | null
+  isEmpty: (id: string) => boolean
 }
 
 export interface DocumentDispatchProps {

@@ -7,19 +7,30 @@ import {
   getDefaultPlugin,
   State
 } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
+import { createRowPluginTheme } from '..'
 import { connect } from 'react-redux'
 import { PluginState } from '@edtr-io/core/src/plugin'
 
 const ClipboardHeader = styled.div({
-  fontSize: '130%',
+  fontSize: 20,
   textAlign: 'center',
   marginBottom: '10px'
 })
 
-const Container = styled.div({
-  textAlign: 'center'
-})
+const Container = styled.div(
+  ({ name, ...props }: ThemeProps & { name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      textAlign: 'center',
+      backgroundColor: theme.menu.secondary.backgroundColor,
+      color: theme.menu.secondary.color,
+      padding: 15,
+      borderRadius: 5
+    }
+  }
+)
 
 const ButtonContainer = styled.div({
   marginTop: '10px',
@@ -48,11 +59,12 @@ const PreventMouseEvents = styled.div({
 const ClipboardConnector: React.FunctionComponent<
   {
     onClose: (pluginState: PluginState) => void
+    name: string
   } & ClipboardProps
-> = props => {
+> = ({ name, ...props }) => {
   const states = props.clipboard
   return (
-    <Container>
+    <Container name={name}>
       <ClipboardHeader> Zwischenablage </ClipboardHeader>
       <ButtonContainer>
         {states.length ? (

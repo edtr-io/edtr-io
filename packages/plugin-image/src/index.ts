@@ -1,7 +1,8 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { createImageEditor } from './editor'
-import { readFile, UploadConfig } from './upload'
+import { readFile, ImageUploadConfig } from './upload'
+import { createIcon, faImages } from '@edtr-io/editor-ui'
 
 export const imageState = StateType.object({
   src: StateType.async(StateType.string('')),
@@ -17,6 +18,10 @@ export const createImagePlugin = <T = unknown>(
   return {
     Component: createImageEditor(config),
     state: imageState,
+    title: 'Bild',
+    description:
+      'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
+    icon: createIcon(faImages),
     onPaste: (clipboardData: DataTransfer) => {
       const items = clipboardData.items
       for (let index in items) {
@@ -39,7 +44,7 @@ export const createImagePlugin = <T = unknown>(
       }
       const value = clipboardData.getData('text')
 
-      if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value)) {
+      if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value.toLowerCase())) {
         return {
           state: {
             src: value,
@@ -55,8 +60,11 @@ export const createImagePlugin = <T = unknown>(
   }
 }
 
+export type SecondInputType = 'description' | 'link'
+
 export interface ImagePluginConfig<T> {
-  upload: UploadConfig<T>
+  upload: ImageUploadConfig<T>
+  secondInput?: SecondInputType
 }
 
-export { ImageLoaded, ImageUploaded, Upload, UploadConfig } from './upload'
+export { ImageLoaded, ImageUploaded, Upload, ImageUploadConfig } from './upload'

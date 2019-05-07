@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Icon, faPlus, faTrashAlt, styled } from '@edtr-io/ui'
+import { Icon, faPlus, faTrashAlt, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'

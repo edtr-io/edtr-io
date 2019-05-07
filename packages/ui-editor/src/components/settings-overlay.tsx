@@ -3,24 +3,16 @@ import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
-import {
-  Icon,
-  faTimes,
-  faPencilAlt,
-  faTrashAlt,
-  faCog,
-  createUiElementTheme,
-  EditorThemeProps,
-  styled
-} from '..'
-import { OnClickOutside } from '.'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { Icon, faTimes, faTrashAlt, faCog } from './icon'
+import { OnClickOutside } from './on-click-outside'
 
-export const createOverlayTheme = createUiElementTheme<OverlayTheme>(theme => {
+export const createOverlayTheme = createEditorUiTheme<OverlayTheme>(theme => {
   return {
     backgroundColor: theme.backgroundColor,
     color: theme.color,
     overlayBackgroundColor: '#00000033',
-    highlightColor: theme.highlightColor
+    highlightColor: theme.primary.background
   }
 })
 
@@ -31,6 +23,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
     width: '100%',
     height: '100%',
     position: 'fixed',
+
     top: 0,
     left: 0,
     overlayBackgroundColor: theme.overlayBackgroundColor,
@@ -44,6 +37,8 @@ export const OverlayBox = styled.div((props: EditorThemeProps) => {
   return {
     margin: '0 auto',
     position: 'absolute',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+    borderRadius: '4px',
     zIndex: 100,
     backgroundColor: theme.backgroundColor,
     color: theme.color,
@@ -127,19 +122,37 @@ export function Overlay(props: {
     : null
 }
 
-const InlineOverlayWrapper = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+const OverlayTriangle = styled.div(
+  (props: EditorThemeProps & { positionAbove: boolean }) => {
+    const theme = createOverlayTheme('overlay', props.theme)
+    const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
+    return {
+      position: 'relative',
+      width: 0,
+      height: 0,
+      borderLeft: '5px solid transparent',
+      borderRight: '5px solid transparent',
+      [borderPosition]: `10px solid ${theme.backgroundColor}`
+    }
+  }
+)
+const InlineOverlayWrapper = styled.div({
+  position: 'absolute',
+  top: '-10000px',
+  left: '-10000px',
+  opacity: 0,
+  transition: 'opacity 0.5s',
+  zIndex: 95,
+  whiteSpace: 'nowrap'
+})
 
+const InlineOverlayContentWrapper = styled.div((props: EditorThemeProps) => {
+  const theme = createOverlayTheme('overlay', props.theme)
   return {
-    position: 'absolute',
-    top: '-10000px',
-    left: '-10000px',
-    opacity: 0,
-    transition: 'opacity 0.5s',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
     backgroundColor: theme.backgroundColor,
     color: theme.color,
-    padding: '5px',
-    zIndex: 100,
+    borderRadius: '4px',
     '& a': {
       color: theme.color,
       '&:hover': {
@@ -167,40 +180,92 @@ const ChangeButton = styled.div((props: EditorThemeProps) => {
   }
 })
 
-export const InlineOverlay: React.FunctionComponent<{
-  onEdit: React.MouseEventHandler
+export const InlineSettings: React.FunctionComponent<{
   onDelete: React.MouseEventHandler
+  position: HoverPosition
+  anchor?: React.RefObject<HTMLElement>
+}> = ({ position = 'below', ...props }) => {
+  return (
+    <HoveringOverlay position={position as HoverPosition} anchor={props.anchor}>
+      <InlinePreview>{props.children}</InlinePreview>
+      <ChangeButton onClick={props.onDelete}>
+        <Icon icon={faTrashAlt} />
+      </ChangeButton>
+    </HoveringOverlay>
+  )
+}
+
+export type HoverPosition = 'above' | 'below'
+
+export const HoveringOverlay: React.FunctionComponent<{
+  position: HoverPosition
+  anchor?: React.RefObject<HTMLElement>
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
-  React.useEffect(() => {
-    const menu = overlay.current
-    if (!menu) return
+  const triangle = React.createRef<HTMLDivElement>()
+  const [positionAbove, setPositionAbove] = React.useState(
+    props.position === 'above'
+  )
 
-    const native = window.getSelection()
-    const range = native.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
+  React.useLayoutEffect(() => {
+    if (!overlay.current || !triangle.current) return
+    const menu = overlay.current
+    let rect = undefined
+    if (props.anchor && props.anchor.current !== null) {
+      rect = props.anchor.current.getBoundingClientRect()
+    } else {
+      const native = window.getSelection()
+      if (native.rangeCount > 0) {
+        const range = native.getRangeAt(0)
+        rect = range.getBoundingClientRect()
+      }
+    }
+    if (!rect) return
     if (rect.height === 0) return
     // menu is set to display:none, shouldn't ever happen
     if (!menu.offsetParent) return
     const parentRect = menu.offsetParent.getBoundingClientRect()
+    // only show menu if selection is inside of parent
+    if (
+      parentRect.top - 5 > rect.top ||
+      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
+      parentRect.left - 5 > rect.left ||
+      parentRect.left + parentRect.width + 5 < rect.left + rect.width
+    ) {
+      menu.style.top = null
+      menu.style.left = null
+      return
+    }
     menu.style.opacity = '1'
-    menu.style.top = `${rect.bottom - parentRect.top + 3}px`
+    const aboveValue = rect.top - menu.offsetHeight - 6
+    // if top becomes negative, place menu below
+    setPositionAbove(props.position == 'above' && aboveValue >= 0)
+    menu.style.top =
+      (positionAbove ? aboveValue : rect.bottom + 6) - parentRect.top + 'px'
 
-    menu.style.left = `${Math.max(
-      rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
-      0
+    menu.style.left = `${Math.min(
+      Math.max(
+        rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
+        0
+      ),
+      parentRect.width - menu.offsetWidth - 5
     )}px`
-  }, [overlay])
+    triangle.current.style.left = `${rect.left -
+      menu.offsetLeft -
+      parentRect.left -
+      triangle.current.offsetWidth / 2 +
+      rect.width / 2}px`
+  }, [overlay, triangle, props.position, props.anchor, positionAbove])
 
   return (
     <InlineOverlayWrapper ref={overlay}>
-      <InlinePreview>{props.children}</InlinePreview>
-      <ChangeButton onClick={props.onEdit}>
-        <Icon icon={faPencilAlt} />
-      </ChangeButton>
-      <ChangeButton onClick={props.onDelete}>
-        <Icon icon={faTrashAlt} />
-      </ChangeButton>
+      {!positionAbove && (
+        <OverlayTriangle positionAbove={false} ref={triangle} />
+      )}
+      <InlineOverlayContentWrapper>
+        {props.children}
+      </InlineOverlayContentWrapper>
+      {positionAbove && <OverlayTriangle positionAbove={true} ref={triangle} />}
     </InlineOverlayWrapper>
   )
 }

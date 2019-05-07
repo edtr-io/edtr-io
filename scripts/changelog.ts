@@ -172,17 +172,40 @@ async function exec(): Promise<void> {
     },
     {
       breakingChanges: [
+        '**core**. Mark `name` as required in `StatelessEditorProps`',
         '**plugin-image**. Image-plugin has new required `maxWidth` - state property',
-        '**ui**. Theming is handled differently. Furthermore, we now use a different (but consistent) naming scheme.'
+        '**ui**. Theming is handled differently. We now differentiate between editor ui elements, renderer ui elements and plugins. Furthermore, we now use a different (but more consistent) naming scheme.',
+        '**ui**. Moved editor ui elements (e.g. `Button`, `SettingsOverlay`) to the new package `@edtr-io/editor-ui`.',
+        '**ui**. Moved renderer ui elements (e.g. `ExpandableBox`) to the new package `@edtr-io/renderer-ui`'
       ],
       added: [
         '**plugin-h5p**. Add H5p.com plugin',
         '**plugin-image**. Add MaxWidth for images',
-        '**ui**. Add consistent theming workflow'
+        '**plugin-rows**. Added more theming options',
+        '**core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty',
+        '**core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition',
+        '**plugin-text**. Added visual latex editor',
+        '**plugin-text**. Added headings plugin',
+        '**plugin-text**. Added list plugin',
+        '**plugin-text**. Added colors plugin',
+        '**plugin-text**. Added button to wrap in a blockquote plugin',
+        '**plugin-rows**. Pass `remove` and `replace` functions to childs',
+        '**all**. Added plugin icons and descriptions'
       ],
-      changed: ['**plugin-text**. Hide placeholder in render mode'],
+      changed: [
+        '**plugin-text**. Hide placeholder in render mode',
+        '**plugin-text**. Hovering Menu for text formatting',
+        '**plugin-text**. Styling of inline-overlay improved',
+        '**ui** / **editor-ui** / **renderer-ui**. Revised theming workflow',
+        '**ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)',
+        '**plugin-rows**. Improved styling of add menu and controls',
+        '**core**. Add new text plugin on Enter and delete empty plugins on backspace and delete'
+      ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
-      internal: ['**demo**. Log errors only']
+      internal: [
+        '**demo**. Log errors only',
+        '**demo**. Add additional examples for plugin-usage in Storybook'
+      ]
     }
   ])
 

@@ -1,7 +1,7 @@
-import { createUiElementTheme, EditorThemeProps, styled } from './styled'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { ButtonTheme } from './button'
 
-export const createEditorButtonTheme = createUiElementTheme<ButtonTheme>(
+export const createEditorButtonTheme = createEditorUiTheme<ButtonTheme>(
   theme => {
     return {
       backgroundColor: theme.backgroundColor,

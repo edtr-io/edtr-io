@@ -3,18 +3,18 @@ export interface DeserializedFiles {
   uploaded: UploadedFile[]
 }
 
-export interface UploadFileConfig<T> {
-  upload: UploadConfig<T>
+export interface FilesPluginConfig<T> {
+  upload: FileUploadConfig<T>
 }
 
 export interface UploadProps<T> {
-  config: UploadConfig<T>
+  config: FileUploadConfig<T>
   onError?: (errors: FileError[]) => void
   onFileLoaded?: (image: LoadedFile) => void
   onFileUploaded?: (state: UploadedFile) => void
 }
 
-export interface UploadConfig<T> {
+export interface FileUploadConfig<T> {
   url: string
   maxFileSize: number
   paramName?: string

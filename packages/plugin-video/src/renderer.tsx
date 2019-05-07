@@ -2,7 +2,7 @@ import { StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
 import { videoState } from '.'
-import { Icon, styled, faFilm } from '@edtr-io/ui'
+import { Icon, styled, faFilm } from '@edtr-io/editor-ui'
 
 const VideoPlaceholderWrapper = styled.div({
   position: 'relative',
@@ -101,11 +101,11 @@ function checkMatch(
   switch (type) {
     case VideoType.YouTube: {
       const match = url.match(
-        /^(https?:\/\/)?(.*?youtube\.com\/watch\?v=|.*?youtu\.be\/)(.+)/
+        /^(https?:\/\/)?(.*?youtube\.com\/watch\?(.*&)?v=|.*?youtu\.be\/)(.+)/
       )
       if (match) {
         return {
-          embed: `https://www.youtube-nocookie.com/embed/${match[3]}?html5=1`,
+          embed: `https://www.youtube-nocookie.com/embed/${match[4]}?html5=1`,
           type: VideoType.YouTube
         }
       }

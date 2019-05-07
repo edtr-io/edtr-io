@@ -1,38 +1,51 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { ExpandableBox, EditorThemeProvider } from '@edtr-io/ui'
+import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
-import { spoilerState } from '.'
+import { spoilerState, SpoilerTheme } from '.'
+import { EditorInput } from '@edtr-io/editor-ui'
 
 export function SpoilerEditor({
   state,
-  editable
+  editable,
+  focused,
+  name
 }: StatefulPluginEditorProps<typeof spoilerState>) {
-  const title = editable ? (
-    <input
-      onChange={e => state.title.set(e.target.value)}
-      value={state.title()}
-      placeholder="Titel eingeben"
-    />
-  ) : state.title() ? (
-    state.title()
-  ) : null
+  const theme = usePluginTheme<SpoilerTheme>(name, () => {
+    return {
+      color: '#f5f5f5'
+    }
+  })
+
+  const title =
+    focused && editable ? (
+      <EditorInput
+        onChange={e => state.title.set(e.target.value)}
+        value={state.title()}
+        placeholder="Titel eingeben"
+      />
+    ) : state.title() ? (
+      state.title()
+    ) : (
+      'Spoiler'
+    )
 
   return (
-    <EditorThemeProvider
+    <ThemeProvider
       theme={{
-        ui: {
+        rendererUi: {
           expandableBox: {
-            toggleBackgroundColor: '#f5f5f5',
-            toggleColor: undefined,
-            containerBorderColor: '#f5f5f5'
+            toggleBackgroundColor: theme.color,
+            toggleColor: '#333',
+            containerBorderColor: theme.color
           }
         }
       }}
     >
-      <ExpandableBox title={title} editable={editable}>
+      <ExpandableBox title={title} editable={editable} alwaysVisible>
         {state.content.render()}
       </ExpandableBox>
-    </EditorThemeProvider>
+    </ThemeProvider>
   )
 }

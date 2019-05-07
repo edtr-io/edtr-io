@@ -1,17 +1,19 @@
 import * as React from 'react'
 
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createInputTheme = createUiElementTheme<InputTheme>(theme => {
-  return {
-    backgroundColor: 'transparent',
-    color: theme.color,
-    highlightColor: theme.highlightColor
+export const createOverlayInputTheme = createEditorUiTheme<InputTheme>(
+  theme => {
+    return {
+      backgroundColor: 'transparent',
+      color: theme.color,
+      highlightColor: theme.primary.background
+    }
   }
-})
+)
 
 const InputLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createInputTheme('input', props.theme)
+  const theme = createOverlayInputTheme('input', props.theme)
 
   return {
     color: theme.color,
@@ -25,7 +27,7 @@ const InputLabel = styled.label((props: EditorThemeProps) => {
 const InputLabelInner = styled.span({ width: '20%' })
 
 const InputInner = styled.input((props: EditorThemeProps) => {
-  const theme = createInputTheme('input', props.theme)
+  const theme = createOverlayInputTheme('input', props.theme)
 
   return {
     backgroundColor: theme.backgroundColor,
@@ -39,8 +41,37 @@ const InputInner = styled.input((props: EditorThemeProps) => {
     }
   }
 })
+const InputInlineInner = styled.input((props: EditorThemeProps) => {
+  const theme = createOverlayInputTheme('input', props.theme)
 
-export class Input extends React.Component<InputProps> {
+  return {
+    backgroundColor: theme.backgroundColor,
+    border: 'none',
+    borderBottom: `2px solid ${theme.color}`,
+    color: theme.color,
+    '&:focus': {
+      outline: 'none',
+      borderBottom: `2px solid ${theme.highlightColor}`
+    }
+  }
+})
+
+export class InlineInput extends React.Component<InputProps> {
+  private input = React.createRef<HTMLInputElement>()
+
+  public focus() {
+    const input = this.input.current
+    if (input) {
+      input.focus()
+    }
+  }
+
+  public render() {
+    return <InputInlineInner {...this.props} ref={this.input} />
+  }
+}
+
+export class OverlayInput extends React.Component<InputProps> {
   private input = React.createRef<HTMLInputElement>()
 
   public focus() {
@@ -64,7 +95,7 @@ export class Input extends React.Component<InputProps> {
 export class AutoFocusInput extends React.Component<InputProps> {
   public render() {
     return (
-      <Input
+      <OverlayInput
         {...this.props}
         //@ts-ignore FIXME
         ref={(ref: Input | null) => {
@@ -89,4 +120,6 @@ export interface InputProps
     HTMLInputElement
   > {
   label?: string
+  textfieldWidth?: string
+  editorInputWidth?: string
 }

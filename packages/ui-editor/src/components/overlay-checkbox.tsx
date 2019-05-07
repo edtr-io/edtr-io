@@ -1,16 +1,14 @@
 import * as React from 'react'
 
-import { createUiElementTheme, EditorThemeProps, styled } from '..'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
-export const createCheckboxTheme = createUiElementTheme<CheckboxTheme>(
-  theme => {
-    return {
-      boxSelectedColor: theme.color,
-      boxDeselectedColor: theme.backgroundColor,
-      color: theme.color
-    }
+export const createCheckboxTheme = createEditorUiTheme<CheckboxTheme>(theme => {
+  return {
+    boxSelectedColor: theme.color,
+    boxDeselectedColor: theme.backgroundColor,
+    color: theme.color
   }
-)
+})
 
 const CheckboxLabel = styled.label((props: EditorThemeProps) => {
   const theme = createCheckboxTheme('checkbox', props.theme)
@@ -22,6 +20,21 @@ const CheckboxLabel = styled.label((props: EditorThemeProps) => {
     justifyContent: 'space-between',
     marginTop: '20px'
   }
+})
+
+const CheckboxInlineLabel = styled.label((props: EditorThemeProps) => {
+  const theme = createCheckboxTheme('checkbox', props.theme)
+  return {
+    color: theme.color,
+    verticalAlign: 'middle',
+    margin: '5px 10px',
+    display: 'inline-block'
+  }
+})
+
+const CheckboxInlineLabelInner = styled.span({
+  marginRight: '10px',
+  verticalAlign: 'middle'
 })
 
 const CheckboxToggleContainer = styled.div<{
@@ -36,6 +49,7 @@ const CheckboxToggleContainer = styled.div<{
     width: '10px',
     height: '10px',
     display: 'inline-block',
+    verticalAlign: 'middle',
     backgroundColor: value ? theme.boxSelectedColor : theme.boxDeselectedColor
   }
 })
@@ -88,6 +102,32 @@ export class Checkbox extends React.Component<CheckboxProps> {
       </CheckboxLabel>
     )
   }
+}
+
+export const InlineCheckbox: React.FunctionComponent<CheckboxProps> = ({
+  checked,
+  onChange,
+  label
+}) => {
+  return (
+    <CheckboxInlineLabel>
+      <CheckboxInlineLabelInner>{label}</CheckboxInlineLabelInner>
+      <CheckboxToggleContainer
+        onMouseDown={e => {
+          // avoid loosing focus
+          e.stopPropagation()
+        }}
+        onClick={() => {
+          if (onChange) {
+            onChange(!checked)
+          }
+        }}
+        value={checked}
+      >
+        <CheckboxToggle value={checked} />
+      </CheckboxToggleContainer>
+    </CheckboxInlineLabel>
+  )
 }
 
 export interface CheckboxProps {

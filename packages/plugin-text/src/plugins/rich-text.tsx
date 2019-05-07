@@ -1,7 +1,13 @@
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
-import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
+import {
+  getTrimmedSelectionRange,
+  MarkEditorProps,
+  MarkRendererProps,
+  TextPlugin,
+  trimSelection
+} from '..'
 
 export const strongMark = '@splish-me/strong'
 export const emphasizeMark = '@splish-me/em'
@@ -11,23 +17,30 @@ export interface RichTextPluginOptions {
   RenderComponent?: React.ComponentType<MarkRendererProps>
 }
 
+const getActiveMarks = (editor: Editor) => {
+  return editor.value.document.getActiveMarksAtRange(
+    getTrimmedSelectionRange(editor)
+  )
+}
 export const isStrong = (editor: Editor) => {
-  return editor.value.activeMarks.some(mark =>
+  return getActiveMarks(editor).some(mark =>
     mark ? mark.type === strongMark : false
   )
 }
 
 export const isEmphasized = (editor: Editor) => {
-  return editor.value.activeMarks.some(mark =>
+  return getActiveMarks(editor).some(mark =>
     mark ? mark.type === emphasizeMark : false
   )
 }
 
 export const toggleStrong = (editor: Editor) => {
+  trimSelection(editor)
   return editor.toggleMark(strongMark)
 }
 
 export const toggleEmphasize = (editor: Editor) => {
+  trimSelection(editor)
   return editor.toggleMark(emphasizeMark)
 }
 
@@ -90,12 +103,14 @@ export const createRichTextPlugin = ({
     onKeyDown(event, editor, next) {
       const e = (event as unknown) as KeyboardEvent
       if (isHotkey('mod+b')(e)) {
-        toggleStrong(editor)
+        e.preventDefault()
+        return toggleStrong(editor)
       } else if (isHotkey('mod+i')(e)) {
-        toggleEmphasize(editor)
+        e.preventDefault()
+        return toggleEmphasize(editor)
       }
 
-      next()
+      return next()
     },
 
     serialize(obj, children) {

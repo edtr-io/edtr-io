@@ -1,13 +1,14 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { createFileEditor } from './editor'
-import { faFileAlt, createIcon } from '@edtr-io/ui'
-import { DeserializedFiles, UploadFileConfig } from './types'
+import { faFileAlt } from '@edtr-io/renderer-ui'
+import { DeserializedFiles, FilesPluginConfig } from './types'
+import { createIcon } from '@edtr-io/editor-ui'
 
 export const fileState = StateType.scalar<DeserializedFiles>({ uploaded: [] })
 
 export function createFilePlugin<T = unknown>(
-  config: UploadFileConfig<T>
+  config: FilesPluginConfig<T>
 ): StatefulPlugin<typeof fileState> {
   return {
     Component: createFileEditor(config.upload),
@@ -37,3 +38,7 @@ export function createFilePlugin<T = unknown>(
     }
   }
 }
+
+export { FilesPluginConfig }
+export { FileUploadConfig } from './types'
+export { parseFileType } from './upload'

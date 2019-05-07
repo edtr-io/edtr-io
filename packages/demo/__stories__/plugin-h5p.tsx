@@ -5,7 +5,12 @@ import { EditorStory } from '../src'
 
 storiesOf('Plugins/H5p', module).add('Initial State', () => {
   const state = {
-    plugin: 'h5p'
+    plugin: 'rows',
+    state: [
+      {
+        plugin: 'h5p'
+      }
+    ]
   }
   return <EditorStory initialState={state} />
 })

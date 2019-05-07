@@ -1,4 +1,4 @@
-import { EditorButton, UploadProgress } from '@edtr-io/ui'
+import { EditorButton, UploadProgress } from '@edtr-io/editor-ui'
 // @ts-ignore
 import { Uploader, UploadField, UploadRequest } from '@navjobs/upload'
 import * as React from 'react'
@@ -7,12 +7,12 @@ import {
   FileErrorCode,
   FileType,
   LoadedFile,
-  UploadConfig,
+  FileUploadConfig,
   UploadedFile,
   UploadProps
 } from './types'
 
-function createRequest<T>(config: UploadConfig<T>) {
+function createRequest<T>(config: FileUploadConfig<T>) {
   return {
     fileName: config.paramName,
     url: config.url,
@@ -39,7 +39,7 @@ export function readFile(file: File): Promise<LoadedFile> {
 
 export function uploadFile<T>(
   file: File,
-  config: UploadConfig<T>,
+  config: FileUploadConfig<T>,
   onProgress?: (progress: number) => void
 ): Promise<UploadedFile | undefined> {
   return UploadRequest({
