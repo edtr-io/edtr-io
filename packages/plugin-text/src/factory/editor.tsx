@@ -87,7 +87,7 @@ export const createTextEditor = (
     React.useEffect(() => {
       if (!editor.current) return
       if (props.focused) {
-        setTimeout(editor.current.focus())
+        setTimeout(editor.current.focus)
       } else {
         editor.current.blur()
       }
