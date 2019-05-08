@@ -22,12 +22,16 @@ import { ColoredTextIcon } from './colors'
 import { getColorIndex } from '../plugins/colors'
 import { getHeadingLevel } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
-import { createBlockquote } from '../plugins/blockquote'
+import {
+  createBlockquote,
+  isBlockquote,
+  removeBlockquote
+} from '../plugins/blockquote'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps
 > = props => {
-  const { editor, name } = props
+  const { editor, name, pluginClosure } = props
   return (
     <React.Fragment>
       <Button
@@ -109,9 +113,15 @@ export const DefaultControls: React.FunctionComponent<
       </Button>
       <Button
         name={name}
+        active={isBlockquote(editor, pluginClosure)}
         onClick={() => {
-          createBlockquote(editor, name)
-          props.onChange(editor)
+          if (isBlockquote(editor, pluginClosure)) {
+            removeBlockquote(editor, pluginClosure)
+            props.onChange(editor)
+          } else {
+            createBlockquote(editor, name)
+            props.onChange(editor)
+          }
         }}
         title={'Zitat'}
       >

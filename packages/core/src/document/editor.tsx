@@ -65,7 +65,10 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
         }
       })
     }
-    state = plugin.state(document.state, onChange)
+    state = plugin.state(document.state, onChange, {
+      ...pluginProps,
+      name: document.plugin
+    })
   }
   const Comp = plugin.Component as React.ComponentType<
     StatefulPluginEditorProps | StatelessPluginEditorProps
