@@ -212,7 +212,9 @@ async function exec(): Promise<void> {
     },
     {
       added: [
-        '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.'
+        '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.',
+        '**core**. Pass plugin props and name of parents to childs too',
+        '**plugin-text**. Leave nested Text-Plugins on second Enter key press'
       ]
     }
   ])

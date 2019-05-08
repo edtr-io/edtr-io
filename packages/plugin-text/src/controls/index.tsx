@@ -18,6 +18,7 @@ export enum VisibleControls {
 export interface ControlProps {
   editor: Editor
   name: string
+  pluginClosure: SlatePluginClosure
   readOnly?: boolean
 }
 
@@ -180,7 +181,12 @@ export const createUiPlugin = (options: UiPluginOptions) => (
       return (
         <React.Fragment>
           {!readOnly ? (
-            <Component editor={editor} {...props} name={name} />
+            <Component
+              editor={editor}
+              {...props}
+              name={name}
+              pluginClosure={pluginClosure}
+            />
           ) : null}
           {children}
         </React.Fragment>
