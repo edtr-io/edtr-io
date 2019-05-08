@@ -22,6 +22,7 @@ import { ColoredTextIcon } from './colors'
 import { getColorIndex } from '../plugins/colors'
 import { getHeadingLevel } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
+import { createBlockquote } from '../plugins/blockquote'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps
@@ -109,13 +110,7 @@ export const DefaultControls: React.FunctionComponent<
       <Button
         name={name}
         onClick={() => {
-          editor.command('replaceWithPlugin', {
-            plugin: 'blockquote',
-            state: {
-              plugin: name,
-              state: editor.value.toJSON()
-            }
-          })
+          createBlockquote(editor, name)
           props.onChange(editor)
         }}
         title={'Zitat'}

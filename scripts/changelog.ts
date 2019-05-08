@@ -192,6 +192,7 @@ async function exec(): Promise<void> {
         '**plugin-text**. Added list plugin',
         '**plugin-text**. Added colors plugin',
         '**plugin-text**. Added button to wrap in a blockquote plugin',
+        '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.',
         '**plugin-rows**. Pass `remove` and `replace` functions to childs',
         '**all**. Added plugin icons and descriptions'
       ],
