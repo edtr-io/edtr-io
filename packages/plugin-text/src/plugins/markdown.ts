@@ -63,7 +63,6 @@ const onSpace = (
     return next()
   }
 
-  //if (type === 'list-item' && startBlock.type === 'list-item') return next()
   event.preventDefault()
 
   editor.moveFocusToStartOfNode(startBlock).delete()
@@ -80,42 +79,24 @@ const onBackspace = (event: KeyboardEvent, editor: Editor, next: Function) => {
 
   event.preventDefault()
   setParagraph(editor)
-
-  // if (startBlock.type === 'list-item') {
-  //   editor.unwrapBlock('bulleted-list')
-  // }
 }
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next: Function) => {
   const { value } = editor
   const { selection } = value
-  const { start, end, isExpanded } = selection
+  const { start, isExpanded } = selection
   if (isExpanded) return next()
 
   const { startBlock } = value
   if (start.offset === 0 && startBlock.text.length === 0)
     return onBackspace(event, editor, next)
-  if (end.offset !== startBlock.text.length) return next()
 
-  if (
-    startBlock.type !== 'heading-one' &&
-    startBlock.type !== 'heading-two' &&
-    startBlock.type !== 'heading-three' &&
-    startBlock.type !== 'heading-four' &&
-    startBlock.type !== 'heading-five' &&
-    startBlock.type !== 'heading-six' &&
-    startBlock.type !== 'block-quote'
-  ) {
-    return next()
-  }
-
-  event.preventDefault()
+  return next()
 }
 
-export const markdownPlugin = (
+export const markdownShortcuts = (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
-  //TODO: deserialize
   return {
     onKeyDown(event, editor, next) {
       if (!pluginClosure.current) {

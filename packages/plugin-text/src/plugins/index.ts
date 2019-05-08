@@ -6,7 +6,7 @@ import { createKatexPlugin } from './katex'
 import { createHeadingsPlugin } from './headings'
 import { createListPlugin } from './list'
 import { createColorPlugin } from './colors'
-import { markdownPlugin } from './markdown'
+import { markdownShortcuts } from './markdown'
 
 export const plugins: TextPluginOptions['plugins'] = [
   createParagraphPlugin(),
@@ -16,5 +16,5 @@ export const plugins: TextPluginOptions['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownPlugin
+  markdownShortcuts
 ]
