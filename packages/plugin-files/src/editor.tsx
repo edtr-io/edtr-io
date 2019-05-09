@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { FileRenderer } from './renderer'
 import { fileState } from '.'
-import { parseFileType, readFile, Upload, uploadFile } from './upload'
+import { readFile, Upload, uploadFile } from './upload'
 import {
   FileError,
   FileErrorCode,
@@ -13,67 +13,91 @@ import {
   UploadedFile
 } from './types'
 
-export function createFileEditor<T>(
+export function createFilesEditor<T>(
   config: UploadConfig<T>
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
   return props => {
     const { editable, focused, state } = props
-    function handleFileLoaded(loaded: LoadedFile) {
-      const rest = state.value.files ? state.value.files.slice(1) : undefined
-      state.set({
-        files: rest,
-        uploaded: [
-          ...state.value.uploaded,
-          {
-            name: loaded.file.name,
-            type: parseFileType(loaded.file.name),
-            location: loaded.dataUrl
-          }
-        ]
-      })
-    }
-    function handleFileUploaded(uploaded: UploadedFile) {
-      state.set({
-        files: state.value.files ? state.value.files.slice(1) : undefined,
-        uploaded: [...state.value.uploaded, uploaded]
-      })
-    }
+    const [uploadProgresses, setUploadProgresses] = React.useState<{
+      [key: number]: number
+    }>({})
 
-    const uploading = React.useRef(false)
-    const [progress, setProgress] = React.useState(0)
-    React.useEffect(() => {
-      if (!uploading.current && state.value.files && state.value.files.length) {
-        const nextFile = state.value.files[0]
-        uploading.current = true
-        const read = readFile(nextFile)
-        const upload = uploadFile(nextFile, config, setProgress)
-        read.then(readFile => {
-          if (uploading) {
-            handleFileLoaded(readFile)
+    state().forEach((file, i) => {
+      if (file.value.pending) {
+        setUploadProgresses(currentUploadProgresses => {
+          return {
+            ...currentUploadProgresses,
+            [i]: 0
           }
         })
+        const read = readFile(file.value.pending)
+        const upload = uploadFile(file.value.pending, config, progress => {
+          setUploadProgresses(currentUploadProgresses => {
+            return {
+              ...currentUploadProgresses,
+              [i]: progress
+            }
+          })
+        })
+        read.then((loaded: LoadedFile) => {
+          state.items[i].set({ loaded })
+        })
         upload.then(uploadedFile => {
-          uploading.current = false
           if (uploadedFile) {
-            handleFileUploaded(uploadedFile)
+            state.items[i].set({ uploaded: uploadedFile })
           } else {
             //TODO: what to do on error?
           }
         })
+        file.set({})
       }
-    }, [state])
+    })
+    function handleFileLoaded(index: number) {
+      return (loaded: LoadedFile) => {
+        // only add new files here
+        if (state.items.length < index) {
+          state.insert(index, { loaded })
+        } else {
+          // only update if not uploaded yet
+          state.items[index].set(fileState => {
+            if (!fileState.uploaded) {
+              return { loaded }
+            }
+            return fileState
+          })
+        }
+      }
+    }
+
+    function handleFileUploaded(index: number) {
+      return (uploaded: UploadedFile) => {
+        if (state.items.length < index) {
+          // insert as uploaded
+          state.insert(index, { uploaded })
+        } else {
+          //update loaded file with uploaded
+          state.items[index].set({ uploaded })
+        }
+      }
+    }
 
     return (
       <React.Fragment>
-        {editable && state.value.files ? (
-          <UploadProgress progress={progress} />
-        ) : null}
-        <FileRenderer {...props} />
+        {state.items.map((file, i) => {
+          return (
+            <React.Fragment key={i}>
+              {editable && uploadProgresses[i] ? (
+                <UploadProgress progress={uploadProgresses[i]} />
+              ) : null}
+              <FileRenderer file={file.value} />
+            </React.Fragment>
+          )
+        })}
         {focused ? (
           <Upload
             config={config}
-            onFileLoaded={handleFileLoaded}
-            onFileUploaded={handleFileUploaded}
+            onFileLoaded={handleFileLoaded(state.items.length)}
+            onFileUploaded={handleFileUploaded(state.items.length)}
             onError={(errors: FileError[]): void => {
               const filtered = errors.filter(
                 error => error.errorCode !== FileErrorCode.UPLOAD_FAILED

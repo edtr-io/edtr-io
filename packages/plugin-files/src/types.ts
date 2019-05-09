@@ -3,6 +3,12 @@ export interface DeserializedFiles {
   uploaded: UploadedFile[]
 }
 
+export interface FileState {
+  pending?: File
+  loaded?: LoadedFile
+  uploaded?: UploadedFile
+}
+
 export interface UploadFileConfig<T> {
   upload: UploadConfig<T>
 }
