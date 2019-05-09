@@ -15,16 +15,13 @@ import {
 import * as React from 'react'
 
 import { fileState } from '.'
-import { FileState, FileType } from './types'
-import { parseFileType } from './upload'
+import { FileType, UploadedFile } from './types'
 
-const Download = styled.a<{ tmp?: boolean }>(props => {
-  return {
-    display: 'inline-block',
-    textDecoration: 'none',
-    color: props.tmp ? '#aaa' : 'rgb(51,51,51)',
-    margin: '10px'
-  }
+const Download = styled.a<{ tmp?: boolean; failed?: boolean }>({
+  display: 'inline-block',
+  textDecoration: 'none',
+  color: 'inherit',
+  margin: '10px'
 })
 const File = styled.div({
   display: 'flex',
@@ -37,33 +34,18 @@ const Filename = styled.span({
 })
 
 export const FileRenderer: React.FunctionComponent<{
-  file: FileState
+  file: UploadedFile
 }> = props => {
   const { file } = props
-  if (file.uploaded) {
-    return (
-      <Download href={file.uploaded.location} download={file.uploaded.name}>
-        <File>
-          <Icon icon={getIconFromType(file.uploaded.type)} size="3x" />
-          <Filename>{file.uploaded.name}</Filename>
-        </File>
-      </Download>
-    )
-  }
-  if (file.loaded) {
-    return (
-      <Download href={file.loaded.dataUrl} download={file.loaded.file.name} tmp>
-        <File>
-          <Icon
-            icon={getIconFromType(parseFileType(file.loaded.file.name))}
-            size="3x"
-          />
-          <Filename>{file.loaded.file.name}</Filename>
-        </File>
-      </Download>
-    )
-  }
-  return null
+
+  return (
+    <Download href={file.location} download={file.name}>
+      <File>
+        <Icon icon={getIconFromType(file.type)} size="3x" />
+        <Filename>{file.name}</Filename>
+      </File>
+    </Download>
+  )
 }
 
 export function FilesRenderer(
@@ -76,7 +58,10 @@ export function FilesRenderer(
           return null
         }
         return (
-          <FileRenderer file={file.value} key={file.value.uploaded.name + i} />
+          <FileRenderer
+            file={file.value.uploaded}
+            key={file.value.uploaded.name + i}
+          />
         )
       })}
     </React.Fragment>

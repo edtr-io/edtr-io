@@ -130,7 +130,6 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
         valid = false
       }
     }
-
     return {
       valid: valid,
       errors: this.handleErrors(uploadErrors)

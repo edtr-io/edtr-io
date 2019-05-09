@@ -6,6 +6,7 @@ export interface DeserializedFiles {
 export interface FileState {
   pending?: File
   loaded?: LoadedFile
+  failed?: LoadedFile
   uploaded?: UploadedFile
 }
 

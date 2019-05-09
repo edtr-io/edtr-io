@@ -38,7 +38,8 @@ export {
   faKeyboard,
   faDotCircle,
   faCheckSquare,
-  faParagraph
+  faParagraph,
+  faRedoAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
