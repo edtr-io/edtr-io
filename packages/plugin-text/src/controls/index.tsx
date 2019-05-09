@@ -18,6 +18,7 @@ export enum VisibleControls {
 export interface ControlProps {
   editor: Editor
   name: string
+  pluginClosure: SlatePluginClosure
   readOnly?: boolean
 }
 
@@ -150,12 +151,14 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
         <TimeoutBottomToolbar
           visible={selectionCollapsed && bottomToolbarVisible}
         >
-          <ControlsSwitch
-            {...props}
-            visibleControls={visibleControls}
-            setVisibleControls={setVisibleControls}
-            onChange={onChange}
-          />
+          {bottomToolbarVisible && (
+            <ControlsSwitch
+              {...props}
+              visibleControls={visibleControls}
+              setVisibleControls={setVisibleControls}
+              onChange={onChange}
+            />
+          )}
         </TimeoutBottomToolbar>
       )}
     </React.Fragment>
@@ -178,7 +181,12 @@ export const createUiPlugin = (options: UiPluginOptions) => (
       return (
         <React.Fragment>
           {!readOnly ? (
-            <Component editor={editor} {...props} name={name} />
+            <Component
+              editor={editor}
+              {...props}
+              name={name}
+              pluginClosure={pluginClosure}
+            />
           ) : null}
           {children}
         </React.Fragment>

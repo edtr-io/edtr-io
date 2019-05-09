@@ -1,16 +1,15 @@
 {
   "name": "@edtr-io/plugin-hint",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {},
-  "dependencies": {},
   "devDependencies": {
-    "@edtr-io/core": "^0.4.2",
-    "@edtr-io/ui": "^0.4.2",
+    "@edtr-io/core": "^0.5.0",
+    "@edtr-io/ui": "^0.5.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

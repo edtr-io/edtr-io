@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { SubControlProps, VisibleControls } from './index'
-import { faListOl, faListUl, faTimes, Icon } from '@edtr-io/editor-ui'
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
 import { Button } from '../toolbar/button'
 import {
   isList,
@@ -21,25 +21,28 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
         }}
         title={'Nummerierte Liste'}
       >
-        <Icon icon={faListOl} />
+        <EdtrIcon icon={edtrTextControls.listNumbered} />
       </Button>
       <Button
         name={props.name}
         active={isList(unorderedListNode)(props.editor)}
         onClick={() => {
           toggleList(unorderedListNode)(props.editor).focus()
+          if (!isList(unorderedListNode)(props.editor)) {
+            props.switchControls(VisibleControls.All)
+          }
           props.onChange(props.editor)
         }}
         title={'Aufzählung'}
       >
-        <Icon icon={faListUl} />
+        <EdtrIcon icon={edtrTextControls.listBullets} />
       </Button>
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
         title={'Untermenü schließen'}
       >
-        <Icon icon={faTimes} />
+        <EdtrIcon icon={edtrTextControls.close} />
       </Button>
     </React.Fragment>
   )

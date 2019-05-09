@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as R from 'ramda'
-import { Icon, faTimes } from '@edtr-io/editor-ui'
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
 import {
   createIsHeading,
   createSetHeading,
@@ -36,13 +36,13 @@ export const HeadingControls: React.FunctionComponent<
             H{level}
           </Button>
         )
-      }, 6)}
+      }, 3)}
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
         title={'Untermenü schließen'}
       >
-        <Icon icon={faTimes} />
+        <EdtrIcon icon={edtrTextControls.close} />
       </Button>
     </React.Fragment>
   )

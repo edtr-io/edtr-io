@@ -1,13 +1,7 @@
 import * as React from 'react'
-import {
-  Icon,
-  faBold,
-  faItalic,
-  faLink,
-  faListUl,
-  faQuoteLeft,
-  faListOl
-} from '@edtr-io/editor-ui'
+
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
+
 import { Button } from '../toolbar/button'
 import {
   isEmphasized,
@@ -18,8 +12,6 @@ import {
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
 import { SubControlProps, VisibleControls } from '.'
-import { Math } from '../plugins/katex/math.component'
-import { getHeadingLevel } from '../plugins/headings'
 import {
   isList,
   orderedListNode,
@@ -28,11 +20,18 @@ import {
 } from '../plugins/list'
 import { ColoredTextIcon } from './colors'
 import { getColorIndex } from '../plugins/colors'
+import { getHeadingLevel } from '../plugins/headings'
+import { setParagraph } from '../plugins/paragraph'
+import {
+  createBlockquote,
+  isBlockquote,
+  removeBlockquote
+} from '../plugins/blockquote'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps
 > = props => {
-  const { editor, name } = props
+  const { editor, name, pluginClosure } = props
   return (
     <React.Fragment>
       <Button
@@ -44,7 +43,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Fett (Strg + B)"
       >
-        <Icon icon={faBold} />
+        <EdtrIcon icon={edtrTextControls.bold} />
       </Button>
       <Button
         name={name}
@@ -55,7 +54,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Kursiv (Strg + I)"
       >
-        <Icon icon={faItalic} />
+        <EdtrIcon icon={edtrTextControls.italic} />
       </Button>
       <Button
         name={name}
@@ -66,14 +65,22 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Link (Strg + K)"
       >
-        <Icon icon={faLink} />
+        <EdtrIcon icon={edtrTextControls.link} />
       </Button>
       <Button
         name={name}
-        onClick={() => props.switchControls(VisibleControls.Headings)}
+        active={!!getHeadingLevel(props.editor)}
+        onClick={() => {
+          if (getHeadingLevel(props.editor)) {
+            setParagraph(props.editor)
+            props.onChange(editor)
+          } else {
+            props.switchControls(VisibleControls.Headings)
+          }
+        }}
         title={'Überschriften'}
       >
-        {getHeadingLevel(editor) ? `H${getHeadingLevel(editor)}` : 'T'}
+        <EdtrIcon icon={edtrTextControls.text} />
       </Button>
       <Button
         name={name}
@@ -96,23 +103,29 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title={'Listen'}
       >
-        <Icon icon={isList(orderedListNode)(editor) ? faListOl : faListUl} />
+        <EdtrIcon
+          icon={
+            isList(orderedListNode)(editor)
+              ? edtrTextControls.listNumbered
+              : edtrTextControls.listBullets
+          }
+        />
       </Button>
       <Button
         name={name}
+        active={isBlockquote(editor, pluginClosure)}
         onClick={() => {
-          editor.command('replaceWithPlugin', {
-            plugin: 'blockquote',
-            state: {
-              plugin: name,
-              state: editor.value.toJSON()
-            }
-          })
-          props.onChange(editor)
+          if (isBlockquote(editor, pluginClosure)) {
+            removeBlockquote(editor, pluginClosure)
+            props.onChange(editor)
+          } else {
+            createBlockquote(editor, name)
+            props.onChange(editor)
+          }
         }}
         title={'Zitat'}
       >
-        <Icon icon={faQuoteLeft} />
+        <EdtrIcon icon={edtrTextControls.quote} />
       </Button>
       <Button
         name={name}
@@ -123,7 +136,7 @@ export const DefaultControls: React.FunctionComponent<
         }}
         title="Matheformel (Strg + M)"
       >
-        <Math formula="f_{\normalsize x}" inline={true} />
+        <EdtrIcon icon={edtrTextControls.formel} />
       </Button>
     </React.Fragment>
   )

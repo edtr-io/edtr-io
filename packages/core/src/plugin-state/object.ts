@@ -26,7 +26,8 @@ export function object<Ds extends Record<string, StateDescriptor>>(
       initialValue: T,
       onChange: (
         updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void
+      ) => void,
+      parentProps?: unknown
     ) => {
       const getObject = (): U =>
         R.mapObjIndexed((type, key) => {
@@ -40,7 +41,7 @@ export function object<Ds extends Record<string, StateDescriptor>>(
               R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
             )
           }
-          return type(initialValue[key], innerOnChange)
+          return type(initialValue[key], innerOnChange, parentProps)
         }, types) as U
 
       return Object.assign(getObject, getObject())

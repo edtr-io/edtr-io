@@ -12,7 +12,7 @@ import {
   textPluginThemeFactory,
   trimSelection
 } from '@edtr-io/plugin-text'
-import { Icon, faTimes } from '@edtr-io/editor-ui'
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
 
 export const ColorControls: React.FunctionComponent<
   SubControlProps
@@ -59,7 +59,7 @@ export const ColorControls: React.FunctionComponent<
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >
-        <Icon icon={faTimes} />
+        <EdtrIcon icon={edtrTextControls.close} />
       </Button>
     </React.Fragment>
   )
@@ -77,39 +77,44 @@ const ColorPaletteIcon = styled.div<{ color: string }>(props => {
   }
 })
 
+const ColoredText = styled.span({
+  position: 'relative',
+  verticalAlign: 'middle',
+  display: 'inline-block'
+})
+
+const FlexContainer = styled.span({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column'
+})
+
 const Line = styled.span<{ index?: number }>(
   (props: ThemeProps & { index?: number }) => {
     const theme = createTextPluginTheme(name, props.theme)
     const { colors, defaultColor } = theme.plugins.colors
     return {
-      width: '80%',
       border: `2px solid ${
         props.index === undefined
           ? defaultColor
           : colors[props.index % colors.length]
       }`,
       borderRadius: '4px',
-      marginTop: '-0.15em'
+      bottom: '0',
+      width: '80%',
+      position: 'absolute'
     }
   }
 )
-const ColoredText = styled.span((props: ThemeProps) => {
-  const theme = createTextPluginTheme(name, props.theme)
-  return {
-    color: theme.color,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-})
-
 export const ColoredTextIcon: React.FunctionComponent<{
   index?: number
 }> = props => {
   return (
     <ColoredText>
-      A
-      <Line index={props.index} />
+      <FlexContainer>
+        <EdtrIcon icon={edtrTextControls.colorText} />
+        <Line index={props.index} />
+      </FlexContainer>
     </ColoredText>
   )
 }
