@@ -1,8 +1,3 @@
-export interface DeserializedFiles {
-  files?: File[]
-  uploaded: UploadedFile[]
-}
-
 export interface FileState {
   pending?: File
   loaded?: LoadedFile
@@ -11,17 +6,16 @@ export interface FileState {
 }
 
 export interface UploadFileConfig<T> {
-  upload: UploadConfig<T>
+  upload: FileUploadConfig<T>
 }
 
 export interface UploadProps<T> {
-  config: UploadConfig<T>
+  config: FileUploadConfig<T>
   onError?: (errors: FileError[]) => void
-  onFileLoaded?: (image: LoadedFile) => void
-  onFileUploaded?: (state: UploadedFile) => void
+  onFiles?: (files: File[]) => void
 }
 
-export interface UploadConfig<T> {
+export interface FileUploadConfig<T> {
   url: string
   maxFileSize: number
   paramName?: string
@@ -30,7 +24,6 @@ export interface UploadConfig<T> {
 }
 
 export enum FileErrorCode {
-  TOO_MANY_FILES,
   NO_FILE_SELECTED,
   FILE_TOO_BIG,
   UPLOAD_FAILED

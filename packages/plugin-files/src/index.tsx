@@ -1,9 +1,5 @@
 import * as React from 'react'
-import {
-  StatefulPlugin,
-  StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { createFilesEditor } from './editor'
 import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
@@ -25,16 +21,15 @@ export const fileState = StateType.list(
 export function createFilePlugin<T = unknown>(
   config: UploadFileConfig<T>
 ): StatefulPlugin<typeof fileState> {
-  const Component: React.FunctionComponent<
-    StatefulPluginEditorProps<typeof fileState>
-  > = props => {
-    const FileComponent = props.editable
-      ? createFilesEditor(config.upload)
-      : FilesRenderer
-    return <FileComponent {...props} />
-  }
+  const FilesEditor = createFilesEditor(config.upload)
   return {
-    Component,
+    //eslint-disable-next-line react/display-name
+    Component: props =>
+      props.editable ? (
+        <FilesEditor {...props} />
+      ) : (
+        <FilesRenderer {...props} />
+      ),
     state: fileState,
     title: 'Dateien',
     description: 'Ein Plugin für den Upload von beliebigen Dateien.',
@@ -58,3 +53,6 @@ export function createFilePlugin<T = unknown>(
     }
   }
 }
+
+export * from './types'
+export { parseFileType } from './upload'

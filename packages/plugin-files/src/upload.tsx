@@ -1,18 +1,18 @@
-import { EditorButton, UploadProgress } from '@edtr-io/editor-ui'
+import { EditorButton } from '@edtr-io/editor-ui'
 // @ts-ignore
-import { Uploader, UploadField, UploadRequest } from '@navjobs/upload'
+import { UploadField, UploadRequest } from '@navjobs/upload'
 import * as React from 'react'
 import {
   FileError,
   FileErrorCode,
   FileType,
   LoadedFile,
-  UploadConfig,
+  FileUploadConfig,
   UploadedFile,
   UploadProps
 } from './types'
 
-function createRequest<T>(config: UploadConfig<T>) {
+function createRequest<T>(config: FileUploadConfig<T>) {
   return {
     fileName: config.paramName,
     url: config.url,
@@ -39,7 +39,7 @@ export function readFile(file: File): Promise<LoadedFile> {
 
 export function uploadFile<T>(
   file: File,
-  config: UploadConfig<T>,
+  config: FileUploadConfig<T>,
   onProgress?: (progress: number) => void
 ): Promise<UploadedFile | undefined> {
   return UploadRequest({
@@ -93,14 +93,8 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
       message: this.errorCodeToMessage(error)
     }))
   }
-  private defaultOnError(errors: FileError[]): void {
-    alert(errors.map(error => error.message).join('\n'))
-  }
-
   private errorCodeToMessage(error: FileErrorCode) {
     switch (error) {
-      case FileErrorCode.TOO_MANY_FILES:
-        return 'Du kannst nur eine Datei gleichzeitig hochladen'
       case FileErrorCode.NO_FILE_SELECTED:
         return 'Keine Datei ausgewählt'
       case FileErrorCode.FILE_TOO_BIG:
@@ -112,22 +106,20 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
 
   private validateFiles(
     files: FileList
-  ): { valid: boolean; errors: FileError[] } {
-    let valid = true,
+  ): { valid: boolean[]; errors: FileError[] } {
+    let valid: boolean[] = [],
       uploadErrors: FileErrorCode[] = []
 
     if (!files || !files[0]) {
       uploadErrors = [...uploadErrors, FileErrorCode.NO_FILE_SELECTED]
-      valid = false
     } else {
-      if (files.length > 1) {
-        uploadErrors = [...uploadErrors, FileErrorCode.TOO_MANY_FILES]
-        valid = false
-      }
-      const file = files[0]
-      if (file.size > this.props.config.maxFileSize) {
-        uploadErrors = [...uploadErrors, FileErrorCode.FILE_TOO_BIG]
-        valid = false
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].size > this.props.config.maxFileSize) {
+          uploadErrors = [...uploadErrors, FileErrorCode.FILE_TOO_BIG]
+          valid = [...valid, false]
+        } else {
+          valid = [...valid, true]
+        }
       }
     }
     return {
@@ -136,81 +128,36 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
     }
   }
 
-  private readFile(file: File) {
-    return new Promise(resolve => {
-      const reader = new FileReader()
-
-      reader.onload = function(e: ProgressEvent) {
-        // @ts-ignore FIXME
-        const dataUrl = e.target.result
-        resolve({ file, dataUrl })
-      }
-
-      reader.readAsDataURL(file)
-    })
-  }
-
   public render() {
-    const { config } = this.props
     return (
-      <Uploader
-        request={createRequest(config)}
-        onComplete={({ response }: { response: T }) => {
-          if (this.props.onFileUploaded) {
-            const uploadedState = config.getStateFromResponse(response)
-            this.props.onFileUploaded(uploadedState)
-          }
-        }}
-        onError={() => {
-          const errors = this.handleErrors([FileErrorCode.UPLOAD_FAILED])
-          if (this.props.onError) {
-            this.props.onError(errors)
-          } else {
-            this.defaultOnError(errors)
-          }
-        }}
-        uploadOnSelection
-      >
-        {({
-          onFiles,
-          ...progressProps
-        }: {
-          onFiles: Function
-          progress?: number
-          complete?: boolean
-          canceled?: boolean
-          failed?: boolean
-        }) => (
-          <div>
-            <UploadField
-              onFiles={(files: FileList) => {
-                const validation = this.validateFiles(files)
-                if (!validation.valid) {
-                  if (this.props.onError) {
-                    this.props.onError(validation.errors)
-                  } else {
-                    this.defaultOnError(validation.errors)
-                  }
-                } else {
-                  const { onFileLoaded } = this.props
-                  if (onFileLoaded) {
-                    this.readFile(files[0]).then(data =>
-                      onFileLoaded(data as LoadedFile)
-                    )
-                  }
-                  onFiles(files)
-                }
-              }}
-              uploadProps={{
-                accept: '*'
-              }}
-            >
-              <EditorButton>Durchsuchen...</EditorButton>
-              <UploadProgress {...progressProps} />
-            </UploadField>
-          </div>
-        )}
-      </Uploader>
+      <React.Fragment>
+        <UploadField
+          onFiles={(fileList: FileList) => {
+            let files: File[] = []
+
+            const validation = this.validateFiles(fileList)
+            if (
+              !validation.valid.length ||
+              !validation.valid.every(bool => bool)
+            ) {
+              if (this.props.onError) {
+                this.props.onError(validation.errors)
+              }
+            }
+            validation.valid.forEach((valid, i) => {
+              if (valid) files.push(fileList[i])
+            })
+            if (files && this.props.onFiles) {
+              this.props.onFiles(files)
+            }
+          }}
+          uploadProps={{
+            multiple: true
+          }}
+        >
+          <EditorButton>Durchsuchen...</EditorButton>
+        </UploadField>
+      </React.Fragment>
     )
   }
 }

@@ -13,19 +13,20 @@ import * as React from 'react'
 import { FileRenderer } from './renderer'
 import { fileState } from '.'
 import { parseFileType, readFile, Upload, uploadFile } from './upload'
-import {
-  FileError,
-  FileErrorCode,
-  LoadedFile,
-  UploadConfig,
-  UploadedFile
-} from './types'
+import { FileError, FileErrorCode, LoadedFile, FileUploadConfig } from './types'
 
-export const Temporary = styled.div<{ failed: boolean }>(props => ({
-  color: props.failed ? '#f77' : '#aaa',
+export const Wrapper = styled.div({
   display: 'inline-block',
   margin: '0 10px'
-}))
+})
+
+export const Temporary = styled(Wrapper)({
+  color: '#aaa'
+})
+
+export const Failed = styled(Wrapper)({
+  color: '#f77'
+})
 
 export const Center = styled.div({
   display: 'flex',
@@ -34,84 +35,52 @@ export const Center = styled.div({
 })
 
 export function createFilesEditor<T>(
-  config: UploadConfig<T>
+  config: FileUploadConfig<T>
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
   return props => {
-    const { editable, focused, state } = props
+    const { focused, state } = props
     const [uploadProgresses, setUploadProgresses] = React.useState<{
       [key: number]: number
     }>({})
 
     React.useEffect(() => {
       state().forEach((file, i) => {
-        if (file.value.pending) {
-          let canUpdate = true
+        const { pending } = file.value
+        if (pending) {
           setUploadProgresses(currentUploadProgresses => {
             return {
               ...currentUploadProgresses,
               [i]: 0
             }
           })
-          const read = readFile(file.value.pending)
-          const upload = uploadFile(file.value.pending, config, progress => {
-            setUploadProgresses(currentUploadProgresses => {
-              return {
-                ...currentUploadProgresses,
-                [i]: progress
+          const read = readFile(pending)
+          read.then((loaded: LoadedFile) => {
+            file.set({ loaded })
+
+            const upload = uploadFile(pending, config, progress => {
+              setUploadProgresses(currentUploadProgresses => {
+                return {
+                  ...currentUploadProgresses,
+                  [i]: progress
+                }
+              })
+            })
+            upload.then(uploadedFile => {
+              if (uploadedFile) {
+                file.set({ uploaded: uploadedFile })
+              } else {
+                file.set(currentState => {
+                  return {
+                    failed: currentState.loaded
+                  }
+                })
               }
             })
           })
-          read.then((loaded: LoadedFile) => {
-            if (canUpdate) {
-              state.items[i].set({ loaded })
-            }
-          })
-          upload.then(uploadedFile => {
-            if (canUpdate) {
-              if (uploadedFile) {
-                state.items[i].set({ uploaded: uploadedFile })
-              } else {
-                state.items[i].set(currentState => ({
-                  failed: currentState.loaded
-                }))
-              }
-            }
-          })
           file.set({})
-          return function cleanup() {
-            canUpdate = false
-          }
         }
       })
     }, [state])
-    function handleFileLoaded(index: number) {
-      return (loaded: LoadedFile) => {
-        // only add new files here
-        if (state.items.length <= index) {
-          state.insert(index, { loaded })
-        } else {
-          // only update if not uploaded yet
-          state.items[index].set(fileState => {
-            if (!fileState.uploaded) {
-              return { loaded }
-            }
-            return fileState
-          })
-        }
-      }
-    }
-
-    function handleFileUploaded(index: number) {
-      return (uploaded: UploadedFile) => {
-        if (state.items.length <= index) {
-          // insert as uploaded
-          state.insert(index, { uploaded })
-        } else {
-          //update loaded file with uploaded
-          state.items[index].set({ uploaded })
-        }
-      }
-    }
 
     function onPaste(data: DataTransfer) {
       const items = data.items
@@ -141,49 +110,69 @@ export function createFilesEditor<T>(
       >
         {state.items.map((file, i) => {
           if (file.value.uploaded) {
+            // finished uploading
+            return <FileRenderer key={i} file={file.value.uploaded} />
+          } else if (file.value.loaded) {
+            // finished loading as DataUrl, being uploaded atm
+            const tmpFile = file.value.loaded
             return (
-              <React.Fragment key={i}>
-                {editable && uploadProgresses[i] ? (
-                  <UploadProgress progress={uploadProgresses[i]} />
-                ) : null}
-                <FileRenderer file={file.value.uploaded} />
-              </React.Fragment>
+              <Temporary key={i}>
+                <Center>
+                  <FileRenderer
+                    file={{
+                      location: tmpFile.dataUrl,
+                      name: tmpFile.file.name,
+                      type: parseFileType(tmpFile.file.name)
+                    }}
+                  />
+                  {uploadProgresses[i] !== undefined ? (
+                    <UploadProgress progress={uploadProgresses[i]} />
+                  ) : null}
+                  <EditorButton onClick={() => state.remove(i)}>
+                    <EdtrIcon icon={edtrClose} />
+                  </EditorButton>
+                </Center>
+              </Temporary>
             )
-          } else {
-            const tmpFile = file.value.loaded || file.value.failed
-            if (tmpFile) {
-              const pending = tmpFile.file
-              return (
-                <Temporary key={i} failed={!!file.value.failed}>
-                  <Center>
-                    <FileRenderer
-                      file={{
-                        location: tmpFile.dataUrl,
-                        name: tmpFile.file.name,
-                        type: parseFileType(tmpFile.file.name)
-                      }}
-                    />
-                    <span>Fehlgeschlagen</span>
-                    <span>
-                      <EditorButton onClick={() => file.set({ pending })}>
-                        <Icon icon={faRedoAlt} />
-                      </EditorButton>
-                      <EditorButton onClick={() => state.remove(i)}>
-                        <EdtrIcon icon={edtrClose} />
-                      </EditorButton>
-                    </span>
-                  </Center>
-                </Temporary>
-              )
-            }
+          } else if (file.value.failed) {
+            const tmpFile = file.value.failed
+            return (
+              <Failed key={i}>
+                <Center>
+                  <FileRenderer
+                    file={{
+                      location: tmpFile.dataUrl,
+                      name: tmpFile.file.name,
+                      type: parseFileType(tmpFile.file.name)
+                    }}
+                  />
+                  <span>Fehlgeschlagen</span>
+                  <span>
+                    <EditorButton
+                      onClick={() => file.set({ pending: tmpFile.file })}
+                    >
+                      <Icon icon={faRedoAlt} />
+                    </EditorButton>
+                    <EditorButton onClick={() => state.remove(i)}>
+                      <EdtrIcon icon={edtrClose} />
+                    </EditorButton>
+                  </span>
+                </Center>
+              </Failed>
+            )
           }
           return null
         })}
         {focused ? (
           <Upload
             config={config}
-            onFileLoaded={handleFileLoaded(state.items.length)}
-            onFileUploaded={handleFileUploaded(state.items.length)}
+            onFiles={files => {
+              files.forEach(file => {
+                state.insert(state.items.length, {
+                  pending: file
+                })
+              })
+            }}
             onError={(errors: FileError[]): void => {
               const filtered = errors.filter(
                 error => error.errorCode !== FileErrorCode.UPLOAD_FAILED
