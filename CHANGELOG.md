@@ -2,15 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.5.0..HEAD)
-
-### Added
-
-- **plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.
-- **core**. Pass plugin props and name of parents to childs too
-- **plugin-text**. Leave nested Text-Plugins on second Enter key press
-
-## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 7, 2019
+## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 
 ### Breaking Changes
 
@@ -34,6 +26,9 @@ All notable changes to this project will be documented in this file.
 - **plugin-text**. Added button to wrap in a blockquote plugin
 - **plugin-rows**. Pass `remove` and `replace` functions to childs
 - **all**. Added plugin icons and descriptions
+- **plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.
+- **core**. Pass plugin props and name of parents to childs too
+- **plugin-text**. Leave nested Text-Plugins on second Enter key press
 
 ### Changed
 

@@ -173,7 +173,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.5.0',
       name: '0.5.0',
-      date: '2019-05-07',
+      date: '2019-05-09',
       breakingChanges: [
         '**core**. Mark `name` as required in `StatelessEditorProps`',
         '**plugin-image**. Image-plugin has new required `maxWidth` - state property',
@@ -193,7 +193,10 @@ async function exec(): Promise<void> {
         '**plugin-text**. Added colors plugin',
         '**plugin-text**. Added button to wrap in a blockquote plugin',
         '**plugin-rows**. Pass `remove` and `replace` functions to childs',
-        '**all**. Added plugin icons and descriptions'
+        '**all**. Added plugin icons and descriptions',
+        '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.',
+        '**core**. Pass plugin props and name of parents to childs too',
+        '**plugin-text**. Leave nested Text-Plugins on second Enter key press'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',
@@ -208,13 +211,6 @@ async function exec(): Promise<void> {
       internal: [
         '**demo**. Log errors only',
         '**demo**. Add additional examples for plugin-usage in Storybook'
-      ]
-    },
-    {
-      added: [
-        '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.',
-        '**core**. Pass plugin props and name of parents to childs too',
-        '**plugin-text**. Leave nested Text-Plugins on second Enter key press'
       ]
     }
   ])
