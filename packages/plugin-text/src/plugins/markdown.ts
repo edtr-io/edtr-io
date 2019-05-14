@@ -12,7 +12,7 @@ const handleMarkdown = (
   next: Function,
   name: string
 ) => {
-  if (/\d+\./.test(chars)) {
+  if (/^\d+\.$/.test(chars)) {
     if (isList(orderedListNode)(editor)) {
       return undefined
     }
