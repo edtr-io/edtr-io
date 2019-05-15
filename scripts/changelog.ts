@@ -196,7 +196,8 @@ async function exec(): Promise<void> {
         '**all**. Added plugin icons and descriptions',
         '**plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.',
         '**core**. Pass plugin props and name of parents to childs too',
-        '**plugin-text**. Leave nested Text-Plugins on second Enter key press'
+        '**plugin-text**. Leave nested Text-Plugins on second Enter key press',
+        '**plugin-text**. Poweruser-Feature: Add new plugins with /[plugintitle] in editmode'
       ],
       changed: [
         '**plugin-text**. Hide placeholder in render mode',

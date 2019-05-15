@@ -100,12 +100,16 @@ export const createTextEditor = (
     const pluginClosure = React.useRef({
       overlayContext,
       name: props.name,
-      parent: props.parent
+      parent: props.parent,
+      replace: props.replace,
+      plugins: plugins
     })
     pluginClosure.current = {
       overlayContext,
       name: props.name,
-      parent: props.parent
+      parent: props.parent,
+      replace: props.replace,
+      plugins: plugins
     }
     const slatePlugins = React.useRef<TextPlugin[]>()
     if (slatePlugins.current === undefined) {

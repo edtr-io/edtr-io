@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - **plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.
 - **core**. Pass plugin props and name of parents to childs too
 - **plugin-text**. Leave nested Text-Plugins on second Enter key press
+- **plugin-text**. Poweruser-Feature: Add new plugins with /[plugintitle] in editmode
 
 ### Changed
 

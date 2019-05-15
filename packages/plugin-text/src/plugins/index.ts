@@ -7,6 +7,7 @@ import { createHeadingsPlugin } from './headings'
 import { createListPlugin } from './list'
 import { createColorPlugin } from './colors'
 import { markdownShortcuts } from './markdown'
+import { pluginSuggestions } from './plugin-suggestions'
 
 export const plugins: TextPluginOptions['plugins'] = [
   createParagraphPlugin(),
@@ -16,5 +17,6 @@ export const plugins: TextPluginOptions['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownShortcuts
+  markdownShortcuts,
+  pluginSuggestions
 ]

@@ -41,8 +41,10 @@ export const createTextPlugin = (
     onKeyDown() {
       return false
     },
-    isEmpty: (state: StateDescriptorValueType<typeof textState>) =>
-      isValueEmpty(Value.fromJSON(state))
+    isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
+      const value = Value.fromJSON(state)
+      return isValueEmpty(value)
+    }
   }
 }
 
