@@ -24,7 +24,7 @@ interface SerloResponse {
   files: { location: string; filename: string }[]
 }
 
-const baseUploadConifg = {
+const baseUploadConfig = {
   url: 'https://de.serlo.org/attachment/upload',
   paramName: 'attachment[file]',
   maxFileSize: 2 * 1024 * 1024,
@@ -36,7 +36,7 @@ const baseUploadConifg = {
   }
 }
 export const imageUploadConfig: ImageUploadConfig<SerloResponse> = {
-  ...baseUploadConifg,
+  ...baseUploadConfig,
   allowedExtensions: ['gif', 'jpg', 'jpeg', 'png', 'svg'],
   getStateFromResponse: response => {
     return {
@@ -46,7 +46,7 @@ export const imageUploadConfig: ImageUploadConfig<SerloResponse> = {
 }
 
 export const fileUploadConfig: FileUploadConfig<SerloResponse> = {
-  ...baseUploadConifg,
+  ...baseUploadConfig,
   getStateFromResponse: response => {
     return {
       location: response.files[0].location,
