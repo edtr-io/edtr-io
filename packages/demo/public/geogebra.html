@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <script>
+      window.addEventListener(
+        'message',
+        function(e) {
+          var data = e.data
+          // var app = new GGBApplet({"appName": "graphing", "width": 800, "height": 600, "showToolBar": true, "showAlgebraInput": true, "showMenuBar": true }, true);
+          var app = new GGBApplet(data.options, data.html5NoWebSimple)
+          app.inject('root')
+          window.parent.postMessage({
+            contentWidth: window.document.body.scrollWidth,
+            contentHeight: window.document.body.scrollHeight
+          })
+        },
+        false
+      )
+      window.parent.postMessage('ready', '*')
+
+      // var app = new GGBApplet({"appName": "graphing", "width": 800, "height": 600, "showToolBar": true, "showAlgebraInput": true, "showMenuBar": true }, true);
+      // window.addEventListener("load", function() {
+      //   ggbApp.inject('ggb-element');
+      // });
+    </script>
+  </body>
+</html>
