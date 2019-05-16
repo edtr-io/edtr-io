@@ -147,7 +147,6 @@ export function pluginSuggestions(
           decoration ? decoration.get('mark').type === CONTEXT_MARK_TYPE : false
         )
         const plugins = mapPlugins(pluginClosure, editor)
-
         if (
           (e.key === '/' && isValueEmpty(editor.value)) ||
           (inputValue && hasValidAncestors(editor.value))

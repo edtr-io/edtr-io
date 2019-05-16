@@ -7,10 +7,15 @@ const Suggestion = styled.div<{ active: boolean }>(props => {
     padding: '4px 8px',
     cursor: 'pointer',
     backgroundColor: props.active ? '#87cefa' : 'transparent',
+    borderRadius: '4px',
     '&:hover': {
       background: '#87cefa'
     }
   }
+})
+
+const Container = styled.div({
+  padding: '10px'
 })
 
 /**
@@ -25,19 +30,21 @@ class Suggestions extends React.Component<SuggestionProps> {
 
   public render() {
     return (
-      <React.Fragment>
-        {this.props.options.map((option, index) => {
-          return (
-            <Suggestion
-              key={index}
-              active={index === this.props.selected}
-              onClick={() => this.props.onSelect(option[1])}
-            >
-              {option[0]}
-            </Suggestion>
-          )
-        })}
-      </React.Fragment>
+      <Container>
+        {this.props.options.length === 0
+          ? 'keine Einträge vorhanden'
+          : this.props.options.map((option, index) => {
+              return (
+                <Suggestion
+                  key={index}
+                  active={index === this.props.selected}
+                  onClick={() => this.props.onSelect(option[1])}
+                >
+                  {option[0]}
+                </Suggestion>
+              )
+            })}
+      </Container>
     )
   }
 }
