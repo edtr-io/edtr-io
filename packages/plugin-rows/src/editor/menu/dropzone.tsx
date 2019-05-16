@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { styled, faCloudUploadAlt, Icon } from '@edtr-io/editor-ui'
-
-import { createRowPluginTheme } from '../..'
 import { ThemeProps } from '@edtr-io/ui'
 
+import { createRowPluginTheme } from '../..'
+
 const StyledImage = styled(Icon)({
-  height: '75px',
+  height: '48px',
   marginBottom: '15px',
-  opacity: 0.6,
+  opacity: 0.8,
   transition: '250ms all ease-in-out'
 })
 
@@ -15,21 +15,20 @@ const StyledDropzone = styled.div(
   ({ name, ...props }: ThemeProps & { name: string }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      height: '150px',
       width: '100%',
       backgroundColor: theme.menu.secondary.backgroundColor,
       color: theme.menu.secondary.color,
       border: `3px dashed ${theme.menu.secondary.color}`,
       transition: '250mx all ease-in-out',
+      borderRadius: '5px',
       cursor: 'pointer',
-      padding: '20px calc((100vw - 960px) /2)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
+      paddingTop: '10px',
+      paddingBottom: '10px',
+
       '&:hover': {
         borderColor: theme.menu.highlightColor,
         backgroundColor: theme.menu.primary.backgroundColor
@@ -38,8 +37,26 @@ const StyledDropzone = styled.div(
         opacity: 1
       },
       '@media (max-width: 1000px)': {
-        padding: '20px'
+        padding: '10px 20px'
+      },
+      '@media (min-width: 1000px)': {
+        width: '85%'
       }
+    }
+  }
+)
+
+const Caption = styled.p(
+  ({ name, ...props }: ThemeProps & { name: string }) => {
+    const theme = createRowPluginTheme(name, props.theme)
+    return {
+      marginBottom: '0',
+      opacity: 0.8,
+      color: theme.menu.secondary.color,
+      textAlign: 'center',
+      maxWidth: '600px',
+      fontFamily: '"PT Sans Narrow", sans-serif',
+      fontWeight: 'bold'
     }
   }
 )
@@ -50,10 +67,10 @@ export const Dropzone: React.FunctionComponent<{ name: string }> = ({
   return (
     <StyledDropzone name={name}>
       <StyledImage icon={faCloudUploadAlt} size="5x" />
-      <p style={{ opacity: 0.8 }}>
+      <Caption name={name}>
         Du kannst überall Dateien per Drag&#39;n&#39;Drop hinzufügen. Alternativ
         kannst du auch hier klicken...
-      </p>
+      </Caption>
     </StyledDropzone>
   )
 }

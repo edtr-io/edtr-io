@@ -1,34 +1,33 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { styled, faTimes, Icon } from '@edtr-io/editor-ui'
+import * as React from 'react'
 import { Portal } from 'react-portal'
-import { getPlugins, PluginState } from '@edtr-io/core'
+import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
+import { EditorContextValue, getPlugins, PluginState } from '@edtr-io/core'
 
-import { Clipboard } from '../clipboard'
 import { Search } from './search'
 import { Plugin } from './plugin'
 import { Dropzone } from './dropzone'
-import { State } from '@edtr-io/core/src/store'
-import { ThemeProps } from '@edtr-io/ui'
-import { createRowPluginTheme } from '@edtr-io/plugin-rows'
+import { createRowPluginTheme } from '../..'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       display: 'flex',
-      padding: '25px calc((100vw - 960px) / 2) 150px',
-      paddingBottom: '155px',
+      padding: '25px calc((100vw - 960px) / 2) 0',
       flexDirection: 'column',
       backgroundColor: theme.menu.primary.backgroundColor,
+      alignItems: 'center',
       position: 'fixed',
       top: 0,
       left: 0,
-      width: '100%',
+      width: '100vw',
       height: '100vh',
       zIndex: 9999,
+      // paddingTop: '125px',
 
       '@media (max-width: 1000px)': {
-        padding: '25px 20px 155px'
+        padding: '25px 20px 0'
       }
     }
   }
@@ -56,21 +55,21 @@ interface MenuProps {
     | { index: number; onClose: (pluginState: PluginState) => void }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  state: State
+  store: EditorContextValue
   name: string
 }
 
-export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
-  const [search, setSearch] = useState('')
+export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
+  const [search, setSearch] = React.useState('')
 
-  const close = useCallback(
+  const close = React.useCallback(
     evt => {
       if (evt.key === 'Escape') setMenu(undefined)
     },
     [setMenu]
   )
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (visible) document.body.style.position = 'fixed'
     window.addEventListener('keydown', close)
     return () => {
@@ -80,7 +79,7 @@ export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
   }, [close, visible])
 
   if (!visible || !menu) return null
-  const plugins = getPlugins(state)
+  const plugins = getPlugins(store.state)
   const mappedPlugins = Object.keys(plugins)
     .filter(pluginKey => {
       const plugin = plugins[pluginKey]
@@ -112,12 +111,11 @@ export const Menu = ({ visible, menu, setMenu, state, name }: MenuProps) => {
   return (
     <Portal>
       <Wrapper name={name}>
-        <Search search={search} name={name} setSearch={setSearch} />
-        <Clipboard onClose={menu.onClose} name={name} />
-        <PluginList>{mappedPlugins}</PluginList>
         <Dropzone name={name} />
+        <Search search={search} name={name} setSearch={setSearch} />
+        <PluginList>{mappedPlugins}</PluginList>
         <CloseButtonContainer onClick={() => setMenu(undefined)}>
-          <Icon icon={faTimes} />
+          <EdtrIcon icon={edtrRowsControls.close} />
         </CloseButtonContainer>
       </Wrapper>
     </Portal>

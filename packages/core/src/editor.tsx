@@ -14,6 +14,8 @@ import {
 } from './store'
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
+import { DragDropContextProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 
 export function Editor<K extends string = string>({
   plugins,
@@ -75,18 +77,20 @@ export function Editor<K extends string = string>({
       }}
     >
       <div style={{ position: 'relative' }}>
-        <EditorContext.Provider
-          value={{
-            state,
-            dispatch
-          }}
-        >
-          <RootThemeProvider theme={theme}>
-            <OverlayContextProvider>
-              {renderChildren(id)}
-            </OverlayContextProvider>
-          </RootThemeProvider>
-        </EditorContext.Provider>
+        <DragDropContextProvider backend={HTML5Backend}>
+          <EditorContext.Provider
+            value={{
+              state,
+              dispatch
+            }}
+          >
+            <RootThemeProvider theme={theme}>
+              <OverlayContextProvider>
+                {renderChildren(id)}
+              </OverlayContextProvider>
+            </RootThemeProvider>
+          </EditorContext.Provider>
+        </DragDropContextProvider>
       </div>
     </HotKeys>
   )

@@ -13,6 +13,7 @@
     "@types/react-portal": "^4.0.2",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
+    "react-dnd": "^7.4.5",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {

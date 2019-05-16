@@ -1,13 +1,13 @@
+import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import * as React from 'react'
+import { createPluginTheme } from '@edtr-io/ui'
 
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
-import { createPluginTheme } from '@edtr-io/ui'
 
 export const rowState = StateType.child()
 export const rowsState = StateType.list(rowState, 1)

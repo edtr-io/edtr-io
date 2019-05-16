@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Plugin as EditorPlugin } from '@edtr-io/core'
-import { styled, faToolbox, Icon } from '@edtr-io/editor-ui'
+import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import { createRowPluginTheme } from '../..'
 
@@ -26,6 +26,10 @@ const StyledPlugin = styled.div(
     }
   }
 )
+
+const DefaultIcon = styled(EdtrIcon)({
+  height: '50px'
+})
 
 const Title = styled.h3({
   marginTop: '15px',
@@ -54,7 +58,11 @@ export const Plugin = ({
 }) => {
   return (
     <StyledPlugin onClick={onClick} name={name}>
-      {plugin.icon ? <plugin.icon /> : <Icon icon={faToolbox} size="5x" />}
+      {plugin.icon ? (
+        <plugin.icon style={{ height: 50 }} />
+      ) : (
+        <DefaultIcon icon={edtrRowsControls.defaultPlugin} />
+      )}
       <Title>{plugin.title || pluginName}</Title>
       {plugin.description && <Description>{plugin.description}</Description>}
     </StyledPlugin>
