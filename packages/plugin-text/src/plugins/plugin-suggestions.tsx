@@ -118,7 +118,8 @@ export function pluginSuggestions(
       const mappedPlugins = mapPlugins(pluginClosure, editor)
       if (
         props.mark.type === CONTEXT_MARK_TYPE &&
-        hasValidAncestors(editor.value)
+        hasValidAncestors(editor.value) &&
+        editor.value.document.text.startsWith('/')
       ) {
         return (
           <React.Fragment>
@@ -146,24 +147,18 @@ export function pluginSuggestions(
           decoration ? decoration.get('mark').type === CONTEXT_MARK_TYPE : false
         )
         const plugins = mapPlugins(pluginClosure, editor)
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          insertPlugin(editor)(
-            plugins[decoration.get('mark').data.get('selected')][1]
-          )
-        }
+
         if (
           (e.key === '/' && isValueEmpty(editor.value)) ||
           (inputValue && hasValidAncestors(editor.value))
         ) {
-          if (decoration && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
-            const mark = decoration.get('mark')
-            updateDecorationMarkData(
-              editor,
-              inputValue,
-              mark.data.get('selected')
+          if (e.key === 'Enter') {
+            insertPlugin(editor)(
+              plugins[decoration.get('mark').data.get('selected')][1]
             )
-          } else updateDecorationMarkData(editor, inputValue, 0)
+            return
+          }
+          updateDecorationMarkData(editor, inputValue, 0)
         }
 
         if (decoration) {
@@ -174,12 +169,14 @@ export function pluginSuggestions(
               inputValue,
               (mark.data.get('selected') + 1) % plugins.length
             )
+            return
           } else if (e.key === 'ArrowUp' && mark) {
             updateDecorationMarkData(
               editor,
               inputValue,
               decreaseValue(mark.data.get('selected'), plugins.length)
             )
+            return
           }
         }
       }

@@ -10,6 +10,7 @@ import { markdownShortcuts } from './markdown'
 import { pluginSuggestions } from './plugin-suggestions'
 
 export const plugins: TextPluginOptions['plugins'] = [
+  pluginSuggestions,
   createParagraphPlugin(),
   createRichTextPlugin(),
   createLinkPlugin(),
@@ -17,6 +18,5 @@ export const plugins: TextPluginOptions['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownShortcuts,
-  pluginSuggestions
+  markdownShortcuts
 ]
