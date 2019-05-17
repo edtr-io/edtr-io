@@ -9,15 +9,26 @@ export const insert = createAction<
   'Insert',
   {
     id: string
-  } & Partial<DocumentState>
+  } & DocumentState
 >('Insert')
 export type InsertAction = ReturnType<typeof insert>
+export const remove = createAction<'Remove', string>('Remove')
+export type RemoveAction = ReturnType<typeof remove>
+export const change = createAction<'Change', { id: string; state: unknown }>(
+  'Change'
+)
+export type ChangeAction = ReturnType<typeof change>
 
 /* Clipboard */
 export const copy = createAction<'Copy', string>('Copy')
 export type CopyAction = ReturnType<typeof copy>
 
-export type Action = SetEditableAction | InsertAction | CopyAction
+export type Action =
+  | SetEditableAction
+  | InsertAction
+  | RemoveAction
+  | ChangeAction
+  | CopyAction
 
 function createAction<T, P>(type: T) {
   const actionCreator = (payload: P) => {
