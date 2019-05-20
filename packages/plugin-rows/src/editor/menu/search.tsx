@@ -24,11 +24,11 @@ const StyledInput = styled.input(
     const theme = createRowPluginTheme(name, props.theme)
     return {
       padding: '5px 30px',
-      border: `2px solid ${theme.menu.primary.color}`,
+      border: `2px solid ${theme.menu.secondary.color}`,
       borderRadius: '5px',
       fontSize: '20px',
       outline: 'none',
-      backgroundColor: 'transparent',
+      backgroundColor: theme.menu.primary.backgroundColor,
       transition: '250ms all ease-in-out',
       width: '100%',
 
@@ -37,7 +37,7 @@ const StyledInput = styled.input(
       },
 
       '&::placeholder': {
-        color: theme.menu.primary.color
+        color: theme.menu.secondary.color
       }
     }
   }
@@ -52,13 +52,12 @@ const ClearSearchContainer = styled.div<{ visible: boolean; name: string }>(
       top: '50%',
       right: '5px',
       transform: 'translateY(-50%)',
-      opacity: props.visible ? 0.4 : 0,
+      opacity: props.visible ? 1 : 0,
       transition: '250ms all ease-in-out',
       cursor: 'pointer',
       color: theme.menu.secondary.color,
 
       '&:hover': {
-        opacity: props.visible ? 0.6 : 0,
         color: theme.menu.highlightColor
       }
     }
@@ -74,8 +73,7 @@ const SearchIcon = styled(EdtrIcon)(
       color: theme.menu.secondary.color,
       top: '50%',
       left: '5px',
-      transform: 'translateY(-50%)',
-      opacity: 0.4
+      transform: 'translateY(-50%)'
     }
   }
 )

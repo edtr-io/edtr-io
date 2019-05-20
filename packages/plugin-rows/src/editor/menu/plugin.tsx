@@ -11,7 +11,7 @@ const StyledPlugin = styled.div(
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       margin: '15px',
       width: '175px',
       borderRadius: '5px',
@@ -28,6 +28,11 @@ const StyledPlugin = styled.div(
 )
 
 const DefaultIcon = styled(EdtrIcon)({
+  height: '100%',
+  width: '100%'
+})
+
+const IconWrapper = styled.div({
   height: '50px'
 })
 
@@ -58,11 +63,13 @@ export const Plugin = ({
 }) => {
   return (
     <StyledPlugin onClick={onClick} name={name}>
-      {plugin.icon ? (
-        <plugin.icon style={{ height: 50 }} />
-      ) : (
-        <DefaultIcon icon={edtrRowsControls.defaultPlugin} />
-      )}
+      <IconWrapper>
+        {plugin.icon ? (
+          <plugin.icon />
+        ) : (
+          <DefaultIcon icon={edtrRowsControls.defaultPlugin} />
+        )}
+      </IconWrapper>
       <Title>{plugin.title || pluginName}</Title>
       {plugin.description && <Description>{plugin.description}</Description>}
     </StyledPlugin>

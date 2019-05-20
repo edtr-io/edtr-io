@@ -4,10 +4,9 @@ import {
   getDocument,
   StatefulPluginEditorProps,
   PluginState,
-  isEmpty,
-  getPlugins,
   EditorContextValue
 } from '@edtr-io/core'
+import { OnClickOutside } from '@edtr-io/editor-ui'
 
 import { Menu } from './menu'
 import { Separator } from './Separator'
@@ -65,92 +64,85 @@ const RowSource = React.forwardRef<
     }))
   }
 
-  // const isEmptyTextPlugin =
-  //   props.doc.plugin === 'text' && isEmpty(props.store.state, row.id)
-
   const extendedSettingsNode = React.useRef<HTMLDivElement>(null)
-  function outsideClickListener(event: MouseEvent) {
-    // TODO
-    if (
-      (rowRef.current &&
-        event.target &&
-        rowRef.current.contains((event.target as unknown) as Node)) ||
-      showExtendedSettings
-    )
-      return
-    setExpanded(false)
-    document.removeEventListener('mousedown', outsideClickListener)
-  }
 
   return (
-    <RowContainer
-      ref={rowRef}
-      noHeight={props.doc.plugin === 'notes' && !props.editable}
-      name={props.name}
-      isFirst={index === 0}
-      expanded={expanded}
-      onMouseDown={() => {
-        setExpanded(true)
-        document.addEventListener('mousedown', outsideClickListener)
+    <OnClickOutside
+      onClick={() => {
+        if (showExtendedSettings) {
+          return
+        }
+        setExpanded(false)
       }}
     >
-      {index === 0 && (
-        <Separator
-          name={props.name}
-          isFirst={true}
-          onClick={() => openMenu(index)}
-        />
-      )}
-
-      {render({
-        row,
-        rows,
-        index,
-        store: props.store,
-        getDocument,
-        renderIntoExtendedSettings: children => {
-          if (!extendedSettingsNode.current) return null
-
-          return createPortal(children, extendedSettingsNode.current)
-        },
-        PrimarySettingsWrapper: createPrimarySettingsWrapper({
-          expanded
-        })
-      })}
-      <ExtendedSettingsWrapper
-        hideExtendedSettings={() => {
-          setShowExtendedSettings(false)
-        }}
-        expanded={expanded}
-        index={index}
-        rows={rows}
-        duplicateRow={() => rows.insert(index, props.doc)}
-        ref={extendedSettingsNode}
-        extendedSettingsVisible={showExtendedSettings}
+      <RowContainer
+        ref={rowRef}
+        noHeight={props.doc.plugin === 'notes' && !props.editable}
         name={props.name}
-      />
-      <Separator name={props.name} onClick={() => openMenu(index + 1)} />
-      {props.editable && (
-        <React.Fragment>
-          <Controls
+        isFirst={index === 0}
+        expanded={expanded}
+        onMouseDown={() => {
+          setExpanded(true)
+        }}
+      >
+        {index === 0 && (
+          <Separator
             name={props.name}
-            index={index}
-            expanded={expanded}
-            setShowExtendedSettings={setShowExtendedSettings}
-            rows={rows}
-            row={row}
-            connectDragSource={props.connectDragSource}
+            isFirst={true}
+            onClick={() => openMenu(index)}
           />
-          <Menu
-            visible={!!menu}
-            menu={menu}
-            setMenu={setMenu}
-            store={props.store}
-            name={props.name}
-          />
-        </React.Fragment>
-      )}
-    </RowContainer>
+        )}
+
+        {render({
+          row,
+          rows,
+          index,
+          store: props.store,
+          getDocument,
+          renderIntoExtendedSettings: children => {
+            if (!extendedSettingsNode.current) return null
+
+            return createPortal(children, extendedSettingsNode.current)
+          },
+          PrimarySettingsWrapper: createPrimarySettingsWrapper({
+            expanded
+          })
+        })}
+        <ExtendedSettingsWrapper
+          hideExtendedSettings={() => {
+            setShowExtendedSettings(false)
+          }}
+          expanded={expanded}
+          index={index}
+          rows={rows}
+          duplicateRow={() => rows.insert(index, props.doc)}
+          ref={extendedSettingsNode}
+          extendedSettingsVisible={showExtendedSettings}
+          name={props.name}
+        />
+        <Separator name={props.name} onClick={() => openMenu(index + 1)} />
+        {props.editable && (
+          <React.Fragment>
+            <Controls
+              name={props.name}
+              index={index}
+              expanded={expanded}
+              setShowExtendedSettings={setShowExtendedSettings}
+              rows={rows}
+              row={row}
+              connectDragSource={props.connectDragSource}
+            />
+            <Menu
+              visible={!!menu}
+              menu={menu}
+              setMenu={setMenu}
+              store={props.store}
+              name={props.name}
+            />
+          </React.Fragment>
+        )}
+      </RowContainer>
+    </OnClickOutside>
   )
 })
 export const Row = connectDnD(RowSource)

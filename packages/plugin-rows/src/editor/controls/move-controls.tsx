@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {
-  Icon,
-  faSortDown,
-  faSortUp,
+  // Icon,
+  // faSortDown,
+  // faSortUp,
   EdtrIcon,
   edtrRowsControls,
   styled
@@ -22,10 +22,9 @@ const IconContainer = styled.div<{ disabled?: boolean; name: string }>(
       height: '24px',
       marginBottom: '15px',
       cursor: disabled ? 'not-allowed' : 'pointer',
-      opacity: disabled ? 0.2 : 0.8,
       color: disabled ? theme.menu.secondary.color : theme.menu.primary.color,
+      pointerEvents: disabled ? 'none' : undefined,
       '&:hover': {
-        opacity: disabled ? 0.2 : 1,
         color: disabled ? theme.menu.secondary.color : theme.menu.highlightColor
       }
     }
@@ -42,36 +41,35 @@ const DragIcon = styled(IconContainer)({
   }
 })
 
-const MoveUp: React.FunctionComponent<IconProps> = ({ rows, index, name }) => (
-  <IconContainer
-    name={name}
-    disabled={index === 0}
-    onClick={() => {
-      if (index === 0) return
-      rows.move(index, index - 1)
-    }}
-  >
-    <Icon icon={faSortUp} />
-  </IconContainer>
-)
+// const MoveUp: React.FunctionComponent<IconProps> = ({ rows, index, name }) => (
+//   <IconContainer
+//     name={name}
+//     disabled={index === 0}
+//     onClick={() => {
+//       if (index === 0) return
+//       rows.move(index, index - 1)
+//     }}
+//   >
+//     <Icon icon={faSortUp} />
+//   </IconContainer>
+// )
+//
+// const MoveDown: React.FunctionComponent<IconProps> = ({
+//   rows,
+//   index,
+//   name
+// }) => (
+//   <IconContainer
+//     name={name}
+//     disabled={index + 1 >= rows.items.length}
+//     onClick={() => {
+//       index + 1 < rows.items.length && rows.move(index, index + 1)
+//     }}
+//   >
+//     <Icon icon={faSortDown} />
+//   </IconContainer>
+// )
 
-const MoveDown: React.FunctionComponent<IconProps> = ({
-  rows,
-  index,
-  name
-}) => (
-  <IconContainer
-    name={name}
-    disabled={index + 1 >= rows.items.length}
-    onClick={() => {
-      index + 1 < rows.items.length && rows.move(index, index + 1)
-    }}
-  >
-    <Icon icon={faSortDown} />
-  </IconContainer>
-)
-
-// TODO: FIXME
 const Drag: React.FunctionComponent<
   IconProps & { connectDragSource: Function }
 > = ({ rows, connectDragSource, name }) => {

@@ -8,16 +8,15 @@ import { rowsState, rowState } from '../..'
 export { createPrimarySettingsWrapper } from './primary-settings'
 export { ExtendedSettingsWrapper } from './extended-settings'
 
-export interface SharedProps {
+export interface SettingsProps {
   name: string
-  index: number
   expanded: boolean
-}
-export interface SettingsProps extends SharedProps {
   setShowExtendedSettings: (showExtendedSettings: boolean) => void
 }
 
-export interface MoveControlsProps extends SharedProps {
+export interface MoveControlsProps {
+  name: string
+  index: number
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   row: StateType.StateDescriptorReturnType<typeof rowState>
   connectDragSource: Function //TODO fix me
@@ -38,14 +37,12 @@ export const Controls = ({
     <React.Fragment>
       <Settings
         name={name}
-        index={index}
         expanded={expanded}
         setShowExtendedSettings={setShowExtendedSettings}
       >
         <MoveControls
           name={name}
           index={index}
-          expanded={expanded}
           rows={rows}
           row={row}
           connectDragSource={connectDragSource}

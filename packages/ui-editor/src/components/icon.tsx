@@ -1,6 +1,6 @@
+import * as React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import * as React from 'react'
 import styled from 'styled-components'
 export const Icon = FontAwesomeIcon
 
@@ -43,7 +43,7 @@ export {
 } from '@fortawesome/free-solid-svg-icons'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
-  const I = () => <Icon icon={i} size="5x" />
+  const I = () => <Icon icon={i} size="4x" />
   return I
 }
 
@@ -57,9 +57,15 @@ const EdtrSVG = styled.svg({
 
 export const EdtrIcon: React.FunctionComponent<{
   icon: EdtrIconDefinition
+  className?: string
 }> = props => {
   return (
-    <EdtrSVG width="24" height="24" viewBox="0 0 24 24">
+    <EdtrSVG
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      className={props.className}
+    >
       <path fill="currentcolor" d={props.icon} />
     </EdtrSVG>
   )

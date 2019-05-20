@@ -11,7 +11,7 @@ const Overlay = styled.div<{ visible?: boolean; name: string }>(
     return {
       width: '100vw',
       height: '100vh',
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.menu.secondary.backgroundColor,
       position: 'fixed',
       zIndex: 9999,
       top: 0,
@@ -26,10 +26,12 @@ const Overlay = styled.div<{ visible?: boolean; name: string }>(
 const Content = styled.div<{ name: string }>(({ name, ...props }) => {
   const theme = createRowPluginTheme(name, props.theme)
   return {
-    backgroundColor: theme.color,
+    backgroundColor: theme.backgroundColor,
     position: 'relative',
     padding: '15px',
-    minWidth: '500px'
+    width: '98%',
+    maxWidth: '500px',
+    margin: 'auto'
   }
 })
 
@@ -38,10 +40,17 @@ const Header = styled.div({
   justifyContent: 'space-between'
 })
 
-const CloseBtnContainer = styled.div({
-  width: '24px',
-  height: '24px',
-  cursor: 'pointer'
+const CloseBtnContainer = styled.div<{ name: string }>(({ name, ...props }) => {
+  const theme = createRowPluginTheme(name, props.theme)
+  return {
+    width: '24px',
+    height: '24px',
+    cursor: 'pointer',
+    color: theme.menu.primary.color,
+    '&:hover': {
+      color: theme.menu.highlightColor
+    }
+  }
 })
 
 const Footer = styled.div<{ name: string }>(({ name, ...props }) => {
@@ -59,7 +68,7 @@ const Footer = styled.div<{ name: string }>(({ name, ...props }) => {
 const CloseCaption = styled.div<{ name: string }>(({ name, ...props }) => {
   const theme = createRowPluginTheme(name, props.theme)
   return {
-    color: theme.menu.primary.color, //#af0537
+    color: theme.menu.highlightColor,
     cursor: 'pointer'
   }
 })
@@ -74,6 +83,7 @@ interface ExtendedSettingsProps {
   name: string
 }
 
+//eslint-disable-next-line react/display-name
 export const ExtendedSettingsWrapper = React.forwardRef<
   HTMLDivElement,
   ExtendedSettingsProps
@@ -111,7 +121,7 @@ export const ExtendedSettingsWrapper = React.forwardRef<
         <Content name={name}>
           <Header>
             <h4 style={{ marginRight: 25 }}>Erweiterte Einstellungen</h4>
-            <CloseBtnContainer onClick={hideExtendedSettings}>
+            <CloseBtnContainer onClick={hideExtendedSettings} name={name}>
               <EdtrIcon icon={edtrRowsControls.close} />
             </CloseBtnContainer>
           </Header>

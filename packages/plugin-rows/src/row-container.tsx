@@ -47,7 +47,7 @@ export const RowContainer = styled.div<{
       // }
       ...(expanded
         ? {
-            borderColor: theme.backgroundColor,
+            borderColor: theme.color,
             paddingTop: 0,
             paddingBottom: 0
           }

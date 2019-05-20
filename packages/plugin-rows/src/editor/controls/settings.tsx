@@ -27,7 +27,7 @@ const StyledSettings = styled.div(
         opacity: 1,
         height: '100%',
         width: '2px',
-        backgroundColor: theme.menu.primary.backgroundColor,
+        backgroundColor: theme.backgroundColor,
         zIndex: 15
       }
     }
@@ -58,7 +58,7 @@ const Content = styled.div(
   }: ThemeProps & { expanded: boolean; name: string }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      backgroundColor: theme.menu.primary.backgroundColor,
+      backgroundColor: theme.backgroundColor,
       paddingBottom: '10px',
       borderRight: `2px solid ${theme.menu.primary.color}`,
       paddingRight: '10px',
@@ -68,8 +68,7 @@ const Content = styled.div(
       opacity: expanded ? 1 : 0,
       zIndex: 16,
       position: 'relative',
-      transition: '250ms all ease-in-out',
-      pointerEvents: 'all'
+      transition: '250ms all ease-in-out'
     }
   }
 )
@@ -77,7 +76,7 @@ const Content = styled.div(
 const SettingsIcon = (props: { open: () => void; name: string }) => (
   <span onClick={props.open}>
     <StyledIconContainer name={props.name}>
-      <Icon icon={faCog} />
+      <Icon icon={faCog} size="lg" />
     </StyledIconContainer>
   </span>
 )

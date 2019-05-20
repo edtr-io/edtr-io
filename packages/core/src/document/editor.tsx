@@ -18,6 +18,11 @@ import {
 } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { DocumentProps } from '.'
+import { styled } from '@edtr-io/ui'
+
+const StyledDocument = styled.div({
+  outline: 'none'
+})
 
 export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
   id,
@@ -119,7 +124,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
         }
       }}
     >
-      <div
+      <StyledDocument
         onMouseDown={handleFocus}
         ref={container}
         data-document
@@ -132,7 +137,7 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
           state={state}
           name={document.plugin}
         />
-      </div>
+      </StyledDocument>
     </HotKeys>
   )
 

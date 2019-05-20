@@ -15,12 +15,10 @@ const IconContainer = styled.div<{ disabled?: boolean; name: string }>(
       height: '24px',
       margin: '0',
       marginLeft: '5px',
-      opacity: disabled ? 0.5 : 0.8,
       cursor: disabled ? 'not-allowed' : 'pointer',
-      color: theme.color,
+      color: disabled ? theme.menu.secondary.color : theme.menu.primary.color,
       '&:hover': {
-        opacity: disabled ? 0.5 : 1,
-        color: disabled ? theme.lightBackgroundColor : theme.highlightColor
+        color: disabled ? theme.menu.secondary.color : theme.highlightColor
       }
     }
   }

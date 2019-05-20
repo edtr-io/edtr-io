@@ -24,7 +24,7 @@ const Wrapper = styled.div<{ name: string }>(
       width: '100vw',
       height: '100vh',
       zIndex: 9999,
-      // paddingTop: '125px',
+      paddingTop: '125px',
 
       '@media (max-width: 1000px)': {
         padding: '25px 20px 0'

@@ -4,10 +4,9 @@ import { ThemeProps } from '@edtr-io/ui'
 
 import { createRowPluginTheme } from '../..'
 
-const StyledImage = styled(Icon)({
+const StyledIcon = styled(Icon)({
   height: '48px',
   marginBottom: '15px',
-  opacity: 0.8,
   transition: '250ms all ease-in-out'
 })
 
@@ -16,10 +15,10 @@ const StyledDropzone = styled.div(
     const theme = createRowPluginTheme(name, props.theme)
     return {
       width: '100%',
-      backgroundColor: theme.menu.secondary.backgroundColor,
-      color: theme.menu.secondary.color,
-      border: `3px dashed ${theme.menu.secondary.color}`,
-      transition: '250mx all ease-in-out',
+      backgroundColor: theme.menu.dropzone.backgroundColor,
+      color: theme.menu.dropzone.color,
+      border: `3px dashed ${theme.color}`,
+      transition: '250ms all ease-in-out',
       borderRadius: '5px',
       cursor: 'pointer',
       display: 'flex',
@@ -30,11 +29,11 @@ const StyledDropzone = styled.div(
       paddingBottom: '10px',
 
       '&:hover': {
-        borderColor: theme.menu.highlightColor,
-        backgroundColor: theme.menu.primary.backgroundColor
+        borderColor: theme.menu.dropzone.highlightColor,
+        backgroundColor: theme.menu.dropzone.highlightBackgroundColor
       },
-      [`&:hover ${StyledImage}`]: {
-        opacity: 1
+      [`&:hover ${StyledIcon}`]: {
+        color: theme.backgroundColor
       },
       '@media (max-width: 1000px)': {
         padding: '10px 20px'
@@ -51,8 +50,7 @@ const Caption = styled.p(
     const theme = createRowPluginTheme(name, props.theme)
     return {
       marginBottom: '0',
-      opacity: 0.8,
-      color: theme.menu.secondary.color,
+      color: theme.menu.dropzone.color,
       textAlign: 'center',
       maxWidth: '600px',
       fontFamily: '"PT Sans Narrow", sans-serif',
@@ -66,7 +64,7 @@ export const Dropzone: React.FunctionComponent<{ name: string }> = ({
 }) => {
   return (
     <StyledDropzone name={name}>
-      <StyledImage icon={faCloudUploadAlt} size="5x" />
+      <StyledIcon icon={faCloudUploadAlt} size="5x" />
       <Caption name={name}>
         Du kannst überall Dateien per Drag&#39;n&#39;Drop hinzufügen. Alternativ
         kannst du auch hier klicken...
