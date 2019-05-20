@@ -30,7 +30,7 @@ const Content = styled.div<{ name: string }>(({ name, ...props }) => {
     position: 'relative',
     padding: '15px',
     width: '98%',
-    maxWidth: '500px',
+    maxWidth: '600px',
     margin: 'auto'
   }
 })

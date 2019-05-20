@@ -6,18 +6,30 @@ import { HotKeys } from 'react-hotkeys'
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { Icon, faTimes, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'
+import { ButtonTheme, createOverlayButtonTheme } from './overlay-button'
+import { CheckboxTheme, createOverlayCheckboxTheme } from './overlay-checkbox'
+import { InputTheme, createOverlayInputTheme } from './overlay-input'
+import { TextareaTheme, createOverlayTextareaTheme } from './overlay-textarea'
 
-export const createOverlayTheme = createEditorUiTheme<OverlayTheme>(theme => {
-  return {
-    backgroundColor: theme.backgroundColor,
-    color: theme.color,
-    overlayBackgroundColor: '#00000033',
-    highlightColor: theme.primary.background
-  }
-})
+export const createOverlayTheme = (themeProp: EditorThemeProps['theme']) => {
+  const themeCreator = createEditorUiTheme<OverlayTheme>(theme => {
+    return {
+      backgroundColor: theme.backgroundColor,
+      color: theme.color,
+      overlayBackgroundColor: '#00000033',
+      highlightColor: theme.primary.background,
+      button: createOverlayButtonTheme('button', themeProp),
+      input: createOverlayInputTheme('input', themeProp),
+      textarea: createOverlayTextareaTheme('textarea', themeProp),
+      checkbox: createOverlayCheckboxTheme('checkbox', themeProp)
+    }
+  })
+
+  return themeCreator('overlay', themeProp)
+}
 
 const OverlayWrapper = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     width: '100%',
@@ -32,7 +44,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
 })
 
 export const OverlayBox = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     margin: '0 auto',
@@ -55,7 +67,7 @@ const OverlaySettingsBox = styled(OverlayBox)({
 })
 
 const CloseButton = styled.button((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     float: 'right',
@@ -124,7 +136,7 @@ export function Overlay(props: {
 
 const OverlayTriangle = styled.div(
   (props: EditorThemeProps & { positionAbove: boolean }) => {
-    const theme = createOverlayTheme('overlay', props.theme)
+    const theme = createOverlayTheme(props.theme)
     const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
     return {
       position: 'relative',
@@ -147,7 +159,7 @@ const InlineOverlayWrapper = styled.div({
 })
 
 const InlineOverlayContentWrapper = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
   return {
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
     backgroundColor: theme.backgroundColor,
@@ -166,7 +178,7 @@ const InlinePreview = styled.span({
   padding: '0px 8px'
 })
 const ChangeButton = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     padding: '5px 5px 5px 10px',
@@ -274,7 +286,7 @@ const ConfigIconContainer = styled.div({
   position: 'relative'
 })
 const ConfigIcon = styled.div((props: EditorThemeProps) => {
-  const theme = createOverlayTheme('overlay', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     position: 'absolute',
@@ -315,4 +327,8 @@ export interface OverlayTheme {
   color: string
   overlayBackgroundColor: string
   highlightColor: string
+  button: ButtonTheme
+  checkbox: CheckboxTheme
+  input: InputTheme
+  textarea: TextareaTheme
 }

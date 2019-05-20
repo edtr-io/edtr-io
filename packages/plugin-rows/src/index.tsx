@@ -4,7 +4,7 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
-import { createPluginTheme } from '@edtr-io/ui'
+import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
@@ -53,7 +53,7 @@ export interface RowTheme {
   }
 }
 
-export const createRowPluginTheme = createPluginTheme<RowTheme>(theme => {
+export const rowsPluginThemeFactory: PluginThemeFactory<RowTheme> = theme => {
   return {
     color: theme.editor.secondary.color, // rgb(51,51,51) #333333
     backgroundColor: theme.editor.primary.color, // #fff
@@ -77,4 +77,8 @@ export const createRowPluginTheme = createPluginTheme<RowTheme>(theme => {
       }
     }
   }
-})
+}
+
+export const createRowPluginTheme = createPluginTheme<RowTheme>(
+  rowsPluginThemeFactory
+)
