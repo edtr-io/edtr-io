@@ -12,7 +12,6 @@ import {
   isFocused,
   PersistAction,
   reducer,
-  serializeDocument,
   State,
   Undoable
 } from '../../src/store'
@@ -157,119 +156,6 @@ describe('focus', () => {
       }
     })
     expect(isFocused(state, '0')).toEqual(true)
-  })
-})
-
-describe('serialize', () => {
-  test('stateless', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'stateless'
-      }
-    })
-    expect(serializeDocument(state)).toEqual({
-      plugin: 'stateless'
-    })
-  })
-
-  test('stateful', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
-    })
-    expect(serializeDocument(state)).toEqual({
-      plugin: 'stateful',
-      state: { counter: 0 }
-    })
-  })
-
-  test('nested', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nested',
-        state: {
-          child: { plugin: 'stateful', state: 0 }
-        }
-      }
-    })
-    expect(serializeDocument(state)).toEqual({
-      plugin: 'nested',
-      state: {
-        child: {
-          plugin: 'stateful',
-          state: 0
-        }
-      }
-    })
-  })
-
-  test('nested array', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nestedArray',
-        state: {
-          children: [{ plugin: 'stateful', state: 1 }]
-        }
-      }
-    })
-    expect(serializeDocument(state)).toEqual({
-      plugin: 'nestedArray',
-      state: {
-        children: [
-          {
-            plugin: 'stateful',
-            state: 1
-          }
-        ]
-      }
-    })
-  })
-
-  test('nested inside nested', () => {
-    state = reducer(state, {
-      type: ActionType.InitRoot,
-      payload: {
-        plugin: 'nestedArray',
-        state: {
-          children: [
-            { plugin: 'stateful', state: 1 },
-            {
-              plugin: 'nested',
-              state: {
-                child: {
-                  plugin: 'stateful',
-                  state: 2
-                }
-              }
-            }
-          ]
-        }
-      }
-    })
-
-    expect(serializeDocument(state)).toEqual({
-      plugin: 'nestedArray',
-      state: {
-        children: [
-          {
-            plugin: 'stateful',
-            state: 1
-          },
-          {
-            plugin: 'nested',
-            state: {
-              child: { plugin: 'stateful', state: 2 }
-            }
-          }
-        ]
-      }
-    })
   })
 })
 
