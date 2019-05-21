@@ -1,21 +1,18 @@
 import * as R from 'ramda'
 
-import { plugins } from '../../__fixtures__/plugins'
+import { setupStore } from '../../__helpers__'
 import {
-  createStore,
   getDocuments,
   insert,
   remove,
-  change
+  change,
+  asyncInsert
 } from '../../src/redux-store'
 
-let store: ReturnType<typeof createStore>['store']
+let store: ReturnType<typeof setupStore>
 
 beforeEach(() => {
-  store = createStore({
-    plugins,
-    defaultPlugin: 'text'
-  }).store
+  store = setupStore()
 })
 
 describe('Documents', () => {
@@ -24,6 +21,10 @@ describe('Documents', () => {
   })
 
   describe('Insert', () => {
+    test('Default Plugin', () => {
+      store.dispatch(asyncInsert({ id: '0' }))
+    })
+
     test('Stateless plugin', () => {
       store.dispatch(
         insert({

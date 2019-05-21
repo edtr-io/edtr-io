@@ -1,13 +1,10 @@
-import { plugins } from '../../__fixtures__/plugins'
-import { createStore, getDefaultPlugin, getPlugin } from '../../src/redux-store'
+import { getDefaultPlugin, getPlugin } from '../../src/redux-store'
+import { setupStore } from '../../__helpers__'
 
-let store: ReturnType<typeof createStore>['store']
+let store: ReturnType<typeof setupStore>
 
 beforeEach(() => {
-  store = createStore({
-    plugins,
-    defaultPlugin: 'text'
-  }).store
+  store = setupStore()
 })
 
 describe('Plugins', () => {

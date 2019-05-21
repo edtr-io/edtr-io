@@ -13,7 +13,9 @@ export const asyncInsert = createAction<
   'AsyncInsert',
   {
     id: string
-  } & DocumentState
+    plugin?: string
+    state?: unknown
+  }
 >('AsyncInsert')
 export type AsyncInsertAction = ReturnType<typeof asyncInsert>
 

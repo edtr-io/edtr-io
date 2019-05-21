@@ -1,13 +1,10 @@
-import { plugins } from '../../__fixtures__/plugins'
-import { createStore, getClipboard, copy } from '../../src/redux-store'
+import { setupStore } from '../../__helpers__'
+import { getClipboard, copy } from '../../src/redux-store'
 
-let store: ReturnType<typeof createStore>['store']
+let store: ReturnType<typeof setupStore>
 
 beforeEach(() => {
-  store = createStore({
-    plugins,
-    defaultPlugin: 'text'
-  }).store
+  store = setupStore()
 })
 
 describe('Clipboard', () => {
