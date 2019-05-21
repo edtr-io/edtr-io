@@ -2,6 +2,8 @@ import * as React from 'react'
 import {
   EditorContext,
   getDocument,
+  getPlugins,
+  PluginState,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
@@ -46,6 +48,7 @@ export const RowsEditor = (
       <React.Fragment>
         {rows.items.map((row, index) => {
           const doc = getDocument(store.state, row.id)
+          const plugins = getPlugins(store.state)
           return (
             //TODO: remove this wrapper if its not needed
             <div key={row.id} style={{ position: 'relative' }}>
@@ -57,6 +60,10 @@ export const RowsEditor = (
                 moveRow={(dragIndex: number, hoverIndex: number) => {
                   rows.move(dragIndex, hoverIndex)
                 }}
+                insert={(index: number, options?: PluginState) => {
+                  rows.insert(index, options)
+                }}
+                plugins={plugins}
               />
             </div>
           )

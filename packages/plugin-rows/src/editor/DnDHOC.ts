@@ -4,9 +4,12 @@ import {
   ConnectDragSource,
   ConnectDropTarget,
   DragSource,
-  DropTarget
+  DropTarget,
+  DropTargetMonitor
 } from 'react-dnd'
+import { NativeTypes } from 'react-dnd-html5-backend'
 import { RowSourceProps } from './row'
+import { Plugin, PluginState } from '@edtr-io/core'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource
@@ -20,10 +23,15 @@ export interface TargetProps {
 
 export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
   return DropTarget<
-    { index: number; moveRow: (from: number, to: number) => void },
+    {
+      index: number
+      moveRow: (from: number, to: number) => void
+      insert: (index: number, data: PluginState) => void
+      plugins: Record<string, Plugin>
+    },
     TargetProps
   >(
-    'row',
+    ['row', NativeTypes.FILE, NativeTypes.URL],
     {
       hover(props, monitor, component) {
         if (!component) {
@@ -33,28 +41,68 @@ export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
         if (!node) {
           return null
         }
-        const dragIndex = monitor.getItem().index
-        const hoverIndex = props.index
-        if (dragIndex === hoverIndex) {
-          return
-        }
+        // set the boundingRect for later use (see isDraggingAbove)
         const hoverBoundingRect = node.getBoundingClientRect()
-        const hoverMiddleY =
-          (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-        const clientOffset = monitor.getClientOffset()
-        const hoverClientY = clientOffset
-          ? clientOffset.y - hoverBoundingRect.top
-          : 0
+        monitor.getItem().boundingRect = hoverBoundingRect
 
-        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        if (monitor.getItemType() === 'row') {
+          const dragIndex = monitor.getItem().index
+          const hoverIndex = props.index
+          if (dragIndex === hoverIndex) {
+            return
+          }
+
+          const draggingAbove = isDraggingAbove(monitor)
+          if (dragIndex < hoverIndex && draggingAbove) {
+            return
+          }
+          if (dragIndex > hoverIndex && !draggingAbove) {
+            return
+          }
+
+          props.moveRow(dragIndex, hoverIndex)
+          monitor.getItem().index = hoverIndex
+        }
+      },
+      drop(props, monitor) {
+        const type = monitor.getItemType()
+        if (type !== NativeTypes.FILE && type !== NativeTypes.URL) {
           return
         }
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+
+        if (monitor.didDrop()) {
+          // handled in nested dropzone
           return
         }
+        const dropIndex = props.index
 
-        props.moveRow(dragIndex, hoverIndex)
-        monitor.getItem().index = hoverIndex
+        let transfer: DataTransfer
+        if (type === NativeTypes.FILE) {
+          const files: File[] = monitor.getItem().files
+          transfer = createFakeDataTransfer(files)
+        } else {
+          // NativeTypes.URL
+          const urls: string[] = monitor.getItem().urls
+          transfer = createFakeDataTransfer([], urls[0])
+        }
+
+        for (let key in props.plugins) {
+          const { onPaste } = props.plugins[key]
+          if (typeof onPaste === 'function') {
+            const result = onPaste(transfer)
+            if (result !== undefined) {
+              if (isDraggingAbove(monitor)) {
+                props.insert(dropIndex, { plugin: key, state: result.state })
+              } else {
+                props.insert(dropIndex + 1, {
+                  plugin: key,
+                  state: result.state
+                })
+              }
+              return
+            }
+          }
+        }
       }
     },
     connect => ({
@@ -80,4 +128,33 @@ export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
       })
     )(Comp)
   )
+}
+function isDraggingAbove(monitor: DropTargetMonitor) {
+  // get bounding Rect set in hover
+  const domBoundingRect = monitor.getItem().boundingRect
+
+  const domMiddleY = (domBoundingRect.bottom - domBoundingRect.top) / 2
+  const dropClientOffset = monitor.getClientOffset()
+  const dragClientY = dropClientOffset
+    ? dropClientOffset.y - domBoundingRect.top
+    : 0
+
+  return dragClientY < domMiddleY
+}
+
+//needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
+function createFakeDataTransfer(files: File[], text?: string) {
+  class FakeDataTransfer extends DataTransfer {
+    public dropEffect = 'all'
+    public effectAllowed = 'all'
+    public readonly files = (files as unknown) as FileList
+    public readonly types = ['Files']
+    public getData(type: string) {
+      if (type.toLowerCase().startsWith('text')) {
+        return text || ''
+      }
+      return ''
+    }
+  }
+  return new FakeDataTransfer()
 }
