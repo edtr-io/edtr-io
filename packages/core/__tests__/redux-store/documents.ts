@@ -1,7 +1,8 @@
 import * as R from 'ramda'
 
-import { setupStore } from '../../__helpers__'
+import { setupStore, waitUntil } from '../../__helpers__'
 import {
+  getDocument,
   getDocuments,
   insert,
   remove,
@@ -23,35 +24,39 @@ describe('Documents', () => {
   describe('Insert', () => {
     test('Default Plugin', () => {
       store.dispatch(asyncInsert({ id: '0' }))
+      return waitUntil(() => store.getActions().length >= 2).then(() => {
+        const doc = getDocument(store.getState(), '0')
+        if (!doc) throw new Error('Document not found')
+        expect(doc.plugin).toEqual('text')
+      })
     })
 
-    test('Stateless plugin', () => {
+    test('Stateless Plugin', () => {
       store.dispatch(
-        insert({
+        asyncInsert({
           id: '1',
           plugin: 'stateless'
         })
       )
-      expect(getDocuments(store.getState())).toEqual({
-        1: {
-          plugin: 'stateless',
-          state: undefined
-        }
+      return waitUntil(() => store.getActions().length >= 2).then(() => {
+        expect(getDocument(store.getState(), '1')).toEqual({
+          plugin: 'stateless'
+        })
       })
     })
     test('Stateful plugin w/ state', () => {
       store.dispatch(
-        insert({
-          id: '1',
+        asyncInsert({
+          id: '0',
           plugin: 'stateful',
-          state: 1
+          state: { counter: 0 }
         })
       )
-      expect(getDocuments(store.getState())).toEqual({
-        1: {
+      return waitUntil(() => store.getActions().length >= 2).then(() => {
+        expect(getDocument(store.getState(), '0')).toEqual({
           plugin: 'stateful',
-          state: 1
-        }
+          state: { counter: 0 }
+        })
       })
     })
   })

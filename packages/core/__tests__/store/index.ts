@@ -26,46 +26,6 @@ beforeEach(() => {
   })
 })
 
-describe('insert', () => {
-  test('default plugin', () => {
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '0'
-      }
-    })
-    expect(getDocument(state, '0')).toEqual({ plugin: 'default' })
-  })
-
-  test('stateless plugin', () => {
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '0',
-        plugin: 'stateless'
-      }
-    })
-    expect(getDocument(state, '0')).toEqual({ plugin: 'stateless' })
-  })
-
-  test('stateful plugin', () => {
-    state = reducer(state, {
-      type: ActionType.Insert,
-      payload: {
-        id: '0',
-        plugin: 'stateful',
-        state: { counter: 0 }
-      }
-    })
-    expect(getDocument(state, '0')).toEqual({
-      plugin: 'stateful',
-      state: {
-        counter: 0
-      }
-    })
-  })
-})
-
 describe('remove', () => {
   test('one document', () => {
     state = createInitialState({
