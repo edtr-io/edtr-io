@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import { isStatefulPlugin } from '../../plugin'
+import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
 import { DocumentState, State } from '../types'
 import {
@@ -13,6 +13,7 @@ import {
 } from './actions'
 
 import { getPlugin } from '../plugins/reducer'
+import { StoreSerializeHelpers } from '../../plugin-state'
 
 export const documentsReducer = createSubReducer(
   'documents',
@@ -68,4 +69,23 @@ export function getDocuments(state: State) {
 
 export function getDocument(state: State, id: string): DocumentState | null {
   return getDocuments(state)[id] || null
+}
+
+export function serializeDocument(
+  state: State,
+  id: string
+): DocumentState | null {
+  const doc = getDocument(state, id)
+  if (!doc) return null
+  const plugin = getPlugin(state, doc.plugin)
+  if (!plugin) return null
+  const serializeHelpers: StoreSerializeHelpers = {
+    getDocument: (id: string) => serializeDocument(state, id)
+  }
+  return {
+    plugin: doc.plugin,
+    ...(isStatelessPlugin(plugin)
+      ? {}
+      : { state: plugin.state.serialize(doc.state, serializeHelpers) })
+  }
 }

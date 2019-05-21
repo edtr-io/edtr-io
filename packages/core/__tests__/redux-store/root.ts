@@ -2,9 +2,9 @@ import { plugins } from '../../__fixtures__/plugins'
 import {
   Action,
   createStore,
-  getDocument,
   getRoot,
-  initRoot
+  initRoot,
+  serializeRootDocument
 } from '../../src/redux-store'
 
 let actions: Action[]
@@ -42,18 +42,38 @@ describe('Root', () => {
     expect(getRoot(store.getState())).toEqual(null)
   })
 
-  test('Init Root', () => {
-    store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
-    const root = getRoot(store.getState())
+  describe('Init Root', () => {
+    test('Stateful Plugin', () => {
+      store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
 
-    if (!root) {
-      throw new Error('No root document found')
-    }
+      return waitUntil(() => actions.length >= 2).then(() => {
+        expect(serializeRootDocument(store.getState())).toEqual({
+          plugin: 'stateful',
+          state: 0
+        })
+      })
+    })
 
-    return waitUntil(() => actions.length >= 2).then(() => {
-      expect(getDocument(store.getState(), root)).toEqual({
-        plugin: 'stateful',
-        state: 0
+    test('Nested', () => {
+      store.dispatch(
+        initRoot({
+          plugin: 'nested',
+          state: {
+            child: { plugin: 'stateful', state: 0 }
+          }
+        })
+      )
+
+      return waitUntil(() => actions.length >= 3).then(() => {
+        expect(serializeRootDocument(store.getState())).toEqual({
+          plugin: 'nested',
+          state: {
+            child: {
+              plugin: 'stateful',
+              state: 0
+            }
+          }
+        })
       })
     })
   })
