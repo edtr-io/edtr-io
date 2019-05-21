@@ -8,7 +8,8 @@ import { composeWithDevTools } from 'remote-redux-devtools'
 
 import { Plugin } from '../plugin'
 import { Action } from './actions'
-import { rootReducer, State } from './reducer'
+import { reducer } from './reducer'
+import { State } from './types'
 
 export function createStore<K extends string>({
   defaultPlugin,
@@ -22,7 +23,7 @@ export function createStore<K extends string>({
   const composeEnhancers = composeWithDevTools({ realtime: true })
   const enhancer = composeEnhancers(applyMiddleware(...getMiddleware()))
   const store = createReduxStore<State, Action, { dispatch: {} }, {}>(
-    rootReducer,
+    reducer,
     {
       plugins: {
         defaultPlugin,

@@ -1,43 +1,18 @@
-import { DocumentState } from './reducer'
+import { ClipboardAction } from './clipboard/actions'
+import { DocumentsAction } from './documents/actions'
+import { FocusAction } from './focus/actions'
+import { ModeAction } from './mode/actions'
+import { RootAction } from './root/actions'
 
-/* Mode */
-export const setEditable = createAction<'SetEditable', boolean>('SetEditable')
-export type SetEditableAction = ReturnType<typeof setEditable>
-
-/* Documents */
-export const insert = createAction<
-  'Insert',
-  {
-    id: string
-  } & DocumentState
->('Insert')
-export type InsertAction = ReturnType<typeof insert>
-export const remove = createAction<'Remove', string>('Remove')
-export type RemoveAction = ReturnType<typeof remove>
-export const change = createAction<'Change', { id: string; state: unknown }>(
-  'Change'
-)
-export type ChangeAction = ReturnType<typeof change>
-
-/* Clipboard */
-export const copy = createAction<'Copy', string>('Copy')
-export type CopyAction = ReturnType<typeof copy>
+export * from './clipboard/actions'
+export * from './documents/actions'
+export * from './focus/actions'
+export * from './mode/actions'
+export * from './root/actions'
 
 export type Action =
-  | SetEditableAction
-  | InsertAction
-  | RemoveAction
-  | ChangeAction
-  | CopyAction
-
-function createAction<T, P>(type: T) {
-  const actionCreator = (payload: P) => {
-    return {
-      type,
-      payload
-    }
-  }
-  actionCreator.type = type
-
-  return actionCreator
-}
+  | ClipboardAction
+  | DocumentsAction
+  | FocusAction
+  | ModeAction
+  | RootAction
