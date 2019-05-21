@@ -35,15 +35,12 @@ export function createFilePlugin<T = unknown>(
     description: 'Ein Plugin für den Upload von beliebigen Dateien.',
     icon: createIcon(faFileAlt),
     onPaste: (clipboardData: DataTransfer) => {
-      const items = clipboardData.items
+      const items = clipboardData.files
       let files: File[] = []
       for (let i = 0; i < items.length; i++) {
         const item = items[i]
-        if (item.kind === 'file') {
-          const file = item.getAsFile()
-          if (!file) continue
-          files.push(file)
-        }
+        if (!item) continue
+        files.push(item)
       }
       if (files.length) {
         return {
