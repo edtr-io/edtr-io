@@ -11,7 +11,7 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {
     const plugins = pluginClosure.current.plugins
     const search = editor.value.document.text.replace('/', '')
-    const startPlugins = Object.keys(plugins)
+    const pluginsStartingWithSearchString = Object.keys(plugins)
       .filter(pluginKey => {
         const plugin = plugins[pluginKey]
         if (pluginKey === name || pluginKey === 'rows') return false
@@ -23,24 +23,22 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
         )
       })
       .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
-    const includePlugins = Object.keys(plugins)
+    const otherPluginsContainingSearchString = Object.keys(plugins)
       .filter(pluginKey => {
         const plugin = plugins[pluginKey]
         if (pluginKey === name || pluginKey === 'rows') return false
 
-        if (
+        return (
           plugin.title &&
           plugin.title.toLowerCase().includes(search.toLowerCase()) &&
           !plugin.title.toLowerCase().startsWith(search.toLowerCase())
         )
-          return true
-
-        // if (pluginKey.toLowerCase().includes(search.toLowerCase()))
-        //   return true
-        return false
       })
       .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
-    return startPlugins.concat(includePlugins)
+    return [
+      ...pluginsStartingWithSearchString,
+      ...otherPluginsContainingSearchString
+    ]
   }
   return []
 }
