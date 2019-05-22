@@ -36,10 +36,14 @@ export function list<S, T = S, U = unknown>(
           oldItems: WrappedValue[],
           helpers: StoreDeserializeHelpers
         ) => WrappedValue[]
-      ) => void
+      ) => void,
+      parentProps?: unknown
     ) => {
       const getItems = () =>
-        R.map(item => type(item.value, createOnChange(item.id)), items)
+        R.map(
+          item => type(item.value, createOnChange(item.id), parentProps),
+          items
+        )
 
       function createOnChange(id: string) {
         return (

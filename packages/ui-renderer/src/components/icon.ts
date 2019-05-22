@@ -6,5 +6,7 @@ export {
   faCaretSquareDown,
   faCaretSquareUp,
   faSmile,
-  faCheckCircle
+  faCheckCircle,
+  faSortDown,
+  faSortUp
 } from '@fortawesome/free-solid-svg-icons'

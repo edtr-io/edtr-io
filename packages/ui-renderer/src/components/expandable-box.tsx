@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { createRendererUiTheme, RendererThemeProps, styled } from '../theme'
-import { faCaretSquareDown, faCaretSquareUp, Icon } from './icon'
+import { faSortDown, faSortUp, Icon } from './icon'
 
 export const createExpandableBoxTheme = createRendererUiTheme<
   ExpandableBoxTheme
@@ -10,45 +10,42 @@ export const createExpandableBoxTheme = createRendererUiTheme<
     containerBorderColor: 'transparent',
     toggleBackgroundColor: theme.primary.background,
     toggleBorderColor: 'transparent',
-    toggleColor: theme.primary.color
+    toggleColor: theme.primary.background
   }
 })
 
-const Wrapper = styled.div<{ collapsed: boolean } & RendererThemeProps>(
-  ({ collapsed, theme }) => {
-    const { containerBorderColor } = createExpandableBoxTheme(
-      'expandableBox',
-      theme
-    )
-
-    return {
-      marginTop: '12px',
-      marginBottom: '20px',
-      border: `1px solid ${collapsed ? 'transparent' : containerBorderColor}`,
-      borderRadius: '2px',
-      boxShadow: `0 1px 1px rgba(0, 0, 0, ${collapsed ? 0 : 0.05})`
-    }
+const Wrapper = styled.div<{ collapsed: boolean }>(({ collapsed }) => {
+  return {
+    borderRadius: '5px',
+    boxShadow: `0 5px 5px rgba(0, 0, 0, ${collapsed ? 0 : 0.05})`
   }
-)
+})
 
 const Toggle = styled.div<
-  { collapsed: boolean; editable?: boolean } & RendererThemeProps
->(({ collapsed, editable, theme }) => {
-  const {
-    toggleBackgroundColor,
-    toggleBorderColor,
-    toggleColor
-  } = createExpandableBoxTheme('expandableBox', theme)
+  {
+    collapsed: boolean
+    editable?: boolean
+    alwaysVisible?: boolean
+  } & RendererThemeProps
+>(({ collapsed, editable, alwaysVisible, theme }) => {
+  const { toggleBackgroundColor, toggleColor } = createExpandableBoxTheme(
+    'expandableBox',
+    theme
+  )
 
   return {
-    backgroundColor: collapsed ? 'transparent' : toggleBackgroundColor,
+    backgroundColor:
+      alwaysVisible || !collapsed ? toggleBackgroundColor : 'transparent',
     '& a': {
-      color: collapsed ? undefined : toggleColor
+      color: toggleColor
     },
     padding: '10px 15px 10px 10px',
+    marginBottom: '10px',
     position: 'relative',
-    borderColor: collapsed ? 'transparent' : toggleBorderColor,
     textAlign: 'left',
+    borderRadius: alwaysVisible && collapsed ? '5px' : undefined,
+    borderTopLeftRadius: '5px',
+    borderTopRightRadius: '5px',
     cursor: editable ? undefined : 'pointer'
   }
 })
@@ -56,35 +53,52 @@ const Toggle = styled.div<
 const Content = styled.div<{ collapsed: boolean }>(({ collapsed }) => {
   return {
     display: collapsed ? 'none' : 'block',
-    position: 'relative'
+    position: 'relative',
+    padding: '5px 0'
   }
 })
+
+const StyledIcon = styled(Icon)<{ collapsed: boolean } & RendererThemeProps>(
+  ({ collapsed, theme }) => {
+    const { toggleColor } = createExpandableBoxTheme('expandableBox', theme)
+    return {
+      marginRight: '10px',
+      marginBottom: collapsed ? '3px' : '-3px',
+      color: toggleColor
+    }
+  }
+)
 
 export function ExpandableBox({
   children,
   editable,
+  alwaysVisible,
   title
 }: {
   children?: React.ReactNode
   editable?: boolean
+  alwaysVisible?: boolean
   title: React.ReactNode
 }) {
   let [collapsed, setCollapsed] = React.useState(true)
-  collapsed = !editable && collapsed
 
   return (
     <Wrapper collapsed={collapsed}>
       <Toggle
         editable={editable}
+        alwaysVisible={alwaysVisible}
         collapsed={collapsed}
         onClick={() => {
           setCollapsed(!collapsed)
         }}
       >
-        {editable ? null : (
-          <Icon icon={collapsed ? faCaretSquareDown : faCaretSquareUp} />
-        )}
-        <a>{title}</a>
+        <React.Fragment>
+          <StyledIcon
+            collapsed={collapsed}
+            icon={collapsed ? faSortDown : faSortUp}
+          />
+          <a>{title}</a>
+        </React.Fragment>
       </Toggle>
       <Content collapsed={collapsed}>{children}</Content>
     </Wrapper>
@@ -93,7 +107,6 @@ export function ExpandableBox({
 
 export interface ExpandableBoxTheme {
   containerBorderColor: string
-  toggleBorderColor: string
   toggleBackgroundColor: string
   toggleColor: string
 }

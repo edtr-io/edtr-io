@@ -16,10 +16,11 @@ import {
   Range as CoreRange
 } from 'slate'
 
-import { TextPlugin } from '..'
+import { isValueEmpty, TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
+import { linkNode } from '../plugins/link'
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -28,6 +29,9 @@ export const createTextEditor = (
     inlines: {
       [katexInlineNode]: {
         isVoid: true
+      },
+      [linkNode]: {
+        text: /.+/
       }
     },
     blocks: {
@@ -59,27 +63,26 @@ export const createTextEditor = (
       }
     }, [lastValue, props.focused, props.state.value])
 
-    const pluginClosure = React.useRef({ overlayContext })
-    const slatePlugins = React.useRef<TextPlugin[]>()
-    if (slatePlugins.current === undefined) {
-      slatePlugins.current = options.plugins.map(slatePluginFactory =>
-        slatePluginFactory(pluginClosure)
-      )
-    }
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
-      name: props.name || 'text',
+      name: props.name,
       plugins: plugins,
       insert: props.insert,
+      replace: props.replace,
+      remove: props.remove,
+      parent: props.parent,
       focusPrevious: focusPrevious,
       focusNext: focusNext,
       mergeWithNext: props.mergeWithNext,
       mergeWithPrevious: props.mergeWithPrevious
     })
     slateClosure.current = {
-      name: props.name || 'text',
+      name: props.name,
       plugins: plugins,
       insert: props.insert,
+      replace: props.replace,
+      remove: props.remove,
+      parent: props.parent,
       focusPrevious: focusPrevious,
       focusNext: focusNext,
       mergeWithNext: props.mergeWithNext,
@@ -88,15 +91,41 @@ export const createTextEditor = (
     React.useEffect(() => {
       if (!editor.current) return
       if (props.focused) {
-        editor.current.focus()
+        setTimeout(editor.current.focus)
       } else {
         editor.current.blur()
       }
     }, [props.focused])
 
+    const pluginClosure = React.useRef({
+      overlayContext,
+      name: props.name,
+      parent: props.parent
+    })
+    pluginClosure.current = {
+      overlayContext,
+      name: props.name,
+      parent: props.parent
+    }
+    const slatePlugins = React.useRef<TextPlugin[]>()
+    if (slatePlugins.current === undefined) {
+      slatePlugins.current = [
+        ...options.plugins.map(slatePluginFactory =>
+          slatePluginFactory(pluginClosure)
+        ),
+        newSlateOnEnter(slateClosure)
+      ]
+    }
+
     return (
       <Editor
-        ref={editor as React.RefObject<Editor>}
+        ref={slateReact => {
+          if (slateReact && !editor.current) {
+            editor.current = slateReact
+            patchSlateInsertFragment(slateReact)
+          }
+        }}
+        // ref={editor as React.RefObject<Editor>}
         onPaste={createOnPaste(slateClosure)}
         onKeyDown={createOnKeyDown(slateClosure)}
         onClick={(e, editor, next): CoreEditor | void => {
@@ -184,24 +213,6 @@ function createOnKeyDown(
       return
     }
 
-    if (isHotkey('enter', e as KeyboardEvent)) {
-      if (
-        slateClosure.current &&
-        typeof slateClosure.current.insert === 'function'
-      ) {
-        e.preventDefault()
-        const nextSlateState = splitBlockAtSelection(editor)
-
-        setTimeout(() => {
-          if (!slateClosure.current) return
-          const { insert } = slateClosure.current
-          if (typeof insert !== 'function') return
-          insert({ plugin: slateClosure.current.name, state: nextSlateState })
-        })
-        return
-      }
-    }
-
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       const lastRange = getRange()
 
@@ -235,12 +246,15 @@ function createOnKeyDown(
       mergeWithPrevious(previous => {
         const value = Value.fromJSON(previous)
         const selection = CoreRange.create(editor.value.selection)
-        editor
-          // hack because empty slate looses focus
-          .insertTextAtRange(selection, ' ')
-          .insertFragmentAtRange(selection, value.document)
-          .moveFocusBackward(1)
-          .delete()
+        return (
+          editor
+            // hack because empty slate looses focus
+            .insertTextAtRange(selection, ' ')
+            .insertFragmentAtRange(selection, value.document)
+            .moveFocusBackward(1)
+            .delete()
+            .value.toJSON()
+        )
       })
       return
     }
@@ -260,7 +274,7 @@ function createOnKeyDown(
       return
     }
 
-    next()
+    return next()
   }
 
   function getRange(): Range | null {
@@ -293,9 +307,125 @@ function createOnKeyDown(
     )
   }
 }
+function newSlateOnEnter(
+  slateClosure: React.RefObject<SlateClosure>
+): TextPlugin {
+  return {
+    commands: {
+      replaceWithPlugin(editor, options?: { plugin: string; state: unknown }) {
+        if (!slateClosure.current) return editor
+        const { replace } = slateClosure.current
+        if (typeof replace !== 'function') return editor
+        replace(options)
+        return editor
+      },
+      unwrapParent(editor) {
+        if (!slateClosure.current) return editor
+        const parentWithReplace = findParentWith(
+          'replace',
+          slateClosure.current
+        )
+        if (
+          parentWithReplace &&
+          typeof parentWithReplace.replace === 'function'
+        ) {
+          parentWithReplace.replace({
+            plugin: slateClosure.current.name,
+            state: editor.value.toJSON()
+          })
+        }
+        return editor
+      }
+    },
+    onKeyDown(e, editor, next) {
+      if (
+        isHotkey('enter', e as KeyboardEvent) &&
+        !editor.value.selection.isExpanded
+      ) {
+        // remove text plugin and insert on parent if plugin is empty
+        if (isValueEmpty(editor.value) && slateClosure.current) {
+          const parentWithInsert = findParentWith(
+            'insert',
+            slateClosure.current
+          )
+          if (parentWithInsert) {
+            e.preventDefault()
+            setTimeout(() => {
+              if (!slateClosure.current) return next()
+              const { remove } = slateClosure.current
+              if (
+                typeof remove === 'function' &&
+                typeof parentWithInsert.insert === 'function'
+              ) {
+                parentWithInsert.insert({ plugin: slateClosure.current.name })
+                remove()
+              }
+            })
+            return
+          }
+        }
+        // remove block and insert plugin on parent, if block is empty
+        if (
+          editor.value.startText.text === '' &&
+          editor.value.startBlock.nodes.size === 1 &&
+          slateClosure.current
+        ) {
+          const parentWithInsert = findParentWith(
+            'insert',
+            slateClosure.current
+          )
+          if (parentWithInsert) {
+            e.preventDefault()
+            if (!slateClosure.current) return next()
+            if (typeof parentWithInsert.insert === 'function') {
+              editor.delete()
+              parentWithInsert.insert({ plugin: slateClosure.current.name })
+            }
+            return
+          }
+        }
+
+        if (
+          slateClosure.current &&
+          typeof slateClosure.current.insert === 'function'
+        ) {
+          e.preventDefault()
+          const nextSlateState = splitBlockAtSelection(editor)
+
+          setTimeout(() => {
+            if (!slateClosure.current) return next()
+            const { insert } = slateClosure.current
+            if (typeof insert !== 'function') return
+            insert({ plugin: slateClosure.current.name, state: nextSlateState })
+          })
+          return
+        }
+      }
+      return next()
+    }
+  }
+}
+
+// search recursively for a parent with the required function
+function findParentWith(
+  funcQuery: 'insert' | 'replace',
+  closure: SlateEditorAdditionalProps
+): SlateEditorAdditionalProps | undefined {
+  if (!closure.parent) return
+
+  if (typeof closure.parent[funcQuery] === 'function') return closure.parent
+
+  return findParentWith(funcQuery, closure.parent)
+}
 
 function splitBlockAtSelection(editor: CoreEditor) {
-  editor.splitBlock(1)
+  if (editor.value.focusBlock.type == katexBlockNode) {
+    // If katex block node is focused, don't attempt to split it, insert empty paragraph instead
+    editor.moveToEndOfBlock()
+    editor.insertBlock('paragraph')
+  } else {
+    editor.splitBlock(1)
+  }
   const blocks = editor.value.document.getBlocks()
 
   const afterSelected = blocks.skipUntil(block => {
@@ -324,14 +454,82 @@ export type SlateEditorProps = StatefulPluginEditorProps<
 >
 
 export interface SlateEditorAdditionalProps {
+  name: string
   insert?: (options?: { plugin: string; state?: unknown }) => void
+  replace?: (options?: { plugin: string; state?: unknown }) => void
+  remove?: () => void
+  parent?: SlateEditorAdditionalProps
   mergeWithNext?: (merge: (next: ValueJSON) => void) => void
   mergeWithPrevious?: (merge: (previous: ValueJSON) => void) => void
 }
 
 interface SlateClosure extends SlateEditorAdditionalProps {
-  name: string
   focusPrevious: () => void
   focusNext: () => void
   plugins: Record<string, Plugin>
+}
+
+// TEMPORARY
+// Testbed for integration of slate fix
+// polyfilling slate editor
+function patchSlateInsertFragment(reacteditor: Editor) {
+  // @ts-ignore
+  const editor = reacteditor as CoreEditor
+  // @ts-ignore
+  editor.insertFragment = fragment => {
+    if (!fragment.nodes.size) return editor
+
+    if (editor.value.selection.isExpanded) {
+      editor.delete()
+    }
+
+    let { value } = editor
+    let { document, selection } = value
+    const { start, end } = selection
+    const { startText, endText, startInline } = value
+    const lastText = fragment.getLastText()
+    // @ts-ignore
+    const lastInline = fragment.getClosestInline(lastText.key)
+    // @ts-ignore
+    const lastBlock = fragment.getClosestBlock(lastText.key)
+    const firstChild = fragment.nodes.first()
+    const lastChild = fragment.nodes.last()
+    // @ts-ignore
+    const keys = document.getTexts().map(text => text.key)
+    const isAppending =
+      !startInline ||
+      (start.isAtStartOfNode(startText) || end.isAtStartOfNode(startText)) ||
+      (start.isAtEndOfNode(endText) || end.isAtEndOfNode(endText))
+
+    const isInserting =
+      firstChild.hasBlockChildren() || lastChild.hasBlockChildren()
+
+    // @ts-ignore
+    editor.insertFragmentAtRange(selection, fragment)
+    value = editor.value
+    document = value.document
+
+    // @ts-ignore
+    const newTexts = document.getTexts().filter(n => !keys.includes(n.key))
+    const newText = isAppending ? newTexts.last() : newTexts.takeLast(2).first()
+
+    if (newText && (lastInline || isInserting)) {
+      editor.moveToEndOfNode(newText)
+    } else if (newText && lastBlock) {
+      // Changed code
+      const lastInlineIndex = lastBlock.nodes.findLastIndex(node => {
+        if (!node) return false
+        return node.object == 'inline'
+      })
+      const skipLength = lastBlock.nodes
+        .takeLast(lastBlock.nodes.size - lastInlineIndex - 1)
+        .reduce((num, v) => {
+          if (!num) num = 0
+          if (v) return num + v.text.length
+          return num
+        }, 0)
+      editor.moveToStartOfNode(newText).moveForward(skipLength)
+    }
+    return editor
+  }
 }

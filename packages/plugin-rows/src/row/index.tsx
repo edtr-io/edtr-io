@@ -102,7 +102,7 @@ export const Row = (
         />
       )}
 
-      {render({ row, rows, index, state: store.state, getDocument })}
+      {render({ row, rows, index, store: store, getDocument })}
       <Separator name={props.name} onClick={() => openMenu(index + 1)} />
       {props.editable && (
         <Controls

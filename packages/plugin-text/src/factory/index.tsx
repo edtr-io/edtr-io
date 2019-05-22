@@ -38,12 +38,23 @@ export const createTextPlugin = (
     icon: createIcon(faParagraph),
     title: 'Text',
     description: 'Schreibe Text und Matheformeln und formatiere sie.',
-    onKeyDown() {
+    onKeyDown(e) {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        // let editor handle backspace and delete
+        // this will remove the plugin if its empty
+        return true
+      }
       return false
     },
-    isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
-      const value = Value.fromJSON(state)
-      return value.document.text === ''
-    }
+    isEmpty: (state: StateDescriptorValueType<typeof textState>) =>
+      isValueEmpty(Value.fromJSON(state))
   }
+}
+
+export function isValueEmpty(value: Value) {
+  return (
+    value.document.text === '' &&
+    value.document.nodes.size === 1 &&
+    value.document.getTexts().size === 1
+  )
 }

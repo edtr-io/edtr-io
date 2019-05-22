@@ -5,7 +5,7 @@ import { createIcon, faCaretSquareDown } from '@edtr-io/editor-ui'
 
 export const spoilerState = StateType.object({
   title: StateType.string(''),
-  content: StateType.child()
+  content: StateType.child('rows')
 })
 
 export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {

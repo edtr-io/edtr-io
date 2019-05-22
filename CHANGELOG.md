@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.4.3..HEAD)
+## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 
 ### Breaking Changes
 
@@ -16,7 +16,19 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-h5p**. Add H5p.com plugin
 - **plugin-image**. Add MaxWidth for images
+- **plugin-rows**. Added more theming options
+- **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
+- **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
+- **plugin-text**. Added visual latex editor
+- **plugin-text**. Added headings plugin
+- **plugin-text**. Added list plugin
+- **plugin-text**. Added colors plugin
+- **plugin-text**. Added button to wrap in a blockquote plugin
+- **plugin-rows**. Pass `remove` and `replace` functions to childs
 - **all**. Added plugin icons and descriptions
+- **plugin-text**. Added Markdownshortcuts for Lists, Headings and Blockquotes.
+- **core**. Pass plugin props and name of parents to childs too
+- **plugin-text**. Leave nested Text-Plugins on second Enter key press
 
 ### Changed
 
@@ -24,12 +36,14 @@ All notable changes to this project will be documented in this file.
 - **plugin-text**. Hovering Menu for text formatting
 - **plugin-text**. Styling of inline-overlay improved
 - **ui** / **editor-ui** / **renderer-ui**. Revised theming workflow
+- **ui**. reworked the ui of several plugins (image, video, anchor, geogebra, h5p, highlight, hint, solution and spoiler)
 - **plugin-rows**. Improved styling of add menu and controls
 - **plugin-rows**. Added more theming options
 - **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
 - **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
 - **plugin-text**. Added visual latex editor
 - \*\*plugin-input-exercise: improved UI/UX and added theming options
+- **core**. Add new text plugin on Enter and delete empty plugins on backspace and delete
 
 ### Fixed
 

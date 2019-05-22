@@ -25,12 +25,24 @@ export function child<
   }
 > {
   return Object.assign(
-    (id: string) => {
+    (
+      id: string,
+      _onChange: (
+        updater: (oldValue: string, helpers: StoreDeserializeHelpers) => string
+      ) => void,
+      parentProps?: unknown
+    ) => {
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
         render: (props?: Props) => {
-          return <Document pluginProps={props} key={id} id={id} />
+          return (
+            <Document
+              pluginProps={{ ...props, parent: parentProps }}
+              key={id}
+              id={id}
+            />
+          )
         }
       })
     },

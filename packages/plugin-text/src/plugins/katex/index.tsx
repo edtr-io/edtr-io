@@ -2,7 +2,8 @@ import {
   NodeRendererProps,
   NodeEditorProps,
   TextPlugin,
-  NodeControlsProps
+  NodeControlsProps,
+  trimSelection
 } from '../..'
 import * as React from 'react'
 import { Block, Editor, Inline } from 'slate'
@@ -12,6 +13,7 @@ import { isHotkey } from 'is-hotkey'
 import { addStyles as addMathquillStyles } from 'react-mathquill'
 import { DefaultRendererComponent } from './renderer'
 import { DefaultEditorComponent } from './editor'
+import { SlatePluginClosure } from '../../factory/types'
 
 addMathquillStyles()
 
@@ -29,6 +31,20 @@ export const isKatex = (editor: Editor) => {
   )
 }
 export const insertKatex = (editor: Editor) => {
+  if (editor.value.selection.isExpanded) {
+    trimSelection(editor)
+    const selection = document.getSelection()
+    editor
+      .wrapInline({
+        type: katexInlineNode,
+        data: {
+          formula: selection ? selection.toString() : '',
+          inline: true
+        }
+      })
+      .moveToEnd()
+    return editor.focus().moveBackward(1)
+  }
   return editor.insertInline({
     type: katexInlineNode,
     data: {
@@ -37,9 +53,21 @@ export const insertKatex = (editor: Editor) => {
     }
   })
 }
+export const removeKatex = (editor: Editor) => {
+  const node =
+    editor.value.blocks
+      .toArray()
+      .find(block => block.type === katexBlockNode) ||
+    editor.value.inlines
+      .toArray()
+      .find(inline => inline.type === katexInlineNode)
+
+  if (!node) return editor
+  return editor.removeNodeByKey(node.key)
+}
 
 export interface KatexPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
+  EditorComponent?: React.ComponentType<NodeEditorProps & { name: string }>
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
@@ -47,7 +75,9 @@ export interface KatexPluginOptions {
 export const createKatexPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent
-}: KatexPluginOptions = {}) => (): TextPlugin => {
+}: KatexPluginOptions = {}) => (
+  pluginClosure: SlatePluginClosure
+): TextPlugin => {
   return {
     deserialize(el, next) {
       switch (el.tagName.toLowerCase()) {
@@ -91,21 +121,22 @@ export const createKatexPlugin = ({
     onKeyDown(event, editor, next) {
       const e = event as KeyboardEvent
       if (isHotkey('mod+m')(e)) {
-        insertKatex(editor)
         e.preventDefault()
+        return insertKatex(editor)
       }
-      next()
+      return next()
     },
 
-    renderNode(props, _editor, next) {
+    renderNode(props, editor, next) {
       const block = props.node as Block
       const inline = props.node as Inline
 
+      const name = pluginClosure.current ? pluginClosure.current.name : ''
       if (
         (block.object === 'block' && block.type === katexBlockNode) ||
         (inline.object === 'inline' && inline.type === katexInlineNode)
       ) {
-        return <EditorComponent {...props} editor={_editor} />
+        return <EditorComponent {...props} editor={editor} name={name} />
       }
 
       return next()

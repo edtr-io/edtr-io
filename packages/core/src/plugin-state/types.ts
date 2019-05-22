@@ -15,7 +15,8 @@ export interface StateDescriptor<S = any, T = S, R = unknown> {
     value: T,
     onChange: (
       updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-    ) => void
+    ) => void,
+    pluginProps?: unknown
   ): R
   createInitialState(helpers: StoreDeserializeHelpers): T
   deserialize(serialized: S, helpers: StoreDeserializeHelpers): T
