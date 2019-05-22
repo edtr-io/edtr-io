@@ -67,13 +67,17 @@ export function getDocuments(state: State) {
   return state.documents
 }
 
-export function getDocument(state: State, id: string): DocumentState | null {
+export function getDocument(
+  state: State,
+  id: string | null
+): DocumentState | null {
+  if (!id) return null
   return getDocuments(state)[id] || null
 }
 
 export function serializeDocument(
   state: State,
-  id: string
+  id: string | null
 ): DocumentState | null {
   const doc = getDocument(state, id)
   if (!doc) return null

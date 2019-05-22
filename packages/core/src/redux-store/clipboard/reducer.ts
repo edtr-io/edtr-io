@@ -2,10 +2,10 @@ import * as R from 'ramda'
 
 import { createSubReducer } from '../helpers'
 import { State } from '../types'
-import { copy, CopyAction } from './actions'
+import { pureCopy, PureCopyAction } from './actions'
 
 export const clipboardReducer = createSubReducer('clipboard', [], {
-  [copy.type](state, action: CopyAction) {
+  [pureCopy.type](state, action: PureCopyAction) {
     const maxLength = 3
     const appended = R.prepend(action.payload, state)
     const nextClipboard =
