@@ -257,15 +257,9 @@ function createOnKeyDown(
         mergeWithPrevious(previous => {
           const value = Value.fromJSON(previous)
           const selection = CoreRange.create(editor.value.selection)
-          return (
-            editor
-              // hack because empty slate looses focus
-              .insertTextAtRange(selection, ' ')
-              .insertFragmentAtRange(selection, value.document)
-              .moveFocusBackward(1)
-              .delete()
-              .value.toJSON()
-          )
+          return editor
+            .insertFragmentAtRange(selection, value.document)
+            .value.toJSON()
         })
       }
       return
