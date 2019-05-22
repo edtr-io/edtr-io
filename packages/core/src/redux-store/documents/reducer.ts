@@ -4,8 +4,8 @@ import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
 import { DocumentState, State } from '../types'
 import {
-  insert,
-  InsertAction,
+  pureInsert,
+  PureInsertAction,
   remove,
   RemoveAction,
   change,
@@ -19,7 +19,7 @@ export const documentsReducer = createSubReducer(
   'documents',
   {},
   {
-    [insert.type](state, action: InsertAction, s) {
+    [pureInsert.type](state, action: PureInsertAction, s) {
       if (!s) {
         return state // FIXME: can we guarantee that this does indeed exist?? we should be able to!
       }

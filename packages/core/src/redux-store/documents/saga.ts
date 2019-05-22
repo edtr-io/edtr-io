@@ -2,15 +2,15 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { isStatefulPlugin } from '../../plugin'
 import { StoreDeserializeHelpers } from '../../plugin-state'
-import { asyncInsert, AsyncInsertAction, insert } from './actions'
+import { insert, InsertAction, pureInsert } from './actions'
 
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 
 export function* documentsSaga() {
-  yield takeEvery(asyncInsert.type, asyncInsertSaga)
+  yield takeEvery(insert.type, asyncInsertSaga)
 }
 
-function* asyncInsertSaga(action: AsyncInsertAction) {
+function* asyncInsertSaga(action: InsertAction) {
   const initialState = action.payload
 
   let pendingDocs: (typeof initialState)[] = [initialState]
@@ -49,7 +49,7 @@ function* asyncInsertSaga(action: AsyncInsertAction) {
       doc.plugin
     )
     yield put(
-      insert({
+      pureInsert({
         id: doc.id,
         plugin: pluginType,
         state: pluginState

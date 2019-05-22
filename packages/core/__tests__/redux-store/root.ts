@@ -1,5 +1,8 @@
+import * as R from 'ramda'
+
 import { setupStore, waitUntil } from '../../__helpers__'
 import { getRoot, initRoot, serializeRootDocument } from '../../src/redux-store'
+import { pureInsert } from '../../src/redux-store/documents/actions'
 
 let store: ReturnType<typeof setupStore>
 
@@ -15,7 +18,9 @@ describe('Root', () => {
   describe('Init Root', () => {
     test('Stateless Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateless' }))
-      await waitUntil(() => store.getActions().length >= 2)
+      await waitUntil(() =>
+        R.any(action => action.type === pureInsert.type, store.getActions())
+      )
       expect(serializeRootDocument(store.getState())).toEqual({
         plugin: 'stateless'
       })
@@ -23,7 +28,9 @@ describe('Root', () => {
 
     test('Stateful Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
-      await waitUntil(() => store.getActions().length >= 2)
+      await waitUntil(() =>
+        R.any(action => action.type === pureInsert.type, store.getActions())
+      )
       expect(serializeRootDocument(store.getState())).toEqual({
         plugin: 'stateful',
         state: 0
@@ -39,7 +46,13 @@ describe('Root', () => {
           }
         })
       )
-      await waitUntil(() => store.getActions().length >= 3)
+      await waitUntil(
+        () =>
+          R.filter(
+            action => action.type === pureInsert.type,
+            store.getActions()
+          ).length === 2
+      )
       expect(serializeRootDocument(store.getState())).toEqual({
         plugin: 'nested',
         state: {
@@ -60,7 +73,13 @@ describe('Root', () => {
           }
         })
       )
-      await waitUntil(() => store.getActions().length >= 3)
+      await waitUntil(
+        () =>
+          R.filter(
+            action => action.type === pureInsert.type,
+            store.getActions()
+          ).length === 2
+      )
       expect(serializeRootDocument(store.getState())).toEqual({
         plugin: 'nestedArray',
         state: {
@@ -94,7 +113,13 @@ describe('Root', () => {
           }
         })
       )
-      await waitUntil(() => store.getActions().length >= 5)
+      await waitUntil(
+        () =>
+          R.filter(
+            action => action.type === pureInsert.type,
+            store.getActions()
+          ).length === 4
+      )
       expect(serializeRootDocument(store.getState())).toEqual({
         plugin: 'nestedArray',
         state: {

@@ -1,23 +1,23 @@
 import { DocumentState } from '../types'
 import { createAction } from '../helpers'
 
-export const insert = createAction<
-  'Insert',
+export const pureInsert = createAction<
+  'PureInsert',
   {
     id: string
   } & DocumentState
->('Insert')
-export type InsertAction = ReturnType<typeof insert>
+>('PureInsert')
+export type PureInsertAction = ReturnType<typeof pureInsert>
 
-export const asyncInsert = createAction<
-  'AsyncInsert',
+export const insert = createAction<
+  'Insert',
   {
     id: string
     plugin?: string
     state?: unknown
   }
->('AsyncInsert')
-export type AsyncInsertAction = ReturnType<typeof asyncInsert>
+>('Insert')
+export type InsertAction = ReturnType<typeof insert>
 
 export const remove = createAction<'Remove', string>('Remove')
 export type RemoveAction = ReturnType<typeof remove>
@@ -29,6 +29,6 @@ export type ChangeAction = ReturnType<typeof change>
 
 export type DocumentsAction =
   | InsertAction
-  | AsyncInsertAction
+  | PureInsertAction
   | RemoveAction
   | ChangeAction

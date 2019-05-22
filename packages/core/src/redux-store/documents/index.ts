@@ -1,8 +1,6 @@
 export {
   insert,
   InsertAction,
-  asyncInsert,
-  AsyncInsertAction,
   remove,
   RemoveAction,
   change,

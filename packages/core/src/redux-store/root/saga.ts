@@ -1,6 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 
-import { asyncInsert } from '../documents/actions'
+import { insert } from '../documents/actions'
 import { InitRootAction, initRoot } from './actions'
 
 export function* rootSaga() {
@@ -8,5 +8,5 @@ export function* rootSaga() {
 }
 
 function* initRootSaga(action: InitRootAction) {
-  yield put(asyncInsert({ id: 'root', ...action.payload }))
+  yield put(insert({ id: 'root', ...action.payload }))
 }
