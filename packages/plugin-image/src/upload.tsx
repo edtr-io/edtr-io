@@ -169,13 +169,13 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
 
 export interface UploadProps<T> {
   inOverlay?: boolean
-  config: UploadConfig<T>
+  config: ImageUploadConfig<T>
   onError?: (errors: FileError[]) => void
   onImageLoaded?: (image: ImageLoaded) => void
   onImageUploaded?: (state: ImageUploaded) => void
 }
 
-export interface UploadConfig<T> {
+export interface ImageUploadConfig<T> {
   url: string
   maxFileSize: number
   allowedExtensions: string[]

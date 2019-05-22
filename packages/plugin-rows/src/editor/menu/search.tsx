@@ -1,13 +1,18 @@
-import * as React from 'react'
+import { EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { styled, ThemeProps } from '@edtr-io/ui'
-import { faSearch, Icon, faTimes } from '@edtr-io/editor-ui'
-import { createRowPluginTheme } from '@edtr-io/plugin-rows'
+import * as React from 'react'
+
+import { createRowPluginTheme } from '../..'
 
 const StyledSearch = styled.div({
   paddingTop: '25px',
   paddingBottom: '25px',
   display: 'flex',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  width: '600px',
+  '@media (max-width: 650px)': {
+    width: '100%'
+  }
 })
 
 const InputWrapper = styled.div({
@@ -19,12 +24,12 @@ const StyledInput = styled.input(
   ({ name, ...props }: { name: string } & ThemeProps) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      padding: '5px 40px',
-      border: `2px solid ${theme.menu.primary.color}`,
+      padding: '5px 30px',
+      border: `2px solid ${theme.menu.secondary.color}`,
       borderRadius: '5px',
       fontSize: '20px',
       outline: 'none',
-      backgroundColor: 'transparent',
+      backgroundColor: theme.menu.primary.backgroundColor,
       transition: '250ms all ease-in-out',
       width: '100%',
 
@@ -33,7 +38,7 @@ const StyledInput = styled.input(
       },
 
       '&::placeholder': {
-        color: theme.menu.primary.color
+        color: theme.menu.secondary.color
       }
     }
   }
@@ -43,35 +48,33 @@ const ClearSearchContainer = styled.div<{ visible: boolean; name: string }>(
   props => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      height: '70%',
+      height: '55%',
       position: 'absolute',
       top: '50%',
-      right: '10px',
+      right: '5px',
       transform: 'translateY(-50%)',
-      opacity: props.visible ? 0.4 : 0,
+      opacity: props.visible ? 1 : 0,
       transition: '250ms all ease-in-out',
       cursor: 'pointer',
       color: theme.menu.secondary.color,
 
       '&:hover': {
-        opacity: props.visible ? 0.6 : 0,
         color: theme.menu.highlightColor
       }
     }
   }
 )
 
-const SearchIcon = styled(Icon)(
+const SearchIcon = styled(EdtrIcon)(
   ({ name, ...props }: { name: string } & ThemeProps) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      height: '70%',
+      height: '55%',
       position: 'absolute',
       color: theme.menu.secondary.color,
       top: '50%',
       left: '5px',
-      transform: 'translateY(-50%)',
-      opacity: 0.4
+      transform: 'translateY(-50%)'
     }
   }
 )
@@ -99,9 +102,9 @@ export const Search = ({
           visible={search.length > 0}
           onClick={() => setSearch('')}
         >
-          <Icon icon={faTimes} size="2x" />
+          <EdtrIcon icon={edtrRowsControls.close} />
         </ClearSearchContainer>
-        <SearchIcon name={name} icon={faSearch} size="2x" />
+        <SearchIcon name={name} icon={edtrRowsControls.search} />
       </InputWrapper>
     </StyledSearch>
   )

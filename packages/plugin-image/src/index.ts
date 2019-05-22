@@ -1,7 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { createImageEditor } from './editor'
-import { UploadConfig } from './upload'
+import { ImageUploadConfig } from './upload'
 import { createIcon, faImages } from '@edtr-io/editor-ui'
 
 export const imageState = StateType.object({
@@ -44,8 +44,8 @@ export const createImagePlugin = <T = unknown>(
 export type SecondInputType = 'description' | 'link'
 
 export interface ImagePluginConfig<T> {
-  upload: UploadConfig<T>
+  upload: ImageUploadConfig<T>
   secondInput?: SecondInputType
 }
 
-export { ImageLoaded, ImageUploaded, Upload, UploadConfig } from './upload'
+export { ImageLoaded, ImageUploaded, Upload, ImageUploadConfig } from './upload'

@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { createOverlayTheme } from './settings-overlay'
 
 export const createOverlayInputTheme = createEditorUiTheme<InputTheme>(
   theme => {
@@ -13,10 +14,10 @@ export const createOverlayInputTheme = createEditorUiTheme<InputTheme>(
 )
 
 const InputLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createOverlayInputTheme('input', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    color: theme.color,
+    color: theme.input.color,
     margin: '20px auto 0px',
     display: 'flex',
     justifyContent: 'space-between',
@@ -27,31 +28,31 @@ const InputLabel = styled.label((props: EditorThemeProps) => {
 const InputLabelInner = styled.span({ width: '20%' })
 
 const InputInner = styled.input((props: EditorThemeProps) => {
-  const theme = createOverlayInputTheme('input', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    backgroundColor: theme.backgroundColor,
+    backgroundColor: theme.input.backgroundColor,
     border: 'none',
-    borderBottom: `2px solid ${theme.color}`,
-    color: theme.color,
+    borderBottom: `2px solid ${theme.input.color}`,
+    color: theme.input.color,
     width: '75%',
     '&:focus': {
       outline: 'none',
-      borderBottom: `2px solid ${theme.highlightColor}`
+      borderBottom: `2px solid ${theme.input.highlightColor}`
     }
   }
 })
 const InputInlineInner = styled.input((props: EditorThemeProps) => {
-  const theme = createOverlayInputTheme('input', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    backgroundColor: theme.backgroundColor,
+    backgroundColor: theme.input.backgroundColor,
     border: 'none',
-    borderBottom: `2px solid ${theme.color}`,
-    color: theme.color,
+    borderBottom: `2px solid ${theme.input.color}`,
+    color: theme.input.color,
     '&:focus': {
       outline: 'none',
-      borderBottom: `2px solid ${theme.highlightColor}`
+      borderBottom: `2px solid ${theme.input.highlightColor}`
     }
   }
 })

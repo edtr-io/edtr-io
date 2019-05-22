@@ -1,20 +1,23 @@
 import * as React from 'react'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { createOverlayTheme } from './settings-overlay'
 
-export const createTextareaTheme = createEditorUiTheme<TextareaTheme>(theme => {
-  return {
-    backgroundColor: 'transparent',
-    color: theme.color,
-    borderColor: theme.color,
-    highlightColor: theme.primary.background
+export const createOverlayTextareaTheme = createEditorUiTheme<TextareaTheme>(
+  theme => {
+    return {
+      backgroundColor: 'transparent',
+      color: theme.color,
+      borderColor: theme.color,
+      highlightColor: theme.primary.background
+    }
   }
-})
+)
 const TextareaLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createTextareaTheme('textarea', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    color: theme.color,
+    color: theme.textarea.color,
     display: 'flex',
     flexDirection: 'row',
     margin: '20px auto 0',
@@ -25,21 +28,21 @@ const TextareaLabel = styled.label((props: EditorThemeProps) => {
 const TextareaLabelInner = styled.span({ width: '20%' })
 
 const TextareaInner = styled.textarea((props: EditorThemeProps) => {
-  const theme = createTextareaTheme('textarea', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    backgroundColor: theme.backgroundColor,
-    border: `2px solid ${theme.color}`,
+    backgroundColor: theme.textarea.backgroundColor,
+    border: `2px solid ${theme.textarea.borderColor}`,
     marginTop: '5px',
     borderRadius: '5px',
-    color: theme.color,
+    color: theme.textarea.color,
     padding: '10px',
     resize: 'none',
     outline: 'none',
     minHeight: '100px',
     width: '75%',
     '&:focus': {
-      border: `2px solid ${theme.highlightColor}`
+      border: `2px solid ${theme.textarea.highlightColor}`
     }
   }
 })
