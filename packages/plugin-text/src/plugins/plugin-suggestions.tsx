@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Suggestions from './suggestions'
+import { Suggestions } from './suggestions'
 import { SlatePluginClosure } from '../factory/types'
 import { TextPlugin } from '..'
 import { Value, Inline, Block, Editor } from 'slate'
@@ -8,7 +8,7 @@ import { HoveringOverlay } from '@edtr-io/editor-ui'
 
 /**
  * The decoration mark type that the menu will position itself against. The
- * "context" is just the current text after the @ symbol.
+ * "context" is just the current text after the / symbol.
  * @type {String}
  */
 
@@ -79,7 +79,7 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {
     const plugins = pluginClosure.current.plugins
     const search = (getInput(editor.value) || '').replace('/', '')
-    return Object.keys(plugins)
+    const startPlugins = Object.keys(plugins)
       .filter(pluginKey => {
         const plugin = plugins[pluginKey]
         if (pluginKey === name || pluginKey === 'rows') return false
@@ -87,7 +87,7 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
 
         if (
           plugin.title &&
-          plugin.title.toLowerCase().includes(search.toLowerCase())
+          plugin.title.toLowerCase().startsWith(search.toLowerCase())
         )
           return true
 
@@ -96,6 +96,24 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
         return false
       })
       .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
+    const includePlugins = Object.keys(plugins)
+      .filter(pluginKey => {
+        const plugin = plugins[pluginKey]
+        if (pluginKey === name || pluginKey === 'rows') return false
+
+        if (
+          plugin.title &&
+          plugin.title.toLowerCase().includes(search.toLowerCase()) &&
+          !plugin.title.toLowerCase().startsWith(search.toLowerCase())
+        )
+          return true
+
+        // if (pluginKey.toLowerCase().includes(search.toLowerCase()))
+        //   return true
+        return false
+      })
+      .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
+    return startPlugins.concat(includePlugins)
   }
   return []
 }
@@ -116,10 +134,10 @@ export function pluginSuggestions(
   return {
     renderMark(props, editor, next) {
       const mappedPlugins = mapPlugins(pluginClosure, editor)
+
       if (
         props.mark.type === CONTEXT_MARK_TYPE &&
-        hasValidAncestors(editor.value) &&
-        editor.value.document.text.startsWith('/')
+        hasValidAncestors(editor.value)
       ) {
         return (
           <React.Fragment>
@@ -131,6 +149,8 @@ export function pluginSuggestions(
                 selected={props.mark ? props.mark.data.get('selected') : 0}
                 options={mappedPlugins}
                 onSelect={insertPlugin(editor)}
+                currentValue={(getInput(editor.value) || '').replace('/', '')}
+                name={pluginClosure.current ? pluginClosure.current.name : ''}
               />
             </HoveringOverlay>
           </React.Fragment>
@@ -151,18 +171,23 @@ export function pluginSuggestions(
           (e.key === '/' && isValueEmpty(editor.value)) ||
           (inputValue && hasValidAncestors(editor.value))
         ) {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && plugins.length) {
             insertPlugin(editor)(
               plugins[decoration.get('mark').data.get('selected')][1]
             )
             return
           }
-          updateDecorationMarkData(editor, inputValue, 0)
+          if (e.key === '/') {
+            updateDecorationMarkData(editor, inputValue + '/', 0)
+          } else {
+            updateDecorationMarkData(editor, inputValue, 0)
+          }
         }
 
         if (decoration) {
           const mark = decoration.get('mark')
           if (e.key === 'ArrowDown' && mark) {
+            e.preventDefault()
             updateDecorationMarkData(
               editor,
               inputValue,
@@ -170,6 +195,7 @@ export function pluginSuggestions(
             )
             return
           } else if (e.key === 'ArrowUp' && mark) {
+            e.preventDefault()
             updateDecorationMarkData(
               editor,
               inputValue,
