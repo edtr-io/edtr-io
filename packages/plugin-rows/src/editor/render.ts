@@ -26,7 +26,7 @@ export default function({
   index: number
   store: EditorContextValue
   getDocument: (state: State, id: string) => PluginState | null
-  renderIntoExtendedSettings: (children: React.ReactNode) => React.ReactNode
+  renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
   PrimarySettingsWrapper: React.ComponentType
 }) {
   const { state, dispatch } = store

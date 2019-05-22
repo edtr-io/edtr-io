@@ -11,7 +11,7 @@ import { OnClickOutside } from '@edtr-io/editor-ui'
 import { Menu } from './menu'
 import { Separator } from './Separator'
 import render from './render'
-import { rowsState } from '..'
+import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
 import { connectDnD, CollectedProps, TargetProps } from './DnDHOC'
 import {
@@ -19,6 +19,7 @@ import {
   ExtendedSettingsWrapper,
   createPrimarySettingsWrapper
 } from './controls'
+import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 
 export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
   CollectedProps &
@@ -65,6 +66,7 @@ const RowSource = React.forwardRef<
   }
 
   const extendedSettingsNode = React.useRef<HTMLDivElement>(null)
+  const settingsTheme = usePluginTheme(name, rowsPluginThemeFactory)
 
   return (
     <OnClickOutside
@@ -102,7 +104,38 @@ const RowSource = React.forwardRef<
           renderIntoExtendedSettings: children => {
             if (!extendedSettingsNode.current) return null
 
-            return createPortal(children, extendedSettingsNode.current)
+            return createPortal(
+              <ThemeProvider
+                theme={{
+                  editorUi: {
+                    overlay: {
+                      input: {
+                        backgroundColor: settingsTheme.backgroundColor,
+                        color: settingsTheme.menu.primary.color
+                      },
+                      button: {
+                        backgroundColor: settingsTheme.backgroundColor,
+                        color: settingsTheme.menu.primary.color,
+                        borderColor: settingsTheme.menu.primary.color
+                      },
+                      textarea: {
+                        backgroundColor: settingsTheme.backgroundColor,
+                        color: settingsTheme.menu.primary.color,
+                        borderColor: settingsTheme.menu.primary.color
+                      },
+                      checkbox: {
+                        color: settingsTheme.menu.primary.color,
+                        boxDeselectedColor: settingsTheme.backgroundColor,
+                        boxSelectedColor: settingsTheme.menu.primary.color
+                      }
+                    }
+                  }
+                }}
+              >
+                {children}
+              </ThemeProvider>,
+              extendedSettingsNode.current
+            )
           },
           PrimarySettingsWrapper: createPrimarySettingsWrapper({
             expanded
