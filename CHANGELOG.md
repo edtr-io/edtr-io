@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 - **plugin-rows**. Adapt styles and controls implemented by schul-cloud, including drag&drop
 - **plugin-rows**. Add full color theming support
 
+### Fixed
+
+- **plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))
+
 ## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 
 ### Breaking Changes
