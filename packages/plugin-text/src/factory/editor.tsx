@@ -100,12 +100,16 @@ export const createTextEditor = (
     const pluginClosure = React.useRef({
       overlayContext,
       name: props.name,
-      parent: props.parent
+      parent: props.parent,
+      replace: props.replace,
+      plugins: plugins
     })
     pluginClosure.current = {
       overlayContext,
       name: props.name,
-      parent: props.parent
+      parent: props.parent,
+      replace: props.replace,
+      plugins: plugins
     }
     const slatePlugins = React.useRef<TextPlugin[]>()
     if (slatePlugins.current === undefined) {
@@ -113,7 +117,8 @@ export const createTextEditor = (
         ...options.plugins.map(slatePluginFactory =>
           slatePluginFactory(pluginClosure)
         ),
-        newSlateOnEnter(slateClosure)
+        newSlateOnEnter(slateClosure),
+        focusNextDocumentOnArrowDown(slateClosure)
       ]
     }
 
@@ -213,31 +218,6 @@ function createOnKeyDown(
       return
     }
 
-    if (key === 'ArrowDown' || key === 'ArrowUp') {
-      const lastRange = getRange()
-
-      if (lastRange) {
-        const lastY = lastRange.getBoundingClientRect().top
-        setTimeout(() => {
-          if (!slateClosure.current) {
-            return
-          }
-          const currentRange = getRange()
-          if (!currentRange) {
-            return
-          }
-          const currentY = currentRange.getBoundingClientRect().top
-          if (lastY === currentY) {
-            if (key === 'ArrowDown') {
-              slateClosure.current.focusNext()
-            } else {
-              slateClosure.current.focusPrevious()
-            }
-          }
-        })
-      }
-    }
-
     if (
       (key === 'Backspace' && selectionAtStart(editor)) ||
       (key === 'Delete' && selectionAtEnd(editor))
@@ -274,15 +254,6 @@ function createOnKeyDown(
     return next()
   }
 
-  function getRange(): Range | null {
-    const selection = window.getSelection()
-
-    if (selection.rangeCount > 0) {
-      return selection.getRangeAt(0)
-    }
-
-    return null
-  }
   function selectionAtStart(editor: CoreEditor) {
     const { selection } = editor.value
     const startNode = editor.value.document.getFirstText()
@@ -399,6 +370,52 @@ function newSlateOnEnter(
         }
       }
       return next()
+    }
+  }
+}
+
+function focusNextDocumentOnArrowDown(
+  slateClosure: React.RefObject<SlateClosure>
+): TextPlugin {
+  return {
+    onKeyDown(e, editor, next) {
+      const { key } = (e as unknown) as React.KeyboardEvent
+      if (key === 'ArrowDown' || key === 'ArrowUp') {
+        const lastRange = getRange()
+
+        if (lastRange) {
+          const lastY = lastRange.getBoundingClientRect().top
+          setTimeout(() => {
+            if (!slateClosure.current) {
+              return
+            }
+            const currentRange = getRange()
+            if (!currentRange) {
+              return
+            }
+            const currentY = currentRange.getBoundingClientRect().top
+            if (lastY === currentY) {
+              if (key === 'ArrowDown') {
+                slateClosure.current.focusNext()
+              } else {
+                slateClosure.current.focusPrevious()
+              }
+            }
+          })
+        }
+      }
+
+      return next()
+
+      function getRange(): Range | null {
+        const selection = window.getSelection()
+
+        if (selection.rangeCount > 0) {
+          return selection.getRangeAt(0)
+        }
+
+        return null
+      }
     }
   }
 }

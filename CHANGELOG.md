@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-files**. Add plugin for file uploads
 - **plugin-rows**. Pass `renderIntoExtendedSettings` and `PrimarySettings` as props to children
+- **plugin-text**. Poweruser-Feature: Add new plugins with /[plugintitle] in editmode
 
 ### Changed
 
