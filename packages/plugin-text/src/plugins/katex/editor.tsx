@@ -8,6 +8,7 @@ import { NodeEditorProps } from '../..'
 import { Dropdown, Option } from '../../toolbar/dropdown'
 import { Math } from './math.component'
 import { katexBlockNode, katexInlineNode } from './index'
+import { isList, orderedListNode, unorderedListNode } from '../list'
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -189,36 +190,39 @@ export const DefaultEditorComponent: React.FunctionComponent<
               latex
             </Option>
           </Dropdown>
-          <InlineCheckbox
-            label="Inline"
-            checked={inline}
-            onChange={checked => {
-              const newData = { formula: formulaState, inline: checked }
+          {!isList(orderedListNode)(editor) &&
+          !isList(unorderedListNode)(editor) ? (
+            <InlineCheckbox
+              label="Inline"
+              checked={inline}
+              onChange={checked => {
+                const newData = { formula: formulaState, inline: checked }
 
-              // remove old node, merge blocks if necessary
-              if (node.isLeafBlock()) {
-                const n = editor.value.document.getNextBlock(node.key)
-                editor.removeNodeByKey(node.key)
-                if (n) {
-                  editor.mergeNodeByKey(n.key)
+                // remove old node, merge blocks if necessary
+                if (node.isLeafBlock()) {
+                  const n = editor.value.document.getNextBlock(node.key)
+                  editor.removeNodeByKey(node.key)
+                  if (n) {
+                    editor.mergeNodeByKey(n.key)
+                  }
+                } else {
+                  editor.removeNodeByKey(node.key)
                 }
-              } else {
-                editor.removeNodeByKey(node.key)
-              }
 
-              if (checked) {
-                editor.insertInline({
-                  type: katexInlineNode,
-                  data: newData
-                })
-              } else {
-                editor.insertBlock({
-                  type: katexBlockNode,
-                  data: newData
-                })
-              }
-            }}
-          />
+                if (checked) {
+                  editor.insertInline({
+                    type: katexInlineNode,
+                    data: newData
+                  })
+                } else {
+                  editor.insertBlock({
+                    type: katexBlockNode,
+                    data: newData
+                  })
+                }
+              }}
+            />
+          ) : null}
         </HoveringOverlay>
       </Wrapper>
     )
