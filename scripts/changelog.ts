@@ -221,6 +221,9 @@ async function exec(): Promise<void> {
       changed: [
         '**plugin-rows**. Adapt styles and controls implemented by schul-cloud, including drag&drop',
         '**plugin-rows**. Add full color theming support'
+      ],
+      fixed: [
+        '**plugin-spoiler**, **plugin-solution**, **plugin-hint**, **plugin-equations**. Make children traversable'
       ]
     }
   ])
