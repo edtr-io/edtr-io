@@ -118,7 +118,7 @@ export const createTextEditor = (
           slatePluginFactory(pluginClosure)
         ),
         newSlateOnEnter(slateClosure),
-        focusNextSlateOnArrowKey(slateClosure)
+        focusNextDocumentOnArrowDown(slateClosure)
       ]
     }
 
@@ -374,7 +374,7 @@ function newSlateOnEnter(
   }
 }
 
-function focusNextSlateOnArrowKey(
+function focusNextDocumentOnArrowDown(
   slateClosure: React.RefObject<SlateClosure>
 ): TextPlugin {
   return {

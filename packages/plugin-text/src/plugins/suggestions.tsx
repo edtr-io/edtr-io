@@ -54,41 +54,27 @@ const StyledText = styled.span<{ highlight: boolean; name: string }>(
   }
 )
 
-/**
- * Suggestions is a PureComponent because we need to prevent updates when x/ y
- * Are just going to be the same value. Otherwise we will update forever.
- */
-
 export class Suggestions extends React.Component<SuggestionProps> {
-  /**
-   * On update, update the menu.
-   */
-
   public render() {
     return (
       <Container>
         {this.props.options.length === 0
           ? 'keine Einträge vorhanden'
           : this.props.options.map((option, index) => {
-              let fragments: Fragment[] = []
-              let text = option[0]
-              while (text.length > this.props.currentValue.length) {
-                const i = text
-                  .toLowerCase()
-                  .indexOf(this.props.currentValue.toLowerCase())
-                if (i === -1 || !this.props.currentValue.length) {
-                  fragments.push({ text: text, highlight: false })
-                  break
-                }
-                const before = text.slice(0, i)
-                const match = text.slice(i, i + this.props.currentValue.length)
-                fragments.push(
-                  { text: before, highlight: false },
-                  { text: match, highlight: true }
+              const displayText = option[0]
+              const fragments = displayText
+                .split(
+                  new RegExp(`(${escapeRegExp(this.props.currentValue)})`, 'i')
                 )
-                const after = text.slice(i + this.props.currentValue.length)
-                text = after
-              }
+                .map(text => {
+                  return {
+                    text,
+                    highlight:
+                      text.toLowerCase() ===
+                      this.props.currentValue.toLowerCase()
+                  }
+                })
+
               return (
                 <Suggestion
                   key={index}
@@ -112,6 +98,10 @@ export class Suggestions extends React.Component<SuggestionProps> {
             })}
       </Container>
     )
+
+    function escapeRegExp(string: string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
   }
 }
 
@@ -121,15 +111,10 @@ interface SuggestionTheme {
   text: { default: string; highlight: string }
 }
 
-interface SuggestionProps {
+export interface SuggestionProps {
   onSelect: Function
   options: string[][]
   selected?: number
   currentValue: string
   name: string
-}
-
-interface Fragment {
-  text: string
-  highlight: boolean
 }
