@@ -212,6 +212,9 @@ async function exec(): Promise<void> {
         '**demo**. Log errors only',
         '**demo**. Add additional examples for plugin-usage in Storybook'
       ]
+    },
+    {
+      added: ['**plugin-files**. Add plugin for file uploads']
     }
   ])
 
