@@ -1,5 +1,3 @@
-import * as React from 'react'
-import { createPortal } from 'react-dom'
 import {
   getDocument,
   StatefulPluginEditorProps,
@@ -7,19 +5,21 @@ import {
   EditorContextValue
 } from '@edtr-io/core'
 import { OnClickOutside } from '@edtr-io/editor-ui'
+import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
+import * as React from 'react'
+import { createPortal } from 'react-dom'
 
-import { Menu } from './menu'
-import { Separator } from './Separator'
-import render from './render'
 import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
-import { connectDnD, CollectedProps, TargetProps } from './DnDHOC'
 import {
   Controls,
   ExtendedSettingsWrapper,
   createPrimarySettingsWrapper
 } from './controls'
-import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
+import { connectDnD, CollectedProps, TargetProps } from './dnd-hoc'
+import { Menu } from './menu'
+import render from './render'
+import { Separator } from './separator'
 
 export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
   CollectedProps &

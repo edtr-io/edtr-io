@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { styled, faCloudUploadAlt, Icon } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
+import * as React from 'react'
 
 import { createRowPluginTheme } from '../..'
 
@@ -49,7 +49,7 @@ const Caption = styled.p(
   ({ name, ...props }: ThemeProps & { name: string }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      marginBottom: '0',
+      marginBottom: 0,
       color: theme.menu.dropzone.color,
       textAlign: 'center',
       maxWidth: '600px',

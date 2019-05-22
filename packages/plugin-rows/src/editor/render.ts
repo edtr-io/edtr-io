@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   ActionType,
   EditorContextValue,
@@ -9,8 +8,9 @@ import {
   State,
   StateType
 } from '@edtr-io/core'
+import * as React from 'react'
+
 import { rowsState, rowState } from '..'
-import { ChangeAction } from '@edtr-io/core/src/store'
 
 export default function({
   row,
@@ -62,14 +62,14 @@ export default function({
         if (!previous || previous.plugin !== current.plugin) return
 
         const merged = merge(previous.state)
-        const changeAction: ChangeAction = {
+        dispatch({
           type: ActionType.Change,
           payload: {
             id: previousFocusId,
             state: () => merged
-          }
-        }
-        dispatch(changeAction)
+          },
+          commit: undefined
+        })
         rows.remove(index)
       } else {
         merge(previous.state)

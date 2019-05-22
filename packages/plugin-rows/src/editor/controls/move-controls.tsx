@@ -1,15 +1,9 @@
-import * as React from 'react'
-import {
-  // Icon,
-  // faSortDown,
-  // faSortUp,
-  EdtrIcon,
-  edtrRowsControls,
-  styled
-} from '@edtr-io/editor-ui'
+import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
 import { StateType } from '@edtr-io/core'
+import * as React from 'react'
+
 import { createRowPluginTheme, rowsState, rowState } from '../..'
-import { MoveControlsProps } from './index'
+import { MoveControlsProps } from '.'
 
 const StyledControls = styled.div({
   display: 'flex'
@@ -40,35 +34,6 @@ const DragIcon = styled(IconContainer)({
     cursor: 'grabbing'
   }
 })
-
-// const MoveUp: React.FunctionComponent<IconProps> = ({ rows, index, name }) => (
-//   <IconContainer
-//     name={name}
-//     disabled={index === 0}
-//     onClick={() => {
-//       if (index === 0) return
-//       rows.move(index, index - 1)
-//     }}
-//   >
-//     <Icon icon={faSortUp} />
-//   </IconContainer>
-// )
-//
-// const MoveDown: React.FunctionComponent<IconProps> = ({
-//   rows,
-//   index,
-//   name
-// }) => (
-//   <IconContainer
-//     name={name}
-//     disabled={index + 1 >= rows.items.length}
-//     onClick={() => {
-//       index + 1 < rows.items.length && rows.move(index, index + 1)
-//     }}
-//   >
-//     <Icon icon={faSortDown} />
-//   </IconContainer>
-// )
 
 const Drag: React.FunctionComponent<
   IconProps & { connectDragSource: Function }
@@ -102,7 +67,6 @@ export const MoveControls = ({
 }: MoveControlsProps) => {
   return (
     <StyledControls>
-      {/*<MoveUp rows={rows} index={index} row={row} name={name} />*/}
       <Drag
         rows={rows}
         index={index}
@@ -110,7 +74,6 @@ export const MoveControls = ({
         connectDragSource={connectDragSource}
         name={name}
       />
-      {/*<MoveDown rows={rows} index={index} row={row} name={name} />*/}
     </StyledControls>
   )
 }

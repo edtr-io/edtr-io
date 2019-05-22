@@ -1,12 +1,12 @@
-import * as React from 'react'
 import {
   EditorContext,
   getDocument,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
+import * as React from 'react'
 
-import { rowsState } from '.'
 import { RowContainer } from './row-container'
+import { rowsState } from '.'
 
 export const RowsRenderer = (
   props: StatefulPluginEditorProps<typeof rowsState>

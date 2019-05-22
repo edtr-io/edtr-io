@@ -1,6 +1,7 @@
-import * as React from 'react'
-import { styled, ThemeProps } from '@edtr-io/ui'
 import { EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
+import { styled, ThemeProps } from '@edtr-io/ui'
+import * as React from 'react'
+
 import { createRowPluginTheme } from '../..'
 
 const StyledSearch = styled.div({

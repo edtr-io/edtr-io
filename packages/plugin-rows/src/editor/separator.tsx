@@ -1,6 +1,7 @@
-import * as React from 'react'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
+import * as React from 'react'
+
 import { createRowPluginTheme } from '..'
 
 const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
@@ -33,7 +34,7 @@ const AddTrigger = styled.div<{ inline: boolean; name: string }>(
       opacity: inline ? 0.6 : 0,
       transition: '250ms all ease-in-out 250ms',
       position: inline ? 'absolute' : 'relative',
-      zIndex: 70, //TODO: check this
+      zIndex: 70,
       right: inline ? '15px' : undefined,
       top: inline ? '50%' : undefined,
       transform: inline ? 'translateY(-50%)' : undefined,

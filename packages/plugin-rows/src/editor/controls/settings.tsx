@@ -1,8 +1,9 @@
-import * as React from 'react'
 import { faCog, Icon, styled } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
+import * as React from 'react'
+
 import { createRowPluginTheme } from '../..'
-import { SettingsProps } from './index'
+import { SettingsProps } from '.'
 
 const StyledSettings = styled.div(
   ({

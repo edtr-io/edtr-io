@@ -142,7 +142,7 @@ function isDraggingAbove(monitor: DropTargetMonitor) {
   return dragClientY < domMiddleY
 }
 
-//needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
+// Needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
 function createFakeDataTransfer(files: File[], text?: string) {
   class FakeDataTransfer extends DataTransfer {
     public dropEffect = 'all'

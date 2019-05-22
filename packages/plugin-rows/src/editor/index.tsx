@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   EditorContext,
   getDocument,
@@ -6,6 +5,8 @@ import {
   PluginState,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
+import * as React from 'react'
+
 import { rowsState } from '..'
 import { Row } from './row'
 
@@ -20,7 +21,6 @@ export const RowsEditor = (
         const doc = getDocument(store.state, row.id)
         const plugins = getPlugins(store.state)
         return (
-          //TODO: remove this wrapper if its not needed
           <div key={row.id} style={{ position: 'relative' }}>
             <Row
               {...props}

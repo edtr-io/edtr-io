@@ -1,12 +1,11 @@
-import * as React from 'react'
 import { StateType } from '@edtr-io/core'
+import * as React from 'react'
 
+import { rowsState, rowState } from '../..'
+export { ExtendedSettingsWrapper } from './extended-settings'
+export { createPrimarySettingsWrapper } from './primary-settings'
 import { Settings } from './settings'
 import { MoveControls } from './move-controls'
-import { rowsState, rowState } from '../..'
-
-export { createPrimarySettingsWrapper } from './primary-settings'
-export { ExtendedSettingsWrapper } from './extended-settings'
 
 export interface SettingsProps {
   name: string

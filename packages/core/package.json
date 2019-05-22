@@ -11,9 +11,7 @@
     "ramda": "^0.26.1",
     "react-hotkeys": "^1.1.4",
     "react-portal": "^4.2.0",
-    "uuid": "^3.0.0",
-    "react-dnd": "^7.4.5",
-    "react-dnd-html5-backend": "^7.4.4"
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "@types/ramda": "^0.26.1",
@@ -22,11 +20,15 @@
     "@types/react-test-renderer": "^16.8.0",
     "@types/uuid": "^3.0.0",
     "react": "^16.8.0",
+    "react-dnd": "^7.0.0",
+    "react-dnd-html5-backend": "^7.0.0",
     "react-dom": "^16.8.0",
     "react-test-renderer": "^16.8.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
+    "react-dnd": "^7.0.0",
+    "react-dnd-html5-backend": "^7.0.0",
     "react-dom": "^16.8.0"
   },
   "publishConfig": {

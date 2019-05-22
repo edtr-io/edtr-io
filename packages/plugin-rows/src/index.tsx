@@ -1,10 +1,10 @@
-import * as React from 'react'
 import {
   StatefulPlugin,
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
+import * as React from 'react'
 
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'

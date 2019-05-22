@@ -69,7 +69,7 @@ storiesOf('Plugins/Image', module)
       />
     )
   })
-  .add('Outside of rows Plugin', () => {
+  .add('w/o rows', () => {
     const state = {
       plugin: 'image',
       state: {

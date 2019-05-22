@@ -1,7 +1,7 @@
 import { styled } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 
-import { createRowPluginTheme } from './index'
+import { createRowPluginTheme } from '.'
 
 export const RowContainer = styled.div<{
   isFirst?: boolean
@@ -38,13 +38,6 @@ export const RowContainer = styled.div<{
       transition: '250ms all ease-in-out',
       paddingLeft: '25px',
       paddingRight: '25px',
-      // '&:hover': {
-      //   borderColor: editable ? theme.backgroundColor : 'transparent'
-      // },
-      //
-      // '&:hover .row-controls': {
-      //   opacity: 1
-      // }
       ...(expanded
         ? {
             borderColor: theme.color,

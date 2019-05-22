@@ -1,9 +1,9 @@
-import * as React from 'react'
 import { StateType } from '@edtr-io/core'
 import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
+import * as React from 'react'
 
-import { Globals } from './globals'
 import { createRowPluginTheme, rowsState } from '../..'
+import { Globals } from './globals'
 
 const Overlay = styled.div<{ visible?: boolean; name: string }>(
   ({ visible, name, ...props }) => {
@@ -83,7 +83,7 @@ interface ExtendedSettingsProps {
   name: string
 }
 
-//eslint-disable-next-line react/display-name
+// eslint-disable-next-line react/display-name
 export const ExtendedSettingsWrapper = React.forwardRef<
   HTMLDivElement,
   ExtendedSettingsProps
@@ -114,7 +114,7 @@ export const ExtendedSettingsWrapper = React.forwardRef<
     }, [hideExtendedSettings])
 
     // render only the expanded, so only one extended settings exist
-    if (!expanded) return <React.Fragment />
+    if (!expanded) return null
     // render even if not yet visible, because of ref.
     return (
       <Overlay visible={extendedSettingsVisible} name={name}>

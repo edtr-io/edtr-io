@@ -1,6 +1,7 @@
-import * as React from 'react'
-import { styled, Icon, faCopy, faTrashAlt } from '@edtr-io/editor-ui'
 import { StateType } from '@edtr-io/core'
+import { styled, Icon, faCopy, faTrashAlt } from '@edtr-io/editor-ui'
+import * as React from 'react'
+
 import { createRowPluginTheme, rowsState } from '../..'
 
 const StyledGlobals = styled.div({
@@ -13,7 +14,7 @@ const IconContainer = styled.div<{ disabled?: boolean; name: string }>(
     const theme = createRowPluginTheme(name, props.theme)
     return {
       height: '24px',
-      margin: '0',
+      margin: 0,
       marginLeft: '5px',
       cursor: disabled ? 'not-allowed' : 'pointer',
       color: disabled ? theme.menu.secondary.color : theme.menu.primary.color,

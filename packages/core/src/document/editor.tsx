@@ -1,3 +1,4 @@
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
@@ -18,7 +19,6 @@ import {
 } from '../store'
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { DocumentProps } from '.'
-import { styled } from '@edtr-io/ui'
 
 const StyledDocument = styled.div({
   outline: 'none'

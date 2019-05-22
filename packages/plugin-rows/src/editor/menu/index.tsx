@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Portal } from 'react-portal'
+import { EditorContextValue, getPlugins, PluginState } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
-import { EditorContextValue, getPlugins, PluginState } from '@edtr-io/core'
+import * as React from 'react'
+import { Portal } from 'react-portal'
 
+import { createRowPluginTheme } from '../..'
 import { Search } from './search'
 import { Plugin } from './plugin'
 import { Dropzone } from './dropzone'
-import { createRowPluginTheme } from '../..'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {
