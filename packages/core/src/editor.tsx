@@ -59,6 +59,8 @@ export function Editor<K extends string = string>({
 
   return (
     <HotKeys
+      focused={true}
+      attach={document.body}
       keyMap={{
         UNDO: 'mod+z',
         REDO: ['mod+y', 'mod+shift+z']

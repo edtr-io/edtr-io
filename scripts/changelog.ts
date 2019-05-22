@@ -212,6 +212,11 @@ async function exec(): Promise<void> {
         '**demo**. Log errors only',
         '**demo**. Add additional examples for plugin-usage in Storybook'
       ]
+    },
+    {
+      fixed: [
+        '**plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))'
+      ]
     }
   ])
 

@@ -102,6 +102,8 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
           })
         },
         DELETE_EMPTY: e => {
+          // if (!e) return
+          // e.preventDefault()
           if (isEmpty(store.state, id)) {
             handleKeyDown(e, () => {
               if (!e) return

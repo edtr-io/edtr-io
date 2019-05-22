@@ -240,22 +240,34 @@ function createOnKeyDown(
 
     if (key === 'Backspace' && selectionAtStart(editor)) {
       if (!slateClosure.current) return
-      const { mergeWithPrevious } = slateClosure.current
-      if (typeof mergeWithPrevious !== 'function') return
+      if (isValueEmpty(editor.value)) {
+        // focus previous plugin and remove self
+        const { remove } = slateClosure.current
+        if (typeof remove === 'function') {
+          if (typeof slateClosure.current.focusPrevious === 'function') {
+            slateClosure.current.focusPrevious()
+          }
+          remove()
+        }
+      } else {
+        // merge with previous plugin
+        const { mergeWithPrevious } = slateClosure.current
+        if (typeof mergeWithPrevious !== 'function') return
 
-      mergeWithPrevious(previous => {
-        const value = Value.fromJSON(previous)
-        const selection = CoreRange.create(editor.value.selection)
-        return (
-          editor
-            // hack because empty slate looses focus
-            .insertTextAtRange(selection, ' ')
-            .insertFragmentAtRange(selection, value.document)
-            .moveFocusBackward(1)
-            .delete()
-            .value.toJSON()
-        )
-      })
+        mergeWithPrevious(previous => {
+          const value = Value.fromJSON(previous)
+          const selection = CoreRange.create(editor.value.selection)
+          return (
+            editor
+              // hack because empty slate looses focus
+              .insertTextAtRange(selection, ' ')
+              .insertFragmentAtRange(selection, value.document)
+              .moveFocusBackward(1)
+              .delete()
+              .value.toJSON()
+          )
+        })
+      }
       return
     }
 

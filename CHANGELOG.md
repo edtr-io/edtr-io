@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.5.0..HEAD)
+
+### Fixed
+
+- **plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))
+
 ## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 
 ### Breaking Changes
