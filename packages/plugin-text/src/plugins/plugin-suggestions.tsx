@@ -88,11 +88,9 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
         if (
           plugin.title &&
           plugin.title.toLowerCase().startsWith(search.toLowerCase())
-        )
+        ) {
           return true
-
-        // if (pluginKey.toLowerCase().includes(search.toLowerCase()))
-        //   return true
+        }
         return false
       })
       .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
