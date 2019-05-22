@@ -214,7 +214,13 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: 'v0.6.0',
+      name: '0.6.0',
+      breakingChanges: [
+        '**core**. Requires additional peer-dependencies `react-dnd@^7.0.0` and `react-dnd-html5-backend@^7.0.0`'
+      ],
       added: [
+        "**core**. Editor accepts a new boolean prop `omitDragDropContext`. If set to `true`, the editor won't render `react-dnd`'s  `DragDropContextProvider`",
         '**plugin-files**. Add plugin for file uploads',
         '**plugin-rows**. Pass `renderIntoExtendedSettings` and `PrimarySettings` as props to children',
         '**plugin-text**. Poweruser-Feature: Add new plugins with /[plugintitle] in editmode'

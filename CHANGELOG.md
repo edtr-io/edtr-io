@@ -2,10 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.5.0..HEAD)
+## [0.6.0](https://github.com/edtr-io/edtr-io/compare/v0.5.0..v0.6.0)
+
+### Breaking Changes
+
+- **core**. Requires additional peer-dependencies `react-dnd@^7.0.0` and `react-dnd-html5-backend@^7.0.0`
 
 ### Added
 
+- **core**. Editor accepts a new boolean prop `omitDragDropContext`. If set to `true`, the editor won't render `react-dnd`'s `DragDropContextProvider`
 - **plugin-files**. Add plugin for file uploads
 - **plugin-rows**. Pass `renderIntoExtendedSettings` and `PrimarySettings` as props to children
 - **plugin-text**. Poweruser-Feature: Add new plugins with /[plugintitle] in editmode

@@ -18,9 +18,13 @@ import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
+  const children = <InnerEditor {...props} />
+
+  if (props.omitDragDropContext) return children
+
   return (
     <DragDropContextProvider backend={HTML5Backend}>
-      <InnerEditor {...props} />
+      {children}
     </DragDropContextProvider>
   )
 }
@@ -120,6 +124,7 @@ export function InnerEditor<K extends string = string>({
 }
 
 export interface EditorProps<K extends string = string> {
+  omitDragDropContext?: boolean
   children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
   plugins: Record<K, Plugin>
   defaultPlugin: K
