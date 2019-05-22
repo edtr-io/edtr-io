@@ -4,7 +4,8 @@ import * as React from 'react'
 
 import { InputExerciseRenderer } from './renderer'
 import { inputExerciseState } from '.'
-import { faTrashAlt, faPlus, styled, Icon } from '@edtr-io/editor-ui'
+import { faTrashAlt, faPlus, Icon } from '@edtr-io/editor-ui'
+import { Feedback } from '@edtr-io/renderer-ui'
 
 const types = [
   {
@@ -21,9 +22,6 @@ const types = [
   }
 ]
 
-const FloatRightButton = styled.button({
-  float: 'right'
-})
 export class InputExerciseEditor extends React.Component<
   StatefulPluginEditorProps<typeof inputExerciseState>
 > {
@@ -48,69 +46,51 @@ export class InputExerciseEditor extends React.Component<
         <InputExerciseRenderer {...this.props} />
         {editable && focused ? (
           <React.Fragment>
-            {state.correctAnswers().map((correctAnswer, index: number) => {
+            <div> Richtig? </div>
+            {state.answers().map((answer, index: number) => {
               return (
                 <div key={index}>
+                  <input
+                    type="checkbox"
+                    checked={answer.isCorrect()}
+                    onChange={() =>
+                      state
+                        .answers()
+                        [index].isCorrect.set(
+                          !state.answers()[index].isCorrect()
+                        )
+                    }
+                  />
                   <label>
-                    richtige Antwort:
                     <input
                       type="text"
-                      value={correctAnswer.value}
+                      value={answer.value()}
                       placeholder="richtige Antwort eingeben"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        state.correctAnswers()[index].set(event.target.value)
+                        state.answers()[index].value.set(event.target.value)
                       }
                     />
                   </label>
-                  <button onClick={() => state.correctAnswers.remove(index)}>
+                  <button onClick={() => state.answers.remove(index)}>
                     <Icon icon={faTrashAlt} />
                   </button>
+                  <button
+                    onClick={() => state.answers()[index].hasFeedback.set(true)}
+                  >
+                    <Icon icon={faPlus} /> Feedback
+                  </button>
+                  {state.answers()[index].hasFeedback() ? (
+                    <Feedback isTrueAnswer={state.answers()[index].isCorrect()}>
+                      {state.answers()[index].feedback.render()}
+                    </Feedback>
+                  ) : null}
                 </div>
               )
             })}
-            <button onClick={() => state.correctAnswers.insert()}>
-              <Icon icon={faPlus} /> richtige Antwort
+            <button onClick={() => state.answers.insert()}>
+              <Icon icon={faPlus} /> Antwort
             </button>
-            {state.wrongAnswers().map((wrongAnswer, index: number) => {
-              return (
-                <div key={index}>
-                  <label>
-                    falsche Antwort:
-                    <input
-                      type="text"
-                      value={wrongAnswer.value()}
-                      placeholder="falsche Antwort eingeben"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        state
-                          .wrongAnswers()
-                          [index].value.set(event.target.value)
-                      }
-                    />
-                  </label>
-                  <button onClick={() => state.wrongAnswers.remove(index)}>
-                    <Icon icon={faTrashAlt} />
-                  </button>
-                  <label>
-                    Feedback:
-                    <input
-                      type="text"
-                      value={wrongAnswer.feedback()}
-                      placeholder="Gib dein Feedback ein!"
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
-                        state
-                          .wrongAnswers()
-                          [index].feedback.set(event.target.value)
-                      }}
-                    />
-                  </label>
-                </div>
-              )
-            })}
-            <button onClick={() => state.wrongAnswers.insert()}>
-              <Icon icon={faPlus} /> falsche Antwort
-            </button>
+
             <div>
               Wähle den Antworttyp:
               <select

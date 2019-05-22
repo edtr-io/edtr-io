@@ -209,13 +209,17 @@ async function exec(): Promise<void> {
         '**core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty',
         '**core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition',
         '**plugin-text**. Added visual latex editor',
-        '**plugin-input-exercise: improved UI/UX and added theming options',
         '**core**. Add new text plugin on Enter and delete empty plugins on backspace and delete'
       ],
       fixed: ['**plugin-image**. Hide config-overlay in render mode'],
       internal: [
         '**demo**. Log errors only',
         '**demo**. Add additional examples for plugin-usage in Storybook'
+      ]
+    },
+    {
+      changed: [
+        '**plugin-input-exercise: improved UI/UX and added theming options'
       ]
     }
   ])

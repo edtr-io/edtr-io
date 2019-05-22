@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.5.0..HEAD)
+
+### Changed
+
+- \*\*plugin-input-exercise: improved UI/UX and added theming options
+
 ## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 
 ### Breaking Changes
@@ -42,7 +48,6 @@ All notable changes to this project will be documented in this file.
 - **core**. Added `isEmpty(state: State, id: string)` to check if a plugin state is empty
 - **core**. Added optional function `isEmpty: (state: StateDescriptorValueType<S>) => boolean` to plugin definition
 - **plugin-text**. Added visual latex editor
-- \*\*plugin-input-exercise: improved UI/UX and added theming options
 - **core**. Add new text plugin on Enter and delete empty plugins on backspace and delete
 
 ### Fixed

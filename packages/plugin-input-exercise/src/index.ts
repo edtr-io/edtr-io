@@ -4,14 +4,15 @@ import { InputExerciseEditor } from './editor'
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
 import { createPluginTheme } from '@edtr-io/ui'
 
-export const wrongAnswerObject = StateType.object({
+export const answerObject = StateType.object({
   value: StateType.string(''),
-  feedback: StateType.string('')
+  isCorrect: StateType.boolean(),
+  hasFeedback: StateType.boolean(),
+  feedback: StateType.child()
 })
 export const inputExerciseState = StateType.object({
   type: StateType.string('Text'),
-  correctAnswers: StateType.list(StateType.string('')),
-  wrongAnswers: StateType.list(wrongAnswerObject)
+  answers: StateType.list(answerObject)
 })
 export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,

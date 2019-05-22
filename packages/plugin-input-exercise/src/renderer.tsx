@@ -34,7 +34,7 @@ export class InputExerciseRenderer extends React.Component<
 > {
   public state = {
     positiveFeedback: false,
-    negativeFeedbackIndex: -1,
+    feedbackIndex: -1,
     showFeedback: false,
     exerciseState: ExerciseState.Default
   }
@@ -50,36 +50,23 @@ export class InputExerciseRenderer extends React.Component<
     const { state } = this.props
 
     var correct = false
-    state.correctAnswers().forEach(correctAnswer => {
+    state.answers().forEach((answer, index) => {
       if (
         this.matchesInput(
-          { type: state.type(), value: correctAnswer() },
+          { type: state.type(), value: answer.value() },
           input.value
         )
       ) {
         this.setState({
-          positiveFeedback: true,
+          positiveFeedback: answer.isCorrect(),
+          feedbackIndex: index,
           showFeedback: true,
-          exerciseState: ExerciseState.SolvedRight
+          exerciseState: answer.isCorrect
+            ? ExerciseState.SolvedRight
+            : this.handleWrongAnswer()
         })
-        correct = true
       }
     })
-    if (!correct) {
-      const index = state.wrongAnswers().findIndex(wrongAnswer => {
-        return this.matchesInput(
-          { type: state.type(), value: wrongAnswer.value() },
-          input.value
-        )
-      })
-
-      this.setState({
-        negativeFeedbackIndex: index,
-        showFeedback: true,
-        positiveFeedback: false,
-        exerciseState: this.handleWrongAnswer()
-      })
-    }
   }
 
   private handleWrongAnswer = () => {
@@ -151,22 +138,11 @@ export class InputExerciseRenderer extends React.Component<
               clear: 'both'
             }}
           />
+          {/* TODO: ask whether there is a feedback */}
           {this.state.showFeedback ? (
-            this.state.positiveFeedback ? (
-              <div>
-                <Feedback boxFree isTrueAnswer>
-                  Sehr gut!
-                </Feedback>
-              </div>
-            ) : this.state.negativeFeedbackIndex !== -1 ? (
-              <Feedback boxFree>
-                {state
-                  .wrongAnswers()
-                  [this.state.negativeFeedbackIndex].feedback()}
-              </Feedback>
-            ) : (
-              <Feedback boxFree> Leider falsch!</Feedback>
-            )
+            <Feedback boxFree isTrueAnswer={this.state.positiveFeedback}>
+              {state.answers()[this.state.feedbackIndex].feedback()}
+            </Feedback>
           ) : null}
           <div>
             <SubmitButton exerciseState={this.state.exerciseState}>
@@ -182,7 +158,7 @@ export class InputExerciseRenderer extends React.Component<
 
 interface InputExerciseRendererState {
   positiveFeedback: boolean
-  negativeFeedbackIndex: number
+  feedbackIndex: number
   showFeedback: boolean
   exerciseState: ExerciseState
 }
