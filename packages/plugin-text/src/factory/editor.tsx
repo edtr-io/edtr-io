@@ -242,10 +242,10 @@ function createOnKeyDown(
       if (!slateClosure.current) return
       if (isValueEmpty(editor.value)) {
         // focus previous plugin and remove self
-        const { remove } = slateClosure.current
+        const { remove, focusPrevious } = slateClosure.current
         if (typeof remove === 'function') {
-          if (typeof slateClosure.current.focusPrevious === 'function') {
-            slateClosure.current.focusPrevious()
+          if (typeof focusPrevious === 'function') {
+            focusPrevious()
           }
           remove()
         }
@@ -267,16 +267,27 @@ function createOnKeyDown(
 
     if (key === 'Delete' && selectionAtEnd(editor)) {
       if (!slateClosure.current) return
-      const { mergeWithNext } = slateClosure.current
-      if (typeof mergeWithNext !== 'function') return
+      if (isValueEmpty(editor.value)) {
+        // focus previous plugin and remove self
+        const { remove, focusNext } = slateClosure.current
+        if (typeof remove === 'function') {
+          if (typeof focusNext === 'function') {
+            focusNext()
+          }
+          remove()
+        }
+      } else {
+        const { mergeWithNext } = slateClosure.current
+        if (typeof mergeWithNext !== 'function') return
 
-      mergeWithNext(next => {
-        const value = Value.fromJSON(next)
-        const selection = CoreRange.create(editor.value.selection)
-        editor
-          .insertFragmentAtRange(selection, value.document)
-          .select(selection)
-      })
+        mergeWithNext(next => {
+          const value = Value.fromJSON(next)
+          const selection = CoreRange.create(editor.value.selection)
+          editor
+            .insertFragmentAtRange(selection, value.document)
+            .select(selection)
+        })
+      }
       return
     }
 
