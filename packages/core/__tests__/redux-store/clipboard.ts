@@ -13,7 +13,7 @@ describe('Clipboard', () => {
   })
 
   describe('Copy', () => {
-    test('First copy', () => {
+    test('Stateful plugin', () => {
       store.dispatch(copy({ plugin: 'stateful', state: 0 }))
       expect(getClipboard(store.getState())).toHaveLength(1)
       expect(getClipboard(store.getState())[0]).toEqual({

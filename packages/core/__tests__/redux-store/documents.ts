@@ -3,12 +3,12 @@ import * as R from 'ramda'
 import { setupStore, waitUntil } from '../../__helpers__'
 import {
   getDocument,
-  getDocuments,
   insert,
   remove,
   change,
   asyncInsert
 } from '../../src/redux-store'
+import { getDocuments } from '../../src/redux-store/documents/reducer'
 
 let store: ReturnType<typeof setupStore>
 

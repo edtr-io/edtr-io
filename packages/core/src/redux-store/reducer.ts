@@ -8,13 +8,6 @@ import { modeReducer } from './mode/reducer'
 import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
 
-export * from './clipboard/reducer'
-export * from './documents/reducer'
-export * from './focus/reducer'
-export * from './mode/reducer'
-export * from './plugins/reducer'
-export * from './root/reducer'
-
 export function reducer(state: State | undefined, action: Action) {
   return {
     clipboard: clipboardReducer(state && state.clipboard, action, state),
