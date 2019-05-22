@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-hint",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -8,8 +8,8 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "devDependencies": {
-    "@edtr-io/core": "^0.5.0",
-    "@edtr-io/ui": "^0.5.0",
+    "@edtr-io/core": "^0.6.0",
+    "@edtr-io/ui": "^0.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
