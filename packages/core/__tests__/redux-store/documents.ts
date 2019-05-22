@@ -22,29 +22,27 @@ describe('Documents', () => {
   })
 
   describe('Insert', () => {
-    test('Default Plugin', () => {
+    test('Default Plugin', async () => {
       store.dispatch(asyncInsert({ id: '0' }))
-      return waitUntil(() => store.getActions().length >= 2).then(() => {
-        const doc = getDocument(store.getState(), '0')
-        if (!doc) throw new Error('Document not found')
-        expect(doc.plugin).toEqual('text')
-      })
+      await waitUntil(() => store.getActions().length >= 2)
+      const doc = getDocument(store.getState(), '0')
+      if (!doc) throw new Error('Document not found')
+      expect(doc.plugin).toEqual('text')
     })
 
-    test('Stateless Plugin', () => {
+    test('Stateless Plugin', async () => {
       store.dispatch(
         asyncInsert({
           id: '1',
           plugin: 'stateless'
         })
       )
-      return waitUntil(() => store.getActions().length >= 2).then(() => {
-        expect(getDocument(store.getState(), '1')).toEqual({
-          plugin: 'stateless'
-        })
+      await waitUntil(() => store.getActions().length >= 2)
+      expect(getDocument(store.getState(), '1')).toEqual({
+        plugin: 'stateless'
       })
     })
-    test('Stateful plugin w/ state', () => {
+    test('Stateful plugin w/ state', async () => {
       store.dispatch(
         asyncInsert({
           id: '0',
@@ -52,11 +50,10 @@ describe('Documents', () => {
           state: { counter: 0 }
         })
       )
-      return waitUntil(() => store.getActions().length >= 2).then(() => {
-        expect(getDocument(store.getState(), '0')).toEqual({
-          plugin: 'stateful',
-          state: { counter: 0 }
-        })
+      await waitUntil(() => store.getActions().length >= 2)
+      expect(getDocument(store.getState(), '0')).toEqual({
+        plugin: 'stateful',
+        state: { counter: 0 }
       })
     })
   })

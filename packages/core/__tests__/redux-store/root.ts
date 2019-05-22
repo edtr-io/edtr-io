@@ -13,28 +13,24 @@ describe('Root', () => {
   })
 
   describe('Init Root', () => {
-    test('Stateless Plugin', () => {
+    test('Stateless Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateless' }))
-
-      return waitUntil(() => store.getActions().length >= 2).then(() => {
-        expect(serializeRootDocument(store.getState())).toEqual({
-          plugin: 'stateless'
-        })
+      await waitUntil(() => store.getActions().length >= 2)
+      expect(serializeRootDocument(store.getState())).toEqual({
+        plugin: 'stateless'
       })
     })
 
-    test('Stateful Plugin', () => {
+    test('Stateful Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
-
-      return waitUntil(() => store.getActions().length >= 2).then(() => {
-        expect(serializeRootDocument(store.getState())).toEqual({
-          plugin: 'stateful',
-          state: 0
-        })
+      await waitUntil(() => store.getActions().length >= 2)
+      expect(serializeRootDocument(store.getState())).toEqual({
+        plugin: 'stateful',
+        state: 0
       })
     })
 
-    test('Nested', () => {
+    test('Nested', async () => {
       store.dispatch(
         initRoot({
           plugin: 'nested',
@@ -43,21 +39,19 @@ describe('Root', () => {
           }
         })
       )
-
-      return waitUntil(() => store.getActions().length >= 3).then(() => {
-        expect(serializeRootDocument(store.getState())).toEqual({
-          plugin: 'nested',
-          state: {
-            child: {
-              plugin: 'stateful',
-              state: 0
-            }
+      await waitUntil(() => store.getActions().length >= 3)
+      expect(serializeRootDocument(store.getState())).toEqual({
+        plugin: 'nested',
+        state: {
+          child: {
+            plugin: 'stateful',
+            state: 0
           }
-        })
+        }
       })
     })
 
-    test('Nested Array', () => {
+    test('Nested Array', async () => {
       store.dispatch(
         initRoot({
           plugin: 'nestedArray',
@@ -66,23 +60,21 @@ describe('Root', () => {
           }
         })
       )
-
-      return waitUntil(() => store.getActions().length >= 3).then(() => {
-        expect(serializeRootDocument(store.getState())).toEqual({
-          plugin: 'nestedArray',
-          state: {
-            children: [
-              {
-                plugin: 'stateful',
-                state: 1
-              }
-            ]
-          }
-        })
+      await waitUntil(() => store.getActions().length >= 3)
+      expect(serializeRootDocument(store.getState())).toEqual({
+        plugin: 'nestedArray',
+        state: {
+          children: [
+            {
+              plugin: 'stateful',
+              state: 1
+            }
+          ]
+        }
       })
     })
 
-    test('Nested Inside Nested', () => {
+    test('Nested Inside Nested', async () => {
       store.dispatch(
         initRoot({
           plugin: 'nestedArray',
@@ -102,25 +94,23 @@ describe('Root', () => {
           }
         })
       )
-
-      return waitUntil(() => store.getActions().length >= 5).then(() => {
-        expect(serializeRootDocument(store.getState())).toEqual({
-          plugin: 'nestedArray',
-          state: {
-            children: [
-              {
-                plugin: 'stateful',
-                state: 1
-              },
-              {
-                plugin: 'nested',
-                state: {
-                  child: { plugin: 'stateful', state: 2 }
-                }
+      await waitUntil(() => store.getActions().length >= 5)
+      expect(serializeRootDocument(store.getState())).toEqual({
+        plugin: 'nestedArray',
+        state: {
+          children: [
+            {
+              plugin: 'stateful',
+              state: 1
+            },
+            {
+              plugin: 'nested',
+              state: {
+                child: { plugin: 'stateful', state: 2 }
               }
-            ]
-          }
-        })
+            }
+          ]
+        }
       })
     })
   })
