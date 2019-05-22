@@ -17,7 +17,17 @@ export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
   state: equationsState,
   title: 'Gleichungen',
   description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
-  icon: createIcon(faEquals)
+  icon: createIcon(faEquals),
+  getFocusableChildren(state) {
+    return state()
+      .steps()
+      .reduce(
+        (children, step) => {
+          return [...children, step().left, step().right, step().transform]
+        },
+        [] as { id: string }[]
+      )
+  }
 }
 
 export * from './editor'

@@ -14,7 +14,10 @@ export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
   icon: createIcon(faCaretSquareDown),
   title: 'Spoiler',
   description:
-    'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.'
+    'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.',
+  getFocusableChildren(state) {
+    return [state().content]
+  }
 }
 
 export interface SpoilerTheme {
