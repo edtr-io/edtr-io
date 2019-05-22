@@ -3,7 +3,6 @@ import { Editor } from 'slate'
 import { SlatePluginClosure } from '../factory/types'
 import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'
-import { setParagraph } from './paragraph'
 import { TextPlugin } from '..'
 
 const handleMarkdown = (
@@ -12,7 +11,7 @@ const handleMarkdown = (
   next: Function,
   name: string
 ) => {
-  if (/\d+\./.test(chars)) {
+  if (/^\d+\.$/.test(chars)) {
     if (isList(orderedListNode)(editor)) {
       return undefined
     }
@@ -68,32 +67,6 @@ const onSpace = (
   editor.moveFocusToStartOfNode(startBlock).delete()
 }
 
-const onBackspace = (event: KeyboardEvent, editor: Editor, next: Function) => {
-  const { value } = editor
-  const { selection } = value
-  if (selection.isExpanded) return next()
-  if (selection.start.offset !== 0) return next()
-
-  const { startBlock } = value
-  if (startBlock.type === 'paragraph') return next()
-
-  event.preventDefault()
-  setParagraph(editor)
-}
-
-const onEnter = (event: KeyboardEvent, editor: Editor, next: Function) => {
-  const { value } = editor
-  const { selection } = value
-  const { start, isExpanded } = selection
-  if (isExpanded) return next()
-
-  const { startBlock } = value
-  if (start.offset === 0 && startBlock.text.length === 0)
-    return onBackspace(event, editor, next)
-
-  return next()
-}
-
 export const markdownShortcuts = (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
@@ -107,10 +80,6 @@ export const markdownShortcuts = (
       switch (e.key) {
         case ' ':
           return onSpace(e, editor, next, name)
-        case 'Backspace':
-          return onBackspace(e, editor, next)
-        case 'Enter':
-          return onEnter(e, editor, next)
         default:
           return next()
       }
