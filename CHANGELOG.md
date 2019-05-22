@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - **plugin-files**. Add plugin for file uploads
+- **plugin-rows**. Pass `renderIntoExtendedSettings` and `PrimarySettings` as props to children
+
+### Changed
+
+- **plugin-rows**. Adapt styles and controls implemented by schul-cloud, including drag&drop
+- **plugin-rows**. Add full color theming support
 
 ## [0.5.0](https://github.com/edtr-io/edtr-io/compare/v0.4.3..v0.5.0) - May 9, 2019
 

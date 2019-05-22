@@ -3,11 +3,11 @@ import {
   StatefulPluginEditorProps,
   StateType
 } from '@edtr-io/core'
+import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
-import { createPluginTheme } from '@edtr-io/ui'
 
 export const rowState = StateType.child()
 export const rowsState = StateType.list(rowState, 1)
@@ -44,25 +44,41 @@ export interface RowTheme {
       backgroundColor: string
       color: string
     }
+    dropzone: {
+      highlightColor: string
+      backgroundColor: string
+      color: string
+      highlightBackgroundColor: string
+    }
   }
 }
 
-export const createRowPluginTheme = createPluginTheme<RowTheme>(theme => {
+export const rowsPluginThemeFactory: PluginThemeFactory<RowTheme> = theme => {
   return {
-    backgroundColor: theme.editor.backgroundColor,
-    color: theme.editor.color,
-    highlightColor: theme.editor.primary.background,
-    lightBackgroundColor: theme.editor.primary.color,
+    color: theme.editor.secondary.color, // rgb(51,51,51) #333333
+    backgroundColor: theme.editor.primary.color, // #fff
+    highlightColor: theme.editor.primary.background, // rgb(70, 155, 255) #469bff
+    lightBackgroundColor: 'rgb(182,182,182)',
     menu: {
-      highlightColor: theme.editor.primary.background,
+      highlightColor: theme.editor.primary.background, // rgb(70, 155, 255) #469bff
       primary: {
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        color: theme.editor.backgroundColor
+        color: theme.editor.backgroundColor // rgb(51,51,51,0.95) #333333??
       },
       secondary: {
-        backgroundColor: '#f5f5f5',
-        color: 'rgba(51,51,51)'
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        color: '#999999'
+      },
+      dropzone: {
+        backgroundColor: 'rgb(73, 73, 73)',
+        color: '#dbdbdb',
+        highlightColor: theme.editor.primary.background,
+        highlightBackgroundColor: 'rgb(60,60,60)'
       }
     }
   }
-})
+}
+
+export const createRowPluginTheme = createPluginTheme<RowTheme>(
+  rowsPluginThemeFactory
+)

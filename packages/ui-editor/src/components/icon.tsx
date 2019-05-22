@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import * as React from 'react'
 import styled from 'styled-components'
+
 export const Icon = FontAwesomeIcon
 
 export {
@@ -43,7 +44,7 @@ export {
 } from '@fortawesome/free-solid-svg-icons'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
-  const I = () => <Icon icon={i} size="5x" />
+  const I = () => <Icon icon={i} size="4x" />
   return I
 }
 
@@ -57,9 +58,15 @@ const EdtrSVG = styled.svg({
 
 export const EdtrIcon: React.FunctionComponent<{
   icon: EdtrIconDefinition
+  className?: string
 }> = props => {
   return (
-    <EdtrSVG width="24" height="24" viewBox="0 0 24 24">
+    <EdtrSVG
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      className={props.className}
+    >
       <path fill="currentcolor" d={props.icon} />
     </EdtrSVG>
   )
@@ -96,6 +103,15 @@ export const edtrFill: EdtrIconDefinition =
 export const edtrBold: EdtrIconDefinition =
   'M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H8c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h5.78c2.07 0 3.96-1.69 3.97-3.77.01-1.53-.85-2.84-2.15-3.44zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z'
 
+export const edtrPlus: EdtrIconDefinition =
+  'M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M16,13 L13,13 L13,16 C13,16.55 12.55,17 12,17 C11.45,17 11,16.55 11,16 L11,13 L8,13 C7.45,13 7,12.55 7,12 C7,11.45 7.45,11 8,11 L11,11 L11,8 C11,7.45 11.45,7 12,7 C12.55,7 13,7.45 13,8 L13,11 L16,11 C16.55,11 17,11.45 17,12 C17,12.55 16.55,13 16,13 Z'
+export const edtrSearch: EdtrIconDefinition =
+  'M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'
+export const edtrDefaultPlugin: EdtrIconDefinition =
+  'M20.6190476,11.5238095 L19.1904762,11.5238095 L19.1904762,7.71428571 C19.1904762,6.65714286 18.3333333,5.80952381 17.2857143,5.80952381 L13.4761905,5.80952381 L13.4761905,4.38095238 C13.4761905,3.06598869 12.4102018,2 11.0952381,2 C9.78027441,2 8.71428571,3.06598869 8.71428571,4.38095238 L8.71428571,5.80952381 L4.9047619,5.80952381 C3.85279095,5.80952381 3,6.66231476 3,7.71428571 L3,11.3333333 L4.42857143,11.3333333 C5.85714286,11.3333333 7,12.4761905 7,13.9047619 C7,15.3333333 5.85714286,16.4761905 4.42857143,16.4761905 L3,16.4761905 L3,20.0952381 C3,21.147209 3.85279095,22 4.9047619,22 L8.52380952,22 L8.52380952,20.5714286 C8.52380952,19.1428571 9.66666667,18 11.0952381,18 C12.5238095,18 13.6666667,19.1428571 13.6666667,20.5714286 L13.6666667,22 L17.2857143,22 C18.3376852,22 19.1904762,21.147209 19.1904762,20.0952381 L19.1904762,16.2857143 L20.6190476,16.2857143 C21.9340113,16.2857143 23,15.2197256 23,13.9047619 C23,12.5897982 21.9340113,11.5238095 20.6190476,11.5238095 Z'
+export const edtrDragHandle: EdtrIconDefinition =
+  'M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z'
+
 export const edtrTextControls = {
   bold: edtrBold,
   italic: edtrItalic,
@@ -107,4 +123,12 @@ export const edtrTextControls = {
   text: edtrText,
   close: edtrClose,
   quote: edtrQuote
+}
+
+export const edtrRowsControls = {
+  plus: edtrPlus,
+  close: edtrClose,
+  search: edtrSearch,
+  defaultPlugin: edtrDefaultPlugin,
+  dragHandle: edtrDragHandle
 }

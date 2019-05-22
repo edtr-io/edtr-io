@@ -8,24 +8,31 @@ import {
   State,
   StateType
 } from '@edtr-io/core'
+import * as React from 'react'
+
 import { rowsState, rowState } from '..'
-import { ChangeAction } from '@edtr-io/core/src/store'
 
 export default function({
   row,
   rows,
   index,
   store,
-  getDocument
+  getDocument,
+  renderIntoExtendedSettings,
+  PrimarySettingsWrapper
 }: {
   row: StateType.StateDescriptorReturnType<typeof rowState>
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   index: number
   store: EditorContextValue
   getDocument: (state: State, id: string) => PluginState | null
+  renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
+  PrimarySettingsWrapper: React.ComponentType
 }) {
   const { state, dispatch } = store
   return row.render({
+    renderIntoExtendedSettings,
+    PrimarySettingsWrapper,
     insert: (options?: { plugin: string; state?: unknown }) =>
       rows.insert(index + 1, options),
     replace: (options?: { plugin: string; state?: unknown }) => {
@@ -55,14 +62,14 @@ export default function({
         if (!previous || previous.plugin !== current.plugin) return
 
         const merged = merge(previous.state)
-        const changeAction: ChangeAction = {
+        dispatch({
           type: ActionType.Change,
           payload: {
             id: previousFocusId,
             state: () => merged
-          }
-        }
-        dispatch(changeAction)
+          },
+          commit: undefined
+        })
         rows.remove(index)
       } else {
         merge(previous.state)

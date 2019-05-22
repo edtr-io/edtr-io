@@ -13,6 +13,8 @@
     "@types/react-portal": "^4.0.2",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
+    "react-dnd": "^7.0.0",
+    "react-dnd-html5-backend": "^7.0.0",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
@@ -20,6 +22,8 @@
     "@edtr-io/ui": "^0.5.0",
     "@types/ramda": "^0.26.1",
     "react": "^16.8.0",
+    "react-dnd": "^7.0.0",
+    "react-dnd-html5-backend": "^7.0.0",
     "react-dom": "^16.8.0"
   },
   "publishConfig": {

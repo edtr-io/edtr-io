@@ -1,20 +1,23 @@
 import * as React from 'react'
 
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { createOverlayTheme } from './settings-overlay'
 
-export const createCheckboxTheme = createEditorUiTheme<CheckboxTheme>(theme => {
-  return {
-    boxSelectedColor: theme.color,
-    boxDeselectedColor: theme.backgroundColor,
-    color: theme.color
+export const createOverlayCheckboxTheme = createEditorUiTheme<CheckboxTheme>(
+  theme => {
+    return {
+      boxSelectedColor: theme.color,
+      boxDeselectedColor: theme.backgroundColor,
+      color: theme.color
+    }
   }
-})
+)
 
 const CheckboxLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createCheckboxTheme('checkbox', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
-    color: theme.color,
+    color: theme.checkbox.color,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -23,9 +26,9 @@ const CheckboxLabel = styled.label((props: EditorThemeProps) => {
 })
 
 const CheckboxInlineLabel = styled.label((props: EditorThemeProps) => {
-  const theme = createCheckboxTheme('checkbox', props.theme)
+  const theme = createOverlayTheme(props.theme)
   return {
-    color: theme.color,
+    color: theme.checkbox.color,
     verticalAlign: 'middle',
     margin: '5px 10px',
     display: 'inline-block'
@@ -40,17 +43,19 @@ const CheckboxInlineLabelInner = styled.span({
 const CheckboxToggleContainer = styled.div<{
   value?: boolean
 }>(({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
-  const theme = createCheckboxTheme('checkbox', props.theme)
+  const theme = createOverlayTheme(props.theme)
 
   return {
     cursor: 'pointer',
-    border: `2px solid ${theme.color}`,
+    border: `2px solid ${theme.checkbox.color}`,
     borderRadius: '15%',
-    width: '10px',
-    height: '10px',
+    width: '20px',
+    height: '20px',
     display: 'inline-block',
     verticalAlign: 'middle',
-    backgroundColor: value ? theme.boxSelectedColor : theme.boxDeselectedColor
+    backgroundColor: value
+      ? theme.checkbox.boxSelectedColor
+      : theme.checkbox.boxDeselectedColor
   }
 })
 
@@ -58,18 +63,19 @@ const CheckboxLabelInner = styled.span({ width: '20%' })
 
 const CheckboxToggle = styled.div<{ value?: boolean }>(
   ({ value, ...props }: { value?: boolean } & EditorThemeProps) => {
-    const theme = createCheckboxTheme('checkbox', props.theme)
+    const theme = createOverlayTheme(props.theme)
 
     return {
       opacity: value ? 1 : 0,
       content: '',
       position: 'absolute',
       fontWeight: 'bold',
-      width: '8px',
-      height: '5px',
-      border: `2px solid ${theme.boxDeselectedColor}`,
+      width: '20px',
+      height: '10px',
+      border: `3px solid ${theme.checkbox.boxDeselectedColor}`,
       borderTop: 'none',
       borderRight: 'none',
+      borderRadius: '1px',
 
       transform: 'rotate(-45deg)',
       zIndex: 1000

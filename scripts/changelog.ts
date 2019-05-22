@@ -214,7 +214,14 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      added: ['**plugin-files**. Add plugin for file uploads']
+      added: [
+        '**plugin-files**. Add plugin for file uploads',
+        '**plugin-rows**. Pass `renderIntoExtendedSettings` and `PrimarySettings` as props to children'
+      ],
+      changed: [
+        '**plugin-rows**. Adapt styles and controls implemented by schul-cloud, including drag&drop',
+        '**plugin-rows**. Add full color theming support'
+      ]
     }
   ])
 

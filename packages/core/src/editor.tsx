@@ -1,5 +1,7 @@
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
+import { DragDropContextProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
 import { Document } from './document'
@@ -15,7 +17,15 @@ import {
 import { Plugin } from './plugin'
 import { OverlayContextProvider } from './overlay'
 
-export function Editor<K extends string = string>({
+export function Editor<K extends string = string>(props: EditorProps<K>) {
+  return (
+    <DragDropContextProvider backend={HTML5Backend}>
+      <InnerEditor {...props} />
+    </DragDropContextProvider>
+  )
+}
+
+export function InnerEditor<K extends string = string>({
   plugins,
   defaultPlugin,
   initialState,
