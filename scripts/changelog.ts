@@ -223,6 +223,7 @@ async function exec(): Promise<void> {
         '**plugin-rows**. Add full color theming support'
       ],
       fixed: [
+        '**plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))',
         '**plugin-spoiler**, **plugin-solution**, **plugin-hint**, **plugin-equations**. Make children traversable'
       ]
     }

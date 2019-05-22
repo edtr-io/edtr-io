@@ -238,39 +238,36 @@ function createOnKeyDown(
       }
     }
 
-    if (key === 'Backspace' && selectionAtStart(editor)) {
+    if (
+      (key === 'Backspace' && selectionAtStart(editor)) ||
+      (key === 'Delete' && selectionAtEnd(editor))
+    ) {
       if (!slateClosure.current) return
-      const { mergeWithPrevious } = slateClosure.current
-      if (typeof mergeWithPrevious !== 'function') return
+      const previous = key === 'Backspace'
 
-      mergeWithPrevious(previous => {
-        const value = Value.fromJSON(previous)
-        const selection = CoreRange.create(editor.value.selection)
-        return (
-          editor
-            // hack because empty slate looses focus
-            .insertTextAtRange(selection, ' ')
-            .insertFragmentAtRange(selection, value.document)
-            .moveFocusBackward(1)
-            .delete()
-            .value.toJSON()
-        )
-      })
-      return
-    }
+      if (isValueEmpty(editor.value)) {
+        // Focus previous resp. next document and remove self
+        const { remove } = slateClosure.current
+        const focus =
+          slateClosure.current[previous ? 'focusPrevious' : 'focusNext']
+        if (typeof remove === 'function') {
+          if (typeof focus === 'function') focus()
+          remove()
+        }
+      } else {
+        // Merge with previous resp. next document
+        const merge =
+          slateClosure.current[previous ? 'mergeWithPrevious' : 'mergeWithNext']
+        if (typeof merge !== 'function') return
+        merge(other => {
+          const value = Value.fromJSON(other)
+          const selection = CoreRange.create(editor.value.selection)
+          editor.insertFragmentAtRange(selection, value.document)
+          if (!previous) editor.select(selection)
+          return editor.value.toJSON()
+        })
+      }
 
-    if (key === 'Delete' && selectionAtEnd(editor)) {
-      if (!slateClosure.current) return
-      const { mergeWithNext } = slateClosure.current
-      if (typeof mergeWithNext !== 'function') return
-
-      mergeWithNext(next => {
-        const value = Value.fromJSON(next)
-        const selection = CoreRange.create(editor.value.selection)
-        editor
-          .insertFragmentAtRange(selection, value.document)
-          .select(selection)
-      })
       return
     }
 
