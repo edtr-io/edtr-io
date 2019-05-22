@@ -11,9 +11,9 @@ import {
 import * as React from 'react'
 
 import { FileRenderer } from './renderer'
-import { fileState } from '.'
-import { parseFileType, readFile, Upload, uploadFile } from './upload'
 import { FileError, FileErrorCode, LoadedFile, FileUploadConfig } from './types'
+import { parseFileType, readFile, Upload, uploadFile } from './upload'
+import { fileState } from '.'
 
 export const Wrapper = styled.div({
   display: 'inline-block',
@@ -112,7 +112,9 @@ export function createFilesEditor<T>(
           if (file.value.uploaded) {
             // finished uploading
             return <FileRenderer key={i} file={file.value.uploaded} />
-          } else if (file.value.loaded) {
+          }
+
+          if (file.value.loaded) {
             // finished loading as DataUrl, being uploaded atm
             const tmpFile = file.value.loaded
             return (
@@ -134,7 +136,9 @@ export function createFilesEditor<T>(
                 </Center>
               </Temporary>
             )
-          } else if (file.value.failed) {
+          }
+
+          if (file.value.failed) {
             const tmpFile = file.value.failed
             return (
               <Failed key={i}>
@@ -161,6 +165,7 @@ export function createFilesEditor<T>(
               </Failed>
             )
           }
+
           return null
         })}
         {focused ? (

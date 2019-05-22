@@ -130,34 +130,32 @@ export class Upload<T = unknown> extends React.Component<UploadProps<T>> {
 
   public render() {
     return (
-      <React.Fragment>
-        <UploadField
-          onFiles={(fileList: FileList) => {
-            let files: File[] = []
+      <UploadField
+        onFiles={(fileList: FileList) => {
+          let files: File[] = []
 
-            const validation = this.validateFiles(fileList)
-            if (
-              !validation.valid.length ||
-              !validation.valid.every(bool => bool)
-            ) {
-              if (this.props.onError) {
-                this.props.onError(validation.errors)
-              }
+          const validation = this.validateFiles(fileList)
+          if (
+            !validation.valid.length ||
+            !validation.valid.every(bool => bool)
+          ) {
+            if (this.props.onError) {
+              this.props.onError(validation.errors)
             }
-            validation.valid.forEach((valid, i) => {
-              if (valid) files.push(fileList[i])
-            })
-            if (files && this.props.onFiles) {
-              this.props.onFiles(files)
-            }
-          }}
-          uploadProps={{
-            multiple: true
-          }}
-        >
-          <EditorButton>Durchsuchen...</EditorButton>
-        </UploadField>
-      </React.Fragment>
+          }
+          validation.valid.forEach((valid, i) => {
+            if (valid) files.push(fileList[i])
+          })
+          if (files && this.props.onFiles) {
+            this.props.onFiles(files)
+          }
+        }}
+        uploadProps={{
+          multiple: true
+        }}
+      >
+        <EditorButton>Durchsuchen...</EditorButton>
+      </UploadField>
     )
   }
 }

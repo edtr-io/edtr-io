@@ -86,8 +86,7 @@ function getIconFromType(type: FileType) {
       return faFileVideo
     case FileType.Word:
       return faFileWord
-    //FileType.Other
-    default:
+    case FileType.Other:
       return faFileDownload
   }
 }

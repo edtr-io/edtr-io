@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
 
 import { createFilesEditor } from './editor'
-import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
-import { FileState, UploadFileConfig } from './types'
 import { FilesRenderer } from './renderer'
+import { FileState, UploadFileConfig } from './types'
 
 export const fileState = StateType.list(
   StateType.serializedScalar<FileState, FileState>(
