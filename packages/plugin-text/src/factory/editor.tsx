@@ -238,56 +238,36 @@ function createOnKeyDown(
       }
     }
 
-    if (key === 'Backspace' && selectionAtStart(editor)) {
+    if (
+      (key === 'Backspace' && selectionAtStart(editor)) ||
+      (key === 'Delete' && selectionAtEnd(editor))
+    ) {
       if (!slateClosure.current) return
+      const previous = key === 'Backspace'
+
       if (isValueEmpty(editor.value)) {
-        // focus previous plugin and remove self
-        const { remove, focusPrevious } = slateClosure.current
+        // Focus previous resp. next document and remove self
+        const { remove } = slateClosure.current
+        const focus =
+          slateClosure.current[previous ? 'focusPrevious' : 'focusNext']
         if (typeof remove === 'function') {
-          if (typeof focusPrevious === 'function') {
-            focusPrevious()
-          }
+          if (typeof focus === 'function') focus()
           remove()
         }
       } else {
-        // merge with previous plugin
-        const { mergeWithPrevious } = slateClosure.current
-        if (typeof mergeWithPrevious !== 'function') return
-
-        mergeWithPrevious(previous => {
-          const value = Value.fromJSON(previous)
+        // Merge with previous resp. next document
+        const merge =
+          slateClosure.current[previous ? 'mergeWithPrevious' : 'mergeWithNext']
+        if (typeof merge !== 'function') return
+        merge(other => {
+          const value = Value.fromJSON(other)
           const selection = CoreRange.create(editor.value.selection)
-          return editor
-            .insertFragmentAtRange(selection, value.document)
-            .value.toJSON()
+          editor.insertFragmentAtRange(selection, value.document)
+          if (!previous) editor.select(selection)
+          return editor.value.toJSON()
         })
       }
-      return
-    }
 
-    if (key === 'Delete' && selectionAtEnd(editor)) {
-      if (!slateClosure.current) return
-      if (isValueEmpty(editor.value)) {
-        // focus previous plugin and remove self
-        const { remove, focusNext } = slateClosure.current
-        if (typeof remove === 'function') {
-          if (typeof focusNext === 'function') {
-            focusNext()
-          }
-          remove()
-        }
-      } else {
-        const { mergeWithNext } = slateClosure.current
-        if (typeof mergeWithNext !== 'function') return
-
-        mergeWithNext(next => {
-          const value = Value.fromJSON(next)
-          const selection = CoreRange.create(editor.value.selection)
-          editor
-            .insertFragmentAtRange(selection, value.document)
-            .select(selection)
-        })
-      }
       return
     }
 

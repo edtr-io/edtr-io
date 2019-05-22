@@ -69,7 +69,7 @@ export function InnerEditor<K extends string = string>({
 
   return (
     <HotKeys
-      focused={true}
+      focused
       attach={document.body}
       keyMap={{
         UNDO: 'mod+z',
