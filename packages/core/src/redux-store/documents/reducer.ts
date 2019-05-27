@@ -8,8 +8,8 @@ import {
   PureInsertAction,
   remove,
   RemoveAction,
-  change,
-  ChangeAction
+  pureChange,
+  PureChangeAction
 } from './actions'
 
 import { getPlugin } from '../plugins/reducer'
@@ -43,15 +43,13 @@ export const documentsReducer = createSubReducer(
     [remove.type](state, action: RemoveAction) {
       return R.omit([action.payload], state)
     },
-    [change.type](state, action: ChangeAction) {
+    [pureChange.type](state, action: PureChangeAction) {
       const { id, state: pluginState } = action.payload
 
       if (!state[id]) {
         //TODO: console.warn: Missing Id
         return state
       }
-
-      // FIXME: commit (probably in saga)
 
       return {
         [id]: {

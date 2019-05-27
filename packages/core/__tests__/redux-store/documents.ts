@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { setupStore, waitUntil } from '../../__helpers__'
 import { getDocument, insert, remove, change } from '../../src/redux-store'
 import { getDocuments } from '../../src/redux-store/documents/reducer'
-import { pureInsert } from '../../src/redux-store/documents/actions'
+import { pureInsert, pureChange } from '../../src/redux-store/documents/actions'
 
 let store: ReturnType<typeof setupStore>
 
@@ -60,16 +60,45 @@ describe('Documents', () => {
   })
 
   describe('Remove', () => {
-    test('Existing document', () => {
+    test('One document', async () => {
       store.dispatch(
         insert({
           id: '1',
           plugin: 'stateless'
         })
       )
-      expect(R.values(getDocuments(store.getState()))).toHaveLength(1)
+      await waitUntil(() =>
+        R.any(action => action.type === pureInsert.type, store.getActions())
+      )
       store.dispatch(remove('1'))
       expect(getDocuments(store.getState())).toEqual({})
+    })
+    test('Two documents', async () => {
+      store.dispatch(
+        insert({
+          id: '1',
+          plugin: 'stateless'
+        })
+      )
+      store.dispatch(
+        insert({
+          id: '2',
+          plugin: 'stateless'
+        })
+      )
+      await waitUntil(
+        () =>
+          R.filter(
+            action => action.type === pureInsert.type,
+            store.getActions()
+          ).length >= 2
+      )
+      store.dispatch(remove('1'))
+      expect(getDocuments(store.getState())).toEqual({
+        2: {
+          plugin: 'stateless'
+        }
+      })
     })
     test('Non-existing document', async () => {
       store.dispatch(
@@ -87,7 +116,7 @@ describe('Documents', () => {
   })
 
   describe('Change', () => {
-    test('Existing document', async () => {
+    test('Whole state', async () => {
       store.dispatch(
         insert({
           id: '1',
@@ -101,14 +130,15 @@ describe('Documents', () => {
       store.dispatch(
         change({
           id: '1',
-          state: 1
+          state: () => 1
         })
       )
-      expect(getDocuments(store.getState())).toEqual({
-        1: {
-          plugin: 'stateful',
-          state: 1
-        }
+      await waitUntil(() =>
+        R.any(action => action.type === pureChange.type, store.getActions())
+      )
+      expect(getDocument(store.getState(), '1')).toEqual({
+        plugin: 'stateful',
+        state: 1
       })
     })
   })

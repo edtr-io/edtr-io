@@ -1,15 +1,9 @@
 import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../../__helpers__'
-import {
-  getClipboard,
-  change,
-  copy,
-  initRoot,
-  getRoot
-} from '../../src/redux-store'
+import { getClipboard, copy, initRoot, getRoot } from '../../src/redux-store'
 import { pureCopy } from '../../src/redux-store/clipboard/actions'
-import { pureInsert } from '../../src/redux-store/documents/actions'
+import { pureChange, pureInsert } from '../../src/redux-store/documents/actions'
 
 let store: ReturnType<typeof setupStore>
 
@@ -82,7 +76,7 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 0
       })
-      store.dispatch(change({ id: root, state: 1 }))
+      store.dispatch(pureChange({ id: root, state: 1 }))
       store.dispatch(copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
@@ -92,7 +86,7 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 1
       })
-      store.dispatch(change({ id: root, state: 2 }))
+      store.dispatch(pureChange({ id: root, state: 2 }))
       store.dispatch(copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
@@ -102,7 +96,7 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 2
       })
-      store.dispatch(change({ id: root, state: 3 }))
+      store.dispatch(pureChange({ id: root, state: 3 }))
       store.dispatch(copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())

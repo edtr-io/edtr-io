@@ -6,7 +6,6 @@ import {
   BaseState,
   ChangeAction,
   getDocument,
-  getDocuments,
   hasPendingChanges,
   isFocused,
   PersistAction,
@@ -22,62 +21,6 @@ beforeEach(() => {
     defaultPlugin: 'default',
     plugins,
     documents: {}
-  })
-})
-
-describe('remove', () => {
-  test('one document', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateless' } }
-    })
-    state = reducer(state, { type: ActionType.Remove, payload: '0' })
-    expect(getDocuments(state)).toEqual({})
-  })
-
-  test('two documents', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'text' }, '1': { plugin: 'stateless' } }
-    })
-    state = reducer(state, { type: ActionType.Remove, payload: '0' })
-    expect(getDocuments(state)).toEqual({ '1': { plugin: 'stateless' } })
-  })
-
-  test('non-existing document', () => {
-    state = reducer(state, { type: ActionType.Remove, payload: '0' })
-    expect(getDocuments(state)).toEqual({})
-  })
-})
-
-describe('change', () => {
-  test('whole state', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      }
-    })
-    expect(getDocument(state, '0')).toEqual({
-      plugin: 'stateful',
-      state: { counter: 1 }
-    })
-  })
-
-  test('non-existing plugin', () => {
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      }
-    })
-    expect(getDocuments(state)).toEqual({})
   })
 })
 
