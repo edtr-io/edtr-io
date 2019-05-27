@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react'
 import * as R from 'ramda'
 import * as React from 'react'
 
+const CONTAINER_NAME = 'edtr-geogebra-editor'
 let promiseRef: React.MutableRefObject<Promise<void> | null> = React.createRef()
 
 /** @see https://wiki.geogebra.org/en/Reference:GeoGebra_Apps_Embedding */
@@ -150,7 +151,7 @@ function GeoGebra(props: GeoGebraProps) {
   }, [props])
 
   return (
-    <div ref={container}>
+    <div ref={container} className={CONTAINER_NAME}>
       <div ref={appContainer} />
     </div>
   )
@@ -203,25 +204,25 @@ storiesOf('GeoGebra', module).add('Foo', () => {
         }}
       >
         <GeoGebra
-          options={{ material_id: 'H5ccx9NC', allowUpscale: true }}
+          options={{ material_id: 'H5ccx9NC', autoHeight: true, allowUpscale: true, scaleContainerClass: CONTAINER_NAME }}
           html5NoWebSimple
         />
       </div>
       <GeoGebra
-        options={{ material_id: '12345', allowUpscale: true }}
+        options={{ material_id: '12345', autoHeight: true, allowUpscale: true, scaleContainerClass: CONTAINER_NAME }}
         html5NoWebSimple
       />
       <GeoGebra
-        options={{ appName: 'geometry', height: 300 }}
+        options={{ appName: 'geometry', autoHeight: true, allowUpscale: true, scaleContainerClass: CONTAINER_NAME, showToolBar:true }}
         html5NoWebSimple
       />
       <GeoGebra
-        options={{ appName: '3d', height: 400, allowUpscale: true }}
+        options={{ appName: '3d', autoHeight: true, allowUpscale: true, scaleContainerClass: CONTAINER_NAME, showToolBar:true }}
         html5NoWebSimple
       />
       <GeoGebra
         html5NoWebSimple
-        options={{ height: 400, allowUpscale: true }}
+        options={{ autoHeight: true, allowUpscale: true, scaleContainerClass: CONTAINER_NAME, showToolBar:true }}
       />
     </React.Fragment>
   )
