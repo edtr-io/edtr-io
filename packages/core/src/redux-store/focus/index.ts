@@ -6,4 +6,4 @@ export {
   focusPrevious,
   FocusPreviousDocumentAction
 } from './actions'
-export { getFocused } from './reducer'
+export { isFocused } from './reducer'

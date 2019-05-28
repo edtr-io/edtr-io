@@ -1,9 +1,9 @@
 import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../../__helpers__'
-import { getDocument, insert, remove, change } from '../../src/redux-store'
-import { getDocuments } from '../../src/redux-store/documents/reducer'
 import { pureInsert, pureChange } from '../../src/redux-store/documents/actions'
+import { getDocuments } from '../../src/redux-store/documents/reducer'
+import { getDocument, insert, remove, change } from '../../src/redux-store'
 
 let store: ReturnType<typeof setupStore>
 

@@ -19,41 +19,32 @@ export const documentsReducer = createSubReducer(
   'documents',
   {},
   {
-    [pureInsert.type](state, action: PureInsertAction, s) {
-      if (!s) {
-        return state // FIXME: can we guarantee that this does indeed exist?? we should be able to!
-      }
+    [pureInsert.type](documentState, action: PureInsertAction, state) {
+      if (!state) return documentState // FIXME: can we guarantee that this does indeed exist?? we should be able to!
       const { id, plugin: type, state: pluginState } = action.payload
-      const plugin = getPlugin(s, type)
-
-      if (!plugin) {
-        return state
-      }
+      const plugin = getPlugin(state, type)
+      if (!plugin) return documentState
 
       // FIXME: const history = commit(state, action)
 
       return {
-        ...state,
+        ...documentState,
         [id]: {
           plugin: type,
           state: isStatefulPlugin(plugin) ? pluginState : undefined
         }
       }
     },
-    [remove.type](state, action: RemoveAction) {
-      return R.omit([action.payload], state)
+    [remove.type](documentState, action: RemoveAction) {
+      return R.omit([action.payload], documentState)
     },
-    [pureChange.type](state, action: PureChangeAction) {
+    [pureChange.type](documentState, action: PureChangeAction) {
       const { id, state: pluginState } = action.payload
-
-      if (!state[id]) {
-        //TODO: console.warn: Missing Id
-        return state
-      }
+      if (!documentState[id]) return documentState
 
       return {
         [id]: {
-          ...state[id],
+          ...documentState[id],
           state: pluginState
         }
       }

@@ -6,7 +6,7 @@ export const modeReducer = createSubReducer(
   'mode',
   { editable: true },
   {
-    [setEditable.type](_state, action: SetEditableAction) {
+    [setEditable.type](_modeState, action: SetEditableAction) {
       return { editable: action.payload }
     }
   }

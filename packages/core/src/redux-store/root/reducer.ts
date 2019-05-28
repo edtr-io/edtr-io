@@ -5,7 +5,7 @@ import { initRoot, InitRootAction } from './actions'
 import { serializeDocument } from '../documents/reducer'
 
 export const rootReducer = createSubReducer('root', null, {
-  [initRoot.type](_state, _action: InitRootAction) {
+  [initRoot.type](_rootState, _action: InitRootAction) {
     return 'root'
   }
 })
