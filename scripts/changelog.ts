@@ -233,6 +233,9 @@ async function exec(): Promise<void> {
         '**plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))',
         '**plugin-spoiler**, **plugin-solution**, **plugin-hint**, **plugin-equations**. Make children traversable'
       ]
+    },
+    {
+      fixed: ['**plugin-text**. Store focus in editor state']
     }
   ])
 

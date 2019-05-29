@@ -7,27 +7,35 @@ import { createIcon, faParagraph } from '@edtr-io/editor-ui'
 
 export const defaultNode = 'paragraph'
 
-export const textState = StateType.scalar<ValueJSON>({
-  document: {
-    nodes: [
-      {
-        object: 'block',
-        type: defaultNode,
-        nodes: [
-          {
-            object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                text: ''
-              }
-            ]
-          }
-        ]
-      }
-    ]
+export const textState = StateType.serializedScalar<ValueJSON, Value>(
+  Value.fromJSON({
+    document: {
+      nodes: [
+        {
+          object: 'block',
+          type: defaultNode,
+          nodes: [
+            {
+              object: 'text',
+              leaves: [
+                {
+                  object: 'leaf',
+                  text: ''
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }),
+  {
+    deserialize: Value.fromJSON,
+    serialize(deserialized: Value) {
+      return deserialized.toJSON()
+    }
   }
-})
+)
 
 export const createTextPlugin = (
   options: TextPluginOptions
@@ -42,8 +50,7 @@ export const createTextPlugin = (
       return false
     },
     isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
-      const value = Value.fromJSON(state)
-      return isValueEmpty(value)
+      return isValueEmpty(state)
     }
   }
 }

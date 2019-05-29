@@ -46,13 +46,14 @@ export const createTextEditor = (
     const store = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
     const plugins = getPlugins(store.state)
-    const [rawState, setRawState] = React.useState(
-      Value.fromJSON(props.state.value)
-    )
+    // props.state.value shouldnt dispatch focus changes,
+    // so we use a react state to hold the real state and dispatch only on value changes
+    const [rawState, setRawState] = React.useState(props.state.value)
     const lastValue = React.useRef(props.state.value)
     React.useEffect(() => {
       if (lastValue.current !== props.state.value) {
-        setRawState(Value.fromJSON(props.state.value))
+        // received change from outside, e.g. undo / redo
+        setRawState(props.state.value)
         lastValue.current = props.state.value
         setTimeout(() => {
           if (!editor.current) return
@@ -144,8 +145,8 @@ export const createTextEditor = (
           next()
         }}
         onChange={change => {
-          const nextValue = change.value.toJSON()
-          setRawState(change.value)
+          const nextValue = change.value
+          setRawState(nextValue)
           const withoutSelections = change.operations.filter(
             operation =>
               typeof operation !== 'undefined' &&
