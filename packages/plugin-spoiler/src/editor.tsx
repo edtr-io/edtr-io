@@ -18,6 +18,17 @@ export function SpoilerEditor({
     }
   })
 
+  const innerTheme = React.useMemo(() => {
+    return {
+      rendererUi: {
+        expandableBox: {
+          toggleBackgroundColor: theme.color,
+          toggleColor: '#333',
+          containerBorderColor: theme.color
+        }
+      }
+    }
+  }, [theme])
   const title =
     focused && editable ? (
       <EditorInput
@@ -32,17 +43,7 @@ export function SpoilerEditor({
     )
 
   return (
-    <ThemeProvider
-      theme={{
-        rendererUi: {
-          expandableBox: {
-            toggleBackgroundColor: theme.color,
-            toggleColor: '#333',
-            containerBorderColor: theme.color
-          }
-        }
-      }}
-    >
+    <ThemeProvider theme={innerTheme}>
       <ExpandableBox title={title} editable={editable} alwaysVisible>
         {state.content.render()}
       </ExpandableBox>

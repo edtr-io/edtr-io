@@ -14,6 +14,15 @@ const EditorInputWithMarginLeft = styled(EditorInput)({
   }
 })
 
+const innerTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#d9edf7',
+      containerBorderColor: '#333'
+    }
+  }
+}
+
 export function HintEditor({
   state,
   editable,
@@ -35,16 +44,7 @@ export function HintEditor({
   )
 
   return (
-    <ThemeProvider
-      theme={{
-        rendererUi: {
-          expandableBox: {
-            toggleBackgroundColor: '#d9edf7',
-            containerBorderColor: '#333'
-          }
-        }
-      }}
-    >
+    <ThemeProvider theme={innerTheme}>
       <ExpandableBox title={title} editable={editable}>
         {state.content.render()}
       </ExpandableBox>

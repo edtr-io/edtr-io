@@ -6,6 +6,21 @@ import {
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
+
+const memoizedRender = <Props extends Record<string, unknown>>(
+  parentProps: unknown,
+  id: string
+) =>
+  function Child(props?: Props) {
+    return (
+      <Document
+        pluginProps={{ ...props, parent: parentProps }}
+        key={id}
+        id={id}
+      />
+    )
+  }
+
 import { Document } from '..'
 
 export function child<
@@ -34,16 +49,7 @@ export function child<
     ) => {
       return Object.assign(() => id, {
         id,
-        //eslint-disable-next-line react/display-name
-        render: (props?: Props) => {
-          return (
-            <Document
-              pluginProps={{ ...props, parent: parentProps }}
-              key={id}
-              id={id}
-            />
-          )
-        }
+        render: memoizedRender(parentProps, id)
       })
     },
     {

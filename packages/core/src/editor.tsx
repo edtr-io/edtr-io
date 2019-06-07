@@ -29,6 +29,7 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   )
 }
 
+const defaultTheme = {}
 export function InnerEditor<K extends string = string>({
   plugins,
   defaultPlugin,
@@ -36,7 +37,7 @@ export function InnerEditor<K extends string = string>({
   changed,
   children,
   editable = true,
-  theme = {}
+  theme = defaultTheme
 }: EditorProps<K>) {
   const [state, dispatch] = React.useReducer(
     reducer,
