@@ -7,16 +7,24 @@ import {
   StoreSerializeHelpers
 } from './types'
 
+function PluginPropsDocument({ id, props, parentProps }) {
+  const pluginProps = React.useMemo(() => {
+    return { ...props, parent: parentProps }
+  }, [props, parentProps])
+  return <Document pluginProps={pluginProps} id={id} />
+}
+
 const memoizedRender = <Props extends Record<string, unknown>>(
   parentProps: unknown,
   id: string
 ) =>
   function Child(props?: Props) {
     return (
-      <Document
-        pluginProps={{ ...props, parent: parentProps }}
+      <PluginPropsDocument
         key={id}
         id={id}
+        props={props}
+        parentProps={parentProps}
       />
     )
   }

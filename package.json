@@ -12,7 +12,6 @@
     "prebuild:clean": "yarn _exec \"rimraf dist\"",
     "build": "npm-run-all build:*",
     "build:babel": "yarn _exec --ignore @edtr-io/demo \"NODE_ENV=production babel src --extensions \\\".ts,.tsx\\\" --out-dir dist --root-mode upward --source-maps\"",
-    "build:tsc": "yarn _exec --ignore @edtr-io/demo \"tsc --build src\"",
     "prebuild-demo": "yarn build",
     "build-demo": "lerna run --scope @edtr-io/demo build",
     "format": "npm-run-all -c format:*",

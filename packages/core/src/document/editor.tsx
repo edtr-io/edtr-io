@@ -46,124 +46,139 @@ export const DocumentEditor: React.FunctionComponent<DocumentProps> = ({
     }
   }, [focused, plugin])
 
-  if (!document) {
-    return null
-  }
+  const { dispatch } = store
 
-  if (!plugin) {
-    // TODO:
-    // eslint-disable-next-line no-console
-    console.log('Plugin does not exist')
-    return null
-  }
+  return React.useMemo(() => {
+    console.log('render doc', id)
 
-  let state: unknown
-  if (isStatefulPlugin(plugin)) {
-    const onChange = (
-      updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
-    ) => {
-      store.dispatch({
-        type: ActionType.Change,
-        payload: {
-          id,
-          state: updater
-        }
+    if (!document) {
+      return null
+    }
+
+    if (!plugin) {
+      // TODO:
+      // eslint-disable-next-line no-console
+      console.log('Plugin does not exist')
+      return null
+    }
+
+    let state: unknown
+    if (isStatefulPlugin(plugin)) {
+      const onChange = (
+        updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
+      ) => {
+        dispatch({
+          type: ActionType.Change,
+          payload: {
+            id,
+            state: updater
+          }
+        })
+      }
+      state = plugin.state(document.state, onChange, {
+        ...pluginProps,
+        name: document.plugin
       })
     }
-    state = plugin.state(document.state, onChange, {
-      ...pluginProps,
-      name: document.plugin
-    })
-  }
-  const Comp = plugin.Component as React.ComponentType<
-    StatefulPluginEditorProps | StatelessPluginEditorProps
-  >
+    const Comp = plugin.Component as React.ComponentType<
+      StatefulPluginEditorProps | StatelessPluginEditorProps
+    >
 
-  const editable = isEditable(store.state)
-  return (
-    <HotKeys
-      keyMap={{
-        FOCUS_PREVIOUS: 'up',
-        FOCUS_NEXT: 'down',
-        INSERT_TEXT: 'enter',
-        DELETE_EMPTY: ['backspace', 'del']
-      }}
-      handlers={{
-        FOCUS_PREVIOUS: e => {
-          handleKeyDown(e, () => {
-            focusPrevious()
-          })
-        },
-        FOCUS_NEXT: e => {
-          handleKeyDown(e, () => {
-            focusNext()
-          })
-        },
-        INSERT_TEXT: e => {
-          handleKeyDown(e, () => {
-            if (pluginProps && typeof pluginProps.insert === 'function') {
-              pluginProps.insert({ plugin: 'text' })
-            }
-          })
-        },
-        DELETE_EMPTY: e => {
-          if (isEmpty(store.state, id)) {
+    return (
+      <HotKeys
+        keyMap={{
+          FOCUS_PREVIOUS: 'up',
+          FOCUS_NEXT: 'down',
+          INSERT_TEXT: 'enter',
+          DELETE_EMPTY: ['backspace', 'del']
+        }}
+        handlers={{
+          FOCUS_PREVIOUS: e => {
             handleKeyDown(e, () => {
-              if (!e) return
-
-              if (pluginProps && typeof pluginProps.remove === 'function') {
-                if (e.key === 'Backspace') {
-                  focusPrevious()
-                } else if (e.key === 'Delete') {
-                  focusNext()
-                }
-                setTimeout(pluginProps.remove)
+              focusPrevious()
+            })
+          },
+          FOCUS_NEXT: e => {
+            handleKeyDown(e, () => {
+              focusNext()
+            })
+          },
+          INSERT_TEXT: e => {
+            handleKeyDown(e, () => {
+              if (pluginProps && typeof pluginProps.insert === 'function') {
+                pluginProps.insert({ plugin: 'text' })
               }
             })
+          },
+          DELETE_EMPTY: e => {
+            if (isEmpty(store.state, id)) {
+              handleKeyDown(e, () => {
+                if (!e) return
+
+                if (pluginProps && typeof pluginProps.remove === 'function') {
+                  if (e.key === 'Backspace') {
+                    focusPrevious()
+                  } else if (e.key === 'Delete') {
+                    focusNext()
+                  }
+                  setTimeout(pluginProps.remove)
+                }
+              })
+            }
           }
-        }
-      }}
-    >
-      <StyledDocument
-        onMouseDown={handleFocus}
-        ref={container}
-        data-document
-        tabIndex={-1}
+        }}
       >
-        <Comp
-          {...pluginProps}
-          editable={editable}
-          focused={focused}
-          state={state}
-          name={document.plugin}
-        />
-      </StyledDocument>
-    </HotKeys>
-  )
+        <StyledDocument
+          onMouseDown={handleFocus}
+          ref={container}
+          data-document
+          tabIndex={-1}
+        >
+          <Comp
+            {...pluginProps}
+            editable
+            focused={focused}
+            state={state}
+            name={document.plugin}
+          />
+        </StyledDocument>
+      </HotKeys>
+    )
 
-  function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
-    // Find closest document
-    const target = (e.target as HTMLDivElement).closest('[data-document]')
+    function handleFocus(e: React.MouseEvent<HTMLDivElement>) {
+      // Find closest document
+      const target = (e.target as HTMLDivElement).closest('[data-document]')
 
-    if (!focused && target === container.current) {
-      store.dispatch({
-        type: ActionType.Focus,
-        payload: id
-      })
+      if (!focused && target === container.current) {
+        store.dispatch({
+          type: ActionType.Focus,
+          payload: id
+        })
+      }
     }
-  }
 
-  function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
-    if (
-      e &&
-      plugin &&
-      isStatefulPlugin(plugin) &&
-      typeof plugin.onKeyDown === 'function' &&
-      !plugin.onKeyDown(e)
-    ) {
-      return
+    function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
+      if (
+        e &&
+        plugin &&
+        isStatefulPlugin(plugin) &&
+        typeof plugin.onKeyDown === 'function' &&
+        !plugin.onKeyDown(e)
+      ) {
+        return
+      }
+      e && e.preventDefault()
+      next()
     }
-    e && e.preventDefault()
-    next()
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    document,
+    // focusNext, TODO:
+    // focusPrevious, TODO:
+    focused,
+    id,
+    plugin,
+    // pluginProps, TODO:
+    dispatch
+  ])
 }

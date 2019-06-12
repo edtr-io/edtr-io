@@ -41,7 +41,10 @@ const defaultTheme: Theme = {
 export const RootThemeProvider = React.memo(function RootThemProvider(
   props: StyledThemeProviderProps<CustomTheme>
 ) {
-  const theme = R.mergeDeepRight(defaultTheme, props.theme)
+  const theme = React.useMemo(
+    () => R.mergeDeepRight(defaultTheme, props.theme),
+    [props.theme]
+  )
   return <StyledThemeProvider {...props} theme={theme} />
 })
 

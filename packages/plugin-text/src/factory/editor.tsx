@@ -122,6 +122,39 @@ export const createTextEditor = (
       ]
     }
 
+    const onPaste = React.useMemo(() => {
+      return createOnPaste(slateClosure)
+    }, [slateClosure])
+    const onKeyDown = React.useMemo(() => {
+      return createOnKeyDown(slateClosure)
+    }, [slateClosure])
+    const onClick = React.useCallback((e, editor, next): CoreEditor | void => {
+      if (e.target) {
+        // @ts-ignore
+        const node = findNode(e.target as Element, editor)
+        if (!node) {
+          return editor
+        }
+      }
+      next()
+    }, [])
+    const onChange = React.useCallback(
+      change => {
+        const nextValue = change.value.toJSON()
+        setRawState(change.value)
+        const withoutSelections = change.operations.filter(
+          operation =>
+            typeof operation !== 'undefined' &&
+            operation.type !== 'set_selection'
+        )
+        if (!withoutSelections.isEmpty()) {
+          lastValue.current = nextValue
+          props.state.set(nextValue)
+        }
+      },
+      [props.state]
+    )
+
     return (
       <Editor
         ref={slateReact => {
@@ -131,31 +164,10 @@ export const createTextEditor = (
           }
         }}
         // ref={editor as React.RefObject<Editor>}
-        onPaste={createOnPaste(slateClosure)}
-        onKeyDown={createOnKeyDown(slateClosure)}
-        onClick={(e, editor, next): CoreEditor | void => {
-          if (e.target) {
-            // @ts-ignore
-            const node = findNode(e.target as Element, editor)
-            if (!node) {
-              return editor
-            }
-          }
-          next()
-        }}
-        onChange={change => {
-          const nextValue = change.value.toJSON()
-          setRawState(change.value)
-          const withoutSelections = change.operations.filter(
-            operation =>
-              typeof operation !== 'undefined' &&
-              operation.type !== 'set_selection'
-          )
-          if (!withoutSelections.isEmpty()) {
-            lastValue.current = nextValue
-            props.state.set(nextValue)
-          }
-        }}
+        onPaste={onPaste}
+        onKeyDown={onKeyDown}
+        onClick={onClick}
+        onChange={onChange}
         placeholder={props.editable ? options.placeholder : ''}
         plugins={slatePlugins.current}
         readOnly={!props.focused}

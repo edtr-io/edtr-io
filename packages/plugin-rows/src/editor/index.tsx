@@ -27,12 +27,8 @@ export const RowsEditor = (
               index={index}
               doc={doc}
               store={store}
-              moveRow={(dragIndex: number, hoverIndex: number) => {
-                rows.move(dragIndex, hoverIndex)
-              }}
-              insert={(index: number, options?: PluginState) => {
-                rows.insert(index, options)
-              }}
+              moveRow={rows.move}
+              insert={rows.insert}
               plugins={plugins}
             />
           </div>

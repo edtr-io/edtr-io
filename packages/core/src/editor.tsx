@@ -68,29 +68,27 @@ export function InnerEditor<K extends string = string>({
     }
   }, [changed, state])
 
-  if (!id) {
-    return null
-  }
+  // const ch = React.useMemo(() => {
+  //   console.log('rendering inner editor children', id)
+  //   if (!id) return null
+  //   const document = <Document id={id} />
+  //
+  //   if (typeof children === 'function') {
+  //     return children(document)
+  //   }
+  //
+  //   return (
+  //     <React.Fragment>
+  //       {document}
+  //       {children}
+  //     </React.Fragment>
+  //   )
+  // }, [
+  //   id
+  //   // children: // TODO:
+  // ])
 
   return (
-    <HotKeys
-      focused
-      attach={document.body}
-      keyMap={{
-        UNDO: 'mod+z',
-        REDO: ['mod+y', 'mod+shift+z']
-      }}
-      handlers={{
-        UNDO: () =>
-          dispatch({
-            type: ActionType.Undo
-          }),
-        REDO: () =>
-          dispatch({
-            type: ActionType.Redo
-          })
-      }}
-    >
       <div style={{ position: 'relative' }}>
         <EditorContext.Provider
           value={{
@@ -105,10 +103,10 @@ export function InnerEditor<K extends string = string>({
           </RootThemeProvider>
         </EditorContext.Provider>
       </div>
-    </HotKeys>
   )
 
   function renderChildren(id: string) {
+    console.log('foo')
     const document = <Document id={id} />
 
     if (typeof children === 'function') {

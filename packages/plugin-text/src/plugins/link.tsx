@@ -81,6 +81,7 @@ const DefaultEditorComponent: React.FunctionComponent<
 const DefaultControlsComponent: React.FunctionComponent<
   NodeControlsProps
 > = props => {
+  console.log('asdfasd')
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
@@ -228,7 +229,9 @@ export const createLinkPlugin = ({
 
     renderEditor(props, editor, next) {
       const children = next()
-      return (
+      return props.readOnly ? (
+        children
+      ) : (
         <ControlsComponent {...props} editor={editor}>
           {children}
         </ControlsComponent>
