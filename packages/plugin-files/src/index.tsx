@@ -4,22 +4,18 @@ import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
 
 import { createFilesEditor } from './editor'
 import { FilesRenderer } from './renderer'
-import { FileState, UploadFileConfig } from './types'
+import { FileType, UploadedFile, UploadFileConfig } from './types'
 
 export const fileState = StateType.list(
-  StateType.serializedScalar<FileState, FileState>(
-    {},
-    {
-      // deserialize as it is, which allows Files in onPaste
-      deserialize: s => s,
-      // only save the uploaded locations
-      serialize: ({ uploaded }) => ({ uploaded })
-    }
-  )
+  StateType.upload<UploadedFile>({
+    location: '',
+    name: '',
+    type: FileType.Other
+  })
 )
 
-export function createFilePlugin<T = unknown>(
-  config: UploadFileConfig<T>
+export function createFilePlugin(
+  config: UploadFileConfig
 ): StatefulPlugin<typeof fileState> {
   const FilesEditor = createFilesEditor(config.upload)
   return {
@@ -35,13 +31,7 @@ export function createFilePlugin<T = unknown>(
     description: 'Ein Plugin für den Upload von beliebigen Dateien.',
     icon: createIcon(faFileAlt),
     onPaste: (clipboardData: DataTransfer) => {
-      const items = clipboardData.files
-      let files: File[] = []
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i]
-        if (!item) continue
-        files.push(item)
-      }
+      const files = getFilesFromDataTransfer(clipboardData)
       if (files.length) {
         return {
           state: files.map(file => ({ pending: file }))
@@ -49,6 +39,17 @@ export function createFilePlugin<T = unknown>(
       }
     }
   }
+}
+
+export function getFilesFromDataTransfer(clipboardData: DataTransfer) {
+  const items = clipboardData.files
+  let files: File[] = []
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    if (!item) continue
+    files.push(item)
+  }
+  return files
 }
 
 export * from './types'

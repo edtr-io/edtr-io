@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import {
   faFileArchive,
@@ -38,11 +38,13 @@ export const FileRenderer: React.FunctionComponent<{
 }> = props => {
   const { file } = props
 
+  const filename =
+    file.name.length > 15 ? `${file.name.substr(0, 12)}...` : file.name
   return (
     <Download href={file.location} download={file.name}>
-      <File>
+      <File title={file.name}>
         <Icon icon={getIconFromType(file.type)} size="3x" />
-        <Filename>{file.name}</Filename>
+        <Filename>{filename}</Filename>
       </File>
     </Download>
   )
@@ -54,15 +56,10 @@ export function FilesRenderer(
   return (
     <React.Fragment>
       {props.state.items.map((file, i) => {
-        if (!file.value.uploaded) {
+        if (StateType.isTempFile(file.value)) {
           return null
         }
-        return (
-          <FileRenderer
-            file={file.value.uploaded}
-            key={file.value.uploaded.name + i}
-          />
-        )
+        return <FileRenderer file={file.value} key={file.value.name + i} />
       })}
     </React.Fragment>
   )

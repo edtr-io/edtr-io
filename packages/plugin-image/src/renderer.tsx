@@ -1,9 +1,8 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { imageState } from '.'
-import { ImageLoaded } from './upload'
 
 const ImgWrapper = styled.div<{ maxWidth: number }>(props => {
   return {
@@ -23,11 +22,17 @@ const Img = styled.img({
 
 export class ImageRenderer extends React.Component<ImageRendererProps> {
   public render() {
-    const { state, imagePreview, disableMouseEvents } = this.props
+    const { state, disableMouseEvents } = this.props
     const image = (
       <ImgWrapper maxWidth={state.maxWidth.value}>
         <Img
-          src={imagePreview ? imagePreview.dataUrl : state.src.value}
+          src={
+            !StateType.isTempFile(state.src.value)
+              ? state.src.value
+              : state.src.value.loaded
+              ? state.src.value.loaded.dataUrl
+              : ''
+          }
           alt={state.description.value}
         />
       </ImgWrapper>
@@ -55,5 +60,4 @@ export type ImageRendererProps = StatefulPluginEditorProps<
   typeof imageState
 > & {
   disableMouseEvents?: boolean
-  imagePreview?: ImageLoaded
 }

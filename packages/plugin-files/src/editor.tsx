@@ -1,7 +1,6 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import {
   EditorButton,
-  UploadProgress,
   Icon,
   faRedoAlt,
   styled,
@@ -11,9 +10,9 @@ import {
 import * as React from 'react'
 
 import { FileRenderer } from './renderer'
-import { FileError, FileErrorCode, LoadedFile, FileUploadConfig } from './types'
-import { parseFileType, readFile, Upload, uploadFile } from './upload'
-import { fileState } from '.'
+import { UploadedFile } from './types'
+import { parseFileType, Upload } from './upload'
+import { fileState, getFilesFromDataTransfer } from '.'
 
 export const Wrapper = styled.div({
   display: 'inline-block',
@@ -34,65 +33,16 @@ export const Center = styled.div({
   alignItems: 'center'
 })
 
-export function createFilesEditor<T>(
-  config: FileUploadConfig<T>
+export function createFilesEditor(
+  uploadHandler: StateType.UploadHandler<UploadedFile>
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
   return props => {
     const { focused, state } = props
-    const [uploadProgresses, setUploadProgresses] = React.useState<{
-      [key: number]: number
-    }>({})
 
-    React.useEffect(() => {
-      state().forEach((file, i) => {
-        const { pending } = file.value
-        if (pending) {
-          setUploadProgresses(currentUploadProgresses => {
-            return {
-              ...currentUploadProgresses,
-              [i]: 0
-            }
-          })
-          const read = readFile(pending)
-          read.then((loaded: LoadedFile) => {
-            file.set({ loaded })
-
-            const upload = uploadFile(pending, config, progress => {
-              setUploadProgresses(currentUploadProgresses => {
-                return {
-                  ...currentUploadProgresses,
-                  [i]: progress
-                }
-              })
-            })
-            upload.then(uploadedFile => {
-              if (uploadedFile) {
-                file.set({ uploaded: uploadedFile })
-              } else {
-                file.set(currentState => {
-                  return {
-                    failed: currentState.loaded
-                  }
-                })
-              }
-            })
-          })
-          file.set({})
-        }
-      })
-    }, [state])
+    StateType.usePendingFilesUploader(state.items, uploadHandler)
 
     function onPaste(data: DataTransfer) {
-      const items = data.items
-      let files: File[] = []
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i]
-        if (item.kind === 'file') {
-          const file = item.getAsFile()
-          if (!file) continue
-          files.push(file)
-        }
-      }
+      const files = getFilesFromDataTransfer(data)
       if (files.length) {
         files.forEach(file => {
           state.insert(state().length, {
@@ -109,9 +59,9 @@ export function createFilesEditor<T>(
         }}
       >
         {state.items.map((file, i) => {
-          if (file.value.uploaded) {
+          if (!StateType.isTempFile(file.value)) {
             // finished uploading
-            return <FileRenderer key={i} file={file.value.uploaded} />
+            return <FileRenderer key={i} file={file.value} />
           }
 
           if (file.value.loaded) {
@@ -127,9 +77,6 @@ export function createFilesEditor<T>(
                       type: parseFileType(tmpFile.file.name)
                     }}
                   />
-                  {uploadProgresses[i] !== undefined ? (
-                    <UploadProgress progress={uploadProgresses[i]} />
-                  ) : null}
                   <EditorButton onClick={() => state.remove(i)}>
                     <EdtrIcon icon={edtrClose} />
                   </EditorButton>
@@ -145,15 +92,15 @@ export function createFilesEditor<T>(
                 <Center>
                   <FileRenderer
                     file={{
-                      location: tmpFile.dataUrl,
-                      name: tmpFile.file.name,
-                      type: parseFileType(tmpFile.file.name)
+                      location: '',
+                      name: tmpFile.name,
+                      type: parseFileType(tmpFile.name)
                     }}
                   />
                   <span>Fehlgeschlagen</span>
                   <span>
                     <EditorButton
-                      onClick={() => file.set({ pending: tmpFile.file })}
+                      onClick={() => file.upload(tmpFile, uploadHandler)}
                     >
                       <Icon icon={faRedoAlt} />
                     </EditorButton>
@@ -170,21 +117,12 @@ export function createFilesEditor<T>(
         })}
         {focused ? (
           <Upload
-            config={config}
             onFiles={files => {
               files.forEach(file => {
                 state.insert(state.items.length, {
                   pending: file
                 })
               })
-            }}
-            onError={(errors: FileError[]): void => {
-              const filtered = errors.filter(
-                error => error.errorCode !== FileErrorCode.UPLOAD_FAILED
-              )
-              if (filtered.length) {
-                alert(filtered.map(error => error.message).join('\n'))
-              }
             }}
           />
         ) : null}
