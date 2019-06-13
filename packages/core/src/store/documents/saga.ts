@@ -10,9 +10,11 @@ import {
   InsertAction,
   pureInsert
 } from './actions'
+import { Action } from '../actions'
 import { getDocument } from './reducer'
 
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
+import { commit } from '../history/actions'
 
 export function* documentsSaga() {
   yield all([
@@ -23,38 +25,39 @@ export function* documentsSaga() {
 
 function* insertSaga(action: InsertAction) {
   const initialState = action.payload
-
-  yield call(handleRecursiveInserts, () => {}, [initialState])
+  const [actions]: [Action[], unknown] = yield call(
+    handleRecursiveInserts,
+    () => {},
+    [initialState]
+  )
+  yield put(commit(actions))
 }
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
   const document: ReturnType<typeof getDocument> = yield select(getDocument, id)
+  if (!document) return
 
-  if (!document) {
-    //TODO: console.warn: Missing Id
-    return
-  }
-
-  const state: unknown = yield call(
+  const [actions, state]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
     (helpers: StoreDeserializeHelpers) => {
       return stateHandler(document.state, helpers)
     }
   )
-
-  yield put(
+  actions.push(
     pureChange({
       id,
       state
     })
   )
+  yield put(commit(actions))
 }
 
-function* handleRecursiveInserts(
+export function* handleRecursiveInserts(
   act: (helpers: StoreDeserializeHelpers) => unknown,
   initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
 ) {
+  let actions: Action[] = []
   let pendingDocs: {
     id: string
     plugin?: string
@@ -68,18 +71,12 @@ function* handleRecursiveInserts(
   const result = act(helpers)
   while (pendingDocs.length > 0) {
     const doc = pendingDocs.pop()
-
-    if (!doc) {
-      return
-    }
-
+    if (!doc) return
     const plugin: ReturnType<typeof getPluginOrDefault> = yield select(
       getPluginOrDefault,
       doc.plugin
     )
-    if (!plugin) {
-      return
-    }
+    if (!plugin) return
 
     let pluginState: unknown
     if (isStatefulPlugin(plugin)) {
@@ -94,7 +91,7 @@ function* handleRecursiveInserts(
       getPluginTypeOrDefault,
       doc.plugin
     )
-    yield put(
+    actions.push(
       pureInsert({
         id: doc.id,
         plugin: pluginType,
@@ -102,5 +99,5 @@ function* handleRecursiveInserts(
       })
     )
   }
-  return result
+  return [actions, result]
 }

@@ -1,2 +1,11 @@
-export * from './reducer'
-export * from './focus-tree'
+export { Action } from './actions'
+export { createStore } from './store'
+export { DocumentState, State } from './types'
+
+export * from './clipboard'
+export * from './documents'
+export * from './focus'
+export * from './history'
+export * from './mode'
+export * from './plugins'
+export * from './root'

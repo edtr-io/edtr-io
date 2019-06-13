@@ -1,14 +1,13 @@
 import {
-  ActionType,
-  EditorContextValue,
-  findNextNode,
-  findPreviousNode,
-  getFocusTree,
-  PluginState,
+  change,
   State,
-  StateType
+  StateType,
+  getFocusTree,
+  findPreviousNode,
+  findNextNode
 } from '@edtr-io/core'
 import * as React from 'react'
+import { ReactReduxContextValue } from 'react-redux'
 
 import { rowsState, rowState } from '..'
 
@@ -24,12 +23,16 @@ export default function({
   row: StateType.StateDescriptorReturnType<typeof rowState>
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   index: number
-  store: EditorContextValue
-  getDocument: (state: State, id: string) => PluginState | null
+  store: ReactReduxContextValue['store']
+  getDocument: (
+    state: State,
+    id: string
+  ) => { plugin: string; state?: unknown } | null
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
   PrimarySettingsWrapper: React.ComponentType
 }) {
-  const { state, dispatch } = store
+  const { dispatch } = store
+  const state = store.getState()
   return row.render({
     renderIntoExtendedSettings,
     PrimarySettingsWrapper,
@@ -62,14 +65,12 @@ export default function({
         if (!previous || previous.plugin !== current.plugin) return
 
         const merged = merge(previous.state)
-        dispatch({
-          type: ActionType.Change,
-          payload: {
+        dispatch(
+          change({
             id: previousFocusId,
             state: () => merged
-          },
-          commit: undefined
-        })
+          })
+        )
         rows.remove(index)
       } else {
         merge(previous.state)

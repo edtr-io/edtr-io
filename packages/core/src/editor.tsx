@@ -5,71 +5,90 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
 import { Document } from './document'
-import { EditorContext } from './editor-context'
-import {
-  ActionType,
-  hasPendingChanges,
-  reducer,
-  createInitialState,
-  getRoot,
-  pendingChanges
-} from './store'
-import { Plugin } from './plugin'
+import { Provider, connect } from './editor-context'
 import { OverlayContextProvider } from './overlay'
+import { Plugin } from './plugin'
+import {
+  createStore,
+  getPendingChanges,
+  getRoot,
+  hasPendingChanges,
+  initRoot,
+  redo,
+  setEditable,
+  undo
+} from './store'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
-  const children = <InnerEditor {...props} />
+  const store = React.useMemo(() => {
+    return createStore({
+      plugins: props.plugins,
+      defaultPlugin: props.defaultPlugin
+    }).store
+    // We want to create the store only once
+    // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  if (props.omitDragDropContext) return children
+  return <Provider store={store}>{renderChildren()}</Provider>
 
-  return (
-    <DragDropContextProvider backend={HTML5Backend}>
-      {children}
-    </DragDropContextProvider>
-  )
+  function renderChildren() {
+    const children = <InnerEditor {...props} />
+    if (props.omitDragDropContext) return children
+    return (
+      <DragDropContextProvider backend={HTML5Backend}>
+        {children}
+      </DragDropContextProvider>
+    )
+  }
 }
 
-export function InnerEditor<K extends string = string>({
-  plugins,
-  defaultPlugin,
+export const InnerEditor = connect<
+  EditorStateProps,
+  EditorDispatchProps,
+  EditorProps
+>(
+  (state): EditorStateProps => {
+    return {
+      id: getRoot(state),
+      hasPendingChanges: hasPendingChanges(state),
+      pendingChanges: getPendingChanges(state)
+    }
+  },
+  {
+    initRoot,
+    setEditable,
+    undo,
+    redo
+  }
+)(function InnerEditor<K extends string = string>({
+  hasPendingChanges,
+  id,
+  initRoot,
   initialState,
+  pendingChanges,
   changed,
   children,
   editable = true,
   theme = {}
-}: EditorProps<K>) {
-  const [state, dispatch] = React.useReducer(
-    reducer,
-    createInitialState(plugins, defaultPlugin, editable)
-  )
+}: EditorProps<K> & EditorStateProps & EditorDispatchProps) {
+  React.useEffect(() => {
+    initRoot(initialState || {})
+  }, [initRoot, initialState])
 
   React.useEffect(() => {
-    dispatch({
-      type: ActionType.InitRoot,
-      payload: initialState || {}
-    })
-  }, [dispatch, initialState])
-
-  React.useEffect(() => {
-    dispatch({
-      type: ActionType.SwitchEditable,
-      payload: editable
-    })
+    setEditable(editable)
   }, [editable])
-
-  const id = getRoot(state)
 
   const pending = React.useRef(0)
   React.useEffect(() => {
-    if (changed && pending.current !== pendingChanges(state)) {
-      pending.current = pendingChanges(state)
-      changed(hasPendingChanges(state))
+    if (changed && pending.current !== pendingChanges) {
+      pending.current = pendingChanges
+      changed(hasPendingChanges)
     }
-  }, [changed, state])
+  }, [changed, hasPendingChanges, pendingChanges])
 
-  if (!id) {
-    return null
-  }
+  if (!id) return null
 
   return (
     <HotKeys
@@ -80,29 +99,18 @@ export function InnerEditor<K extends string = string>({
         REDO: ['mod+y', 'mod+shift+z']
       }}
       handlers={{
-        UNDO: () =>
-          dispatch({
-            type: ActionType.Undo
-          }),
-        REDO: () =>
-          dispatch({
-            type: ActionType.Redo
-          })
+        UNDO: () => {
+          undo()
+        },
+        REDO: () => {
+          redo()
+        }
       }}
     >
       <div style={{ position: 'relative' }}>
-        <EditorContext.Provider
-          value={{
-            state,
-            dispatch
-          }}
-        >
-          <RootThemeProvider theme={theme}>
-            <OverlayContextProvider>
-              {renderChildren(id)}
-            </OverlayContextProvider>
-          </RootThemeProvider>
-        </EditorContext.Provider>
+        <RootThemeProvider theme={theme}>
+          <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
+        </RootThemeProvider>
       </div>
     </HotKeys>
   )
@@ -121,6 +129,18 @@ export function InnerEditor<K extends string = string>({
       </React.Fragment>
     )
   }
+})
+
+export interface EditorStateProps {
+  id: ReturnType<typeof getRoot>
+  pendingChanges: ReturnType<typeof getPendingChanges>
+  hasPendingChanges: ReturnType<typeof hasPendingChanges>
+}
+export interface EditorDispatchProps {
+  initRoot: typeof initRoot
+  setEditable: typeof setEditable
+  undo: typeof undo
+  redo: typeof redo
 }
 
 export interface EditorProps<K extends string = string> {

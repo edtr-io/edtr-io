@@ -43,9 +43,9 @@ export const createTextEditor = (
   return function SlateEditor(props: SlateEditorProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
-    const store = React.useContext(EditorContext)
+    const { store } = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
-    const plugins = getPlugins(store.state)
+    const plugins = getPlugins(store.getState())
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )

@@ -43,6 +43,7 @@ export const documentsReducer = createSubReducer(
       if (!documentState[id]) return documentState
 
       return {
+        ...documentState,
         [id]: {
           ...documentState[id],
           state: pluginState
@@ -81,4 +82,20 @@ export function serializeDocument(
       ? {}
       : { state: plugin.state.serialize(doc.state, serializeHelpers) })
   }
+}
+
+export function isEmpty(state: State, id: string) {
+  const doc = getDocument(state, id)
+  if (!doc) return false
+  const plugin = getPlugin(state, doc.plugin)
+  if (!plugin || isStatelessPlugin(plugin)) return false
+
+  if (typeof plugin.isEmpty === 'function') {
+    return plugin.isEmpty(doc.state)
+  }
+
+  const initialState = plugin.state.createInitialState({
+    createDocument: () => {}
+  })
+  return R.equals(doc.state, initialState)
 }

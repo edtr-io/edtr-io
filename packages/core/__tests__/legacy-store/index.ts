@@ -4,14 +4,13 @@ import {
   ActionCommitType,
   ActionType,
   BaseState,
-  ChangeAction,
   getDocument,
   hasPendingChanges,
   PersistAction,
   reducer,
   State,
   Undoable
-} from '../../src/store'
+} from '../../src/legacy-store'
 
 let state: State
 
@@ -24,100 +23,6 @@ beforeEach(() => {
 })
 
 describe('history', () => {
-  test('history contains initialState', () => {
-    const initial = {
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    }
-    state = createInitialState(initial)
-
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      }
-    })
-    expect(state.history).toBeDefined()
-    expect(state.history.initialState).toEqual(initial)
-  })
-
-  test('history remembers actions', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-
-    const action: ChangeAction = {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      }
-    }
-    state = reducer(state, action)
-    expect(state.history.actions).toHaveLength(1)
-    expect(state.history.actions[0]).toHaveLength(1)
-    expect(state.history.actions[0][0]).toEqual(action)
-  })
-
-  test('history remembers undos for redo', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      }
-    })
-    state = reducer(state, {
-      type: ActionType.Undo
-    })
-    expect(state.history.redoStack).toHaveLength(1)
-    expect(state.history.actions).toHaveLength(0)
-
-    state = reducer(state, {
-      type: ActionType.Redo
-    })
-    expect(state.history.redoStack).toHaveLength(0)
-    expect(state.history.actions).toHaveLength(1)
-  })
-
-  test('history purges redos after change', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-    state = reducer(state, {
-      type: ActionType.Undo
-    })
-    expect(state.history.redoStack).toHaveLength(1)
-    expect(state.history.actions).toHaveLength(0)
-
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 2 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-
-    expect(state.history.redoStack).toHaveLength(0)
-    expect(state.history.actions).toHaveLength(1)
-  })
-
   test('history combines debounced changes', () => {
     state = createInitialState({
       ...state,
@@ -157,71 +62,6 @@ describe('history', () => {
       }
     })
     expect(state.history.actions).toHaveLength(3)
-  })
-
-  test('undo change action', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 2 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-    state = reducer(state, {
-      type: ActionType.Undo
-    })
-
-    expect(getDocument(state, '0')).toEqual({
-      plugin: 'stateful',
-      state: { counter: 1 }
-    })
-  })
-
-  test('redo change action', () => {
-    state = createInitialState({
-      ...state,
-      documents: { '0': { plugin: 'stateful' } }
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 1 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-    state = reducer(state, {
-      type: ActionType.Change,
-      payload: {
-        id: '0',
-        state: () => ({ counter: 2 })
-      },
-      commit: ActionCommitType.ForceCommit
-    })
-    state = reducer(state, {
-      type: ActionType.Undo
-    })
-    state = reducer(state, {
-      type: ActionType.Redo
-    })
-
-    expect(getDocument(state, '0')).toEqual({
-      plugin: 'stateful',
-      state: { counter: 2 }
-    })
   })
 
   test('undo/redo works with debounced changes', () => {

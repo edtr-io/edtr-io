@@ -1,4 +1,4 @@
-import { getDefaultPlugin, getPlugin } from '../../src/redux-store'
+import { getDefaultPlugin, getPlugin } from '../../src/store'
 import { setupStore } from '../../__helpers__'
 
 let store: ReturnType<typeof setupStore>

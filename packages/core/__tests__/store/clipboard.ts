@@ -1,9 +1,9 @@
 import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../../__helpers__'
-import { getClipboard, copy, initRoot, getRoot } from '../../src/redux-store'
-import { pureCopy } from '../../src/redux-store/clipboard/actions'
-import { pureChange, pureInsert } from '../../src/redux-store/documents/actions'
+import { getClipboard, copy, initRoot, getRoot } from '../../src/store'
+import { pureCopy } from '../../src/store/clipboard/actions'
+import { pureChange, pureInsert } from '../../src/store/documents/actions'
 
 let store: ReturnType<typeof setupStore>
 

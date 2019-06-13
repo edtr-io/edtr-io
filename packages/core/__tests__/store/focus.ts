@@ -1,14 +1,14 @@
 import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../../__helpers__'
-import { pureInsert } from '../../src/redux-store/documents/actions'
+import { pureInsert } from '../../src/store/documents/actions'
 import {
   findNextNode,
   findPreviousNode,
   getFocusTree,
   Node
-} from '../../src/redux-store/focus/reducer'
-import { isFocused, focus, initRoot } from '../../src/redux-store'
+} from '../../src/store/focus/reducer'
+import { isFocused, focus, initRoot } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 

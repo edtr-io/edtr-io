@@ -1,5 +1,5 @@
-import { Action, createStore } from '../src/redux-store'
 import { plugins } from '../__fixtures__/plugins'
+import { Action, createStore } from '../src/store'
 
 export function setupStore() {
   let actions: Action[] = []

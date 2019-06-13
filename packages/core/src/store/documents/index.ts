@@ -6,4 +6,4 @@ export {
   change,
   ChangeAction
 } from './actions'
-export { getDocument, serializeDocument } from './reducer'
+export { getDocument, serializeDocument, isEmpty } from './reducer'

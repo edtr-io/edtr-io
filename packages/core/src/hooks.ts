@@ -1,52 +1,39 @@
 import * as React from 'react'
 
-import { ActionType, EditorContext, hasPendingChanges, isEditable } from '.'
+import { focusNext, focusPrevious } from './store/focus'
+import { persist, reset, redo, undo } from './store/history'
+import { setEditable } from './store/mode'
+import { EditorContext, hasPendingChanges, isEditable } from '.'
 
 export function useEditorFocus() {
-  const store = React.useContext(EditorContext)
+  const { store } = React.useContext(EditorContext)
   return {
-    focusPrevious: () =>
-      store.dispatch({
-        type: ActionType.FocusPrevious
-      }),
-    focusNext: () =>
-      store.dispatch({
-        type: ActionType.FocusNext
-      })
+    focusPrevious: () => store.dispatch(focusPrevious()),
+    focusNext: () => store.dispatch(focusNext())
   }
 }
 
 export function useEditorHistory() {
-  const store = React.useContext(EditorContext)
+  const { store } = React.useContext(EditorContext)
   return {
-    hasPendingChanges: hasPendingChanges(store.state),
-    undo: () =>
-      store.dispatch({
-        type: ActionType.Undo
-      }),
-    redo: () =>
-      store.dispatch({
-        type: ActionType.Redo
-      }),
+    hasPendingChanges: hasPendingChanges(store.getState()),
+    undo: () => store.dispatch(undo()),
+    redo: () => store.dispatch(redo()),
     persist: () => {
-      store.dispatch({
-        type: ActionType.Persist
-      })
+      store.dispatch(persist())
     },
     reset: () => {
-      store.dispatch({
-        type: ActionType.Reset
-      })
+      store.dispatch(reset())
     }
   }
 }
 
 export function useEditorMode(): [boolean, (payload: boolean) => void] {
-  const store = React.useContext(EditorContext)
-  const editable = isEditable(store.state)
-  return [editable, setEditable]
+  const { store } = React.useContext(EditorContext)
+  const editable = isEditable(store.getState())
+  return [editable, dispatchSetEditable]
 
-  function setEditable(payload: boolean) {
-    store.dispatch({ type: ActionType.SwitchEditable, payload })
+  function dispatchSetEditable(payload: boolean) {
+    store.dispatch(setEditable(payload))
   }
 }

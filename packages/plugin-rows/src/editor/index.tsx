@@ -2,7 +2,6 @@ import {
   EditorContext,
   getDocument,
   getPlugins,
-  PluginState,
   StatefulPluginEditorProps
 } from '@edtr-io/core'
 import * as React from 'react'
@@ -14,12 +13,16 @@ export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
-  const store = React.useContext(EditorContext)
+  const { store } = React.useContext(EditorContext)
+
   return (
     <React.Fragment>
       {rows.items.map((row, index) => {
-        const doc = getDocument(store.state, row.id)
-        const plugins = getPlugins(store.state)
+        const doc = getDocument(store.getState(), row.id)
+        const plugins = getPlugins(store.getState())
+
+        if (!doc) return null
+
         return (
           <div key={row.id} style={{ position: 'relative' }}>
             <Row
@@ -27,12 +30,8 @@ export const RowsEditor = (
               index={index}
               doc={doc}
               store={store}
-              moveRow={(dragIndex: number, hoverIndex: number) => {
-                rows.move(dragIndex, hoverIndex)
-              }}
-              insert={(index: number, options?: PluginState) => {
-                rows.insert(index, options)
-              }}
+              moveRow={rows.move}
+              insert={rows.insert}
               plugins={plugins}
             />
           </div>

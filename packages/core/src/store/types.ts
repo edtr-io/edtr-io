@@ -12,9 +12,19 @@ export interface State {
   focus: string | null
   root: string | null
   clipboard: DocumentState[]
+  history: HistoryState
 }
 
 export interface DocumentState {
   plugin: string
   state?: unknown
+}
+
+export interface HistoryState {
+  initialState?: {
+    documents: State['documents']
+  }
+  undoStack: unknown[][]
+  redoStack: unknown[][]
+  pendingChanges: number
 }

@@ -1,6 +1,6 @@
 export { Document, DocumentProps } from './document'
 export { Editor, EditorProps } from './editor'
-export { EditorContext, EditorContextValue } from './editor-context'
+export { EditorContext, connect, connectStateOnly } from './editor-context'
 export { useEditorFocus, useEditorHistory, useEditorMode } from './hooks'
 export {
   Plugin,
@@ -12,19 +12,19 @@ export {
 import * as StateType from './plugin-state'
 export { StateType }
 export {
-  ActionType,
-  PluginState,
-  ActionCommitType,
+  Action,
+  DocumentState,
+  change,
+  serializeRootDocument,
   serializeDocument,
   getClipboard,
   getDocument,
   getPlugins,
   hasPendingChanges,
   isEditable,
-  isEmpty,
-  State,
-  findNextNode,
+  getFocusTree,
   findPreviousNode,
-  getFocusTree
+  findNextNode,
+  State
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

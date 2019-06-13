@@ -1,4 +1,4 @@
-import { EditorContextValue, getPlugins, PluginState } from '@edtr-io/core'
+import { getPlugins } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -8,6 +8,7 @@ import { createRowPluginTheme } from '../..'
 import { Search } from './search'
 import { Plugin } from './plugin'
 import { Dropzone } from './dropzone'
+import { ReactReduxContextValue } from 'react-redux'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {
@@ -52,10 +53,13 @@ const PluginList = styled.div({
 interface MenuProps {
   visible: boolean
   menu:
-    | { index: number; onClose: (pluginState: PluginState) => void }
+    | {
+        index: number
+        onClose: (pluginState: { plugin: string; state?: unknown }) => void
+      }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  store: EditorContextValue
+  store: ReactReduxContextValue['store']
   name: string
 }
 
@@ -79,7 +83,7 @@ export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
   }, [close, visible])
 
   if (!visible || !menu) return null
-  const plugins = getPlugins(store.state)
+  const plugins = getPlugins(store.getState())
   const mappedPlugins = Object.keys(plugins)
     .filter(pluginKey => {
       const plugin = plugins[pluginKey]
@@ -96,8 +100,7 @@ export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
         plugin.description.toLowerCase().includes(search.toLowerCase())
       )
         return true
-      if (pluginKey.toLowerCase().includes(search.toLowerCase())) return true
-      return false
+      return pluginKey.toLowerCase().includes(search.toLowerCase())
     })
     .map(pluginName => (
       <Plugin

@@ -11,12 +11,12 @@ import { rowsState } from '.'
 export const RowsRenderer = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
-  const store = React.useContext(EditorContext)
+  const { store } = React.useContext(EditorContext)
 
   return (
     <React.Fragment>
       {props.state().map(row => {
-        const doc = getDocument(store.state, row.id)
+        const doc = getDocument(store.getState(), row.id)
 
         return (
           <RowContainer

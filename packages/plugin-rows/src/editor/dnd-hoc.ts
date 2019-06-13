@@ -9,7 +9,7 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { RowSourceProps } from './row'
-import { Plugin, PluginState } from '@edtr-io/core'
+import { Plugin, DocumentState } from '@edtr-io/core'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource
@@ -26,7 +26,7 @@ export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
     {
       index: number
       moveRow: (from: number, to: number) => void
-      insert: (index: number, data: PluginState) => void
+      insert: (index: number, data: DocumentState) => void
       plugins: Record<string, Plugin>
     },
     TargetProps

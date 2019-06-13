@@ -1,5 +1,5 @@
 import { setupStore } from '../../__helpers__'
-import { isEditable, setEditable } from '../../src/redux-store'
+import { isEditable, setEditable } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 
