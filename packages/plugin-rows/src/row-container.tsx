@@ -23,8 +23,7 @@ export const RowContainer = styled.div<{
   } & ThemeProps) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      marginLeft: '25px',
-      marginRight: '25px',
+      marginLeft: expanded ? '25px' : 0,
       ...(!noHeight
         ? {
             minHeight: '10px',
@@ -36,8 +35,7 @@ export const RowContainer = styled.div<{
       position: 'relative',
       borderLeft: '2px solid transparent',
       transition: '250ms all ease-in-out',
-      paddingLeft: '25px',
-      paddingRight: '25px',
+      paddingLeft: expanded ? '25px' : 0,
       ...(expanded
         ? {
             borderColor: theme.color,

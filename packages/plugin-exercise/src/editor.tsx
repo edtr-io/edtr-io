@@ -5,7 +5,8 @@ import { styled } from '@edtr-io/ui'
 
 const ShadowDiv = styled.div({
   boxShadow: '1px 1px 1px 1px rgba(0,0,0,0.5)',
-  padding: '1px'
+  padding: '10px',
+  paddingBottom: 0
 })
 
 export function ExerciseEditor({

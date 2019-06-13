@@ -34,19 +34,21 @@ export const Controls = ({
 }: ControlsProps) => {
   return (
     <React.Fragment>
-      <Settings
-        name={name}
-        expanded={expanded}
-        setShowExtendedSettings={setShowExtendedSettings}
-      >
-        <MoveControls
+      {expanded ? (
+        <Settings
           name={name}
-          index={index}
-          rows={rows}
-          row={row}
-          connectDragSource={connectDragSource}
-        />
-      </Settings>
+          expanded={expanded}
+          setShowExtendedSettings={setShowExtendedSettings}
+        >
+          <MoveControls
+            name={name}
+            index={index}
+            rows={rows}
+            row={row}
+            connectDragSource={connectDragSource}
+          />
+        </Settings>
+      ) : null}
     </React.Fragment>
   )
 }
