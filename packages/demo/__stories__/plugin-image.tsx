@@ -2,8 +2,9 @@ import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { EditorStory } from '../src'
-import { plugins, imageUploadConfig } from '../src/plugins'
+import { plugins } from '../src/plugins'
 import { createImagePlugin } from '@edtr-io/plugin-image'
+import { mockUploadImageHandler, validateFile } from '../src/plugin-image'
 
 storiesOf('Plugins/Image', module)
   .add('Initial State', () => {
@@ -62,7 +63,8 @@ storiesOf('Plugins/Image', module)
         plugins={{
           ...plugins,
           image: createImagePlugin({
-            upload: imageUploadConfig,
+            upload: mockUploadImageHandler,
+            validate: validateFile,
             secondInput: 'link'
           })
         }}

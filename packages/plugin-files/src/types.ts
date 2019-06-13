@@ -1,18 +1,17 @@
-export interface FileState {
-  pending?: File
-  loaded?: LoadedFile
-  failed?: LoadedFile
-  uploaded?: UploadedFile
+import { StateType } from '@edtr-io/core'
+
+export interface UploadedFile {
+  location: string
+  type: FileType
+  name: string
 }
 
-export interface UploadFileConfig<T> {
-  upload: FileUploadConfig<T>
+export interface UploadFileConfig {
+  upload: StateType.UploadHandler<UploadedFile>
 }
 
-export interface UploadProps<T> {
-  config: FileUploadConfig<T>
-  onError?: (errors: FileError[]) => void
-  onFiles?: (files: File[]) => void
+export interface UploadProps {
+  onFiles: (files: File[]) => void
 }
 
 export interface FileUploadConfig<T> {
@@ -44,15 +43,4 @@ export enum FileType {
   PowerPoint = 'powerpoint',
   Excel = 'excel',
   Other = 'other'
-}
-
-export interface LoadedFile {
-  file: File
-  dataUrl: string
-}
-
-export interface UploadedFile {
-  location: string
-  type: FileType
-  name: string
 }
