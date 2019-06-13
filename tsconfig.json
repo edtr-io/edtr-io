@@ -19,6 +19,7 @@
       "@edtr-io/renderer-ui": ["ui-renderer/src"],
       "@edtr-io/plugin-anchor": ["plugin-anchor/src"],
       "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
+      "@edtr-io/plugin-exercise": ["plugin-exercise/src"],
       "@edtr-io/plugin-equations": ["plugin-equations/src"],
       "@edtr-io/plugin-files": ["plugin-files/src"],
       "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],

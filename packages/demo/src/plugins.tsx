@@ -1,6 +1,7 @@
 import { Plugin } from '@edtr-io/core'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { exercisePlugin } from '@edtr-io/plugin-exercise'
 import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { h5pPlugin } from '@edtr-io/plugin-h5p'
@@ -59,6 +60,7 @@ export const fileUploadConfig: FileUploadConfig<SerloResponse> = {
 export const plugins: Record<string, Plugin> = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
+  exercise: exercisePlugin,
   equations: equationsPlugin,
   files: createFilePlugin({ upload: fileUploadConfig }),
   h5p: h5pPlugin,
