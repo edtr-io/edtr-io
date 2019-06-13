@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.6.0..HEAD)
+## [0.6.1](https://github.com/edtr-io/edtr-io/compare/v0.6.0..v0.6.1) - June 13, 2019
 
 ### Breaking Changes
 
@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 - **core**. Added StateType upload for file uploading.
 
-## [0.6.0](https://github.com/edtr-io/edtr-io/compare/v0.5.0..v0.6.0)
+## [0.6.0](https://github.com/edtr-io/edtr-io/compare/v0.5.0..v0.6.0) - May 22, 2019
 
 ### Breaking Changes
 

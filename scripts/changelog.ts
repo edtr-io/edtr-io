@@ -216,6 +216,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.6.0',
       name: '0.6.0',
+      date: '2019-05-22',
       breakingChanges: [
         '**core**. Requires additional peer-dependencies `react-dnd@^7.0.0` and `react-dnd-html5-backend@^7.0.0`'
       ],
@@ -235,6 +236,9 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: 'v0.6.1',
+      name: '0.6.1',
+      date: '2019-06-13',
       breakingChanges: [
         '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
       ],
