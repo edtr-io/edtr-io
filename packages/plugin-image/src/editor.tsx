@@ -53,12 +53,13 @@ export function createImageEditor(
     StateType.usePendingFileUploader(state.src, config.upload)
 
     const imageComponent =
-      !StateType.isTempFile(state.src.value) || state.src.value.loaded ? (
-        <ImageRenderer {...props} disableMouseEvents={editable} />
-      ) : (
+      state.src.value === '' ||
+      (StateType.isTempFile(state.src.value) && !state.src.value.loaded) ? (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />
         </ImgPlaceholderWrapper>
+      ) : (
+        <ImageRenderer {...props} disableMouseEvents={editable} />
       )
     if (!editable) {
       return imageComponent
@@ -67,9 +68,11 @@ export function createImageEditor(
     return (
       <React.Fragment>
         {imageComponent}
-        {focused && <PrimarySettings>
-          <PrimaryControls {...props} config={config} />
-        </PrimarySettings>}
+        {focused && (
+          <PrimarySettings>
+            <PrimaryControls {...props} config={config} />
+          </PrimarySettings>
+        )}
         {props.renderIntoExtendedSettings ? (
           props.renderIntoExtendedSettings(
             <Controls {...props} config={config} />

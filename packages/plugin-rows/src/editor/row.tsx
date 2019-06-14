@@ -4,7 +4,7 @@ import {
   PluginState,
   EditorContextValue
 } from '@edtr-io/core'
-import { OnClickOutside } from '@edtr-io/editor-ui'
+import { OnClickOutside, PrimarySettings } from '@edtr-io/editor-ui'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
@@ -17,6 +17,15 @@ import { Menu } from './menu'
 import render from './render'
 import { Separator } from './separator'
 
+const PrimarySettingsWrapper: React.FunctionComponent = props => {
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'PrimarySettingsWrapper of @edtr-io/plugin-rows is deprecated. Use PrimarySettings of @edtr-io/editor-ui instead.'
+    )
+  }, [])
+  return <PrimarySettings {...props} />
+}
 export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
   CollectedProps &
   TargetProps & {
@@ -132,7 +141,8 @@ const RowSource = React.forwardRef<
               </ThemeProvider>,
               extendedSettingsNode.current
             )
-          }
+          },
+          PrimarySettingsWrapper
         })}
         <ExtendedSettingsWrapper
           hideExtendedSettings={() => {

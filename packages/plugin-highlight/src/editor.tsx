@@ -8,7 +8,8 @@ import {
   Icon,
   EditorCheckbox,
   styled,
-  faQuestionCircle
+  faQuestionCircle,
+  PrimarySettings
 } from '@edtr-io/editor-ui'
 
 const Textarea = styled.textarea({
@@ -78,24 +79,26 @@ export const HighlightEditor = (
       >
         {state.text.value}
       </Textarea>
-      <EditorInput
-        label="Language:"
-        value={state.language.value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          state.language.set(e.target.value)
-        }}
-        placeholder="enter Language"
-      />
-      <HelpIcon />
-      <CheckboxContainer>
-        <EditorCheckbox
-          label="Show Line Numbers"
-          onChange={() => {
-            state.lineNumbers.set(!state.lineNumbers.value)
+      <PrimarySettings>
+        <EditorInput
+          label="Language:"
+          value={state.language.value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            state.language.set(e.target.value)
           }}
-          checked={state.lineNumbers.value}
+          placeholder="enter Language"
         />
-      </CheckboxContainer>
+        <HelpIcon />
+        <CheckboxContainer>
+          <EditorCheckbox
+            label="Show Line Numbers"
+            onChange={() => {
+              state.lineNumbers.set(!state.lineNumbers.value)
+            }}
+            checked={state.lineNumbers.value}
+          />
+        </CheckboxContainer>
+      </PrimarySettings>
     </React.Fragment>
   ) : (
     <HighlightRenderer {...props} />

@@ -243,6 +243,18 @@ async function exec(): Promise<void> {
         '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
       ],
       added: ['**core**. Added StateType upload for file uploading.']
+    },
+    {
+      deprecated: [
+        '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.'
+      ],
+      added: [
+        '**editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.'
+      ],
+      fixed: [
+        '**plugin-image**. Do not lose focus in PrimarySettings',
+        '**plugin-image**. Display Placeholder on empty image'
+      ]
     }
   ])
 
