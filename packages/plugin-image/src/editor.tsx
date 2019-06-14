@@ -13,7 +13,8 @@ import {
   Checkbox,
   EditorInput,
   EditorButton,
-  faCog
+  faCog,
+  PrimarySettings
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
@@ -23,7 +24,6 @@ import { ImagePluginConfig, imageState } from '.'
 
 type ImageProps = StatefulPluginEditorProps<typeof imageState> & {
   renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  PrimarySettingsWrapper?: React.ComponentType
 }
 
 const ImgPlaceholderWrapper = styled.div({
@@ -67,13 +67,9 @@ export function createImageEditor(
     return (
       <React.Fragment>
         {imageComponent}
-        {props.PrimarySettingsWrapper ? (
-          <props.PrimarySettingsWrapper>
-            <PrimaryControls {...props} config={config} />
-          </props.PrimarySettingsWrapper>
-        ) : focused ? (
+        {focused && <PrimarySettings>
           <PrimaryControls {...props} config={config} />
-        ) : null}
+        </PrimarySettings>}
         {props.renderIntoExtendedSettings ? (
           props.renderIntoExtendedSettings(
             <Controls {...props} config={config} />

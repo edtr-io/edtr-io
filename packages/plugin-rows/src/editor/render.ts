@@ -18,8 +18,7 @@ export default function({
   index,
   store,
   getDocument,
-  renderIntoExtendedSettings,
-  PrimarySettingsWrapper
+  renderIntoExtendedSettings
 }: {
   row: StateType.StateDescriptorReturnType<typeof rowState>
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
@@ -27,12 +26,10 @@ export default function({
   store: EditorContextValue
   getDocument: (state: State, id: string) => PluginState | null
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
-  PrimarySettingsWrapper: React.ComponentType
 }) {
   const { state, dispatch } = store
   return row.render({
     renderIntoExtendedSettings,
-    PrimarySettingsWrapper,
     insert: (options?: { plugin: string; state?: unknown }) =>
       rows.insert(index + 1, options),
     replace: (options?: { plugin: string; state?: unknown }) => {

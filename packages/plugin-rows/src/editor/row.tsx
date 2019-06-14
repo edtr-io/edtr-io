@@ -11,11 +11,7 @@ import { createPortal } from 'react-dom'
 
 import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
-import {
-  Controls,
-  ExtendedSettingsWrapper,
-  createPrimarySettingsWrapper
-} from './controls'
+import { Controls, ExtendedSettingsWrapper } from './controls'
 import { connectDnD, CollectedProps, TargetProps } from './dnd-hoc'
 import { Menu } from './menu'
 import render from './render'
@@ -136,10 +132,7 @@ const RowSource = React.forwardRef<
               </ThemeProvider>,
               extendedSettingsNode.current
             )
-          },
-          PrimarySettingsWrapper: createPrimarySettingsWrapper({
-            expanded
-          })
+          }
         })}
         <ExtendedSettingsWrapper
           hideExtendedSettings={() => {
