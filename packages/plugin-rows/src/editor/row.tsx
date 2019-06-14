@@ -74,6 +74,34 @@ const RowSource = React.forwardRef<
   const extendedSettingsNode = React.useRef<HTMLDivElement>(null)
   const settingsTheme = usePluginTheme(name, rowsPluginThemeFactory)
 
+  const theme = React.useMemo(() => {
+    return {
+      editorUi: {
+        overlay: {
+          input: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color
+          },
+          button: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color,
+            borderColor: settingsTheme.menu.primary.color
+          },
+          textarea: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color,
+            borderColor: settingsTheme.menu.primary.color
+          },
+          checkbox: {
+            color: settingsTheme.menu.primary.color,
+            boxDeselectedColor: settingsTheme.backgroundColor,
+            boxSelectedColor: settingsTheme.menu.primary.color
+          }
+        }
+      }
+    }
+  }, [settingsTheme])
+
   return (
     <OnClickOutside
       onClick={() => {
@@ -111,35 +139,7 @@ const RowSource = React.forwardRef<
             if (!extendedSettingsNode.current) return null
 
             return createPortal(
-              <ThemeProvider
-                theme={{
-                  editorUi: {
-                    overlay: {
-                      input: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color
-                      },
-                      button: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color,
-                        borderColor: settingsTheme.menu.primary.color
-                      },
-                      textarea: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color,
-                        borderColor: settingsTheme.menu.primary.color
-                      },
-                      checkbox: {
-                        color: settingsTheme.menu.primary.color,
-                        boxDeselectedColor: settingsTheme.backgroundColor,
-                        boxSelectedColor: settingsTheme.menu.primary.color
-                      }
-                    }
-                  }
-                }}
-              >
-                {children}
-              </ThemeProvider>,
+              <ThemeProvider theme={theme}>{children}</ThemeProvider>,
               extendedSettingsNode.current
             )
           },

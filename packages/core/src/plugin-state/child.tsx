@@ -8,6 +8,36 @@ import {
 } from './types'
 import { Document } from '..'
 
+function PluginPropsDocument<Props extends Record<string, unknown>>({
+  id,
+  props,
+  parentProps
+}: {
+  id: string
+  props?: Props
+  parentProps: unknown
+}) {
+  const pluginProps = React.useMemo(() => {
+    return { ...props, parent: parentProps }
+  }, [props, parentProps])
+  return <Document pluginProps={pluginProps} id={id} />
+}
+
+const memoizedRender = <Props extends Record<string, unknown>>(
+  parentProps: unknown,
+  id: string
+) =>
+  function Child(props?: Props) {
+    return (
+      <PluginPropsDocument
+        key={id}
+        id={id}
+        props={props}
+        parentProps={parentProps}
+      />
+    )
+  }
+
 export function child<
   K extends string,
   S = unknown,
@@ -35,15 +65,7 @@ export function child<
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
-        render: (props?: Props) => {
-          return (
-            <Document
-              pluginProps={{ ...props, parent: parentProps }}
-              key={id}
-              id={id}
-            />
-          )
-        }
+        render: memoizedRender(parentProps, id)
       })
     },
     {

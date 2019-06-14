@@ -34,6 +34,11 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   }
 }
 
+const defaultTheme: CustomTheme = {}
+const hotKeysKeyMap = {
+  UNDO: 'mod+z',
+  REDO: ['mod+y', 'mod+shift+z']
+}
 export const InnerEditor = connect<
   EditorStateProps,
   EditorDispatchProps,
@@ -64,7 +69,7 @@ export const InnerEditor = connect<
   changed,
   children,
   editable = true,
-  theme = {}
+  theme = defaultTheme
 }: EditorProps<K> & EditorStateProps & EditorDispatchProps) {
   React.useEffect(() => {
     initRoot(initialState || {})
@@ -82,24 +87,21 @@ export const InnerEditor = connect<
     }
   }, [changed, hasPendingChanges, pendingChanges])
 
+  const hotKeysHandlers = React.useMemo(() => {
+    return {
+      undo,
+      redo
+    }
+  }, [undo, redo])
+
   if (!id) return null
 
   return (
     <HotKeys
       focused
       attach={document.body}
-      keyMap={{
-        UNDO: 'mod+z',
-        REDO: ['mod+y', 'mod+shift+z']
-      }}
-      handlers={{
-        UNDO: () => {
-          undo()
-        },
-        REDO: () => {
-          redo()
-        }
-      }}
+      keyMap={hotKeysKeyMap}
+      handlers={hotKeysHandlers}
     >
       <div style={{ position: 'relative' }}>
         <RootThemeProvider theme={theme}>

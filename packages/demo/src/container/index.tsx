@@ -25,13 +25,17 @@ export function EditorStory(props: Partial<EditorProps>) {
   React.useEffect(() => {
     localStorage.setItem('storybook.container', container)
   }, [container])
-  const Component = Components[container]
+  const children = React.useCallback(
+    document => {
+      const Component = Components[container]
+      return <Component>{document}</Component>
+    },
+    [container]
+  )
 
   return (
     <Editor plugins={plugins} defaultPlugin="text" {...props}>
-      {document => {
-        return <Component>{document}</Component>
-      }}
+      {children}
     </Editor>
   )
 }
