@@ -104,3 +104,8 @@ export function getRedoStack(state: State) {
 }
 // TODO: handle reset
 // TODO: handle persist
+
+export const publicHistorySelectors = {
+  getPendingChanges,
+  hasPendingChanges
+}

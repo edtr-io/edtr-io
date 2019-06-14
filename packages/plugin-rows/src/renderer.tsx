@@ -1,7 +1,7 @@
 import {
   EditorContext,
-  getDocument,
-  StatefulPluginEditorProps
+  StatefulPluginEditorProps,
+  selectors
 } from '@edtr-io/core'
 import * as React from 'react'
 
@@ -16,7 +16,7 @@ export const RowsRenderer = (
   return (
     <React.Fragment>
       {props.state().map(row => {
-        const doc = getDocument(store.getState(), row.id)
+        const doc = selectors.getDocument(store.getState(), row.id)
 
         return (
           <RowContainer

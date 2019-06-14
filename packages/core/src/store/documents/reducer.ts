@@ -99,3 +99,9 @@ export function isEmpty(state: State, id: string) {
   })
   return R.equals(doc.state, initialState)
 }
+
+export const publicDocumentsSelectors = {
+  getDocument,
+  serializeDocument,
+  isEmpty
+}

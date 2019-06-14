@@ -10,3 +10,5 @@ export const initRoot = createAction<
 export type InitRootAction = ReturnType<typeof initRoot>
 
 export type RootAction = InitRootAction
+
+export const publicRootActions = { initRoot }

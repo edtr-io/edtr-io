@@ -1,5 +1,5 @@
-import { getDefaultPlugin, getPlugin } from '../../src/store'
 import { setupStore } from '../../__helpers__'
+import { selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 
@@ -10,15 +10,15 @@ beforeEach(() => {
 describe('Plugins', () => {
   describe('Default plugin', () => {
     test('Initial state', () => {
-      expect(getDefaultPlugin(store.getState())).toEqual('text')
+      expect(selectors.getDefaultPlugin(store.getState())).toEqual('text')
     })
   })
   describe('Plugins', () => {
     test('Existing plugins', () => {
-      expect(getPlugin(store.getState(), 'text')).toBeDefined()
+      expect(selectors.getPlugin(store.getState(), 'text')).toBeDefined()
     })
     test('Non-existing plugin', () => {
-      expect(getPlugin(store.getState(), 'foobar')).toBeNull()
+      expect(selectors.getPlugin(store.getState(), 'foobar')).toBeNull()
     })
   })
 })

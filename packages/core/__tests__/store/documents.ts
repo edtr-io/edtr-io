@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert, pureChange } from '../../src/store/documents/actions'
 import { getDocuments } from '../../src/store/documents/reducer'
-import { getDocument, insert, remove, change } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 
@@ -18,18 +18,18 @@ describe('Documents', () => {
 
   describe('Insert', () => {
     test('Default Plugin', async () => {
-      store.dispatch(insert({ id: '0' }))
+      store.dispatch(actions.insert({ id: '0' }))
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      const doc = getDocument(store.getState(), '0')
+      const doc = selectors.getDocument(store.getState(), '0')
       if (!doc) throw new Error('Document not found')
       expect(doc.plugin).toEqual('text')
     })
 
     test('Stateless Plugin', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -37,13 +37,13 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      expect(getDocument(store.getState(), '1')).toEqual({
+      expect(selectors.getDocument(store.getState(), '1')).toEqual({
         plugin: 'stateless'
       })
     })
     test('Stateful plugin w/ state', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '0',
           plugin: 'stateful',
           state: { counter: 0 }
@@ -52,7 +52,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      expect(getDocument(store.getState(), '0')).toEqual({
+      expect(selectors.getDocument(store.getState(), '0')).toEqual({
         plugin: 'stateful',
         state: { counter: 0 }
       })
@@ -62,7 +62,7 @@ describe('Documents', () => {
   describe('Remove', () => {
     test('One document', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -70,18 +70,18 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(remove('1'))
+      store.dispatch(actions.remove('1'))
       expect(getDocuments(store.getState())).toEqual({})
     })
     test('Two documents', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '1',
           plugin: 'stateless'
         })
       )
       store.dispatch(
-        insert({
+        actions.insert({
           id: '2',
           plugin: 'stateless'
         })
@@ -93,7 +93,7 @@ describe('Documents', () => {
             store.getActions()
           ).length >= 2
       )
-      store.dispatch(remove('1'))
+      store.dispatch(actions.remove('1'))
       expect(getDocuments(store.getState())).toEqual({
         2: {
           plugin: 'stateless'
@@ -102,7 +102,7 @@ describe('Documents', () => {
     })
     test('Non-existing document', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -110,7 +110,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(remove('2'))
+      store.dispatch(actions.remove('2'))
       expect(R.values(getDocuments(store.getState()))).toHaveLength(1)
     })
   })
@@ -118,7 +118,7 @@ describe('Documents', () => {
   describe('Change', () => {
     test('Whole state', async () => {
       store.dispatch(
-        insert({
+        actions.insert({
           id: '1',
           plugin: 'stateful',
           state: 0
@@ -128,7 +128,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(
-        change({
+        actions.change({
           id: '1',
           state: () => 1
         })
@@ -136,7 +136,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureChange.type, store.getActions())
       )
-      expect(getDocument(store.getState(), '1')).toEqual({
+      expect(selectors.getDocument(store.getState(), '1')).toEqual({
         plugin: 'stateful',
         state: 1
       })

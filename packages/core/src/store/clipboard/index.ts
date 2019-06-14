@@ -1,2 +1,2 @@
-export { copy, CopyAction } from './actions'
-export { getClipboard } from './reducer'
+export { publicClipboardActions } from './actions'
+export { publicClipboardSelectors } from './reducer'

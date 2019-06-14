@@ -1,10 +1,10 @@
 import {
   StatefulPluginEditorProps,
   EditorContext,
-  getPlugins,
   Plugin,
   OverlayContext,
-  useEditorFocus
+  useEditorFocus,
+  selectors
 } from '@edtr-io/core'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
@@ -45,7 +45,7 @@ export const createTextEditor = (
     const editor = React.useRef<Editor>()
     const { store } = React.useContext(EditorContext)
     const overlayContext = React.useContext(OverlayContext)
-    const plugins = getPlugins(store.getState())
+    const plugins = selectors.getPlugins(store.getState())
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )

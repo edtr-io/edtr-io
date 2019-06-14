@@ -1,5 +1,5 @@
 import { setupStore } from '../../__helpers__'
-import { isEditable, setEditable } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 
@@ -9,14 +9,14 @@ beforeEach(() => {
 
 describe('Mode', () => {
   test('Initial state', () => {
-    expect(isEditable(store.getState())).toEqual(true)
+    expect(selectors.isEditable(store.getState())).toEqual(true)
   })
   test('Set editable to false', () => {
-    store.dispatch(setEditable(false))
-    expect(isEditable(store.getState())).toEqual(false)
+    store.dispatch(actions.setEditable(false))
+    expect(selectors.isEditable(store.getState())).toEqual(false)
   })
   test('Set editable to true', () => {
-    store.dispatch(setEditable(true))
-    expect(isEditable(store.getState())).toEqual(true)
+    store.dispatch(actions.setEditable(true))
+    expect(selectors.isEditable(store.getState())).toEqual(true)
   })
 })

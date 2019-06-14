@@ -20,3 +20,5 @@ export const clipboardReducer = createSubReducer('clipboard', [], {
 export function getClipboard(state: State) {
   return state.clipboard
 }
+
+export const publicClipboardSelectors = { getClipboard }

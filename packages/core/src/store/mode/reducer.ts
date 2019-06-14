@@ -13,3 +13,5 @@ export const modeReducer = createSubReducer(
 )
 
 export const isEditable = (state: State) => state.mode.editable
+
+export const publicModeSelectors = { isEditable }

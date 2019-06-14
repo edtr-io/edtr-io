@@ -1,4 +1,4 @@
-import { getDocument, Plugin, StatefulPluginEditorProps } from '@edtr-io/core'
+import { Plugin, StatefulPluginEditorProps, selectors } from '@edtr-io/core'
 import { OnClickOutside } from '@edtr-io/editor-ui'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
@@ -106,7 +106,7 @@ const RowSource = React.forwardRef<
           rows,
           index,
           store: props.store,
-          getDocument,
+          getDocument: selectors.getDocument,
           renderIntoExtendedSettings: children => {
             if (!extendedSettingsNode.current) return null
 

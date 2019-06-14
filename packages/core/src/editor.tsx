@@ -8,16 +8,7 @@ import { Document } from './document'
 import { Provider, connect } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
-import {
-  createStore,
-  getPendingChanges,
-  getRoot,
-  hasPendingChanges,
-  initRoot,
-  redo,
-  setEditable,
-  undo
-} from './store'
+import { createStore, actions, selectors } from './store'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
   const store = React.useMemo(() => {
@@ -50,16 +41,16 @@ export const InnerEditor = connect<
 >(
   (state): EditorStateProps => {
     return {
-      id: getRoot(state),
-      hasPendingChanges: hasPendingChanges(state),
-      pendingChanges: getPendingChanges(state)
+      id: selectors.getRoot(state),
+      hasPendingChanges: selectors.hasPendingChanges(state),
+      pendingChanges: selectors.getPendingChanges(state)
     }
   },
   {
-    initRoot,
-    setEditable,
-    undo,
-    redo
+    initRoot: actions.initRoot,
+    setEditable: actions.setEditable,
+    undo: actions.undo,
+    redo: actions.redo
   }
 )(function InnerEditor<K extends string = string>({
   hasPendingChanges,
@@ -67,6 +58,9 @@ export const InnerEditor = connect<
   initRoot,
   initialState,
   pendingChanges,
+  setEditable,
+  undo,
+  redo,
   changed,
   children,
   editable = true,
@@ -78,7 +72,7 @@ export const InnerEditor = connect<
 
   React.useEffect(() => {
     setEditable(editable)
-  }, [editable])
+  }, [editable, setEditable])
 
   const pending = React.useRef(0)
   React.useEffect(() => {
@@ -132,15 +126,15 @@ export const InnerEditor = connect<
 })
 
 export interface EditorStateProps {
-  id: ReturnType<typeof getRoot>
-  pendingChanges: ReturnType<typeof getPendingChanges>
-  hasPendingChanges: ReturnType<typeof hasPendingChanges>
+  id: ReturnType<typeof selectors['getRoot']>
+  pendingChanges: ReturnType<typeof selectors['getPendingChanges']>
+  hasPendingChanges: ReturnType<typeof selectors['hasPendingChanges']>
 }
 export interface EditorDispatchProps {
-  initRoot: typeof initRoot
-  setEditable: typeof setEditable
-  undo: typeof undo
-  redo: typeof redo
+  initRoot: typeof actions['initRoot']
+  setEditable: typeof actions['setEditable']
+  undo: typeof actions['undo']
+  redo: typeof actions['redo']
 }
 
 export interface EditorProps<K extends string = string> {

@@ -2,18 +2,17 @@ import * as React from 'react'
 
 import { connectStateOnly } from '../editor-context'
 import { isStatefulPlugin } from '../plugin'
-import { getDocument } from '../store/documents'
+import { selectors } from '../store'
 import { DocumentProps } from '.'
-import { getPlugin } from '../store/plugins'
 
 export const DocumentRenderer = connectStateOnly<
   DocumentRendererStateProps,
   DocumentProps
 >((state, { id }) => {
-  const document = getDocument(state, id)
+  const document = selectors.getDocument(state, id)
   return {
-    document: getDocument(state, id),
-    plugin: document && getPlugin(state, document.plugin)
+    document: selectors.getDocument(state, id),
+    plugin: document && selectors.getPlugin(state, document.plugin)
   }
 })(function({
   pluginProps,
@@ -36,6 +35,6 @@ export const DocumentRenderer = connectStateOnly<
 })
 
 export interface DocumentRendererStateProps {
-  document: ReturnType<typeof getDocument>
-  plugin: ReturnType<typeof getPlugin>
+  document: ReturnType<typeof selectors['getDocument']>
+  plugin: ReturnType<typeof selectors['getPlugin']>
 }

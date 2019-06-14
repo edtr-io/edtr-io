@@ -8,7 +8,7 @@ import {
   getFocusTree,
   Node
 } from '../../src/store/focus/reducer'
-import { isFocused, focus, initRoot } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
 
@@ -19,25 +19,25 @@ beforeEach(() => {
 describe('Focus', () => {
   describe('FocusDocument', () => {
     test('Blurred initially', () => {
-      expect(isFocused(store.getState(), '0')).toEqual(false)
+      expect(selectors.isFocused(store.getState(), '0')).toEqual(false)
     })
 
     test('Focused after requesting focus', () => {
-      store.dispatch(focus('0'))
-      expect(isFocused(store.getState(), '0')).toEqual(true)
+      store.dispatch(actions.focus('0'))
+      expect(selectors.isFocused(store.getState(), '0')).toEqual(true)
     })
 
     test('Blurred after another focus request', () => {
-      store.dispatch(focus('0'))
-      store.dispatch(focus('1'))
-      expect(isFocused(store.getState(), '0')).toEqual(false)
+      store.dispatch(actions.focus('0'))
+      store.dispatch(actions.focus('1'))
+      expect(selectors.isFocused(store.getState(), '0')).toEqual(false)
     })
   })
 
   describe('getFocusTree', () => {
     test('Height 1', async () => {
       store.dispatch(
-        initRoot({
+        actions.initRoot({
           plugin: 'nestedArray',
           state: {
             children: [
@@ -76,7 +76,7 @@ describe('Focus', () => {
 
     test('Blockquote in rows', async () => {
       store.dispatch(
-        initRoot({
+        actions.initRoot({
           plugin: 'rows',
           state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
         })

@@ -1,4 +1,4 @@
-import { getPlugins } from '@edtr-io/core'
+import { selectors } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -83,7 +83,7 @@ export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
   }, [close, visible])
 
   if (!visible || !menu) return null
-  const plugins = getPlugins(store.getState())
+  const plugins = selectors.getPlugins(store.getState())
   const mappedPlugins = Object.keys(plugins)
     .filter(pluginKey => {
       const plugin = plugins[pluginKey]

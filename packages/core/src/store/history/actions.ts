@@ -38,3 +38,10 @@ export type HistoryAction =
   | PureUndoAction
   | RedoAction
   | PureRedoAction
+
+export const publicHistoryActions = {
+  persist,
+  reset,
+  undo,
+  redo
+}

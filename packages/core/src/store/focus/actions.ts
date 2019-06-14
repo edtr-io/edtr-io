@@ -15,3 +15,9 @@ export type FocusAction =
   | FocusDocumentAction
   | FocusNextDocumentAction
   | FocusPreviousDocumentAction
+
+export const publicFocusActions = {
+  focus,
+  focusNext,
+  focusPrevious
+}

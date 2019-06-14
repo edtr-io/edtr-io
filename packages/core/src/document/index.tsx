@@ -3,12 +3,12 @@ import * as React from 'react'
 import { DocumentEditor } from './editor'
 import { connectStateOnly } from '../editor-context'
 import { DocumentRenderer } from './renderer'
-import { isEditable } from '../store'
+import { selectors } from '../store'
 
 export const Document = connectStateOnly<DocumentStateProps, DocumentProps>(
   state => {
     return {
-      isEditable: isEditable(state)
+      isEditable: selectors.isEditable(state)
     }
   }
 )((props: DocumentProps & DocumentStateProps) => {
@@ -22,7 +22,7 @@ export const Document = connectStateOnly<DocumentStateProps, DocumentProps>(
 })
 
 export interface DocumentStateProps {
-  isEditable: ReturnType<typeof isEditable>
+  isEditable: ReturnType<typeof selectors['isEditable']>
 }
 
 export interface DocumentProps {

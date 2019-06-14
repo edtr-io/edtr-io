@@ -9,10 +9,8 @@ import {
   StatelessPluginEditorProps
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
+import { actions, selectors } from '../store'
 import { DocumentProps } from '.'
-import { change, getDocument, isEmpty } from '../store/documents'
-import { focus, focusNext, focusPrevious, isFocused } from '../store/focus'
-import { getPlugin } from '../store/plugins'
 
 const StyledDocument = styled.div({
   outline: 'none'
@@ -24,19 +22,19 @@ export const DocumentEditor = connect<
   DocumentProps
 >(
   (state, { id }) => {
-    const document = getDocument(state, id)
+    const document = selectors.getDocument(state, id)
     return {
-      empty: isEmpty(state, id),
-      focused: isFocused(state, id),
+      empty: selectors.isEmpty(state, id),
+      focused: selectors.isFocused(state, id),
       document,
-      plugin: document && getPlugin(state, document.plugin)
+      plugin: document && selectors.getPlugin(state, document.plugin)
     }
   },
   {
-    focusPrevious,
-    focusNext,
-    focus,
-    change
+    focusPrevious: actions.focusPrevious,
+    focusNext: actions.focusNext,
+    focus: actions.focus,
+    change: actions.change
   }
 )(function DocumentEditor({
   change,
@@ -195,15 +193,15 @@ export const DocumentEditor = connect<
 })
 
 export interface DocumentEditorStateProps {
-  document: ReturnType<typeof getDocument>
-  empty: ReturnType<typeof isEmpty>
-  focused: ReturnType<typeof isFocused>
-  plugin: ReturnType<typeof getPlugin>
+  document: ReturnType<typeof selectors['getDocument']>
+  empty: ReturnType<typeof selectors['isEmpty']>
+  focused: ReturnType<typeof selectors['isFocused']>
+  plugin: ReturnType<typeof selectors['getPlugin']>
 }
 
 export interface DocumentEditorDispatchProps {
-  focusNext: typeof focusNext
-  focusPrevious: typeof focusPrevious
-  focus: typeof focus
-  change: typeof change
+  focusNext: typeof actions['focusNext']
+  focusPrevious: typeof actions['focusPrevious']
+  focus: typeof actions['focus']
+  change: typeof actions['change']
 }

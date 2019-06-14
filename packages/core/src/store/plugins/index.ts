@@ -1,1 +1,1 @@
-export { getDefaultPlugin, getPlugins, getPlugin } from './reducer'
+export { publicPluginsSelectors } from './reducer'

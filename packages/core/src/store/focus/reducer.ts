@@ -8,9 +8,10 @@ import {
   focusPrevious
 } from './actions'
 
-import { getDocument } from '../documents'
-import { getPlugin } from '../plugins'
-import { getRoot } from '../root'
+import { pureInsert, PureInsertAction } from '../documents/actions'
+import { getDocument } from '../documents/reducer'
+import { getPlugin } from '../plugins/reducer'
+import { getRoot } from '../root/reducer'
 import { isStatefulPlugin } from '../../plugin'
 
 export const focusReducer = createSubReducer('focus', null, {
@@ -22,6 +23,9 @@ export const focusReducer = createSubReducer('focus', null, {
   },
   [focusPrevious.type](focusState, _action: FocusNextDocumentAction, state) {
     return handleFocus(focusState, state, findPreviousNode)
+  },
+  [pureInsert.type](_focusState, action: PureInsertAction, _state) {
+    return action.payload.id
   }
 })
 
@@ -139,4 +143,11 @@ export function findParent(root: Node, id: string): Node | null {
 export interface Node {
   id: string
   children?: Node[]
+}
+
+export const publicFocusSelectors = {
+  isFocused,
+  getFocusTree,
+  findPreviousNode,
+  findNextNode
 }

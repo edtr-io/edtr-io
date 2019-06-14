@@ -34,3 +34,9 @@ export function getPluginOrDefault(
 ): Plugin | null {
   return getPlugin(state, type)
 }
+
+export const publicPluginsSelectors = {
+  getDefaultPlugin,
+  getPlugins,
+  getPlugin
+}

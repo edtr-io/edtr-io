@@ -1,2 +1,2 @@
-export { initRoot, InitRootAction } from './actions'
-export { getRoot, serializeRootDocument } from './reducer'
+export { publicRootActions } from './actions'
+export { publicRootSelectors } from './reducer'

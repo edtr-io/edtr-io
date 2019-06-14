@@ -1,9 +1,2 @@
-export {
-  insert,
-  InsertAction,
-  remove,
-  RemoveAction,
-  change,
-  ChangeAction
-} from './actions'
-export { getDocument, serializeDocument, isEmpty } from './reducer'
+export { publicDocumentsActions } from './actions'
+export { publicDocumentsSelectors } from './reducer'

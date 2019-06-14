@@ -1,11 +1,4 @@
-import {
-  change,
-  State,
-  StateType,
-  getFocusTree,
-  findPreviousNode,
-  findNextNode
-} from '@edtr-io/core'
+import { State, StateType, actions, selectors } from '@edtr-io/core'
 import * as React from 'react'
 import { ReactReduxContextValue } from 'react-redux'
 
@@ -55,10 +48,10 @@ export default function({
 
       if (previous.plugin !== current.plugin) {
         // check if previous focus plugin is the same type
-        const root = getFocusTree(state)
+        const root = selectors.getFocusTree(state)
         if (!root) return
 
-        const previousFocusId = findPreviousNode(root, row.id)
+        const previousFocusId = selectors.findPreviousNode(root, row.id)
         if (!previousFocusId) return
 
         previous = getDocument(state, previousFocusId)
@@ -66,7 +59,7 @@ export default function({
 
         const merged = merge(previous.state)
         dispatch(
-          change({
+          actions.change({
             id: previousFocusId,
             state: () => merged
           })
@@ -84,10 +77,10 @@ export default function({
       if (!next || !current) return
       if (next.plugin !== current.plugin) {
         // check if next focus plugin is the same type
-        const root = getFocusTree(state)
+        const root = selectors.getFocusTree(state)
         if (!root) return
 
-        const nextFocusId = findNextNode(root, row.id)
+        const nextFocusId = selectors.findNextNode(root, row.id)
         if (!nextFocusId) return
 
         // use that plugin for merge

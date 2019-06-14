@@ -19,3 +19,8 @@ export function serializeRootDocument(state: State): DocumentState | null {
 
   return root ? serializeDocument(state, root) : null
 }
+
+export const publicRootSelectors = {
+  getRoot,
+  serializeRootDocument
+}

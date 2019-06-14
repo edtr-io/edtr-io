@@ -1,2 +1,2 @@
-export { setEditable, SetEditableAction } from './actions'
-export { isEditable } from './reducer'
+export { publicModeActions } from './actions'
+export { publicModeSelectors } from './reducer'

@@ -1,14 +1,2 @@
-export {
-  focus,
-  FocusDocumentAction,
-  focusNext,
-  FocusNextDocumentAction,
-  focusPrevious,
-  FocusPreviousDocumentAction
-} from './actions'
-export {
-  isFocused,
-  getFocusTree,
-  findPreviousNode,
-  findNextNode
-} from './reducer'
+export { publicFocusActions } from './actions'
+export { publicFocusSelectors } from './reducer'

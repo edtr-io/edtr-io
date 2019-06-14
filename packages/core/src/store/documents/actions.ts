@@ -42,3 +42,9 @@ export type DocumentsAction =
   | RemoveAction
   | PureChangeAction
   | ChangeAction
+
+export const publicDocumentsActions = {
+  insert,
+  remove,
+  change
+}

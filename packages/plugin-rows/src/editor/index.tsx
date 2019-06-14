@@ -1,8 +1,7 @@
 import {
   EditorContext,
-  getDocument,
-  getPlugins,
-  StatefulPluginEditorProps
+  StatefulPluginEditorProps,
+  selectors
 } from '@edtr-io/core'
 import * as React from 'react'
 
@@ -18,8 +17,8 @@ export const RowsEditor = (
   return (
     <React.Fragment>
       {rows.items.map((row, index) => {
-        const doc = getDocument(store.getState(), row.id)
-        const plugins = getPlugins(store.getState())
+        const doc = selectors.getDocument(store.getState(), row.id)
+        const plugins = selectors.getPlugins(store.getState())
 
         if (!doc) return null
 
