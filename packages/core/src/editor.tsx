@@ -89,8 +89,8 @@ export const InnerEditor = connect<
 
   const hotKeysHandlers = React.useMemo(() => {
     return {
-      undo,
-      redo
+      UNDO: undo,
+      REDO: redo
     }
   }, [undo, redo])
 
