@@ -36,7 +36,7 @@ export const Center = styled.div({
 export function createFilesEditor(
   uploadHandler: StateType.UploadHandler<UploadedFile>
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
-  return props => {
+  return function FilesEditor(props) {
     const { focused, state } = props
 
     StateType.usePendingFilesUploader(state.items, uploadHandler)

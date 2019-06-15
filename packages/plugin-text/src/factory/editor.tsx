@@ -198,7 +198,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
 
     for (let key in plugins) {
       const { onPaste } = plugins[key]
-      if (typeof onPaste === 'function') {
+      if (clipboardData && typeof onPaste === 'function') {
         const result = onPaste(clipboardData)
         if (result !== undefined) {
           const nextSlateState = splitBlockAtSelection(editor)
@@ -424,7 +424,7 @@ function focusNextDocumentOnArrowDown(
       function getRange(): Range | null {
         const selection = window.getSelection()
 
-        if (selection.rangeCount > 0) {
+        if (selection && selection.rangeCount > 0) {
           return selection.getRangeAt(0)
         }
 

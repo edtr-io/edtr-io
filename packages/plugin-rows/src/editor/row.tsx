@@ -62,13 +62,15 @@ const RowSource = React.forwardRef<
 
   // DnD
   const rowRef = React.useRef<HTMLDivElement>(null)
+
+  React.useImperativeHandle(ref, () => {
+    return { getNode: () => rowRef.current }
+  })
+
   if (props.connectDragSource) {
     props.connectDragPreview(rowRef)
     props.connectDropTarget(rowRef)
     // const opacity = isDragging ? 0 : 1
-    React.useImperativeHandle(ref, () => ({
-      getNode: () => rowRef.current
-    }))
   }
 
   const extendedSettingsNode = React.useRef<HTMLDivElement>(null)
@@ -184,4 +186,6 @@ const RowSource = React.forwardRef<
     </OnClickOutside>
   )
 })
+RowSource.displayName = 'RowSource'
+
 export const Row = connectDnD(RowSource)

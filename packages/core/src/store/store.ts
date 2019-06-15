@@ -33,7 +33,7 @@ export function createStore<K extends string>({
       plugins
     }
   }
-  const store = createReduxStore<State, Action, { dispatch: {} }, {}>(
+  const store = createReduxStore<State, Action, {}, {}>(
     reducer,
     initialState,
     enhancer
