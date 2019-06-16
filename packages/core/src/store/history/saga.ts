@@ -11,15 +11,29 @@ import {
 } from 'redux-saga/effects'
 
 import { Action, setPartialState } from '../actions'
-import { undo, redo, pureUndo, pureRedo, commit, pureCommit } from './actions'
-import { getInitialState, getRedoStack, getUndoStack } from './reducer'
+import {
+  undo,
+  redo,
+  pureUndo,
+  pureRedo,
+  commit,
+  pureCommit,
+  reset,
+  pureReset
+} from './actions'
+import {
+  getInitialState,
+  getPendingChanges,
+  getRedoStack,
+  getUndoStack
+} from './reducer'
 
 export function* historySaga() {
   yield all([
     call(commitSaga),
-    // takeEvery(commit.type, commitSaga),
     takeEvery(undo.type, undoSaga),
-    takeEvery(redo.type, redoSaga)
+    takeEvery(redo.type, redoSaga),
+    takeEvery(reset.type, resetSaga)
   ])
 }
 
@@ -28,16 +42,20 @@ function* commitSaga() {
     const action = yield take(commit.type)
     yield call(executeCommit, action.payload, false)
 
-    do {
-      const { action } = yield race({
+    while (true) {
+      const { action, timeout } = yield race({
         action: take(commit.type),
         timeout: delay(1000)
       })
 
+      if (timeout) {
+        break
+      }
+
       if (action) {
         yield call(executeCommit, action.payload, true)
       }
-    } while (action)
+    }
   }
 }
 
@@ -74,4 +92,16 @@ function* redoSaga() {
   if (!replay) return
   yield all(replay.map(action => put(action)))
   yield put(pureRedo())
+}
+
+function* resetSaga() {
+  while (true) {
+    const pendingChanges: ReturnType<typeof getPendingChanges> = yield select(
+      getPendingChanges
+    )
+    if (pendingChanges === 0) break
+    const saga = pendingChanges < 0 ? redoSaga : undoSaga
+    yield call(saga)
+  }
+  yield put(pureReset())
 }

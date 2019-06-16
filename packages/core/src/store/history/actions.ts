@@ -18,6 +18,8 @@ export const pureCommit = createAction<
   }
 >('PureCommit')
 export type PureCommitAction = ReturnType<typeof pureCommit>
+export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
+export type PureResetAction = ReturnType<typeof pureReset>
 
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
 export type UndoAction = ReturnType<typeof undo>
@@ -32,6 +34,7 @@ export type PureRedoAction = ReturnType<typeof pureRedo>
 export type HistoryAction =
   | PersistAction
   | ResetAction
+  | PureResetAction
   | CommitAction
   | PureCommitAction
   | UndoAction

@@ -9,7 +9,7 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { RowSourceProps } from './row'
-import { Plugin, DocumentState } from '@edtr-io/core'
+import { DocumentState, Plugin } from '@edtr-io/core'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource
@@ -42,8 +42,7 @@ export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
           return null
         }
         // set the boundingRect for later use (see isDraggingAbove)
-        const hoverBoundingRect = node.getBoundingClientRect()
-        monitor.getItem().boundingRect = hoverBoundingRect
+        monitor.getItem().boundingRect = node.getBoundingClientRect()
 
         if (monitor.getItemType() === 'row') {
           const dragIndex = monitor.getItem().index

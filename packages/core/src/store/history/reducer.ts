@@ -37,38 +37,39 @@ export const historyReducer = createSubReducer(
     [pureCommit.type](historyState, action: PureCommitAction) {
       const { combine, actions } = action.payload
       let actionsToCommit = actions
-
-      if (combine) {
-        const { undoStack } = historyState
-        const previousActions = (R.head(undoStack) || []) as unknown[]
-        actionsToCommit = [...previousActions, ...actionsToCommit]
-      }
-
+      const { undoStack } = historyState
       return {
         ...historyState,
-        undoStack: [actionsToCommit, ...historyState.undoStack],
+        undoStack: calculateNewUndoStack(),
         redoStack: [],
         pendingChanges: historyState.pendingChanges + actions.length
       }
+
+      function calculateNewUndoStack() {
+        if (combine && undoStack.length > 0) {
+          const previousActions = R.head(undoStack) as unknown[]
+          actionsToCommit = [...previousActions, ...actionsToCommit]
+          return [actionsToCommit, ...R.tail(undoStack)]
+        }
+
+        return [actionsToCommit, ...undoStack]
+      }
     },
     [pureUndo.type](historyState, _action: PureUndoAction) {
-      const { undoStack } = historyState
-      const actions = R.head(undoStack) as Action[]
+      const [actions, ...remainingUndoStack] = historyState.undoStack
 
-      if (actions) {
-        return {
-          ...historyState,
-          undoStack: R.tail(undoStack) as unknown[][],
-          redoStack: [actions, ...historyState.redoStack],
-          pendingChanges: historyState.pendingChanges - actions.length
-        }
+      if (!actions) return historyState
+      return {
+        ...historyState,
+        undoStack: remainingUndoStack,
+        redoStack: [actions, ...historyState.redoStack],
+        pendingChanges: historyState.pendingChanges - actions.length
       }
-
-      return historyState
     },
     [pureRedo.type](historyState, _action: PureRedoAction) {
-      const [actions, ...remainingRedoStack] = historyState.undoStack
+      const [actions, ...remainingRedoStack] = historyState.redoStack
 
+      if (!actions) return historyState
       return {
         ...historyState,
         undoStack: [actions, ...historyState.undoStack],

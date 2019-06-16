@@ -26,7 +26,7 @@ export class InputExerciseRenderer extends React.Component<
     event.preventDefault()
     const { state } = this.props
 
-    var correct = false
+    let correct = false
     state.correctAnswers().forEach(correctAnswer => {
       if (
         this.matchesInput(

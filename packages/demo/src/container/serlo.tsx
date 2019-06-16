@@ -405,7 +405,7 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
                         method="get"
                         className="form-search inline"
                         role="search"
-                        action="/search"
+                        action="#"
                       >
                         <div className="form-group">
                           <div className="input-group">
@@ -544,9 +544,7 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
                         <h4>Zugehörige Themen</h4>
                       </li>
                       <li itemProp="relatedLink">
-                        <a href="/mathe/geometrie/konstruktion-geometrischen-objekten">
-                          Konstruktion von geometrischen Objekten
-                        </a>
+                        <a href="#">Konstruktion von geometrischen Objekten</a>
                       </li>
                     </ul>
                   </div>

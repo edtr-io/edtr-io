@@ -30,10 +30,10 @@ export function waitUntil(check: () => boolean): Promise<void> {
   })
 }
 
-function wait(): Promise<void> {
+export function wait(time = 10): Promise<void> {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, 10)
+    }, time)
   })
 }

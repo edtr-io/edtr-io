@@ -18,6 +18,9 @@ export function PlainContainer({ children }: { children: React.ReactNode }) {
       <button onClick={history.persist} disabled={!history.hasPendingChanges}>
         Mark persisted
       </button>
+      <button onClick={history.reset} disabled={!history.hasPendingChanges}>
+        Reset
+      </button>
       <button onClick={focusPrevious}>Focus Previous</button>
       <button onClick={focusNext}>FocusNext</button>
       <button

@@ -251,11 +251,12 @@ function handleTargetChange(props: ImageProps) {
   return function(checked: boolean) {
     const { state } = props
     if (checked) {
-      state.target.set('_blank'),
-        // noopener is safer but not supported in IE, so noreferrer adds some security
-        state.rel.set('noreferrer noopener')
+      state.target.set('_blank')
+      // noopener is safer but not supported in IE, so noreferrer adds some security
+      state.rel.set('noreferrer noopener')
     } else {
-      state.target.set(''), state.rel.set('')
+      state.target.set('')
+      state.rel.set('')
     }
   }
 }
