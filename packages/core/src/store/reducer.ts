@@ -18,12 +18,12 @@ export function reducer(state: State | undefined, action: Action) {
   }
 
   return {
-    clipboard: clipboardReducer(state && state.clipboard, action, state),
-    documents: documentsReducer(state && state.documents, action, state),
-    focus: focusReducer(state && state.focus, action, state),
-    history: historyReducer(state && state.history, action, state),
-    mode: modeReducer(state && state.mode, action, state),
-    plugins: pluginsReducer(state && state.plugins, action, state),
-    root: rootReducer(state && state.root, action, state)
+    clipboard: clipboardReducer(action, state),
+    documents: documentsReducer(action, state),
+    focus: focusReducer(action, state),
+    history: historyReducer(action, state),
+    mode: modeReducer(action, state),
+    plugins: pluginsReducer(action, state),
+    root: rootReducer(action, state)
   }
 }

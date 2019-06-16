@@ -20,12 +20,9 @@ export const documentsReducer = createSubReducer(
   {},
   {
     [pureInsert.type](documentState, action: PureInsertAction, state) {
-      if (!state) return documentState // FIXME: can we guarantee that this does indeed exist?? we should be able to!
       const { id, plugin: type, state: pluginState } = action.payload
       const plugin = getPlugin(state, type)
       if (!plugin) return documentState
-
-      // FIXME: const history = commit(state, action)
 
       return {
         ...documentState,

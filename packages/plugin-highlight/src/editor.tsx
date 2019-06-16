@@ -38,7 +38,7 @@ const CheckboxContainer = styled.div({
   float: 'right'
 })
 
-//TODO: type and theming. maybe put in editor-ui?
+// TODO: type and theming. maybe put in editor-ui?
 const HelpIcon: React.FunctionComponent = () => (
   <a
     href="https://github.com/conorhastings/react-syntax-highlighter/blob/master/AVAILABLE_LANGUAGES_HLJS.MD"

@@ -27,16 +27,18 @@ export function createSubReducer<K extends keyof State>(
   initialState: State[K],
   actionsMap: CaseReducersMapObject<State[K]>
 ): SubReducer<State[K]> {
-  return (subState = initialState, action, state) => {
+  return (action, state) => {
+    const subState = (state && state[key]) || initialState
+    if (!state) return subState
+
     const caseReducer = actionsMap[action.type]
     return typeof caseReducer === 'function'
-      ? caseReducer((state && state[key]) || initialState, action, state)
+      ? caseReducer(subState, action, state)
       : subState
   }
 }
 
 export type SubReducer<S = unknown> = (
-  subState: S | undefined,
   action: Action,
   state: State | undefined
 ) => S
@@ -49,5 +51,5 @@ export interface CaseReducersMapObject<S = unknown> {
 export type CaseReducer<S = unknown, A extends Action = Action> = (
   subState: S,
   action: A,
-  state: State | undefined
+  state: State
 ) => S

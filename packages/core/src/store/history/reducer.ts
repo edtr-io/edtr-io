@@ -25,7 +25,6 @@ export const historyReducer = createSubReducer(
   },
   {
     [persist.type](historyState, _action: PersistAction, state) {
-      if (!state) return historyState
       return {
         ...historyState,
         initialState: historyState.initialState || {
@@ -103,8 +102,6 @@ export function getUndoStack(state: State) {
 export function getRedoStack(state: State) {
   return getHistory(state).redoStack as Action[][]
 }
-// TODO: handle reset
-// TODO: handle persist
 
 export const publicHistorySelectors = {
   getPendingChanges,

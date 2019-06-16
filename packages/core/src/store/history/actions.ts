@@ -3,9 +3,10 @@ import { createAction, createActionWithoutPayload } from '../helpers'
 export const persist = createActionWithoutPayload<'Persist'>('Persist')
 export type PersistAction = ReturnType<typeof persist>
 
-// TODO: handle this
 export const reset = createActionWithoutPayload<'Reset'>('Reset')
 export type ResetAction = ReturnType<typeof reset>
+export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
+export type PureResetAction = ReturnType<typeof pureReset>
 
 // Accepts an array of `Action`s as payload. This would lead to a reference cycle, though
 export const commit = createAction<'Commit', unknown[]>('Commit')
@@ -18,8 +19,6 @@ export const pureCommit = createAction<
   }
 >('PureCommit')
 export type PureCommitAction = ReturnType<typeof pureCommit>
-export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
-export type PureResetAction = ReturnType<typeof pureReset>
 
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
 export type UndoAction = ReturnType<typeof undo>

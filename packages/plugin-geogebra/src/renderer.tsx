@@ -51,8 +51,7 @@ const requestAppletData = debounce(
             }
           }
         },
-        // TODO: This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight
-        // requests correctly.
+        // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
         {
           headers: {
             'Content-Type': 'text/plain'

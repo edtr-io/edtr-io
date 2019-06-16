@@ -31,10 +31,9 @@ export const focusReducer = createSubReducer('focus', null, {
 
 function handleFocus(
   focusState: State['focus'],
-  state: State | undefined,
+  state: State,
   findNode: typeof findNextNode
 ) {
-  if (!state) return focusState
   const from = focusState
   if (!from) return focusState
   const root = getFocusTree(state)
