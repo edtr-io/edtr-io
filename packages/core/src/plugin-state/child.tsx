@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { v4 } from 'uuid'
+import { generate } from 'shortid'
 
 import {
   StateDescriptor,
@@ -70,7 +70,7 @@ export function child<
     },
     {
       createInitialState({ createDocument }: StoreDeserializeHelpers<K, S>) {
-        const id = v4()
+        const id = generate()
         createDocument({ id, plugin, state })
         return id
       },
@@ -78,7 +78,7 @@ export function child<
         serialized: { plugin: K; state?: S },
         { createDocument }: StoreDeserializeHelpers<K, S>
       ): string {
-        const id = v4()
+        const id = generate()
         createDocument({ id, ...serialized })
         return id
       },
