@@ -243,6 +243,34 @@ async function exec(): Promise<void> {
         '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
       ],
       added: ['**core**. Added StateType upload for file uploading.']
+    },
+    {
+      tagName: 'v0.7.0',
+      name: '0.7.0',
+      breakingChanges: [
+        '**core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export',
+        '**core**. Removed `ActionType` export. Use the exported public action creators `actions` instead',
+        '**core**. Removed export `ActionCommitType',
+        '**core**. Renamed type `PluginState` to `DocumentState`',
+        "**core**. Selectors aren't exported directly anymore. Instead use the new `selectors` export.",
+        '**core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)',
+        '**plugin-h5p**. Removed `@edtr-io/plugin-hp5`',
+        '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
+      ],
+      added: [
+        '**core**. To connect to the store, you can either use `EditorContext` (e.g. with `React.useContext`) or our newly exposed `connect` and `connectStateOnly`'
+      ],
+      fixed: [
+        '**core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)'
+      ],
+      removed: [
+        "**plugin-h5p**. Since our `serlo.h5p.com` trial expired, we don't publish `@edtr-io/h5p-plugin` anymore"
+      ],
+      changed: ['Various performance improvements'],
+      internal: [
+        '**core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail',
+        '**core**. Replace `uuid` with `shortid`'
+      ]
     }
   ])
 

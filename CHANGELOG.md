@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.1..v0.7.0)
+
+### Breaking Changes
+
+- **core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export
+- **core**. Removed `ActionType` export. Use the exported public action creators `actions` instead
+- **core**. Removed export \`ActionCommitType
+- **core**. Renamed type `PluginState` to `DocumentState`
+- **core**. Selectors aren't exported directly anymore. Instead use the new `selectors` export.
+- **core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)
+- **plugin-h5p**. Removed `@edtr-io/plugin-hp5`
+- **plugin-image**. Changed configs for createImagePlugin and removed Upload export
+
+### Added
+
+- **core**. To connect to the store, you can either use `EditorContext` (e.g. with `React.useContext`) or our newly exposed `connect` and `connectStateOnly`
+
+### Changed
+
+- Various performance improvements
+
+### Removed
+
+- **plugin-h5p**. Since our `serlo.h5p.com` trial expired, we don't publish `@edtr-io/h5p-plugin` anymore
+
+### Fixed
+
+- **core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)
+
+### Internal
+
+- **core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail
+- **core**. Replace `uuid` with `shortid`
+
 ## [0.6.1](https://github.com/edtr-io/edtr-io/compare/v0.6.0..v0.6.1) - June 13, 2019
 
 ### Breaking Changes
