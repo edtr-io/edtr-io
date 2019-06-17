@@ -9,12 +9,14 @@ import { Provider, connect } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import { createStore, actions, selectors } from './store'
+import { StoreOptions } from './store/store'
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
       plugins: props.plugins,
-      defaultPlugin: props.defaultPlugin
+      defaultPlugin: props.defaultPlugin,
+      onChange: props.onChange
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -46,9 +48,7 @@ export const InnerEditor = connect<
 >(
   (state): EditorStateProps => {
     return {
-      id: selectors.getRoot(state),
-      hasPendingChanges: selectors.hasPendingChanges(state),
-      pendingChanges: selectors.getPendingChanges(state)
+      id: selectors.getRoot(state)
     }
   },
   {
@@ -58,15 +58,12 @@ export const InnerEditor = connect<
     redo: actions.redo
   }
 )(function InnerEditor<K extends string = string>({
-  hasPendingChanges,
   id,
   initRoot,
   initialState,
-  pendingChanges,
   setEditable,
   undo,
   redo,
-  changed,
   children,
   editable = true,
   theme = defaultTheme
@@ -78,14 +75,6 @@ export const InnerEditor = connect<
   React.useEffect(() => {
     setEditable(editable)
   }, [editable, setEditable])
-
-  const pending = React.useRef(0)
-  React.useEffect(() => {
-    if (changed && pending.current !== pendingChanges) {
-      pending.current = pendingChanges
-      changed(hasPendingChanges)
-    }
-  }, [changed, hasPendingChanges, pendingChanges])
 
   const hotKeysHandlers = React.useMemo(() => {
     return {
@@ -129,8 +118,6 @@ export const InnerEditor = connect<
 
 export interface EditorStateProps {
   id: ReturnType<typeof selectors['getRoot']>
-  pendingChanges: ReturnType<typeof selectors['getPendingChanges']>
-  hasPendingChanges: ReturnType<typeof selectors['hasPendingChanges']>
 }
 export interface EditorDispatchProps {
   initRoot: typeof actions['initRoot']
@@ -149,6 +136,6 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  changed?: (changed: boolean) => void
+  onChange?: StoreOptions<K>['onChange']
   editable?: boolean
 }

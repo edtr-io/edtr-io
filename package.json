@@ -25,6 +25,8 @@
     "changelog": "ts-node scripts/changelog",
     "predeploy": "yarn build",
     "deploy": "yarn _publish",
+    "deploy:from-package": "yarn _publish from-package",
+    "deploy:prerelease": "yarn lerna version && yarn deploy:from-package --dist-tag next",
     "_exec": "lerna exec --stream --no-bail",
     "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",

@@ -20,10 +20,12 @@
     "styled-components": "^4.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.0.0",
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
+    "@types/storybook__addon-actions": "^3.0.0",
     "@types/storybook__addon-knobs": "^5.0.0",
     "@types/storybook__react": "^4.0.0",
     "babel-loader": "^8.0.0",

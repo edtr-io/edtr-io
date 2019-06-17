@@ -12,16 +12,14 @@ import { Action } from './actions'
 import { reducer } from './reducer'
 import { saga } from './saga'
 import { State } from './types'
+import { selectors } from '@edtr-io/core'
 
 export function createStore<K extends string>({
+  onChange,
   defaultPlugin,
   plugins,
   actions
-}: {
-  plugins: Record<K, Plugin>
-  defaultPlugin: K
-  actions?: Action[]
-}): {
+}: StoreOptions<K>): {
   store: Store<State, Action>
 } {
   const sagaMiddleware = createSagaMiddleware()
@@ -62,6 +60,44 @@ export function createStore<K extends string>({
       middlewares.push(testMiddleware)
     }
 
+    if (typeof onChange === 'function') {
+      middlewares.push(createChangeMiddleware(onChange))
+    }
+
     return middlewares
   }
+
+  function createChangeMiddleware(onChange: ChangeListener): Middleware {
+    let pendingChanges = 0
+
+    return store => next => action => {
+      const result = next(action)
+      const currentPendingChanges = selectors.getPendingChanges(
+        store.getState()
+      )
+      if (currentPendingChanges !== pendingChanges) {
+        onChange({
+          changed: selectors.hasPendingChanges(store.getState()),
+          document: selectors.serializeRootDocument(store.getState())
+        })
+        pendingChanges = currentPendingChanges
+      }
+      return result
+    }
+  }
 }
+
+export interface StoreOptions<K extends string> {
+  onChange?: ChangeListener
+  plugins: Record<K, Plugin>
+  defaultPlugin: K
+  actions?: Action[]
+}
+
+type ChangeListener = ({
+  changed,
+  document
+}: {
+  changed: boolean
+  document: ReturnType<typeof selectors.serializeRootDocument>
+}) => void

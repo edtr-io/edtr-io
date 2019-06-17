@@ -254,6 +254,7 @@ async function exec(): Promise<void> {
         '**core**. Renamed type `PluginState` to `DocumentState`',
         "**core**. Selectors aren't exported directly anymore. Instead use the new `selectors` export.",
         '**core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)',
+        "**core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.",
         '**plugin-h5p**. Removed `@edtr-io/plugin-hp5`',
         '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
       ],
