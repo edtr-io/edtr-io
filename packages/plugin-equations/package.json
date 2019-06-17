@@ -18,8 +18,8 @@
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.6.0",
-    "@edtr-io/ui": "^0.6.0",
+    "@edtr-io/core": "^0.7.0-alpha",
+    "@edtr-io/ui": "^0.7.0-alpha",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
