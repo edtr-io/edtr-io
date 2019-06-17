@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-blockquote",
-  "version": "0.6.1",
+  "version": "0.7.0-alpha.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {},
   "devDependencies": {
-    "@edtr-io/core": "^0.6.1",
+    "@edtr-io/core": "^0.7.0-alpha.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/demo",
-  "version": "0.6.1",
+  "version": "0.7.0-alpha.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -11,8 +11,8 @@
     "start": "start-storybook --port 9001 --config-dir .storybook --quiet"
   },
   "dependencies": {
-    "@edtr-io/core": "^0.6.1",
-    "@edtr-io/ui": "^0.6.0",
+    "@edtr-io/core": "^0.7.0-alpha.0",
+    "@edtr-io/ui": "^0.7.0-alpha.0",
     "react": "^16.8.0",
     "react-dnd": "^7.0.0",
     "react-dnd-html5-backend": "^7.0.0",
