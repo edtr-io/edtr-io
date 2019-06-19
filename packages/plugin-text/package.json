@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^0.6.1",
-    "@edtr-io/ui": "^0.6.0",
+    "@edtr-io/ui": "^0.6.2",
     "@types/is-hotkey": "^0.1.0",
     "@types/katex": "^0.10.1",
     "@types/parse5": "^5.0.0",
