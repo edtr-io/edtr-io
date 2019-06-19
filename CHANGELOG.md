@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.6.1..HEAD)
+
+### Added
+
+- **editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.
+
+### Deprecated
+
+- **plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.
+
+### Fixed
+
+- **plugin-image**. Do not lose focus in PrimarySettings
+- **plugin-image**. Display Placeholder on empty image
+
 ## [0.6.1](https://github.com/edtr-io/edtr-io/compare/v0.6.0..v0.6.1) - June 13, 2019
 
 ### Breaking Changes

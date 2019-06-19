@@ -3,7 +3,6 @@ import * as React from 'react'
 
 import { rowsState, rowState } from '../..'
 export { ExtendedSettingsWrapper } from './extended-settings'
-export { createPrimarySettingsWrapper } from './primary-settings'
 import { Settings } from './settings'
 import { MoveControls } from './move-controls'
 

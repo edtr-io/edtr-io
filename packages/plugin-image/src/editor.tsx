@@ -4,16 +4,17 @@ import {
   OverlayContext
 } from '@edtr-io/core'
 import {
+  Checkbox,
+  EditorButton,
+  EditorInput,
   Icon,
-  faImages,
-  styled,
-  Textarea,
   Overlay,
   OverlayInput,
-  Checkbox,
-  EditorInput,
-  EditorButton,
-  faCog
+  PrimarySettings,
+  Textarea,
+  faCog,
+  faImages,
+  styled
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
@@ -23,7 +24,6 @@ import { ImagePluginConfig, imageState } from '.'
 
 type ImageProps = StatefulPluginEditorProps<typeof imageState> & {
   renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  PrimarySettingsWrapper?: React.ComponentType
 }
 
 const ImgPlaceholderWrapper = styled.div({
@@ -53,12 +53,13 @@ export function createImageEditor(
     StateType.usePendingFileUploader(state.src, config.upload)
 
     const imageComponent =
-      !StateType.isTempFile(state.src.value) || state.src.value.loaded ? (
-        <ImageRenderer {...props} disableMouseEvents={editable} />
-      ) : (
+      state.src.value === '' ||
+      (StateType.isTempFile(state.src.value) && !state.src.value.loaded) ? (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />
         </ImgPlaceholderWrapper>
+      ) : (
+        <ImageRenderer {...props} disableMouseEvents={editable} />
       )
     if (!editable) {
       return imageComponent
@@ -67,13 +68,11 @@ export function createImageEditor(
     return (
       <React.Fragment>
         {imageComponent}
-        {props.PrimarySettingsWrapper ? (
-          <props.PrimarySettingsWrapper>
+        {focused && (
+          <PrimarySettings>
             <PrimaryControls {...props} config={config} />
-          </props.PrimarySettingsWrapper>
-        ) : focused ? (
-          <PrimaryControls {...props} config={config} />
-        ) : null}
+          </PrimarySettings>
+        )}
         {props.renderIntoExtendedSettings ? (
           props.renderIntoExtendedSettings(
             <Controls {...props} config={config} />
