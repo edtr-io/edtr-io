@@ -4,17 +4,17 @@ import {
   OverlayContext
 } from '@edtr-io/core'
 import {
+  Checkbox,
+  EditorButton,
+  EditorInput,
   Icon,
-  faImages,
-  styled,
-  Textarea,
   Overlay,
   OverlayInput,
-  Checkbox,
-  EditorInput,
-  EditorButton,
+  PrimarySettings,
+  Textarea,
   faCog,
-  PrimarySettings
+  faImages,
+  styled
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 

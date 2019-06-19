@@ -4,12 +4,12 @@ import * as React from 'react'
 import { HighlightRenderer } from './renderer'
 import { highlightState } from '.'
 import {
+  EditorCheckbox,
   EditorInput,
   Icon,
-  EditorCheckbox,
-  styled,
+  PrimarySettings,
   faQuestionCircle,
-  PrimarySettings
+  styled
 } from '@edtr-io/editor-ui'
 
 const Textarea = styled.textarea({
