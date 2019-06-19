@@ -245,6 +245,9 @@ async function exec(): Promise<void> {
       added: ['**core**. Added StateType upload for file uploading.']
     },
     {
+      tagName: 'v0.6.2',
+      name: '0.6.2',
+      date: '2019-06-19',
       deprecated: [
         '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.'
       ],
