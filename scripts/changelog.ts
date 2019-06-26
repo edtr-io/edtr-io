@@ -258,6 +258,11 @@ async function exec(): Promise<void> {
         '**plugin-image**. Do not lose focus in PrimarySettings',
         '**plugin-image**. Display Placeholder on empty image'
       ]
+    },
+    {
+      fixed: [
+        '**plugin-text**. Fix positioning of text controls on touch devices'
+      ]
     }
   ])
 
