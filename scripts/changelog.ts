@@ -261,7 +261,8 @@ async function exec(): Promise<void> {
     },
     {
       fixed: [
-        '**plugin-text**. Fix positioning of text controls on touch devices'
+        '**plugin-text**. Fix positioning of text controls on touch devices',
+        '**plugin-text**. Split plugin when pasting multiple blocks'
       ]
     }
   ])
