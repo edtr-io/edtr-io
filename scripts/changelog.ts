@@ -245,6 +245,26 @@ async function exec(): Promise<void> {
       added: ['**core**. Added StateType upload for file uploading.']
     },
     {
+      tagName: 'v0.6.2',
+      name: '0.6.2',
+      date: '2019-06-19',
+      deprecated: [
+        '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.'
+      ],
+      added: [
+        '**editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.'
+      ],
+      fixed: [
+        '**plugin-image**. Do not lose focus in PrimarySettings',
+        '**plugin-image**. Display Placeholder on empty image'
+      ]
+    },
+    {
+      fixed: [
+        '**plugin-text**. Fix positioning of text controls on touch devices'
+      ]
+    },
+    {
       tagName: 'v0.7.0',
       name: '0.7.0',
       breakingChanges: [

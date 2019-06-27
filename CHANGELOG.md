@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.1..v0.7.0)
+## [0.7.0](https://github.com/edtr-io/edtr-io/compare/HEAD..v0.7.0)
 
 ### Breaking Changes
 
@@ -36,6 +36,27 @@ All notable changes to this project will be documented in this file.
 
 - **core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail
 - **core**. Replace `uuid` with `shortid`
+
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.6.2..HEAD)
+
+### Fixed
+
+- **plugin-text**. Fix positioning of text controls on touch devices
+
+## [0.6.2](https://github.com/edtr-io/edtr-io/compare/v0.6.1..v0.6.2) - June 19, 2019
+
+### Added
+
+- **editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.
+
+### Deprecated
+
+- **plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.
+
+### Fixed
+
+- **plugin-image**. Do not lose focus in PrimarySettings
+- **plugin-image**. Display Placeholder on empty image
 
 ## [0.6.1](https://github.com/edtr-io/edtr-io/compare/v0.6.0..v0.6.1) - June 13, 2019
 
