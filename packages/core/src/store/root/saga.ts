@@ -13,10 +13,11 @@ export function* rootSaga() {
 function* initRootSaga(action: InitRootAction) {
   const [actions]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
+    action.scope,
     () => {},
     [{ id: 'root', ...action.payload }]
   )
 
   yield all(actions.map(action => put(action)))
-  yield put(persist())
+  yield put(persist(action.scope)())
 }

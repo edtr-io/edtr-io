@@ -1,16 +1,20 @@
-import { createAction, createActionWithoutPayload } from '../helpers'
+import {
+  ActionFromCreator,
+  createAction,
+  createActionWithoutPayload
+} from '../helpers'
 
 export const persist = createActionWithoutPayload<'Persist'>('Persist')
-export type PersistAction = ReturnType<typeof persist>
+export type PersistAction = ActionFromCreator<typeof persist>
 
 export const reset = createActionWithoutPayload<'Reset'>('Reset')
-export type ResetAction = ReturnType<typeof reset>
+export type ResetAction = ActionFromCreator<typeof reset>
 export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
-export type PureResetAction = ReturnType<typeof pureReset>
+export type PureResetAction = ActionFromCreator<typeof pureReset>
 
 // Accepts an array of `Action`s as payload. This would lead to a reference cycle, though
 export const commit = createAction<'Commit', unknown[]>('Commit')
-export type CommitAction = ReturnType<typeof commit>
+export type CommitAction = ActionFromCreator<typeof commit>
 export const pureCommit = createAction<
   'PureCommit',
   {
@@ -18,17 +22,17 @@ export const pureCommit = createAction<
     actions: unknown[]
   }
 >('PureCommit')
-export type PureCommitAction = ReturnType<typeof pureCommit>
+export type PureCommitAction = ActionFromCreator<typeof pureCommit>
 
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
-export type UndoAction = ReturnType<typeof undo>
+export type UndoAction = ActionFromCreator<typeof undo>
 export const pureUndo = createActionWithoutPayload<'PureUndo'>('PureUndo')
-export type PureUndoAction = ReturnType<typeof pureUndo>
+export type PureUndoAction = ActionFromCreator<typeof pureUndo>
 
 export const redo = createActionWithoutPayload<'Redo'>('Redo')
-export type RedoAction = ReturnType<typeof redo>
+export type RedoAction = ActionFromCreator<typeof redo>
 export const pureRedo = createActionWithoutPayload<'PureRedo'>('PureRedo')
-export type PureRedoAction = ReturnType<typeof pureRedo>
+export type PureRedoAction = ActionFromCreator<typeof pureRedo>
 
 export type HistoryAction =
   | PersistAction

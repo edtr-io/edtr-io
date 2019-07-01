@@ -27,33 +27,40 @@ function* insertSaga(action: InsertAction) {
   const initialState = action.payload
   const [actions]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
+    action.scope,
     () => {},
     [initialState]
   )
-  yield put(commit(actions))
+  yield put(commit(action.scope)(actions))
 }
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
-  const document: ReturnType<typeof getDocument> = yield select(getDocument, id)
+  const document: ReturnType<typeof getDocument> = yield select(
+    getDocument,
+    action.scope,
+    id
+  )
   if (!document) return
 
   const [actions, state]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
+    action.scope,
     (helpers: StoreDeserializeHelpers) => {
       return stateHandler(document.state, helpers)
     }
   )
   actions.push(
-    pureChange({
+    pureChange(action.scope)({
       id,
       state
     })
   )
-  yield put(commit(actions))
+  yield put(commit(action.scope)(actions))
 }
 
 export function* handleRecursiveInserts(
+  scope: string,
   act: (helpers: StoreDeserializeHelpers) => unknown,
   initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
 ) {
@@ -74,6 +81,7 @@ export function* handleRecursiveInserts(
     if (!doc) return
     const plugin: ReturnType<typeof getPluginOrDefault> = yield select(
       getPluginOrDefault,
+      scope,
       doc.plugin
     )
     if (!plugin) return
@@ -89,10 +97,11 @@ export function* handleRecursiveInserts(
 
     const pluginType: ReturnType<typeof getPluginTypeOrDefault> = yield select(
       getPluginTypeOrDefault,
+      scope,
       doc.plugin
     )
     actions.push(
-      pureInsert({
+      pureInsert(scope)({
         id: doc.id,
         plugin: pluginType,
         state: pluginState

@@ -1,8 +1,4 @@
-import {
-  EditorContext,
-  StatefulPluginEditorProps,
-  selectors
-} from '@edtr-io/core'
+import { StatefulPluginEditorProps, selectors, useStore } from '@edtr-io/core'
 import * as React from 'react'
 
 import { RowContainer } from './row-container'
@@ -11,7 +7,7 @@ import { rowsState } from '.'
 export const RowsRenderer = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
-  const { store } = React.useContext(EditorContext)
+  const { store } = useStore()
 
   return (
     <React.Fragment>

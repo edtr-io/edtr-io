@@ -260,11 +260,6 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      fixed: [
-        '**plugin-text**. Fix positioning of text controls on touch devices'
-      ]
-    },
-    {
       tagName: 'v0.7.0',
       name: '0.7.0',
       breakingChanges: [
@@ -276,13 +271,15 @@ async function exec(): Promise<void> {
         '**core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)',
         "**core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.",
         '**plugin-h5p**. Removed `@edtr-io/plugin-hp5`',
-        '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
+        '**plugin-image**. Changed configs for createImagePlugin and removed Upload export',
+        '**plugin-rows**. Deprecated PrimarySettingsWrapper now removed. Use PrimarySettings from package ditor-ui instead.'
       ],
       added: [
         '**core**. To connect to the store, you can either use `EditorContext` (e.g. with `React.useContext`) or our newly exposed `connect` and `connectStateOnly`'
       ],
       fixed: [
-        '**core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)'
+        '**core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)',
+        '**plugin-text**. Fix positioning of text controls on touch devices'
       ],
       removed: [
         "**plugin-h5p**. Since our `serlo.h5p.com` trial expired, we don't publish `@edtr-io/h5p-plugin` anymore"

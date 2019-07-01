@@ -1,9 +1,11 @@
 import * as R from 'ramda'
 
-import { setupStore, waitUntil } from '../../__helpers__'
-import { actions, selectors } from '../../src/store'
+import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
+import { selectors } from '../../src/store'
+import { persist } from '../../src/store/history/actions'
 
 let store: ReturnType<typeof setupStore>
+const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -16,12 +18,9 @@ describe('Root', () => {
 
   describe('Init Root', () => {
     test('Stateless Plugin', async () => {
-      store.dispatch(actions.initRoot({ plugin: 'stateless' }))
+      store.dispatch(scopedActions.initRoot({ plugin: 'stateless' }))
       await waitUntil(() =>
-        R.any(
-          action => action.type === actions.persist.type,
-          store.getActions()
-        )
+        R.any(action => action.type === persist.type, store.getActions())
       )
       expect(selectors.serializeRootDocument(store.getState())).toEqual({
         plugin: 'stateless'
@@ -29,12 +28,9 @@ describe('Root', () => {
     })
 
     test('Stateful Plugin', async () => {
-      store.dispatch(actions.initRoot({ plugin: 'stateful', state: 0 }))
+      store.dispatch(scopedActions.initRoot({ plugin: 'stateful', state: 0 }))
       await waitUntil(() =>
-        R.any(
-          action => action.type === actions.persist.type,
-          store.getActions()
-        )
+        R.any(action => action.type === persist.type, store.getActions())
       )
       expect(selectors.serializeRootDocument(store.getState())).toEqual({
         plugin: 'stateful',
@@ -44,7 +40,7 @@ describe('Root', () => {
 
     test('Nested', async () => {
       store.dispatch(
-        actions.initRoot({
+        scopedActions.initRoot({
           plugin: 'nested',
           state: {
             child: { plugin: 'stateful', state: 0 }
@@ -52,10 +48,7 @@ describe('Root', () => {
         })
       )
       await waitUntil(() =>
-        R.any(
-          action => action.type === actions.persist.type,
-          store.getActions()
-        )
+        R.any(action => action.type === persist.type, store.getActions())
       )
       expect(selectors.serializeRootDocument(store.getState())).toEqual({
         plugin: 'nested',
@@ -70,7 +63,7 @@ describe('Root', () => {
 
     test('Nested Array', async () => {
       store.dispatch(
-        actions.initRoot({
+        scopedActions.initRoot({
           plugin: 'nestedArray',
           state: {
             children: [{ plugin: 'stateful', state: 1 }]
@@ -78,10 +71,7 @@ describe('Root', () => {
         })
       )
       await waitUntil(() =>
-        R.any(
-          action => action.type === actions.persist.type,
-          store.getActions()
-        )
+        R.any(action => action.type === persist.type, store.getActions())
       )
       expect(selectors.serializeRootDocument(store.getState())).toEqual({
         plugin: 'nestedArray',
@@ -98,7 +88,7 @@ describe('Root', () => {
 
     test('Nested Inside Nested', async () => {
       store.dispatch(
-        actions.initRoot({
+        scopedActions.initRoot({
           plugin: 'nestedArray',
           state: {
             children: [
@@ -117,10 +107,7 @@ describe('Root', () => {
         })
       )
       await waitUntil(() =>
-        R.any(
-          action => action.type === actions.persist.type,
-          store.getActions()
-        )
+        R.any(action => action.type === persist.type, store.getActions())
       )
       expect(selectors.serializeRootDocument(store.getState())).toEqual({
         plugin: 'nestedArray',

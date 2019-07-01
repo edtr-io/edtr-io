@@ -1,8 +1,7 @@
-import { EditorContext, selectors } from '@edtr-io/core'
-import * as React from 'react'
+import { selectors, useStore } from '@edtr-io/core'
 
 export function useLogState() {
-  const { store } = React.useContext(EditorContext)
+  const { store } = useStore()
   return () => {
     const serialized = selectors.serializeRootDocument(store.getState())
     const stringified = JSON.stringify({

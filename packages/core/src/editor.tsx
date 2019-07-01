@@ -5,18 +5,23 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
 import { Document } from './document'
-import { Provider, connect } from './editor-context'
+import { ScopeContext, Provider, connect } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import { createStore, actions, selectors } from './store'
 import { StoreOptions } from './store/store'
 
+const MAIN_SCOPE = 'main'
 export function Editor<K extends string = string>(props: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
-      plugins: props.plugins,
-      defaultPlugin: props.defaultPlugin,
-      onChange: props.onChange
+      instances: {
+        [MAIN_SCOPE]: {
+          plugins: props.plugins,
+          defaultPlugin: props.defaultPlugin,
+          onChange: props.onChange
+        }
+      }
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -26,7 +31,7 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   return <Provider store={store}>{renderChildren()}</Provider>
 
   function renderChildren() {
-    const children = <InnerEditor {...props} />
+    const children = <InnerEditor {...props} scope={MAIN_SCOPE} />
     if (props.omitDragDropContext) return children
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -44,7 +49,7 @@ const hotKeysKeyMap = {
 export const InnerEditor = connect<
   EditorStateProps,
   EditorDispatchProps,
-  EditorProps
+  EditorProps & { scope: string }
 >(
   (state): EditorStateProps => {
     return {
@@ -94,14 +99,18 @@ export const InnerEditor = connect<
     >
       <div style={{ position: 'relative' }}>
         <RootThemeProvider theme={theme}>
-          <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
+          <OverlayContextProvider>
+            <ScopeContext.Provider value={MAIN_SCOPE}>
+              {renderChildren(id)}
+            </ScopeContext.Provider>
+          </OverlayContextProvider>
         </RootThemeProvider>
       </div>
     </HotKeys>
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} />
+    const document = <Document id={id} scope={MAIN_SCOPE} />
 
     if (typeof children === 'function') {
       return children(document)
@@ -119,11 +128,14 @@ export const InnerEditor = connect<
 export interface EditorStateProps {
   id: ReturnType<typeof selectors['getRoot']>
 }
-export interface EditorDispatchProps {
-  initRoot: typeof actions['initRoot']
-  setEditable: typeof actions['setEditable']
-  undo: typeof actions['undo']
-  redo: typeof actions['redo']
+
+// Typescript somehow doesn't recognize an interface as Record<string, ..>
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+export type EditorDispatchProps = {
+  initRoot: ReturnType<typeof actions['initRoot']>
+  setEditable: ReturnType<typeof actions['setEditable']>
+  undo: ReturnType<typeof actions['undo']>
+  redo: ReturnType<typeof actions['redo']>
 }
 
 export interface EditorProps<K extends string = string> {
@@ -136,6 +148,7 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  onChange?: StoreOptions<K>['onChange']
+  // FIXME: type ugly as hell...
+  onChange?: StoreOptions<K>['instances'][typeof MAIN_SCOPE]['onChange']
   editable?: boolean
 }

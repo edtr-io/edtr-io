@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { Action } from '../actions'
 import { createSubReducer } from '../helpers'
-import { State } from '../types'
+import { EditorState, StoreState } from '../types'
 import {
   persist,
   PersistAction,
@@ -14,7 +14,7 @@ import {
   PureUndoAction
 } from './actions'
 
-import { getDocuments } from '../documents/reducer'
+import { publicGetDocuments } from '../documents/reducer'
 
 export const historyReducer = createSubReducer(
   'history',
@@ -28,7 +28,7 @@ export const historyReducer = createSubReducer(
       return {
         ...historyState,
         initialState: historyState.initialState || {
-          documents: getDocuments(state)
+          documents: publicGetDocuments(state)
         },
         pendingChanges: 0
       }
@@ -79,31 +79,55 @@ export const historyReducer = createSubReducer(
   }
 )
 
-export function getHistory(state: State) {
+export function publicGetPendingChanges(state: EditorState) {
+  return publicGetHistory(state).pendingChanges
+}
+
+export function publicHasPendingChanges(state: EditorState) {
+  return publicGetPendingChanges(state) !== 0
+}
+
+export function publicGetHistory(state: EditorState) {
   return state.history
 }
 
-export function getInitialState(state: State) {
-  return getHistory(state).initialState
+export function publicGetUndoStack(state: EditorState) {
+  return publicGetHistory(state).undoStack as Action[][]
 }
 
-export function getPendingChanges(state: State) {
-  return getHistory(state).pendingChanges
+export function publicGetRedoStack(state: EditorState) {
+  return publicGetHistory(state).redoStack as Action[][]
 }
 
-export function hasPendingChanges(state: State) {
-  return getPendingChanges(state) !== 0
+export function publicGetInitialState(state: EditorState) {
+  return publicGetHistory(state).initialState
 }
 
-export function getUndoStack(state: State) {
-  return getHistory(state).undoStack as Action[][]
+export function getPendingChanges(state: StoreState, scope: string) {
+  return publicGetPendingChanges(state[scope])
 }
 
-export function getRedoStack(state: State) {
-  return getHistory(state).redoStack as Action[][]
+export function hasPendingChanges(state: StoreState, scope: string) {
+  return publicHasPendingChanges(state[scope])
+}
+
+export function getHistory(state: StoreState, scope: string) {
+  return publicGetHistory(state[scope])
+}
+
+export function getInitialState(state: StoreState, scope: string) {
+  return publicGetInitialState(state[scope])
+}
+
+export function getUndoStack(state: StoreState, scope: string) {
+  return publicGetUndoStack(state[scope])
+}
+
+export function getRedoStack(state: StoreState, scope: string) {
+  return publicGetRedoStack(state[scope])
 }
 
 export const publicHistorySelectors = {
-  getPendingChanges,
-  hasPendingChanges
+  getPendingChanges: publicGetPendingChanges,
+  hasPendingChanges: publicHasPendingChanges
 }

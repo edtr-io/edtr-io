@@ -1,5 +1,5 @@
 import { createSubReducer } from '../helpers'
-import { State } from '../types'
+import { EditorState, StoreState } from '../types'
 import {
   focus,
   FocusDocumentAction,
@@ -9,10 +9,10 @@ import {
 } from './actions'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
-import { getDocument } from '../documents/reducer'
-import { getPlugin } from '../plugins/reducer'
-import { getRoot } from '../root/reducer'
+import { publicGetPlugin } from '../plugins/reducer'
+import { getRoot, publicGetRoot } from '../root/reducer'
 import { isStatefulPlugin } from '../../plugin'
+import { publicGetDocument } from '../documents/reducer'
 
 export const focusReducer = createSubReducer('focus', null, {
   [focus.type](_focusState, action: FocusDocumentAction) {
@@ -30,32 +30,35 @@ export const focusReducer = createSubReducer('focus', null, {
 })
 
 function handleFocus(
-  focusState: State['focus'],
-  state: State,
+  focusState: EditorState['focus'],
+  state: EditorState,
   findNode: typeof findNextNode
 ) {
   const from = focusState
   if (!from) return focusState
-  const root = getFocusTree(state)
+  const root = publicGetFocusTree(state)
   if (!root) return focusState
   const next = findNode(root, from)
   if (!next) return focusState
   return next
 }
 
-export function getFocused(state: State) {
+export function publicGetFocused(state: EditorState) {
   return state.focus
 }
 
-export function isFocused(state: State, id: string) {
-  return getFocused(state) === id
+export function publicIsFocused(state: EditorState, id: string) {
+  return publicGetFocused(state) === id
 }
 
-export function getFocusTree(state: State, root = getRoot(state)): Node | null {
+export function publicGetFocusTree(
+  state: EditorState,
+  root = publicGetRoot(state)
+): Node | null {
   if (!root) return null
-  const document = getDocument(state, root)
+  const document = publicGetDocument(state, root)
   if (!document) return null
-  const plugin = getPlugin(state, document.plugin)
+  const plugin = publicGetPlugin(state, document.plugin)
   if (!plugin) return null
 
   let children
@@ -65,7 +68,7 @@ export function getFocusTree(state: State, root = getRoot(state)): Node | null {
   ) {
     const pluginState = plugin.state(document.state, () => {})
     children = plugin.getFocusableChildren(pluginState).map(child => {
-      const subtree = getFocusTree(state, child.id)
+      const subtree = publicGetFocusTree(state, child.id)
       return subtree || child
     })
   }
@@ -139,14 +142,30 @@ export function findParent(root: Node, id: string): Node | null {
   return null
 }
 
+export function getFocused(state: StoreState, scope: string) {
+  return publicGetFocused(state[scope])
+}
+
+export function isFocused(state: StoreState, scope: string, id: string) {
+  return publicIsFocused(state[scope], id)
+}
+
+export function getFocusTree(
+  state: StoreState,
+  scope: string,
+  root = getRoot(state, scope)
+) {
+  return publicGetFocusTree(state[scope], root)
+}
+
 export interface Node {
   id: string
   children?: Node[]
 }
 
 export const publicFocusSelectors = {
-  isFocused,
-  getFocusTree,
+  isFocused: publicIsFocused,
+  getFocusTree: publicGetFocusTree,
   findPreviousNode,
   findNextNode
 }

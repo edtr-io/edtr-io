@@ -1,16 +1,24 @@
+import * as R from 'ramda'
 import { plugins } from '../__fixtures__/plugins'
-import { Action, createStore } from '../src/store'
+import {Action, actions, createStore} from '../src/store'
+import { actions as actionCreators } from "../src/store"
 
+export const TEST_SCOPE = 'test'
 export function setupStore() {
   let actions: Action[] = []
   const store = createStore({
-    plugins,
-    defaultPlugin: 'text',
+    instances: {
+      [TEST_SCOPE]: {
+        plugins,
+        defaultPlugin: 'text'
+      }
+    },
     actions
   }).store
 
   return {
     ...store,
+    getState: () => store.getState()[TEST_SCOPE],
     getActions() {
       return actions
     },
@@ -18,6 +26,10 @@ export function setupStore() {
       actions = []
     }
   }
+}
+
+export function scopeActions() : { [ K in keyof typeof actionCreators]: ReturnType<typeof actionCreators[K]> } {
+  return R.map(action => action(TEST_SCOPE), actionCreators)
 }
 
 export function waitUntil(check: () => boolean): Promise<void> {

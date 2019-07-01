@@ -1,6 +1,6 @@
 import { Plugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
-import { State } from '../types'
+import { EditorState, StoreState } from '../types'
 
 export const pluginsReducer = createSubReducer(
   'plugins',
@@ -8,35 +8,56 @@ export const pluginsReducer = createSubReducer(
   {}
 )
 
-export function getDefaultPlugin(state: State) {
+export function publicGetDefaultPlugin(state: EditorState) {
   return state.plugins.defaultPlugin
 }
 
-export function getPlugins(state: State) {
+export function publicGetPlugins(state: EditorState) {
   return state.plugins.plugins
 }
 
-export function getPlugin(state: State, type: string): Plugin | null {
-  const plugins = getPlugins(state)
+export function publicGetPlugin(
+  state: EditorState,
+  type: string
+): Plugin | null {
+  const plugins = publicGetPlugins(state)
   return plugins[type] || null
 }
 
+export function getDefaultPlugin(state: StoreState, scope: string) {
+  return publicGetDefaultPlugin(state[scope])
+}
+
+export function getPlugins(state: StoreState, scope: string) {
+  return publicGetPlugins(state[scope])
+}
+
+export function getPlugin(
+  state: StoreState,
+  scope: string,
+  type = getDefaultPlugin(state, scope)
+): Plugin | null {
+  return publicGetPlugin(state[scope], type)
+}
+
 export function getPluginTypeOrDefault(
-  state: State,
-  type = getDefaultPlugin(state)
+  state: StoreState,
+  scope: string,
+  type = getDefaultPlugin(state, scope)
 ): string {
   return type
 }
 
 export function getPluginOrDefault(
-  state: State,
-  type = getDefaultPlugin(state)
+  state: StoreState,
+  scope: string,
+  type = getDefaultPlugin(state, scope)
 ): Plugin | null {
-  return getPlugin(state, type)
+  return publicGetPlugin(state[scope], type)
 }
 
 export const publicPluginsSelectors = {
-  getDefaultPlugin,
-  getPlugins,
-  getPlugin
+  getDefaultPlugin: publicGetDefaultPlugin,
+  getPlugins: publicGetPlugins,
+  getPlugin: publicGetPlugin
 }

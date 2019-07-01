@@ -1,7 +1,8 @@
-import { setupStore } from '../../__helpers__'
-import { actions, selectors } from '../../src/store'
+import { scopeActions, setupStore } from '../../__helpers__'
+import { selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
+const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -12,11 +13,11 @@ describe('Mode', () => {
     expect(selectors.isEditable(store.getState())).toEqual(true)
   })
   test('Set editable to false', () => {
-    store.dispatch(actions.setEditable(false))
+    store.dispatch(scopedActions.setEditable(false))
     expect(selectors.isEditable(store.getState())).toEqual(false)
   })
   test('Set editable to true', () => {
-    store.dispatch(actions.setEditable(true))
+    store.dispatch(scopedActions.setEditable(true))
     expect(selectors.isEditable(store.getState())).toEqual(true)
   })
 })

@@ -19,7 +19,10 @@ import {
   commit,
   pureCommit,
   reset,
-  pureReset
+  pureReset,
+  UndoAction,
+  RedoAction,
+  ResetAction
 } from './actions'
 import {
   getInitialState,
@@ -40,7 +43,7 @@ export function* historySaga() {
 function* commitSaga() {
   while (true) {
     const action = yield take(commit.type)
-    yield call(executeCommit, action.payload, false)
+    yield call(executeCommit, action.payload, false, action.scope)
 
     while (true) {
       const { action, timeout } = yield race({
@@ -53,29 +56,32 @@ function* commitSaga() {
       }
 
       if (action) {
-        yield call(executeCommit, action.payload, true)
+        yield call(executeCommit, action.payload, true, action.scope)
       }
     }
   }
 }
 
-function* executeCommit(actions: Action[], combine: boolean) {
+function* executeCommit(actions: Action[], combine: boolean, scope: string) {
   yield all(actions.map(action => put(action)))
   yield put(
-    pureCommit({
+    pureCommit(scope)({
       combine,
       actions
     })
   )
 }
 
-function* undoSaga() {
-  const undoStack: ReturnType<typeof getUndoStack> = yield select(getUndoStack)
+function* undoSaga(action: UndoAction) {
+  const undoStack: ReturnType<typeof getUndoStack> = yield select(
+    getUndoStack,
+    action.scope
+  )
   const replay = R.tail(undoStack)
 
   // Revert state to last computed state
-  const { documents, focus } = yield select(getInitialState)
-  yield put(setPartialState({ documents, focus }))
+  const { documents, focus } = yield select(getInitialState, action.scope)
+  yield put(setPartialState(action.scope)({ documents, focus }))
 
   // Replay all except last commit
   yield all(
@@ -83,25 +89,32 @@ function* undoSaga() {
       return all(actions.map(action => put(action)))
     })
   )
-  yield put(pureUndo())
+  yield put(pureUndo(action.scope)())
 }
 
-function* redoSaga() {
-  const redoStack: ReturnType<typeof getRedoStack> = yield select(getRedoStack)
+function* redoSaga(action: RedoAction) {
+  const redoStack: ReturnType<typeof getRedoStack> = yield select(
+    getRedoStack,
+    action.scope
+  )
   const replay = R.head(redoStack)
   if (!replay) return
   yield all(replay.map(action => put(action)))
-  yield put(pureRedo())
+  yield put(pureRedo(action.scope)())
 }
 
-function* resetSaga() {
+function* resetSaga(action: ResetAction) {
   while (true) {
     const pendingChanges: ReturnType<typeof getPendingChanges> = yield select(
-      getPendingChanges
+      getPendingChanges,
+      action.scope
     )
     if (pendingChanges === 0) break
-    const saga = pendingChanges < 0 ? redoSaga : undoSaga
-    yield call(saga)
+    else if (pendingChanges < 0) {
+      yield call(redoSaga, redo(action.scope)())
+    } else {
+      yield call(undoSaga, undo(action.scope)())
+    }
   }
-  yield put(pureReset())
+  yield put(pureReset(action.scope)())
 }

@@ -10,8 +10,9 @@ export function* clipboardSaga() {
 function* copySaga(action: CopyAction) {
   const document: ReturnType<typeof serializeDocument> = yield select(
     serializeDocument,
+    action.scope,
     action.payload
   )
   if (!document) return
-  yield put(pureCopy(document))
+  yield put(pureCopy(action.scope)(document))
 }

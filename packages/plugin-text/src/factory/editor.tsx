@@ -1,10 +1,10 @@
 import {
   StatefulPluginEditorProps,
-  EditorContext,
   Plugin,
   OverlayContext,
   useEditorFocus,
-  selectors
+  selectors,
+  useStore
 } from '@edtr-io/core'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
@@ -45,7 +45,7 @@ export const createTextEditor = (
   return function SlateEditor(props: SlateEditorProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
-    const { store } = React.useContext(EditorContext)
+    const { store } = useStore()
     const overlayContext = React.useContext(OverlayContext)
     const plugins = selectors.getPlugins(store.getState())
     const [rawState, setRawState] = React.useState(

@@ -8,7 +8,7 @@ import { publicRootActions, publicRootSelectors } from './root'
 
 export { Action } from './actions'
 export { createStore } from './store'
-export { DocumentState, State } from './types'
+export { DocumentState, EditorState, StoreState } from './types'
 
 export const actions = {
   ...publicClipboardActions,

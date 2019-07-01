@@ -1,4 +1,4 @@
-import { createAction } from '../helpers'
+import { ActionFromCreator, createAction } from '../helpers'
 
 export const initRoot = createAction<
   'InitRoot',
@@ -7,7 +7,7 @@ export const initRoot = createAction<
     state?: unknown
   }
 >('InitRoot')
-export type InitRootAction = ReturnType<typeof initRoot>
+export type InitRootAction = ActionFromCreator<typeof initRoot>
 
 export type RootAction = InitRootAction
 

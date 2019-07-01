@@ -1,16 +1,17 @@
 import * as R from 'ramda'
 
-import { setupStore, waitUntil } from '../../__helpers__'
+import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert } from '../../src/store/documents/actions'
 import {
   findNextNode,
   findPreviousNode,
-  getFocusTree,
-  Node
+  Node,
+  publicGetFocusTree
 } from '../../src/store/focus/reducer'
-import { actions, selectors } from '../../src/store'
+import { selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
+const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -23,13 +24,13 @@ describe('Focus', () => {
     })
 
     test('Focused after requesting focus', () => {
-      store.dispatch(actions.focus('0'))
+      store.dispatch(scopedActions.focus('0'))
       expect(selectors.isFocused(store.getState(), '0')).toEqual(true)
     })
 
     test('Blurred after another focus request', () => {
-      store.dispatch(actions.focus('0'))
-      store.dispatch(actions.focus('1'))
+      store.dispatch(scopedActions.focus('0'))
+      store.dispatch(scopedActions.focus('1'))
       expect(selectors.isFocused(store.getState(), '0')).toEqual(false)
     })
   })
@@ -37,7 +38,7 @@ describe('Focus', () => {
   describe('getFocusTree', () => {
     test('Height 1', async () => {
       store.dispatch(
-        actions.initRoot({
+        scopedActions.initRoot({
           plugin: 'nestedArray',
           state: {
             children: [
@@ -69,14 +70,14 @@ describe('Focus', () => {
           ).length >= 5
       )
 
-      const tree = getFocusTree(store.getState())
+      const tree = publicGetFocusTree(store.getState())
       if (!tree) throw new Error('Expected tree')
       expect(tree.children).toHaveLength(4)
     })
 
     test('Blockquote in rows', async () => {
       store.dispatch(
-        actions.initRoot({
+        scopedActions.initRoot({
           plugin: 'rows',
           state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
         })
@@ -89,7 +90,7 @@ describe('Focus', () => {
           ).length >= 2
       )
 
-      const tree = getFocusTree(store.getState())
+      const tree = publicGetFocusTree(store.getState())
       if (!tree) throw new Error('Expected tree')
       if (!tree.children) throw new Error('Expected children')
       expect(tree.children[0].children).toHaveLength(1)

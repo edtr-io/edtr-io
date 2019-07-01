@@ -1,6 +1,7 @@
 import {
   applyMiddleware,
   createStore as createReduxStore,
+  DeepPartial,
   Middleware,
   Store
 } from 'redux'
@@ -11,29 +12,32 @@ import { Plugin } from '../plugin'
 import { Action } from './actions'
 import { reducer } from './reducer'
 import { saga } from './saga'
-import { State } from './types'
-import { selectors } from '@edtr-io/core'
+import { StoreState } from './types'
+import { selectors } from './index'
 
 export function createStore<K extends string>({
-  onChange,
-  defaultPlugin,
-  plugins,
+  instances,
   actions
 }: StoreOptions<K>): {
-  store: Store<State, Action>
+  store: Store<StoreState, Action>
 } {
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = composeWithDevTools({ realtime: true })
   const enhancer = composeEnhancers(applyMiddleware(...getMiddleware()))
-  const initialState = {
-    plugins: {
-      defaultPlugin,
-      plugins
+
+  const initialStates: DeepPartial<StoreState> = {}
+  for (let scope in instances) {
+    initialStates[scope] = {
+      plugins: {
+        defaultPlugin: instances[scope].defaultPlugin,
+        plugins: instances[scope].plugins
+      }
     }
   }
-  const store = createReduxStore<State, Action, {}, {}>(
+
+  const store = createReduxStore<StoreState, Action, {}, {}>(
     reducer,
-    initialState,
+    initialStates,
     enhancer
   )
   sagaMiddleware.run(saga)
@@ -60,25 +64,31 @@ export function createStore<K extends string>({
       middlewares.push(testMiddleware)
     }
 
-    if (typeof onChange === 'function') {
-      middlewares.push(createChangeMiddleware(onChange))
+    for (let scope in instances) {
+      const { onChange } = instances[scope]
+      if (typeof onChange === 'function') {
+        middlewares.push(createChangeMiddleware(scope, onChange))
+      }
     }
 
     return middlewares
   }
 
-  function createChangeMiddleware(onChange: ChangeListener): Middleware {
+  function createChangeMiddleware(
+    scope: string,
+    onChange: ChangeListener
+  ): Middleware<{}, StoreState> {
     let pendingChanges = 0
 
     return store => next => action => {
       const result = next(action)
       const currentPendingChanges = selectors.getPendingChanges(
-        store.getState()
+        store.getState()[scope]
       )
       if (currentPendingChanges !== pendingChanges) {
         onChange({
-          changed: selectors.hasPendingChanges(store.getState()),
-          document: selectors.serializeRootDocument(store.getState())
+          changed: selectors.hasPendingChanges(store.getState()[scope]),
+          document: selectors.serializeRootDocument(store.getState()[scope])
         })
         pendingChanges = currentPendingChanges
       }
@@ -88,9 +98,14 @@ export function createStore<K extends string>({
 }
 
 export interface StoreOptions<K extends string> {
-  onChange?: ChangeListener
-  plugins: Record<K, Plugin>
-  defaultPlugin: K
+  instances: Record<
+    string,
+    {
+      onChange?: ChangeListener
+      plugins: Record<K, Plugin>
+      defaultPlugin: K
+    }
+  >
   actions?: Action[]
 }
 

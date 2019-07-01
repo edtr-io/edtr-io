@@ -7,6 +7,7 @@ import {
   StoreSerializeHelpers
 } from './types'
 import { Document } from '..'
+import { ScopeContext } from '../editor-context'
 
 function PluginPropsDocument<Props extends Record<string, unknown>>({
   id,
@@ -20,7 +21,8 @@ function PluginPropsDocument<Props extends Record<string, unknown>>({
   const pluginProps = React.useMemo(() => {
     return { ...props, parent: parentProps }
   }, [props, parentProps])
-  return <Document pluginProps={pluginProps} id={id} />
+  const scope = React.useContext(ScopeContext)
+  return <Document pluginProps={pluginProps} id={id} scope={scope} />
 }
 
 const memoizedRender = <Props extends Record<string, unknown>>(

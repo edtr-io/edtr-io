@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
-import { DocumentState, State } from '../types'
+import { DocumentState, EditorState, StoreState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
@@ -12,7 +12,7 @@ import {
   PureChangeAction
 } from './actions'
 
-import { getPlugin } from '../plugins/reducer'
+import { publicGetPlugin } from '../plugins/reducer'
 import { StoreSerializeHelpers } from '../../plugin-state'
 
 export const documentsReducer = createSubReducer(
@@ -21,7 +21,7 @@ export const documentsReducer = createSubReducer(
   {
     [pureInsert.type](documentState, action: PureInsertAction, state) {
       const { id, plugin: type, state: pluginState } = action.payload
-      const plugin = getPlugin(state, type)
+      const plugin = publicGetPlugin(state, type)
       if (!plugin) return documentState
 
       return {
@@ -50,28 +50,28 @@ export const documentsReducer = createSubReducer(
   }
 )
 
-export function getDocuments(state: State) {
+export function publicGetDocuments(state: EditorState) {
   return state.documents
 }
 
-export function getDocument(
-  state: State,
+export function publicGetDocument(
+  state: EditorState,
   id: string | null
 ): DocumentState | null {
   if (!id) return null
-  return getDocuments(state)[id] || null
+  return publicGetDocuments(state)[id] || null
 }
 
-export function serializeDocument(
-  state: State,
+export function publicSerializeDocument(
+  state: EditorState,
   id: string | null
 ): DocumentState | null {
-  const doc = getDocument(state, id)
+  const doc = publicGetDocument(state, id)
   if (!doc) return null
-  const plugin = getPlugin(state, doc.plugin)
+  const plugin = publicGetPlugin(state, doc.plugin)
   if (!plugin) return null
   const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => serializeDocument(state, id)
+    getDocument: (id: string) => publicSerializeDocument(state, id)
   }
   return {
     plugin: doc.plugin,
@@ -81,10 +81,10 @@ export function serializeDocument(
   }
 }
 
-export function isEmpty(state: State, id: string) {
-  const doc = getDocument(state, id)
+export function publicIsEmpty(state: EditorState, id: string) {
+  const doc = publicGetDocument(state, id)
   if (!doc) return false
-  const plugin = getPlugin(state, doc.plugin)
+  const plugin = publicGetPlugin(state, doc.plugin)
   if (!plugin || isStatelessPlugin(plugin)) return false
 
   if (typeof plugin.isEmpty === 'function') {
@@ -97,8 +97,29 @@ export function isEmpty(state: State, id: string) {
   return R.equals(doc.state, initialState)
 }
 
+export function getDocuments(state: StoreState, scope: string) {
+  return publicGetDocuments(state[scope])
+}
+export function getDocument(
+  state: StoreState,
+  scope: string,
+  id: string | null
+) {
+  return publicGetDocument(state[scope], id)
+}
+export function serializeDocument(
+  state: StoreState,
+  scope: string,
+  id: string | null
+) {
+  return publicSerializeDocument(state[scope], id)
+}
+export function isEmpty(state: StoreState, scope: string) {
+  return publicGetDocuments(state[scope])
+}
+
 export const publicDocumentsSelectors = {
-  getDocument,
-  serializeDocument,
-  isEmpty
+  getDocument: publicGetDocument,
+  serializeDocument: publicSerializeDocument,
+  isEmpty: publicIsEmpty
 }

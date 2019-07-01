@@ -1,11 +1,30 @@
 import { Action } from './actions'
-import { State } from './types'
+import { EditorState } from './types'
 
+export type ActionCreator<T, P> =
+  | {
+      (scope: string): (
+        payload: P
+      ) => {
+        type: T
+        payload?: P
+        scope: string
+      }
+      type: T
+    }
+  | {
+      (scope: string): () => {
+        type: T
+        scope: string
+      }
+      type: T
+    }
 export function createAction<T, P>(type: T) {
-  const actionCreator = (payload: P) => {
+  const actionCreator = (scope: string) => (payload: P) => {
     return {
       type,
-      payload
+      payload,
+      scope
     }
   }
   actionCreator.type = type
@@ -14,19 +33,19 @@ export function createAction<T, P>(type: T) {
 }
 
 export function createActionWithoutPayload<T>(type: T) {
-  const actionCreator = () => {
-    return { type }
+  const actionCreator = (scope: string) => () => {
+    return { type, scope }
   }
   actionCreator.type = type
 
   return actionCreator
 }
 
-export function createSubReducer<K extends keyof State>(
+export function createSubReducer<K extends keyof EditorState>(
   key: K,
-  initialState: State[K],
-  actionsMap: CaseReducersMapObject<State[K]>
-): SubReducer<State[K]> {
+  initialState: EditorState[K],
+  actionsMap: CaseReducersMapObject<EditorState[K]>
+): SubReducer<EditorState[K]> {
   return (action, state) => {
     const subState = (state && state[key]) || initialState
     if (!state) return subState
@@ -40,7 +59,7 @@ export function createSubReducer<K extends keyof State>(
 
 export type SubReducer<S = unknown> = (
   action: Action,
-  state: State | undefined
+  state: EditorState | undefined
 ) => S
 
 export interface CaseReducersMapObject<S = unknown> {
@@ -51,5 +70,10 @@ export interface CaseReducersMapObject<S = unknown> {
 export type CaseReducer<S = unknown, A extends Action = Action> = (
   subState: S,
   action: A,
-  state: State
+  state: EditorState
 ) => S
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionFromCreator<T extends ActionCreator<any, any>> = ReturnType<
+  ReturnType<T>
+>

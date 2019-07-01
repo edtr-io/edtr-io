@@ -26,6 +26,7 @@ export interface DocumentStateProps {
 }
 
 export interface DocumentProps {
+  scope: string
   id: string
   pluginProps?: Record<string, unknown>
 }

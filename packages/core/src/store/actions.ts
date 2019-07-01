@@ -1,5 +1,5 @@
-import { createAction } from './helpers'
-import { State } from './types'
+import { ActionFromCreator, createAction } from './helpers'
+import { EditorState } from './types'
 
 import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
@@ -8,10 +8,11 @@ import { HistoryAction } from './history/actions'
 import { ModeAction } from './mode/actions'
 import { RootAction } from './root/actions'
 
-export const setPartialState = createAction<'SetPartialState', Partial<State>>(
-  'SetPartialState'
-)
-export type SetPartialState = ReturnType<typeof setPartialState>
+export const setPartialState = createAction<
+  'SetPartialState',
+  Partial<EditorState>
+>('SetPartialState')
+export type SetPartialState = ActionFromCreator<typeof setPartialState>
 
 export type Action =
   | ClipboardAction

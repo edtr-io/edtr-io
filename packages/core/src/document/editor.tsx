@@ -199,9 +199,11 @@ export interface DocumentEditorStateProps {
   plugin: ReturnType<typeof selectors['getPlugin']>
 }
 
-export interface DocumentEditorDispatchProps {
-  focusNext: typeof actions['focusNext']
-  focusPrevious: typeof actions['focusPrevious']
-  focus: typeof actions['focus']
-  change: typeof actions['change']
+// Typescript somehow doesn't recognize an interface as Record<string, ..>
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+export type DocumentEditorDispatchProps = {
+  focusNext: ReturnType<typeof actions['focusNext']>
+  focusPrevious: ReturnType<typeof actions['focusPrevious']>
+  focus: ReturnType<typeof actions['focus']>
+  change: ReturnType<typeof actions['change']>
 }

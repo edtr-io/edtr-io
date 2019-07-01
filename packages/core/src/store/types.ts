@@ -1,6 +1,8 @@
 import { Plugin } from '../plugin'
 
-export interface State {
+export type StoreState = Record<string, EditorState>
+
+export interface EditorState {
   mode: {
     editable: boolean
   }
@@ -22,7 +24,7 @@ export interface DocumentState {
 
 export interface HistoryState {
   initialState?: {
-    documents: State['documents']
+    documents: EditorState['documents']
   }
   undoStack: unknown[][]
   redoStack: unknown[][]

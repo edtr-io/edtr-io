@@ -1,11 +1,12 @@
 import * as R from 'ramda'
 
-import { setupStore, waitUntil } from '../../__helpers__'
+import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert, pureChange } from '../../src/store/documents/actions'
-import { getDocuments } from '../../src/store/documents/reducer'
-import { actions, selectors } from '../../src/store'
+import { publicGetDocuments } from '../../src/store/documents/reducer'
+import { selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
+const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -13,12 +14,12 @@ beforeEach(() => {
 
 describe('Documents', () => {
   test('Initial state', () => {
-    expect(getDocuments(store.getState())).toEqual({})
+    expect(publicGetDocuments(store.getState())).toEqual({})
   })
 
   describe('Insert', () => {
     test('Default Plugin', async () => {
-      store.dispatch(actions.insert({ id: '0' }))
+      store.dispatch(scopedActions.insert({ id: '0' }))
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
@@ -29,7 +30,7 @@ describe('Documents', () => {
 
     test('Stateless Plugin', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -43,7 +44,7 @@ describe('Documents', () => {
     })
     test('Stateful plugin w/ state', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '0',
           plugin: 'stateful',
           state: { counter: 0 }
@@ -62,7 +63,7 @@ describe('Documents', () => {
   describe('Remove', () => {
     test('One document', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -70,18 +71,18 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(actions.remove('1'))
-      expect(getDocuments(store.getState())).toEqual({})
+      store.dispatch(scopedActions.remove('1'))
+      expect(publicGetDocuments(store.getState())).toEqual({})
     })
     test('Two documents', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '1',
           plugin: 'stateless'
         })
       )
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '2',
           plugin: 'stateless'
         })
@@ -93,8 +94,8 @@ describe('Documents', () => {
             store.getActions()
           ).length >= 2
       )
-      store.dispatch(actions.remove('1'))
-      expect(getDocuments(store.getState())).toEqual({
+      store.dispatch(scopedActions.remove('1'))
+      expect(publicGetDocuments(store.getState())).toEqual({
         2: {
           plugin: 'stateless'
         }
@@ -102,7 +103,7 @@ describe('Documents', () => {
     })
     test('Non-existing document', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '1',
           plugin: 'stateless'
         })
@@ -110,15 +111,15 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(actions.remove('2'))
-      expect(R.values(getDocuments(store.getState()))).toHaveLength(1)
+      store.dispatch(scopedActions.remove('2'))
+      expect(R.values(publicGetDocuments(store.getState()))).toHaveLength(1)
     })
   })
 
   describe('Change', () => {
     test('Whole state', async () => {
       store.dispatch(
-        actions.insert({
+        scopedActions.insert({
           id: '1',
           plugin: 'stateful',
           state: 0
@@ -128,7 +129,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(
-        actions.change({
+        scopedActions.change({
           id: '1',
           state: () => 1
         })
