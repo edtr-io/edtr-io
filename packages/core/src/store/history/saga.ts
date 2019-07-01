@@ -30,6 +30,7 @@ import {
   getRedoStack,
   getUndoStack
 } from './reducer'
+import { scopeSelector } from '../helpers'
 
 export function* historySaga() {
   yield all([
@@ -74,13 +75,14 @@ function* executeCommit(actions: Action[], combine: boolean, scope: string) {
 
 function* undoSaga(action: UndoAction) {
   const undoStack: ReturnType<typeof getUndoStack> = yield select(
-    getUndoStack,
-    action.scope
+    scopeSelector(getUndoStack, action.scope)
   )
   const replay = R.tail(undoStack)
 
   // Revert state to last computed state
-  const { documents, focus } = yield select(getInitialState, action.scope)
+  const { documents, focus } = yield select(
+    scopeSelector(getInitialState, action.scope)
+  )
   yield put(setPartialState(action.scope)({ documents, focus }))
 
   // Replay all except last commit
@@ -94,8 +96,7 @@ function* undoSaga(action: UndoAction) {
 
 function* redoSaga(action: RedoAction) {
   const redoStack: ReturnType<typeof getRedoStack> = yield select(
-    getRedoStack,
-    action.scope
+    scopeSelector(getRedoStack, action.scope)
   )
   const replay = R.head(redoStack)
   if (!replay) return
@@ -106,8 +107,7 @@ function* redoSaga(action: RedoAction) {
 function* resetSaga(action: ResetAction) {
   while (true) {
     const pendingChanges: ReturnType<typeof getPendingChanges> = yield select(
-      getPendingChanges,
-      action.scope
+      scopeSelector(getPendingChanges, action.scope)
     )
     if (pendingChanges === 0) break
     else if (pendingChanges < 0) {

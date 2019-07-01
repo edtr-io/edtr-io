@@ -15,6 +15,7 @@ import { getDocument } from './reducer'
 
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import { commit } from '../history/actions'
+import { scopeSelector } from '../helpers'
 
 export function* documentsSaga() {
   yield all([
@@ -37,8 +38,7 @@ function* insertSaga(action: InsertAction) {
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
   const document: ReturnType<typeof getDocument> = yield select(
-    getDocument,
-    action.scope,
+    scopeSelector(getDocument, action.scope),
     id
   )
   if (!document) return
@@ -80,8 +80,7 @@ export function* handleRecursiveInserts(
     const doc = pendingDocs.pop()
     if (!doc) return
     const plugin: ReturnType<typeof getPluginOrDefault> = yield select(
-      getPluginOrDefault,
-      scope,
+      scopeSelector(getPluginOrDefault, scope),
       doc.plugin
     )
     if (!plugin) return
@@ -96,8 +95,7 @@ export function* handleRecursiveInserts(
     }
 
     const pluginType: ReturnType<typeof getPluginTypeOrDefault> = yield select(
-      getPluginTypeOrDefault,
-      scope,
+      scopeSelector(getPluginTypeOrDefault, scope),
       doc.plugin
     )
     actions.push(

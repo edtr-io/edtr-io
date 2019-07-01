@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert, pureChange } from '../../src/store/documents/actions'
-import { publicGetDocuments } from '../../src/store/documents/reducer'
+import { getDocuments } from '../../src/store/documents/reducer'
 import { selectors } from '../../src/store'
 
 let store: ReturnType<typeof setupStore>
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('Documents', () => {
   test('Initial state', () => {
-    expect(publicGetDocuments(store.getState())).toEqual({})
+    expect(getDocuments(store.getState())).toEqual({})
   })
 
   describe('Insert', () => {
@@ -72,7 +72,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(scopedActions.remove('1'))
-      expect(publicGetDocuments(store.getState())).toEqual({})
+      expect(getDocuments(store.getState())).toEqual({})
     })
     test('Two documents', async () => {
       store.dispatch(
@@ -95,7 +95,7 @@ describe('Documents', () => {
           ).length >= 2
       )
       store.dispatch(scopedActions.remove('1'))
-      expect(publicGetDocuments(store.getState())).toEqual({
+      expect(getDocuments(store.getState())).toEqual({
         2: {
           plugin: 'stateless'
         }
@@ -112,7 +112,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(scopedActions.remove('2'))
-      expect(R.values(publicGetDocuments(store.getState()))).toHaveLength(1)
+      expect(R.values(getDocuments(store.getState()))).toHaveLength(1)
     })
   })
 

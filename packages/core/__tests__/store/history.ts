@@ -10,9 +10,9 @@ import {
   pureUndo
 } from '../../src/store/history/actions'
 import {
-  publicGetHistory,
-  publicGetRedoStack,
-  publicGetUndoStack
+  getHistory,
+  getRedoStack,
+  getUndoStack
 } from '../../src/store/history/reducer'
 import { selectors } from '../../src/store'
 
@@ -32,7 +32,7 @@ describe('History', () => {
   })
 
   test('Initial state after initializing the root', async () => {
-    const { initialState } = publicGetHistory(store.getState())
+    const { initialState } = getHistory(store.getState())
     if (!initialState) throw new Error('Expected initial state')
     expect(initialState.documents).toEqual({
       root: {
@@ -46,7 +46,7 @@ describe('History', () => {
   test('Changes will be committed to the history', async () => {
     await change({ id: 'root', state: () => 1 })
     expect(selectors.hasPendingChanges(store.getState())).toEqual(true)
-    const undoStack = publicGetUndoStack(store.getState())
+    const undoStack = getUndoStack(store.getState())
     expect(undoStack).toHaveLength(1)
     expect(undoStack[0]).toHaveLength(1)
     expect(undoStack[0][0].type).toEqual(pureChange.type)
@@ -55,16 +55,16 @@ describe('History', () => {
   test('Commits will be added to the redo stack after reverting', async () => {
     await change({ id: 'root', state: () => 1 })
     await undo()
-    expect(publicGetUndoStack(store.getState())).toHaveLength(0)
-    expect(publicGetRedoStack(store.getState())).toHaveLength(1)
+    expect(getUndoStack(store.getState())).toHaveLength(0)
+    expect(getRedoStack(store.getState())).toHaveLength(1)
   })
 
   test('Redo stack will be purged after a commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await undo()
     store.dispatch(scopedActions.change({ id: 'root', state: () => 2 }))
-    expect(publicGetUndoStack(store.getState())).toHaveLength(1)
-    expect(publicGetRedoStack(store.getState())).toHaveLength(0)
+    expect(getUndoStack(store.getState())).toHaveLength(1)
+    expect(getRedoStack(store.getState())).toHaveLength(0)
   })
 
   test('Undo reverts the last committed actions', async () => {
@@ -92,14 +92,14 @@ describe('History', () => {
   test('Changes in a small time frame will be combined into a single commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await change({ id: 'root', state: () => 2 })
-    expect(publicGetUndoStack(store.getState())).toHaveLength(1)
+    expect(getUndoStack(store.getState())).toHaveLength(1)
   })
 
   test('Changes in a longer time frame will not be combined', async () => {
     await change({ id: 'root', state: () => 1 })
     await wait(1000)
     await change({ id: 'root', state: () => 2 })
-    expect(publicGetUndoStack(store.getState())).toHaveLength(2)
+    expect(getUndoStack(store.getState())).toHaveLength(2)
   })
 
   test('Undo after redo', async () => {

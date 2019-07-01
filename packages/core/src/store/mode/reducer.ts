@@ -1,6 +1,6 @@
 import { SetEditableAction, setEditable } from './actions'
 import { createSubReducer } from '../helpers'
-import { EditorState, StoreState } from '../types'
+import { EditorState } from '../types'
 
 export const modeReducer = createSubReducer(
   'mode',
@@ -12,8 +12,6 @@ export const modeReducer = createSubReducer(
   }
 )
 
-export const publicIsEditable = (state: EditorState) => state.mode.editable
-export const isEditable = (state: StoreState, scope: string) =>
-  publicIsEditable(state[scope])
+export const isEditable = (state: EditorState) => state.mode.editable
 
-export const publicModeSelectors = { isEditable: publicIsEditable }
+export const publicModeSelectors = { isEditable }

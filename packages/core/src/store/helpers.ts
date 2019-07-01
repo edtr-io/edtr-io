@@ -1,5 +1,5 @@
 import { Action } from './actions'
-import { EditorState } from './types'
+import { EditorState, StoreState } from './types'
 
 export type ActionCreator<T, P> =
   | {
@@ -54,6 +54,16 @@ export function createSubReducer<K extends keyof EditorState>(
     return typeof caseReducer === 'function'
       ? caseReducer(subState, action, state)
       : subState
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function scopeSelector<T, P extends any[]>(
+  selector: (state: EditorState, ...args: P) => T,
+  scope: string
+) {
+  return (storeState: StoreState, ...args: P) => {
+    return selector(storeState[scope], ...args)
   }
 }
 

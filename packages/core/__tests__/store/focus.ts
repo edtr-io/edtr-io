@@ -6,7 +6,7 @@ import {
   findNextNode,
   findPreviousNode,
   Node,
-  publicGetFocusTree
+  getFocusTree
 } from '../../src/store/focus/reducer'
 import { selectors } from '../../src/store'
 
@@ -70,7 +70,7 @@ describe('Focus', () => {
           ).length >= 5
       )
 
-      const tree = publicGetFocusTree(store.getState())
+      const tree = getFocusTree(store.getState())
       if (!tree) throw new Error('Expected tree')
       expect(tree.children).toHaveLength(4)
     })
@@ -90,7 +90,7 @@ describe('Focus', () => {
           ).length >= 2
       )
 
-      const tree = publicGetFocusTree(store.getState())
+      const tree = getFocusTree(store.getState())
       if (!tree) throw new Error('Expected tree')
       if (!tree.children) throw new Error('Expected children')
       expect(tree.children[0].children).toHaveLength(1)
