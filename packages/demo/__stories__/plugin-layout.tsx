@@ -8,9 +8,6 @@ import { SerloContainer } from '../src/container/serlo'
 const plugins = { layout: layoutPlugin, anchor: anchorPlugin }
 storiesOf('Plugins/Layout-Converter', module)
   .add('2 in a row', () => {
-    // const state = JSON.parse(
-    //   '{"plugin":"layout","state":[{"child":{"plugin":"anchor","state":""}, "width":"24"}]}'
-    // )
     const state = {
       plugin: 'layout',
       state: [
@@ -37,9 +34,6 @@ storiesOf('Plugins/Layout-Converter', module)
     )
   })
   .add('3 not even', () => {
-    // const state = JSON.parse(
-    //   '{"plugin":"layout","state":[{"child":{"plugin":"anchor","state":""}, "width":"24"}]}'
-    // )
     const state = {
       plugin: 'layout',
       state: [
