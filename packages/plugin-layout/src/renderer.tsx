@@ -10,8 +10,8 @@ const LayoutContainer = styled.div({
   alignItems: 'flex-start'
 })
 
-const ChildContainer = styled.div<{ width: string }>(({ width }) => {
-  return { width: width }
+const ChildContainer = styled.div<{ width: number }>(({ width }) => {
+  return { width: `${(width / 24) * 100}%` }
 })
 
 export class LayoutRenderer extends React.Component<
@@ -20,10 +20,10 @@ export class LayoutRenderer extends React.Component<
   public render() {
     return (
       <LayoutContainer>
-        {this.props.state.items.map((child, index) => {
+        {this.props.state.items.map((item, index) => {
           return (
-            <ChildContainer width={child.width()}>
-              {child.child.render()}
+            <ChildContainer key={index} width={item.width()}>
+              {item.child.render()}
             </ChildContainer>
           )
         })}
