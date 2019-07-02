@@ -7,7 +7,7 @@ import {
   StoreSerializeHelpers
 } from './types'
 import { Document } from '..'
-import { ScopeContext } from '../editor-context'
+import { EditableContext, ScopeContext } from '../editor-context'
 
 function PluginPropsDocument<Props extends Record<string, unknown>>({
   id,
@@ -22,7 +22,15 @@ function PluginPropsDocument<Props extends Record<string, unknown>>({
     return { ...props, parent: parentProps }
   }, [props, parentProps])
   const scope = React.useContext(ScopeContext)
-  return <Document pluginProps={pluginProps} id={id} scope={scope} />
+  const editable = React.useContext(EditableContext)
+  return (
+    <Document
+      pluginProps={pluginProps}
+      id={id}
+      scope={scope}
+      editable={editable}
+    />
+  )
 }
 
 const memoizedRender = <Props extends Record<string, unknown>>(

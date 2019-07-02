@@ -4,7 +4,6 @@ export { EditorContext, connect, connectStateOnly } from './editor-context'
 export {
   useEditorFocus,
   useEditorHistory,
-  useEditorMode,
   useStore,
   EditorStore
 } from './hooks'

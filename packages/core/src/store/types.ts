@@ -3,9 +3,6 @@ import { Plugin } from '../plugin'
 export type StoreState = Record<string, EditorState>
 
 export interface EditorState {
-  mode: {
-    editable: boolean
-  }
   plugins: {
     defaultPlugin: string
     plugins: Record<string, Plugin>

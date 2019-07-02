@@ -1,32 +1,21 @@
 import * as React from 'react'
 
 import { DocumentEditor } from './editor'
-import { connectStateOnly } from '../editor-context'
 import { DocumentRenderer } from './renderer'
-import { selectors } from '../store'
+import { EditableContext } from '../editor-context'
 
-export const Document = connectStateOnly<DocumentStateProps, DocumentProps>(
-  state => {
-    return {
-      isEditable: selectors.isEditable(state)
-    }
-  }
-)((props: DocumentProps & DocumentStateProps) => {
-  const { isEditable } = props
-
-  return isEditable ? (
+export const Document = (props: DocumentProps) => {
+  const editable = React.useContext(EditableContext)
+  return editable ? (
     <DocumentEditor {...props} />
   ) : (
     <DocumentRenderer {...props} />
   )
-})
-
-export interface DocumentStateProps {
-  isEditable: ReturnType<typeof selectors['isEditable']>
 }
 
 export interface DocumentProps {
   scope: string
   id: string
   pluginProps?: Record<string, unknown>
+  editable?: boolean
 }

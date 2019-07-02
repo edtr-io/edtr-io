@@ -13,6 +13,7 @@ import { Action, EditorState, StoreState } from './store'
 import { ActionCreator } from './store/helpers'
 
 export const ScopeContext = React.createContext<string>('')
+export const EditableContext = React.createContext(true)
 
 export const EditorContext = React.createContext<
   ReactReduxContextValue<StoreState>

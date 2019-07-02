@@ -6,7 +6,6 @@ import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
 import { focusReducer } from './focus/reducer'
 import { historyReducer } from './history/reducer'
-import { modeReducer } from './mode/reducer'
 import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
 
@@ -44,7 +43,6 @@ function editorReducer(instanceState: EditorState | undefined, action: Action) {
     documents: documentsReducer(action, instanceState),
     focus: focusReducer(action, instanceState),
     history: historyReducer(action, instanceState),
-    mode: modeReducer(action, instanceState),
     plugins: pluginsReducer(action, instanceState),
     root: rootReducer(action, instanceState)
   }

@@ -1,13 +1,16 @@
-import { useEditorFocus, useEditorHistory, useEditorMode } from '@edtr-io/core'
+import { useEditorFocus, useEditorHistory } from '@edtr-io/core'
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
 
-export function PlainContainer({ children }: { children: React.ReactNode }) {
+export function PlainContainer({
+  children,
+  editable,
+  setEditable
+}: PlainContainerProps) {
   const logState = useLogState()
   const { focusPrevious, focusNext } = useEditorFocus()
   const history = useEditorHistory()
-  const [editable, setEditable] = useEditorMode()
 
   return (
     <React.Fragment>
@@ -32,4 +35,10 @@ export function PlainContainer({ children }: { children: React.ReactNode }) {
       </button>
     </React.Fragment>
   )
+}
+
+export interface PlainContainerProps {
+  children: React.ReactNode
+  editable: boolean
+  setEditable: React.Dispatch<React.SetStateAction<boolean>>
 }

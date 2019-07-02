@@ -17,7 +17,12 @@ const Components = {
   [Container.Serlo]: SerloContainer
 }
 
+const useEditableState = (initial?: boolean) => {
+  return React.useState(typeof initial !== 'undefined' && initial)
+}
+
 export function EditorStory(props: Partial<EditorProps>) {
+  const [editable, setEditable] = useEditableState(props.editable)
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
     Container.Serlo
@@ -28,9 +33,13 @@ export function EditorStory(props: Partial<EditorProps>) {
   const children = React.useCallback(
     document => {
       const Component = Components[container]
-      return <Component>{document}</Component>
+      return (
+        <Component editable={editable} setEditable={setEditable}>
+          {document}
+        </Component>
+      )
     },
-    [container]
+    [container, editable, setEditable]
   )
 
   return (
@@ -43,6 +52,7 @@ export function EditorStory(props: Partial<EditorProps>) {
 export function EditorInstanceStory(
   props: Partial<EditorProps> & { scope: string }
 ) {
+  const [editable, setEditable] = useEditableState(props.editable)
   const defaultContainer =
     (localStorage.getItem('storybook.container') as Container) ||
     Container.Serlo
@@ -53,9 +63,13 @@ export function EditorInstanceStory(
   const children = React.useCallback(
     document => {
       const Component = Components[container]
-      return <Component>{document}</Component>
+      return (
+        <Component editable={editable} setEditable={setEditable}>
+          {document}
+        </Component>
+      )
     },
-    [container]
+    [container, editable, setEditable]
   )
 
   return (

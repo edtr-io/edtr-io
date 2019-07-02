@@ -1,10 +1,14 @@
-import { useEditorHistory, useEditorMode } from '@edtr-io/core'
+import { useEditorHistory } from '@edtr-io/core'
 import * as React from 'react'
 import { useLogState } from '../hooks'
 
-export function SerloContainer({ children, controls }: SerloContainerProps) {
+export function SerloContainer({
+  children,
+  controls,
+  editable,
+  setEditable
+}: SerloContainerProps) {
   const history = useEditorHistory()
-  const [editable, setEditable] = useEditorMode()
   const logState = useLogState()
 
   return (
@@ -567,4 +571,6 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
 export interface SerloContainerProps {
   children: React.ReactNode
   controls?: React.ReactNode
+  editable: boolean
+  setEditable: React.Dispatch<React.SetStateAction<boolean>>
 }

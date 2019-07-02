@@ -9,7 +9,8 @@ import {
   ScopeContext,
   Provider,
   connect,
-  EditorContext
+  EditorContext,
+  EditableContext
 } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
@@ -110,14 +111,12 @@ export const InnerEditor = connect<
   },
   {
     initRoot: actions.initRoot,
-    setEditable: actions.setEditable,
     undo: actions.undo,
     redo: actions.redo
   }
 )(function InnerEditor<K extends string = string>({
   id,
   initRoot,
-  setEditable,
   undo,
   redo,
   children,
@@ -133,10 +132,6 @@ export const InnerEditor = connect<
       initRoot(initialState || {})
     }
   }, [initRoot, initialState, skipInitialization])
-
-  React.useEffect(() => {
-    setEditable(editable)
-  }, [editable, setEditable])
 
   const hotKeysHandlers = React.useMemo(() => {
     return {
@@ -158,7 +153,9 @@ export const InnerEditor = connect<
         <RootThemeProvider theme={theme}>
           <OverlayContextProvider>
             <ScopeContext.Provider value={scope}>
-              {renderChildren(id)}
+              <EditableContext.Provider value={editable}>
+                {renderChildren(id)}
+              </EditableContext.Provider>
             </ScopeContext.Provider>
           </OverlayContextProvider>
         </RootThemeProvider>
@@ -167,7 +164,7 @@ export const InnerEditor = connect<
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} scope={scope} />
+    const document = <Document id={id} scope={scope} editable={editable} />
 
     if (typeof children === 'function') {
       return children(document)
@@ -190,7 +187,6 @@ export interface EditorStateProps {
 // eslint-disable-next-line @typescript-eslint/prefer-interface
 export type EditorDispatchProps = {
   initRoot: ReturnType<typeof actions['initRoot']>
-  setEditable: ReturnType<typeof actions['setEditable']>
   undo: ReturnType<typeof actions['undo']>
   redo: ReturnType<typeof actions['redo']>
 }

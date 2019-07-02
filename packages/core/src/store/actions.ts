@@ -5,7 +5,6 @@ import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'
 import { HistoryAction } from './history/actions'
-import { ModeAction } from './mode/actions'
 import { RootAction } from './root/actions'
 
 export const setPartialState = createAction<
@@ -19,6 +18,5 @@ export type Action =
   | DocumentsAction
   | FocusAction
   | HistoryAction
-  | ModeAction
   | RootAction
   | SetPartialState

@@ -28,16 +28,6 @@ export function useEditorHistory() {
   }
 }
 
-export function useEditorMode(): [boolean, (payload: boolean) => void] {
-  const { store } = useStore()
-  const editable = selectors.isEditable(store.getState())
-  return [editable, dispatchSetEditable]
-
-  function dispatchSetEditable(payload: boolean) {
-    store.dispatch(actions.setEditable, payload)
-  }
-}
-
 export function useStore() {
   const scope = React.useContext(ScopeContext)
   const { store } = React.useContext(EditorContext)

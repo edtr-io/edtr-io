@@ -2,7 +2,6 @@ import { publicClipboardActions, publicClipboardSelectors } from './clipboard'
 import { publicDocumentsActions, publicDocumentsSelectors } from './documents'
 import { publicFocusActions, publicFocusSelectors } from './focus'
 import { publicHistoryActions, publicHistorySelectors } from './history'
-import { publicModeActions, publicModeSelectors } from './mode'
 import { publicPluginsSelectors } from './plugins'
 import { publicRootActions, publicRootSelectors } from './root'
 
@@ -15,7 +14,6 @@ export const actions = {
   ...publicDocumentsActions,
   ...publicFocusActions,
   ...publicHistoryActions,
-  ...publicModeActions,
   ...publicRootActions
 }
 
@@ -24,7 +22,6 @@ export const selectors = {
   ...publicDocumentsSelectors,
   ...publicFocusSelectors,
   ...publicHistorySelectors,
-  ...publicModeSelectors,
   ...publicPluginsSelectors,
   ...publicRootSelectors
 }
