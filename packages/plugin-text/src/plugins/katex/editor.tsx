@@ -107,6 +107,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
             latex={formulaState}
             onChange={setFormulaState}
             config={{
+              supSubsRequireOperand: true,
+              autoCommands: 'pi alpha beta gamma delta',
               handlers: {
                 moveOutOf: (dir: number) => {
                   if (dir == 1) {
@@ -127,6 +129,12 @@ export const DefaultEditorComponent: React.FunctionComponent<
                   if (dir == -1) {
                     editor.delete().focus()
                   }
+                },
+                upOutOf: (mathfield: MathQuill) => {
+                  mathfield.typedText('^')
+                },
+                downOutOf: (mathfield: MathQuill) => {
+                  mathfield.typedText('_')
                 }
               }
             }}
