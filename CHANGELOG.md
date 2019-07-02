@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.0](https://github.com/edtr-io/edtr-io/compare/HEAD..v0.7.0)
+## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0)
 
 ### Breaking Changes
 
+- **core**. The state exposed in `EditorContext` introduces an additional layer to support multiple editor instances. Use the `useStore` helper instead to get the `{ store: { getState() }, dispatch }` of the wrapping editor instance.
 - **core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export
 - **core**. Removed `ActionType` export. Use the exported public action creators `actions` instead
 - **core**. Removed export \`ActionCommitType
@@ -15,10 +16,12 @@ All notable changes to this project will be documented in this file.
 - **core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.
 - **plugin-h5p**. Removed `@edtr-io/plugin-hp5`
 - **plugin-image**. Changed configs for createImagePlugin and removed Upload export
+- **plugin-rows**. Deprecated PrimarySettingsWrapper now removed. Use PrimarySettings from package editor-ui instead.
 
 ### Added
 
-- **core**. To connect to the store, you can either use `EditorContext` (e.g. with `React.useContext`) or our newly exposed `connect` and `connectStateOnly`
+- **core**. To connect to the store, you can either use the exposed `useStore` or our newly exposed `connect` and `connectStateOnly`. If you want to connect to all editor instances use `EditorContext` (e.g. with `React.useContext`)
+- **core**. Exposes a new Component `EditorInstance` which in contrast to `Editor` needs an additional prop `scope`. Editor instances of the same scope use the same store state.
 
 ### Changed
 
@@ -31,17 +34,12 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - **core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)
+- **plugin-text**. Fix positioning of text controls on touch devices
 
 ### Internal
 
 - **core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail
 - **core**. Replace `uuid` with `shortid`
-
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.6.2..HEAD)
-
-### Fixed
-
-- **plugin-text**. Fix positioning of text controls on touch devices
 
 ## [0.6.2](https://github.com/edtr-io/edtr-io/compare/v0.6.1..v0.6.2) - June 19, 2019
 
