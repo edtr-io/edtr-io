@@ -5,11 +5,17 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
 import { Document } from './document'
-import { ScopeContext, Provider, connect } from './editor-context'
+import {
+  ScopeContext,
+  Provider,
+  connect,
+  EditorContext
+} from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import { createStore, actions, selectors } from './store'
 import { StoreOptions } from './store/store'
+import { setPartialState } from './store/actions'
 
 const MAIN_SCOPE = 'main'
 export function Editor<K extends string = string>(props: EditorProps<K>) {
@@ -41,6 +47,52 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   }
 }
 
+export const StoreProvider: React.FunctionComponent<{
+  omitDragDropContext?: boolean
+}> = props => {
+  const store = React.useMemo(() => {
+    return createStore({
+      instances: {}
+    }).store
+    // We want to create the store only once
+    // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const children = <Provider store={store}>{props.children}</Provider>
+  if (props.omitDragDropContext) return children
+  return (
+    <DragDropContextProvider backend={HTML5Backend}>
+      {children}
+    </DragDropContextProvider>
+  )
+}
+
+export function EditorInstance<K extends string = string>(
+  props: EditorProps<K> & { scope: string }
+) {
+  const { store } = React.useContext(EditorContext)
+  if (!store) {
+    // eslint-disable-next-line no-console
+    console.error(
+      'Could not connect to Redux Store. Please make sure to wrap all instances of EditorInstance in a StoreProvider'
+    )
+    return null
+  }
+  const skipInitialization = !!store.getState()[props.scope]
+  if (!skipInitialization) {
+    store.dispatch(
+      setPartialState(props.scope)({
+        plugins: {
+          defaultPlugin: props.defaultPlugin,
+          plugins: props.plugins
+        }
+      })
+    )
+  }
+  return <InnerEditor {...props} skipInitialization={skipInitialization} />
+}
+
 const defaultTheme: CustomTheme = {}
 const hotKeysKeyMap = {
   UNDO: 'mod+z',
@@ -65,17 +117,22 @@ export const InnerEditor = connect<
 )(function InnerEditor<K extends string = string>({
   id,
   initRoot,
-  initialState,
   setEditable,
   undo,
   redo,
   children,
+  initialState,
+  scope,
+  skipInitialization,
   editable = true,
   theme = defaultTheme
-}: EditorProps<K> & EditorStateProps & EditorDispatchProps) {
+}: EditorProps<K> & { scope: string } & EditorStateProps &
+  EditorDispatchProps) {
   React.useEffect(() => {
-    initRoot(initialState || {})
-  }, [initRoot, initialState])
+    if (!skipInitialization) {
+      initRoot(initialState || {})
+    }
+  }, [initRoot, initialState, skipInitialization])
 
   React.useEffect(() => {
     setEditable(editable)
@@ -100,7 +157,7 @@ export const InnerEditor = connect<
       <div style={{ position: 'relative' }}>
         <RootThemeProvider theme={theme}>
           <OverlayContextProvider>
-            <ScopeContext.Provider value={MAIN_SCOPE}>
+            <ScopeContext.Provider value={scope}>
               {renderChildren(id)}
             </ScopeContext.Provider>
           </OverlayContextProvider>
@@ -110,7 +167,7 @@ export const InnerEditor = connect<
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} scope={MAIN_SCOPE} />
+    const document = <Document id={id} scope={scope} />
 
     if (typeof children === 'function') {
       return children(document)
@@ -151,4 +208,5 @@ export interface EditorProps<K extends string = string> {
   // FIXME: type ugly as hell...
   onChange?: StoreOptions<K>['instances'][typeof MAIN_SCOPE]['onChange']
   editable?: boolean
+  skipInitialization?: boolean
 }
