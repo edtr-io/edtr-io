@@ -89,6 +89,71 @@ describe('History', () => {
     })
   })
 
+  test('Undo keeps order of previous commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+  })
+  test('Redo keeps order of remaining commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    await undo()
+    await undo()
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+  })
+
+  test('Undo keeps order of actions in previous commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+  })
+
+  test('Redo keeps order of actions in remaining commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    await undo()
+    await redo()
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 3
+    })
+  })
+
   test('Changes in a small time frame will be combined into a single commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await change({ id: 'root', state: () => 2 })
@@ -100,36 +165,6 @@ describe('History', () => {
     await wait(1000)
     await change({ id: 'root', state: () => 2 })
     expect(getUndoStack(store.getState())).toHaveLength(2)
-  })
-
-  test('Undo does shift commits keeping the order', async () => {
-    await change({ id: 'root', state: () => 1 })
-    await wait(1000)
-    await change({ id: 'root', state: () => 2 })
-    await wait(1000)
-    await change({ id: 'root', state: () => 3 })
-    const undoStackBefore = getUndoStack(store.getState())
-    await undo()
-    const undoStack = getUndoStack(store.getState())
-    expect(undoStack).toHaveLength(2)
-    expect(undoStack[0]).toEqual(undoStackBefore[1])
-    expect(undoStack[1]).toEqual(undoStackBefore[2])
-  })
-  test('Redo does shift commits keeping the order', async () => {
-    await change({ id: 'root', state: () => 1 })
-    await wait(1000)
-    await change({ id: 'root', state: () => 2 })
-    await wait(1000)
-    await change({ id: 'root', state: () => 3 })
-    await undo()
-    await undo()
-    await undo()
-    const redoStackBefore = getRedoStack(store.getState())
-    await redo()
-    const redoStack = getRedoStack(store.getState())
-    expect(redoStack).toHaveLength(2)
-    expect(redoStack[0]).toEqual(redoStackBefore[1])
-    expect(redoStack[1]).toEqual(redoStackBefore[2])
   })
 
   test('Undo after redo', async () => {
