@@ -1,4 +1,11 @@
-import { HoveringOverlay, InlineCheckbox, styled } from '@edtr-io/editor-ui'
+import {
+  HoveringOverlay,
+  InlineCheckbox,
+  styled,
+  Overlay,
+  faQuestionCircle,
+  Icon
+} from '@edtr-io/editor-ui'
 import * as React from 'react'
 //@ts-ignore
 import MathQuill from 'react-mathquill'
@@ -9,6 +16,8 @@ import { Dropdown, Option } from '../../toolbar/dropdown'
 import { Math } from './math.component'
 import { katexBlockNode, katexInlineNode } from './index'
 import { isList, orderedListNode, unorderedListNode } from '../list'
+import { OverlayContext } from '@edtr-io/core'
+import { Button } from '../../toolbar/button'
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -62,6 +71,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
 
   // state for math formula, because focus jumps to end of input field if updated directly
   const [formulaState, setFormulaState] = React.useState(formula)
+  const overlayContext = React.useContext(OverlayContext)
 
   // if math formula gets selected or leaves edit, update formula from state
   const edit =
@@ -95,144 +105,169 @@ export const DefaultEditorComponent: React.FunctionComponent<
 
   if (edit) {
     return (
-      <Wrapper
-        {...attributes}
-        onClick={e => {
-          e.stopPropagation()
-        }}
-        inline={inline}
-      >
-        {useVisual ? (
-          <MathQuill
-            latex={formulaState}
-            onChange={setFormulaState}
-            config={{
-              supSubsRequireOperand: true,
-              autoCommands: 'pi alpha beta gamma delta',
-              handlers: {
-                moveOutOf: (dir: number) => {
-                  if (dir == 1) {
-                    // leave right
-                    editor
-                      .moveToEnd()
-                      .moveForward(1)
-                      .focus()
-                  } else if (dir == -1) {
-                    // leave left
-                    editor
-                      .moveToStart()
-                      .moveBackward(1)
-                      .focus()
-                  }
-                },
-                deleteOutOf: (dir: number) => {
-                  if (dir == -1) {
-                    editor.delete().focus()
-                  }
-                },
-                upOutOf: (mathfield: MathQuill) => {
-                  mathfield.typedText('^')
-                },
-                downOutOf: (mathfield: MathQuill) => {
-                  mathfield.typedText('_')
-                }
-              }
-            }}
-            ref={mathQuillRef}
-            mathquillDidMount={(mathquill: {
-              latex: () => string
-              focus: () => void
-            }) => {
-              if (mathquill) {
-                if (mathquill.latex() == '' && formula != '') {
-                  // Error occured
-                  alert('Error while parsing LaTeX.')
-                  setUseVisual(false)
-                }
-                setTimeout(() => {
-                  editor.blur()
-                  setTimeout(() => {
-                    mathquill.focus()
-                  })
-                })
-              }
-            }}
-          />
-        ) : inline ? (
-          <input
-            ref={ref => (latexInputRef.current = ref)}
-            type="text"
-            value={formulaState}
-            onChange={e => {
-              //cant set formula directly, because otherwise focus jumps to end of input field
-              setFormulaState(e.target.value)
-            }}
-            onKeyDown={checkLeaveLatexInput}
-            autoFocus
-          />
-        ) : (
-          <textarea
-            style={{ width: '100%' }}
-            ref={ref => (latexInputRef.current = ref)}
-            value={formulaState}
-            onChange={e => setFormulaState(e.target.value)}
-            onKeyDown={checkLeaveLatexInput}
-            autoFocus
-          />
-        )}
-        <HoveringOverlay
-          position={'above'}
-          anchor={useVisual ? wrappedMathquillRef : latexInputRef}
+      <>
+        <Overlay>
+          Schnellstartanleitung:
+          <br />
+          {"Schreibe Brüche mit '/'"}
+          <br />
+          {"Gib Potenzen ein mit Pfeil-Hoch oder '^'"}
+          <br />
+          {"Kleingestellt mit Pfeil runter oder '_'"}
+          <br />
+          {
+            "Mathematische Symbole können mit '\\<NAME>' eingefügt werden, wobei <NAME> dem LaTeX-Befehl entspricht"
+          }
+          <br />
+          {"Eingabe von Wurzeln über die Eingabe '\\sqrt' bzw '\\nthroot'"}
+        </Overlay>
+        <Wrapper
+          {...attributes}
+          onClick={e => {
+            e.stopPropagation()
+          }}
+          inline={inline}
         >
-          <Dropdown
-            name={name}
-            value={useVisual ? 'visual' : 'latex'}
-            onChange={e => {
-              setUseVisual(e.target.value == 'visual')
-            }}
-          >
-            <Option active={useVisual} value="visual" name={name}>
-              visual
-            </Option>
-            <Option active={!useVisual} value="latex" name={name}>
-              latex
-            </Option>
-          </Dropdown>
-          {!isList(orderedListNode)(editor) &&
-          !isList(unorderedListNode)(editor) ? (
-            <InlineCheckbox
-              label="Inline"
-              checked={inline}
-              onChange={checked => {
-                const newData = { formula: formulaState, inline: checked }
-
-                // remove old node, merge blocks if necessary
-                if (node.isLeafBlock()) {
-                  const n = editor.value.document.getNextBlock(node.key)
-                  editor.removeNodeByKey(node.key)
-                  if (n) {
-                    editor.mergeNodeByKey(n.key)
+          {useVisual ? (
+            <MathQuill
+              latex={formulaState}
+              onChange={setFormulaState}
+              config={{
+                supSubsRequireOperand: true,
+                autoCommands: 'pi alpha beta gamma delta',
+                handlers: {
+                  moveOutOf: (dir: number) => {
+                    if (dir == 1) {
+                      // leave right
+                      editor
+                        .moveToEnd()
+                        .moveForward(1)
+                        .focus()
+                    } else if (dir == -1) {
+                      // leave left
+                      editor
+                        .moveToStart()
+                        .moveBackward(1)
+                        .focus()
+                    }
+                  },
+                  deleteOutOf: (dir: number) => {
+                    if (dir == -1) {
+                      editor.delete().focus()
+                    }
+                  },
+                  upOutOf: (mathfield: MathQuill) => {
+                    mathfield.typedText('^')
+                  },
+                  downOutOf: (mathfield: MathQuill) => {
+                    mathfield.typedText('_')
                   }
-                } else {
-                  editor.removeNodeByKey(node.key)
                 }
-
-                if (checked) {
-                  editor.insertInline({
-                    type: katexInlineNode,
-                    data: newData
-                  })
-                } else {
-                  editor.insertBlock({
-                    type: katexBlockNode,
-                    data: newData
+              }}
+              ref={mathQuillRef}
+              mathquillDidMount={(mathquill: {
+                latex: () => string
+                focus: () => void
+              }) => {
+                if (mathquill) {
+                  if (mathquill.latex() == '' && formula != '') {
+                    // Error occured
+                    alert('Error while parsing LaTeX.')
+                    setUseVisual(false)
+                  }
+                  setTimeout(() => {
+                    editor.blur()
+                    setTimeout(() => {
+                      mathquill.focus()
+                    })
                   })
                 }
               }}
             />
-          ) : null}
-        </HoveringOverlay>
-      </Wrapper>
+          ) : inline ? (
+            <input
+              ref={ref => (latexInputRef.current = ref)}
+              type="text"
+              value={formulaState}
+              onChange={e => {
+                //cant set formula directly, because otherwise focus jumps to end of input field
+                setFormulaState(e.target.value)
+              }}
+              onKeyDown={checkLeaveLatexInput}
+              autoFocus
+            />
+          ) : (
+            <textarea
+              style={{ width: '100%' }}
+              ref={ref => (latexInputRef.current = ref)}
+              value={formulaState}
+              onChange={e => setFormulaState(e.target.value)}
+              onKeyDown={checkLeaveLatexInput}
+              autoFocus
+            />
+          )}
+          <HoveringOverlay
+            position={'above'}
+            anchor={useVisual ? wrappedMathquillRef : latexInputRef}
+          >
+            <Dropdown
+              name={name}
+              value={useVisual ? 'visual' : 'latex'}
+              onChange={e => {
+                setUseVisual(e.target.value == 'visual')
+              }}
+            >
+              <Option active={useVisual} value="visual" name={name}>
+                visual
+              </Option>
+              <Option active={!useVisual} value="latex" name={name}>
+                latex
+              </Option>
+            </Dropdown>
+            {!isList(orderedListNode)(editor) &&
+            !isList(unorderedListNode)(editor) ? (
+              <InlineCheckbox
+                label="Inline"
+                checked={inline}
+                onChange={checked => {
+                  const newData = { formula: formulaState, inline: checked }
+
+                  // remove old node, merge blocks if necessary
+                  if (node.isLeafBlock()) {
+                    const n = editor.value.document.getNextBlock(node.key)
+                    editor.removeNodeByKey(node.key)
+                    if (n) {
+                      editor.mergeNodeByKey(n.key)
+                    }
+                  } else {
+                    editor.removeNodeByKey(node.key)
+                  }
+
+                  if (checked) {
+                    editor.insertInline({
+                      type: katexInlineNode,
+                      data: newData
+                    })
+                  } else {
+                    editor.insertBlock({
+                      type: katexBlockNode,
+                      data: newData
+                    })
+                  }
+                }}
+              />
+            ) : null}
+            <Button
+              name={name}
+              onClick={() => {
+                overlayContext.show()
+              }}
+            >
+              <Icon icon={faQuestionCircle} />
+            </Button>
+          </HoveringOverlay>
+        </Wrapper>
+      </>
     )
   }
 
