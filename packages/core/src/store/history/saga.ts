@@ -87,7 +87,7 @@ function* undoSaga(action: UndoAction) {
 
   // Replay all except last commit
   yield all(
-    replay.map(actions => {
+    R.reverse(replay).map(actions => {
       return all(actions.map(action => put(action)))
     })
   )
