@@ -16,7 +16,6 @@ import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import { createStore, actions, selectors } from './store'
 import { StoreOptions } from './store/store'
-import { setPartialState } from './store/actions'
 
 const MAIN_SCOPE = 'main'
 export function Editor<K extends string = string>(props: EditorProps<K>) {
@@ -38,7 +37,9 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   return <Provider store={store}>{renderChildren()}</Provider>
 
   function renderChildren() {
-    const children = <InnerEditor {...props} scope={MAIN_SCOPE} />
+    const children = (
+      <InnerEditor {...props} scope={MAIN_SCOPE} mirror={false} />
+    )
     if (props.omitDragDropContext) return children
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -70,9 +71,22 @@ export const StoreProvider: React.FunctionComponent<{
 }
 
 export function EditorInstance<K extends string = string>(
-  props: EditorProps<K> & { scope: string }
+  props: EditorProps<K> & InnerEditorProps
 ) {
   const { store } = React.useContext(EditorContext)
+  const isMainInstance = React.useRef(
+    store && store.getState()[props.scope] && !props.mirror
+  )
+  // this needs to be outside of useEffect to make sure it happens before the initRoot of the instance itself
+  React.useEffect(() => {
+    if (isMainInstance.current) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'An editor instance with this scope was already initialized. This resets the state and actions! Please set mirror prop to false on one instance.'
+      )
+    }
+  }, [isMainInstance])
+
   if (!store) {
     // eslint-disable-next-line no-console
     console.error(
@@ -80,18 +94,7 @@ export function EditorInstance<K extends string = string>(
     )
     return null
   }
-  const skipInitialization = !!store.getState()[props.scope]
-  if (!skipInitialization) {
-    store.dispatch(
-      setPartialState(props.scope)({
-        plugins: {
-          defaultPlugin: props.defaultPlugin,
-          plugins: props.plugins
-        }
-      })
-    )
-  }
-  return <InnerEditor {...props} skipInitialization={skipInitialization} />
+  return <InnerEditor {...props} />
 }
 
 const defaultTheme: CustomTheme = {}
@@ -121,17 +124,18 @@ export const InnerEditor = connect<
   redo,
   children,
   initialState,
+  mirror,
+  plugins,
+  defaultPlugin,
   scope,
-  skipInitialization,
   editable = true,
   theme = defaultTheme
-}: EditorProps<K> & { scope: string } & EditorStateProps &
-  EditorDispatchProps) {
+}: EditorProps<K> & InnerEditorProps & EditorStateProps & EditorDispatchProps) {
   React.useEffect(() => {
-    if (!skipInitialization) {
-      initRoot(initialState || {})
+    if (!mirror) {
+      initRoot({ initialState, plugins, defaultPlugin })
     }
-  }, [initRoot, initialState, skipInitialization])
+  }, [defaultPlugin, initRoot, initialState, mirror, plugins])
 
   const hotKeysHandlers = React.useMemo(() => {
     return {
@@ -204,5 +208,9 @@ export interface EditorProps<K extends string = string> {
   // FIXME: type ugly as hell...
   onChange?: StoreOptions<K>['instances'][typeof MAIN_SCOPE]['onChange']
   editable?: boolean
-  skipInitialization?: boolean
+}
+
+export interface InnerEditorProps {
+  scope: string
+  mirror: boolean
 }

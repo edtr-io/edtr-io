@@ -1,11 +1,11 @@
 import { createSubReducer } from '../helpers'
 import { DocumentState, EditorState } from '../types'
-import { initRoot, InitRootAction } from './actions'
+import { pureInitRoot, PureInitRootAction } from './actions'
 
 import { serializeDocument } from '../documents/reducer'
 
 export const rootReducer = createSubReducer('root', null, {
-  [initRoot.type](_rootState, _action: InitRootAction) {
+  [pureInitRoot.type](_rootState, _action: PureInitRootAction) {
     return 'root'
   }
 })

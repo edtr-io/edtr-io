@@ -10,7 +10,8 @@ import {
   MapStateToProps
 } from 'react-redux'
 import { Action, EditorState, StoreState } from './store'
-import { ActionCreator } from './store/helpers'
+import { ActionCreator, createActionWithoutPayload } from './store/helpers'
+import { reducer } from './store/reducer'
 
 export const ScopeContext = React.createContext<string>('')
 export const EditableContext = React.createContext(true)
@@ -69,7 +70,16 @@ function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
   mapEditorStateToProps: MapStateToProps<StateProps, OwnProps, EditorState>
 ): MapStateToPropsParam<StateProps, OwnProps, StoreState> {
   return (state, props) => {
-    return mapEditorStateToProps(state[props.scope], props)
+    let editorState = state[props.scope]
+    if (!editorState) {
+      const fakeInitAction = createActionWithoutPayload('InitSubScope')(
+        props.scope
+      )()
+      editorState = reducer(state, (fakeInitAction as unknown) as Action)[
+        props.scope
+      ]
+    }
+    return mapEditorStateToProps(editorState, props)
   }
 }
 

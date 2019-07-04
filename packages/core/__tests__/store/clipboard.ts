@@ -9,6 +9,7 @@ import {
 import { pureCopy } from '../../src/store/clipboard/actions'
 import { pureChange, pureInsert } from '../../src/store/documents/actions'
 import { selectors } from '../../src/store'
+import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
 const scopedActions = scopeActions()
@@ -24,7 +25,13 @@ describe('Clipboard', () => {
 
   describe('Copy', () => {
     test('Stateful plugin', async () => {
-      store.dispatch(scopedActions.initRoot({ plugin: 'stateful', state: 0 }))
+      store.dispatch(
+        scopedActions.initRoot({
+          initialState: { plugin: 'stateful', state: 0 },
+          plugins,
+          defaultPlugin: 'text'
+        })
+      )
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
@@ -43,10 +50,14 @@ describe('Clipboard', () => {
     test('Nested plugin', async () => {
       store.dispatch(
         scopedActions.initRoot({
-          plugin: 'nested',
-          state: {
-            child: { plugin: 'stateful', state: 0 }
-          }
+          initialState: {
+            plugin: 'nested',
+            state: {
+              child: { plugin: 'stateful', state: 0 }
+            }
+          },
+          plugins,
+          defaultPlugin: 'text'
         })
       )
       await waitUntil(() =>
@@ -67,7 +78,13 @@ describe('Clipboard', () => {
     })
 
     test('Four copies', async () => {
-      store.dispatch(scopedActions.initRoot({ plugin: 'stateful', state: 0 }))
+      store.dispatch(
+        scopedActions.initRoot({
+          initialState: { plugin: 'stateful', state: 0 },
+          plugins,
+          defaultPlugin: 'text'
+        })
+      )
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )

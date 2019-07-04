@@ -6,6 +6,7 @@ import * as React from 'react'
 import { plugins } from '../plugins'
 import { PlainContainer } from './plain'
 import { SerloContainer } from './serlo'
+import { InnerEditorProps } from '@edtr-io/core/src/editor'
 
 enum Container {
   Plain = 'Plain',
@@ -50,7 +51,7 @@ export function EditorStory(props: Partial<EditorProps>) {
 }
 
 export function EditorInstanceStory(
-  props: Partial<EditorProps> & { scope: string }
+  props: Partial<EditorProps> & InnerEditorProps
 ) {
   const [editable, setEditable] = useEditableState(props.editable)
   const defaultContainer =

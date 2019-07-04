@@ -15,6 +15,7 @@ import {
   getUndoStack
 } from '../../src/store/history/reducer'
 import { selectors } from '../../src/store'
+import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
 const scopedActions = scopeActions()
@@ -25,7 +26,13 @@ beforeEach(() => {
 
 describe('History', () => {
   beforeEach(async () => {
-    store.dispatch(scopedActions.initRoot({ plugin: 'stateful', state: 0 }))
+    store.dispatch(
+      scopedActions.initRoot({
+        initialState: { plugin: 'stateful', state: 0 },
+        plugins,
+        defaultPlugin: 'text'
+      })
+    )
     await waitUntil(() =>
       R.any(action => action.type === persist.type, store.getActions())
     )

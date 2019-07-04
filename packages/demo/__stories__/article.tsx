@@ -78,6 +78,7 @@ storiesOf('Article', module)
                 plugins={plugins}
                 defaultPlugin="text"
                 scope="instance1"
+                mirror={true}
                 editable={false}
               />
             </div>
@@ -88,14 +89,17 @@ storiesOf('Article', module)
           plugins={plugins}
           defaultPlugin="text"
           scope="instance1"
+          mirror={false}
           editable
         />
         <p>And here is a second instance</p>
         <EditorInstance
+          initialState={state2}
           plugins={plugins}
           defaultPlugin="text"
           scope="instance2"
-          initialState={state2}
+          mirror={false}
+          editable
         />
         {/*<p>And here is the rendered output of Instance 1:</p>*/}
         {/*<EditorInstance plugins={plugins} defaultPlugin="text" scope="instance1" editable={false}/>*/}
