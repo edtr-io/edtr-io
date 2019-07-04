@@ -3,8 +3,8 @@ import { EditorState, StoreState } from './types'
 
 export type ActionCreator<T, P> =
   | {
-      (scope: string): (
-        payload: P
+      (payload: P): (
+        scope: string
       ) => {
         type: T
         payload?: P
@@ -13,14 +13,16 @@ export type ActionCreator<T, P> =
       type: T
     }
   | {
-      (scope: string): () => {
+      (): (
+        scope: string
+      ) => {
         type: T
         scope: string
       }
       type: T
     }
 export function createAction<T, P>(type: T) {
-  const actionCreator = (scope: string) => (payload: P) => {
+  const actionCreator = (payload: P) => (scope: string) => {
     return {
       type,
       payload,
@@ -33,7 +35,7 @@ export function createAction<T, P>(type: T) {
 }
 
 export function createActionWithoutPayload<T>(type: T) {
-  const actionCreator = (scope: string) => () => {
+  const actionCreator = () => (scope: string) => {
     return { type, scope }
   }
   actionCreator.type = type

@@ -32,7 +32,7 @@ function* insertSaga(action: InsertAction) {
     () => {},
     [initialState]
   )
-  yield put(commit(action.scope)(actions))
+  yield put(commit(actions)(action.scope))
 }
 
 function* changeSaga(action: ChangeAction) {
@@ -51,12 +51,12 @@ function* changeSaga(action: ChangeAction) {
     }
   )
   actions.push(
-    pureChange(action.scope)({
+    pureChange({
       id,
       state
-    })
+    })(action.scope)
   )
-  yield put(commit(action.scope)(actions))
+  yield put(commit(actions)(action.scope))
 }
 
 export function* handleRecursiveInserts(
@@ -99,11 +99,11 @@ export function* handleRecursiveInserts(
       doc.plugin
     )
     actions.push(
-      pureInsert(scope)({
+      pureInsert({
         id: doc.id,
         plugin: pluginType,
         state: pluginState
-      })
+      })(scope)
     )
   }
   return [actions, result]

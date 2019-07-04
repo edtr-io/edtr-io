@@ -40,7 +40,7 @@ function renderDocument(onChange: StateProps['onChange']) {
 }
 
 function State({ onChange }: StateProps) {
-  const { store } = useStore()
+  const store = useStore()
   React.useEffect(() => {
     const serialized = selectors.serializeRootDocument(store.getState())
     onChange(serialized)

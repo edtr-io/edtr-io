@@ -7,7 +7,7 @@ import { rowsState } from '.'
 export const RowsRenderer = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
-  const { store } = useStore()
+  const store = useStore()
 
   return (
     <React.Fragment>

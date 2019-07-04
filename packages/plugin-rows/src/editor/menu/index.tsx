@@ -58,7 +58,7 @@ interface MenuProps {
       }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  store: EditorStore['store']
+  store: EditorStore
   name: string
 }
 

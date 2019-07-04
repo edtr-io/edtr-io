@@ -1,15 +1,14 @@
 import * as R from 'ramda'
 
-import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
-import { selectors } from '../../src/store'
+import { setupStore, waitUntil } from '../../__helpers__'
+import { actions, selectors } from '../../src/store'
 import { persist } from '../../src/store/history/actions'
 import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
-const scopedActions = scopeActions()
 
 function initRoot(initialState: { plugin: string; state?: unknown }) {
-  return scopedActions.initRoot({
+  return actions.initRoot({
     initialState,
     plugins,
     defaultPlugin: 'text'

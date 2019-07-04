@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import { scopeActions, setupStore, waitUntil } from '../../__helpers__'
+import { setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert } from '../../src/store/documents/actions'
 import {
   findNextNode,
@@ -8,11 +8,10 @@ import {
   Node,
   getFocusTree
 } from '../../src/store/focus/reducer'
-import { selectors } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
-const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -25,13 +24,13 @@ describe('Focus', () => {
     })
 
     test('Focused after requesting focus', () => {
-      store.dispatch(scopedActions.focus('0'))
+      store.dispatch(actions.focus('0'))
       expect(selectors.isFocused(store.getState(), '0')).toEqual(true)
     })
 
     test('Blurred after another focus request', () => {
-      store.dispatch(scopedActions.focus('0'))
-      store.dispatch(scopedActions.focus('1'))
+      store.dispatch(actions.focus('0'))
+      store.dispatch(actions.focus('1'))
       expect(selectors.isFocused(store.getState(), '0')).toEqual(false)
     })
   })
@@ -39,7 +38,7 @@ describe('Focus', () => {
   describe('getFocusTree', () => {
     test('Height 1', async () => {
       store.dispatch(
-        scopedActions.initRoot({
+        actions.initRoot({
           initialState: {
             plugin: 'nestedArray',
             state: {
@@ -82,7 +81,7 @@ describe('Focus', () => {
 
     test('Blockquote in rows', async () => {
       store.dispatch(
-        scopedActions.initRoot({
+        actions.initRoot({
           initialState: {
             plugin: 'rows',
             state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]

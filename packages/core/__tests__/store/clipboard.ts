@@ -1,18 +1,12 @@
 import * as R from 'ramda'
 
-import {
-  scopeActions,
-  setupStore,
-  TEST_SCOPE,
-  waitUntil
-} from '../../__helpers__'
+import { setupStore, waitUntil } from '../../__helpers__'
 import { pureCopy } from '../../src/store/clipboard/actions'
 import { pureChange, pureInsert } from '../../src/store/documents/actions'
-import { selectors } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
-const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -26,7 +20,7 @@ describe('Clipboard', () => {
   describe('Copy', () => {
     test('Stateful plugin', async () => {
       store.dispatch(
-        scopedActions.initRoot({
+        actions.initRoot({
           initialState: { plugin: 'stateful', state: 0 },
           plugins,
           defaultPlugin: 'text'
@@ -35,7 +29,7 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(scopedActions.copy(selectors.getRoot(store.getState())))
+      store.dispatch(actions.copy(selectors.getRoot(store.getState())))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
@@ -49,7 +43,7 @@ describe('Clipboard', () => {
 
     test('Nested plugin', async () => {
       store.dispatch(
-        scopedActions.initRoot({
+        actions.initRoot({
           initialState: {
             plugin: 'nested',
             state: {
@@ -63,7 +57,7 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(scopedActions.copy(selectors.getRoot(store.getState())))
+      store.dispatch(actions.copy(selectors.getRoot(store.getState())))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
@@ -79,7 +73,7 @@ describe('Clipboard', () => {
 
     test('Four copies', async () => {
       store.dispatch(
-        scopedActions.initRoot({
+        actions.initRoot({
           initialState: { plugin: 'stateful', state: 0 },
           plugins,
           defaultPlugin: 'text'
@@ -90,7 +84,7 @@ describe('Clipboard', () => {
       )
       const root = selectors.getRoot(store.getState())
       if (!root) throw new Error('No root document found')
-      store.dispatch(scopedActions.copy(root))
+      store.dispatch(actions.copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
@@ -99,8 +93,8 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 0
       })
-      store.dispatch(pureChange(TEST_SCOPE)({ id: root, state: 1 }))
-      store.dispatch(scopedActions.copy(root))
+      store.dispatch(pureChange({ id: root, state: 1 }))
+      store.dispatch(actions.copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
@@ -109,8 +103,8 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 1
       })
-      store.dispatch(pureChange(TEST_SCOPE)({ id: root, state: 2 }))
-      store.dispatch(scopedActions.copy(root))
+      store.dispatch(pureChange({ id: root, state: 2 }))
+      store.dispatch(actions.copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
@@ -119,8 +113,8 @@ describe('Clipboard', () => {
         plugin: 'stateful',
         state: 2
       })
-      store.dispatch(pureChange(TEST_SCOPE)({ id: root, state: 3 }))
-      store.dispatch(scopedActions.copy(root))
+      store.dispatch(pureChange({ id: root, state: 3 }))
+      store.dispatch(actions.copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )

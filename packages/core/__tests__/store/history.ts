@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import { scopeActions, setupStore, wait, waitUntil } from '../../__helpers__'
+import { setupStore, wait, waitUntil } from '../../__helpers__'
 import { pureChange } from '../../src/store/documents/actions'
 import {
   commit,
@@ -14,11 +14,10 @@ import {
   getRedoStack,
   getUndoStack
 } from '../../src/store/history/reducer'
-import { selectors } from '../../src/store'
+import { actions, selectors } from '../../src/store'
 import { plugins } from '../../__fixtures__/plugins'
 
 let store: ReturnType<typeof setupStore>
-const scopedActions = scopeActions()
 
 beforeEach(() => {
   store = setupStore()
@@ -27,7 +26,7 @@ beforeEach(() => {
 describe('History', () => {
   beforeEach(async () => {
     store.dispatch(
-      scopedActions.initRoot({
+      actions.initRoot({
         initialState: { plugin: 'stateful', state: 0 },
         plugins,
         defaultPlugin: 'text'
@@ -69,7 +68,7 @@ describe('History', () => {
   test('Redo stack will be purged after a commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await undo()
-    store.dispatch(scopedActions.change({ id: 'root', state: () => 2 }))
+    store.dispatch(actions.change({ id: 'root', state: () => 2 }))
     expect(getUndoStack(store.getState())).toHaveLength(1)
     expect(getRedoStack(store.getState())).toHaveLength(0)
   })
@@ -210,7 +209,7 @@ describe('History', () => {
   test('Reset after persist and undo', async () => {
     await change({ id: 'root', state: () => 1 })
     await change({ id: 'root', state: () => 2 })
-    store.dispatch(scopedActions.persist())
+    store.dispatch(actions.persist())
     await undo()
     await reset()
     expect(selectors.getDocument(store.getState(), 'root')).toEqual({
@@ -221,28 +220,28 @@ describe('History', () => {
 })
 
 async function undo() {
-  store.dispatch(scopedActions.undo())
+  store.dispatch(actions.undo())
   await waitUntil(() =>
     R.any(action => action.type === pureUndo.type, store.getActions())
   )
 }
 
 async function redo() {
-  store.dispatch(scopedActions.redo())
+  store.dispatch(actions.redo())
   await waitUntil(() =>
     R.any(action => action.type === pureRedo.type, store.getActions())
   )
 }
 
-async function change(...args: Parameters<typeof scopedActions.change>) {
-  store.dispatch(scopedActions.change(...args))
+async function change(...args: Parameters<typeof actions.change>) {
+  store.dispatch(actions.change(...args))
   await waitUntil(() =>
     R.any(action => action.type === commit.type, store.getActions())
   )
 }
 
 async function reset() {
-  store.dispatch(scopedActions.reset())
+  store.dispatch(actions.reset())
   await waitUntil(() =>
     R.any(action => action.type === pureReset.type, store.getActions())
   )

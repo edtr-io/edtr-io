@@ -32,15 +32,22 @@ export function Provider(
 type InferStoreDispatchProps<T> = T extends Record<
   string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ReturnType<ActionCreator<any, any>>
+  ScopedActionCreator<ActionCreator<any, any>>
 >
-  ? { [K in keyof T]: ((scope: string) => T[K]) & { type: string } }
+  ? {
+      [K in keyof T]: ((
+        ...args: Parameters<T[K]>
+      ) => (scope: string) => ReturnType<T[K]>) & { type: string }
+    }
   : never
 
 export function connect<
   StateProps,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  DispatchProps extends Record<string, ReturnType<ActionCreator<any, any>>>,
+  DispatchProps extends Record<
+    string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ScopedActionCreator<ActionCreator<any, any>>
+  >,
   OwnProps extends { scope: string }
 >(
   mapStateToProps: MapStateToProps<StateProps, OwnProps, EditorState>,
@@ -72,9 +79,9 @@ function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
   return (state, props) => {
     let editorState = state[props.scope]
     if (!editorState) {
-      const fakeInitAction = createActionWithoutPayload('InitSubScope')(
+      const fakeInitAction = createActionWithoutPayload('InitSubScope')()(
         props.scope
-      )()
+      )
       editorState = reducer(state, (fakeInitAction as unknown) as Action)[
         props.scope
       ]
@@ -83,16 +90,29 @@ function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
   }
 }
 
+export type ScopedActionCreator<T> = T extends (
+  ...args: infer P
+) => (scope: string) => infer A
+  ? (...args: P) => A
+  : never
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function scopedMapDispatchToProps<
   OwnProps extends { scope: string },
   T extends Record<string, ActionCreator<any, any>>
 >(
   mapEditorDispatchToProps: T
-): MapDispatchToPropsParam<{ [K in keyof T]: ReturnType<T[K]> }, OwnProps> {
+): MapDispatchToPropsParam<
+  { [K in keyof T]: ScopedActionCreator<T[K]> },
+  OwnProps
+> {
   return (dispatch, { scope }) => {
     return R.map(
-      mapper => (...args: any) => dispatch(mapper(scope)(...args)),
+      mapper => (...args: Parameters<typeof mapper>) => {
+        const action = mapper(...args)(scope)
+        dispatch(action)
+        return action
+      },
       mapEditorDispatchToProps as any
     ) as any
   }

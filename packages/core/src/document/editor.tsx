@@ -2,7 +2,7 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
-import { connect } from '../editor-context'
+import { connect, ScopedActionCreator } from '../editor-context'
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
@@ -202,8 +202,8 @@ export interface DocumentEditorStateProps {
 // Typescript somehow doesn't recognize an interface as Record<string, ..>
 // eslint-disable-next-line @typescript-eslint/prefer-interface
 export type DocumentEditorDispatchProps = {
-  focusNext: ReturnType<typeof actions['focusNext']>
-  focusPrevious: ReturnType<typeof actions['focusPrevious']>
-  focus: ReturnType<typeof actions['focus']>
-  change: ReturnType<typeof actions['change']>
+  focusNext: ScopedActionCreator<typeof actions['focusNext']>
+  focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
+  focus: ScopedActionCreator<typeof actions['focus']>
+  change: ScopedActionCreator<typeof actions['change']>
 }

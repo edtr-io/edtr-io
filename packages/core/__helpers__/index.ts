@@ -1,7 +1,5 @@
-import * as R from 'ramda'
 import { plugins } from '../__fixtures__/plugins'
-import {Action, actions, createStore} from '../src/store'
-import { actions as actionCreators } from "../src/store"
+import {Action, createStore} from '../src/store'
 
 export const TEST_SCOPE = 'test'
 export function setupStore() {
@@ -17,7 +15,11 @@ export function setupStore() {
   }).store
 
   return {
-    ...store,
+    dispatch: (f:(scope: string) => Action) => {
+      const action = f(TEST_SCOPE)
+      store.dispatch(action)
+      return action
+    },
     getState: () => store.getState()[TEST_SCOPE],
     getActions() {
       return actions
@@ -26,10 +28,6 @@ export function setupStore() {
       actions = []
     }
   }
-}
-
-export function scopeActions() : { [ K in keyof typeof actionCreators]: ReturnType<typeof actionCreators[K]> } {
-  return R.map(action => action(TEST_SCOPE), actionCreators)
 }
 
 export function waitUntil(check: () => boolean): Promise<void> {

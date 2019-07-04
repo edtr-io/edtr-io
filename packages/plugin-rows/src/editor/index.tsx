@@ -8,7 +8,7 @@ export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
-  const { store } = useStore()
+  const store = useStore()
 
   return (
     <React.Fragment>

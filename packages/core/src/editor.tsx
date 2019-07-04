@@ -10,7 +10,8 @@ import {
   Provider,
   connect,
   EditorContext,
-  EditableContext
+  EditableContext,
+  ScopedActionCreator
 } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
@@ -190,9 +191,9 @@ export interface EditorStateProps {
 // Typescript somehow doesn't recognize an interface as Record<string, ..>
 // eslint-disable-next-line @typescript-eslint/prefer-interface
 export type EditorDispatchProps = {
-  initRoot: ReturnType<typeof actions['initRoot']>
-  undo: ReturnType<typeof actions['undo']>
-  redo: ReturnType<typeof actions['redo']>
+  initRoot: ScopedActionCreator<typeof actions['initRoot']>
+  undo: ScopedActionCreator<typeof actions['undo']>
+  redo: ScopedActionCreator<typeof actions['redo']>
 }
 
 export interface EditorProps<K extends string = string> {

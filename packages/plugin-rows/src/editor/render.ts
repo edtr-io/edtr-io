@@ -22,7 +22,7 @@ export default function({
   row: StateType.StateDescriptorReturnType<typeof rowState>
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   index: number
-  store: EditorStore['store']
+  store: EditorStore
   getDocument: (
     state: EditorState,
     id: string
@@ -68,10 +68,12 @@ export default function({
           dispatch<
             typeof actions.change.type,
             ActionFromCreator<typeof actions.change>['payload']
-          >(actions.change, {
-            id: previousFocusId,
-            state: () => merged
-          })
+          >(
+            actions.change({
+              id: previousFocusId,
+              state: () => merged
+            })
+          )
           rows.remove(index)
         } else {
           merge(previous.state)

@@ -1,7 +1,7 @@
 import { selectors, useStore } from '@edtr-io/core'
 
 export function useLogState() {
-  const { store } = useStore()
+  const store = useStore()
   return () => {
     const serialized = selectors.serializeRootDocument(store.getState())
     const stringified = JSON.stringify({

@@ -37,7 +37,7 @@ export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
     index: number
     doc: { plugin: string; state?: unknown }
     plugins: Record<string, Plugin>
-    store: EditorStore['store']
+    store: EditorStore
   }
 const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },

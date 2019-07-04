@@ -14,5 +14,5 @@ function* copySaga(action: CopyAction) {
     action.payload
   )
   if (!document) return
-  yield put(pureCopy(action.scope)(document))
+  yield put(pureCopy(document)(action.scope))
 }

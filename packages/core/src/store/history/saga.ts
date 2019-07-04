@@ -66,10 +66,10 @@ function* commitSaga() {
 function* executeCommit(actions: Action[], combine: boolean, scope: string) {
   yield all(actions.map(action => put(action)))
   yield put(
-    pureCommit(scope)({
+    pureCommit({
       combine,
       actions
-    })
+    })(scope)
   )
 }
 
@@ -83,7 +83,7 @@ function* undoSaga(action: UndoAction) {
   const { documents, focus } = yield select(
     scopeSelector(getInitialState, action.scope)
   )
-  yield put(setPartialState(action.scope)({ documents, focus }))
+  yield put(setPartialState({ documents, focus })(action.scope))
 
   // Replay all except last commit
   yield all(
@@ -91,7 +91,7 @@ function* undoSaga(action: UndoAction) {
       return all(actions.map(action => put(action)))
     })
   )
-  yield put(pureUndo(action.scope)())
+  yield put(pureUndo()(action.scope))
 }
 
 function* redoSaga(action: RedoAction) {
@@ -101,7 +101,7 @@ function* redoSaga(action: RedoAction) {
   const replay = R.head(redoStack)
   if (!replay) return
   yield all(replay.map(action => put(action)))
-  yield put(pureRedo(action.scope)())
+  yield put(pureRedo()(action.scope))
 }
 
 function* resetSaga(action: ResetAction) {
@@ -111,10 +111,10 @@ function* resetSaga(action: ResetAction) {
     )
     if (pendingChanges === 0) break
     else if (pendingChanges < 0) {
-      yield call(redoSaga, redo(action.scope)())
+      yield call(redoSaga, redo()(action.scope))
     } else {
-      yield call(undoSaga, undo(action.scope)())
+      yield call(undoSaga, undo()(action.scope))
     }
   }
-  yield put(pureReset(action.scope)())
+  yield put(pureReset()(action.scope))
 }
