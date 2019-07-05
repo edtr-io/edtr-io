@@ -1,5 +1,5 @@
 import { plugins } from '../__fixtures__/plugins'
-import {Action, createStore} from '../src/store'
+import { Action, createStore } from '../src/store'
 
 export const TEST_SCOPE = 'test'
 export function setupStore() {
@@ -15,7 +15,7 @@ export function setupStore() {
   }).store
 
   return {
-    dispatch: (f:(scope: string) => Action) => {
+    dispatch: (f: (scope: string) => Action) => {
       const action = f(TEST_SCOPE)
       store.dispatch(action)
       return action
