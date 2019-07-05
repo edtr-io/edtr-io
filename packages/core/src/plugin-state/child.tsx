@@ -1,13 +1,12 @@
 import * as React from 'react'
 import { generate } from 'shortid'
 
-import { ScopeContext } from '../editor-context'
-import { Document } from '..'
 import {
   StateDescriptor,
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
+import { Document } from '..'
 
 function PluginPropsDocument<Props extends Record<string, unknown>>({
   id,
@@ -18,18 +17,10 @@ function PluginPropsDocument<Props extends Record<string, unknown>>({
   props?: Props
   parentProps: unknown
 }) {
-  const { scope, editable } = React.useContext(ScopeContext)
   const pluginProps = React.useMemo(() => {
     return { ...props, parent: parentProps }
   }, [props, parentProps])
-  return (
-    <Document
-      pluginProps={pluginProps}
-      id={id}
-      scope={scope}
-      editable={editable}
-    />
-  )
+  return <Document pluginProps={pluginProps} id={id} />
 }
 
 const memoizedRender = <Props extends Record<string, unknown>>(

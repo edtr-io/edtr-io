@@ -191,7 +191,7 @@ export const InnerEditor = connect<
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} scope={scope} editable={editable} />
+    const document = <Document id={id} />
 
     if (typeof children === 'function') {
       return children(document)

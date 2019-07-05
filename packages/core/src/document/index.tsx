@@ -5,17 +5,15 @@ import { ScopeContext } from '../editor-context'
 import { DocumentRenderer } from './renderer'
 
 export const Document = (props: DocumentProps) => {
-  const { editable } = React.useContext(ScopeContext)
+  const { scope, editable } = React.useContext(ScopeContext)
   return editable ? (
-    <DocumentEditor {...props} />
+    <DocumentEditor scope={scope} {...props} />
   ) : (
-    <DocumentRenderer {...props} />
+    <DocumentRenderer scope={scope} {...props} />
   )
 }
 
 export interface DocumentProps {
-  scope: string
   id: string
   pluginProps?: Record<string, unknown>
-  editable?: boolean
 }

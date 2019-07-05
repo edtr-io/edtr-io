@@ -19,7 +19,7 @@ const StyledDocument = styled.div({
 export const DocumentEditor = connect<
   DocumentEditorStateProps,
   DocumentEditorDispatchProps,
-  DocumentProps
+  DocumentProps & { scope: string }
 >(
   (state, { id }) => {
     const document = selectors.getDocument(state, id)

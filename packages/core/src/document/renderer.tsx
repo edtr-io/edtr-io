@@ -7,7 +7,7 @@ import { DocumentProps } from '.'
 
 export const DocumentRenderer = connectStateOnly<
   DocumentRendererStateProps,
-  DocumentProps
+  DocumentProps & { scope: string }
 >((state, { id }) => {
   const document = selectors.getDocument(state, id)
   return {
