@@ -53,7 +53,7 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   }
 }
 
-export const StoreProvider: React.FunctionComponent<{
+export const EditorProvider: React.FunctionComponent<{
   omitDragDropContext?: boolean
 }> = props => {
   const store = React.useMemo(() => {
