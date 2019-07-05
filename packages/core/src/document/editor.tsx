@@ -2,14 +2,14 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
-import { connect, ScopedActionCreator } from '../editor-context'
+import { connect } from '../editor-context'
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
-import { actions, selectors } from '../store'
+import { actions, selectors, ScopedActionCreator } from '../store'
 import { DocumentProps } from '.'
 
 const StyledDocument = styled.div({

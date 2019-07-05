@@ -1,9 +1,6 @@
-import {
-  ActionFromCreator,
-  createAction,
-  createActionWithoutPayload
-} from '../helpers'
-import { Plugin } from '@edtr-io/core'
+import { Plugin } from '../../plugin'
+import { createAction, createActionWithoutPayload } from '../helpers'
+import { ActionFromActionCreator } from '../types'
 
 export const initRoot = createAction<
   'InitRoot',
@@ -16,11 +13,11 @@ export const initRoot = createAction<
     defaultPlugin: string
   }
 >('InitRoot')
-export type InitRootAction = ActionFromCreator<typeof initRoot>
+export type InitRootAction = ActionFromActionCreator<typeof initRoot>
 export const pureInitRoot = createActionWithoutPayload<'PureInitRoot'>(
   'PureInitRoot'
 )
-export type PureInitRootAction = ActionFromCreator<typeof pureInitRoot>
+export type PureInitRootAction = ActionFromActionCreator<typeof pureInitRoot>
 
 export type RootAction = InitRootAction | PureInitRootAction
 

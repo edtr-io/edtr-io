@@ -9,9 +9,14 @@ import {
   ProviderProps,
   ReactReduxContextValue
 } from 'react-redux'
-import { Action, EditorState, StoreState } from './store'
-import { ActionCreator, createActionWithoutPayload } from './store/helpers'
+import { Action, EditorState, ScopeState } from './store'
+import { createActionWithoutPayload } from './store/helpers'
 import { reducer } from './store/reducer'
+import {
+  ActionCreator,
+  ScopedActionCreator,
+  UnscopedActionCreator
+} from './store/types'
 
 export const ScopeContext = React.createContext<{
   scope: string
@@ -19,7 +24,7 @@ export const ScopeContext = React.createContext<{
 }>({ scope: '', editable: true })
 
 export const EditorContext = React.createContext<
-  ReactReduxContextValue<StoreState>
+  ReactReduxContextValue<EditorState>
 >(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   undefined as any
@@ -31,53 +36,41 @@ export function Provider(
   return <ReduxProvider {...props} context={EditorContext} />
 }
 
-type InferStoreDispatchProps<T> = T extends Record<
-  string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ScopedActionCreator<ActionCreator<any, any>>
->
-  ? {
-      [K in keyof T]: ((
-        ...args: Parameters<T[K]>
-      ) => (scope: string) => ReturnType<T[K]>) & { type: string }
-    }
-  : never
-
 export function connect<
   StateProps,
-  DispatchProps extends Record<
-    string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ScopedActionCreator<ActionCreator<any, any>>
-  >,
+  DispatchProps extends Record<string, ScopedActionCreator>,
   OwnProps extends { scope: string }
 >(
-  mapStateToProps: MapStateToProps<StateProps, OwnProps, EditorState>,
-  mapDispatchToProps: InferStoreDispatchProps<DispatchProps>
+  mapStateToProps: MapStateToProps<StateProps, OwnProps, ScopeState>,
+  mapDispatchToProps: {
+    [K in keyof DispatchProps]: UnscopedActionCreator<DispatchProps[K]>
+  }
 ) {
   return reduxConnect(
     scopedMapStateToProps(mapStateToProps),
-    scopedMapDispatchToProps<OwnProps, InferStoreDispatchProps<DispatchProps>>(
-      mapDispatchToProps
-    ),
+    scopedMapDispatchToProps<
+      OwnProps,
+      { [K in keyof DispatchProps]: UnscopedActionCreator<DispatchProps[K]> }
+    >(mapDispatchToProps),
     null,
     {
       context: EditorContext
     }
   )
 }
+
 export function connectStateOnly<
   StateProps,
   OwnProps extends { scope: string }
->(mapStateToProps: MapStateToProps<StateProps, OwnProps, EditorState>) {
+>(mapStateToProps: MapStateToProps<StateProps, OwnProps, ScopeState>) {
   return reduxConnect(scopedMapStateToProps(mapStateToProps), null, null, {
     context: EditorContext
   })
 }
 
 function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
-  mapEditorStateToProps: MapStateToProps<StateProps, OwnProps, EditorState>
-): MapStateToPropsParam<StateProps, OwnProps, StoreState> {
+  mapEditorStateToProps: MapStateToProps<StateProps, OwnProps, ScopeState>
+): MapStateToPropsParam<StateProps, OwnProps, EditorState> {
   return (state, props) => {
     let editorState = state[props.scope]
     if (!editorState) {
@@ -92,16 +85,10 @@ function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
   }
 }
 
-export type ScopedActionCreator<T> = T extends (
-  ...args: infer P
-) => (scope: string) => infer A
-  ? (...args: P) => A
-  : never
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function scopedMapDispatchToProps<
   OwnProps extends { scope: string },
-  T extends Record<string, ActionCreator<any, any>>
+  T extends Record<string, ActionCreator>
 >(
   mapEditorDispatchToProps: T
 ): MapDispatchToPropsParam<

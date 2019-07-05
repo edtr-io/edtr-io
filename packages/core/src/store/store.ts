@@ -12,20 +12,20 @@ import { Plugin } from '../plugin'
 import { Action } from './actions'
 import { reducer } from './reducer'
 import { saga } from './saga'
-import { StoreState } from './types'
+import { EditorState } from './types'
 import { selectors } from './index'
 
 export function createStore<K extends string>({
   instances,
   actions
 }: StoreOptions<K>): {
-  store: Store<StoreState, Action>
+  store: Store<EditorState, Action>
 } {
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = composeWithDevTools({ realtime: true })
   const enhancer = composeEnhancers(applyMiddleware(...getMiddleware()))
 
-  const initialStates: DeepPartial<StoreState> = {}
+  const initialStates: DeepPartial<EditorState> = {}
   for (let scope in instances) {
     initialStates[scope] = {
       plugins: {
@@ -35,7 +35,7 @@ export function createStore<K extends string>({
     }
   }
 
-  const store = createReduxStore<StoreState, Action, {}, {}>(
+  const store = createReduxStore<EditorState, Action, {}, {}>(
     reducer,
     initialStates,
     enhancer
@@ -77,7 +77,7 @@ export function createStore<K extends string>({
   function createChangeMiddleware(
     scope: string,
     onChange: ChangeListener
-  ): Middleware<{}, StoreState> {
+  ): Middleware<{}, EditorState> {
     let pendingChanges = 0
 
     return store => next => action => {

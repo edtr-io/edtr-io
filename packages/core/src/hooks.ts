@@ -1,9 +1,8 @@
 import * as React from 'react'
 
-import { actions, selectors } from './store'
-import { EditorContext } from '.'
 import { ScopeContext } from './editor-context'
-import { ActionCreator } from './store/helpers'
+import { actions, selectors, ActionCreator } from './store'
+import { EditorContext } from '.'
 
 export function useEditorFocus() {
   const store = useStore()

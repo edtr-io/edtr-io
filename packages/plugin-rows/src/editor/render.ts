@@ -1,14 +1,14 @@
 import {
-  StateType,
   actions,
   selectors,
+  ActionFromActionCreator,
   EditorStore,
-  EditorState
+  ScopeState,
+  StateType
 } from '@edtr-io/core'
 import * as React from 'react'
 
 import { rowsState, rowState } from '..'
-import { ActionFromCreator } from '@edtr-io/core/src/store/helpers'
 
 export default function({
   row,
@@ -24,7 +24,7 @@ export default function({
   index: number
   store: EditorStore
   getDocument: (
-    state: EditorState,
+    state: ScopeState,
     id: string
   ) => { plugin: string; state?: unknown } | null
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
@@ -67,7 +67,7 @@ export default function({
           const merged = merge(previous.state)
           dispatch<
             typeof actions.change.type,
-            ActionFromCreator<typeof actions.change>['payload']
+            ActionFromActionCreator<typeof actions.change>['payload']
           >(
             actions.change({
               id: previousFocusId,

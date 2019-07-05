@@ -6,8 +6,15 @@ import { publicPluginsSelectors } from './plugins'
 import { publicRootActions, publicRootSelectors } from './root'
 
 export { Action } from './actions'
-export { createStore } from './store'
-export { DocumentState, EditorState, StoreState } from './types'
+export { createStore, ChangeListener } from './store'
+export {
+  DocumentState,
+  EditorState,
+  ScopeState,
+  ActionCreator,
+  ActionFromActionCreator,
+  ScopedActionCreator
+} from './types'
 
 export const actions = {
   ...publicClipboardActions,

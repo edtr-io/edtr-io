@@ -1,5 +1,5 @@
 import { createSubReducer } from '../helpers'
-import { DocumentState, EditorState } from '../types'
+import { DocumentState, ScopeState } from '../types'
 import { pureInitRoot, PureInitRootAction } from './actions'
 
 import { serializeDocument } from '../documents/reducer'
@@ -10,12 +10,10 @@ export const rootReducer = createSubReducer('root', null, {
   }
 })
 
-export function getRoot(state: EditorState) {
+export function getRoot(state: ScopeState) {
   return state.root
 }
-export function serializeRootDocument(
-  state: EditorState
-): DocumentState | null {
+export function serializeRootDocument(state: ScopeState): DocumentState | null {
   const root = getRoot(state)
 
   return root ? serializeDocument(state, root) : null

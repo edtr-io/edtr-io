@@ -1,26 +1,6 @@
 import { Action } from './actions'
-import { EditorState, StoreState } from './types'
+import { EditorState, ScopeState } from './types'
 
-export type ActionCreator<T, P> =
-  | {
-      (payload: P): (
-        scope: string
-      ) => {
-        type: T
-        payload?: P
-        scope: string
-      }
-      type: T
-    }
-  | {
-      (): (
-        scope: string
-      ) => {
-        type: T
-        scope: string
-      }
-      type: T
-    }
 export function createAction<T, P>(type: T) {
   const actionCreator = (payload: P) => (scope: string) => {
     return {
@@ -43,11 +23,11 @@ export function createActionWithoutPayload<T>(type: T) {
   return actionCreator
 }
 
-export function createSubReducer<K extends keyof EditorState>(
+export function createSubReducer<K extends keyof ScopeState>(
   key: K,
-  initialState: EditorState[K],
-  actionsMap: CaseReducersMapObject<EditorState[K]>
-): SubReducer<EditorState[K]> {
+  initialState: ScopeState[K],
+  actionsMap: CaseReducersMapObject<ScopeState[K]>
+): SubReducer<ScopeState[K]> {
   return (action, state) => {
     const subState = (state && state[key]) || initialState
     if (!state) return subState
@@ -61,17 +41,17 @@ export function createSubReducer<K extends keyof EditorState>(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function scopeSelector<T, P extends any[]>(
-  selector: (state: EditorState, ...args: P) => T,
+  selector: (state: ScopeState, ...args: P) => T,
   scope: string
 ) {
-  return (storeState: StoreState, ...args: P) => {
+  return (storeState: EditorState, ...args: P) => {
     return selector(storeState[scope], ...args)
   }
 }
 
 export type SubReducer<S = unknown> = (
   action: Action,
-  state: EditorState | undefined
+  state: ScopeState | undefined
 ) => S
 
 export interface CaseReducersMapObject<S = unknown> {
@@ -82,10 +62,5 @@ export interface CaseReducersMapObject<S = unknown> {
 export type CaseReducer<S = unknown, A extends Action = Action> = (
   subState: S,
   action: A,
-  state: EditorState
+  state: ScopeState
 ) => S
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ActionFromCreator<T extends ActionCreator<any, any>> = ReturnType<
-  ReturnType<T>
->

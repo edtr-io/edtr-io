@@ -9,13 +9,17 @@ import {
   connect,
   Provider,
   EditorContext,
-  ScopedActionCreator,
   ScopeContext
 } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
-import { createStore, actions, selectors } from './store'
-import { ChangeListener } from './store/store'
+import {
+  actions,
+  selectors,
+  createStore,
+  ChangeListener,
+  ScopedActionCreator
+} from './store'
 
 const MAIN_SCOPE = 'main'
 export function Editor<K extends string = string>(props: EditorProps<K>) {

@@ -1,5 +1,5 @@
 import { createSubReducer } from '../helpers'
-import { EditorState } from '../types'
+import { ScopeState } from '../types'
 import {
   focus,
   FocusDocumentAction,
@@ -30,8 +30,8 @@ export const focusReducer = createSubReducer('focus', null, {
 })
 
 function handleFocus(
-  focusState: EditorState['focus'],
-  state: EditorState,
+  focusState: ScopeState['focus'],
+  state: ScopeState,
   findNode: typeof findNextNode
 ) {
   const from = focusState
@@ -43,16 +43,16 @@ function handleFocus(
   return next
 }
 
-export function getFocused(state: EditorState) {
+export function getFocused(state: ScopeState) {
   return state.focus
 }
 
-export function isFocused(state: EditorState, id: string) {
+export function isFocused(state: ScopeState, id: string) {
   return getFocused(state) === id
 }
 
 export function getFocusTree(
-  state: EditorState,
+  state: ScopeState,
   root = getRoot(state)
 ): Node | null {
   if (!root) return null

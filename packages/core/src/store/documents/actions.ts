@@ -1,6 +1,6 @@
-import { DocumentState } from '../types'
-import { ActionFromCreator, createAction } from '../helpers'
 import { StoreDeserializeHelpers } from '../../plugin-state'
+import { createAction } from '../helpers'
+import { ActionFromActionCreator, DocumentState } from '../types'
 
 export const insert = createAction<
   'Insert',
@@ -10,17 +10,17 @@ export const insert = createAction<
     state?: unknown
   }
 >('Insert')
-export type InsertAction = ActionFromCreator<typeof insert>
+export type InsertAction = ActionFromActionCreator<typeof insert>
 export const pureInsert = createAction<
   'PureInsert',
   {
     id: string
   } & DocumentState
 >('PureInsert')
-export type PureInsertAction = ActionFromCreator<typeof pureInsert>
+export type PureInsertAction = ActionFromActionCreator<typeof pureInsert>
 
 export const remove = createAction<'Remove', string>('Remove')
-export type RemoveAction = ActionFromCreator<typeof remove>
+export type RemoveAction = ActionFromActionCreator<typeof remove>
 
 export const change = createAction<
   'Change',
@@ -29,12 +29,12 @@ export const change = createAction<
     state: (value: unknown, helpers: StoreDeserializeHelpers) => unknown
   }
 >('Change')
-export type ChangeAction = ActionFromCreator<typeof change>
+export type ChangeAction = ActionFromActionCreator<typeof change>
 export const pureChange = createAction<
   'PureChange',
   { id: string; state: unknown }
 >('PureChange')
-export type PureChangeAction = ActionFromCreator<typeof pureChange>
+export type PureChangeAction = ActionFromActionCreator<typeof pureChange>
 
 export type DocumentsAction =
   | InsertAction

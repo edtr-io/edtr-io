@@ -1,5 +1,5 @@
-import { ActionFromCreator, createAction } from './helpers'
-import { EditorState } from './types'
+import { createAction } from './helpers'
+import { ActionFromActionCreator, ScopeState } from './types'
 
 import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
@@ -9,9 +9,9 @@ import { RootAction } from './root/actions'
 
 export const setPartialState = createAction<
   'SetPartialState',
-  Partial<EditorState>
+  Partial<ScopeState>
 >('SetPartialState')
-export type SetPartialState = ActionFromCreator<typeof setPartialState>
+export type SetPartialState = ActionFromActionCreator<typeof setPartialState>
 
 export type Action =
   | ClipboardAction

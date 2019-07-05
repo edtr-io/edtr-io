@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import { Action, setPartialState } from './actions'
-import { EditorState, StoreState } from './types'
+import { EditorState, ScopeState } from './types'
 
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
@@ -10,9 +10,9 @@ import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
 
 export function reducer(
-  state: StoreState | undefined,
+  state: EditorState | undefined,
   action: Action
-): StoreState {
+): EditorState {
   if (state && action.type === setPartialState.type) {
     return {
       ...state,
@@ -37,13 +37,13 @@ export function reducer(
   }
 }
 
-function editorReducer(instanceState: EditorState | undefined, action: Action) {
+function editorReducer(scopeState: ScopeState | undefined, action: Action) {
   return {
-    clipboard: clipboardReducer(action, instanceState),
-    documents: documentsReducer(action, instanceState),
-    focus: focusReducer(action, instanceState),
-    history: historyReducer(action, instanceState),
-    plugins: pluginsReducer(action, instanceState),
-    root: rootReducer(action, instanceState)
+    clipboard: clipboardReducer(action, scopeState),
+    documents: documentsReducer(action, scopeState),
+    focus: focusReducer(action, scopeState),
+    history: historyReducer(action, scopeState),
+    plugins: pluginsReducer(action, scopeState),
+    root: rootReducer(action, scopeState)
   }
 }

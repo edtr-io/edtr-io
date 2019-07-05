@@ -1,6 +1,6 @@
 import { Plugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
-import { EditorState } from '../types'
+import { ScopeState } from '../types'
 
 export const pluginsReducer = createSubReducer(
   'plugins',
@@ -8,28 +8,28 @@ export const pluginsReducer = createSubReducer(
   {}
 )
 
-export function getDefaultPlugin(state: EditorState) {
+export function getDefaultPlugin(state: ScopeState) {
   return state.plugins.defaultPlugin
 }
 
-export function getPlugins(state: EditorState) {
+export function getPlugins(state: ScopeState) {
   return state.plugins.plugins
 }
 
-export function getPlugin(state: EditorState, type: string): Plugin | null {
+export function getPlugin(state: ScopeState, type: string): Plugin | null {
   const plugins = getPlugins(state)
   return plugins[type] || null
 }
 
 export function getPluginTypeOrDefault(
-  state: EditorState,
+  state: ScopeState,
   type = getDefaultPlugin(state)
 ): string {
   return type
 }
 
 export function getPluginOrDefault(
-  state: EditorState,
+  state: ScopeState,
   type = getDefaultPlugin(state)
 ): Plugin | null {
   return getPlugin(state, type)

@@ -18,9 +18,10 @@ import * as StateType from './plugin-state'
 export { StateType }
 export {
   Action,
+  ActionFromActionCreator,
   DocumentState,
   EditorState,
-  StoreState,
+  ScopeState,
   actions,
   selectors
 } from './store'

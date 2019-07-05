@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { Action } from '../actions'
 import { createSubReducer } from '../helpers'
-import { EditorState } from '../types'
+import { ScopeState } from '../types'
 import {
   persist,
   PersistAction,
@@ -79,27 +79,27 @@ export const historyReducer = createSubReducer(
   }
 )
 
-export function getHistory(state: EditorState) {
+export function getHistory(state: ScopeState) {
   return state.history
 }
 
-export function getInitialState(state: EditorState) {
+export function getInitialState(state: ScopeState) {
   return getHistory(state).initialState
 }
 
-export function getPendingChanges(state: EditorState) {
+export function getPendingChanges(state: ScopeState) {
   return getHistory(state).pendingChanges
 }
 
-export function hasPendingChanges(state: EditorState) {
+export function hasPendingChanges(state: ScopeState) {
   return getPendingChanges(state) !== 0
 }
 
-export function getUndoStack(state: EditorState) {
+export function getUndoStack(state: ScopeState) {
   return getHistory(state).undoStack as Action[][]
 }
 
-export function getRedoStack(state: EditorState) {
+export function getRedoStack(state: ScopeState) {
   return getHistory(state).redoStack as Action[][]
 }
 
