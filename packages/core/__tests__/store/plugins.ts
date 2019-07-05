@@ -1,5 +1,5 @@
 import { setupStore } from '../../__helpers__'
-import { selectors } from '../../src/store'
+import { selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 

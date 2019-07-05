@@ -6,12 +6,11 @@ import { HotKeys } from 'react-hotkeys'
 
 import { Document } from './document'
 import {
-  ScopeContext,
-  Provider,
   connect,
+  Provider,
   EditorContext,
-  EditableContext,
-  ScopedActionCreator
+  ScopedActionCreator,
+  ScopeContext
 } from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
@@ -137,7 +136,12 @@ export const InnerEditor = connect<
       initRoot({ initialState, plugins, defaultPlugin })
     }
   }, [defaultPlugin, initRoot, initialState, mirror, plugins])
-
+  const scopeContextValue = React.useMemo(() => {
+    return {
+      scope,
+      editable
+    }
+  }, [scope, editable])
   const hotKeysHandlers = React.useMemo(() => {
     return {
       UNDO: undo,
@@ -157,10 +161,8 @@ export const InnerEditor = connect<
       <div style={{ position: 'relative' }}>
         <RootThemeProvider theme={theme}>
           <OverlayContextProvider>
-            <ScopeContext.Provider value={scope}>
-              <EditableContext.Provider value={editable}>
-                {renderChildren(id)}
-              </EditableContext.Provider>
+            <ScopeContext.Provider value={scopeContextValue}>
+              {renderChildren(id)}
             </ScopeContext.Provider>
           </OverlayContextProvider>
         </RootThemeProvider>

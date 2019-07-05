@@ -29,7 +29,7 @@ export function useEditorHistory() {
 }
 
 export function useStore() {
-  const scope = React.useContext(ScopeContext)
+  const { scope } = React.useContext(ScopeContext)
   const { store } = React.useContext(EditorContext)
   return React.useMemo(() => {
     return {

@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert, pureChange } from '../../src/store/documents/actions'
 import { getDocuments } from '../../src/store/documents/reducer'
-import { actions, selectors } from '../../src/store'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 

@@ -28,9 +28,9 @@
     "deploy:from-package": "yarn deploy from-package",
     "deploy:prerelease": "yarn lerna version --message \"chore: release %v\" --no-git-tag-version --no-push && yarn deploy:from-package --dist-tag next",
     "_exec": "lerna exec --stream --no-bail",
-    "_eslint": "eslint \"{{packages/*,scripts}/{{__helpers__,__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
+    "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
-    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__helpers__,__fixtures__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {

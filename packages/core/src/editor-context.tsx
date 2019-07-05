@@ -4,17 +4,19 @@ import {
   Provider as ReduxProvider,
   connect as reduxConnect,
   MapDispatchToPropsParam,
+  MapStateToProps,
   MapStateToPropsParam,
   ProviderProps,
-  ReactReduxContextValue,
-  MapStateToProps
+  ReactReduxContextValue
 } from 'react-redux'
 import { Action, EditorState, StoreState } from './store'
 import { ActionCreator, createActionWithoutPayload } from './store/helpers'
 import { reducer } from './store/reducer'
 
-export const ScopeContext = React.createContext<string>('')
-export const EditableContext = React.createContext(true)
+export const ScopeContext = React.createContext<{
+  scope: string
+  editable: boolean
+}>({ scope: '', editable: true })
 
 export const EditorContext = React.createContext<
   ReactReduxContextValue<StoreState>

@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 import { DocumentEditor } from './editor'
+import { ScopeContext } from '../editor-context'
 import { DocumentRenderer } from './renderer'
-import { EditableContext } from '../editor-context'
 
 export const Document = (props: DocumentProps) => {
-  const editable = React.useContext(EditableContext)
+  const { editable } = React.useContext(ScopeContext)
   return editable ? (
     <DocumentEditor {...props} />
   ) : (

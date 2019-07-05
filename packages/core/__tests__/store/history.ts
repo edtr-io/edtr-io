@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 
+import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, wait, waitUntil } from '../../__helpers__'
 import { pureChange } from '../../src/store/documents/actions'
 import {
@@ -14,8 +15,7 @@ import {
   getRedoStack,
   getUndoStack
 } from '../../src/store/history/reducer'
-import { actions, selectors } from '../../src/store'
-import { plugins } from '../../__fixtures__/plugins'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 
@@ -112,6 +112,7 @@ describe('History', () => {
       state: 1
     })
   })
+
   test('Redo keeps order of remaining commits', async () => {
     await change({ id: 'root', state: () => 1 })
     await wait(1000)

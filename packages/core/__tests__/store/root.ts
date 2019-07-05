@@ -1,9 +1,9 @@
 import * as R from 'ramda'
 
-import { setupStore, waitUntil } from '../../__helpers__'
-import { actions, selectors } from '../../src/store'
-import { persist } from '../../src/store/history/actions'
 import { plugins } from '../../__fixtures__/plugins'
+import { setupStore, waitUntil } from '../../__helpers__'
+import { persist } from '../../src/store/history/actions'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 
