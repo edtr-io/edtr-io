@@ -36,6 +36,35 @@ const Wrapper = styled.div<{ inline: boolean }>(props => {
   }
 })
 
+/*
+.c-keyboard_key {
+  background: #ddd;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: 400;
+  min-width: 24px;
+  height: 27px;
+  margin: 0 2px;
+  border-radius: 5px;
+  color: #1d1c1d;
+  border: 1px solid #868686;
+  box-shadow: 0 1px 0 #868686;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 21px;
+}*/
+
+const KeyboardKey = styled.span({
+  background: '#ddd',
+  padding: '2px 4px',
+  borderRadius: 5,
+  color: '#1d1c1d',
+  textAlign: 'center',
+  minWidth: 20
+})
+
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & { name: string }
 > = props => {
@@ -107,19 +136,42 @@ export const DefaultEditorComponent: React.FunctionComponent<
     return (
       <>
         <Overlay>
-          Schnellstartanleitung:
+          Tastenkürzel:
           <br />
-          {"Schreibe Brüche mit '/'"}
           <br />
-          {"Gib Potenzen ein mit Pfeil-Hoch oder '^'"}
-          <br />
-          {"Kleingestellt mit Pfeil runter oder '_'"}
-          <br />
-          {
-            "Mathematische Symbole können mit '\\<NAME>' eingefügt werden, wobei <NAME> dem LaTeX-Befehl entspricht"
-          }
-          <br />
-          {"Eingabe von Wurzeln über die Eingabe '\\sqrt' bzw '\\nthroot'"}
+          <p>
+            Bruch: <KeyboardKey>/</KeyboardKey>
+          </p>
+          <p>
+            Hochgestellt: <KeyboardKey>↑</KeyboardKey> oder{' '}
+            <KeyboardKey>^</KeyboardKey>
+          </p>
+          <p>
+            Tiefgestellt: <KeyboardKey>↓</KeyboardKey> oder{' '}
+            <KeyboardKey>_</KeyboardKey>
+          </p>
+          <p>
+            π, α, β, γ: <KeyboardKey>pi</KeyboardKey>,{' '}
+            <KeyboardKey>alpha</KeyboardKey>, <KeyboardKey>beta</KeyboardKey>,
+            <KeyboardKey>gamma</KeyboardKey>
+          </p>
+          <p>
+            ≤, ≥: <KeyboardKey>{'<='}</KeyboardKey>,{' '}
+            <KeyboardKey>{'>='}</KeyboardKey>
+          </p>
+          <p>
+            Wurzeln: <KeyboardKey>\sqrt</KeyboardKey>,{' '}
+            <KeyboardKey>\nthroot</KeyboardKey>
+          </p>
+          <p>
+            Mathematische Symbole: <KeyboardKey>{'\\<NAME>'}</KeyboardKey>, z.B.{' '}
+            <KeyboardKey>\neq</KeyboardKey> (≠), <KeyboardKey>\pm</KeyboardKey>{' '}
+            (±), ...
+          </p>
+          <p>
+            Funktionen: <KeyboardKey>sin</KeyboardKey>,{' '}
+            <KeyboardKey>cos</KeyboardKey>, <KeyboardKey>ln</KeyboardKey>, ...
+          </p>
         </Overlay>
         <Wrapper
           {...attributes}
@@ -131,7 +183,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
           {useVisual ? (
             <MathQuill
               latex={formulaState}
-              onChange={setFormulaState}
+              onChange={(e: MathQuill) => {
+                setFormulaState(e.latex())
+              }}
               config={{
                 supSubsRequireOperand: true,
                 autoCommands: 'pi alpha beta gamma delta',
