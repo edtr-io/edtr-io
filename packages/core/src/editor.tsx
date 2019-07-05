@@ -16,7 +16,7 @@ import {
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import { createStore, actions, selectors } from './store'
-import { StoreOptions } from './store/store'
+import { ChangeListener } from './store/store'
 
 const MAIN_SCOPE = 'main'
 export function Editor<K extends string = string>(props: EditorProps<K>) {
@@ -206,8 +206,7 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  // FIXME: type ugly as hell...
-  onChange?: StoreOptions<K>['instances'][typeof MAIN_SCOPE]['onChange']
+  onChange?: ChangeListener
   editable?: boolean
 }
 

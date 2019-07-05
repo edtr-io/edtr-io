@@ -109,7 +109,7 @@ export interface StoreOptions<K extends string> {
   actions?: Action[]
 }
 
-type ChangeListener = ({
+export type ChangeListener = ({
   changed,
   document
 }: {
