@@ -1,7 +1,14 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "emitDeclarationOnly": true,
+    "declaration": false,
+    "allowJs": true,
+    "declarationMap": false,
     "outDir": "../dist"
-  }
+  },
+  "rootDir": ".",
+  "include": [
+    "./plugins/katex/react-mathquill/index.js",
+    "./plugins/katex/react-mathquill/my_dist/main.js"
+  ]
 }
