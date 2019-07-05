@@ -6,7 +6,7 @@ import {
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
-import { Document } from '..'
+import { SubDocument } from '../document'
 
 function PluginPropsDocument<Props extends Record<string, unknown>>({
   id,
@@ -20,7 +20,7 @@ function PluginPropsDocument<Props extends Record<string, unknown>>({
   const pluginProps = React.useMemo(() => {
     return { ...props, parent: parentProps }
   }, [props, parentProps])
-  return <Document pluginProps={pluginProps} id={id} />
+  return <SubDocument pluginProps={pluginProps} id={id} />
 }
 
 const memoizedRender = <Props extends Record<string, unknown>>(

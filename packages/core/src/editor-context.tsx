@@ -20,8 +20,8 @@ import {
 
 export const ScopeContext = React.createContext<{
   scope: string
-  editable: boolean
-}>({ scope: '', editable: true })
+  editable?: boolean
+}>({ scope: '' })
 
 export const EditorContext = React.createContext<
   ReactReduxContextValue<EditorState>

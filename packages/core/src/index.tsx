@@ -1,5 +1,4 @@
-export { Document, DocumentProps } from './document'
-export { Editor, EditorProps, EditorInstance, EditorProvider } from './editor'
+export { Document, Editor, EditorProps, EditorProvider } from './editor'
 export { EditorContext, connect, connectStateOnly } from './editor-context'
 export {
   useEditorFocus,

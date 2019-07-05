@@ -4,7 +4,7 @@ import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
-import { Document } from './document'
+import { SubDocument } from './document'
 import {
   connect,
   Provider,
@@ -46,7 +46,11 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
 
   function renderChildren() {
     const children = (
-      <InnerEditor {...props} scope={MAIN_SCOPE} mirror={false} />
+      <InnerDocument
+        {...props}
+        scope={MAIN_SCOPE}
+        editable={props.editable === undefined ? true : props.editable}
+      />
     )
     if (props.omitDragDropContext) return children
     return (
@@ -88,33 +92,35 @@ export const EditorProvider: React.FunctionComponent<{
   )
 }
 
-export function EditorInstance<K extends string = string>(
-  props: EditorProps<K> & InnerEditorProps
-) {
+export function Document<K extends string = string>({
+  scope = MAIN_SCOPE,
+  mirror,
+  ...props
+}: EditorProps<K> & { scope?: string; mirror?: boolean }) {
   const storeContext = React.useContext(EditorContext)
   React.useEffect(() => {
-    const isMainInstance = !props.mirror
-    if (isMainInstance && mountedScopes[props.scope]) {
+    const isMainInstance = !mirror
+    if (isMainInstance && mountedScopes[scope]) {
       // eslint-disable-next-line no-console
       console.error(
-        `There are multiple main instances for scope ${props.scope}. Please set the mirror prop to true to all but one instance.`
+        `There are multiple main instances for scope ${scope}. Please set the mirror prop to true to all but one instance.`
       )
     }
-    mountedScopes[props.scope] = true
+    mountedScopes[scope] = true
     return () => {
-      mountedScopes[props.scope] = false
+      mountedScopes[scope] = false
     }
-  }, [props.mirror, props.scope])
+  }, [mirror, scope])
 
   if (!storeContext) {
     // eslint-disable-next-line no-console
     console.error(
-      'Could not connect to Redux Store. Please make sure to wrap all instances of EditorInstance in a StoreProvider'
+      'Could not connect to Redux Store. Please make sure to wrap all instances of Document in an EditorProvider'
     )
     return null
   }
 
-  return <InnerEditor {...props} />
+  return <InnerDocument scope={scope} mirror={mirror} {...props} />
 }
 
 const defaultTheme: CustomTheme = {}
@@ -122,7 +128,7 @@ const hotKeysKeyMap = {
   UNDO: 'mod+z',
   REDO: ['mod+y', 'mod+shift+z']
 }
-export const InnerEditor = connect<
+export const InnerDocument = connect<
   EditorStateProps,
   EditorDispatchProps,
   EditorProps & { scope: string }
@@ -137,7 +143,7 @@ export const InnerEditor = connect<
     undo: actions.undo,
     redo: actions.redo
   }
-)(function InnerEditor<K extends string = string>({
+)(function InnerDocument<K extends string = string>({
   id,
   initRoot,
   undo,
@@ -148,9 +154,10 @@ export const InnerEditor = connect<
   plugins,
   defaultPlugin,
   scope,
-  editable = true,
+  editable,
   theme = defaultTheme
-}: EditorProps<K> & InnerEditorProps & EditorStateProps & EditorDispatchProps) {
+}: EditorProps<K> & { scope: string; mirror?: boolean } & EditorStateProps &
+  EditorDispatchProps) {
   React.useEffect(() => {
     if (!mirror) {
       initRoot({ initialState, plugins, defaultPlugin })
@@ -191,7 +198,7 @@ export const InnerEditor = connect<
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} />
+    const document = <SubDocument id={id} />
 
     if (typeof children === 'function') {
       return children(document)
@@ -230,9 +237,4 @@ export interface EditorProps<K extends string = string> {
   theme?: CustomTheme
   onChange?: ChangeListener
   editable?: boolean
-}
-
-export interface InnerEditorProps {
-  scope: string
-  mirror?: boolean
 }

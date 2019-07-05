@@ -4,7 +4,7 @@ import { DocumentEditor } from './editor'
 import { ScopeContext } from '../editor-context'
 import { DocumentRenderer } from './renderer'
 
-export const Document = (props: DocumentProps) => {
+export const SubDocument = (props: DocumentProps) => {
   const { scope, editable } = React.useContext(ScopeContext)
   return editable ? (
     <DocumentEditor scope={scope} {...props} />

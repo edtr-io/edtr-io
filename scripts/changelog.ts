@@ -277,7 +277,7 @@ async function exec(): Promise<void> {
       ],
       added: [
         '**core**. To connect to the store, you can either use the exposed `useStore` or our newly exposed `connect` and `connectStateOnly`. If you want to connect to all editor instances use `EditorContext` (e.g. with `React.useContext`)',
-        '**core**. Exposes a new Component `EditorInstance` which in contrast to `Editor` needs an additional prop `scope`. Editor instances of the same scope use the same store state.'
+        '**core**. Exposes a new Component `Document` which in contrast to `Editor` needs an additional prop `scope`. Editor instances of the same scope use the same store state.'
       ],
       fixed: [
         '**core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)',
