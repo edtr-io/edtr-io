@@ -1,3 +1,4 @@
+import { EditorInstance, EditorProvider } from '@edtr-io/core'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
@@ -5,7 +6,6 @@ import * as React from 'react'
 import { EditorInstanceStory, EditorStory } from '../src'
 import { DragDropContextProvider } from 'react-dnd'
 import html5Backend from 'react-dnd-html5-backend'
-import { EditorInstance, EditorProvider } from '@edtr-io/core'
 import { plugins } from '../src/plugins'
 
 const state = JSON.parse(
@@ -101,8 +101,13 @@ storiesOf('Article', module)
           mirror={false}
           editable
         />
-        {/*<p>And here is the rendered output of Instance 1:</p>*/}
-        {/*<EditorInstance plugins={plugins} defaultPlugin="text" scope="instance1" editable={false}/>*/}
+        <p>And here is the rendered output of Instance 1:</p>
+        <EditorInstance
+          plugins={plugins}
+          defaultPlugin="text"
+          scope="instance1"
+          editable={false}
+        />
       </EditorProvider>
     )
   })

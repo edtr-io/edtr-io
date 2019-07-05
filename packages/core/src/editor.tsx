@@ -22,6 +22,10 @@ import {
 } from './store'
 
 const MAIN_SCOPE = 'main'
+
+let mountedProvider = false
+const mountedScopes: Record<string, boolean> = {}
+
 export function Editor<K extends string = string>(props: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
@@ -56,6 +60,16 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
 export const EditorProvider: React.FunctionComponent<{
   omitDragDropContext?: boolean
 }> = props => {
+  React.useEffect(() => {
+    if (mountedProvider) {
+      // eslint-disable-next-line no-console
+      console.error('You may only render one <EditorProvider />.')
+    }
+    mountedProvider = true
+    return () => {
+      mountedProvider = false
+    }
+  }, [])
   const store = React.useMemo(() => {
     return createStore({
       instances: {}
@@ -77,27 +91,29 @@ export const EditorProvider: React.FunctionComponent<{
 export function EditorInstance<K extends string = string>(
   props: EditorProps<K> & InnerEditorProps
 ) {
-  const { store } = React.useContext(EditorContext)
-  const isMainInstance = React.useRef(
-    store && store.getState()[props.scope] && !props.mirror
-  )
-  // this needs to be outside of useEffect to make sure it happens before the initRoot of the instance itself
+  const storeContext = React.useContext(EditorContext)
   React.useEffect(() => {
-    if (isMainInstance.current) {
+    const isMainInstance = !props.mirror
+    if (isMainInstance && mountedScopes[props.scope]) {
       // eslint-disable-next-line no-console
-      console.warn(
-        'An editor instance with this scope was already initialized. This resets the state and actions! Please set mirror prop to false on one instance.'
+      console.error(
+        `There are multiple main instances for scope ${props.scope}. Please set the mirror prop to true to all but one instance.`
       )
     }
-  }, [isMainInstance])
+    mountedScopes[props.scope] = true
+    return () => {
+      mountedScopes[props.scope] = false
+    }
+  }, [props.mirror, props.scope])
 
-  if (!store) {
+  if (!storeContext) {
     // eslint-disable-next-line no-console
     console.error(
       'Could not connect to Redux Store. Please make sure to wrap all instances of EditorInstance in a StoreProvider'
     )
     return null
   }
+
   return <InnerEditor {...props} />
 }
 
@@ -218,5 +234,5 @@ export interface EditorProps<K extends string = string> {
 
 export interface InnerEditorProps {
   scope: string
-  mirror: boolean
+  mirror?: boolean
 }
