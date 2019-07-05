@@ -7,8 +7,8 @@ import {
   Icon
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
-//@ts-ignore
-import MathQuill from 'react-mathquill'
+// @ts-ignore
+import MathQuill from './react-mathquill'
 import { Block, Inline } from 'slate'
 
 import { NodeEditorProps } from '../..'
@@ -64,6 +64,10 @@ const KeyboardKey = styled.span({
   textAlign: 'center',
   minWidth: 20
 })
+
+function isAndroid() {
+  return navigator && /(android)/i.test(navigator.userAgent)
+}
 
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & { name: string }
@@ -133,6 +137,44 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   if (edit) {
+    let mathquillConfig = {
+      supSubsRequireOperand: true,
+      autoCommands: 'pi alpha beta gamma delta',
+      handlers: {
+        moveOutOf: (dir: number) => {
+          if (dir == 1) {
+            // leave right
+            editor
+              .moveToEnd()
+              .moveForward(1)
+              .focus()
+          } else if (dir == -1) {
+            // leave left
+            editor
+              .moveToStart()
+              .moveBackward(1)
+              .focus()
+          }
+        },
+        deleteOutOf: (dir: number) => {
+          if (dir == -1) {
+            editor.delete().focus()
+          }
+        },
+        upOutOf: (mathfield: MathQuill) => {
+          mathfield.typedText('^')
+        },
+        downOutOf: (mathfield: MathQuill) => {
+          mathfield.typedText('_')
+        }
+      }
+    }
+    if (isAndroid()) {
+      // @ts-ignore
+      mathquillConfig.substituteTextarea = alternativeTextArea
+      // @ts-ignore
+      mathquillConfig.substituteKeyboardEvents = alternativeSaneKeyboard
+    }
     return (
       <>
         <Overlay>
@@ -182,42 +224,11 @@ export const DefaultEditorComponent: React.FunctionComponent<
         >
           {useVisual ? (
             <MathQuill
-              latex={formulaState}
+              latex={formulaState.replace('\\mathbb{N}', '\\N')}
               onChange={(e: MathQuill) => {
                 setFormulaState(e.latex())
               }}
-              config={{
-                supSubsRequireOperand: true,
-                autoCommands: 'pi alpha beta gamma delta',
-                handlers: {
-                  moveOutOf: (dir: number) => {
-                    if (dir == 1) {
-                      // leave right
-                      editor
-                        .moveToEnd()
-                        .moveForward(1)
-                        .focus()
-                    } else if (dir == -1) {
-                      // leave left
-                      editor
-                        .moveToStart()
-                        .moveBackward(1)
-                        .focus()
-                    }
-                  },
-                  deleteOutOf: (dir: number) => {
-                    if (dir == -1) {
-                      editor.delete().focus()
-                    }
-                  },
-                  upOutOf: (mathfield: MathQuill) => {
-                    mathfield.typedText('^')
-                  },
-                  downOutOf: (mathfield: MathQuill) => {
-                    mathfield.typedText('_')
-                  }
-                }
-              }}
+              config={mathquillConfig}
               ref={mathQuillRef}
               mathquillDidMount={(mathquill: {
                 latex: () => string
@@ -334,4 +345,32 @@ export const DefaultEditorComponent: React.FunctionComponent<
       )}
     </span>
   )
+}
+
+function alternativeTextArea() {
+  let x = document.createElement('input')
+  x.setAttribute('type', 'password')
+  return x
+}
+
+interface SaneKeyboardHandler {
+  typedText: (text: string) => void
+  keystroke: (key: string, event: object) => void
+}
+
+function alternativeSaneKeyboard(
+  el_: [HTMLInputElement],
+  handler: SaneKeyboardHandler
+) {
+  let el = el_[0]
+  el.value = ' '
+  el.addEventListener('input', () => {
+    let value: string = el.value
+    if (value.length == 2) {
+      handler.typedText(value.charAt(1))
+    } else if (value.length == 0) {
+      handler.keystroke('Backspace', { preventDefault: () => null })
+    }
+    el.value = ' '
+  })
 }
