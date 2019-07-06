@@ -249,7 +249,7 @@ async function exec(): Promise<void> {
       name: '0.6.2',
       date: '2019-06-19',
       deprecated: [
-        '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.'
+        '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from editor-ui instead.'
       ],
       added: [
         '**editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.'
@@ -262,6 +262,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.7.0',
       name: '0.7.0',
+      date: '2019-07-06',
       breakingChanges: [
         '**core**. The state exposed in `EditorContext` introduces an additional layer to support multiple editor instances. Use the `useStore` helper instead to get the `{ store: { getState() }, dispatch }` of the scoped document.',
         '**core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export',

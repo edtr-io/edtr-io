@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0)
+## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 
 ### Breaking Changes
 
@@ -52,7 +52,7 @@ All notable changes to this project will be documented in this file.
 
 ### Deprecated
 
-- **plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from edtior-ui instead.
+- **plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from editor-ui instead.
 
 ### Fixed
 
