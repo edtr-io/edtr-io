@@ -82,9 +82,9 @@ git clone https://github.com/edtr-io/edtr-io.git
 yarn
 yarn start
 ```
+
 That should be all!
 (When yarn fails try using the current node lts)
-
 
 ## Committed to Simplicity and Openness
 
@@ -118,23 +118,19 @@ We love education. We need this editor. We're in for the long haul.
 
 Edtr.io is under MIT license.
 
-
 ## Contacts
 
 In case you want to use the editor for the education sector,\
  contact [serlo.org](mailto:en@serlo.org)
 
-
 ### Commercial Support
 
 Commercial integration, custom plugin development and support is available from Splish.me, from the same knowledgeable people writing the code for edtr.io's core functionalities. For inquiries, please contact [edtr-io@splish.me](mailto:edtr-io@splish.me).
-
 
 ### Want to contribute?
 
 Contributions welcome!
 You can reach our development team at [en@serlo.org](mailto:en@serlo.org)
-
 
 ## Learn More
 
