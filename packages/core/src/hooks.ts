@@ -40,6 +40,9 @@ export function useStore(scope?: string) {
       },
       getState: () => {
         return getScope(store.getState(), scopeToUse)
+      },
+      subscribe: (listener: () => void) => {
+        return store.subscribe(listener)
       }
     }
   }, [scopeToUse, store])

@@ -20,6 +20,7 @@ import {
   ChangeListener,
   ScopedActionCreator
 } from './store'
+import { useStore } from './hooks'
 
 const MAIN_SCOPE = 'main'
 
@@ -32,8 +33,7 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
       instances: {
         [MAIN_SCOPE]: {
           plugins: props.plugins,
-          defaultPlugin: props.defaultPlugin,
-          onChange: props.onChange
+          defaultPlugin: props.defaultPlugin
         }
       }
     }).store
@@ -130,6 +130,7 @@ const hotKeysKeyMap = {
   UNDO: 'mod+z',
   REDO: ['mod+y', 'mod+shift+z']
 }
+
 export const InnerDocument = connect<
   EditorStateProps,
   EditorDispatchProps,
@@ -157,14 +158,35 @@ export const InnerDocument = connect<
   defaultPlugin,
   scope,
   editable,
-  theme = defaultTheme
+  theme = defaultTheme,
+  onChange
 }: EditorProps<K> & { scope: string; mirror?: boolean } & EditorStateProps &
   EditorDispatchProps) {
+  const store = useStore()
+  React.useEffect(() => {
+    if (typeof onChange !== 'function') return
+    let pendingChanges = selectors.getPendingChanges(store.getState())
+    return store.subscribe(() => {
+      const currentPendingChanges = selectors.getPendingChanges(
+        store.getState()
+      )
+      if (currentPendingChanges !== pendingChanges) {
+        onChange({
+          changed: selectors.hasPendingChanges(store.getState()),
+          getDocument: () => selectors.serializeRootDocument(store.getState())
+        })
+        pendingChanges = currentPendingChanges
+      }
+    })
+  }, [onChange, store])
+
   React.useEffect(() => {
     if (!mirror) {
       initRoot({ initialState, plugins, defaultPlugin })
     }
-  }, [defaultPlugin, initRoot, initialState, mirror, plugins])
+    // TODO: initRoot changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialState, plugins, defaultPlugin, mirror])
   const scopeContextValue = React.useMemo(() => {
     return {
       scope,

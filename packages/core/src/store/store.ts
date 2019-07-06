@@ -46,14 +46,12 @@ export function createStore<K extends string>({
 
   function getMiddleware(): Middleware[] {
     const middlewares: Middleware[] = [sagaMiddleware]
-
     if (process.env.NODE_ENV !== 'production') {
       const createImmutableStateInvariantMiddleware = require('redux-immutable-state-invariant')
         .default
 
       middlewares.push(createImmutableStateInvariantMiddleware())
     }
-
     if (process.env.NODE_ENV === 'test') {
       const testMiddleware: Middleware = () => next => action => {
         if (actions) {
@@ -63,37 +61,7 @@ export function createStore<K extends string>({
       }
       middlewares.push(testMiddleware)
     }
-
-    for (let scope in instances) {
-      const { onChange } = instances[scope]
-      if (typeof onChange === 'function') {
-        middlewares.push(createChangeMiddleware(scope, onChange))
-      }
-    }
-
     return middlewares
-  }
-
-  function createChangeMiddleware(
-    scope: string,
-    onChange: ChangeListener
-  ): Middleware<{}, EditorState> {
-    let pendingChanges = 0
-
-    return store => next => action => {
-      const result = next(action)
-      const currentPendingChanges = selectors.getPendingChanges(
-        store.getState()[scope]
-      )
-      if (currentPendingChanges !== pendingChanges) {
-        onChange({
-          changed: selectors.hasPendingChanges(store.getState()[scope]),
-          document: selectors.serializeRootDocument(store.getState()[scope])
-        })
-        pendingChanges = currentPendingChanges
-      }
-      return result
-    }
   }
 }
 
@@ -101,7 +69,6 @@ export interface StoreOptions<K extends string> {
   instances: Record<
     string,
     {
-      onChange?: ChangeListener
       plugins: Record<K, Plugin>
       defaultPlugin: K
     }
@@ -109,10 +76,7 @@ export interface StoreOptions<K extends string> {
   actions?: Action[]
 }
 
-export type ChangeListener = ({
-  changed,
-  document
-}: {
+export type ChangeListener = (payload: {
   changed: boolean
-  document: ReturnType<typeof selectors.serializeRootDocument>
+  getDocument: () => ReturnType<typeof selectors.serializeRootDocument>
 }) => void

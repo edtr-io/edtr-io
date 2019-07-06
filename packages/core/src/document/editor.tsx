@@ -70,6 +70,8 @@ export const DocumentEditor = connect<
         focus(id)
       }
     },
+    // TODO: focus changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [focus, focused, id]
   )
 

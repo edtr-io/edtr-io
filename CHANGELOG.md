@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - **core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)
 - **core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.
 - **core**. Removed previous exports `Document` and `DocumentProps`
+- **core**. `onChange` callback now accepts `{ changed, getDocument() }` to avoid serializing the document if not needed
 - **plugin-h5p**. Removed `@edtr-io/plugin-hp5`
 - **plugin-image**. Changed configs for createImagePlugin and removed Upload export
 - **plugin-rows**. Deprecated PrimarySettingsWrapper now removed. Use PrimarySettings from package editor-ui instead.
