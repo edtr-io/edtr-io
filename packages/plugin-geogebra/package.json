@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-geogebra",
-  "version": "0.7.0-alpha.4",
+  "version": "0.7.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "lodash": "^4.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.7.0-alpha.4",
+    "@edtr-io/core": "^0.7.0",
     "@types/lodash": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
