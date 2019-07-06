@@ -65,8 +65,8 @@ const ClearSearchContainer = styled.div<{ visible: boolean; name: string }>(
   }
 )
 
-const SearchIcon = styled(EdtrIcon)(
-  ({ name, ...props }: { name: string } & ThemeProps) => {
+const SearchIcon = styled(EdtrIcon)<{ name: string } & ThemeProps>(
+  ({ name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       height: '55%',

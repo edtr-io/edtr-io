@@ -13,7 +13,7 @@ export const createOverlayTextareaTheme = createEditorUiTheme<TextareaTheme>(
     }
   }
 )
-const TextareaLabel = styled.label((props: EditorThemeProps) => {
+const TextareaLabel = styled.label<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {
@@ -27,7 +27,7 @@ const TextareaLabel = styled.label((props: EditorThemeProps) => {
 
 const TextareaLabelInner = styled.span({ width: '20%' })
 
-const TextareaInner = styled.textarea((props: EditorThemeProps) => {
+const TextareaInner = styled.textarea<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {

@@ -108,9 +108,7 @@ const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
         <div onClick={() => setHidden(!hidden)}>
           <p>Toggle visibility</p>
         </div>
-        <div>
-          {state.render() /* equivalent to <Document id={state.id}/> */}
-        </div>
+        <div>{state.render()}</div>
       </div>
     )
   },

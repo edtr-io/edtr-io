@@ -2,10 +2,11 @@ import * as React from 'react'
 import { Plugin as EditorPlugin } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
+
 import { createRowPluginTheme } from '../..'
 
-const StyledPlugin = styled.div(
-  ({ name, ...props }: ThemeProps & { name: string }) => {
+const StyledPlugin = styled.div<ThemeProps & { name: string }>(
+  ({ name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       display: 'flex',

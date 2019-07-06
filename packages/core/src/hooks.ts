@@ -1,52 +1,56 @@
 import * as React from 'react'
 
-import { ActionType, EditorContext, hasPendingChanges, isEditable } from '.'
+import { ScopeContext } from './editor-context'
+import { getScope } from './store/reducer'
+import { actions, selectors, ActionCreator } from './store'
+import { EditorContext } from '.'
 
-export function useEditorFocus() {
-  const store = React.useContext(EditorContext)
+export function useEditorFocus(scope?: string) {
+  const store = useStore(scope)
   return {
-    focusPrevious: () =>
-      store.dispatch({
-        type: ActionType.FocusPrevious
-      }),
-    focusNext: () =>
-      store.dispatch({
-        type: ActionType.FocusNext
-      })
+    focusPrevious: () => store.dispatch(actions.focusPrevious()),
+    focusNext: () => store.dispatch(actions.focusNext())
   }
 }
 
-export function useEditorHistory() {
-  const store = React.useContext(EditorContext)
+export function useEditorHistory(scope?: string) {
+  const store = useStore(scope)
   return {
-    hasPendingChanges: hasPendingChanges(store.state),
-    undo: () =>
-      store.dispatch({
-        type: ActionType.Undo
-      }),
-    redo: () =>
-      store.dispatch({
-        type: ActionType.Redo
-      }),
+    hasPendingChanges: selectors.hasPendingChanges(store.getState()),
+    undo: () => store.dispatch(actions.undo()),
+    redo: () => store.dispatch(actions.redo()),
     persist: () => {
-      store.dispatch({
-        type: ActionType.Persist
-      })
+      store.dispatch(actions.persist())
     },
     reset: () => {
-      store.dispatch({
-        type: ActionType.Reset
-      })
+      store.dispatch(actions.reset())
     }
   }
 }
 
-export function useEditorMode(): [boolean, (payload: boolean) => void] {
-  const store = React.useContext(EditorContext)
-  const editable = isEditable(store.state)
-  return [editable, setEditable]
+export function useStore(scope?: string) {
+  const scopeContextValue = React.useContext(ScopeContext)
+  const scopeToUse = scope === undefined ? scopeContextValue.scope : scope
 
-  function setEditable(payload: boolean) {
-    store.dispatch({ type: ActionType.SwitchEditable, payload })
-  }
+  const { store } = React.useContext(EditorContext)
+  return React.useMemo(() => {
+    return {
+      dispatch: function<T, P>(actionCreator: ReturnType<ActionCreator<T, P>>) {
+        return store.dispatch(actionCreator(scopeToUse))
+      },
+      getState: () => {
+        return getScope(store.getState(), scopeToUse)
+      },
+      subscribe: (listener: () => void) => {
+        return store.subscribe(listener)
+      }
+    }
+  }, [scopeToUse, store])
 }
+
+export function useScopedStore() {
+  const { scope } = React.useContext(ScopeContext)
+  return useStore(scope)
+}
+
+export type EditorStore = ReturnType<typeof useStore>

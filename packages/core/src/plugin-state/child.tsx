@@ -1,12 +1,42 @@
 import * as React from 'react'
-import { v4 } from 'uuid'
+import { generate } from 'shortid'
 
 import {
   StateDescriptor,
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
-import { Document } from '..'
+import { SubDocument } from '../document'
+
+function PluginPropsDocument<Props extends Record<string, unknown>>({
+  id,
+  props,
+  parentProps
+}: {
+  id: string
+  props?: Props
+  parentProps: unknown
+}) {
+  const pluginProps = React.useMemo(() => {
+    return { ...props, parent: parentProps }
+  }, [props, parentProps])
+  return <SubDocument pluginProps={pluginProps} id={id} />
+}
+
+const memoizedRender = <Props extends Record<string, unknown>>(
+  parentProps: unknown,
+  id: string
+) =>
+  function Child(props?: Props) {
+    return (
+      <PluginPropsDocument
+        key={id}
+        id={id}
+        props={props}
+        parentProps={parentProps}
+      />
+    )
+  }
 
 export function child<
   K extends string,
@@ -35,20 +65,12 @@ export function child<
       return Object.assign(() => id, {
         id,
         //eslint-disable-next-line react/display-name
-        render: (props?: Props) => {
-          return (
-            <Document
-              pluginProps={{ ...props, parent: parentProps }}
-              key={id}
-              id={id}
-            />
-          )
-        }
+        render: memoizedRender(parentProps, id)
       })
     },
     {
       createInitialState({ createDocument }: StoreDeserializeHelpers<K, S>) {
-        const id = v4()
+        const id = generate()
         createDocument({ id, plugin, state })
         return id
       },
@@ -56,7 +78,7 @@ export function child<
         serialized: { plugin: K; state?: S },
         { createDocument }: StoreDeserializeHelpers<K, S>
       ): string {
-        const id = v4()
+        const id = generate()
         createDocument({ id, ...serialized })
         return id
       },

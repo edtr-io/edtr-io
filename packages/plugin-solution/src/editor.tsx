@@ -13,6 +13,16 @@ const EditorInputWithMarginLeft = styled(EditorInput)({
     borderColor: 'black'
   }
 })
+
+const solutionTheme = {
+  rendererUi: {
+    expandableBox: {
+      toggleBackgroundColor: '#d9edf7',
+      containerBorderColor: '#d9edf7'
+    }
+  }
+}
+
 export function SolutionEditor({
   state,
   editable,
@@ -34,16 +44,7 @@ export function SolutionEditor({
   )
 
   return (
-    <ThemeProvider
-      theme={{
-        rendererUi: {
-          expandableBox: {
-            toggleBackgroundColor: '#d9edf7',
-            containerBorderColor: '#d9edf7'
-          }
-        }
-      }}
-    >
+    <ThemeProvider theme={solutionTheme}>
       <ExpandableBox title={title} editable={editable}>
         {state.content.render()}
       </ExpandableBox>

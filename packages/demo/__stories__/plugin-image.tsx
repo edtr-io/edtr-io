@@ -38,7 +38,6 @@ storiesOf('Plugins/Image', module)
     }
     return <EditorStory initialState={state} />
   })
-
   .add('Prefilled (Image Link)', () => {
     const state = {
       plugin: 'rows',

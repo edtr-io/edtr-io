@@ -90,9 +90,9 @@ function readFile(file: File): Promise<LoadedFile> {
     const reader = new FileReader()
 
     reader.onload = function(e: ProgressEvent) {
-      // @ts-ignore FIXME
-      const dataUrl = e.target.result
-      resolve({ file, dataUrl })
+      if (!e.target) return
+      const { result } = (e.target as unknown) as { result: string }
+      resolve({ file, dataUrl: result })
     }
 
     reader.readAsDataURL(file)
