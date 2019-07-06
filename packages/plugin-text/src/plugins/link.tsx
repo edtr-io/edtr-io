@@ -228,6 +228,8 @@ export const createLinkPlugin = ({
 
     renderEditor(props, editor, next) {
       const children = next()
+
+      if (props.readOnly) return children
       return (
         <ControlsComponent {...props} editor={editor}>
           {children}

@@ -21,18 +21,13 @@ export interface StatelessPlugin<Props extends Record<string, unknown> = {}> {
   description?: string
 }
 
-export type StatelessPluginEditorProps<
-  Props extends Record<string, unknown> = {}
-> = {
+export type StatelessPluginEditorProps<Props = {}> = {
   name: string
   editable?: boolean
   focused?: boolean
 } & Props
 
-export interface StatefulPlugin<
-  S extends StateDescriptor,
-  Props extends Record<string, unknown> = {}
-> {
+export interface StatefulPlugin<S extends StateDescriptor, Props = {}> {
   Component: React.ComponentType<StatefulPluginEditorProps<S, Props>>
   state: S
   onPaste?: (
@@ -50,7 +45,7 @@ export interface StatefulPlugin<
 
 export type StatefulPluginEditorProps<
   S extends StateDescriptor = StateDescriptor,
-  Props extends Record<string, unknown> = {}
+  Props = {}
 > = StatelessPluginEditorProps<Props> & {
   state: StateDescriptorReturnType<S>
 }
