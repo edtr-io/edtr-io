@@ -1,15 +1,41 @@
-import { useEditorHistory } from '@edtr-io/core'
+import { Editor, EditorProps, useEditorHistory } from '@edtr-io/core'
 import * as React from 'react'
-import { useLogState } from '../hooks'
 
-export function SerloContainer({
-  children,
-  controls,
+import { useEditable, useLogState } from '../hooks'
+
+export function SerloContainer(props: EditorProps) {
+  const [editable, setEditable] = useEditable(props.editable)
+  const children = React.useCallback(
+    document => {
+      return (
+        <SerloContainerInner editable={editable} setEditable={setEditable}>
+          {document}
+        </SerloContainerInner>
+      )
+    },
+    [editable, setEditable]
+  )
+
+  return (
+    <Editor {...props} editable={editable}>
+      {children}
+    </Editor>
+  )
+}
+
+export function SerloContainerInner({
   editable,
-  setEditable
-}: SerloContainerProps) {
-  const history = useEditorHistory()
-  const logState = useLogState()
+  setEditable,
+  children,
+  scope
+}: {
+  children: React.ReactNode
+  scope?: string
+  editable: boolean
+  setEditable: (value: boolean) => void
+}) {
+  const history = useEditorHistory(scope)
+  const logState = useLogState(scope)
 
   return (
     <React.Fragment>
@@ -558,7 +584,6 @@ export function SerloContainer({
             </section>
           </div>
         </div>
-        <div id="controls">{controls}</div>
         <script
           type="text/javascript"
           src="https://packages.serlo.org/athene2-assets@a/main.js"
@@ -566,11 +591,4 @@ export function SerloContainer({
       </div>
     </React.Fragment>
   )
-}
-
-export interface SerloContainerProps {
-  children: React.ReactNode
-  controls?: React.ReactNode
-  editable: boolean
-  setEditable: React.Dispatch<React.SetStateAction<boolean>>
 }

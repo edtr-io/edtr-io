@@ -10,8 +10,7 @@ import {
   ReactReduxContextValue
 } from 'react-redux'
 import { Action, EditorState, ScopeState } from './store'
-import { createActionWithoutPayload } from './store/helpers'
-import { reducer } from './store/reducer'
+import { getScope } from './store/reducer'
 import {
   ActionCreator,
   ScopedActionCreator,
@@ -72,16 +71,7 @@ function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(
   mapEditorStateToProps: MapStateToProps<StateProps, OwnProps, ScopeState>
 ): MapStateToPropsParam<StateProps, OwnProps, EditorState> {
   return (state, props) => {
-    let editorState = state[props.scope]
-    if (!editorState) {
-      const fakeInitAction = createActionWithoutPayload('InitSubScope')()(
-        props.scope
-      )
-      editorState = reducer(state, (fakeInitAction as unknown) as Action)[
-        props.scope
-      ]
-    }
-    return mapEditorStateToProps(editorState, props)
+    return mapEditorStateToProps(getScope(state, props.scope), props)
   }
 }
 

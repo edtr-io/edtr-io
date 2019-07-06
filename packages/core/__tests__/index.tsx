@@ -29,7 +29,7 @@ function renderDocument(onChange: StateProps['onChange']) {
           return (
             <React.Fragment>
               {children}
-              <State onChange={onChange}></State>
+              <State onChange={onChange} />
             </React.Fragment>
           )
         }}

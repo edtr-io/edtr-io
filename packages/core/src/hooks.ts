@@ -1,19 +1,20 @@
 import * as React from 'react'
 
 import { ScopeContext } from './editor-context'
+import { getScope } from './store/reducer'
 import { actions, selectors, ActionCreator } from './store'
 import { EditorContext } from '.'
 
-export function useEditorFocus() {
-  const store = useStore()
+export function useEditorFocus(scope?: string) {
+  const store = useStore(scope)
   return {
     focusPrevious: () => store.dispatch(actions.focusPrevious()),
     focusNext: () => store.dispatch(actions.focusNext())
   }
 }
 
-export function useEditorHistory() {
-  const store = useStore()
+export function useEditorHistory(scope?: string) {
+  const store = useStore(scope)
   return {
     hasPendingChanges: selectors.hasPendingChanges(store.getState()),
     undo: () => store.dispatch(actions.undo()),
@@ -27,19 +28,26 @@ export function useEditorHistory() {
   }
 }
 
-export function useStore() {
-  const { scope } = React.useContext(ScopeContext)
+export function useStore(scope?: string) {
+  const scopeContextValue = React.useContext(ScopeContext)
+  const scopeToUse = scope === undefined ? scopeContextValue.scope : scope
+
   const { store } = React.useContext(EditorContext)
   return React.useMemo(() => {
     return {
       dispatch: function<T, P>(actionCreator: ReturnType<ActionCreator<T, P>>) {
-        return store.dispatch(actionCreator(scope))
+        return store.dispatch(actionCreator(scopeToUse))
       },
       getState: () => {
-        return store.getState()[scope]
+        return getScope(store.getState(), scopeToUse)
       }
     }
-  }, [scope, store])
+  }, [scopeToUse, store])
+}
+
+export function useScopedStore() {
+  const { scope } = React.useContext(ScopeContext)
+  return useStore(scope)
 }
 
 export type EditorStore = ReturnType<typeof useStore>

@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { Action, setPartialState } from './actions'
+import { createActionWithoutPayload } from './helpers'
 import { EditorState, ScopeState } from './types'
 
 import { clipboardReducer } from './clipboard/reducer'
@@ -46,4 +47,13 @@ function editorReducer(scopeState: ScopeState | undefined, action: Action) {
     plugins: pluginsReducer(action, scopeState),
     root: rootReducer(action, scopeState)
   }
+}
+
+export function getScope(state: EditorState, scope: string): ScopeState {
+  const scopedState = state[scope]
+  if (!scopedState) {
+    const fakeInitAction = createActionWithoutPayload('InitSubScope')()(scope)
+    return reducer(state, (fakeInitAction as unknown) as Action)[scope]
+  }
+  return scopedState
 }

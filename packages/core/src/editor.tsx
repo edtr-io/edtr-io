@@ -100,15 +100,17 @@ export function Document<K extends string = string>({
   const storeContext = React.useContext(EditorContext)
   React.useEffect(() => {
     const isMainInstance = !mirror
-    if (isMainInstance && mountedScopes[scope]) {
-      // eslint-disable-next-line no-console
-      console.error(
-        `There are multiple main instances for scope ${scope}. Please set the mirror prop to true to all but one instance.`
-      )
-    }
-    mountedScopes[scope] = true
-    return () => {
-      mountedScopes[scope] = false
+    if (isMainInstance) {
+      if (mountedScopes[scope]) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `There are multiple main instances for scope ${scope}. Please set the mirror prop to true to all but one instance.`
+        )
+        mountedScopes[scope] = true
+        return () => {
+          mountedScopes[scope] = false
+        }
+      }
     }
   }, [mirror, scope])
 

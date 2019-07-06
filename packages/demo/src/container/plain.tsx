@@ -1,20 +1,42 @@
-import { useEditorFocus, useEditorHistory } from '@edtr-io/core'
+import {
+  Editor,
+  EditorProps,
+  useEditorFocus,
+  useEditorHistory
+} from '@edtr-io/core'
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
 
-export function PlainContainer({
-  children,
-  editable,
-  setEditable
-}: PlainContainerProps) {
-  const logState = useLogState()
+export function PlainContainer(props: EditorProps) {
+  const children = React.useCallback(
+    document => {
+      return (
+        <PlainContainerInner editable={props.editable}>
+          {document}
+        </PlainContainerInner>
+      )
+    },
+    [props.editable]
+  )
+
+  return <Editor {...props}>{children}</Editor>
+}
+
+function PlainContainerInner(props: {
+  children: React.ReactNode
+  editable?: boolean
+}) {
   const { focusPrevious, focusNext } = useEditorFocus()
   const history = useEditorHistory()
+  const logState = useLogState()
+  const [editable, setEditable] = React.useState(
+    props.editable === undefined ? true : props.editable
+  )
 
   return (
     <React.Fragment>
-      <div style={{ margin: '20px 0' }}>{children}</div>
+      <div style={{ margin: '20px 0' }}>{props.children}</div>
       <button onClick={logState}>Log State</button>
       <button onClick={history.undo}>Undo</button>
       <button onClick={history.redo}>Redo</button>
@@ -35,10 +57,4 @@ export function PlainContainer({
       </button>
     </React.Fragment>
   )
-}
-
-export interface PlainContainerProps {
-  children: React.ReactNode
-  editable: boolean
-  setEditable: React.Dispatch<React.SetStateAction<boolean>>
 }
