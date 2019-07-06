@@ -1,9 +1,11 @@
 import * as R from 'ramda'
 
+import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, wait, waitUntil } from '../../__helpers__'
 import { pureChange } from '../../src/store/documents/actions'
 import {
   commit,
+  persist,
   pureRedo,
   pureReset,
   pureUndo
@@ -11,10 +13,9 @@ import {
 import {
   getHistory,
   getRedoStack,
-  getUndoStack,
-  hasPendingChanges
+  getUndoStack
 } from '../../src/store/history/reducer'
-import { actions, selectors } from '../../src/store'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 
@@ -24,9 +25,15 @@ beforeEach(() => {
 
 describe('History', () => {
   beforeEach(async () => {
-    store.dispatch(actions.initRoot({ plugin: 'stateful', state: 0 }))
+    store.dispatch(
+      actions.initRoot({
+        initialState: { plugin: 'stateful', state: 0 },
+        plugins,
+        defaultPlugin: 'text'
+      })
+    )
     await waitUntil(() =>
-      R.any(action => action.type === actions.persist.type, store.getActions())
+      R.any(action => action.type === persist.type, store.getActions())
     )
   })
 
@@ -39,12 +46,12 @@ describe('History', () => {
         state: 0
       }
     })
-    expect(hasPendingChanges(store.getState())).toEqual(false)
+    expect(selectors.hasPendingChanges(store.getState())).toEqual(false)
   })
 
   test('Changes will be committed to the history', async () => {
     await change({ id: 'root', state: () => 1 })
-    expect(hasPendingChanges(store.getState())).toEqual(true)
+    expect(selectors.hasPendingChanges(store.getState())).toEqual(true)
     const undoStack = getUndoStack(store.getState())
     expect(undoStack).toHaveLength(1)
     expect(undoStack[0]).toHaveLength(1)
@@ -85,6 +92,72 @@ describe('History', () => {
     expect(selectors.getDocument(store.getState(), 'root')).toEqual({
       plugin: 'stateful',
       state: 2
+    })
+  })
+
+  test('Undo keeps order of previous commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+  })
+
+  test('Redo keeps order of remaining commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    await undo()
+    await undo()
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+  })
+
+  test('Undo keeps order of actions in previous commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await change({ id: 'root', state: () => 2 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+  })
+
+  test('Redo keeps order of actions in remaining commits', async () => {
+    await change({ id: 'root', state: () => 1 })
+    await wait(1000)
+    await change({ id: 'root', state: () => 2 })
+    await change({ id: 'root', state: () => 3 })
+    await undo()
+    await undo()
+    await redo()
+    await redo()
+    expect(selectors.getDocument(store.getState(), 'root')).toEqual({
+      plugin: 'stateful',
+      state: 3
     })
   })
 

@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 
+import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, waitUntil } from '../../__helpers__'
 import { pureInsert } from '../../src/store/documents/actions'
 import {
@@ -8,7 +9,7 @@ import {
   getFocusTree,
   Node
 } from '../../src/store/focus/reducer'
-import { actions, selectors } from '../../src/store'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 
@@ -38,27 +39,31 @@ describe('Focus', () => {
     test('Height 1', async () => {
       store.dispatch(
         actions.initRoot({
-          plugin: 'nestedArray',
-          state: {
-            children: [
-              {
-                plugin: 'stateful',
-                state: 0
-              },
-              {
-                plugin: 'stateful',
-                state: 1
-              },
-              {
-                plugin: 'stateful',
-                state: 2
-              },
-              {
-                plugin: 'stateful',
-                state: 3
-              }
-            ]
-          }
+          initialState: {
+            plugin: 'nestedArray',
+            state: {
+              children: [
+                {
+                  plugin: 'stateful',
+                  state: 0
+                },
+                {
+                  plugin: 'stateful',
+                  state: 1
+                },
+                {
+                  plugin: 'stateful',
+                  state: 2
+                },
+                {
+                  plugin: 'stateful',
+                  state: 3
+                }
+              ]
+            }
+          },
+          plugins,
+          defaultPlugin: 'text'
         })
       )
       await waitUntil(
@@ -77,8 +82,12 @@ describe('Focus', () => {
     test('Blockquote in rows', async () => {
       store.dispatch(
         actions.initRoot({
-          plugin: 'rows',
-          state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
+          initialState: {
+            plugin: 'rows',
+            state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
+          },
+          plugins,
+          defaultPlugin: 'text'
         })
       )
       await waitUntil(

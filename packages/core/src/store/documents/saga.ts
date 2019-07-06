@@ -15,6 +15,7 @@ import { getDocument } from './reducer'
 
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import { commit } from '../history/actions'
+import { scopeSelector } from '../helpers'
 
 export function* documentsSaga() {
   yield all([
@@ -27,19 +28,24 @@ function* insertSaga(action: InsertAction) {
   const initialState = action.payload
   const [actions]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
+    action.scope,
     () => {},
     [initialState]
   )
-  yield put(commit(actions))
+  yield put(commit(actions)(action.scope))
 }
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
-  const document: ReturnType<typeof getDocument> = yield select(getDocument, id)
+  const document: ReturnType<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
   if (!document) return
 
   const [actions, state]: [Action[], unknown] = yield call(
     handleRecursiveInserts,
+    action.scope,
     (helpers: StoreDeserializeHelpers) => {
       return stateHandler(document.state, helpers)
     }
@@ -48,12 +54,13 @@ function* changeSaga(action: ChangeAction) {
     pureChange({
       id,
       state
-    })
+    })(action.scope)
   )
-  yield put(commit(actions))
+  yield put(commit(actions)(action.scope))
 }
 
 export function* handleRecursiveInserts(
+  scope: string,
   act: (helpers: StoreDeserializeHelpers) => unknown,
   initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
 ) {
@@ -73,7 +80,7 @@ export function* handleRecursiveInserts(
     const doc = pendingDocs.pop()
     if (!doc) return
     const plugin: ReturnType<typeof getPluginOrDefault> = yield select(
-      getPluginOrDefault,
+      scopeSelector(getPluginOrDefault, scope),
       doc.plugin
     )
     if (!plugin) return
@@ -88,7 +95,7 @@ export function* handleRecursiveInserts(
     }
 
     const pluginType: ReturnType<typeof getPluginTypeOrDefault> = yield select(
-      getPluginTypeOrDefault,
+      scopeSelector(getPluginTypeOrDefault, scope),
       doc.plugin
     )
     actions.push(
@@ -96,7 +103,7 @@ export function* handleRecursiveInserts(
         id: doc.id,
         plugin: pluginType,
         state: pluginState
-      })
+      })(scope)
     )
   }
   return [actions, result]

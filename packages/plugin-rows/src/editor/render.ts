@@ -1,6 +1,12 @@
-import { State, StateType, actions, selectors } from '@edtr-io/core'
+import {
+  actions,
+  selectors,
+  ActionFromActionCreator,
+  EditorStore,
+  ScopeState,
+  StateType
+} from '@edtr-io/core'
 import * as React from 'react'
-import { ReactReduxContextValue } from 'react-redux'
 
 import { rowsState, rowState } from '..'
 
@@ -16,9 +22,9 @@ export default function({
   row: StateType.StateDescriptorReturnType<typeof rowState>
   rows: StateType.StateDescriptorReturnType<typeof rowsState>
   index: number
-  store: ReactReduxContextValue['store']
+  store: EditorStore
   getDocument: (
-    state: State,
+    state: ScopeState,
     id: string
   ) => { plugin: string; state?: unknown } | null
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
@@ -59,7 +65,10 @@ export default function({
           if (!previous || previous.plugin !== current.plugin) return
 
           const merged = merge(previous.state)
-          dispatch(
+          dispatch<
+            typeof actions.change.type,
+            ActionFromActionCreator<typeof actions.change>['payload']
+          >(
             actions.change({
               id: previousFocusId,
               state: () => merged

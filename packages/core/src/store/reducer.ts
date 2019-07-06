@@ -1,29 +1,59 @@
+import * as R from 'ramda'
 import { Action, setPartialState } from './actions'
-import { State } from './types'
+import { createActionWithoutPayload } from './helpers'
+import { EditorState, ScopeState } from './types'
 
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
 import { focusReducer } from './focus/reducer'
 import { historyReducer } from './history/reducer'
-import { modeReducer } from './mode/reducer'
 import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(
+  state: EditorState | undefined,
+  action: Action
+): EditorState {
   if (state && action.type === setPartialState.type) {
     return {
       ...state,
-      ...action.payload
+      [action.scope]: {
+        ...state[action.scope],
+        ...action.payload
+      }
     }
   }
 
-  return {
-    clipboard: clipboardReducer(action, state),
-    documents: documentsReducer(action, state),
-    focus: focusReducer(action, state),
-    history: historyReducer(action, state),
-    mode: modeReducer(action, state),
-    plugins: pluginsReducer(action, state),
-    root: rootReducer(action, state)
+  // Handle init action of redux
+  if (action.scope === undefined) {
+    return R.map(editorState => editorReducer(editorState, action), state)
   }
+
+  const instanceState = state && state[action.scope]
+  const reducedEditorState = editorReducer(instanceState, action)
+
+  return {
+    ...state,
+    [action.scope]: reducedEditorState
+  }
+}
+
+function editorReducer(scopeState: ScopeState | undefined, action: Action) {
+  return {
+    clipboard: clipboardReducer(action, scopeState),
+    documents: documentsReducer(action, scopeState),
+    focus: focusReducer(action, scopeState),
+    history: historyReducer(action, scopeState),
+    plugins: pluginsReducer(action, scopeState),
+    root: rootReducer(action, scopeState)
+  }
+}
+
+export function getScope(state: EditorState, scope: string): ScopeState {
+  const scopedState = state[scope]
+  if (!scopedState) {
+    const fakeInitAction = createActionWithoutPayload('InitSubScope')()(scope)
+    return reducer(state, (fakeInitAction as unknown) as Action)[scope]
+  }
+  return scopedState
 }

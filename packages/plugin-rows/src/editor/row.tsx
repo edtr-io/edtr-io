@@ -1,9 +1,13 @@
-import { Plugin, StatefulPluginEditorProps, selectors } from '@edtr-io/core'
+import {
+  Plugin,
+  StatefulPluginEditorProps,
+  selectors,
+  EditorStore
+} from '@edtr-io/core'
 import { OnClickOutside, PrimarySettings } from '@edtr-io/editor-ui'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { ReactReduxContextValue } from 'react-redux'
 
 import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
@@ -33,7 +37,7 @@ export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
     index: number
     doc: { plugin: string; state?: unknown }
     plugins: Record<string, Plugin>
-    store: ReactReduxContextValue['store']
+    store: EditorStore
   }
 const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },

@@ -2,7 +2,7 @@ import * as R from 'ramda'
 
 import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
 import { createSubReducer } from '../helpers'
-import { DocumentState, State } from '../types'
+import { DocumentState, ScopeState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
@@ -50,12 +50,12 @@ export const documentsReducer = createSubReducer(
   }
 )
 
-export function getDocuments(state: State) {
+export function getDocuments(state: ScopeState) {
   return state.documents
 }
 
 export function getDocument(
-  state: State,
+  state: ScopeState,
   id: string | null
 ): DocumentState | null {
   if (!id) return null
@@ -63,7 +63,7 @@ export function getDocument(
 }
 
 export function serializeDocument(
-  state: State,
+  state: ScopeState,
   id: string | null
 ): DocumentState | null {
   const doc = getDocument(state, id)
@@ -81,7 +81,7 @@ export function serializeDocument(
   }
 }
 
-export function isEmpty(state: State, id: string) {
+export function isEmpty(state: ScopeState, id: string) {
   const doc = getDocument(state, id)
   if (!doc) return false
   const plugin = getPlugin(state, doc.plugin)

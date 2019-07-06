@@ -1,4 +1,4 @@
-import { selectors } from '@edtr-io/core'
+import { EditorStore, selectors } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -8,7 +8,6 @@ import { createRowPluginTheme } from '../..'
 import { Search } from './search'
 import { Plugin } from './plugin'
 import { Dropzone } from './dropzone'
-import { ReactReduxContextValue } from 'react-redux'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {
@@ -59,7 +58,7 @@ interface MenuProps {
       }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  store: ReactReduxContextValue['store']
+  store: EditorStore
   name: string
 }
 

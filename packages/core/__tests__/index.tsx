@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { plugins } from '../__fixtures__/plugins'
-import { DocumentState, Editor, EditorContext, selectors } from '../src'
+import { DocumentState, Editor, selectors, useStore } from '../src'
 
 test.todo('fix these tests')
 
@@ -29,7 +29,7 @@ function renderDocument(onChange: StateProps['onChange']) {
           return (
             <React.Fragment>
               {children}
-              <State onChange={onChange}></State>
+              <State onChange={onChange} />
             </React.Fragment>
           )
         }}
@@ -40,7 +40,7 @@ function renderDocument(onChange: StateProps['onChange']) {
 }
 
 function State({ onChange }: StateProps) {
-  const { store } = React.useContext(EditorContext)
+  const store = useStore()
   React.useEffect(() => {
     const serialized = selectors.serializeRootDocument(store.getState())
     onChange(serialized)

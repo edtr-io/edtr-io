@@ -4,19 +4,38 @@ import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { HotKeys } from 'react-hotkeys'
 
-import { Document } from './document'
-import { Provider, connect } from './editor-context'
+import { SubDocument } from './document'
+import {
+  connect,
+  Provider,
+  EditorContext,
+  ScopeContext
+} from './editor-context'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
-import { createStore, actions, selectors } from './store'
-import { StoreOptions } from './store/store'
+import {
+  actions,
+  selectors,
+  createStore,
+  ChangeListener,
+  ScopedActionCreator
+} from './store'
+
+const MAIN_SCOPE = 'main'
+
+let mountedProvider = false
+const mountedScopes: Record<string, boolean> = {}
 
 export function Editor<K extends string = string>(props: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
-      plugins: props.plugins,
-      defaultPlugin: props.defaultPlugin,
-      onChange: props.onChange
+      instances: {
+        [MAIN_SCOPE]: {
+          plugins: props.plugins,
+          defaultPlugin: props.defaultPlugin,
+          onChange: props.onChange
+        }
+      }
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -26,7 +45,13 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   return <Provider store={store}>{renderChildren()}</Provider>
 
   function renderChildren() {
-    const children = <InnerEditor {...props} />
+    const children = (
+      <InnerDocument
+        {...props}
+        scope={MAIN_SCOPE}
+        editable={props.editable === undefined ? true : props.editable}
+      />
+    )
     if (props.omitDragDropContext) return children
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -36,15 +61,79 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
   }
 }
 
+export const EditorProvider: React.FunctionComponent<{
+  omitDragDropContext?: boolean
+}> = props => {
+  React.useEffect(() => {
+    if (mountedProvider) {
+      // eslint-disable-next-line no-console
+      console.error('You may only render one <EditorProvider />.')
+    }
+    mountedProvider = true
+    return () => {
+      mountedProvider = false
+    }
+  }, [])
+  const store = React.useMemo(() => {
+    return createStore({
+      instances: {}
+    }).store
+    // We want to create the store only once
+    // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const children = <Provider store={store}>{props.children}</Provider>
+  if (props.omitDragDropContext) return children
+  return (
+    <DragDropContextProvider backend={HTML5Backend}>
+      {children}
+    </DragDropContextProvider>
+  )
+}
+
+export function Document<K extends string = string>({
+  scope = MAIN_SCOPE,
+  mirror,
+  ...props
+}: EditorProps<K> & { scope?: string; mirror?: boolean }) {
+  const storeContext = React.useContext(EditorContext)
+  React.useEffect(() => {
+    const isMainInstance = !mirror
+    if (isMainInstance) {
+      if (mountedScopes[scope]) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `There are multiple main instances for scope ${scope}. Please set the mirror prop to true to all but one instance.`
+        )
+        mountedScopes[scope] = true
+        return () => {
+          mountedScopes[scope] = false
+        }
+      }
+    }
+  }, [mirror, scope])
+
+  if (!storeContext) {
+    // eslint-disable-next-line no-console
+    console.error(
+      'Could not connect to Redux Store. Please make sure to wrap all instances of Document in an EditorProvider'
+    )
+    return null
+  }
+
+  return <InnerDocument scope={scope} mirror={mirror} {...props} />
+}
+
 const defaultTheme: CustomTheme = {}
 const hotKeysKeyMap = {
   UNDO: 'mod+z',
   REDO: ['mod+y', 'mod+shift+z']
 }
-export const InnerEditor = connect<
+export const InnerDocument = connect<
   EditorStateProps,
   EditorDispatchProps,
-  EditorProps
+  EditorProps & { scope: string }
 >(
   (state): EditorStateProps => {
     return {
@@ -53,29 +142,35 @@ export const InnerEditor = connect<
   },
   {
     initRoot: actions.initRoot,
-    setEditable: actions.setEditable,
     undo: actions.undo,
     redo: actions.redo
   }
-)(function InnerEditor<K extends string = string>({
+)(function InnerDocument<K extends string = string>({
   id,
   initRoot,
-  initialState,
-  setEditable,
   undo,
   redo,
   children,
-  editable = true,
+  initialState,
+  mirror,
+  plugins,
+  defaultPlugin,
+  scope,
+  editable,
   theme = defaultTheme
-}: EditorProps<K> & EditorStateProps & EditorDispatchProps) {
+}: EditorProps<K> & { scope: string; mirror?: boolean } & EditorStateProps &
+  EditorDispatchProps) {
   React.useEffect(() => {
-    initRoot(initialState || {})
-  }, [initRoot, initialState])
-
-  React.useEffect(() => {
-    setEditable(editable)
-  }, [editable, setEditable])
-
+    if (!mirror) {
+      initRoot({ initialState, plugins, defaultPlugin })
+    }
+  }, [defaultPlugin, initRoot, initialState, mirror, plugins])
+  const scopeContextValue = React.useMemo(() => {
+    return {
+      scope,
+      editable
+    }
+  }, [scope, editable])
   const hotKeysHandlers = React.useMemo(() => {
     return {
       UNDO: undo,
@@ -94,14 +189,18 @@ export const InnerEditor = connect<
     >
       <div style={{ position: 'relative' }}>
         <RootThemeProvider theme={theme}>
-          <OverlayContextProvider>{renderChildren(id)}</OverlayContextProvider>
+          <OverlayContextProvider>
+            <ScopeContext.Provider value={scopeContextValue}>
+              {renderChildren(id)}
+            </ScopeContext.Provider>
+          </OverlayContextProvider>
         </RootThemeProvider>
       </div>
     </HotKeys>
   )
 
   function renderChildren(id: string) {
-    const document = <Document id={id} />
+    const document = <SubDocument id={id} />
 
     if (typeof children === 'function') {
       return children(document)
@@ -119,11 +218,13 @@ export const InnerEditor = connect<
 export interface EditorStateProps {
   id: ReturnType<typeof selectors['getRoot']>
 }
-export interface EditorDispatchProps {
-  initRoot: typeof actions['initRoot']
-  setEditable: typeof actions['setEditable']
-  undo: typeof actions['undo']
-  redo: typeof actions['redo']
+
+// Typescript somehow doesn't recognize an interface as Record<string, ..>
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+export type EditorDispatchProps = {
+  initRoot: ScopedActionCreator<typeof actions['initRoot']>
+  undo: ScopedActionCreator<typeof actions['undo']>
+  redo: ScopedActionCreator<typeof actions['redo']>
 }
 
 export interface EditorProps<K extends string = string> {
@@ -136,6 +237,6 @@ export interface EditorProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  onChange?: StoreOptions<K>['onChange']
+  onChange?: ChangeListener
   editable?: boolean
 }

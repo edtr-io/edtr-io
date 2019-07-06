@@ -1,9 +1,10 @@
 import * as R from 'ramda'
 
+import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, waitUntil } from '../../__helpers__'
 import { pureCopy } from '../../src/store/clipboard/actions'
 import { pureChange, pureInsert } from '../../src/store/documents/actions'
-import { actions, selectors } from '../../src/store'
+import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 
@@ -18,7 +19,13 @@ describe('Clipboard', () => {
 
   describe('Copy', () => {
     test('Stateful plugin', async () => {
-      store.dispatch(actions.initRoot({ plugin: 'stateful', state: 0 }))
+      store.dispatch(
+        actions.initRoot({
+          initialState: { plugin: 'stateful', state: 0 },
+          plugins,
+          defaultPlugin: 'text'
+        })
+      )
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
@@ -37,10 +44,14 @@ describe('Clipboard', () => {
     test('Nested plugin', async () => {
       store.dispatch(
         actions.initRoot({
-          plugin: 'nested',
-          state: {
-            child: { plugin: 'stateful', state: 0 }
-          }
+          initialState: {
+            plugin: 'nested',
+            state: {
+              child: { plugin: 'stateful', state: 0 }
+            }
+          },
+          plugins,
+          defaultPlugin: 'text'
         })
       )
       await waitUntil(() =>
@@ -61,7 +72,13 @@ describe('Clipboard', () => {
     })
 
     test('Four copies', async () => {
-      store.dispatch(actions.initRoot({ plugin: 'stateful', state: 0 }))
+      store.dispatch(
+        actions.initRoot({
+          initialState: { plugin: 'stateful', state: 0 },
+          plugins,
+          defaultPlugin: 'text'
+        })
+      )
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )

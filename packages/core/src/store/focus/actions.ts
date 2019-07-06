@@ -1,15 +1,18 @@
 import { createAction, createActionWithoutPayload } from '../helpers'
+import { ActionFromActionCreator } from '../types'
 
 export const focus = createAction<'Focus', string>('Focus')
-export type FocusDocumentAction = ReturnType<typeof focus>
+export type FocusDocumentAction = ActionFromActionCreator<typeof focus>
 
 export const focusNext = createActionWithoutPayload<'FocusNext'>('FocusNext')
-export type FocusNextDocumentAction = ReturnType<typeof focusNext>
+export type FocusNextDocumentAction = ActionFromActionCreator<typeof focusNext>
 
 export const focusPrevious = createActionWithoutPayload<'FocusPrevious'>(
   'FocusPrevious'
 )
-export type FocusPreviousDocumentAction = ReturnType<typeof focusPrevious>
+export type FocusPreviousDocumentAction = ActionFromActionCreator<
+  typeof focusPrevious
+>
 
 export type FocusAction =
   | FocusDocumentAction

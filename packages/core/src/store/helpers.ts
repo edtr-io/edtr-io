@@ -1,11 +1,12 @@
 import { Action } from './actions'
-import { State } from './types'
+import { EditorState, ScopeState } from './types'
 
 export function createAction<T, P>(type: T) {
-  const actionCreator = (payload: P) => {
+  const actionCreator = (payload: P) => (scope: string) => {
     return {
       type,
-      payload
+      payload,
+      scope
     }
   }
   actionCreator.type = type
@@ -14,19 +15,19 @@ export function createAction<T, P>(type: T) {
 }
 
 export function createActionWithoutPayload<T>(type: T) {
-  const actionCreator = () => {
-    return { type }
+  const actionCreator = () => (scope: string) => {
+    return { type, scope }
   }
   actionCreator.type = type
 
   return actionCreator
 }
 
-export function createSubReducer<K extends keyof State>(
+export function createSubReducer<K extends keyof ScopeState>(
   key: K,
-  initialState: State[K],
-  actionsMap: CaseReducersMapObject<State[K]>
-): SubReducer<State[K]> {
+  initialState: ScopeState[K],
+  actionsMap: CaseReducersMapObject<ScopeState[K]>
+): SubReducer<ScopeState[K]> {
   return (action, state) => {
     const subState = (state && state[key]) || initialState
     if (!state) return subState
@@ -38,9 +39,19 @@ export function createSubReducer<K extends keyof State>(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function scopeSelector<T, P extends any[]>(
+  selector: (state: ScopeState, ...args: P) => T,
+  scope: string
+) {
+  return (storeState: EditorState, ...args: P) => {
+    return selector(storeState[scope], ...args)
+  }
+}
+
 export type SubReducer<S = unknown> = (
   action: Action,
-  state: State | undefined
+  state: ScopeState | undefined
 ) => S
 
 export interface CaseReducersMapObject<S = unknown> {
@@ -51,5 +62,5 @@ export interface CaseReducersMapObject<S = unknown> {
 export type CaseReducer<S = unknown, A extends Action = Action> = (
   subState: S,
   action: A,
-  state: State
+  state: ScopeState
 ) => S

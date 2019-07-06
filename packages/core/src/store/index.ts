@@ -2,20 +2,25 @@ import { publicClipboardActions, publicClipboardSelectors } from './clipboard'
 import { publicDocumentsActions, publicDocumentsSelectors } from './documents'
 import { publicFocusActions, publicFocusSelectors } from './focus'
 import { publicHistoryActions, publicHistorySelectors } from './history'
-import { publicModeActions, publicModeSelectors } from './mode'
 import { publicPluginsSelectors } from './plugins'
 import { publicRootActions, publicRootSelectors } from './root'
 
 export { Action } from './actions'
-export { createStore } from './store'
-export { DocumentState, State } from './types'
+export { createStore, ChangeListener } from './store'
+export {
+  DocumentState,
+  EditorState,
+  ScopeState,
+  ActionCreator,
+  ActionFromActionCreator,
+  ScopedActionCreator
+} from './types'
 
 export const actions = {
   ...publicClipboardActions,
   ...publicDocumentsActions,
   ...publicFocusActions,
   ...publicHistoryActions,
-  ...publicModeActions,
   ...publicRootActions
 }
 
@@ -24,7 +29,6 @@ export const selectors = {
   ...publicDocumentsSelectors,
   ...publicFocusSelectors,
   ...publicHistorySelectors,
-  ...publicModeSelectors,
   ...publicPluginsSelectors,
   ...publicRootSelectors
 }

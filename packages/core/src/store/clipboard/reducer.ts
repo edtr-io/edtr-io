@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 
 import { createSubReducer } from '../helpers'
-import { State } from '../types'
+import { ScopeState } from '../types'
 import { pureCopy, PureCopyAction } from './actions'
 
 export const clipboardReducer = createSubReducer('clipboard', [], {
@@ -17,7 +17,7 @@ export const clipboardReducer = createSubReducer('clipboard', [], {
   }
 })
 
-export function getClipboard(state: State) {
+export function getClipboard(state: ScopeState) {
   return state.clipboard
 }
 

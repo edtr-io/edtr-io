@@ -9,7 +9,7 @@ import {
   StatelessPluginEditorProps
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
-import { actions, selectors } from '../store'
+import { actions, selectors, ScopedActionCreator } from '../store'
 import { DocumentProps } from '.'
 
 const StyledDocument = styled.div({
@@ -19,7 +19,7 @@ const StyledDocument = styled.div({
 export const DocumentEditor = connect<
   DocumentEditorStateProps,
   DocumentEditorDispatchProps,
-  DocumentProps
+  DocumentProps & { scope: string }
 >(
   (state, { id }) => {
     const document = selectors.getDocument(state, id)
@@ -199,9 +199,11 @@ export interface DocumentEditorStateProps {
   plugin: ReturnType<typeof selectors['getPlugin']>
 }
 
-export interface DocumentEditorDispatchProps {
-  focusNext: typeof actions['focusNext']
-  focusPrevious: typeof actions['focusPrevious']
-  focus: typeof actions['focus']
-  change: typeof actions['change']
+// Typescript somehow doesn't recognize an interface as Record<string, ..>
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+export type DocumentEditorDispatchProps = {
+  focusNext: ScopedActionCreator<typeof actions['focusNext']>
+  focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
+  focus: ScopedActionCreator<typeof actions['focus']>
+  change: ScopedActionCreator<typeof actions['change']>
 }

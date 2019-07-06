@@ -1,8 +1,4 @@
-import {
-  EditorContext,
-  StatefulPluginEditorProps,
-  selectors
-} from '@edtr-io/core'
+import { StatefulPluginEditorProps, selectors, useStore } from '@edtr-io/core'
 import * as React from 'react'
 
 import { rowsState } from '..'
@@ -12,7 +8,7 @@ export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
   const rows = props.state
-  const { store } = React.useContext(EditorContext)
+  const store = useStore()
 
   return (
     <React.Fragment>
