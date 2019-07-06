@@ -17,8 +17,8 @@ enum VideoType {
   BR = 'br'
 }
 
-const VideoWrapper = styled.div(
-  ({ disableCursorEvents }: { disableCursorEvents: boolean }) => ({
+const VideoWrapper = styled.div<{ disableCursorEvents: boolean }>(
+  ({ disableCursorEvents }) => ({
     position: 'relative',
     padding: '0',
     /* Player ratio: 100 / (1280 / 720) */

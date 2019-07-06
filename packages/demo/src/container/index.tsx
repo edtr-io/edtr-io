@@ -1,4 +1,4 @@
-import { Editor, EditorProps } from '@edtr-io/core'
+import { EditorProps } from '@edtr-io/core'
 import { select } from '@storybook/addon-knobs'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -6,15 +6,18 @@ import * as React from 'react'
 import { plugins } from '../plugins'
 import { PlainContainer } from './plain'
 import { SerloContainer } from './serlo'
+import { SerloWithPreviewContainer } from './serlo-with-preview'
 
 enum Container {
   Plain = 'Plain',
-  Serlo = 'Serlo'
+  Serlo = 'Serlo',
+  SerloWithPreview = 'SerloWithPreview'
 }
 
 const Components = {
   [Container.Plain]: PlainContainer,
-  [Container.Serlo]: SerloContainer
+  [Container.Serlo]: SerloContainer,
+  [Container.SerloWithPreview]: SerloWithPreviewContainer
 }
 
 export function EditorStory(props: Partial<EditorProps>) {
@@ -22,16 +25,10 @@ export function EditorStory(props: Partial<EditorProps>) {
     (localStorage.getItem('storybook.container') as Container) ||
     Container.Serlo
   const container = select('Container', R.values(Container), defaultContainer)
+  const Component = Components[container]
   React.useEffect(() => {
     localStorage.setItem('storybook.container', container)
   }, [container])
-  const Component = Components[container]
 
-  return (
-    <Editor plugins={plugins} defaultPlugin="text" {...props}>
-      {document => {
-        return <Component>{document}</Component>
-      }}
-    </Editor>
-  )
+  return <Component plugins={plugins} defaultPlugin="text" {...props} />
 }
