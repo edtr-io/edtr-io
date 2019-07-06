@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Breaking Changes
 
-- **core**. The state exposed in `EditorContext` introduces an additional layer to support multiple editor instances. Use the `useStore` helper instead to get the `{ store: { getState() }, dispatch }` of the wrapping editor instance.
+- **core**. The state exposed in `EditorContext` introduces an additional layer to support multiple editor instances. Use the `useStore` helper instead to get the `{ store: { getState() }, dispatch }` of the scoped document.
 - **core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export
 - **core**. Removed `ActionType` export. Use the exported public action creators `actions` instead
 - **core**. Removed export \`ActionCommitType
@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - **core**. Selectors aren't exported directly anymore. Instead use the new `selectors` export.
 - **core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)
 - **core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.
+- **core**. Removed previous exports `Document` and `DocumentProps`
 - **plugin-h5p**. Removed `@edtr-io/plugin-hp5`
 - **plugin-image**. Changed configs for createImagePlugin and removed Upload export
 - **plugin-rows**. Deprecated PrimarySettingsWrapper now removed. Use PrimarySettings from package editor-ui instead.
@@ -21,11 +22,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - **core**. To connect to the store, you can either use the exposed `useStore` or our newly exposed `connect` and `connectStateOnly`. If you want to connect to all editor instances use `EditorContext` (e.g. with `React.useContext`)
-- **core**. Exposes a new Component `EditorInstance` which in contrast to `Editor` needs an additional prop `scope`. Editor instances of the same scope use the same store state.
+- **core**. Exposes a new Component `Document` that has to be rendered into an `EditorProvider`. In contrast to `Editor`, it accepts an additional prop `scope` and is not editable by default. Documents sharing the same scope use the same store state.
 
 ### Changed
 
 - Various performance improvements
+- **core**. The exposed hooks now optionally accept the scope. If it is not provided, it uses the scope of the parent `Editor`
 
 ### Removed
 
