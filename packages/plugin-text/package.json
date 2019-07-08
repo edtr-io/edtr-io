@@ -11,7 +11,7 @@
     "@convertkit/slate-lists": "^0.2.2",
     "is-hotkey": "^0.1.0",
     "katex": "^0.10.1",
-    "react-mathquill": "^0.1.3",
+    "react-mathquill": "git+https://github.com/Entkenntnis/react-mathquill-dist.git",
     "slate": "^0.44.0",
     "slate-html-serializer": "^0.7.0",
     "slate-react": "^0.21.0"
