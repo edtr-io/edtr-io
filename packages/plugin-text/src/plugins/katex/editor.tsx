@@ -18,7 +18,7 @@ import { katexBlockNode, katexInlineNode } from './index'
 import { isList, orderedListNode, unorderedListNode } from '../list'
 import { OverlayContext } from '@edtr-io/core'
 import { Button } from '../../toolbar/button'
-import { isTouchDevice } from 'plugin-text/src/controls'
+import { isTouchDevice } from './plugin-text/src/controls'
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
