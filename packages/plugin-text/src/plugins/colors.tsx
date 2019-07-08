@@ -101,7 +101,7 @@ export const createColorPlugin = ({
   EditorComponent = DefaultEditorComponent,
   RenderComponent = DefaultRendererComponent
 }: ColorPluginOptions = {}) => (): TextPlugin => {
-  //TODO: deserialize
+  // TODO: deserialize
   return {
     serialize(obj, children) {
       const mark = obj as Mark

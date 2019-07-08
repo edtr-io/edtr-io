@@ -84,7 +84,6 @@ export interface Dimensions {
   clientWidths: number[]
 }
 interface FetchDimensionsState {
-  // FIXME: TS converts this to number[] somehow
   heights: (number | null)[]
   widths: (number | null)[]
   scrollHeights: (number | null)[]

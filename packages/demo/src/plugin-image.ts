@@ -85,9 +85,10 @@ export function readFile(file: File): Promise<StateType.LoadedFile> {
     const reader = new FileReader()
 
     reader.onload = function(e: ProgressEvent) {
-      // @ts-ignore FIXME
-      const dataUrl = e.target.result
-      //simulate uploadtime
+      if (!e.target) return
+      const { result } = (e.target as unknown) as { result: string }
+      const dataUrl = result
+      // Simulate upload time
       setTimeout(() => resolve({ file, dataUrl }), 1000)
     }
 

@@ -1,24 +1,25 @@
 import * as React from 'react'
 
-import { EditorContext } from '../editor-context'
-import { getDocument, getPlugin } from '../store'
-
-import { DocumentProps } from '.'
+import { connectStateOnly } from '../editor-context'
 import { isStatefulPlugin } from '../plugin'
+import { selectors } from '../store'
+import { DocumentProps } from '.'
 
-export const DocumentRenderer: React.FunctionComponent<DocumentProps> = ({
-  id,
-  pluginProps
-}) => {
-  const store = React.useContext(EditorContext)
-
-  const document = getDocument(store.state, id)
-  if (!document) {
-    return null
+export const DocumentRenderer = connectStateOnly<
+  DocumentRendererStateProps,
+  DocumentProps & { scope: string }
+>((state, { id }) => {
+  const document = selectors.getDocument(state, id)
+  return {
+    document: selectors.getDocument(state, id),
+    plugin: document && selectors.getPlugin(state, document.plugin)
   }
-
-  const plugin = getPlugin(store.state, document.plugin)
-
+})(function({
+  pluginProps,
+  document,
+  plugin
+}: DocumentProps & DocumentRendererStateProps) {
+  if (!document) return null
   if (!plugin) {
     // TODO:
     // eslint-disable-next-line no-console
@@ -31,4 +32,9 @@ export const DocumentRenderer: React.FunctionComponent<DocumentProps> = ({
     pluginState = plugin.state(document.state, () => {})
   }
   return <plugin.Component {...pluginProps} state={pluginState} />
+})
+
+export interface DocumentRendererStateProps {
+  document: ReturnType<typeof selectors['getDocument']>
+  plugin: ReturnType<typeof selectors['getPlugin']>
 }

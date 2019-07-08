@@ -109,7 +109,7 @@ export type RendererUiThemeFactory<T> = (theme: RendererTheme) => T
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? (DeepPartial<U>)[]
-    : T[P] extends ReadonlyArray<infer U>
-    ? ReadonlyArray<DeepPartial<U>>
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>
 }
