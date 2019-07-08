@@ -18,6 +18,7 @@ import { katexBlockNode, katexInlineNode } from './index'
 import { isList, orderedListNode, unorderedListNode } from '../list'
 import { OverlayContext } from '@edtr-io/core'
 import { Button } from '../../toolbar/button'
+import { isTouchDevice } from 'plugin-text/src/controls'
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -66,7 +67,7 @@ const KeyboardKey = styled.span({
 })
 
 function isAndroid() {
-  return navigator && /(android)/i.test(navigator.userAgent)
+  return isTouchDevice() && navigator && /(android)/i.test(navigator.userAgent)
 }
 
 export const DefaultEditorComponent: React.FunctionComponent<
