@@ -7,6 +7,7 @@ import {
   Icon
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
+
 // @ts-ignore
 import MathQuill from 'react-mathquill'
 import { Block, Inline } from 'slate'
@@ -20,7 +21,7 @@ import { OverlayContext } from '@edtr-io/core'
 import { Button } from '../../toolbar/button'
 import { isTouchDevice } from '../../controls'
 
-const Wrapper = styled.div<{ inline: boolean }>(props => {
+const EditorWrapper = styled.div<{ inline: boolean }>(props => {
   return {
     whiteSpace: undefined,
     overflowWrap: undefined,
@@ -37,27 +38,7 @@ const Wrapper = styled.div<{ inline: boolean }>(props => {
   }
 })
 
-/*
-.c-keyboard_key {
-  background: #ddd;
-  padding: 2px 8px;
-  font-size: 13px;
-  font-weight: 400;
-  min-width: 24px;
-  height: 27px;
-  margin: 0 2px;
-  border-radius: 5px;
-  color: #1d1c1d;
-  border: 1px solid #868686;
-  box-shadow: 0 1px 0 #868686;
-  text-shadow: none;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 21px;
-}*/
-
-const KeyboardKey = styled.span({
+const KeySpan = styled.span({
   background: '#ddd',
   padding: '2px 4px',
   borderRadius: 5,
@@ -65,6 +46,41 @@ const KeyboardKey = styled.span({
   textAlign: 'center',
   minWidth: 20
 })
+
+const HelpText = (
+  <>
+    Tastenkürzel:
+    <br />
+    <br />
+    <p>
+      Bruch: <KeySpan>/</KeySpan>
+    </p>
+    <p>
+      Hochgestellt: <KeySpan>↑</KeySpan> oder <KeySpan>^</KeySpan>
+    </p>
+    <p>
+      Tiefgestellt: <KeySpan>↓</KeySpan> oder <KeySpan>_</KeySpan>
+    </p>
+    <p>
+      π, α, β, γ: <KeySpan>pi</KeySpan>, <KeySpan>alpha</KeySpan>,{' '}
+      <KeySpan>beta</KeySpan>,<KeySpan>gamma</KeySpan>
+    </p>
+    <p>
+      ≤, ≥: <KeySpan>{'<='}</KeySpan>, <KeySpan>{'>='}</KeySpan>
+    </p>
+    <p>
+      Wurzeln: <KeySpan>\sqrt</KeySpan>, <KeySpan>\nthroot</KeySpan>
+    </p>
+    <p>
+      Mathematische Symbole: <KeySpan>{'\\<NAME>'}</KeySpan>, z.B.{' '}
+      <KeySpan>\neq</KeySpan> (≠), <KeySpan>\pm</KeySpan> (±), ...
+    </p>
+    <p>
+      Funktionen: <KeySpan>sin</KeySpan>, <KeySpan>cos</KeySpan>,{' '}
+      <KeySpan>ln</KeySpan>, ...
+    </p>
+  </>
+)
 
 function isAndroid() {
   return isTouchDevice() && navigator && /(android)/i.test(navigator.userAgent)
@@ -137,6 +153,52 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
   }
 
+  function handleInlineToggle(checked: boolean) {
+    const newData = { formula: formulaState, inline: checked }
+
+    // remove old node, merge blocks if necessary
+    if (node.isLeafBlock()) {
+      const n = editor.value.document.getNextBlock(node.key)
+      editor.removeNodeByKey(node.key)
+      if (n) {
+        editor.mergeNodeByKey(n.key)
+      }
+    } else {
+      editor.removeNodeByKey(node.key)
+    }
+
+    if (checked) {
+      editor.insertInline({
+        type: katexInlineNode,
+        data: newData
+      })
+    } else {
+      editor.insertBlock({
+        type: katexBlockNode,
+        data: newData
+      })
+    }
+  }
+
+  function checkLatexError(mathquill: {
+    latex: () => string
+    focus: () => void
+  }) {
+    if (mathquill) {
+      if (mathquill.latex() == '' && formula != '') {
+        // Error occured
+        alert('Error while parsing LaTeX.')
+        setUseVisual(false)
+      }
+      setTimeout(() => {
+        editor.blur()
+        setTimeout(() => {
+          mathquill.focus()
+        })
+      })
+    }
+  }
+
   if (edit) {
     let mathquillConfig = {
       supSubsRequireOperand: true,
@@ -178,45 +240,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
     return (
       <>
-        <Overlay>
-          Tastenkürzel:
-          <br />
-          <br />
-          <p>
-            Bruch: <KeyboardKey>/</KeyboardKey>
-          </p>
-          <p>
-            Hochgestellt: <KeyboardKey>↑</KeyboardKey> oder{' '}
-            <KeyboardKey>^</KeyboardKey>
-          </p>
-          <p>
-            Tiefgestellt: <KeyboardKey>↓</KeyboardKey> oder{' '}
-            <KeyboardKey>_</KeyboardKey>
-          </p>
-          <p>
-            π, α, β, γ: <KeyboardKey>pi</KeyboardKey>,{' '}
-            <KeyboardKey>alpha</KeyboardKey>, <KeyboardKey>beta</KeyboardKey>,
-            <KeyboardKey>gamma</KeyboardKey>
-          </p>
-          <p>
-            ≤, ≥: <KeyboardKey>{'<='}</KeyboardKey>,{' '}
-            <KeyboardKey>{'>='}</KeyboardKey>
-          </p>
-          <p>
-            Wurzeln: <KeyboardKey>\sqrt</KeyboardKey>,{' '}
-            <KeyboardKey>\nthroot</KeyboardKey>
-          </p>
-          <p>
-            Mathematische Symbole: <KeyboardKey>{'\\<NAME>'}</KeyboardKey>, z.B.{' '}
-            <KeyboardKey>\neq</KeyboardKey> (≠), <KeyboardKey>\pm</KeyboardKey>{' '}
-            (±), ...
-          </p>
-          <p>
-            Funktionen: <KeyboardKey>sin</KeyboardKey>,{' '}
-            <KeyboardKey>cos</KeyboardKey>, <KeyboardKey>ln</KeyboardKey>, ...
-          </p>
-        </Overlay>
-        <Wrapper
+        <Overlay>{HelpText}</Overlay>
+        <EditorWrapper
           {...attributes}
           onClick={e => {
             e.stopPropagation()
@@ -231,24 +256,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               }}
               config={mathquillConfig}
               ref={mathQuillRef}
-              mathquillDidMount={(mathquill: {
-                latex: () => string
-                focus: () => void
-              }) => {
-                if (mathquill) {
-                  if (mathquill.latex() == '' && formula != '') {
-                    // Error occured
-                    alert('Error while parsing LaTeX.')
-                    setUseVisual(false)
-                  }
-                  setTimeout(() => {
-                    editor.blur()
-                    setTimeout(() => {
-                      mathquill.focus()
-                    })
-                  })
-                }
-              }}
+              mathquillDidMount={checkLatexError}
             />
           ) : inline ? (
             <input
@@ -295,32 +303,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               <InlineCheckbox
                 label="Inline"
                 checked={inline}
-                onChange={checked => {
-                  const newData = { formula: formulaState, inline: checked }
-
-                  // remove old node, merge blocks if necessary
-                  if (node.isLeafBlock()) {
-                    const n = editor.value.document.getNextBlock(node.key)
-                    editor.removeNodeByKey(node.key)
-                    if (n) {
-                      editor.mergeNodeByKey(n.key)
-                    }
-                  } else {
-                    editor.removeNodeByKey(node.key)
-                  }
-
-                  if (checked) {
-                    editor.insertInline({
-                      type: katexInlineNode,
-                      data: newData
-                    })
-                  } else {
-                    editor.insertBlock({
-                      type: katexBlockNode,
-                      data: newData
-                    })
-                  }
-                }}
+                onChange={handleInlineToggle}
               />
             ) : null}
             <Button
@@ -332,20 +315,20 @@ export const DefaultEditorComponent: React.FunctionComponent<
               <Icon icon={faQuestionCircle} />
             </Button>
           </HoveringOverlay>
-        </Wrapper>
+        </EditorWrapper>
       </>
     )
+  } else {
+    return (
+      <span {...attributes}>
+        {formula ? (
+          <Math formula={formula} inline={inline} />
+        ) : (
+          <span style={{ backgroundColor: 'lightgrey' }}>[neue Formel]</span>
+        )}
+      </span>
+    )
   }
-
-  return (
-    <span {...attributes}>
-      {formula ? (
-        <Math formula={formula} inline={inline} />
-      ) : (
-        <span style={{ backgroundColor: 'lightgrey' }}>[neue Formel]</span>
-      )}
-    </span>
-  )
 }
 
 function alternativeTextArea() {
@@ -372,6 +355,8 @@ function alternativeSaneKeyboard(
     } else if (value.length == 0) {
       handler.keystroke('Backspace', { preventDefault: () => null })
     }
-    el.value = ' '
+    setTimeout(() => {
+      el.value = ' '
+    })
   })
 }
