@@ -8,7 +8,7 @@ import {
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 // @ts-ignore
-import MathQuill from './react-mathquill'
+import MathQuill from 'react-mathquill'
 import { Block, Inline } from 'slate'
 
 import { NodeEditorProps } from '../..'
