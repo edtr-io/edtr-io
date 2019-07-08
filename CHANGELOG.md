@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.7.0..HEAD)
+
+### Changed
+
+- **plugin-rows**. add-button is now always visible under the focused document
+
 ## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 
 ### Breaking Changes

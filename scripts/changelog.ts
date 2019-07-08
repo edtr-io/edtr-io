@@ -297,6 +297,11 @@ async function exec(): Promise<void> {
         '**core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail',
         '**core**. Replace `uuid` with `shortid`'
       ]
+    },
+    {
+      changed: [
+        '**plugin-rows**. add-button is now always visible under the focused document'
+      ]
     }
   ])
 

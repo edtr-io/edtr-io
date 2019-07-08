@@ -112,7 +112,7 @@ const RowSource = React.forwardRef<
       }
     }
   }, [settingsTheme])
-
+  const focusedChild = props.store.getState().focus
   return (
     <OnClickOutside
       onClick={() => {
@@ -168,7 +168,11 @@ const RowSource = React.forwardRef<
           extendedSettingsVisible={showExtendedSettings}
           name={props.name}
         />
-        <Separator name={props.name} onClick={() => openMenu(index + 1)} />
+        <Separator
+          name={props.name}
+          focused={focusedChild === row.id}
+          onClick={() => openMenu(index + 1)}
+        />
         {props.editable && (
           <React.Fragment>
             <Controls
