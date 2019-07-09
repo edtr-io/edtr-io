@@ -1,19 +1,18 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
-
-import { createImageEditor } from './editor'
-import { ImageUploadConfig } from './upload'
 import { createIcon, faImages } from '@edtr-io/editor-ui'
 
+import { createImageEditor } from './editor'
+
 export const imageState = StateType.object({
-  src: StateType.string(''),
+  src: StateType.upload(''),
   href: StateType.string(''),
   target: StateType.string(''),
   rel: StateType.string(''),
   description: StateType.string(''),
   maxWidth: StateType.number(0)
 })
-export const createImagePlugin = <T = unknown>(
-  config: ImagePluginConfig<T>
+export const createImagePlugin = (
+  config: ImagePluginConfig
 ): StatefulPlugin<typeof imageState> => {
   return {
     Component: createImageEditor(config),
@@ -37,15 +36,45 @@ export const createImagePlugin = <T = unknown>(
           }
         }
       }
+
+      const files = getFilesFromDataTransfer(clipboardData)
+      if (files.length === 1) {
+        const file = files[0]
+        const validation = config.validate(file)
+        if (validation.valid) {
+          return {
+            state: {
+              src: { pending: files[0] },
+              href: '',
+              target: '',
+              rel: '',
+              description: '',
+              maxWidth: 0
+            }
+          }
+        }
+      }
     }
   }
 }
 
+function getFilesFromDataTransfer(clipboardData: DataTransfer) {
+  const items = clipboardData.files
+  let files: File[] = []
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    if (!item) continue
+    files.push(item)
+  }
+  return files
+}
+
 export type SecondInputType = 'description' | 'link'
 
-export interface ImagePluginConfig<T> {
-  upload: ImageUploadConfig<T>
+export interface ImagePluginConfig {
+  upload: StateType.UploadHandler<string>
+  validate: StateType.UploadValidator
   secondInput?: SecondInputType
 }
 
-export { ImageLoaded, ImageUploaded, Upload, ImageUploadConfig } from './upload'
+export { Upload } from './upload'

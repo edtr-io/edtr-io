@@ -44,8 +44,9 @@ export {
 } from '@fortawesome/free-solid-svg-icons'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
-  const I = () => <Icon icon={i} size="4x" />
-  return I
+  return function I() {
+    return <Icon icon={i} size="4x" />
+  }
 }
 
 export type EdtrIconDefinition = string

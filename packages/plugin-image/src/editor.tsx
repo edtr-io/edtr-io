@@ -1,25 +1,29 @@
-import { StatefulPluginEditorProps, OverlayContext } from '@edtr-io/core'
 import {
+  StateType,
+  StatefulPluginEditorProps,
+  OverlayContext
+} from '@edtr-io/core'
+import {
+  Checkbox,
+  EditorButton,
+  EditorInput,
   Icon,
-  faImages,
-  styled,
-  Textarea,
   Overlay,
   OverlayInput,
-  Checkbox,
-  EditorInput,
-  EditorButton,
-  faCog
+  PrimarySettings,
+  Textarea,
+  faCog,
+  faImages,
+  styled
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { FileError, ImageLoaded, ImageUploaded, Upload } from './upload'
+import { Upload } from './upload'
 import { ImageRenderer } from './renderer'
 import { ImagePluginConfig, imageState } from '.'
 
 type ImageProps = StatefulPluginEditorProps<typeof imageState> & {
   renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  PrimarySettingsWrapper?: React.ComponentType
 }
 
 const ImgPlaceholderWrapper = styled.div({
@@ -40,21 +44,22 @@ const OverlayButtonWrapper = styled.div({
   textAlign: 'right'
 })
 
-export function createImageEditor<T = unknown>(
-  config: ImagePluginConfig<T>
+export function createImageEditor(
+  config: ImagePluginConfig
 ): React.FunctionComponent<ImageProps> {
-  return props => {
-    const [imagePreview, setImagePreview] = React.useState<
-      ImageLoaded | undefined
-    >(undefined)
+  return function ImageEditor(props) {
     const { editable, focused, state } = props
+
+    StateType.usePendingFileUploader(state.src, config.upload)
+
     const imageComponent =
-      state.src.value || imagePreview ? (
-        <ImageRenderer {...props} disableMouseEvents={editable} />
-      ) : (
+      state.src.value === '' ||
+      (StateType.isTempFile(state.src.value) && !state.src.value.loaded) ? (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />
         </ImgPlaceholderWrapper>
+      ) : (
+        <ImageRenderer {...props} disableMouseEvents={editable} />
       )
     if (!editable) {
       return imageComponent
@@ -63,83 +68,47 @@ export function createImageEditor<T = unknown>(
     return (
       <React.Fragment>
         {imageComponent}
-        {props.PrimarySettingsWrapper ? (
-          <props.PrimarySettingsWrapper>
-            <PrimaryControls
-              {...props}
-              config={config}
-              handleImageLoaded={handleImageLoaded}
-              handleImageUploaded={handleImageUploaded}
-            />
-          </props.PrimarySettingsWrapper>
-        ) : focused ? (
-          <PrimaryControls
-            {...props}
-            config={config}
-            handleImageLoaded={handleImageLoaded}
-            handleImageUploaded={handleImageUploaded}
-          />
-        ) : null}
+        {focused && (
+          <PrimarySettings>
+            <PrimaryControls {...props} config={config} />
+          </PrimarySettings>
+        )}
         {props.renderIntoExtendedSettings ? (
           props.renderIntoExtendedSettings(
-            <Controls
-              {...props}
-              config={config}
-              handleImageLoaded={handleImageLoaded}
-              handleImageUploaded={handleImageUploaded}
-            />
+            <Controls {...props} config={config} />
           )
         ) : focused ? (
           //use Editor Overlay, if renderIntoExtendedSettings is not supported
           <Overlay>
-            <Controls
-              {...props}
-              config={config}
-              handleImageLoaded={handleImageLoaded}
-              handleImageUploaded={handleImageUploaded}
-            />
+            <Controls {...props} config={config} />
           </Overlay>
         ) : null}
       </React.Fragment>
     )
-    function handleImageLoaded(image: ImageLoaded | undefined) {
-      setImagePreview(image)
-    }
-
-    function handleImageUploaded(image: ImageUploaded) {
-      setImagePreview(undefined)
-      props.state.src.set(image.src)
-    }
   }
 }
 
-function PrimaryControls<T = unknown>(
+function PrimaryControls(
   props: ImageProps & {
-    config: ImagePluginConfig<T>
-    handleImageLoaded: (image: ImageLoaded | undefined) => void
-    handleImageUploaded: (image: ImageUploaded) => void
+    config: ImagePluginConfig
   }
 ) {
   const overlayContext = React.useContext(OverlayContext)
 
-  return props.state.src() === '' ? (
+  const { src } = props.state
+  return src.value === '' ? (
     <React.Fragment>
       <EditorInput
         label="Bild-Adresse (URL):"
         placeholder="http://beispiel.de/bild.png"
-        value={props.state.src.value}
         onChange={handleChange(props)('src')}
         editorInputWidth="70%"
         textfieldWidth="60%"
       />
       <ButtonWrapper>
         <Upload
-          config={props.config.upload}
-          onImageLoaded={props.handleImageLoaded}
-          onImageUploaded={props.handleImageUploaded}
-          onError={(errors: FileError[]): void => {
-            alert(errors.map(error => error.message).join('\n'))
-            props.handleImageLoaded(undefined)
+          onFile={file => {
+            src.upload(file, props.config.upload)
           }}
         />
         {!props.renderIntoExtendedSettings && (
@@ -204,29 +173,29 @@ function PrimaryControls<T = unknown>(
 
 function Controls<T = unknown>(
   props: ImageProps & {
-    config: ImagePluginConfig<T>
-    handleImageLoaded: (image: ImageLoaded | undefined) => void
-    handleImageUploaded: (image: ImageUploaded) => void
+    config: ImagePluginConfig
   }
 ) {
-  const { state, config, handleImageLoaded, handleImageUploaded } = props
+  const { state } = props
+
   return (
     <React.Fragment>
       <OverlayInput
         label="Bild-Adresse (URL)"
         placeholder="http://beispiel.de/bild.png"
-        value={state.src.value}
+        value={
+          !StateType.isTempFile(state.src.value)
+            ? state.src.value
+            : 'Wird hochgeladen...'
+        }
+        disabled={StateType.isTempFile(state.src.value)}
         onChange={handleChange(props)('src')}
       />
       <OverlayButtonWrapper>
         <Upload
           inOverlay
-          config={config.upload}
-          onImageLoaded={handleImageLoaded}
-          onImageUploaded={handleImageUploaded}
-          onError={(errors: FileError[]): void => {
-            alert(errors.map(error => error.message).join('\n'))
-            handleImageLoaded(undefined)
+          onFile={file => {
+            state.src.upload(file, props.config.upload)
           }}
         />
       </OverlayButtonWrapper>
@@ -281,11 +250,12 @@ function handleTargetChange(props: ImageProps) {
   return function(checked: boolean) {
     const { state } = props
     if (checked) {
-      state.target.set('_blank'),
-        // noopener is safer but not supported in IE, so noreferrer adds some security
-        state.rel.set('noreferrer noopener')
+      state.target.set('_blank')
+      // noopener is safer but not supported in IE, so noreferrer adds some security
+      state.rel.set('noreferrer noopener')
     } else {
-      state.target.set(''), state.rel.set('')
+      state.target.set('')
+      state.rel.set('')
     }
   }
 }

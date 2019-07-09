@@ -216,6 +216,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.6.0',
       name: '0.6.0',
+      date: '2019-05-22',
       breakingChanges: [
         '**core**. Requires additional peer-dependencies `react-dnd@^7.0.0` and `react-dnd-html5-backend@^7.0.0`'
       ],
@@ -232,6 +233,69 @@ async function exec(): Promise<void> {
       fixed: [
         '**plugin-text**. Fix key conflicts of merge and remove on backspace ([#123](https://github.com/edtr-io/edtr-io/issues/123))',
         '**plugin-spoiler**, **plugin-solution**, **plugin-hint**, **plugin-equations**. Make children traversable'
+      ]
+    },
+    {
+      tagName: 'v0.6.1',
+      name: '0.6.1',
+      date: '2019-06-13',
+      breakingChanges: [
+        '**plugin-image**. Changed configs for createImagePlugin and removed Upload export'
+      ],
+      added: ['**core**. Added StateType upload for file uploading.']
+    },
+    {
+      tagName: 'v0.6.2',
+      name: '0.6.2',
+      date: '2019-06-19',
+      deprecated: [
+        '**plugin-rows**. PrimarySettingsWrapper from props passed to children is now deprecated, use PrimarySettings from editor-ui instead.'
+      ],
+      added: [
+        '**editor-ui**. Add component PrimarySettings. Use this to wrap Settings displayed directly in page for common styling.'
+      ],
+      fixed: [
+        '**plugin-image**. Do not lose focus in PrimarySettings',
+        '**plugin-image**. Display Placeholder on empty image'
+      ]
+    },
+    {
+      tagName: 'v0.7.0',
+      name: '0.7.0',
+      date: '2019-07-06',
+      breakingChanges: [
+        '**core**. The state exposed in `EditorContext` introduces an additional layer to support multiple editor instances. Use the `useStore` helper instead to get the `{ store: { getState() }, dispatch }` of the scoped document.',
+        '**core**. `EditorContext` now exposes `{ store: { getState() }, dispatch }` instead of `{ state, dispatch }`. Therefore, we also removed the `EditorContextValue` type export',
+        '**core**. Removed `ActionType` export. Use the exported public action creators `actions` instead',
+        '**core**. Removed export `ActionCommitType',
+        '**core**. Renamed type `PluginState` to `DocumentState`',
+        "**core**. Selectors aren't exported directly anymore. Instead use the new `selectors` export.",
+        '**core**. `selectors.serializeRootDocument` replaces the previous `serializeDocument` (`selectors.serializeDocument` can be used to serialize a non-root document)',
+        "**core**. `Editor` doesn't accept changed anymore. Instead, the optional prop `onChange` get's called with `{ changed: boolean, document: DocumentState | null }` where `changed` indicates whether there are pending changes and `document` is the serialized root document.",
+        '**core**. Removed previous exports `Document` and `DocumentProps`',
+        '**core**. `onChange` callback now accepts `{ changed, getDocument() }` to avoid serializing the document if not needed',
+        '**plugin-h5p**. Removed `@edtr-io/plugin-hp5`',
+        '**plugin-image**. Changed configs for createImagePlugin and removed Upload export',
+        '**plugin-rows**. Deprecated PrimarySettingsWrapper now removed. Use PrimarySettings from package editor-ui instead.'
+      ],
+      added: [
+        '**core**. To connect to the store, you can either use the exposed `useStore` or our newly exposed `connect` and `connectStateOnly`. If you want to connect to all editor instances use `EditorContext` (e.g. with `React.useContext`)',
+        '**core**. Exposes a new Component `Document` that has to be rendered into an `EditorProvider`. In contrast to `Editor`, it accepts an additional prop `scope` and is not editable by default. Documents sharing the same scope use the same store state.'
+      ],
+      fixed: [
+        '**core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)',
+        '**plugin-text**. Fix positioning of text controls on touch devices'
+      ],
+      removed: [
+        "**plugin-h5p**. Since our `serlo.h5p.com` trial expired, we don't publish `@edtr-io/h5p-plugin` anymore"
+      ],
+      changed: [
+        'Various performance improvements',
+        '**core**. The exposed hooks now optionally accept the scope. If it is not provided, it uses the scope of the parent `Editor`'
+      ],
+      internal: [
+        '**core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail',
+        '**core**. Replace `uuid` with `shortid`'
       ]
     }
   ])

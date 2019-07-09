@@ -74,14 +74,20 @@ const ControlsSwitch: React.FunctionComponent<
   }
 }
 
-const TimeoutBottomToolbar = styled(BottomToolbar)<{ visible: boolean }>(
-  props => {
-    return {
-      opacity: props.visible ? 1 : 0,
-      transition: '500ms opacity ease-in-out'
-    }
+const TimeoutBottomToolbar = styled(BottomToolbar)<{
+  visible: boolean
+  isTouch: boolean
+}>(props => {
+  const touchStyles = props.isTouch
+    ? { bottom: 'unset', top: 0, transform: 'translate(-50%, 50%)' }
+    : {}
+
+  return {
+    opacity: props.visible ? 1 : 0,
+    transition: '500ms opacity ease-in-out',
+    ...touchStyles
   }
-)
+})
 
 let debounceTimeout: number
 export const Controls: React.FunctionComponent<ControlProps> = props => {
@@ -135,10 +141,19 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
     }
     return editor
   }, [])
+
+  function isTouchDevice(): boolean {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    )
+  }
+
   return (
     <React.Fragment>
       {!selectionCollapsed && (
-        <HoveringOverlay position={'above'}>
+        <HoveringOverlay position={isTouchDevice() ? 'below' : 'above'}>
           <ControlsSwitch
             {...props}
             visibleControls={visibleControls}
@@ -149,6 +164,7 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
       )}
       {!props.readOnly && (
         <TimeoutBottomToolbar
+          isTouch={isTouchDevice()}
           visible={selectionCollapsed && bottomToolbarVisible}
         >
           {bottomToolbarVisible && (

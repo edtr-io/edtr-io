@@ -5,35 +5,31 @@ import * as React from 'react'
 import { createRowPluginTheme } from '../..'
 import { SettingsProps } from '.'
 
-const StyledSettings = styled.div(
-  ({
-    expanded,
-    name,
-    ...props
-  }: ThemeProps & { expanded: boolean; name: string }) => {
-    const theme = createRowPluginTheme(name, props.theme)
-    return {
+const StyledSettings = styled.div<
+  ThemeProps & { expanded: boolean; name: string }
+>(({ expanded, name, ...props }) => {
+  const theme = createRowPluginTheme(name, props.theme)
+  return {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    transformOrigin: 'center top',
+    transform: 'translateX(-100%)',
+    pointerEvents: expanded ? 'all' : 'none',
+    '&::before': {
       position: 'absolute',
+      pointerEvents: 'none',
       top: 0,
-      left: 0,
-      transformOrigin: 'center top',
-      transform: 'translateX(-100%)',
-      pointerEvents: expanded ? 'all' : 'none',
-      '&::before': {
-        position: 'absolute',
-        pointerEvents: 'none',
-        top: 0,
-        right: 0,
-        content: '""',
-        opacity: 1,
-        height: '100%',
-        width: '2px',
-        backgroundColor: theme.backgroundColor,
-        zIndex: 15
-      }
+      right: 0,
+      content: '""',
+      opacity: 1,
+      height: '100%',
+      width: '2px',
+      backgroundColor: theme.backgroundColor,
+      zIndex: 15
     }
   }
-)
+})
 
 const StyledIconContainer = styled.div(
   ({ name, ...props }: ThemeProps & { name: string }) => {
@@ -51,12 +47,8 @@ const StyledIconContainer = styled.div(
   }
 )
 
-const Content = styled.div(
-  ({
-    expanded,
-    name,
-    ...props
-  }: ThemeProps & { expanded: boolean; name: string }) => {
+const Content = styled.div<ThemeProps & { expanded: boolean; name: string }>(
+  ({ expanded, name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       backgroundColor: theme.backgroundColor,

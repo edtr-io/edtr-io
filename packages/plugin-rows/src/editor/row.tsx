@@ -1,32 +1,43 @@
 import {
-  getDocument,
+  Plugin,
   StatefulPluginEditorProps,
-  PluginState,
-  EditorContextValue
+  selectors,
+  EditorStore
 } from '@edtr-io/core'
-import { OnClickOutside } from '@edtr-io/editor-ui'
+import { OnClickOutside, PrimarySettings } from '@edtr-io/editor-ui'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 
 import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
-import {
-  Controls,
-  ExtendedSettingsWrapper,
-  createPrimarySettingsWrapper
-} from './controls'
+import { Controls, ExtendedSettingsWrapper } from './controls'
 import { connectDnD, CollectedProps, TargetProps } from './dnd-hoc'
 import { Menu } from './menu'
 import render from './render'
 import { Separator } from './separator'
 
+const PrimarySettingsWrapper: React.FunctionComponent = props => {
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'PrimarySettingsWrapper of @edtr-io/plugin-rows is deprecated. Use PrimarySettings of @edtr-io/editor-ui instead.'
+    )
+  }, [])
+  return <PrimarySettings {...props} />
+}
 export type RowSourceProps = StatefulPluginEditorProps<typeof rowsState> &
   CollectedProps &
   TargetProps & {
+    moveRow: (from: number, to: number) => void
+    insert: (
+      index: number,
+      options?: { plugin: string; state?: unknown }
+    ) => void
     index: number
-    doc: PluginState
-    store: EditorContextValue
+    doc: { plugin: string; state?: unknown }
+    plugins: Record<string, Plugin>
+    store: EditorStore
   }
 const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },
@@ -34,7 +45,11 @@ const RowSource = React.forwardRef<
 >((props, ref) => {
   const [expanded, setExpanded] = React.useState(false)
   const [menu, setMenu] = React.useState<
-    { index: number; onClose: (pluginState: PluginState) => void } | undefined
+    | {
+        index: number
+        onClose: (pluginState: { plugin: string; state?: unknown }) => void
+      }
+    | undefined
   >(undefined)
   const [showExtendedSettings, setShowExtendedSettings] = React.useState(false)
   const rows = props.state
@@ -56,17 +71,47 @@ const RowSource = React.forwardRef<
 
   // DnD
   const rowRef = React.useRef<HTMLDivElement>(null)
+
+  React.useImperativeHandle(ref, () => {
+    return { getNode: () => rowRef.current }
+  })
+
   if (props.connectDragSource) {
     props.connectDragPreview(rowRef)
     props.connectDropTarget(rowRef)
     // const opacity = isDragging ? 0 : 1
-    React.useImperativeHandle(ref, () => ({
-      getNode: () => rowRef.current
-    }))
   }
 
   const extendedSettingsNode = React.useRef<HTMLDivElement>(null)
   const settingsTheme = usePluginTheme(name, rowsPluginThemeFactory)
+
+  const theme = React.useMemo(() => {
+    return {
+      editorUi: {
+        overlay: {
+          input: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color
+          },
+          button: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color,
+            borderColor: settingsTheme.menu.primary.color
+          },
+          textarea: {
+            backgroundColor: settingsTheme.backgroundColor,
+            color: settingsTheme.menu.primary.color,
+            borderColor: settingsTheme.menu.primary.color
+          },
+          checkbox: {
+            color: settingsTheme.menu.primary.color,
+            boxDeselectedColor: settingsTheme.backgroundColor,
+            boxSelectedColor: settingsTheme.menu.primary.color
+          }
+        }
+      }
+    }
+  }, [settingsTheme])
 
   return (
     <OnClickOutside
@@ -100,46 +145,16 @@ const RowSource = React.forwardRef<
           rows,
           index,
           store: props.store,
-          getDocument,
+          getDocument: selectors.getDocument,
           renderIntoExtendedSettings: children => {
             if (!extendedSettingsNode.current) return null
 
             return createPortal(
-              <ThemeProvider
-                theme={{
-                  editorUi: {
-                    overlay: {
-                      input: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color
-                      },
-                      button: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color,
-                        borderColor: settingsTheme.menu.primary.color
-                      },
-                      textarea: {
-                        backgroundColor: settingsTheme.backgroundColor,
-                        color: settingsTheme.menu.primary.color,
-                        borderColor: settingsTheme.menu.primary.color
-                      },
-                      checkbox: {
-                        color: settingsTheme.menu.primary.color,
-                        boxDeselectedColor: settingsTheme.backgroundColor,
-                        boxSelectedColor: settingsTheme.menu.primary.color
-                      }
-                    }
-                  }
-                }}
-              >
-                {children}
-              </ThemeProvider>,
+              <ThemeProvider theme={theme}>{children}</ThemeProvider>,
               extendedSettingsNode.current
             )
           },
-          PrimarySettingsWrapper: createPrimarySettingsWrapper({
-            expanded
-          })
+          PrimarySettingsWrapper
         })}
         <ExtendedSettingsWrapper
           hideExtendedSettings={() => {
@@ -178,4 +193,6 @@ const RowSource = React.forwardRef<
     </OnClickOutside>
   )
 })
+RowSource.displayName = 'RowSource'
+
 export const Row = connectDnD(RowSource)

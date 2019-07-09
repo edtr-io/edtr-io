@@ -18,15 +18,16 @@ export interface OverlayContextValue {
 
 export const OverlayContextProvider: React.FunctionComponent = props => {
   const [visible, setVisible] = React.useState(false)
+  const value = React.useMemo(() => {
+    return {
+      visible: visible,
+      show: () => setVisible(true),
+      hide: () => setVisible(false),
+      node: portalNode
+    }
+  }, [visible])
   return (
-    <OverlayContext.Provider
-      value={{
-        visible: visible,
-        show: () => setVisible(true),
-        hide: () => setVisible(false),
-        node: portalNode
-      }}
-    >
+    <OverlayContext.Provider value={value}>
       {props.children}
       <div ref={portalNode} />
     </OverlayContext.Provider>

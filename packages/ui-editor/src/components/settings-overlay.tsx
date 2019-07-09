@@ -28,7 +28,7 @@ export const createOverlayTheme = (themeProp: EditorThemeProps['theme']) => {
   return themeCreator('overlay', themeProp)
 }
 
-const OverlayWrapper = styled.div((props: EditorThemeProps) => {
+const OverlayWrapper = styled.div<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {
@@ -43,7 +43,7 @@ const OverlayWrapper = styled.div((props: EditorThemeProps) => {
   }
 })
 
-export const OverlayBox = styled.div((props: EditorThemeProps) => {
+export const OverlayBox = styled.div<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {
@@ -66,7 +66,7 @@ const OverlaySettingsBox = styled(OverlayBox)({
   top: '20%'
 })
 
-const CloseButton = styled.button((props: EditorThemeProps) => {
+const CloseButton = styled.button<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {
@@ -134,20 +134,20 @@ export function Overlay(props: {
     : null
 }
 
-const OverlayTriangle = styled.div(
-  (props: EditorThemeProps & { positionAbove: boolean }) => {
-    const theme = createOverlayTheme(props.theme)
-    const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
-    return {
-      position: 'relative',
-      width: 0,
-      height: 0,
-      borderLeft: '5px solid transparent',
-      borderRight: '5px solid transparent',
-      [borderPosition]: `10px solid ${theme.backgroundColor}`
-    }
+const OverlayTriangle = styled.div<
+  EditorThemeProps & { positionAbove: boolean }
+>(props => {
+  const theme = createOverlayTheme(props.theme)
+  const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
+  return {
+    position: 'relative',
+    width: 0,
+    height: 0,
+    borderLeft: '5px solid transparent',
+    borderRight: '5px solid transparent',
+    [borderPosition]: `10px solid ${theme.backgroundColor}`
   }
-)
+})
 const InlineOverlayWrapper = styled.div({
   position: 'absolute',
   top: '-10000px',
@@ -227,7 +227,7 @@ export const HoveringOverlay: React.FunctionComponent<{
       rect = props.anchor.current.getBoundingClientRect()
     } else {
       const native = window.getSelection()
-      if (native.rangeCount > 0) {
+      if (native && native.rangeCount > 0) {
         const range = native.getRangeAt(0)
         rect = range.getBoundingClientRect()
       }
@@ -285,7 +285,7 @@ export const HoveringOverlay: React.FunctionComponent<{
 const ConfigIconContainer = styled.div({
   position: 'relative'
 })
-const ConfigIcon = styled.div((props: EditorThemeProps) => {
+const ConfigIcon = styled.div<EditorThemeProps>(props => {
   const theme = createOverlayTheme(props.theme)
 
   return {

@@ -51,8 +51,7 @@ const requestAppletData = debounce(
             }
           }
         },
-        // TODO: This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight
-        // requests correctly.
+        // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
         {
           headers: {
             'Content-Type': 'text/plain'
@@ -88,23 +87,18 @@ const PreviewImage = styled.img({
   maxWidth: '100%',
   height: 'auto'
 })
-const ScaleContainer = styled.div(
-  ({
-    disableCursorEvents,
-    aspectRatio
-  }: {
-    disableCursorEvents?: boolean
-    aspectRatio: number
-  }) => ({
-    position: 'relative',
-    padding: '0',
-    paddingTop: `${100 / aspectRatio}%`,
-    display: 'block',
-    height: '0',
-    overflow: 'hidden',
-    pointerEvents: disableCursorEvents ? 'none' : 'auto'
-  })
-)
+const ScaleContainer = styled.div<{
+  aspectRatio: number
+  disableCursorEvents?: boolean
+}>(({ disableCursorEvents, aspectRatio }) => ({
+  position: 'relative',
+  padding: '0',
+  paddingTop: `${100 / aspectRatio}%`,
+  display: 'block',
+  height: '0',
+  overflow: 'hidden',
+  pointerEvents: disableCursorEvents ? 'none' : 'auto'
+}))
 
 export function GeogebraRenderer({
   state,
