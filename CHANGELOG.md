@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- **plugin-serlo-injection**. Added injection plugin for serlo.org content
 - **plugin-table**. You can now create tables in markdown.
 
 ### Changed

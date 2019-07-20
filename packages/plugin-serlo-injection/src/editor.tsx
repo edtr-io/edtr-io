@@ -6,11 +6,9 @@ import {
   PrimarySettings,
   EditorInput,
   OverlayInput,
-  PreviewOverlay,
-  styled
+  PreviewOverlay
 } from '@edtr-io/editor-ui'
-
-const Iframe = styled.iframe({ width: '100%', border: 'none' })
+import { SerloInjectionRenderer } from './renderer'
 
 const createURL = (id: string) => {
   if (id.startsWith('/') || id.startsWith('\\')) {
@@ -28,37 +26,10 @@ export const SerloInjectionEditor = (
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) => {
-  const iframeRef = React.useRef<HTMLIFrameElement>(null)
-
-  React.useEffect(() => {
-    // console.log('effect')
-    window.addEventListener('message', e => {
-      const { data } = e
-
-      // Content width in px
-      // console.log(data.contentWidth)
-      // Content height in px
-      // console.log(data.contentHeight)
-      // console.log(data.context)
-
-      // Context is always `serlo`
-      if (data.context !== 'serlo') {
-        return
-      }
-      // console.log(iframeRef.current)
-      if (iframeRef.current) {
-        iframeRef.current.setAttribute('height', data.contentHeight)
-      }
-    })
-  }, [])
-  return (
+  return props.editable ? (
     <React.Fragment>
       <PreviewOverlay focused={props.focused || false}>
-        <Iframe
-          key={props.state.value}
-          ref={iframeRef}
-          src={createURL(props.state.value)}
-        />
+        <SerloInjectionRenderer src={createURL(props.state.value)} />
       </PreviewOverlay>
       {props.focused ? (
         <PrimarySettings>
@@ -87,5 +58,7 @@ export const SerloInjectionEditor = (
           )
         : null}
     </React.Fragment>
+  ) : (
+    <SerloInjectionRenderer src={createURL(props.state.value)} />
   )
 }
