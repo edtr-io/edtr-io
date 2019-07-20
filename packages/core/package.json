@@ -24,6 +24,8 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
+    "@edtr-io/editor-ui": "^0.7.0",
+    "@edtr-io/ui": "^0.7.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
