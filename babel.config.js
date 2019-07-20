@@ -33,6 +33,8 @@ module.exports = function(api) {
                   '@edtr-io/plugin-rows': '@edtr-io/plugin-rows/src',
                   '@edtr-io/plugin-sc-mc-exercise':
                     '@edtr-io/plugin-sc-mc-exercise/src',
+                  '@edtr-io/plugin-serlo-injection':
+                    '@edtr-io/plugin-serlo-injection/src',
                   '@edtr-io/plugin-solution': '@edtr-io/plugin-solution/src',
                   '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
                   '@edtr-io/plugin-table': '@edtr-io/plugin-table/src',
