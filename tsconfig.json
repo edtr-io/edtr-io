@@ -1,16 +1,6 @@
 {
+  "extends": "./tsconfig.prod.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext",
-
     "baseUrl": "packages",
     "paths": {
       "@edtr-io/core": ["core/src"],
