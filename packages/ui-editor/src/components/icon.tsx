@@ -5,47 +5,54 @@ import styled from 'styled-components'
 
 export const Icon = FontAwesomeIcon
 
+export { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
+export { faCut } from '@fortawesome/free-solid-svg-icons/faCut'
+export { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
+export { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
+export { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
+export { faImages } from '@fortawesome/free-solid-svg-icons/faImages'
+export { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
+export { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
+export { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
+export { faPencilAlt } from '@fortawesome/free-solid-svg-icons/faPencilAlt'
+export { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+export { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner'
+export { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+export { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt'
+export { faFilm } from '@fortawesome/free-solid-svg-icons/faFilm'
 export {
-  faCheck,
-  faCut,
-  faCog,
-  faCopy,
-  faFileAlt,
-  faImages,
-  faLink,
-  faMinus,
-  faPaste,
-  faPencilAlt,
-  faPlus,
-  faSpinner,
-  faTimes,
-  faTrashAlt,
-  faFilm,
-  faCaretSquareUp,
-  faCaretSquareDown,
-  faSortUp,
-  faSortDown,
-  faToolbox,
-  faEllipsisH,
-  faSearch,
-  faCloudUploadAlt,
-  faQuestionCircle,
-  faAnchor,
-  faQuoteRight,
-  faEquals,
-  faCubes,
-  faCode,
-  faLightbulb,
-  faKeyboard,
-  faDotCircle,
-  faCheckSquare,
-  faParagraph,
-  faRedoAlt
-} from '@fortawesome/free-solid-svg-icons'
+  faCaretSquareUp
+} from '@fortawesome/free-solid-svg-icons/faCaretSquareUp'
+export {
+  faCaretSquareDown
+} from '@fortawesome/free-solid-svg-icons/faCaretSquareDown'
+export { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp'
+export { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
+export { faToolbox } from '@fortawesome/free-solid-svg-icons/faToolbox'
+export { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+export { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
+export {
+  faCloudUploadAlt
+} from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt'
+export {
+  faQuestionCircle
+} from '@fortawesome/free-solid-svg-icons/faQuestionCircle'
+export { faAnchor } from '@fortawesome/free-solid-svg-icons/faAnchor'
+export { faQuoteRight } from '@fortawesome/free-solid-svg-icons/faQuoteRight'
+export { faEquals } from '@fortawesome/free-solid-svg-icons/faEquals'
+export { faCubes } from '@fortawesome/free-solid-svg-icons/faCubes'
+export { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+export { faLightbulb } from '@fortawesome/free-solid-svg-icons/faLightbulb'
+export { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
+export { faDotCircle } from '@fortawesome/free-solid-svg-icons/faDotCircle'
+export { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare'
+export { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
+export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
-  const I = () => <Icon icon={i} size="4x" />
-  return I
+  return function I() {
+    return <Icon icon={i} size="4x" />
+  }
 }
 
 export type EdtrIconDefinition = string

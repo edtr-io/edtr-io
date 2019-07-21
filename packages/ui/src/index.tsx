@@ -41,7 +41,10 @@ const defaultTheme: Theme = {
 export function RootThemeProvider(
   props: StyledThemeProviderProps<CustomTheme>
 ) {
-  const theme = R.mergeDeepRight(defaultTheme, props.theme)
+  const theme = React.useMemo(
+    () => R.mergeDeepRight(defaultTheme, props.theme),
+    [props.theme]
+  )
   return <StyledThemeProvider {...props} theme={theme} />
 }
 
@@ -53,14 +56,11 @@ export function useTheme() {
 }
 
 export function ThemeProvider(props: StyledThemeProviderProps<CustomTheme>) {
-  return (
-    <ThemeConsumer>
-      {defaultTheme => {
-        const theme = R.mergeDeepRight(defaultTheme, props.theme)
-        return <StyledThemeProvider {...props} theme={theme} />
-      }}
-    </ThemeConsumer>
-  )
+  const defaultTheme = useTheme()
+  const theme = React.useMemo(() => {
+    return R.mergeDeepRight(defaultTheme, props.theme)
+  }, [props.theme, defaultTheme])
+  return <StyledThemeProvider {...props} theme={theme} />
 }
 
 export function createPluginTheme<T>(
@@ -78,7 +78,11 @@ export function usePluginTheme<T>(
   createDefaultTheme: PluginThemeFactory<T>
 ) {
   const theme = useTheme()
-  return createPluginTheme(createDefaultTheme)(pluginName, theme)
+  return React.useMemo(
+    () => createPluginTheme(createDefaultTheme)(pluginName, theme),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [theme]
+  )
 }
 
 export type PluginThemeFactory<T> = (theme: {
@@ -89,7 +93,7 @@ export type PluginThemeFactory<T> = (theme: {
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? (DeepPartial<U>)[]
-    : T[P] extends ReadonlyArray<infer U>
-    ? ReadonlyArray<DeepPartial<U>>
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>
 }

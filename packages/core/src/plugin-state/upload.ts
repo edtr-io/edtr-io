@@ -1,6 +1,7 @@
-import { StateDescriptor, StoreDeserializeHelpers } from './types'
 import * as React from 'react'
-import { StateType } from '@edtr-io/core'
+
+import { StateDescriptor, StoreDeserializeHelpers } from './types'
+import { StateType } from '..'
 
 export interface UploadStateReturnType<T> {
   (): FileState<T>
@@ -90,9 +91,9 @@ function readFile(file: File): Promise<LoadedFile> {
     const reader = new FileReader()
 
     reader.onload = function(e: ProgressEvent) {
-      // @ts-ignore FIXME
-      const dataUrl = e.target.result
-      resolve({ file, dataUrl })
+      if (!e.target) return
+      const { result } = (e.target as unknown) as { result: string }
+      resolve({ file, dataUrl: result })
     }
 
     reader.readAsDataURL(file)

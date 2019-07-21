@@ -10,8 +10,8 @@ const StyledIcon = styled(Icon)({
   transition: '250ms all ease-in-out'
 })
 
-const StyledDropzone = styled.div(
-  ({ name, ...props }: ThemeProps & { name: string }) => {
+const StyledDropzone = styled.div<ThemeProps & { name: string }>(
+  ({ name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       width: '100%',
@@ -45,8 +45,8 @@ const StyledDropzone = styled.div(
   }
 )
 
-const Caption = styled.p(
-  ({ name, ...props }: ThemeProps & { name: string }) => {
+const Caption = styled.p<ThemeProps & { name: string }>(
+  ({ name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       marginBottom: 0,

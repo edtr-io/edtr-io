@@ -1,11 +1,41 @@
-import { useEditorHistory, useEditorMode } from '@edtr-io/core'
+import { Editor, EditorProps, useEditorHistory } from '@edtr-io/core'
 import * as React from 'react'
-import { useLogState } from '../hooks'
 
-export function SerloContainer({ children, controls }: SerloContainerProps) {
-  const history = useEditorHistory()
-  const [editable, setEditable] = useEditorMode()
-  const logState = useLogState()
+import { useEditable, useLogState } from '../hooks'
+
+export function SerloContainer(props: EditorProps) {
+  const [editable, setEditable] = useEditable(props.editable)
+  const children = React.useCallback(
+    document => {
+      return (
+        <SerloContainerInner editable={editable} setEditable={setEditable}>
+          {document}
+        </SerloContainerInner>
+      )
+    },
+    [editable, setEditable]
+  )
+
+  return (
+    <Editor {...props} editable={editable}>
+      {children}
+    </Editor>
+  )
+}
+
+export function SerloContainerInner({
+  editable,
+  setEditable,
+  children,
+  scope
+}: {
+  children: React.ReactNode
+  scope?: string
+  editable: boolean
+  setEditable: (value: boolean) => void
+}) {
+  const history = useEditorHistory(scope)
+  const logState = useLogState(scope)
 
   return (
     <React.Fragment>
@@ -405,7 +435,7 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
                         method="get"
                         className="form-search inline"
                         role="search"
-                        action="/search"
+                        action="#"
                       >
                         <div className="form-group">
                           <div className="input-group">
@@ -544,9 +574,7 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
                         <h4>Zugehörige Themen</h4>
                       </li>
                       <li itemProp="relatedLink">
-                        <a href="/mathe/geometrie/konstruktion-geometrischen-objekten">
-                          Konstruktion von geometrischen Objekten
-                        </a>
+                        <a href="#">Konstruktion von geometrischen Objekten</a>
                       </li>
                     </ul>
                   </div>
@@ -556,7 +584,6 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
             </section>
           </div>
         </div>
-        <div id="controls">{controls}</div>
         <script
           type="text/javascript"
           src="https://packages.serlo.org/athene2-assets@a/main.js"
@@ -564,9 +591,4 @@ export function SerloContainer({ children, controls }: SerloContainerProps) {
       </div>
     </React.Fragment>
   )
-}
-
-export interface SerloContainerProps {
-  children: React.ReactNode
-  controls?: React.ReactNode
 }

@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { v4 } from 'uuid'
+import { generate } from 'shortid'
 
 import {
   StateDescriptor,
@@ -115,7 +115,7 @@ export function list<S, T = S, U = unknown>(
 
   function wrap(value: T): WrappedValue {
     return {
-      id: v4(),
+      id: generate(),
       value
     }
   }

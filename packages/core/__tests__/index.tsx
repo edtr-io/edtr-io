@@ -3,11 +3,11 @@ import * as ReactDOM from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { plugins } from '../__fixtures__/plugins'
-import { EditorContext, EditorContextValue, Editor } from '../src'
-import { getDocument } from '../src/store'
+import { DocumentState, Editor, selectors, useStore } from '../src'
+
+test.todo('fix these tests')
 
 let container: Element
-let store: EditorContextValue
 
 beforeEach(() => {
   container = document.createElement('div')
@@ -15,36 +15,40 @@ beforeEach(() => {
 })
 
 test('default plugin', () => {
-  const state = undefined
-  renderDocument(state)
-
-  const document = getDocument(store.state, 'root')
-
-  if (!document) {
-    throw new Error('document not found')
-  }
-
-  expect(document.plugin).toEqual('stateless')
+  renderDocument(document => {
+    if (!document) throw new Error('No document found')
+    expect(document.plugin).toEqual('stateless')
+  })
 })
 
-function renderDocument(state?: { plugin: string; state?: unknown }) {
+function renderDocument(onChange: StateProps['onChange']) {
   act(() => {
     ReactDOM.render(
-      <Editor plugins={plugins} defaultPlugin="stateless" initialState={state}>
-        {setStore()}
+      <Editor plugins={plugins} defaultPlugin="stateless">
+        {children => {
+          return (
+            <React.Fragment>
+              {children}
+              <State onChange={onChange} />
+            </React.Fragment>
+          )
+        }}
       </Editor>,
       container
     )
   })
 }
 
-function setStore() {
-  return (
-    <EditorContext.Consumer>
-      {s => {
-        store = s
-        return null
-      }}
-    </EditorContext.Consumer>
-  )
+function State({ onChange }: StateProps) {
+  const store = useStore()
+  React.useEffect(() => {
+    const serialized = selectors.serializeRootDocument(store.getState())
+    onChange(serialized)
+  })
+
+  return null
+}
+
+interface StateProps {
+  onChange: (document: DocumentState | null) => void
 }

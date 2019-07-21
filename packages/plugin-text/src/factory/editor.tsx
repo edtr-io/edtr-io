@@ -1,10 +1,10 @@
 import {
   StatefulPluginEditorProps,
-  EditorContext,
-  getPlugins,
   Plugin,
   OverlayContext,
-  useEditorFocus
+  useEditorFocus,
+  selectors,
+  useStore
 } from '@edtr-io/core'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
@@ -14,7 +14,7 @@ import {
   Value,
   ValueJSON,
   Range as CoreRange,
-  Block
+  Operation
 } from 'slate'
 
 import { isValueEmpty, TextPlugin } from '..'
@@ -22,6 +22,7 @@ import { TextPluginOptions } from './types'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
+import * as Immutable from 'immutable'
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -44,9 +45,9 @@ export const createTextEditor = (
   return function SlateEditor(props: SlateEditorProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
     const editor = React.useRef<Editor>()
-    const store = React.useContext(EditorContext)
+    const store = useStore()
     const overlayContext = React.useContext(OverlayContext)
-    const plugins = getPlugins(store.state)
+    const plugins = selectors.getPlugins(store.getState())
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )
@@ -123,6 +124,39 @@ export const createTextEditor = (
       ]
     }
 
+    const onPaste = React.useMemo(() => {
+      return createOnPaste(slateClosure)
+    }, [slateClosure])
+    const onKeyDown = React.useMemo(() => {
+      return createOnKeyDown(slateClosure)
+    }, [slateClosure])
+    const onClick = React.useCallback((e, editor, next): CoreEditor | void => {
+      if (e.target) {
+        // @ts-ignore
+        const node = findNode(e.target as Element, editor)
+        if (!node) {
+          return editor
+        }
+      }
+      next()
+    }, [])
+    const onChange = React.useCallback(
+      (change: { operations: Immutable.List<Operation>; value: Value }) => {
+        const nextValue = change.value.toJSON()
+        setRawState(change.value)
+        const withoutSelections = change.operations.filter(
+          operation =>
+            typeof operation !== 'undefined' &&
+            operation.type !== 'set_selection'
+        )
+        if (!withoutSelections.isEmpty()) {
+          lastValue.current = nextValue
+          props.state.set(nextValue)
+        }
+      },
+      [props.state]
+    )
+
     return (
       <Editor
         ref={slateReact => {
@@ -132,31 +166,10 @@ export const createTextEditor = (
           }
         }}
         // ref={editor as React.RefObject<Editor>}
-        onPaste={createOnPaste(slateClosure)}
-        onKeyDown={createOnKeyDown(slateClosure)}
-        onClick={(e, editor, next): CoreEditor | void => {
-          if (e.target) {
-            // @ts-ignore
-            const node = findNode(e.target as Element, editor)
-            if (!node) {
-              return editor
-            }
-          }
-          next()
-        }}
-        onChange={change => {
-          const nextValue = change.value.toJSON()
-          setRawState(change.value)
-          const withoutSelections = change.operations.filter(
-            operation =>
-              typeof operation !== 'undefined' &&
-              operation.type !== 'set_selection'
-          )
-          if (!withoutSelections.isEmpty()) {
-            lastValue.current = nextValue
-            props.state.set(nextValue)
-          }
-        }}
+        onPaste={onPaste}
+        onKeyDown={onKeyDown}
+        onClick={onClick}
+        onChange={onChange}
         placeholder={props.editable ? options.placeholder : ''}
         plugins={slatePlugins.current}
         readOnly={!props.focused}
@@ -185,7 +198,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
 
     for (let key in plugins) {
       const { onPaste } = plugins[key]
-      if (typeof onPaste === 'function') {
+      if (clipboardData && typeof onPaste === 'function') {
         const result = onPaste(clipboardData)
         if (result !== undefined) {
           if (typeof replace === 'function' && isValueEmpty(editor.value)) {
@@ -454,7 +467,7 @@ function focusNextDocumentOnArrowDown(
       function getRange(): Range | null {
         const selection = window.getSelection()
 
-        if (selection.rangeCount > 0) {
+        if (selection && selection.rangeCount > 0) {
           return selection.getRangeAt(0)
         }
 
