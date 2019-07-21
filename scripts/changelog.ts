@@ -305,6 +305,7 @@ async function exec(): Promise<void> {
       ],
       added: [
         '**core**. Add `StateType.migratable` that allows to update plugin state structure without breaking changes',
+        '**plugin-important-statement**. Plugin that highlights important statements.',
         '**plugin-serlo-injection**. Add plugin for injecting serlo.org content',
         '**plugin-table**. Add plugin for markdown tables'
       ],

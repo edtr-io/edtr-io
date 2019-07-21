@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - **core**. Add `StateType.migratable` that allows to update plugin state structure without breaking changes
+- **plugin-important-statement**. Plugin that highlights important statements.
 - **plugin-serlo-injection**. Add plugin for injecting serlo.org content
 - **plugin-table**. Add plugin for markdown tables
 

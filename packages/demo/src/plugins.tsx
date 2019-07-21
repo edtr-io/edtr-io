@@ -6,6 +6,7 @@ import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { imagePlugin, readFile } from './plugin-image'
+import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import {
   createFilePlugin,
   parseFileType,
@@ -42,6 +43,7 @@ export const plugins: Record<string, Plugin> = {
   highlight: highlightPlugin,
   hint: hintPlugin,
   inputExercise: inputExercisePlugin,
+  importantStatement: importantStatementPlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   serloInjection: serloInjectionPlugin,
