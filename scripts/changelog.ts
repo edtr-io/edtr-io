@@ -299,7 +299,10 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      added: ['**plugin-table**. You can now create tables in markdown.']
+      added: [
+        '**plugin-table**. You can now create tables in markdown.',
+        '**plugin-important-statement**. Plugin that highlights important statements.'
+      ]
     }
   ])
 
