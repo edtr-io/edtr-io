@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.7.0..HEAD)
 
+### Added
+
+- **plugin-table**. You can now create tables in markdown.
+
 ### Changed
 
 - Optimize bundle size

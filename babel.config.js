@@ -35,6 +35,7 @@ module.exports = function(api) {
                     '@edtr-io/plugin-sc-mc-exercise/src',
                   '@edtr-io/plugin-solution': '@edtr-io/plugin-solution/src',
                   '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
+                  '@edtr-io/plugin-table': '@edtr-io/plugin-table/src',
                   '@edtr-io/plugin-text': '@edtr-io/plugin-text/src',
                   '@edtr-io/plugin-video': '@edtr-io/plugin-video/src'
                 },
