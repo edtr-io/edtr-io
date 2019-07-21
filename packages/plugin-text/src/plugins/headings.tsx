@@ -2,11 +2,7 @@ import * as React from 'react'
 import * as R from 'ramda'
 import { Block, Editor } from 'slate'
 
-import {
-  NodeEditorProps,
-  NodeRendererProps,
-  TextPlugin
-} from '..'
+import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
