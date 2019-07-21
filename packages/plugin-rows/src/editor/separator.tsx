@@ -15,12 +15,12 @@ const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   }
 })
 
-const AddTrigger = styled.div<{ inline: boolean; name: string }>(
+const AddTrigger = styled.div<{ focused: boolean; name: string }>(
   ({
-    inline,
     name,
+    focused,
     ...props
-  }: ThemeProps & { inline: boolean; name: string }) => {
+  }: ThemeProps & { focused: boolean; name: string }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
       width: '26px',
@@ -31,13 +31,11 @@ const AddTrigger = styled.div<{ inline: boolean; name: string }>(
       alignItems: 'center',
       color: theme.color,
       backgroundColor: theme.backgroundColor,
-      opacity: inline ? 0.6 : 0,
+      padding: '5px 0 10px',
+      opacity: focused ? 0.6 : 0,
       transition: '250ms all ease-in-out 250ms',
-      position: inline ? 'absolute' : 'relative',
+      // position: inline ? 'absolute' : 'relative',
       zIndex: 70,
-      right: inline ? '15px' : undefined,
-      top: inline ? '50%' : undefined,
-      transform: inline ? 'translateY(-50%)' : undefined,
 
       '&:hover': {
         color: theme.highlightColor,
@@ -64,16 +62,14 @@ const Icon = styled(EdtrIcon)({
 })
 
 export const Add: React.FunctionComponent<{
-  onClick: () => void
   name: string
-  inline?: boolean
+  focused: boolean
 }> = props => {
   return (
     <AddTrigger
-      inline={props.inline || false}
       className="add-trigger"
-      onClick={props.onClick}
       name={props.name}
+      focused={props.focused}
     >
       <Icon icon={edtrRowsControls.plus} />
     </AddTrigger>
@@ -84,11 +80,12 @@ export const Separator: React.FunctionComponent<{
   isFirst?: boolean
   name: string
   onClick: () => void
-}> = ({ isFirst, onClick, name }) => {
+  focused?: boolean
+}> = ({ isFirst, onClick, name, focused }) => {
   return (
-    <StyledSeparator isFirst={isFirst}>
+    <StyledSeparator isFirst={isFirst} onClick={onClick}>
       <TriggerArea>
-        <Add name={name} onClick={onClick} />
+        <Add name={name} focused={focused || false} />
       </TriggerArea>
     </StyledSeparator>
   )
