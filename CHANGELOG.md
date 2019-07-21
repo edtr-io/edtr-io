@@ -6,8 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- **plugin-serlo-injection**. Added injection plugin for serlo.org content
-- **plugin-table**. You can now create tables in markdown.
+- **core**. Add `StateType.migratable` that allows to update plugin state structure without breaking changes
+- **plugin-serlo-injection**. Add plugin for injecting serlo.org content
+- **plugin-table**. Add plugin for markdown tables
 
 ### Changed
 
