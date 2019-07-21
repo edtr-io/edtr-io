@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { styled } from '@edtr-io/renderer-ui'
+import * as React from 'react'
 
 const Iframe = styled.iframe({ width: '100%', border: 'none' })
 

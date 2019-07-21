@@ -4,9 +4,14 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
+  "module": "dist/plugin-serlo-injection.esm.js",
+  "typings": "dist/index.d.ts",
   "types": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
   "devDependencies": {
     "@edtr-io/core": "^0.7.0",
     "@edtr-io/ui": "^0.7.0",
