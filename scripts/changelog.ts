@@ -307,9 +307,7 @@ async function exec(): Promise<void> {
         '**plugin-serlo-injection**. Added injection plugin for serlo.org content',
         '**plugin-table**. You can now create tables in markdown.'
       ],
-      fixed: [
-        '**plugin-text**. Split plugin when pasting multiple blocks'
-      ]
+      fixed: ['**plugin-text**. Split plugin when pasting multiple blocks']
     }
   ])
 

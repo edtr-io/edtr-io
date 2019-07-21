@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 - Optimize bundle size
 - **plugin-rows**. add-button is now always visible under the focused document
 
+### Fixed
+
+- **plugin-text**. Split plugin when pasting multiple blocks
+
 ## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 
 ### Breaking Changes
@@ -50,7 +54,6 @@ All notable changes to this project will be documented in this file.
 
 - **core**. Various fixes to history handling (e.g. resetting to the last persisted state after undoing the last change)
 - **plugin-text**. Fix positioning of text controls on touch devices
-- **plugin-text**. Split plugin when pasting multiple blocks
 
 ### Internal
 

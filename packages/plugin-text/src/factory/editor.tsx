@@ -14,7 +14,8 @@ import {
   Value,
   ValueJSON,
   Range as CoreRange,
-  Operation
+  Operation,
+  Block
 } from 'slate'
 
 import { isValueEmpty, TextPlugin } from '..'
