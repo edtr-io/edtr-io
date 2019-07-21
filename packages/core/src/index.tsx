@@ -1,5 +1,10 @@
 export { Document, Editor, EditorProps, EditorProvider } from './editor'
-export { EditorContext, connect, connectStateOnly } from './editor-context'
+export {
+  ScopeContext,
+  EditorContext,
+  connect,
+  connectStateOnly
+} from './editor-context'
 export {
   useEditorFocus,
   useEditorHistory,
