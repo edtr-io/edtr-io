@@ -303,7 +303,10 @@ async function exec(): Promise<void> {
         'Optimize bundle size',
         '**plugin-rows**. add-button is now always visible under the focused document'
       ],
-      added: ['**plugin-table**. You can now create tables in markdown.']
+      added: [
+        '**plugin-serlo-injection**. Added injection plugin for serlo.org content',
+        '**plugin-table**. You can now create tables in markdown.'
+      ]
     }
   ])
 
