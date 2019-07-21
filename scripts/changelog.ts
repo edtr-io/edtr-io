@@ -299,6 +299,9 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      tagName: 'v0.7.1',
+      name: '0.7.1',
+      date: '2019-07-21',
       changed: [
         'Optimize bundle size',
         '**plugin-rows**. add-button is now always visible under the focused document'

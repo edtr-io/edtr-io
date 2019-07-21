@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.7.0..HEAD)
+## [0.7.1](https://github.com/edtr-io/edtr-io/compare/v0.7.0..v0.7.1) - July 21, 2019
 
 ### Added
 
