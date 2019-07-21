@@ -1,6 +1,5 @@
-import { createOverlayTheme } from '@edtr-io/editor-ui'
-
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
+import { createOverlayTheme } from '.'
 
 export const createOverlayButtonTheme = createEditorUiTheme<ButtonTheme>(
   theme => {

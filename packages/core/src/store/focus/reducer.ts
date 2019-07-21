@@ -149,6 +149,7 @@ export interface Node {
 
 export const publicFocusSelectors = {
   isFocused,
+  getFocused,
   getFocusTree,
   findPreviousNode,
   findNextNode

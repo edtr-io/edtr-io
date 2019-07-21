@@ -1,0 +1,49 @@
+{
+  "name": "@edtr-io/bundle-size",
+  "version": "0.7.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "npm-run-all prebuild:clean",
+    "prebuild:clean": "rimraf dist",
+    "prebuild:build": "(cd ../..; yarn build)",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "dependencies": {
+    "@edtr-io/core": "^0.7.0",
+    "@edtr-io/plugin-anchor": "^0.7.0",
+    "@edtr-io/plugin-blockquote": "^0.7.0",
+    "@edtr-io/plugin-equations": "^0.7.0",
+    "@edtr-io/plugin-files": "^0.7.0",
+    "@edtr-io/plugin-geogebra": "^0.7.0",
+    "@edtr-io/plugin-highlight": "^0.7.0",
+    "@edtr-io/plugin-hint": "^0.7.0",
+    "@edtr-io/plugin-image": "^0.7.0",
+    "@edtr-io/plugin-input-exercise": "^0.7.0",
+    "@edtr-io/plugin-rows": "^0.7.0",
+    "@edtr-io/plugin-sc-mc-exercise": "^0.7.0",
+    "@edtr-io/plugin-solution": "^0.7.0",
+    "@edtr-io/plugin-spoiler": "^0.7.0",
+    "@edtr-io/plugin-text": "^0.7.0",
+    "@edtr-io/plugin-video": "^0.7.0",
+    "@edtr-io/ui": "^0.7.0",
+    "react": "^16.8.0",
+    "react-dnd": "^7.0.0",
+    "react-dnd-html5-backend": "^7.0.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.0.0",
+    "file-loader": "^3.0.0",
+    "cross-env": "^5.0.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "terser-webpack-plugin": "^1.0.0",
+    "webpack": "^4.0.0",
+    "webpack-bundle-analyzer": "^3.0.0",
+    "webpack-cli": "^3.0.0"
+  },
+  "private": true
+}

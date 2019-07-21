@@ -6,8 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- **plugin-serlo-injection**. Added injection plugin for serlo.org content
 - **plugin-table**. You can now create tables in markdown.
 - **plugin-important-statement**. Plugin that highlights important statements.
+
+### Changed
+
+- Optimize bundle size
+- **plugin-rows**. add-button is now always visible under the focused document
 
 ## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 

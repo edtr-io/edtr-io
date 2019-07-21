@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { NodeRendererProps } from '@edtr-io/plugin-text'
 import { BlockJSON, InlineJSON } from 'slate'
+
+import { NodeRendererProps } from '../..'
 import { Math } from './math.component'
 
 export const DefaultRendererComponent: React.FunctionComponent<
