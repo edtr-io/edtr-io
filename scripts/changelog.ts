@@ -299,6 +299,7 @@ async function exec(): Promise<void> {
       ]
     },
     {
+      changed: ['Optimize bundle size'],
       added: ['**plugin-table**. You can now create tables in markdown.']
     }
   ])
