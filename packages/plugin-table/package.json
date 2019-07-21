@@ -1,16 +1,20 @@
 {
   "name": "@edtr-io/plugin-table",
-  "version": "0.0.0",
+  "version": "0.7.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {},
+  "dependencies": {
+    "react-markdown": "^4.0.0",
+    "react-textarea-autosize": "^7.0.0"
+  },
   "devDependencies": {
-    "@types/react-textarea-autosize": "^4.3.4",
     "@edtr-io/core": "^0.7.0",
     "@edtr-io/ui": "^0.7.0",
+    "@types/react-textarea-autosize": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
@@ -22,9 +26,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "react-markdown": "^4.1.0",
-    "react-textarea-autosize": "^7.1.0"
   }
 }
