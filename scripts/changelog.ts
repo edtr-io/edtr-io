@@ -297,6 +297,9 @@ async function exec(): Promise<void> {
         '**core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail',
         '**core**. Replace `uuid` with `shortid`'
       ]
+    },
+    {
+      added: ['**plugin-table**. You can now create tables in markdown.']
     }
   ])
 
