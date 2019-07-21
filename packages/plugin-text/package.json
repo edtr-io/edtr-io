@@ -4,9 +4,13 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/plugin-text.esm.js",
+  "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
   "dependencies": {
     "@convertkit/slate-lists": "^0.2.2",
     "is-hotkey": "^0.1.0",

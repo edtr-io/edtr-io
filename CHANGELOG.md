@@ -6,7 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Optimize bundle size
 - **plugin-rows**. add-button is now always visible under the focused document
+
+### Added
+
+- **plugin-table**. You can now create tables in markdown.
+
+### Changed
 
 ## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 

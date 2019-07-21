@@ -300,8 +300,10 @@ async function exec(): Promise<void> {
     },
     {
       changed: [
+        'Optimize bundle size',
         '**plugin-rows**. add-button is now always visible under the focused document'
-      ]
+      ],
+      added: ['**plugin-table**. You can now create tables in markdown.']
     }
   ])
 

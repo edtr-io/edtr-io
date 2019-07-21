@@ -1,16 +1,8 @@
 {
+  "extends": "./tsconfig.prod.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "jsx": "react",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext",
-
+    "importHelpers": false,
     "baseUrl": "packages",
     "paths": {
       "@edtr-io/core": ["core/src"],
@@ -31,6 +23,7 @@
       "@edtr-io/plugin-sc-mc-exercise": ["plugin-sc-mc-exercise/src"],
       "@edtr-io/plugin-solution": ["plugin-solution/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
+      "@edtr-io/plugin-table": ["plugin-table/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"],
       "@edtr-io/plugin-video": ["plugin-video/src"]
     }
