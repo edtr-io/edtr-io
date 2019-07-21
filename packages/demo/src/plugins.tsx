@@ -12,6 +12,7 @@ import {
   UploadedFile
 } from '@edtr-io/plugin-files'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { tablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
@@ -44,6 +45,7 @@ export const plugins: Record<string, Plugin> = {
   scMcExercise: scMcExercisePlugin,
   solution: solutionPlugin,
   spoiler: spoilerPlugin,
+  table: tablePlugin,
   text: textPlugin,
   video: videoPlugin
 }
