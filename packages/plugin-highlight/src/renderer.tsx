@@ -1,19 +1,20 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import SyntaxHighlight from 'react-syntax-highlighter'
 import * as React from 'react'
 
-import { highlightState } from '.'
-
-export function HighlightRenderer({
-  state
-}: StatefulPluginEditorProps<typeof highlightState>) {
+export function HighlightRenderer(props: HighlightRendererProps) {
   return (
     <SyntaxHighlight
-      language={state.language.value}
-      showLineNumbers={state.lineNumbers.value}
+      language={props.language}
+      showLineNumbers={props.lineNumbers}
     >
-      {state.text.value ||
+      {props.code ||
         'Switch into edit mode then paste your sourcecode here...'}
     </SyntaxHighlight>
   )
+}
+
+export interface HighlightRendererProps {
+  code: string,
+  language: string,
+  lineNumbers: boolean
 }

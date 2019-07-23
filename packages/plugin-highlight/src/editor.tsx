@@ -1,7 +1,6 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
-import { HighlightRenderer } from './renderer'
 import { highlightState } from '.'
 import {
   EditorCheckbox,
@@ -9,8 +8,10 @@ import {
   Icon,
   PrimarySettings,
   faQuestionCircle,
-  styled
+  styled, createIcon
 } from '@edtr-io/editor-ui'
+import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+import { HighlightRendererProps } from './renderer'
 
 const Textarea = styled.textarea({
   height: '250px',
@@ -51,9 +52,10 @@ const HelpIcon: React.FunctionComponent = () => (
   </a>
 )
 
-export const HighlightEditor = (
-  props: StatefulPluginEditorProps<typeof highlightState>
-) => {
+export const createHighlightEditor = (config: HighlightPluginConfig) =>
+  function HighlightEditor(props: StatefulPluginEditorProps<typeof highlightState>) {
+  const Renderer = config.renderer
+
   const { state, focused, editable } = props
 
   const edit = focused && editable
@@ -101,6 +103,21 @@ export const HighlightEditor = (
       </PrimarySettings>
     </React.Fragment>
   ) : (
-    <HighlightRenderer {...props} />
+    <Renderer language={state.language.value} lineNumbers={state.lineNumbers.value} code={state.text.value}/>
   )
+}
+
+export function createHighlightPlugin(config: HighlightPluginConfig) : StatefulPlugin<typeof highlightState> {
+  return {
+    Component: createHighlightEditor(config),
+    state: highlightState,
+    title: 'Code',
+    description:
+      'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
+    icon: createIcon(faCode)
+  }
+}
+
+export interface HighlightPluginConfig {
+  renderer: React.ComponentType<HighlightRendererProps>
 }

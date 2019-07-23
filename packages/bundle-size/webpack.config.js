@@ -13,6 +13,7 @@ const src = path.join(__dirname, 'src')
 const entry = {}
 fs.readdirSync(src)
   .filter(fileName => path.extname(fileName) === '.tsx')
+  .filter(fileName => fileName === 'plugin-highlight.tsx' )
   .forEach(fileName => {
     entry[path.basename(fileName)] = path.join(src, fileName)
   })

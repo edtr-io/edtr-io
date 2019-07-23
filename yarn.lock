@@ -3099,7 +3099,7 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-syntax-highlighter@^10.0.0":
+"@types/react-syntax-highlighter@^10.2.0":
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-10.2.1.tgz#b0f75c22cbe7d12104581648348d91d3cd7f13fa"
   integrity sha512-M2BAOiiQ2KDkCiuhO1UxAsSNfrSegUfXL1MabRggOoqJoPpaoSuTxGF+TgLuAjMEVW8dJDtp7WpBjjRLMxWgrQ==
@@ -11830,10 +11830,10 @@ react-select@^2.2.0:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
-react-syntax-highlighter@^10.0.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-10.3.0.tgz#ffd9b80cf1b3dd6080af1683a0f054f5d8616960"
-  integrity sha512-pp95xqBkUD3L8mYdUzPqY6ckSi+WvC1DYZxQo4fTwEr1tbvGU7kELVJgOAPjRKHgJVBuRCigJvv6COMD46uwng==
+react-syntax-highlighter@^11.0.0:
+  version "11.0.2"
+  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-11.0.2.tgz#4e3f376e752b20d2f54e4c55652fd663149e4029"
+  integrity sha512-kqmpM2OH5OodInbEADKARwccwSQWBfZi0970l5Jhp4h39q9Q65C4frNcnd6uHE5pR00W8pOWj9HDRntj2G4Rww==
   dependencies:
     "@babel/runtime" "^7.3.1"
     highlight.js "~9.13.0"
