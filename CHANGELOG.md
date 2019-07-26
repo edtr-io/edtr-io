@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0](https://github.com/edtr-io/edtr-io/compare/v0.7.1..v0.8.0)
+
+### Breaking Changes
+
+- When using the newly exposed `<Renderer />`, `defaultPlugin` is no longer set to an actual plugin. So you should only rely on `defaultPlugin` in an editable environment (e.g. to decide which plugin to insert by default) and only pass complete serialized Edtr.io documents to `<Renderer />`.
+- **plugin-text**. We no longer import KaTeX's stylesheet to not depend on a CSS-capable bundler. Please include the stylesheet yourself.
+
+### Added
+
+- **renderer**. Expose `<Renderer />` that renders a Edtr.io document with the given plugins with React. We plan to optimize its bundle size to minimize loading times for use cases where no editor is needed. Also, we plan to provide smaller renderer bundles for some of our plugins (e.g. text plugin)
+- **renderer-ssr**. Expose `render` that server-side renders a Edtr.io document with the given plugins and returns `{ styles, html }`.
+
+### Changed
+
+- **plugin-text**. Make plugin capable to be rendered server-side
+
+### Fixed
+
+- **plugin-important-statement**. Actually build the plugin before publishing
+
+### Internal
+
+- Tests in `__tests-ssr__` folders are executed `node` environment to test SSR (in contrast to tests in `__tests__` folders that are executed in a browser-like environment)
+
 ## [0.7.1](https://github.com/edtr-io/edtr-io/compare/v0.7.0..v0.7.1) - July 21, 2019
 
 ### Added

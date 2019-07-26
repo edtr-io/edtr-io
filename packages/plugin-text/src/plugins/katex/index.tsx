@@ -1,3 +1,9 @@
+import { canUseDOM } from 'exenv'
+import { isHotkey } from 'is-hotkey'
+import * as React from 'react'
+import { Block, Editor, Inline } from 'slate'
+
+import { SlatePluginClosure } from '../../factory/types'
 import {
   NodeRendererProps,
   NodeEditorProps,
@@ -5,17 +11,12 @@ import {
   NodeControlsProps,
   trimSelection
 } from '../..'
-import * as React from 'react'
-import { Block, Editor, Inline } from 'slate'
-import { isHotkey } from 'is-hotkey'
-
-//@ts-ignore
-import { addStyles as addMathquillStyles } from 'react-mathquill'
-import { DefaultRendererComponent } from './renderer'
 import { DefaultEditorComponent } from './editor'
-import { SlatePluginClosure } from '../../factory/types'
+import { DefaultRendererComponent } from './renderer'
 
-addMathquillStyles()
+if (canUseDOM) {
+  require('react-mathquill').addStyles()
+}
 
 export const katexBlockNode = '@splish-me/katex-block'
 export const katexInlineNode = '@splish-me/katex-inline'
