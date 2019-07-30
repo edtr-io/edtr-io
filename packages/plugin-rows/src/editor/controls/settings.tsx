@@ -12,7 +12,7 @@ const StyledSettings = styled.div<
   return {
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: '-10px',
     transformOrigin: 'center top',
     transform: 'translateX(-100%)',
     pointerEvents: expanded ? 'all' : 'none',
@@ -53,8 +53,7 @@ const Content = styled.div<ThemeProps & { expanded: boolean; name: string }>(
     return {
       backgroundColor: theme.backgroundColor,
       paddingBottom: '10px',
-      borderRight: `2px solid ${theme.menu.primary.color}`,
-      paddingRight: '10px',
+
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-end',
