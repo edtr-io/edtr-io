@@ -1,6 +1,7 @@
-import { StateDescriptor, StoreDeserializeHelpers } from './types'
 import * as React from 'react'
-import { StateType } from '@edtr-io/core'
+
+import { StateDescriptor, StoreDeserializeHelpers } from './types'
+import { StateType } from '..'
 
 export interface UploadStateReturnType<T> {
   (): FileState<T>

@@ -26,7 +26,7 @@ jobs:
       - save_cache:
           <<: *yarn_save_cache
       - run:
-          command: yarn build
+          command: yarn build --concurrency 2
   lint:
     <<: *js
     steps:

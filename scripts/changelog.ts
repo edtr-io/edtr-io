@@ -297,6 +297,22 @@ async function exec(): Promise<void> {
         '**core**. Use `redux` & `redux-saga` instead of `React.useReducer`. Since we are passing our own context to `redux`, you can still use `redux` in your own application. The store should be considered as an implementation detail',
         '**core**. Replace `uuid` with `shortid`'
       ]
+    },
+    {
+      tagName: 'v0.7.1',
+      name: '0.7.1',
+      date: '2019-07-21',
+      changed: [
+        'Optimize bundle size',
+        '**plugin-rows**. add-button is now always visible under the focused document'
+      ],
+      added: [
+        '**core**. Add `StateType.migratable` that allows to update plugin state structure without breaking changes',
+        '**plugin-important-statement**. Plugin that highlights important statements.',
+        '**plugin-serlo-injection**. Add plugin for injecting serlo.org content',
+        '**plugin-table**. Add plugin for markdown tables'
+      ],
+      fixed: ['**plugin-text**. Split plugin when pasting multiple blocks']
     }
   ])
 

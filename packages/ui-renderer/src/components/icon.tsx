@@ -31,18 +31,24 @@ export function Icon(props: Props) {
 }
 
 export {
-  faCaretSquareDown,
-  faCaretSquareUp,
-  faFileDownload,
-  faFileAlt,
-  faFileArchive,
-  faFileAudio,
-  faFileExcel,
-  faFileImage,
-  faFilePdf,
-  faFileWord,
-  faFileVideo,
-  faFilePowerpoint,
-  faSortDown,
-  faSortUp
-} from '@fortawesome/free-solid-svg-icons'
+  faCaretSquareDown
+} from '@fortawesome/free-solid-svg-icons/faCaretSquareDown'
+export {
+  faCaretSquareUp
+} from '@fortawesome/free-solid-svg-icons/faCaretSquareUp'
+export {
+  faFileDownload
+} from '@fortawesome/free-solid-svg-icons/faFileDownload'
+export { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
+export { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive'
+export { faFileAudio } from '@fortawesome/free-solid-svg-icons/faFileAudio'
+export { faFileExcel } from '@fortawesome/free-solid-svg-icons/faFileExcel'
+export { faFileImage } from '@fortawesome/free-solid-svg-icons/faFileImage'
+export { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf'
+export { faFileWord } from '@fortawesome/free-solid-svg-icons/faFileWord'
+export { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo'
+export {
+  faFilePowerpoint
+} from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'
+export { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
+export { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp'

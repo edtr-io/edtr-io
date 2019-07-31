@@ -1,12 +1,16 @@
 {
   "name": "@edtr-io/renderer-ui",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/renderer-ui.esm.js",
+  "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
   "dependencies": {
     "ramda": "^0.26.1"
   },

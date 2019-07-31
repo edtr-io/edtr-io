@@ -1,4 +1,4 @@
-import { EditorStore, selectors } from '@edtr-io/core'
+import { selectors } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -58,11 +58,11 @@ interface MenuProps {
       }
     | undefined
   setMenu: (newMenu: MenuProps['menu']) => void
-  store: EditorStore
+  plugins: ReturnType<typeof selectors['getPlugins']>
   name: string
 }
 
-export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
+export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -82,7 +82,6 @@ export const Menu = ({ visible, menu, setMenu, store, name }: MenuProps) => {
   }, [close, visible])
 
   if (!visible || !menu) return null
-  const plugins = selectors.getPlugins(store.getState())
   const mappedPlugins = Object.keys(plugins)
     .filter(pluginKey => {
       const plugin = plugins[pluginKey]

@@ -1,15 +1,22 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/plugin-rows.esm.js",
+  "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "react-portal": "^4.2.0"
+  },
   "devDependencies": {
-    "@edtr-io/core": "^0.7.0",
-    "@edtr-io/ui": "^0.7.0",
+    "@edtr-io/core": "^0.7.1",
+    "@edtr-io/ui": "^0.7.1",
     "@types/ramda": "^0.26.1",
     "@types/react-portal": "^4.0.2",
     "ramda": "^0.26.1",
@@ -28,8 +35,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "react-portal": "^4.2.0"
   }
 }

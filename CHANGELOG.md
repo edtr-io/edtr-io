@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.1](https://github.com/edtr-io/edtr-io/compare/v0.7.0..v0.7.1) - July 21, 2019
+
+### Added
+
+- **core**. Add `StateType.migratable` that allows to update plugin state structure without breaking changes
+- **plugin-important-statement**. Plugin that highlights important statements.
+- **plugin-serlo-injection**. Add plugin for injecting serlo.org content
+- **plugin-table**. Add plugin for markdown tables
+
+### Changed
+
+- Optimize bundle size
+- **plugin-rows**. add-button is now always visible under the focused document
+
+### Fixed
+
+- **plugin-text**. Split plugin when pasting multiple blocks
+
 ## [0.7.0](https://github.com/edtr-io/edtr-io/compare/v0.6.2..v0.7.0) - July 6, 2019
 
 ### Breaking Changes

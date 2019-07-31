@@ -6,15 +6,18 @@ import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { imagePlugin, readFile } from './plugin-image'
+import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import {
   createFilePlugin,
   parseFileType,
   UploadedFile
 } from '@edtr-io/plugin-files'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { tablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { videoPlugin } from '@edtr-io/plugin-video'
@@ -40,10 +43,13 @@ export const plugins: Record<string, Plugin> = {
   highlight: highlightPlugin,
   hint: hintPlugin,
   inputExercise: inputExercisePlugin,
+  importantStatement: importantStatementPlugin,
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
+  serloInjection: serloInjectionPlugin,
   solution: solutionPlugin,
   spoiler: spoilerPlugin,
+  table: tablePlugin,
   text: textPlugin,
   video: videoPlugin
 }

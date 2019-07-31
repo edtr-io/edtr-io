@@ -1,16 +1,8 @@
 {
+  "extends": "./tsconfig.prod.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "jsx": "react",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext",
-
+    "importHelpers": false,
     "baseUrl": "packages",
     "paths": {
       "@edtr-io/core": ["core/src"],
@@ -26,11 +18,14 @@
       "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
       "@edtr-io/plugin-hint": ["plugin-hint/src"],
       "@edtr-io/plugin-image": ["plugin-image/src"],
+      "@edtr-io/plugin-important-statement": ["plugin-important-statement/src"],
       "@edtr-io/plugin-input-exercise": ["plugin-input-exercise/src"],
       "@edtr-io/plugin-rows": ["plugin-rows/src"],
       "@edtr-io/plugin-sc-mc-exercise": ["plugin-sc-mc-exercise/src"],
+      "@edtr-io/plugin-serlo-injection": ["plugin-serlo-injection/src"],
       "@edtr-io/plugin-solution": ["plugin-solution/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
+      "@edtr-io/plugin-table": ["plugin-table/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"],
       "@edtr-io/plugin-video": ["plugin-video/src"]
     }

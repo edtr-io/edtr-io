@@ -35,7 +35,7 @@ export function SerloContainerInner({
   setEditable: (value: boolean) => void
 }) {
   const history = useEditorHistory(scope)
-  const logState = useLogState(scope)
+  const logState = useLogState()
 
   return (
     <React.Fragment>

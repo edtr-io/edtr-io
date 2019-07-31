@@ -1,12 +1,16 @@
 {
   "name": "@edtr-io/core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/core.esm.js",
+  "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "ramda": "^0.26.1",
@@ -20,6 +24,8 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
+    "@edtr-io/editor-ui": "^0.7.1",
+    "@edtr-io/ui": "^0.7.1",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",

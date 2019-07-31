@@ -14,7 +14,8 @@ import {
   Value,
   ValueJSON,
   Range as CoreRange,
-  Operation
+  Operation,
+  Block
 } from 'slate'
 
 import { isValueEmpty, TextPlugin } from '..'
@@ -188,7 +189,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
       return
     }
 
-    const { plugins, insert, name } = slateClosure.current
+    const { plugins, name, insert, replace } = slateClosure.current
     if (typeof insert !== 'function') {
       next()
       return
@@ -201,18 +202,59 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
       if (clipboardData && typeof onPaste === 'function') {
         const result = onPaste(clipboardData)
         if (result !== undefined) {
-          const nextSlateState = splitBlockAtSelection(editor)
+          if (typeof replace === 'function' && isValueEmpty(editor.value)) {
+            // replace with pasted plugin
+            setTimeout(() => {
+              replace({ plugin: key, state: result.state })
+            })
+          } else {
+            const nextSlateState = splitBlockAtSelection(editor)
 
-          setTimeout(() => {
-            insert({ plugin: name, state: nextSlateState })
-            insert({ plugin: key, state: result.state })
-          })
+            setTimeout(() => {
+              // insert new text-plugin with the parts after the current cursor position if any
+              if (nextSlateState) {
+                insert({ plugin: name, state: nextSlateState })
+              }
+              // insert the plugin that handled the pasted data.
+              // It's inserted at the same index, so will be between the text plugins
+              insert({ plugin: key, state: result.state })
+            })
+          }
           return
         }
       }
     }
 
+    const currentBlock = editor.value.blocks.first()
+
+    // no plugin handled the pasted data
+    // continue normal then split the plugin if multiple blocks were inserted
     next()
+    const blocks = editor.value.document.getBlocks()
+
+    //blocks must be inserted in reversed order
+    const afterSelected = blocks.reverse().takeUntil(block => {
+      if (!block) {
+        return false
+      }
+      return currentBlock.key === block.key
+    })
+
+    if (afterSelected.size) {
+      afterSelected.forEach(block => {
+        if (!block) return
+        editor.removeNodeByKey(block.key)
+      })
+
+      setTimeout(() => {
+        afterSelected.forEach(block => {
+          const isOnlyWhitespace = (text: string) => /^\s*$/.test(text)
+          if (!block || isOnlyWhitespace(block.text)) return
+
+          insert({ plugin: name, state: createDocumentFromBlocks([block]) })
+        })
+      })
+    }
   }
 }
 
@@ -233,8 +275,8 @@ function createOnKeyDown(
     }
 
     if (
-      (key === 'Backspace' && selectionAtStart(editor)) ||
-      (key === 'Delete' && selectionAtEnd(editor))
+      (key === 'Backspace' && isSelectionAtStart(editor)) ||
+      (key === 'Delete' && isSelectionAtEnd(editor))
     ) {
       if (!slateClosure.current) return
       const previous = key === 'Backspace'
@@ -267,28 +309,30 @@ function createOnKeyDown(
 
     return next()
   }
-
-  function selectionAtStart(editor: CoreEditor) {
-    const { selection } = editor.value
-    const startNode = editor.value.document.getFirstText()
-    return (
-      selection.isCollapsed &&
-      startNode &&
-      editor.value.startText.key === startNode.key &&
-      selection.start.offset === 0
-    )
-  }
-  function selectionAtEnd(editor: CoreEditor) {
-    const { selection } = editor.value
-    const endNode = editor.value.document.getLastText()
-    return (
-      selection.isCollapsed &&
-      endNode &&
-      editor.value.endText.key === endNode.key &&
-      selection.end.offset === editor.value.endText.text.length
-    )
-  }
 }
+
+function isSelectionAtStart(editor: CoreEditor) {
+  const { selection } = editor.value
+  const startNode = editor.value.document.getFirstText()
+  return (
+    selection.isCollapsed &&
+    startNode &&
+    editor.value.startText.key === startNode.key &&
+    selection.start.offset === 0
+  )
+}
+
+function isSelectionAtEnd(editor: CoreEditor) {
+  const { selection } = editor.value
+  const endNode = editor.value.document.getLastText()
+  return (
+    selection.isCollapsed &&
+    endNode &&
+    editor.value.endText.key === endNode.key &&
+    selection.end.offset === editor.value.endText.text.length
+  )
+}
+
 function newSlateOnEnter(
   slateClosure: React.RefObject<SlateClosure>
 ): TextPlugin {
@@ -447,6 +491,9 @@ function findParentWith(
 }
 
 function splitBlockAtSelection(editor: CoreEditor) {
+  if (isSelectionAtEnd(editor)) {
+    return
+  }
   if (editor.value.focusBlock.type == katexBlockNode) {
     // If katex block node is focused, don't attempt to split it, insert empty paragraph instead
     editor.moveToEndOfBlock()
@@ -469,9 +516,13 @@ function splitBlockAtSelection(editor: CoreEditor) {
     editor.removeNodeByKey(block.key)
   })
 
+  return createDocumentFromBlocks(afterSelected.toArray())
+}
+
+function createDocumentFromBlocks(blocks: Block[]) {
   return {
     document: {
-      nodes: [...afterSelected.map(block => block && block.toJSON()).toJS()]
+      nodes: [...blocks.map(block => block.toJSON())]
     }
   }
 }

@@ -1,8 +1,8 @@
-import { OverlayContext } from '@edtr-io/core'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
+import { OverlayContext } from '../overlay'
 import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { Icon, faTimes, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'

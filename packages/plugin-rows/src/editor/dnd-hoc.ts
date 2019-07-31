@@ -8,7 +8,7 @@ import {
   DropTargetMonitor
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { RowSourceProps } from './row'
+import { RowSourceProps, RowStateProps } from './row'
 import { DocumentState, Plugin } from '@edtr-io/core'
 
 export interface CollectedProps {
@@ -21,7 +21,9 @@ export interface TargetProps {
   connectDropTarget: ConnectDropTarget
 }
 
-export function connectDnD(Comp: React.ComponentType<RowSourceProps>) {
+export function connectDnD(
+  Comp: React.ComponentType<RowSourceProps & RowStateProps>
+) {
   return DropTarget<
     {
       index: number

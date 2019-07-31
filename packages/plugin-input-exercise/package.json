@@ -1,19 +1,23 @@
 {
   "name": "@edtr-io/plugin-input-exercise",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/plugin-input-exercise.esm.js",
+  "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
   "dependencies": {
     "algebra.js": "^0.2.0",
     "string": "^3.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.7.0",
-    "@edtr-io/ui": "^0.7.0",
+    "@edtr-io/core": "^0.7.1",
+    "@edtr-io/ui": "^0.7.1",
     "@types/algebra.js": "^0.2.0",
     "@types/ramda": "^0.26.1",
     "@types/string": "^0.0.29",
