@@ -199,6 +199,15 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
   }
 
+  function updateLatex(val: string) {
+    //cant set formula directly, because otherwise focus jumps to end of input field
+    setFormulaState(val)
+    // but android is different ...
+    if (isAndroid()) {
+      setFormula(val)
+    }
+  }
+
   if (edit) {
     let mathquillConfig = {
       supSubsRequireOperand: true,
@@ -252,7 +261,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
             <MathQuill
               latex={formulaState.replace('\\mathbb{N}', '\\N')}
               onChange={(e: MathQuill) => {
-                setFormulaState(e.latex())
+                updateLatex(e.latex())
               }}
               config={mathquillConfig}
               ref={mathQuillRef}
@@ -264,8 +273,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               type="text"
               value={formulaState}
               onChange={e => {
-                //cant set formula directly, because otherwise focus jumps to end of input field
-                setFormulaState(e.target.value)
+                updateLatex(e.target.value)
               }}
               onKeyDown={checkLeaveLatexInput}
               autoFocus
@@ -275,7 +283,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               style={{ width: '100%' }}
               ref={ref => (latexInputRef.current = ref)}
               value={formulaState}
-              onChange={e => setFormulaState(e.target.value)}
+              onChange={e => updateLatex(e.target.value)}
               onKeyDown={checkLeaveLatexInput}
               autoFocus
             />
