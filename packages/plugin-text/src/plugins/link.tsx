@@ -1,4 +1,10 @@
-import { InlineInput, InlineSettings } from '@edtr-io/editor-ui'
+import {
+  InlineInput,
+  InlineSettings,
+  Icon,
+  faExternalLinkAlt,
+  styled
+} from '@edtr-io/editor-ui'
 import { Editor, Data, InlineJSON, Inline } from 'slate'
 import * as React from 'react'
 import {
@@ -11,6 +17,8 @@ import {
 import isHotkey from 'is-hotkey'
 
 export const linkNode = '@splish-me/a'
+
+const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
 export const isLink = (editor: Editor) => {
   return editor.value.inlines.some(inline =>
@@ -159,6 +167,11 @@ const DefaultControlsComponent: React.FunctionComponent<
               }
             }}
           />
+          <a target="_blank" href={value} rel="noopener noreferrer">
+            <OpenInNewTab title="Öffne in neuem Tab">
+              <Icon icon={faExternalLinkAlt} />
+            </OpenInNewTab>
+          </a>
         </InlineSettings>
       ) : null}
     </React.Fragment>
