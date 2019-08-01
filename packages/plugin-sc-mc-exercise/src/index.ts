@@ -10,14 +10,14 @@ export const AnswerProps = StateType.object({
   hasFeedback: StateType.boolean(false)
 })
 
-export const scMcState = StateType.object({
+export const scMcExerciseState = StateType.object({
   isSingleChoice: StateType.boolean(false),
   answers: StateType.list(AnswerProps)
 })
 
-export const scMcExercisePlugin: StatefulPlugin<typeof scMcState> = {
+export const scMcExercisePlugin: StatefulPlugin<typeof scMcExerciseState> = {
   Component: ScMcExerciseEditor,
-  state: scMcState,
+  state: scMcExerciseState,
   icon: createIcon(faDotCircle),
   title: 'Auswahlaufgabe',
   description:

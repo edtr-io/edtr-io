@@ -15,6 +15,8 @@ module.exports = function(api) {
               {
                 alias: {
                   '@edtr-io/core': '@edtr-io/core/src',
+                  '@edtr-io/renderer': '@edtr-io/renderer/src',
+                  '@edtr-io/renderer-ssr': '@edtr-io/renderer-ssr/src',
                   '@edtr-io/ui': '@edtr-io/ui/src',
                   '@edtr-io/editor-ui': '@edtr-io/editor-ui/src',
                   '@edtr-io/renderer-ui': '@edtr-io/renderer-ui/src',

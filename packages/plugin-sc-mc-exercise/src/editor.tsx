@@ -5,10 +5,10 @@ import * as React from 'react'
 
 import { ScMcChoiceEditor } from './choice-editor'
 import { ScMcExerciseRenderer } from './renderer'
-import { scMcState } from '.'
+import { scMcExerciseState } from '.'
 
 export class ScMcExerciseEditor extends React.Component<
-  StatefulPluginEditorProps<typeof scMcState>
+  StatefulPluginEditorProps<typeof scMcExerciseState>
 > {
   public render() {
     const { editable, state, focused } = this.props

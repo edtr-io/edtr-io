@@ -3,10 +3,10 @@ import { Icon, faPlus, faTrashAlt, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
-import { scMcState } from '.'
+import { scMcExerciseState } from '.'
 
 export class ScMcChoiceEditor extends React.Component<
-  StatefulPluginEditorProps<typeof scMcState> & { index: number }
+  StatefulPluginEditorProps<typeof scMcExerciseState> & { index: number }
 > {
   public render() {
     const { editable, state, index } = this.props

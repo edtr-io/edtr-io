@@ -1,7 +1,6 @@
 import { HoveringOverlay, InlineCheckbox, styled } from '@edtr-io/editor-ui'
+import { canUseDOM } from 'exenv'
 import * as React from 'react'
-//@ts-ignore
-import MathQuill from 'react-mathquill'
 import { Block, Inline } from 'slate'
 
 import { NodeEditorProps } from '../..'
@@ -9,6 +8,11 @@ import { Dropdown, Option } from '../../toolbar/dropdown'
 import { Math } from './math.component'
 import { katexBlockNode, katexInlineNode } from './index'
 import { isList, orderedListNode, unorderedListNode } from '../list'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MathQuill: React.ComponentType<any> = canUseDOM
+  ? require('react-mathquill').default
+  : () => null
 
 const Wrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -56,7 +60,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const wrappedMathquillRef = Object.defineProperty({}, 'current', {
     // wrapper around Mathquill component
     get: () => {
-      return mathQuillRef.current ? mathQuillRef.current.element : null
+      return mathQuillRef.current
+        ? ((mathQuillRef.current as unknown) as { element: unknown }).element
+        : null
     }
   })
 

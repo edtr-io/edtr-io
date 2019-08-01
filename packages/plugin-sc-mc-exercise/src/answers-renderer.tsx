@@ -3,7 +3,7 @@ import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 import * as R from 'ramda'
 
-import { AnswerProps, scMcState } from '.'
+import { AnswerProps, scMcExerciseState } from '.'
 import { calculateLayoutOptions } from './helpers'
 
 enum Phase {
@@ -13,7 +13,7 @@ enum Phase {
 }
 
 export class ScMcAnswersRenderer extends React.Component<
-  StatefulPluginEditorProps<typeof scMcState> & {
+  StatefulPluginEditorProps<typeof scMcExerciseState> & {
     showAnswer: (
       answer: StateType.StateDescriptorReturnType<typeof AnswerProps>,
       index: number,

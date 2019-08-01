@@ -51,6 +51,8 @@ jobs:
           <<: *yarn_save_cache
       - run:
           command: yarn test
+      - run:
+          command: yarn test:ssr
 
 workflows:
   version: 2

@@ -1,16 +1,28 @@
 import { Editor, EditorProps, useEditorHistory } from '@edtr-io/core'
+import { Renderer, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
 
 import { useEditable, useLogState } from '../hooks'
 
-export function SerloContainer(props: EditorProps) {
+export function SerloRendererContainer(props: RendererProps) {
+  return (
+    <SerloContainerInner editable={false}>
+      <Renderer {...props} />
+    </SerloContainerInner>
+  )
+}
+
+export function SerloEditorContainer(props: EditorProps) {
   const [editable, setEditable] = useEditable(props.editable)
   const children = React.useCallback(
     document => {
       return (
-        <SerloContainerInner editable={editable} setEditable={setEditable}>
+        <SerloEditorContainerInner
+          editable={editable}
+          setEditable={setEditable}
+        >
           {document}
-        </SerloContainerInner>
+        </SerloEditorContainerInner>
       )
     },
     [editable, setEditable]
@@ -23,7 +35,7 @@ export function SerloContainer(props: EditorProps) {
   )
 }
 
-export function SerloContainerInner({
+export function SerloEditorContainerInner({
   editable,
   setEditable,
   children,
@@ -37,6 +49,48 @@ export function SerloContainerInner({
   const history = useEditorHistory(scope)
   const logState = useLogState()
 
+  return (
+    <SerloContainerInner
+      editable={editable}
+      onSave={() => {
+        if (confirm('Are you sure you want to save?')) {
+          history.persist()
+          setEditable(false)
+          logState()
+        }
+      }}
+      onAbort={() => {
+        if (
+          confirm(
+            'Are you sure you want to abort editing? All of your unsaved changes will be lost!'
+          )
+        ) {
+          history.reset()
+          setEditable(false)
+        }
+      }}
+      onEdit={() => {
+        setEditable(true)
+      }}
+    >
+      {children}
+    </SerloContainerInner>
+  )
+}
+
+export function SerloContainerInner({
+  editable,
+  onSave,
+  onAbort,
+  onEdit,
+  children
+}: {
+  children: React.ReactNode
+  editable: boolean
+  onSave?: () => void
+  onAbort?: () => void
+  onEdit?: () => void
+}) {
   return (
     <React.Fragment>
       <link
@@ -324,29 +378,14 @@ export function SerloContainerInner({
                             <button
                               id="ory-editor-save"
                               className="btn btn-success"
-                              onClick={() => {
-                                if (confirm('Are you sure you want to save?')) {
-                                  history.persist()
-                                  setEditable(false)
-                                  logState()
-                                }
-                              }}
+                              onClick={onSave}
                             >
                               <span className="fa fa-save" /> Save
                             </button>
                             <button
                               id="ory-editor-abort"
                               className="btn btn-danger"
-                              onClick={() => {
-                                if (
-                                  confirm(
-                                    'Are you sure you want to abort editing? All of your unsaved changes will be lost!'
-                                  )
-                                ) {
-                                  history.reset()
-                                  setEditable(false)
-                                }
-                              }}
+                              onClick={onAbort}
                             >
                               <span className="fa fa-times" /> Cancel
                             </button>
@@ -355,9 +394,7 @@ export function SerloContainerInner({
                           <div className="btn-group btn-group-community">
                             <button
                               className="btn btn-success"
-                              onClick={() => {
-                                setEditable(true)
-                              }}
+                              onClick={onEdit}
                             >
                               <span className="fa fa-pencil" />
                             </button>

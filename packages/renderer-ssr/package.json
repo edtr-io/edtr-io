@@ -1,0 +1,33 @@
+{
+  "name": "@edtr-io/renderer-ssr",
+  "version": "0.8.0-alpha.1",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/renderer-ssr.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json --target node"
+  },
+  "dependencies": {
+    "@edtr-io/renderer": "^0.8.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "@types/styled-components": "^4.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
