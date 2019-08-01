@@ -37,7 +37,7 @@ export const textPlugin = createTextPlugin({
   plugins: [...plugins, createUiPlugin({ Component: Controls })],
   placeholder: (
     <React.Fragment>
-      Schreibe etwas oder füge mit &#x2295; Aufgaben und Tools hinzu
+      Schreibe etwas oder füge mit &#x2295; Elemente hinzu.
     </React.Fragment>
   )
 })
