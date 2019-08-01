@@ -1,10 +1,10 @@
 import {
-  HoveringOverlay,
-  InlineCheckbox,
-  styled,
-  Overlay,
   faQuestionCircle,
-  Icon
+  HoveringOverlay,
+  Icon,
+  InlineCheckbox,
+  Overlay,
+  styled
 } from '@edtr-io/editor-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
@@ -26,6 +26,7 @@ const MathQuill: React.ComponentType<any> = canUseDOM
 
 interface MathField {
   typedText(text: string): void
+
   latex(): string
 }
 
@@ -249,13 +250,13 @@ export const DefaultEditorComponent: React.FunctionComponent<
         downOutOf: (mathfield: MathField) => {
           mathfield.typedText('_')
         }
-      }
-    }
-    if (isAndroid()) {
-      // @ts-ignore
-      mathquillConfig.substituteTextarea = alternativeTextArea
-      // @ts-ignore
-      mathquillConfig.substituteKeyboardEvents = alternativeSaneKeyboard
+      },
+      ...(isAndroid()
+        ? {
+            substituteTextarea: alternativeTextArea,
+            substituteKeyboardEvents: alternativeSaneKeyboard
+          }
+        : {})
     }
     return (
       <>
