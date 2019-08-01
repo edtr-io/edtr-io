@@ -193,7 +193,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           {!isList(orderedListNode)(editor) &&
           !isList(unorderedListNode)(editor) ? (
             <InlineCheckbox
-              label="Inline"
+              label="eingebettet"
               checked={inline}
               onChange={checked => {
                 const newData = { formula: formulaState, inline: checked }
