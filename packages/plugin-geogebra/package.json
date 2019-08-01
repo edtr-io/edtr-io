@@ -23,7 +23,7 @@
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.8.0-0",
+    "@edtr-io/core": "^0.8.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

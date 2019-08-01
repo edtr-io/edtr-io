@@ -317,6 +317,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.8.0',
       name: '0.8.0',
+      date: '2019-08-01',
       breakingChanges: [
         'When using the newly exposed `<Renderer />`, `defaultPlugin` is no longer set to an actual plugin. So you should only rely on `defaultPlugin` in an editable environment (e.g. to decide which plugin to insert by default) and only pass complete serialized Edtr.io documents to `<Renderer />`.',
         "**plugin-text**. We no longer import KaTeX's stylesheet to not depend on a CSS-capable bundler. Please include the stylesheet yourself."
