@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-blockquote",
-  "version": "0.8.0-alpha.1",
+  "version": "0.8.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.8.0-alpha.1",
+    "@edtr-io/core": "^0.8.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

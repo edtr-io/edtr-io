@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/renderer-ssr",
-  "version": "0.8.0-alpha.1",
+  "version": "0.8.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json --target node"
   },
   "dependencies": {
-    "@edtr-io/renderer": "^0.8.0-alpha.1"
+    "@edtr-io/renderer": "^0.8.0"
   },
   "devDependencies": {
     "@types/react": "^16.8.0",
