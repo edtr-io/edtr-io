@@ -133,6 +133,7 @@ const DefaultControlsComponent: React.FunctionComponent<
         >
           <InlineInput
             value={value}
+            placeholder={'Hier Link einfügen'}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newValue = e.target.value
               setValue(newValue)
