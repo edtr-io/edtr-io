@@ -72,7 +72,7 @@ export const Add: React.FunctionComponent<{
       focused={props.focused}
       title="Füge ein Element hinzu"
     >
-      <Icon title="Füge ein Element hinzu" icon={edtrRowsControls.plus} />
+      <Icon icon={edtrRowsControls.plus} />
     </AddTrigger>
   )
 }
