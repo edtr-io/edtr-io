@@ -17,6 +17,7 @@ export const AnchorEditor = (
       {focused ? (
         <EditorInput
           label="Identifier:"
+          placeholder="Gib hier einen Namen ein."
           value={state.value}
           onChange={e => {
             state.set(e.target.value)
