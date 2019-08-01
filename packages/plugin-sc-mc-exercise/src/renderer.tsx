@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { ScMcRendererInteractive } from './renderer-interactive'
 import { ScMcRendererSolution } from './renderer-solution'
-import { scMcState } from '.'
+import { scMcExerciseState } from '.'
 
 enum Mode {
   test = 'test',
@@ -13,7 +13,7 @@ enum Mode {
 }
 
 export class ScMcExerciseRenderer extends React.Component<
-  StatefulPluginEditorProps<typeof scMcState>,
+  StatefulPluginEditorProps<typeof scMcExerciseState>,
   ScMcExerciseRendererState
 > {
   public state = { mode: Mode.test }

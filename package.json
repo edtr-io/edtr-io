@@ -7,6 +7,7 @@
   "scripts": {
     "start": "lerna run --stream start",
     "test": "jest",
+    "test:ssr": "jest --config jest-ssr.config.js",
     "prebuild": "yarn --frozen-lockfile",
     "build": "lerna run --ignore=@edtr-io/{bundle-size,demo} --stream build",
     "prebuild-demo": "yarn build",
@@ -23,9 +24,9 @@
     "deploy": "yarn _publish",
     "deploy:from-package": "yarn deploy from-package",
     "deploy:prerelease": "yarn lerna version --amend --no-push && yarn deploy:from-package --dist-tag next",
-    "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
+    "_eslint": "eslint \"{{packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_publish": "lerna publish --message \"chore: release %v\"",
-    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "dependencies": {},
   "devDependencies": {
@@ -55,11 +56,6 @@
     "typescript": "^3.0.0"
   },
   "private": true,
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|less|eot|svg|ttf|woff|woff2)$": "<rootDir>/jest.styleMock.js"
-    }
-  },
   "workspaces": [
     "packages/*"
   ],

@@ -118,6 +118,7 @@ const RowSource = React.forwardRef<
   const expanded = (props.focused || focused) && expandedState
   return (
     <RowContainer
+      editable={props.editable || false}
       ref={rowRef}
       noHeight={props.doc.plugin === 'notes' && !props.editable}
       name={props.name}

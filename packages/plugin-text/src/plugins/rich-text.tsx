@@ -11,6 +11,7 @@ import {
 
 export const strongMark = '@splish-me/strong'
 export const emphasizeMark = '@splish-me/em'
+export const codeMark = 'code'
 
 export interface RichTextPluginOptions {
   EditorComponent?: React.ComponentType<MarkEditorProps>
@@ -34,6 +35,12 @@ export const isEmphasized = (editor: Editor) => {
   )
 }
 
+export const isCode = (editor: Editor) => {
+  return getActiveMarks(editor).some(mark =>
+    mark ? mark.type === codeMark : false
+  )
+}
+
 export const toggleStrong = (editor: Editor) => {
   trimSelection(editor)
   return editor.toggleMark(strongMark)
@@ -42,6 +49,11 @@ export const toggleStrong = (editor: Editor) => {
 export const toggleEmphasize = (editor: Editor) => {
   trimSelection(editor)
   return editor.toggleMark(emphasizeMark)
+}
+
+export const toggleCode = (editor: Editor) => {
+  trimSelection(editor)
+  return editor.toggleMark(codeMark)
 }
 
 class DefaultEditorComponent extends React.Component<MarkEditorProps> {
@@ -53,6 +65,8 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
         return <strong {...attributes}>{children}</strong>
       case emphasizeMark:
         return <em {...attributes}>{children}</em>
+      case codeMark:
+        return <code {...attributes}>{children}</code>
       default:
         return null
     }
@@ -68,6 +82,8 @@ class DefaultRendererComponent extends React.Component<MarkRendererProps> {
         return <strong>{children}</strong>
       case emphasizeMark:
         return <em>{children}</em>
+      case codeMark:
+        return <code>{children}</code>
       default:
         return null
     }
@@ -95,6 +111,14 @@ export const createRichTextPlugin = ({
             type: emphasizeMark,
             nodes: next(el.childNodes)
           }
+
+        case 'code':
+        case 'q':
+          return {
+            object: 'mark',
+            type: codeMark,
+            nodes: next(el.childNodes)
+          }
         default:
           return
       }
@@ -108,6 +132,9 @@ export const createRichTextPlugin = ({
       } else if (isHotkey('mod+i')(e)) {
         e.preventDefault()
         return toggleEmphasize(editor)
+      } else if (isHotkey('mod+q')(e)) {
+        e.preventDefault()
+        return toggleCode(editor)
       }
 
       return next()
@@ -118,7 +145,7 @@ export const createRichTextPlugin = ({
 
       if (
         mark.object === 'mark' &&
-        [strongMark, emphasizeMark].indexOf(mark.type) > -1
+        [strongMark, emphasizeMark, codeMark].indexOf(mark.type) > -1
       ) {
         return <RenderComponent mark={mark}>{children}</RenderComponent>
       }
@@ -129,7 +156,7 @@ export const createRichTextPlugin = ({
 
       if (
         mark.object === 'mark' &&
-        [strongMark, emphasizeMark].indexOf(mark.type) > -1
+        [strongMark, emphasizeMark, codeMark].indexOf(mark.type) > -1
       ) {
         return <EditorComponent {...props} />
       }

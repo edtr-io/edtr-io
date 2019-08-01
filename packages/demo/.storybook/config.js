@@ -3,7 +3,7 @@ import { addDecorator, addParameters, configure } from '@storybook/react'
 
 import { theme } from './theme'
 
-const req = require.context('../__stories__', true, /\.tsx$/)
+const req = require.context('../__stories__', true, /\.tsx?$/)
 
 addDecorator(withKnobs)
 addParameters({

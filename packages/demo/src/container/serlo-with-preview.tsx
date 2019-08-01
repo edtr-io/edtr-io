@@ -2,9 +2,9 @@ import { Document, EditorProps, EditorProvider } from '@edtr-io/core'
 import * as React from 'react'
 
 import { useEditable } from '../hooks'
-import { SerloContainerInner } from './serlo'
+import { SerloEditorContainerInner, SerloRendererContainer } from './serlo'
 
-export function SerloWithPreviewContainer(props: EditorProps) {
+export function SerloWithPreviewEditorContainer(props: EditorProps) {
   const scope = 'main'
   const [editable, setEditable] = useEditable(props.editable)
 
@@ -36,13 +36,15 @@ export function SerloWithPreviewContainer(props: EditorProps) {
           </div>
         </div>
       </div>
-      <SerloContainerInner
+      <SerloEditorContainerInner
         editable={editable}
         setEditable={setEditable}
         scope={scope}
       >
         <Document {...props} scope={scope} editable={editable} />
-      </SerloContainerInner>
+      </SerloEditorContainerInner>
     </EditorProvider>
   )
 }
+
+export const SerloWithPreviewRendererContainer = SerloRendererContainer

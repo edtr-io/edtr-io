@@ -5,6 +5,7 @@ import { createRowPluginTheme } from '.'
 
 export const RowContainer = styled.div<{
   isFirst?: boolean
+  editable: boolean
   name: string
   noHeight?: boolean
   expanded?: boolean
@@ -12,19 +13,19 @@ export const RowContainer = styled.div<{
   ({
     isFirst,
     name,
+    editable,
     noHeight,
     expanded,
     ...props
   }: {
     isFirst?: boolean
     name: string
+    editable: boolean
     noHeight?: boolean
     expanded?: boolean
   } & ThemeProps) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      marginLeft: '25px',
-      marginRight: '25px',
       ...(!noHeight
         ? {
             minHeight: '10px',
@@ -32,12 +33,12 @@ export const RowContainer = styled.div<{
             marginTop: isFirst ? '25px' : '0px'
           }
         : {}),
-
+      marginLeft: editable ? '15px' : undefined,
       position: 'relative',
       borderLeft: '2px solid transparent',
+      paddingLeft: '5px',
       transition: '250ms all ease-in-out',
-      paddingLeft: '25px',
-      paddingRight: '25px',
+
       ...(expanded
         ? {
             borderColor: theme.color,

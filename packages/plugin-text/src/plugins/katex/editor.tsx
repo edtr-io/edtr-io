@@ -6,10 +6,8 @@ import {
   faQuestionCircle,
   Icon
 } from '@edtr-io/editor-ui'
+import { canUseDOM } from 'exenv'
 import * as React from 'react'
-
-// @ts-ignore
-import MathQuill from 'react-mathquill'
 import { Block, Inline } from 'slate'
 
 import { NodeEditorProps } from '../..'
@@ -20,6 +18,16 @@ import { isList, orderedListNode, unorderedListNode } from '../list'
 import { OverlayContext } from '@edtr-io/core'
 import { Button } from '../../toolbar/button'
 import { isTouchDevice } from '../../controls'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MathQuill: React.ComponentType<any> = canUseDOM
+  ? require('react-mathquill').default
+  : () => null
+
+interface MathField {
+  typedText(text: string): void
+  latex(): string
+}
 
 const EditorWrapper = styled.div<{ inline: boolean }>(props => {
   return {
@@ -115,7 +123,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const wrappedMathquillRef = Object.defineProperty({}, 'current', {
     // wrapper around Mathquill component
     get: () => {
-      return mathQuillRef.current ? mathQuillRef.current.element : null
+      return mathQuillRef.current
+        ? ((mathQuillRef.current as unknown) as { element: unknown }).element
+        : null
     }
   })
 
@@ -233,10 +243,10 @@ export const DefaultEditorComponent: React.FunctionComponent<
             editor.delete().focus()
           }
         },
-        upOutOf: (mathfield: MathQuill) => {
+        upOutOf: (mathfield: MathField) => {
           mathfield.typedText('^')
         },
-        downOutOf: (mathfield: MathQuill) => {
+        downOutOf: (mathfield: MathField) => {
           mathfield.typedText('_')
         }
       }
@@ -260,7 +270,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           {useVisual ? (
             <MathQuill
               latex={formulaState.replace('\\mathbb{N}', '\\N')}
-              onChange={(e: MathQuill) => {
+              onChange={(e: MathField) => {
                 updateLatex(e.latex())
               }}
               config={mathquillConfig}

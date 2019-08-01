@@ -23,7 +23,9 @@ export function createStore<K extends string>({
 } {
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = composeWithDevTools({ realtime: true })
-  const enhancer = composeEnhancers(applyMiddleware(...getMiddleware()))
+  const c: typeof composeEnhancers =
+    process.env.NODE_ENV === 'test' ? e => e : composeEnhancers
+  const enhancer = c(applyMiddleware(...getMiddleware()))
 
   const initialStates: DeepPartial<EditorState> = {}
   for (let scope in instances) {
