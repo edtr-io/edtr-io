@@ -16,6 +16,7 @@ export const RowsRenderer = (
 
         return (
           <RowContainer
+            editable={props.editable || false}
             name={props.name}
             key={row.id}
             noHeight={doc ? doc.plugin === 'notes' : false}

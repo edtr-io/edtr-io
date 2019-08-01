@@ -1,7 +1,7 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import * as React from 'react'
 
-import { injectionState } from '.'
+import { serloInjectionState } from '.'
 import {
   PrimarySettings,
   EditorInput,
@@ -22,7 +22,7 @@ const createURL = (id: string) => {
 }
 
 export const SerloInjectionEditor = (
-  props: StatefulPluginEditorProps<typeof injectionState> & {
+  props: StatefulPluginEditorProps<typeof serloInjectionState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) => {

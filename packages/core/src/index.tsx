@@ -1,9 +1,11 @@
+export { SubDocument } from './document'
 export { Document, Editor, EditorProps, EditorProvider } from './editor'
 export {
   ScopeContext,
   EditorContext,
   connect,
-  connectStateOnly
+  connectStateOnly,
+  Provider
 } from './editor-context'
 export {
   useEditorFocus,
@@ -27,6 +29,7 @@ export {
   EditorState,
   ScopeState,
   actions,
+  createStore,
   selectors
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'

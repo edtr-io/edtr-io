@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
-import { scMcState, AnswerProps } from '.'
+import { scMcExerciseState, AnswerProps } from '.'
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
@@ -182,7 +182,7 @@ export class ScMcRendererInteractive extends React.Component<
 }
 
 export type ScMcRendererInteractiveProps = StatefulPluginEditorProps<
-  typeof scMcState
+  typeof scMcExerciseState
 > & {
   getFeedback?: (params: {
     mistakes: number

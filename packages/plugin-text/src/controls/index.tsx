@@ -142,14 +142,6 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
     return editor
   }, [])
 
-  function isTouchDevice(): boolean {
-    return (
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.msMaxTouchPoints > 0
-    )
-  }
-
   return (
     <React.Fragment>
       {!selectionCollapsed && (
@@ -178,6 +170,14 @@ export const Controls: React.FunctionComponent<ControlProps> = props => {
         </TimeoutBottomToolbar>
       )}
     </React.Fragment>
+  )
+}
+
+export function isTouchDevice(): boolean {
+  return (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
   )
 }
 

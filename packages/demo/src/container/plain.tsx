@@ -7,14 +7,19 @@ import {
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
+import { Renderer, RendererProps } from '@edtr-io/renderer'
 
-export function PlainContainer(props: EditorProps) {
+export function PlainRendererContainer(props: RendererProps) {
+  return <Renderer {...props} />
+}
+
+export function PlainEditorContainer(props: EditorProps) {
   const children = React.useCallback(
     document => {
       return (
-        <PlainContainerInner editable={props.editable}>
+        <PlainEditorContainerInner editable={props.editable}>
           {document}
-        </PlainContainerInner>
+        </PlainEditorContainerInner>
       )
     },
     [props.editable]
@@ -23,7 +28,7 @@ export function PlainContainer(props: EditorProps) {
   return <Editor {...props}>{children}</Editor>
 }
 
-function PlainContainerInner(props: {
+function PlainEditorContainerInner(props: {
   children: React.ReactNode
   editable?: boolean
 }) {
