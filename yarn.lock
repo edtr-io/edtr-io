@@ -1017,6 +1017,11 @@
   dependencies:
     "@convertkit/slate-keymap" "^0.1.8"
 
+"@edtr-io/mathquill@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@edtr-io/mathquill/-/mathquill-0.11.0.tgz#b2a741ea21217a8dde552f75c4804f0985c62bdd"
+  integrity sha512-jN9ELUxnQAgLG7B2ytL6Ctbtw0wPAfUuKuu/myr0kg9Dc9ZLzEDoueMHrRBH7MvdyYvV2eQz3wzYEGgm5+H0qQ==
+
 "@emotion/babel-utils@^0.6.4":
   version "0.6.10"
   resolved "https://registry.yarnpkg.com/@emotion/babel-utils/-/babel-utils-0.6.10.tgz#83dbf3dfa933fae9fc566e54fbb45f14674c6ccc"
@@ -8540,7 +8545,7 @@ jpjs@^1.2.1:
   resolved "https://registry.yarnpkg.com/jpjs/-/jpjs-1.2.1.tgz#f343833de8838a5beba1f42d5a219be0114c44b7"
   integrity sha512-GxJWybWU4NV0RNKi6EIqk6IRPOTqd/h+U7sbtyuD7yUISUzV78LdHnq2xkevJsTlz/EImux4sWj+wfMiwKLkiw==
 
-jquery@^1.12.3:
+jquery@^1.12.4:
   version "1.12.4"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
   integrity sha1-AeHfuikP5z3rp3zurLD5ui/sngw=
@@ -9218,13 +9223,6 @@ material-colors@^1.2.1:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/material-colors/-/material-colors-1.2.6.tgz#6d1958871126992ceecc72f4bcc4d8f010865f46"
   integrity sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==
-
-mathquill@^0.10.1-a:
-  version "0.10.1-a"
-  resolved "https://registry.yarnpkg.com/mathquill/-/mathquill-0.10.1-a.tgz#bf2ca569010063ac34bcd5d529adc0837cd53c3f"
-  integrity sha1-vyylaQEAY6w0vNXVKa3Ag3zVPD8=
-  dependencies:
-    jquery "^1.12.3"
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -11574,12 +11572,13 @@ react-markdown@^4.0.0:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-mathquill@^0.1.3:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/react-mathquill/-/react-mathquill-0.1.5.tgz#3a02cfb1f959438278f813129df8b4434e63abb5"
-  integrity sha512-GNrGb17XDmAp2NZ/g12JpAR005/yurxEKhhbxBRpB1XVcgXqGPoNCbH/8SECxDwxCizotSsdIFwQWVgF6Fl68A==
+react-mathquill@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/react-mathquill/-/react-mathquill-0.1.7.tgz#d732e1e9490bb87a626cafb6469a868146666b76"
+  integrity sha512-djnnJB9IgMBWHKqcvUPdVflDEOoFQQaYUGKCYcw0nmjBxVKvrID5D5RJOiHxdr6i3H0ITBtpqT1rghnM4bPMnA==
   dependencies:
-    mathquill "^0.10.1-a"
+    "@edtr-io/mathquill" "^0.11.0"
+    jquery "^1.12.4"
     prop-types "^15.6.2"
     react "^16.5.2"
 
