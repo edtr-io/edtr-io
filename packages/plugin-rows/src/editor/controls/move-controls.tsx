@@ -41,6 +41,7 @@ const Drag: React.FunctionComponent<
   return connectDragSource(
     <div>
       <DragIcon
+        title={'Verschiebe das Element innerhalb des Dokuments'}
         name={name}
         draggable={false}
         disabled={rows.items.length === 1}

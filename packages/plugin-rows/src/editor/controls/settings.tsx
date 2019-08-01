@@ -68,7 +68,7 @@ const Content = styled.div<ThemeProps & { expanded: boolean; name: string }>(
 
 const SettingsIcon = (props: { open: () => void; name: string }) => (
   <span onClick={props.open}>
-    <StyledIconContainer name={props.name}>
+    <StyledIconContainer name={props.name} title={'Einstellungen'}>
       <Icon icon={faCog} size="lg" />
     </StyledIconContainer>
   </span>
