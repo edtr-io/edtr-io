@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 - **renderer**. Expose `<Renderer />` that renders a Edtr.io document with the given plugins with React. We plan to optimize its bundle size to minimize loading times for use cases where no editor is needed. Also, we plan to provide smaller renderer bundles for some of our plugins (e.g. text plugin)
 - **renderer-ssr**. Expose `render` that server-side renders a Edtr.io document with the given plugins and returns `{ styles, html }`.
+- **plugin-text**. Add possibility to write inline-code via CTRL+Q
 
 ### Changed
 
