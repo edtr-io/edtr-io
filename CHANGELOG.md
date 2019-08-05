@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.8.0..HEAD)
+
+### Fixed
+
+- **core**. Fix `StateType.upload`
+
 ## [0.8.0](https://github.com/edtr-io/edtr-io/compare/v0.7.1..v0.8.0) - August 1, 2019
 
 ### Breaking Changes
