@@ -2,12 +2,10 @@ import { selectors } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
-import { Portal } from 'react-portal'
 
 import { createRowPluginTheme } from '../..'
 import { Search } from './search'
 import { Plugin } from './plugin'
-import { Dropzone } from './dropzone'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {
@@ -24,7 +22,6 @@ const Wrapper = styled.div<{ name: string }>(
       width: '100vw',
       height: '100vh',
       zIndex: 9999,
-      paddingTop: '125px',
 
       '@media (max-width: 1000px)': {
         padding: '25px 20px 0'
@@ -73,13 +70,11 @@ export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
   )
 
   React.useEffect(() => {
-    if (visible) document.body.style.position = 'fixed'
     window.addEventListener('keydown', close)
     return () => {
       window.removeEventListener('keydown', close)
-      document.body.style.position = 'static'
     }
-  }, [close, visible])
+  }, [close])
 
   if (!visible || !menu) return null
   const mappedPlugins = Object.keys(plugins)
@@ -110,15 +105,12 @@ export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
       />
     ))
   return (
-    <Portal>
-      <Wrapper name={name}>
-        <Dropzone name={name} />
-        <Search search={search} name={name} setSearch={setSearch} />
-        <PluginList>{mappedPlugins}</PluginList>
-        <CloseButtonContainer onClick={() => setMenu(undefined)}>
-          <EdtrIcon icon={edtrRowsControls.close} />
-        </CloseButtonContainer>
-      </Wrapper>
-    </Portal>
+    <Wrapper name={name}>
+      <Search search={search} name={name} setSearch={setSearch} />
+      <PluginList>{mappedPlugins}</PluginList>
+      <CloseButtonContainer onClick={() => setMenu(undefined)}>
+        <EdtrIcon icon={edtrRowsControls.close} />
+      </CloseButtonContainer>
+    </Wrapper>
   )
 }

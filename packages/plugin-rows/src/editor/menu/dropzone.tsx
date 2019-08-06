@@ -15,6 +15,7 @@ const StyledDropzone = styled.div<ThemeProps & { name: string }>(
     const theme = createRowPluginTheme(name, props.theme)
     return {
       width: '100%',
+      marginTop: '50px',
       backgroundColor: theme.menu.dropzone.backgroundColor,
       color: theme.menu.dropzone.color,
       border: `3px dashed ${theme.color}`,
