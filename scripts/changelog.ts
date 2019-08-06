@@ -336,6 +336,9 @@ async function exec(): Promise<void> {
       internal: [
         'Tests in `__tests-ssr__` folders are executed `node` environment to test SSR (in contrast to tests in `__tests__` folders that are executed in a browser-like environment)'
       ]
+    },
+    {
+      fixed: ['**core**. Fix `StateType.upload`']
     }
   ])
 

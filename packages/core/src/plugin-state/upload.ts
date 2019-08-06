@@ -125,13 +125,18 @@ export function usePendingFilesUploader<T>(
           }
         })
 
-        fileState.upload(fileState.value.pending, uploadHandler).finally(() => {
-          setUploading(currentUploading => {
-            return {
-              ...currentUploading,
-              [i]: false
-            }
-          })
+        fileState
+          .upload(fileState.value.pending, uploadHandler)
+          .catch(onDone)
+          .then(onDone)
+      }
+
+      function onDone() {
+        setUploading(currentUploading => {
+          return {
+            ...currentUploading,
+            [i]: false
+          }
         })
       }
     })
