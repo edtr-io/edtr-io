@@ -147,7 +147,7 @@ interface AbstractMigratableStateDescriptor<InitialS, AllS, S, T, R>
   recursiveMigrate: (previousState: InitialS | Versionized<AllS>) => S
 }
 
-interface MigratableStateDescriptor<InitialS, AllS, S, T, R>
+export interface MigratableStateDescriptor<InitialS, AllS, S, T, R>
   extends AbstractMigratableStateDescriptor<InitialS, AllS, S, T, R> {
   migrate<S1, T1, R1>(
     nextType: StateDescriptor<S1, T1, R1>,
