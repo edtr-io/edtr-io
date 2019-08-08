@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps, insertNewText } from '@edtr-io/core'
 import * as React from 'react'
 
 import { HighlightRenderer } from './renderer'
@@ -11,21 +11,7 @@ import {
   faQuestionCircle,
   styled
 } from '@edtr-io/editor-ui'
-
-const Textarea = styled.textarea({
-  height: '250px',
-  width: '100%',
-  margin: 'auto',
-  padding: '10px',
-  resize: 'none',
-  fontFamily: 'Menlo, Monaco, "Courier New", monospace',
-  border: 'none',
-  outline: 'none',
-  boxShadow: '0 1px 1px 0 rgba(0,0,0,0.50)',
-  '&::-webkit-input-placeholder': {
-    color: 'rgba(0,0,0,0.5)'
-  }
-})
+import { EditorTextarea } from '@edtr-io/renderer-ui'
 
 const QuestionIcon = styled(Icon)({
   color: 'black',
@@ -52,7 +38,9 @@ const HelpIcon: React.FunctionComponent = () => (
 )
 
 export const HighlightEditor = (
-  props: StatefulPluginEditorProps<typeof highlightState>
+  props: StatefulPluginEditorProps<typeof highlightState> & {
+    insert?: (el: { plugin: string }) => void
+  }
 ) => {
   const { state, focused, editable } = props
 
@@ -69,7 +57,7 @@ export const HighlightEditor = (
   }
   return throttledEdit || edit ? (
     <React.Fragment>
-      <Textarea
+      <EditorTextarea
         value={state.text.value}
         name="text"
         placeholder="Write some code here. Preview will be shown when you leave the area"
@@ -78,13 +66,18 @@ export const HighlightEditor = (
         }}
       >
         {state.text.value}
-      </Textarea>
+      </EditorTextarea>
       <PrimarySettings>
         <EditorInput
           label="Language:"
           value={state.language.value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             state.language.set(e.target.value)
+          }}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') {
+              insertNewText(props)
+            }
           }}
           placeholder="enter Language"
         />

@@ -1,4 +1,4 @@
-export { SubDocument } from './document'
+export { SubDocument, insertNewText } from './document'
 export { Document, Editor, EditorProps, EditorProvider } from './editor'
 export {
   ScopeContext,
