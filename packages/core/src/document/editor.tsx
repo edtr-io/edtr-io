@@ -140,8 +140,8 @@ export const DocumentEditor = connect<
           },
           INSERT_TEXT: e => {
             handleKeyDown(e, () => {
-              if (pluginProps && typeof pluginProps.insert === 'function') {
-                pluginProps.insert({ plugin: 'text' })
+              if (pluginProps) {
+                insertNewText(pluginProps)
               }
             })
           },
@@ -193,6 +193,14 @@ export const DocumentEditor = connect<
     pluginProps
   ])
 })
+
+export function insertNewText(pluginProps: {
+  insert?: (el: { plugin: string }) => void
+}) {
+  if (typeof pluginProps.insert === 'function') {
+    pluginProps.insert({ plugin: 'text' })
+  }
+}
 
 export interface DocumentEditorStateProps {
   document: ReturnType<typeof selectors['getDocument']>
