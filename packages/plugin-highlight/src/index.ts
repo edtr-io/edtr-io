@@ -15,5 +15,9 @@ export const highlightPlugin: StatefulPlugin<typeof highlightState> = {
   title: 'Code',
   description:
     'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
-  icon: createIcon(faCode)
+  icon: createIcon(faCode),
+  onKeyDown: (e: KeyboardEvent) => {
+    const { key } = e
+    return !['ArrowDown', 'ArrowUp', 'Enter'].includes(key)
+  }
 }
