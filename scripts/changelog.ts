@@ -338,7 +338,14 @@ async function exec(): Promise<void> {
       ]
     },
     {
-      fixed: ['**core**. Fix `StateType.upload`']
+      tagName: 'v0.8.1',
+      name: '0.8.1',
+      date: '2019-08-09',
+      fixed: [
+        '**core**. Fix `StateType.upload`',
+        '**core**. Export `MigratableStateDescriptor`',
+        "**plugin-rows**. Add menu doesn't jump to the top of the root document anymore"
+      ]
     }
   ])
 
