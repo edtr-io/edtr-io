@@ -8,7 +8,7 @@ const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   return {
     position: 'absolute',
     height: 'auto',
-    width: 'calc(100% - 60px)',
+    width: '100%',
     transform: isFirst ? 'translateY(-100%)' : 'translateY(100%)',
     top: isFirst ? 0 : undefined,
     bottom: isFirst ? undefined : 0

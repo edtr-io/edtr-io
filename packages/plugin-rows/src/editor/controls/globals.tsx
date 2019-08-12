@@ -43,9 +43,7 @@ const Remove = ({ rows, index, close, name }: GlobalsProps) => {
   return (
     <IconContainer
       name={name}
-      disabled={rows.items.length === 1}
       onClick={() => {
-        if (rows.items.length === 1) return
         rows.remove(index)
         close()
       }}

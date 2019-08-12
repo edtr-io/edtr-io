@@ -29,8 +29,7 @@ export const RowContainer = styled.div<{
       ...(!noHeight
         ? {
             minHeight: '10px',
-            marginBottom: '25px',
-            marginTop: isFirst ? '25px' : '0px'
+            marginBottom: '25px'
           }
         : {}),
       marginLeft: editable ? '15px' : undefined,
