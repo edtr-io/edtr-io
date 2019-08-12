@@ -103,7 +103,6 @@ const RowSource = React.forwardRef<
         ref={rowRef}
         noHeight={props.doc.plugin === 'notes' && !props.editable}
         name={props.name}
-        isFirst={index === 0}
         expanded={expanded}
         onMouseMove={() => {
           if (focused) {
@@ -193,7 +192,7 @@ export interface RowMenuProps {
   openMenu: (insertIndex: number, replaceIndex?: number) => void
 }
 
-type MenuType = {
+interface MenuType {
   index: number
   onClose: (pluginState: { plugin: string; state?: unknown }) => void
 }
