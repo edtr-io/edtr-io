@@ -165,7 +165,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   function handleInlineToggle(checked: boolean) {
-    const newData = { formula: formulaState, inline: checked }
+    const newData = { formula: formulaState, inline: !checked }
 
     // remove old node, merge blocks if necessary
     if (node.isLeafBlock()) {
@@ -179,13 +179,13 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
 
     if (checked) {
-      editor.insertInline({
-        type: katexInlineNode,
+      editor.insertBlock({
+        type: katexBlockNode,
         data: newData
       })
     } else {
-      editor.insertBlock({
-        type: katexBlockNode,
+      editor.insertInline({
+        type: katexInlineNode,
         data: newData
       })
     }
@@ -320,8 +320,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
             {!isList(orderedListNode)(editor) &&
             !isList(unorderedListNode)(editor) ? (
               <InlineCheckbox
-                label="Eingebettet"
-                checked={inline}
+                label="eigene Zeile"
+                checked={!inline}
                 onChange={handleInlineToggle}
               />
             ) : null}
