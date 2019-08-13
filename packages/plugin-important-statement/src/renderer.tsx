@@ -1,6 +1,7 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import * as React from 'react'
 import { styled } from '@edtr-io/renderer-ui'
+import * as React from 'react'
+
 import { importantStatementState } from '.'
 
 const Box = styled.div({
