@@ -1010,10 +1010,10 @@
   dependencies:
     is-hotkey "^0.1.4"
 
-"@convertkit/slate-lists@^0.2.2":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@convertkit/slate-lists/-/slate-lists-0.2.3.tgz#415f63f9557f684982c67c8f1e029d067020bc0f"
-  integrity sha512-AZnqNKtfxtBy0rAjgT2TDZ+KhipGx21k7Ht4MIQSmKETiNk4dUOhi2UIhfZY96Kv78MNCEbuVIgF1nfgoxxTTg==
+"@convertkit/slate-lists@^0.2.0":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@convertkit/slate-lists/-/slate-lists-0.2.4.tgz#6216a4e646c41c3cd52712a2f95bc50f26660eac"
+  integrity sha512-SXaCjtMUiZNltlNH+Y2czYMEFdIHqkORJJdBxVJ9D0oIRsFkTQxFrfVS3eUy/5yN9Wdi7cW5vbeszSwPNSbXvg==
   dependencies:
     "@convertkit/slate-keymap" "^0.1.8"
 
@@ -8699,7 +8699,7 @@ jsx-ast-utils@^2.1.0:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
 
-katex@^0.10.1:
+katex@^0.10.0:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.10.2.tgz#39973edbb65eda5b6f9e7f41648781e557dd4932"
   integrity sha512-cQOmyIRoMloCoSIOZ1+gEwsksdJZ1EW4SWm3QzxSza/QsnZr6D4U1V9S4q+B/OLm2OQ8TCBecQ8MaIfnScI7cw==
@@ -11555,7 +11555,7 @@ react-markdown@^4.0.0:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-mathquill@^0.1.7:
+react-mathquill@^0.1.0:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/react-mathquill/-/react-mathquill-0.1.7.tgz#d732e1e9490bb87a626cafb6469a868146666b76"
   integrity sha512-djnnJB9IgMBWHKqcvUPdVflDEOoFQQaYUGKCYcw0nmjBxVKvrID5D5RJOiHxdr6i3H0ITBtpqT1rghnM4bPMnA==
