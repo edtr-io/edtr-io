@@ -28,7 +28,6 @@
     "_publish": "lerna publish --message \"chore: release %v\"",
     "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
