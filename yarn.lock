@@ -2847,7 +2847,7 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
-"@types/react-onclickoutside@^6.7.0":
+"@types/react-onclickoutside@^6.0.0":
   version "6.7.3"
   resolved "https://registry.yarnpkg.com/@types/react-onclickoutside/-/react-onclickoutside-6.7.3.tgz#48708067f88a3ec6673e7ccb6e33463dc81a4846"
   integrity sha512-ByQX2ns3KlOrOzJBVhQ2VZmQVV6w718TXFVAdCdHBeXMXr5QseQVN+BsOmLf2+KZGz7+Y4ov9jPxRDCDNJZMLg==
@@ -11500,7 +11500,7 @@ react-hotkeys@2.0.0-pre4:
   dependencies:
     prop-types "^15.6.1"
 
-react-hotkeys@^1.0.0, react-hotkeys@^1.1.4:
+react-hotkeys@^1.0.0:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/react-hotkeys/-/react-hotkeys-1.1.4.tgz#a0712aa2e0c03a759fd7885808598497a4dace72"
   integrity sha1-oHEqouDAOnWf14hYCFmEl6TaznI=
@@ -11565,7 +11565,7 @@ react-mathquill@^0.1.0:
     prop-types "^15.6.2"
     react "^16.5.2"
 
-react-onclickoutside@^6.8.0:
+react-onclickoutside@^6.0.0:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.8.0.tgz#9f91b5b3ed59f4d9e43fd71620dc200773a4d569"
   integrity sha512-5Q4Rn7QLEoh7WIe66KFvYIpWJ49GeHoygP1/EtJyZjXKgrWH19Tf0Ty3lWyQzrEEDyLOwUvvmBFSE3dcDdvagA==
