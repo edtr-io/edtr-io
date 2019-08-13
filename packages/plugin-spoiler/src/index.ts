@@ -1,7 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { createIcon, faCaretSquareDown } from '@edtr-io/editor-ui'
 
 import { SpoilerEditor } from './editor'
-import { createIcon, faCaretSquareDown } from '@edtr-io/editor-ui'
 
 export const spoilerState = StateType.object({
   title: StateType.string(''),

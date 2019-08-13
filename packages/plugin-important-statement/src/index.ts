@@ -1,4 +1,5 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+
 import { ImportantStatementRenderer } from './renderer'
 
 export const importantStatementState = StateType.child()

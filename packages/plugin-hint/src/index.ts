@@ -1,7 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { createIcon, faLightbulb } from '@edtr-io/editor-ui'
 
 import { HintEditor } from './editor'
-import { createIcon, faLightbulb } from '@edtr-io/editor-ui'
 
 export const hintState = StateType.object({
   title: StateType.string(''),

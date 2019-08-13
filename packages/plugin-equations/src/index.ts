@@ -1,6 +1,7 @@
-import { EquationsEditor } from './editor'
 import { StateType, StatefulPlugin } from '@edtr-io/core'
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
+
+import { EquationsEditor } from './editor'
 
 export const StepProps = StateType.object({
   left: StateType.child(),
