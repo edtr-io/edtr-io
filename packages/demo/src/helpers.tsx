@@ -15,13 +15,7 @@ export function addStory(
 ) {
   const stories = storiesOf(name, module)
   stories.add('Editor', () => {
-    return (
-      <EditorStory
-        defaultPlugin={props.defaultPlugin}
-        initialState={props.state}
-        theme={props.theme}
-      />
-    )
+    return <EditorStory initialState={props.state} {...props} />
   })
   stories.add('Renderer', () => {
     return <RendererStory {...props} />

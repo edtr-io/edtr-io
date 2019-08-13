@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-video",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.8.0",
+    "@edtr-io/core": "^0.8.1",
     "@edtr-io/ui": "^0.8.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"

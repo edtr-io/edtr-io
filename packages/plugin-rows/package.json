@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -11,14 +11,10 @@
     "prebuild": "rimraf dist",
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
-  "dependencies": {
-    "react-portal": "^4.2.0"
-  },
   "devDependencies": {
-    "@edtr-io/core": "^0.8.0",
+    "@edtr-io/core": "^0.8.1",
     "@edtr-io/ui": "^0.8.0",
     "@types/ramda": "^0.26.1",
-    "@types/react-portal": "^4.0.2",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
     "react-dnd": "^7.0.0",
