@@ -9,6 +9,7 @@ import { HeadingControls } from './headings'
 import { ListControls } from './lists'
 import { ColorControls } from './colors'
 import { TextPlugin } from '..'
+
 export enum VisibleControls {
   All,
   Headings,
