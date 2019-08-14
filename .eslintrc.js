@@ -38,6 +38,7 @@ module.exports = {
 
     // eslint-plugin-import
     'import/export': 'error',
+    'import/extensions': ['error', 'never'],
     'import/first': 'error',
     'import/no-commonjs': 'error',
     'import/no-deprecated': 'error',

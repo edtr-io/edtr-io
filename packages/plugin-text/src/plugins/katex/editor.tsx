@@ -13,7 +13,7 @@ import { OverlayContext } from '@edtr-io/core'
 
 import { NodeEditorProps } from '../..'
 import { Dropdown, Option } from '../../toolbar/dropdown'
-import { Math } from './math.component'
+import { Math } from './math-component'
 import { katexBlockNode, katexInlineNode } from './index'
 import { isList, orderedListNode, unorderedListNode } from '../list'
 import { Button } from '../../toolbar/button'
