@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "ramda": "^0.26.1",
-    "react-hotkeys": "^1.1.4",
+    "react-hotkeys": "^2.0.0",
     "react-portal": "^4.2.0",
     "react-redux": "^7.0.0",
     "redux": "^4.0.0",

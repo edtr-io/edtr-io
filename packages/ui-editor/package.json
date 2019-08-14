@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "ramda": "^0.26.1",
-    "react-hotkeys": "^1.1.4",
     "react-onclickoutside": "^6.8.0"
   },
   "devDependencies": {
@@ -26,6 +25,7 @@
     "@types/styled-components": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
+    "react-hotkeys": "^2.0.0",
     "styled-components": "^4.0.0"
   },
   "peerDependencies": {
@@ -34,6 +34,7 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
+    "react-hotkeys": "^2.0.0",
     "styled-components": "^4.0.0"
   },
   "publishConfig": {
