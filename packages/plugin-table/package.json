@@ -14,7 +14,6 @@
   "dependencies": {
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/react-textarea-autosize": "^4.0.0",
     "react-markdown": "^4.0.0"
   },
   "devDependencies": {
