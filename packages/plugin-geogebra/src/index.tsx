@@ -1,9 +1,9 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { createIcon, faCubes } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { GeogebraEditor } from './editor'
 import { GeogebraRenderer } from './renderer'
-import { createIcon, faCubes } from '@edtr-io/editor-ui'
 
 export const geogebraState = StateType.string()
 export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {

@@ -3,8 +3,8 @@ import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { EquationsRenderer } from './renderer'
 import { equationsState } from '.'
+import { EquationsRenderer } from './renderer'
 
 const DraggableContainer = styled.div({
   border: '1px solid #000',

@@ -12,13 +12,13 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "@types/ramda": "^0.26.1",
     "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
-    "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/styled-components": "^4.0.0",

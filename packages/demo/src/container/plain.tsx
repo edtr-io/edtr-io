@@ -4,10 +4,10 @@ import {
   useEditorFocus,
   useEditorHistory
 } from '@edtr-io/core'
+import { Renderer, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
-import { Renderer, RendererProps } from '@edtr-io/renderer'
 
 export function PlainRendererContainer(props: RendererProps) {
   return <Renderer {...props} />

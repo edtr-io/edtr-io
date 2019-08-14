@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { StatefulPlugin, StateType } from '@edtr-io/core'
 import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
+import * as React from 'react'
 
 import { createFilesEditor } from './editor'
 import { FilesRenderer } from './renderer'

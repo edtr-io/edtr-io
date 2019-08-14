@@ -3,7 +3,6 @@ import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Block, Editor, Inline } from 'slate'
 
-import { SlatePluginClosure } from '../../factory/types'
 import {
   NodeRendererProps,
   NodeEditorProps,
@@ -11,6 +10,7 @@ import {
   NodeControlsProps,
   trimSelection
 } from '../..'
+import { SlatePluginClosure } from '../../factory/types'
 import { DefaultEditorComponent } from './editor'
 import { DefaultRendererComponent } from './renderer'
 

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { generate } from 'shortid'
 
+import { SubDocument } from '../document'
 import {
   StateDescriptor,
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from './types'
-import { SubDocument } from '../document'
 
 function PluginPropsDocument<Props extends Record<string, unknown>>({
   id,

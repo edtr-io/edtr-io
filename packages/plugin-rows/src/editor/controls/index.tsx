@@ -2,9 +2,10 @@ import { StateType } from '@edtr-io/core'
 import * as React from 'react'
 
 import { rowsState, rowState } from '../..'
-export { ExtendedSettingsWrapper } from './extended-settings'
-import { Settings } from './settings'
 import { MoveControls } from './move-controls'
+import { Settings } from './settings'
+
+export { ExtendedSettingsWrapper } from './extended-settings'
 
 export interface SettingsProps {
   name: string

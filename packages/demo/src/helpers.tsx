@@ -1,9 +1,9 @@
+import { EditorProps } from '@edtr-io/core'
 import { RendererProps } from '@edtr-io/renderer'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 
 import { EditorStory, RendererStory } from './container'
-import { EditorProps } from '@edtr-io/core'
 
 export function addStory(
   name: string,

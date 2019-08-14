@@ -1,9 +1,9 @@
 import * as React from 'react'
 
+import { DocumentProps } from '.'
 import { connectStateOnly } from '../editor-context'
 import { isStatefulPlugin } from '../plugin'
 import { selectors } from '../store'
-import { DocumentProps } from '.'
 
 export const DocumentRenderer = connectStateOnly<
   DocumentRendererStateProps,

@@ -2,6 +2,7 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
+import { DocumentProps } from '.'
 import { connect } from '../editor-context'
 import {
   isStatefulPlugin,
@@ -10,7 +11,6 @@ import {
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { actions, selectors, ScopedActionCreator } from '../store'
-import { DocumentProps } from '.'
 
 const StyledDocument = styled.div({
   outline: 'none'

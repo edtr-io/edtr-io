@@ -18,9 +18,9 @@ import {
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { Upload } from './upload'
-import { ImageRenderer } from './renderer'
 import { ImagePluginConfig, imageState } from '.'
+import { ImageRenderer } from './renderer'
+import { Upload } from './upload'
 
 type ImageProps = StatefulPluginEditorProps<typeof imageState> & {
   renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode

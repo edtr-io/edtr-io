@@ -10,7 +10,7 @@ import * as React from 'react'
 
 import { rowsState, rowState } from '..'
 
-export default function({
+export function RowRenderer({
   row,
   rows,
   index,
@@ -115,5 +115,5 @@ export default function({
     state
   ])
 
-  return row.render(pluginProps)
+  return <React.Fragment>{row.render(pluginProps)}</React.Fragment>
 }

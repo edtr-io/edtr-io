@@ -1,9 +1,9 @@
-import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
 import { StateType } from '@edtr-io/core'
+import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { createRowPluginTheme, rowsState, rowState } from '../..'
 import { MoveControlsProps } from '.'
+import { createRowPluginTheme, rowsState, rowState } from '../..'
 
 const StyledControls = styled.div({
   display: 'flex'

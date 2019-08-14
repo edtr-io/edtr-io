@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { styled, createPluginTheme, ThemeProps } from '@edtr-io/ui'
+import * as React from 'react'
 
 const createSuggestionsTheme = createPluginTheme<SuggestionTheme>(theme => {
   return {

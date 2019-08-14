@@ -5,8 +5,10 @@ import {
   faExternalLinkAlt,
   styled
 } from '@edtr-io/editor-ui'
-import { Editor, Data, InlineJSON, Inline } from 'slate'
+import isHotkey from 'is-hotkey'
 import * as React from 'react'
+import { Editor, Data, InlineJSON, Inline } from 'slate'
+
 import {
   NodeControlsProps,
   NodeEditorProps,
@@ -14,7 +16,6 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-import isHotkey from 'is-hotkey'
 
 export const linkNode = '@splish-me/a'
 
