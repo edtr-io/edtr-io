@@ -67,6 +67,7 @@ module.exports = {
       }
     ],
     'import/no-mutable-exports': 'error',
+    'import/no-unassigned-import': 'error',
     'import/order': [
       'error',
       {
