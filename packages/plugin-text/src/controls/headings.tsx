@@ -41,7 +41,7 @@ export const HeadingControls: React.FunctionComponent<
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title={'Untermenü schließen'}
+        title="Untermenü schließen"
       >
         <EdtrIcon icon={edtrTextControls.close} />
       </Button>

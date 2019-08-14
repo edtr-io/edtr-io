@@ -17,6 +17,7 @@ export const AnchorEditor = (
       {focused ? (
         <EditorInput
           label="Identifier:"
+          placeholder="Name der Sprungmarke"
           value={state.value}
           onChange={e => {
             state.set(e.target.value)

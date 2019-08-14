@@ -48,6 +48,9 @@ export { faDotCircle } from '@fortawesome/free-solid-svg-icons/faDotCircle'
 export { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare'
 export { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
 export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
+export {
+  faExternalLinkAlt
+} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
   return function I() {

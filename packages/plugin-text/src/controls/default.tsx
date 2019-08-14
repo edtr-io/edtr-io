@@ -77,14 +77,14 @@ export const DefaultControls: React.FunctionComponent<
             props.switchControls(VisibleControls.Headings)
           }
         }}
-        title={'Überschriften'}
+        title="Überschriften"
       >
         <EdtrIcon icon={edtrTextControls.text} />
       </Button>
       <Button
         name={name}
         onClick={() => props.switchControls(VisibleControls.Colors)}
-        title={'Textfarben'}
+        title="Textfarben"
       >
         <ColoredTextIcon index={getColorIndex(editor)} />
       </Button>
@@ -100,7 +100,7 @@ export const DefaultControls: React.FunctionComponent<
           }
           props.switchControls(VisibleControls.Lists)
         }}
-        title={'Listen'}
+        title="Listen"
       >
         <EdtrIcon
           icon={
@@ -122,7 +122,7 @@ export const DefaultControls: React.FunctionComponent<
             props.onChange(editor)
           }
         }}
-        title={'Zitat'}
+        title="Zitat"
       >
         <EdtrIcon icon={edtrTextControls.quote} />
       </Button>

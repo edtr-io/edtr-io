@@ -125,7 +125,7 @@ function SuggestionsBox({
       }}
     >
       {children}
-      <HoveringOverlay position={'below'}>
+      <HoveringOverlay position="below">
         <Suggestions selected={selected} {...props} />
       </HoveringOverlay>
     </HotKeys>

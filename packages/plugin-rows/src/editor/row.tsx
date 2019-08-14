@@ -131,11 +131,7 @@ const RowSource = React.forwardRef<
       }}
     >
       {index === 0 && (
-        <Separator
-          name={props.name}
-          isFirst={true}
-          onClick={() => openMenu(index)}
-        />
+        <Separator name={props.name} isFirst onClick={() => openMenu(index)} />
       )}
 
       <RowRenderer
