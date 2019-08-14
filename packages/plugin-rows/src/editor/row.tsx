@@ -12,7 +12,6 @@ import { createPortal } from 'react-dom'
 import { RowContainer } from '../row-container'
 import { Controls, ExtendedSettingsWrapper } from './controls'
 import { connectDnD, CollectedProps, TargetProps } from './dnd-hoc'
-import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
 import { rowsPluginThemeFactory, rowsState } from '..'
@@ -149,13 +148,6 @@ const RowSource = React.forwardRef<
               row={row}
               connectDragSource={props.connectDragSource}
             />
-            <Menu
-              visible={!!props.menu}
-              menu={props.menu}
-              setMenu={props.setMenu}
-              plugins={props.plugins}
-              name={props.name}
-            />
           </React.Fragment>
         )}
       </RowContainer>
@@ -176,23 +168,14 @@ export const Row = connectStateOnly<
   RowExposedProps & { scope: string } & RowMenuProps
 >(state => {
   return {
-    focusedElement: selectors.getFocused(state),
-    plugins: selectors.getPlugins(state)
+    focusedElement: selectors.getFocused(state)
   }
 })(connectDnD(RowSource))
 
 export interface RowStateProps {
   focusedElement: ReturnType<typeof selectors['getFocused']>
-  plugins: ReturnType<typeof selectors['getPlugins']>
 }
 
 export interface RowMenuProps {
-  menu: MenuType | undefined
-  setMenu: (menu: MenuType | undefined) => void
-  openMenu: (insertIndex: number, replaceIndex?: number) => void
-}
-
-interface MenuType {
-  index: number
-  onClose: (pluginState: { plugin: string; state?: unknown }) => void
+  openMenu: (insertIndex: number) => void
 }

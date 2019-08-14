@@ -10,3 +10,10 @@ addStory('Plugins/Rows/Initial State', {
     ]
   }
 })
+
+addStory('Plugins/Rows/Empty', {
+  state: {
+    plugin: 'rows',
+    state: []
+  }
+})
