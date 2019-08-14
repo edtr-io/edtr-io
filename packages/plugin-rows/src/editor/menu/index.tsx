@@ -1,4 +1,4 @@
-import { selectors } from '@edtr-io/core'
+import { connectStateOnly, selectors } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -47,19 +47,18 @@ const PluginList = styled.div({
 })
 
 interface MenuProps {
-  visible: boolean
-  menu:
-    | {
-        index: number
-        onClose: (pluginState: { plugin: string; state?: unknown }) => void
-      }
-    | undefined
-  setMenu: (newMenu: MenuProps['menu']) => void
+  menu: {
+    index: number
+    onClose: (pluginState: { plugin: string; state?: unknown }) => void
+  }
+  setMenu: (newMenu?: MenuProps['menu']) => void
   plugins: ReturnType<typeof selectors['getPlugins']>
   name: string
 }
 
-export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
+export const Menu = connectStateOnly(state => {
+  return { plugins: selectors.getPlugins(state) }
+})(function Menu({ menu, setMenu, plugins, name }: MenuProps) {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -76,7 +75,6 @@ export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
     }
   }, [close])
 
-  if (!visible || !menu) return null
   const mappedPlugins = Object.keys(plugins)
     .filter(pluginKey => {
       const plugin = plugins[pluginKey]
@@ -113,4 +111,4 @@ export const Menu = ({ visible, menu, setMenu, plugins, name }: MenuProps) => {
       </CloseButtonContainer>
     </Wrapper>
   )
-}
+})
