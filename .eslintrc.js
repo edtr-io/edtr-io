@@ -41,7 +41,9 @@ module.exports = {
     'import/extensions': ['error', 'never'],
     'import/first': 'error',
     'import/newline-after-import': 'error',
+    'import/no-absolute-path': 'error',
     'import/no-commonjs': 'error',
+    'import/no-cycle': 'error',
     'import/no-default-export': 'error',
     'import/no-deprecated': 'error',
     'import/no-extraneous-dependencies': [
@@ -67,7 +69,14 @@ module.exports = {
       }
     ],
     'import/no-mutable-exports': 'error',
+    'import/no-self-import': 'error',
     'import/no-unassigned-import': 'error',
+    'import/no-useless-path-segments': [
+      'error',
+      {
+        noUselessIndex: true
+      }
+    ],
     'import/order': [
       'error',
       {

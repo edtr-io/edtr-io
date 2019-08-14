@@ -14,7 +14,7 @@ import { OverlayContext } from '@edtr-io/core'
 import { NodeEditorProps } from '../..'
 import { Dropdown, Option } from '../../toolbar/dropdown'
 import { Math } from './math-component'
-import { katexBlockNode, katexInlineNode } from './index'
+import { katexBlockNode, katexInlineNode } from "."
 import { isList, orderedListNode, unorderedListNode } from '../list'
 import { Button } from '../../toolbar/button'
 import { isTouchDevice } from '../../controls'

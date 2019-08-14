@@ -13,7 +13,7 @@ import { Action } from './actions'
 import { reducer } from './reducer'
 import { saga } from './saga'
 import { EditorState } from './types'
-import { selectors } from './index'
+import { selectors } from "."
 
 export function createStore<K extends string>({
   instances,
