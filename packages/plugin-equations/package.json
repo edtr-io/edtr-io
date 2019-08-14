@@ -12,7 +12,9 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "@types/ramda": "^0.26.1",
     "@types/react-beautiful-dnd": "^10.0.0",
+    "ramda": "^0.26.1",
     "react-beautiful-dnd": "^10.0.0"
   },
   "devDependencies": {

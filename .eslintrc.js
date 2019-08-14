@@ -37,6 +37,30 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 'error',
 
     // eslint-plugin-import
+    'import/export': 'error',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          'packages/bundle-size/webpack.config.js',
+          'packages/demo/{__stories__,src}/**/*',
+          'scripts/**/*'
+        ],
+        optionalDependencies: false
+      }
+    ],
+    'import/no-deprecated': 'error',
+    'import/no-internal-modules': [
+      'error',
+      {
+        allow: [
+          'katex/dist/katex.css',
+          'react-dom/server',
+          'react-dom/test-utils',
+          'redux-saga/effects'
+        ]
+      }
+    ],
     'import/order': [
       'error',
       {

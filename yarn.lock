@@ -2633,7 +2633,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
 
-"@types/katex@^0.10.1":
+"@types/katex@^0.10.0":
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.10.1.tgz#eebdeef7664691b3ebbbef0f66e806b8433cfb70"
   integrity sha512-jU8eRIZQGUEU/M+IUB4/3vA68EjJJhuMGxrTFBKssNphM1mMfnoDp9abrMFYRR0ECjBdaE0p8hCk7vmhJ4l1gw==
@@ -7414,7 +7414,7 @@ immer@1.10.0:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
 
-immutable@^3.8.2:
+immutable@^3.8.1, immutable@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
