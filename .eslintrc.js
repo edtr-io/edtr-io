@@ -100,6 +100,8 @@ module.exports = {
     ],
 
     // eslint-plugin-react
+    'react/jsx-boolean-value': 'error',
+    'react/jsx-curly-brace-presence': 'error',
     'react/prop-types': 'off',
 
     // eslint-plugin-react-hooks

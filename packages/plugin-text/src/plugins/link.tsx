@@ -138,11 +138,11 @@ const DefaultControlsComponent: React.FunctionComponent<
         <InlineSettings
           key={`inlineoverlay${inline.key}`}
           onDelete={() => unwrapLink(editor).focus()}
-          position={'below'}
+          position="below"
         >
           <InlineInput
             value={value}
-            placeholder={'Hier Link einfügen'}
+            placeholder="Hier Link einfügen"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newValue = e.target.value
               setValue(newValue)

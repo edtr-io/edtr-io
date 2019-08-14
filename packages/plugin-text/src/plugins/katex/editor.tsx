@@ -300,7 +300,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
             />
           )}
           <HoveringOverlay
-            position={'above'}
+            position="above"
             anchor={useVisual ? wrappedMathquillRef : latexInputRef}
           >
             <Dropdown
