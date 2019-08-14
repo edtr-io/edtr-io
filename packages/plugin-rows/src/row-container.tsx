@@ -4,21 +4,18 @@ import { ThemeProps } from '@edtr-io/ui'
 import { createRowPluginTheme } from '.'
 
 export const RowContainer = styled.div<{
-  isFirst?: boolean
   editable: boolean
   name: string
   noHeight?: boolean
   expanded?: boolean
 }>(
   ({
-    isFirst,
     name,
     editable,
     noHeight,
     expanded,
     ...props
   }: {
-    isFirst?: boolean
     name: string
     editable: boolean
     noHeight?: boolean
@@ -29,8 +26,7 @@ export const RowContainer = styled.div<{
       ...(!noHeight
         ? {
             minHeight: '10px',
-            marginBottom: '25px',
-            marginTop: isFirst ? '25px' : '0px'
+            marginBottom: '25px'
           }
         : {}),
       marginLeft: editable ? '15px' : undefined,
