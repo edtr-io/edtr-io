@@ -42,6 +42,7 @@ module.exports = {
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-commonjs': 'error',
+    'import/no-default-export': 'error',
     'import/no-deprecated': 'error',
     'import/no-extraneous-dependencies': [
       'error',
