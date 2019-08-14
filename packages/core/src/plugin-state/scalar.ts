@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+
 import { StateDescriptor, StoreDeserializeHelpers } from './types'
 
 export function boolean(initialValue?: boolean) {

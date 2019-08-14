@@ -2,8 +2,8 @@ import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import axios from 'axios'
 import { debounce } from 'lodash'
-
 import * as React from 'react'
+
 import { geogebraState } from '.'
 
 interface ApiData {

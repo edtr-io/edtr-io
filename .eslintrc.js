@@ -13,7 +13,7 @@ module.exports = {
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-hooks'],
+  plugins: ['import', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -35,6 +35,18 @@ module.exports = {
       }
     ],
     '@typescript-eslint/no-useless-constructor': 'error',
+
+    // eslint-plugin-import
+    'import/order': [
+      'error',
+      {
+        groups: [
+          ['builtin', 'external', 'internal'],
+          ['parent', 'sibling', 'index', 'unknown']
+        ],
+        'newlines-between': 'always'
+      }
+    ],
 
     // eslint-plugin-react
     'react/prop-types': 'off',

@@ -1,6 +1,5 @@
 import { createAction } from './helpers'
 import { ActionFromActionCreator, ScopeState } from './types'
-
 import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'

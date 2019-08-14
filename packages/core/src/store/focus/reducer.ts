@@ -7,7 +7,6 @@ import {
   FocusNextDocumentAction,
   focusPrevious
 } from './actions'
-
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
 import { getPlugin } from '../plugins/reducer'

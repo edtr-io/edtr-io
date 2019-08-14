@@ -3,6 +3,7 @@ import styled, {
   ThemeProps as StyledThemeProps,
   ThemeContext as StyledThemeContext
 } from 'styled-components'
+import * as React from 'react'
 
 import {
   ButtonTheme,
@@ -11,7 +12,6 @@ import {
   OverlayTheme,
   TextareaTheme
 } from '.'
-import * as React from 'react'
 
 export { styled }
 

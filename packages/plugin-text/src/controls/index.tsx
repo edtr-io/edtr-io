@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { Editor } from 'slate'
 import { EditorProps } from 'slate-react'
-import { TextPlugin } from '..'
 import { HoveringOverlay, BottomToolbar, styled } from '@edtr-io/editor-ui'
+
 import { SlatePluginClosure } from '../factory/types'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
 import { ListControls } from './lists'
 import { ColorControls } from './colors'
+import { TextPlugin } from '..'
 export enum VisibleControls {
   All,
   Headings,

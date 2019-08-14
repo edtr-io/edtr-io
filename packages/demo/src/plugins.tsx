@@ -5,7 +5,6 @@ import { equationsPlugin } from '@edtr-io/plugin-equations'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
-import { imagePlugin, readFile } from './plugin-image'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import {
   createFilePlugin,
@@ -21,6 +20,8 @@ import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { videoPlugin } from '@edtr-io/plugin-video'
+
+import { imagePlugin, readFile } from './plugin-image'
 
 const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
   return readFile(file).then(loaded => {

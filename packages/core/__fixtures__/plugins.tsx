@@ -1,6 +1,3 @@
-import { StateType } from '../src'
-import { StateDescriptorReturnType } from '../src/plugin-state'
-
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
@@ -17,6 +14,9 @@ import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { tablePlugin } from '@edtr-io/plugin-table'
 import { videoPlugin } from '@edtr-io/plugin-video'
+
+import { StateDescriptorReturnType } from '../src/plugin-state'
+import { StateType } from '../src'
 
 const nestedArrayState = StateType.object({
   children: StateType.list(StateType.child('stateful'), 1)

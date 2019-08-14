@@ -1,6 +1,7 @@
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
+
 import {
   getTrimmedSelectionRange,
   MarkEditorProps,

@@ -1,5 +1,6 @@
-import { styled } from '../theme'
 import * as React from 'react'
+
+import { styled } from '../theme'
 
 const NoClickArea = styled.div<{ active: boolean }>(props => {
   return {

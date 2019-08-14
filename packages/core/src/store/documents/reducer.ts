@@ -11,7 +11,6 @@ import {
   pureChange,
   PureChangeAction
 } from './actions'
-
 import { getPlugin } from '../plugins/reducer'
 import { StoreSerializeHelpers } from '../../plugin-state'
 

@@ -1,7 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
 import { InitRootAction, initRoot, pureInitRoot } from './actions'
-
 import { handleRecursiveInserts } from '../documents/saga'
 import { persist } from '../history/actions'
 import { Action, setPartialState } from '../actions'

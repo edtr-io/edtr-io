@@ -3,9 +3,9 @@ import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { Editor } from 'slate'
 
-import { TextPlugin } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { SuggestionProps, Suggestions } from './suggestions'
+import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {

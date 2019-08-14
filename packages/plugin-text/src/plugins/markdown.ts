@@ -1,5 +1,6 @@
-import { toggleList, unorderedListNode, isList, orderedListNode } from './list'
 import { Editor } from 'slate'
+
+import { toggleList, unorderedListNode, isList, orderedListNode } from './list'
 import { SlatePluginClosure } from '../factory/types'
 import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'

@@ -13,7 +13,6 @@ import {
   pureUndo,
   PureUndoAction
 } from './actions'
-
 import { getDocuments } from '../documents/reducer'
 
 export const historyReducer = createSubReducer(

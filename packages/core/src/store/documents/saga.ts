@@ -12,7 +12,6 @@ import {
 } from './actions'
 import { Action } from '../actions'
 import { getDocument } from './reducer'
-
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import { commit } from '../history/actions'
 import { scopeSelector } from '../helpers'

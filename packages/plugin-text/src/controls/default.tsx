@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
 
 import { Button } from '../toolbar/button'

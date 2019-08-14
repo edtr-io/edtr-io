@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
+
 import {
   createIsHeading,
   createSetHeading,

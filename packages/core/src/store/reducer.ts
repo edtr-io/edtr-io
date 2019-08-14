@@ -1,8 +1,8 @@
 import * as R from 'ramda'
+
 import { Action, setPartialState } from './actions'
 import { createActionWithoutPayload } from './helpers'
 import { EditorState, ScopeState } from './types'
-
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
 import { focusReducer } from './focus/reducer'

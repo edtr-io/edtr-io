@@ -1,4 +1,7 @@
 import * as React from 'react'
+import { styled, ThemeProps, usePluginTheme } from '@edtr-io/ui'
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
+
 import { SubControlProps, VisibleControls } from './index'
 import { Button } from '../toolbar/button'
 import {
@@ -6,9 +9,6 @@ import {
   createToggleColor,
   removeColor
 } from '../plugins/colors'
-import { styled, ThemeProps, usePluginTheme } from '@edtr-io/ui'
-import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
-
 import {
   createTextPluginTheme,
   textPluginThemeFactory,

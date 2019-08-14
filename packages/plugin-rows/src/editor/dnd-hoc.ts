@@ -8,8 +8,9 @@ import {
   DropTargetMonitor
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { RowSourceProps, RowStateProps } from './row'
 import { DocumentState, Plugin } from '@edtr-io/core'
+
+import { RowSourceProps, RowStateProps } from './row'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource

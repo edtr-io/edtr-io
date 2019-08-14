@@ -17,13 +17,13 @@ import {
   Operation,
   Block
 } from 'slate'
+import * as Immutable from 'immutable'
 
-import { isValueEmpty, TextPlugin } from '..'
 import { TextPluginOptions } from './types'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
-import * as Immutable from 'immutable'
+import { isValueEmpty, TextPlugin } from '..'
 
 export const createTextEditor = (
   options: TextPluginOptions

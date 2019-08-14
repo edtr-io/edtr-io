@@ -7,10 +7,11 @@ import {
   RenderMarkProps,
   RenderNodeProps
 } from 'slate-react'
+import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
+
 import { plugins } from './plugins'
 import { createTextPlugin } from './factory'
 import { createUiPlugin, Controls } from './controls'
-import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 
 export type MarkEditorProps = RenderMarkProps
 
