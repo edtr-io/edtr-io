@@ -1,32 +1,31 @@
+import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
-
-import { Button } from '../toolbar/button'
-import {
-  isEmphasized,
-  isStrong,
-  toggleEmphasize,
-  toggleStrong
-} from '../plugins/rich-text'
-import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
 import { SubControlProps, VisibleControls } from '.'
+import {
+  createBlockquote,
+  isBlockquote,
+  removeBlockquote
+} from '../plugins/blockquote'
+import { getColorIndex } from '../plugins/colors'
+import { getHeadingLevel } from '../plugins/headings'
+import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
+import { isLink, unwrapLink, wrapLink } from '../plugins/link'
 import {
   isList,
   orderedListNode,
   toggleList,
   unorderedListNode
 } from '../plugins/list'
-import { ColoredTextIcon } from './colors'
-import { getColorIndex } from '../plugins/colors'
-import { getHeadingLevel } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
 import {
-  createBlockquote,
-  isBlockquote,
-  removeBlockquote
-} from '../plugins/blockquote'
+  isEmphasized,
+  isStrong,
+  toggleEmphasize,
+  toggleStrong
+} from '../plugins/rich-text'
+import { Button } from '../toolbar/button'
+import { ColoredTextIcon } from './colors'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps

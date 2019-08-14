@@ -1,14 +1,15 @@
-import * as React from 'react'
-import * as R from 'ramda'
 import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
+import * as R from 'ramda'
+import * as React from 'react'
+
+import { SubControlProps, VisibleControls } from '.'
 import {
   createIsHeading,
   createSetHeading,
   HeadingLevel
 } from '../plugins/headings'
-import { Button } from '../toolbar/button'
 import { setParagraph } from '../plugins/paragraph'
-import { SubControlProps, VisibleControls } from '.'
+import { Button } from '../toolbar/button'
 
 export const HeadingControls: React.FunctionComponent<
   SubControlProps

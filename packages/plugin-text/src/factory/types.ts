@@ -1,7 +1,8 @@
-import * as React from 'react'
 import { OverlayContextValue, Plugin, DocumentState } from '@edtr-io/core'
-import { TextPlugin } from '..'
+import * as React from 'react'
+
 import { SlateEditorAdditionalProps } from './editor'
+import { TextPlugin } from '..'
 
 export interface TextPluginOptions {
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]

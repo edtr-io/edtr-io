@@ -1,3 +1,4 @@
+import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor, MarkJSON, NodeJSON, Range as CoreRange } from 'slate'
 import { Rule } from 'slate-html-serializer'
@@ -7,10 +8,10 @@ import {
   RenderMarkProps,
   RenderNodeProps
 } from 'slate-react'
-import { plugins } from './plugins'
-import { createTextPlugin } from './factory'
+
 import { createUiPlugin, Controls } from './controls'
-import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
+import { createTextPlugin } from './factory'
+import { plugins } from './plugins'
 
 export type MarkEditorProps = RenderMarkProps
 

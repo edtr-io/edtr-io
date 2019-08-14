@@ -9,6 +9,7 @@ import {
   ProviderProps,
   ReactReduxContextValue
 } from 'react-redux'
+
 import { Action, EditorState, ScopeState } from './store'
 import { getScope } from './store/reducer'
 import {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BlockJSON, InlineJSON } from 'slate'
 
 import { NodeRendererProps } from '../..'
-import { Math } from './math.component'
+import { Math } from './math-component'
 
 export const DefaultRendererComponent: React.FunctionComponent<
   NodeRendererProps

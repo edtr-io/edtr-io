@@ -1,4 +1,5 @@
 import { Editor } from 'slate'
+
 import { SlatePluginClosure } from '../factory/types'
 
 export const isBlockquote = (

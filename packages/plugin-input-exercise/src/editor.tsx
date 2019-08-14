@@ -3,8 +3,8 @@ import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { InputExerciseRenderer } from './renderer'
 import { inputExerciseState } from '.'
+import { InputExerciseRenderer } from './renderer'
 
 const types = [
   {

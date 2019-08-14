@@ -2,9 +2,9 @@ import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
+import { scMcExerciseState } from '.'
 import { ScMcRendererInteractive } from './renderer-interactive'
 import { ScMcRendererSolution } from './renderer-solution'
-import { scMcExerciseState } from '.'
 
 enum Mode {
   test = 'test',

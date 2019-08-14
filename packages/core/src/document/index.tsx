@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { DocumentEditor } from './editor'
 import { ScopeContext } from '../editor-context'
+import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 
 export const SubDocument = (props: DocumentProps) => {

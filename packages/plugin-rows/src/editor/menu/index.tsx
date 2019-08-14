@@ -4,8 +4,8 @@ import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { createRowPluginTheme } from '../..'
-import { Search } from './search'
 import { Plugin } from './plugin'
+import { Search } from './search'
 
 const Wrapper = styled.div<{ name: string }>(
   ({ name, ...props }: ThemeProps & { name: string }) => {

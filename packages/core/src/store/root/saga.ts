@@ -1,10 +1,9 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
-import { InitRootAction, initRoot, pureInitRoot } from './actions'
-
+import { Action, setPartialState } from '../actions'
 import { handleRecursiveInserts } from '../documents/saga'
 import { persist } from '../history/actions'
-import { Action, setPartialState } from '../actions'
+import { InitRootAction, initRoot, pureInitRoot } from './actions'
 
 export function* rootSaga() {
   yield takeEvery(initRoot.type, initRootSaga)

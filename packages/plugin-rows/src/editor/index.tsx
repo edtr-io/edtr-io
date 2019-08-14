@@ -6,8 +6,8 @@ import {
 } from '@edtr-io/core'
 import * as React from 'react'
 
-import { rowsState } from '..'
 import { Row } from './row'
+import { rowsState } from '..'
 
 export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>

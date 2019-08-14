@@ -13,7 +13,7 @@ module.exports = {
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-hooks'],
+  plugins: ['import', 'import-order-alphabetical', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -35,6 +35,69 @@ module.exports = {
       }
     ],
     '@typescript-eslint/no-useless-constructor': 'error',
+
+    // eslint-plugin-import
+    'import/export': 'error',
+    'import/extensions': ['error', 'never'],
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-absolute-path': 'error',
+    'import/no-commonjs': 'error',
+    'import/no-cycle': 'error',
+    'import/no-default-export': 'error',
+    'import/no-deprecated': 'error',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          'packages/bundle-size/webpack.config.js',
+          'packages/demo/{__stories__,src}/**/*',
+          'scripts/**/*'
+        ],
+        optionalDependencies: false
+      }
+    ],
+    'import/no-internal-modules': [
+      'error',
+      {
+        allow: [
+          'katex/dist/katex.css',
+          'react-dom/server',
+          'react-dom/test-utils',
+          'redux-saga/effects'
+        ]
+      }
+    ],
+    'import/no-mutable-exports': 'error',
+    'import/no-self-import': 'error',
+    'import/no-unassigned-import': 'error',
+    'import/no-useless-path-segments': [
+      'error',
+      {
+        noUselessIndex: true
+      }
+    ],
+    'import/order': [
+      'error',
+      {
+        groups: [
+          ['builtin', 'external', 'internal'],
+          ['parent', 'sibling', 'index', 'unknown']
+        ],
+        'newlines-between': 'always'
+      }
+    ],
+
+    // eslint-plugin-import-order-alphabetical
+    'import-order-alphabetical/order': [
+      'error',
+      {
+        groups: [
+          ['builtin', 'external', 'internal'],
+          ['parent', 'sibling', 'index']
+        ]
+      }
+    ],
 
     // eslint-plugin-react
     'react/prop-types': 'off',

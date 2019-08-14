@@ -1,5 +1,7 @@
+import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
+
 import {
   createTextPluginTheme,
   getTrimmedSelectionRange,
@@ -7,7 +9,6 @@ import {
   MarkRendererProps,
   TextPlugin
 } from '..'
-import { ThemeProps, styled } from '@edtr-io/ui'
 
 export const colorMark = '@splish-me/color'
 
