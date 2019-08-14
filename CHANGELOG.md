@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.2](https://github.com/edtr-io/edtr-io/compare/v0.8.1..v0.8.2) - August 14, 2019
+
+### Changed
+
+- Various naming improvements
+- Various small UX improvements
+
+### Fixed
+
+- Add missing dependencies in various packages
+- **core**. Review public API. For example, `useScopedStore` is now correctly part of the public API.
+
+### Internal
+
+- Enable eslint rules to enforce consistency in our import statements (automatically fixable with `yarn format`)
+- Enable eslint rules that warn for common errors in imports (e.g. missing dependencies, ...)
+
 ## [0.8.1](https://github.com/edtr-io/edtr-io/compare/v0.8.0..v0.8.1) - August 9, 2019
 
 ### Fixed

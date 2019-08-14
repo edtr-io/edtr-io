@@ -346,6 +346,20 @@ async function exec(): Promise<void> {
         '**core**. Export `MigratableStateDescriptor`',
         "**plugin-rows**. Add menu doesn't jump to the top of the root document anymore"
       ]
+    },
+    {
+      tagName: 'v0.8.2',
+      name: '0.8.2',
+      date: '2019-08-14',
+      changed: ['Various naming improvements', 'Various small UX improvements'],
+      fixed: [
+        'Add missing dependencies in various packages',
+        '**core**. Review public API. For example, `useScopedStore` is now correctly part of the public API.'
+      ],
+      internal: [
+        'Enable eslint rules to enforce consistency in our import statements (automatically fixable with `yarn format`)',
+        'Enable eslint rules that warn for common errors in imports (e.g. missing dependencies, ...)'
+      ]
     }
   ])
 
