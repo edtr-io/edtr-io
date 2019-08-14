@@ -1,3 +1,5 @@
+import * as StateType from './plugin-state'
+
 export { SubDocument } from './document'
 export { Document, Editor, EditorProps, EditorProvider } from './editor'
 export {
@@ -21,7 +23,6 @@ export {
   StatefulPlugin,
   StatelessPlugin
 } from './plugin'
-import * as StateType from './plugin-state'
 export { StateType }
 export * from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'
