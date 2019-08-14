@@ -2,6 +2,10 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { isStatefulPlugin } from '../../plugin'
 import { StoreDeserializeHelpers } from '../../plugin-state'
+import { Action } from '../actions'
+import { scopeSelector } from '../helpers'
+import { commit } from '../history/actions'
+import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import {
   change,
   ChangeAction,
@@ -10,11 +14,7 @@ import {
   InsertAction,
   pureInsert
 } from './actions'
-import { Action } from '../actions'
 import { getDocument } from './reducer'
-import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
-import { commit } from '../history/actions'
-import { scopeSelector } from '../helpers'
 
 export function* documentsSaga() {
   yield all([

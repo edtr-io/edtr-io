@@ -1,3 +1,4 @@
+import { OverlayContext } from '@edtr-io/core'
 import {
   faQuestionCircle,
   HoveringOverlay,
@@ -9,15 +10,14 @@ import {
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 import { Block, Inline } from 'slate'
-import { OverlayContext } from '@edtr-io/core'
 
+import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
-import { Dropdown, Option } from '../../toolbar/dropdown'
-import { Math } from './math-component'
-import { katexBlockNode, katexInlineNode } from "."
-import { isList, orderedListNode, unorderedListNode } from '../list'
-import { Button } from '../../toolbar/button'
 import { isTouchDevice } from '../../controls'
+import { Button } from '../../toolbar/button'
+import { Dropdown, Option } from '../../toolbar/dropdown'
+import { isList, orderedListNode, unorderedListNode } from '../list'
+import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MathQuill: React.ComponentType<any> = canUseDOM

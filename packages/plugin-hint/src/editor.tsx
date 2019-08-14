@@ -1,8 +1,8 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { ThemeProvider } from '@edtr-io/ui'
-import { ExpandableBox } from '@edtr-io/renderer-ui'
-import * as React from 'react'
 import { EditorInput, styled } from '@edtr-io/editor-ui'
+import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider } from '@edtr-io/ui'
+import * as React from 'react'
 
 import { hintState } from '.'
 

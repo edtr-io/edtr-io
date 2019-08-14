@@ -11,6 +11,7 @@ import {
   EditorContext,
   ScopeContext
 } from './editor-context'
+import { useStore } from './hooks'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
 import {
@@ -20,7 +21,6 @@ import {
   ChangeListener,
   ScopedActionCreator
 } from './store'
-import { useStore } from './hooks'
 
 const MAIN_SCOPE = 'main'
 

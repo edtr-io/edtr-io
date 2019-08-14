@@ -2,8 +2,8 @@ import { StateType } from '@edtr-io/core'
 import * as React from 'react'
 
 import { rowsState, rowState } from '../..'
-import { Settings } from './settings'
 import { MoveControls } from './move-controls'
+import { Settings } from './settings'
 
 export { ExtendedSettingsWrapper } from './extended-settings'
 

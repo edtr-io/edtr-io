@@ -1,7 +1,7 @@
 import { InlineInput, InlineSettings } from '@edtr-io/editor-ui'
-import { Editor, Data, InlineJSON, Inline } from 'slate'
-import * as React from 'react'
 import isHotkey from 'is-hotkey'
+import * as React from 'react'
+import { Editor, Data, InlineJSON, Inline } from 'slate'
 
 import {
   NodeControlsProps,

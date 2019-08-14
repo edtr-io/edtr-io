@@ -6,9 +6,9 @@ import {
   selectors,
   useStore
 } from '@edtr-io/core'
+import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Editor, EventHook, findNode } from 'slate-react'
 import {
   Editor as CoreEditor,
   Value,
@@ -17,12 +17,12 @@ import {
   Operation,
   Block
 } from 'slate'
-import * as Immutable from 'immutable'
+import { Editor, EventHook, findNode } from 'slate-react'
 
-import { TextPluginOptions } from './types'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
+import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin } from '..'
 
 export const createTextEditor = (

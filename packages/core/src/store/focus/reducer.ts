@@ -1,4 +1,9 @@
+import { isStatefulPlugin } from '../../plugin'
+import { pureInsert, PureInsertAction } from '../documents/actions'
+import { getDocument } from '../documents/reducer'
 import { createSubReducer } from '../helpers'
+import { getPlugin } from '../plugins/reducer'
+import { getRoot } from '../root/reducer'
 import { ScopeState } from '../types'
 import {
   focus,
@@ -7,11 +12,6 @@ import {
   FocusNextDocumentAction,
   focusPrevious
 } from './actions'
-import { pureInsert, PureInsertAction } from '../documents/actions'
-import { getDocument } from '../documents/reducer'
-import { getPlugin } from '../plugins/reducer'
-import { getRoot } from '../root/reducer'
-import { isStatefulPlugin } from '../../plugin'
 
 export const focusReducer = createSubReducer('focus', null, {
   [focus.type](_focusState, action: FocusDocumentAction) {

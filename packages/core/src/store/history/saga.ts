@@ -11,6 +11,7 @@ import {
 } from 'redux-saga/effects'
 
 import { Action, setPartialState } from '../actions'
+import { scopeSelector } from '../helpers'
 import {
   undo,
   redo,
@@ -30,7 +31,6 @@ import {
   getRedoStack,
   getUndoStack
 } from './reducer'
-import { scopeSelector } from '../helpers'
 
 export function* historySaga() {
   yield all([

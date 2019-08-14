@@ -2,8 +2,8 @@ import { faCog, Icon, styled } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRowPluginTheme } from '../..'
 import { SettingsProps } from '.'
+import { createRowPluginTheme } from '../..'
 
 const StyledSettings = styled.div<
   ThemeProps & { expanded: boolean; name: string }

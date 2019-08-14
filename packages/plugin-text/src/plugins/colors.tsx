@@ -1,6 +1,6 @@
+import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
-import { ThemeProps, styled } from '@edtr-io/ui'
 
 import {
   createTextPluginTheme,

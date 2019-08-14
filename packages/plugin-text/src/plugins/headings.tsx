@@ -1,5 +1,5 @@
-import * as React from 'react'
 import * as R from 'ramda'
+import * as React from 'react'
 import { Block, Editor } from 'slate'
 
 import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'

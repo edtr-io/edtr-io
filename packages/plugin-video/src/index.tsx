@@ -1,6 +1,6 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
-import * as React from 'react'
 import { createIcon, faFilm } from '@edtr-io/editor-ui'
+import * as React from 'react'
 
 import { VideoEditor } from './editor'
 import { VideoRenderer } from './renderer'

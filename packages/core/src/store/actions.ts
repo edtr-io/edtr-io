@@ -1,10 +1,10 @@
-import { createAction } from './helpers'
-import { ActionFromActionCreator, ScopeState } from './types'
 import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'
+import { createAction } from './helpers'
 import { HistoryAction } from './history/actions'
 import { RootAction } from './root/actions'
+import { ActionFromActionCreator, ScopeState } from './types'
 
 export const setPartialState = createAction<
   'SetPartialState',

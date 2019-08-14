@@ -1,14 +1,14 @@
 import * as R from 'ramda'
 
 import { Action, setPartialState } from './actions'
-import { createActionWithoutPayload } from './helpers'
-import { EditorState, ScopeState } from './types'
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
 import { focusReducer } from './focus/reducer'
+import { createActionWithoutPayload } from './helpers'
 import { historyReducer } from './history/reducer'
 import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
+import { EditorState, ScopeState } from './types'
 
 export function reducer(
   state: EditorState | undefined,

@@ -1,5 +1,4 @@
 import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
 import {
   faFileArchive,
   faFileAudio,
@@ -12,6 +11,7 @@ import {
   faFileWord,
   Icon
 } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { fileState } from '.'

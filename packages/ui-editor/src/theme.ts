@@ -1,9 +1,9 @@
 import * as R from 'ramda'
+import * as React from 'react'
 import styled, {
   ThemeProps as StyledThemeProps,
   ThemeContext as StyledThemeContext
 } from 'styled-components'
-import * as React from 'react'
 
 import {
   ButtonTheme,

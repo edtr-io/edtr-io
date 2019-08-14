@@ -8,12 +8,12 @@ import {
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'remote-redux-devtools'
 
+import { selectors } from '.'
 import { Plugin } from '../plugin'
 import { Action } from './actions'
 import { reducer } from './reducer'
 import { saga } from './saga'
 import { EditorState } from './types'
-import { selectors } from "."
 
 export function createStore<K extends string>({
   instances,

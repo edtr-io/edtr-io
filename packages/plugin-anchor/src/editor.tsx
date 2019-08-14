@@ -2,8 +2,8 @@ import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Icon, faLink, EditorInput, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-import { AnchorRenderer } from './renderer'
 import { anchorState } from '.'
+import { AnchorRenderer } from './renderer'
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 export const AnchorEditor = (

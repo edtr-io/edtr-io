@@ -1,5 +1,4 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import * as React from 'react'
 import {
   EditorCheckbox,
   EditorInput,
@@ -8,9 +7,10 @@ import {
   faQuestionCircle,
   styled
 } from '@edtr-io/editor-ui'
+import * as React from 'react'
 
-import { HighlightRenderer } from './renderer'
 import { highlightState } from '.'
+import { HighlightRenderer } from './renderer'
 
 const Textarea = styled.textarea({
   height: '250px',

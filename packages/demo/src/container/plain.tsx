@@ -4,8 +4,8 @@ import {
   useEditorFocus,
   useEditorHistory
 } from '@edtr-io/core'
-import * as React from 'react'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
+import * as React from 'react'
 
 import { useLogState } from '../hooks'
 

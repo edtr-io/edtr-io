@@ -3,8 +3,8 @@ import { styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import Textarea from 'react-textarea-autosize'
 
-import { TableRenderer } from './renderer'
 import { tableState } from '.'
+import { TableRenderer } from './renderer'
 
 const Form = styled.form({
   marginTop: '10px'

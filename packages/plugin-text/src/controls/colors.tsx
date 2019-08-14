@@ -1,14 +1,14 @@
-import * as React from 'react'
-import { styled, ThemeProps, usePluginTheme } from '@edtr-io/ui'
 import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
+import { styled, ThemeProps, usePluginTheme } from '@edtr-io/ui'
+import * as React from 'react'
 
-import { SubControlProps, VisibleControls } from "."
-import { Button } from '../toolbar/button'
+import { SubControlProps, VisibleControls } from '.'
 import {
   createIsColor,
   createToggleColor,
   removeColor
 } from '../plugins/colors'
+import { Button } from '../toolbar/button'
 import {
   createTextPluginTheme,
   textPluginThemeFactory,

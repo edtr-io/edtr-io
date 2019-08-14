@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 
 import { Action } from '../actions'
+import { getDocuments } from '../documents/reducer'
 import { createSubReducer } from '../helpers'
 import { ScopeState } from '../types'
 import {
@@ -13,7 +14,6 @@ import {
   pureUndo,
   PureUndoAction
 } from './actions'
-import { getDocuments } from '../documents/reducer'
 
 export const historyReducer = createSubReducer(
   'history',
