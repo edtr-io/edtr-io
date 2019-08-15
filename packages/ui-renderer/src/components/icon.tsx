@@ -36,6 +36,8 @@ export {
 export {
   faCaretSquareUp
 } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp'
+export { faSmile } from '@fortawesome/free-solid-svg-icons/faSmile'
+export { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
 export {
   faFileDownload
 } from '@fortawesome/free-solid-svg-icons/faFileDownload'

@@ -5,7 +5,11 @@ import styled, {
   ThemeProps as StyledThemeProps
 } from 'styled-components'
 
-import { ExpandableBoxTheme } from './components'
+import {
+  ExpandableBoxTheme,
+  FeedbackTheme,
+  SubmitButtonTheme
+} from './components'
 
 export { styled }
 
@@ -69,6 +73,8 @@ export const defaultRendererTheme: RendererTheme = {
 
 export interface RendererUiTheme {
   expandableBox: ExpandableBoxTheme
+  feedback: FeedbackTheme
+  submitButton: SubmitButtonTheme
 }
 
 export type RendererThemeProps = StyledThemeProps<{

@@ -1,5 +1,6 @@
 export * from './expandable-box'
 export * from './feedback'
+export * from './submit-button'
 export * from './fetch-dimensions'
 export * from './icon'
 export * from './textarea'

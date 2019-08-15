@@ -1,10 +1,32 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Feedback } from '@edtr-io/renderer-ui'
+import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState } from '.'
+import { inputExerciseState, createInputExerciseTheme } from '.'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
+
+const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
+  ({ name, ...props }) => {
+    const theme = createInputExerciseTheme(name, props.theme)
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+      float: 'right',
+      textAlign: 'center',
+      outline: 'none',
+      marginBottom: '10px'
+    }
+  }
+)
 
 export class InputExerciseRenderer extends React.Component<
   StatefulPluginEditorProps<typeof inputExerciseState>,
@@ -12,8 +34,9 @@ export class InputExerciseRenderer extends React.Component<
 > {
   public state = {
     positiveFeedback: false,
-    negativeFeedbackIndex: -1,
-    showFeedback: false
+    feedbackIndex: -1,
+    showFeedback: false,
+    exerciseState: ExerciseState.Default
   }
   private input = React.createRef<HTMLInputElement>()
 
@@ -26,32 +49,30 @@ export class InputExerciseRenderer extends React.Component<
     event.preventDefault()
     const { state } = this.props
 
-    let correct = false
-    state.correctAnswers().forEach(correctAnswer => {
+    state.answers().forEach((answer, index) => {
       if (
         this.matchesInput(
-          { type: state.type(), value: correctAnswer() },
+          { type: state.type(), value: answer.value() },
           input.value
         )
       ) {
-        this.setState({ positiveFeedback: true, showFeedback: true })
-        correct = true
+        this.setState({
+          positiveFeedback: answer.isCorrect(),
+          feedbackIndex: index,
+          showFeedback: true,
+          exerciseState: answer.isCorrect
+            ? ExerciseState.SolvedRight
+            : this.handleWrongAnswer()
+        })
       }
     })
-    if (!correct) {
-      const index = state.wrongAnswers().findIndex(wrongAnswer => {
-        return this.matchesInput(
-          { type: state.type(), value: wrongAnswer.value() },
-          input.value
-        )
-      })
-
-      this.setState({
-        negativeFeedbackIndex: index,
-        showFeedback: true,
-        positiveFeedback: false
-      })
-    }
+  }
+  private handleWrongAnswer = () => {
+    setTimeout(
+      () => this.setState({ exerciseState: ExerciseState.Default }),
+      3000
+    )
+    return ExerciseState.SolvedWrong
   }
 
   private matchesInput = (
@@ -99,11 +120,11 @@ export class InputExerciseRenderer extends React.Component<
   public render() {
     const { state } = this.props
     return (
-      <div className="new-text-exercise active">
-        <form className="input-challenge-group" onSubmit={this.checkAnswer}>
-          <div className="input-challenge-input-wrapper pull-right">
-            <input
-              className="input-challenge-input"
+      <div>
+        <form onSubmit={this.checkAnswer}>
+          <div>
+            <InputExerciseField
+              name={this.props.name}
               data-type={state.type()}
               type="text"
               placeholder="Deine Lösung"
@@ -116,33 +137,15 @@ export class InputExerciseRenderer extends React.Component<
             }}
           />
           {this.state.showFeedback ? (
-            this.state.positiveFeedback ? (
-              <div>
-                <Feedback boxFree isTrueAnswer>
-                  Sehr gut!
-                </Feedback>
-              </div>
-            ) : this.state.negativeFeedbackIndex !== -1 ? (
-              <Feedback boxFree>
-                {state
-                  .wrongAnswers()
-                  [this.state.negativeFeedbackIndex].feedback.render()}
-              </Feedback>
-            ) : (
-              <Feedback boxFree> Leider falsch!</Feedback>
-            )
+            <Feedback boxFree isTrueAnswer={this.state.positiveFeedback}>
+              {state.answers()[this.state.feedbackIndex].feedback()}
+            </Feedback>
           ) : null}
-          <div className="input-challenge-solution">
-            <button className="btn btn-primary btn-xs input-challenge-submit pull-right">
-              <span className="input-challenge-submit-check">
-                <i className="fa fa-check-circle" />
-                Stimmts?
-              </span>
-              <span className="input-challenge-submit-correct">
-                <i className="fa fa-smile-o" />
-                Stimmt!
-              </span>
-            </button>
+
+          <div>
+            <SubmitButton exerciseState={this.state.exerciseState}>
+              Submit
+            </SubmitButton>
             <div style={{ clear: 'both' }} />
           </div>
         </form>
@@ -153,6 +156,7 @@ export class InputExerciseRenderer extends React.Component<
 
 interface InputExerciseRendererState {
   positiveFeedback: boolean
-  negativeFeedbackIndex: number
+  feedbackIndex: number
   showFeedback: boolean
+  exerciseState: ExerciseState
 }
