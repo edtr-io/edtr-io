@@ -1,6 +1,3 @@
-import { StateType } from '../src'
-import { StateDescriptorReturnType } from '../src/plugin-state'
-
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
@@ -10,13 +7,16 @@ import { createImagePlugin } from '@edtr-io/plugin-image'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
-import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { textPlugin } from '@edtr-io/plugin-text'
 import { tablePlugin } from '@edtr-io/plugin-table'
+import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
+
+import { StateType } from '../src'
+import { StateDescriptorReturnType } from '../src/plugin-state'
 
 const nestedArrayState = StateType.object({
   children: StateType.list(StateType.child('stateful'), 1)

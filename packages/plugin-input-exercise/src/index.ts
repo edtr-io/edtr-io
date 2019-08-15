@@ -1,7 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
 
 import { InputExerciseEditor } from './editor'
-import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
 
 export const wrongAnswerObject = StateType.object({
   value: StateType.string(''),

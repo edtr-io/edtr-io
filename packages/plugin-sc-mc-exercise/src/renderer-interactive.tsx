@@ -3,9 +3,9 @@ import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
+import { scMcExerciseState, AnswerProps } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
-import { scMcExerciseState, AnswerProps } from '.'
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,

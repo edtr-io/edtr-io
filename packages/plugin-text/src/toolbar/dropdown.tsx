@@ -1,4 +1,5 @@
 import { styled, ThemeProps } from '@edtr-io/ui'
+
 import { createTextPluginTheme } from '..'
 
 export const Dropdown = styled.select(

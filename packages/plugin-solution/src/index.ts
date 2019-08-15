@@ -1,7 +1,7 @@
 import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { createIcon, faCheckSquare } from '@edtr-io/editor-ui'
 
 import { SolutionEditor } from './editor'
-import { createIcon, faCheckSquare } from '@edtr-io/editor-ui'
 
 export const solutionState = StateType.object({
   title: StateType.string(''),

@@ -1,10 +1,10 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
+import { EditorInput } from '@edtr-io/editor-ui'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
+import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { spoilerState, SpoilerTheme } from '.'
-import { EditorInput } from '@edtr-io/editor-ui'
 
 export function SpoilerEditor({
   state,

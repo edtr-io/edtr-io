@@ -1,7 +1,9 @@
 import * as R from 'ramda'
 
 import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
+import { StoreSerializeHelpers } from '../../plugin-state'
 import { createSubReducer } from '../helpers'
+import { getPlugin } from '../plugins/reducer'
 import { DocumentState, ScopeState } from '../types'
 import {
   pureInsert,
@@ -11,9 +13,6 @@ import {
   pureChange,
   PureChangeAction
 } from './actions'
-
-import { getPlugin } from '../plugins/reducer'
-import { StoreSerializeHelpers } from '../../plugin-state'
 
 export const documentsReducer = createSubReducer(
   'documents',

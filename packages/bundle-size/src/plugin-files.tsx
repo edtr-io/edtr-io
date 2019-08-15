@@ -1,9 +1,9 @@
+import { StateType } from '@edtr-io/core'
 import {
   createFilePlugin,
   parseFileType,
   UploadedFile
 } from '@edtr-io/plugin-files'
-import { StateType } from '@edtr-io/core'
 
 export const filesPlugin = createFilePlugin({ upload: mockUploadFileHandler })
 

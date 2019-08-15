@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import { ScopeContext } from './editor-context'
-import { getScope } from './store/reducer'
-import { actions, selectors, ActionCreator } from './store'
 import { EditorContext } from '.'
+import { ScopeContext } from './editor-context'
+import { actions, selectors, ActionCreator } from './store'
+import { getScope } from './store/reducer'
 
 export function useEditorFocus(scope?: string) {
   const store = useStore(scope)

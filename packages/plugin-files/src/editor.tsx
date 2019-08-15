@@ -9,10 +9,10 @@ import {
 } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
+import { fileState, getFilesFromDataTransfer } from '.'
 import { FileRenderer } from './renderer'
 import { UploadedFile } from './types'
 import { parseFileType, Upload } from './upload'
-import { fileState, getFilesFromDataTransfer } from '.'
 
 export const Wrapper = styled.div({
   display: 'inline-block',

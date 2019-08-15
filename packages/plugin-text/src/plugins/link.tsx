@@ -1,6 +1,14 @@
-import { InlineInput, InlineSettings } from '@edtr-io/editor-ui'
-import { Editor, Data, InlineJSON, Inline } from 'slate'
+import {
+  InlineInput,
+  InlineSettings,
+  Icon,
+  faExternalLinkAlt,
+  styled
+} from '@edtr-io/editor-ui'
+import isHotkey from 'is-hotkey'
 import * as React from 'react'
+import { Editor, Data, InlineJSON, Inline } from 'slate'
+
 import {
   NodeControlsProps,
   NodeEditorProps,
@@ -8,9 +16,10 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-import isHotkey from 'is-hotkey'
 
 export const linkNode = '@splish-me/a'
+
+const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
 export const isLink = (editor: Editor) => {
   return editor.value.inlines.some(inline =>
@@ -129,10 +138,11 @@ const DefaultControlsComponent: React.FunctionComponent<
         <InlineSettings
           key={`inlineoverlay${inline.key}`}
           onDelete={() => unwrapLink(editor).focus()}
-          position={'below'}
+          position="below"
         >
           <InlineInput
             value={value}
+            placeholder="Hier Link einfügen"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newValue = e.target.value
               setValue(newValue)
@@ -158,6 +168,11 @@ const DefaultControlsComponent: React.FunctionComponent<
               }
             }}
           />
+          <a target="_blank" href={value} rel="noopener noreferrer">
+            <OpenInNewTab title="Öffne in neuem Tab">
+              <Icon icon={faExternalLinkAlt} />
+            </OpenInNewTab>
+          </a>
         </InlineSettings>
       ) : null}
     </React.Fragment>

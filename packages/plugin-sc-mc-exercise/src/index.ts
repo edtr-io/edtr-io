@@ -1,7 +1,7 @@
 import { StateType, StatefulPlugin } from '@edtr-io/core'
+import { createIcon, faDotCircle } from '@edtr-io/editor-ui'
 
 import { ScMcExerciseEditor } from './editor'
-import { createIcon, faDotCircle } from '@edtr-io/editor-ui'
 
 export const AnswerProps = StateType.object({
   id: StateType.child(),

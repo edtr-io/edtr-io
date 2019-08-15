@@ -1,5 +1,5 @@
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { createOverlayTheme } from '.'
+import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
 export const createOverlayButtonTheme = createEditorUiTheme<ButtonTheme>(
   theme => {

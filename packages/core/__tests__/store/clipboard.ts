@@ -2,9 +2,9 @@ import * as R from 'ramda'
 
 import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, waitUntil } from '../../__helpers__'
+import { actions, selectors } from '../../src'
 import { pureCopy } from '../../src/store/clipboard/actions'
 import { pureChange, pureInsert } from '../../src/store/documents/actions'
-import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 

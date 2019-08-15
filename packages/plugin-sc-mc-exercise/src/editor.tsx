@@ -3,9 +3,9 @@ import { Icon, faPlus } from '@edtr-io/editor-ui'
 import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
+import { scMcExerciseState } from '.'
 import { ScMcChoiceEditor } from './choice-editor'
 import { ScMcExerciseRenderer } from './renderer'
-import { scMcExerciseState } from '.'
 
 export class ScMcExerciseEditor extends React.Component<
   StatefulPluginEditorProps<typeof scMcExerciseState>

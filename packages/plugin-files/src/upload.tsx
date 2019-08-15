@@ -1,5 +1,6 @@
 import { EditorButton } from '@edtr-io/editor-ui'
 import * as React from 'react'
+
 import { FileType, UploadProps } from './types'
 
 export function parseFileType(name: string): FileType {

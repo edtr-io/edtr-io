@@ -1,13 +1,13 @@
-import { createRichTextPlugin } from './rich-text'
-import { createParagraphPlugin } from './paragraph'
-import { createLinkPlugin } from './link'
 import { TextPluginOptions } from '../factory/types'
-import { createKatexPlugin } from './katex'
-import { createHeadingsPlugin } from './headings'
-import { createListPlugin } from './list'
 import { createColorPlugin } from './colors'
+import { createHeadingsPlugin } from './headings'
+import { createKatexPlugin } from './katex'
+import { createLinkPlugin } from './link'
+import { createListPlugin } from './list'
 import { markdownShortcuts } from './markdown'
+import { createParagraphPlugin } from './paragraph'
 import { pluginSuggestions } from './plugin-suggestions'
+import { createRichTextPlugin } from './rich-text'
 
 export const plugins: TextPluginOptions['plugins'] = [
   pluginSuggestions,

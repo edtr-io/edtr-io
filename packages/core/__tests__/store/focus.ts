@@ -2,6 +2,7 @@ import * as R from 'ramda'
 
 import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, waitUntil } from '../../__helpers__'
+import { actions, selectors } from '../../src'
 import { pureInsert } from '../../src/store/documents/actions'
 import {
   findNextNode,
@@ -9,7 +10,6 @@ import {
   getFocusTree,
   Node
 } from '../../src/store/focus/reducer'
-import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 

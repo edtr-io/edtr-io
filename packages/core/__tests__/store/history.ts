@@ -2,6 +2,7 @@ import * as R from 'ramda'
 
 import { plugins } from '../../__fixtures__/plugins'
 import { setupStore, wait, waitUntil } from '../../__helpers__'
+import { actions, selectors } from '../../src'
 import { pureChange } from '../../src/store/documents/actions'
 import {
   commit,
@@ -15,7 +16,6 @@ import {
   getRedoStack,
   getUndoStack
 } from '../../src/store/history/reducer'
-import { actions, selectors } from '../../src'
 
 let store: ReturnType<typeof setupStore>
 

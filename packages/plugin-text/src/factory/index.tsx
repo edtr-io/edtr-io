@@ -1,9 +1,9 @@
+import { StateType, StatefulPlugin } from '@edtr-io/core'
+import { createIcon, faParagraph } from '@edtr-io/editor-ui'
+import { Value, ValueJSON } from 'slate'
+
 import { createTextEditor, SlateEditorAdditionalProps } from './editor'
 import { TextPluginOptions } from './types'
-import { StateType, StatefulPlugin } from '@edtr-io/core'
-import { Value, ValueJSON } from 'slate'
-import { StateDescriptorValueType } from '@edtr-io/core/src/plugin-state'
-import { createIcon, faParagraph } from '@edtr-io/editor-ui'
 
 export const defaultNode = 'paragraph'
 
@@ -41,7 +41,7 @@ export const createTextPlugin = (
     onKeyDown() {
       return false
     },
-    isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
+    isEmpty: (state: StateType.StateDescriptorValueType<typeof textState>) => {
       const value = Value.fromJSON(state)
       return isValueEmpty(value)
     }

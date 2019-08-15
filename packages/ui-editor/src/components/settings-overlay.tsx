@@ -277,7 +277,7 @@ export const HoveringOverlay: React.FunctionComponent<{
       <InlineOverlayContentWrapper>
         {props.children}
       </InlineOverlayContentWrapper>
-      {positionAbove && <OverlayTriangle positionAbove={true} ref={triangle} />}
+      {positionAbove && <OverlayTriangle positionAbove ref={triangle} />}
     </InlineOverlayWrapper>
   )
 }

@@ -1,3 +1,4 @@
+import { DocumentState, Plugin } from '@edtr-io/core'
 import * as React from 'react'
 import {
   ConnectDragPreview,
@@ -8,8 +9,8 @@ import {
   DropTargetMonitor
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+
 import { RowSourceProps, RowStateProps } from './row'
-import { DocumentState, Plugin } from '@edtr-io/core'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource

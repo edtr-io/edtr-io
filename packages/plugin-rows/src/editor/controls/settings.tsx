@@ -2,8 +2,8 @@ import { faCog, Icon, styled } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRowPluginTheme } from '../..'
 import { SettingsProps } from '.'
+import { createRowPluginTheme } from '../..'
 
 const StyledSettings = styled.div<
   ThemeProps & { expanded: boolean; name: string }
@@ -67,7 +67,7 @@ const Content = styled.div<ThemeProps & { expanded: boolean; name: string }>(
 
 const SettingsIcon = (props: { open: () => void; name: string }) => (
   <span onClick={props.open}>
-    <StyledIconContainer name={props.name}>
+    <StyledIconContainer name={props.name} title="Einstellungen">
       <Icon icon={faCog} size="lg" />
     </StyledIconContainer>
   </span>

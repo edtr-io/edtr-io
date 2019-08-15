@@ -1,13 +1,14 @@
-import * as React from 'react'
-import { SubControlProps, VisibleControls } from './index'
 import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
-import { Button } from '../toolbar/button'
+import * as React from 'react'
+
+import { SubControlProps, VisibleControls } from '.'
 import {
   isList,
   orderedListNode,
   toggleList,
   unorderedListNode
 } from '../plugins/list'
+import { Button } from '../toolbar/button'
 
 export const ListControls: React.FunctionComponent<SubControlProps> = props => {
   return (
@@ -19,7 +20,7 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           toggleList(orderedListNode)(props.editor).focus()
           props.onChange(props.editor)
         }}
-        title={'Nummerierte Liste'}
+        title="Nummerierte Liste"
       >
         <EdtrIcon icon={edtrTextControls.listNumbered} />
       </Button>
@@ -33,14 +34,14 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           }
           props.onChange(props.editor)
         }}
-        title={'Aufzählung'}
+        title="Aufzählung"
       >
         <EdtrIcon icon={edtrTextControls.listBullets} />
       </Button>
       <Button
         name={props.name}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title={'Untermenü schließen'}
+        title="Untermenü schließen"
       >
         <EdtrIcon icon={edtrTextControls.close} />
       </Button>

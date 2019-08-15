@@ -13,8 +13,8 @@ const IconContainer = styled.div<{ disabled?: boolean; name: string }>(
   ({ disabled, name, ...props }) => {
     const theme = createRowPluginTheme(name, props.theme)
     return {
-      height: '30px',
       margin: '0 5px 0 15px',
+      padding: '5px',
 
       cursor: disabled ? 'not-allowed' : 'pointer',
       color: disabled ? theme.menu.secondary.color : theme.menu.primary.color,
@@ -34,7 +34,7 @@ const Copy = ({ duplicateRow, close, name }: GlobalsProps) => {
         close()
       }}
     >
-      <Icon size="2x" icon={faCopy} />
+      <Icon icon={faCopy} /> Kopieren
     </IconContainer>
   )
 }
@@ -50,7 +50,7 @@ const Remove = ({ rows, index, close, name }: GlobalsProps) => {
         close()
       }}
     >
-      <Icon size="2x" icon={faTrashAlt} />
+      <Icon icon={faTrashAlt} /> Löschen
     </IconContainer>
   )
 }
