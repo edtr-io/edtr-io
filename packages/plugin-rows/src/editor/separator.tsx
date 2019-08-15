@@ -84,7 +84,7 @@ export const Separator: React.FunctionComponent<{
   focused?: boolean
 }> = ({ isFirst, onClick, name, focused }) => {
   return (
-    <StyledSeparator isFirst={isFirst} onClick={onClick}>
+    <StyledSeparator isFirst={isFirst} onMouseDown={onClick}>
       <TriggerArea>
         <Add name={name} focused={focused || false} />
       </TriggerArea>
