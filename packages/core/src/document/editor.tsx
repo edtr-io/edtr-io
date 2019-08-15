@@ -9,7 +9,7 @@ import {
   StatelessPluginEditorProps
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
-import { actions, selectors, ScopedActionCreator } from '../store'
+import { actions, ScopedActionCreator, selectors } from '../store'
 import { DocumentProps } from '.'
 
 const StyledDocument = styled.div({
@@ -141,7 +141,9 @@ export const DocumentEditor = connect<
           INSERT_TEXT: e => {
             handleKeyDown(e, () => {
               if (pluginProps) {
-                insertNewText(pluginProps)
+                if (typeof pluginProps.insert === 'function') {
+                  pluginProps.insert({ plugin: 'text' })
+                }
               }
             })
           },
@@ -193,14 +195,6 @@ export const DocumentEditor = connect<
     pluginProps
   ])
 })
-
-export function insertNewText(pluginProps: {
-  insert?: (el: { plugin: string }) => void
-}) {
-  if (typeof pluginProps.insert === 'function') {
-    pluginProps.insert({ plugin: 'text' })
-  }
-}
 
 export interface DocumentEditorStateProps {
   document: ReturnType<typeof selectors['getDocument']>

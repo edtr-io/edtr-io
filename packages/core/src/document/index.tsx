@@ -17,5 +17,3 @@ export interface DocumentProps {
   id: string
   pluginProps?: Record<string, unknown>
 }
-
-export { insertNewText } from './editor'
