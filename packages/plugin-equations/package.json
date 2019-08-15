@@ -12,7 +12,8 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "react-beautiful-dnd": "^10.0.0"
+    "react-beautiful-dnd": "^10.0.0",
+    "react-hotkeys": "^1.1.4"
   },
   "devDependencies": {
     "@edtr-io/core": "^0.8.1",
