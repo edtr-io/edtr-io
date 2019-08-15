@@ -32,30 +32,33 @@ export class EquationsRenderer extends React.Component<
     const rows = state.steps()
     return (
       <React.Fragment>
-        {this.state.phase === Phase.noJS ? (
-          <React.Fragment>
-            {rows.map((row, index) => {
-              return (
-                <div key={index} className="row">
-                  <div className="col-sm-12 col-md-6">{row.left.render()}</div>
-                  <div className="col-sm-12 col-md-6">{row.right.render()}</div>
-                  {row.transform === undefined ? null : (
-                    <div className="col-sm-12 col-md-6">
-                      {row.transform.render()}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </React.Fragment>
-        ) : null}
-        {this.renderHidden()}
+        {/* {this.state.phase === Phase.noJS ? ( */}
+        <div>
+          {rows.map((row, index) => {
+            return (
+              <div key={index} className="row">
+                <div className="col-sm-12 col-md-4">{row.left.render()}</div>
+                <div className="col-sm-12 col-md-4">{row.right.render()}</div>
+                {row.transform === undefined ? null : (
+                  <div
+                    style={{ textAlign: 'right' }}
+                    className="col-sm-12 col-md-4"
+                  >
+                    {row.transform.render()}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        {/* ) : null} */}
+        {/* {this.renderHidden()} */}
       </React.Fragment>
     )
   }
 
   public componentDidMount() {
-    this.calculateLayout()
+    setTimeout(() => this.calculateLayout())
     window.addEventListener('resize', this.calculateLayout)
   }
 
@@ -63,26 +66,27 @@ export class EquationsRenderer extends React.Component<
     window.removeEventListener('resize', this.calculateLayout)
   }
 
-  private renderHidden() {
+  private renderHidden = () => {
     interface StepFit {
       step: StateType.StateDescriptorReturnType<typeof StepProps>
       fits: boolean
     }
-
+    console.log('renderHidden')
     const { state } = this.props
-    const tempWidthLeftSingle = R.clone(this.state.widthLeftSingle)
-    const tempWidthLeftDouble = R.clone(this.state.widthLeftDouble)
-    const tempWidthRightSingle = R.clone(this.state.widthRightSingle)
-    const tempWidthRightDouble = R.clone(this.state.widthRightDouble)
     let rows: StepFit[] = []
-    let changed = true
-    let updated = false
-
-    while (changed) {
-      changed = false
-      rows = state.steps().map((step, index) => {
-        const fit =
-          this.state.phase < Phase.maxWidthTotal ||
+    rows = state.steps().map((step, index) => {
+      let fit =
+        this.state.phase < Phase.maxWidthTotal ||
+        R.max(
+          R.reduce(R.max, 0, this.state.widthLeftSingle.filter(Boolean)),
+          this.state.widthLeftDouble[index] || 0
+        ) <= 20 ||
+        R.max(
+          R.reduce<number, number>(R.max, 0, this.state.widthLeftSingle.filter(
+            Boolean
+          ) as number[]),
+          this.state.widthLeftDouble[index] || 0
+        ) +
           R.max(
             // eslint-disable-next-line @typescript-eslint/unbound-method
             R.reduce(R.max, 0, tempWidthLeftSingle.filter(Boolean)),
@@ -90,52 +94,89 @@ export class EquationsRenderer extends React.Component<
           ) <= 20 ||
           R.max(
             // eslint-disable-next-line @typescript-eslint/unbound-method
-            R.reduce<number, number>(R.max, 0, tempWidthLeftSingle.filter(
-              Boolean
-            ) as number[]),
-            tempWidthLeftDouble[index] || 0
+            R.reduce<number, number>(
+              R.max,
+              0,
+              this.state.widthRightSingle.filter(Boolean) as number[]
+            ),
+            this.state.widthRightDouble[index] || 0
           ) +
-            R.max(
-              // eslint-disable-next-line @typescript-eslint/unbound-method
-              R.reduce<number, number>(R.max, 0, tempWidthRightSingle.filter(
-                Boolean
-              ) as number[]),
-              tempWidthRightDouble[index] || 0
-            ) +
-            (this.state.widthTrans[index] || 0) <
-            (this.state.containerWidth || 0)
-        if (!fit && tempWidthLeftDouble[index] === undefined) {
-          changed = true
-          updated = true
-          tempWidthLeftDouble[index] = tempWidthLeftSingle[index]
-          tempWidthLeftSingle[index] = undefined
-          tempWidthRightDouble[index] = tempWidthRightSingle[index]
-          tempWidthRightSingle[index] = undefined
+          (this.state.widthTrans[index] || 0) <
+          (this.state.containerWidth || 0)
+      if (this.state.phase < Phase.newLine) {
+        if (!fit && this.state.widthLeftDouble[index] === undefined) {
+          this.setState(state => {
+            return {
+              widthLeftDouble: R.update(
+                index,
+                state.widthLeftSingle[index],
+                state.widthLeftDouble
+              ),
+              widthLeftSingle: R.update(
+                index,
+                undefined,
+                state.widthLeftSingle
+              ),
+              widthRightDouble: R.update(
+                index,
+                state.widthRightSingle[index],
+                state.widthRightDouble
+              ),
+              widthRightSingle: R.update(
+                index,
+                undefined,
+                state.widthRightSingle
+              )
+            }
+          })
         } else if (
           fit &&
-          tempWidthLeftSingle[index] === undefined &&
+          this.state.widthLeftSingle[index] === undefined &&
           this.state.phase >= Phase.maxWidthTotal
         ) {
-          changed = true
-          updated = true
-          tempWidthLeftSingle[index] = tempWidthLeftDouble[index]
-          tempWidthLeftDouble[index] = undefined
-          tempWidthRightSingle[index] = tempWidthRightDouble[index]
-          tempWidthRightDouble[index] = undefined
+          this.setState(state => {
+            return {
+              widthLeftSingle: R.update(
+                index,
+                state.widthLeftDouble[index],
+                state.widthLeftSingle
+              ),
+              widthLeftDouble: R.update(
+                index,
+                undefined,
+                state.widthLeftDouble
+              ),
+              widthRightSingle: R.update(
+                index,
+                state.widthRightDouble[index],
+                state.widthRightSingle
+              ),
+              widthRightDouble: R.update(
+                index,
+                undefined,
+                state.widthRightDouble
+              )
+            }
+          })
         }
-        return {
-          step: step,
-          fits: fit
-        }
-      })
-    }
+      }
+      return {
+        step: step,
+        fits: fit
+      }
+    })
 
     if (this.state.phase < Phase.hiddenRender) {
       return null
     }
-
     return (
-      <div>
+      <div
+        ref={ref => {
+          if (!ref) {
+            return
+          }
+        }}
+      >
         {rows.map((row, index) => {
           return (
             <div
@@ -149,7 +190,7 @@ export class EquationsRenderer extends React.Component<
                     ? 'column'
                     : undefined,
                 visibility:
-                  this.state.phase < Phase.maxWidthRight ? 'hidden' : undefined
+                  this.state.phase < Phase.maxWidthTotal ? 'hidden' : undefined
               }}
               ref={ref => {
                 if (!ref) {
@@ -160,19 +201,12 @@ export class EquationsRenderer extends React.Component<
                     containerWidth: ref.offsetWidth
                   })
                 }
-                if (this.state.phase < Phase.newLine && updated) {
-                  this.setState(() => {
-                    return {
-                      widthLeftSingle: R.clone(tempWidthLeftSingle),
-                      widthLeftDouble: R.clone(tempWidthLeftDouble),
-                      widthRightSingle: R.clone(tempWidthRightSingle),
-                      widthRightDouble: R.clone(tempWidthRightDouble),
-                      phase: Phase.newLine
-                    }
-                  })
-                }
               }}
             >
+              {console.log(
+                this.state.widthLeftSingle,
+                this.state.widthRightSingle
+              )}
               <div
                 style={{
                   flexShrink: 0,
@@ -196,6 +230,7 @@ export class EquationsRenderer extends React.Component<
                   if (!ref) {
                     return
                   }
+                  console.log('left: ', ref.offsetWidth, this.state.phase)
                   if (
                     this.state.phase < Phase.maxWidthLeft &&
                     this.state.widthLeftSingle[index] === undefined
@@ -262,6 +297,7 @@ export class EquationsRenderer extends React.Component<
                     if (!ref) {
                       return
                     }
+                    console.log(ref.offsetWidth)
                     if (
                       this.state.phase < Phase.maxWidthRight &&
                       this.state.widthRightSingle[index] === undefined
@@ -352,8 +388,9 @@ export class EquationsRenderer extends React.Component<
   }
 
   private calculateLayout = () => {
+    console.log(this.props)
     const rows = this.props.state.steps()
-
+    console.log('calculateLayout')
     this.setState({
       phase: Phase.hiddenRender,
       widthLeftSingle: rows.map(() => {
