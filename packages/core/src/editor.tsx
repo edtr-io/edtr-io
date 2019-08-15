@@ -133,7 +133,6 @@ export function Document<K extends string = string>({
 
 const defaultTheme: CustomTheme = {}
 const hotKeysKeyMap = {
-  FOO: 'a',
   UNDO: ['ctrl+z', 'command+z'],
   REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
 }
