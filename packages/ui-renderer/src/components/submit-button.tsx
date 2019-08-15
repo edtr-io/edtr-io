@@ -37,28 +37,25 @@ const getBackgroundColor = (
   }
 }
 
-const SubmitButtonComponent = styled.button<{ exerciseState: ExerciseState } & RendererThemeProps>(
-  ({
-     exerciseState,
-     ...props
-   }) => {
-    const theme = createSubmitButtonTheme('submitButton', props.theme)
+const SubmitButtonComponent = styled.button<
+  { exerciseState: ExerciseState } & RendererThemeProps
+>(({ exerciseState, ...props }) => {
+  const theme = createSubmitButtonTheme('submitButton', props.theme)
 
-    return {
-      float: 'right',
-      margin: '10px 0px',
-      border: 'none',
-      padding: '3px',
-      backgroundColor: getBackgroundColor(theme, exerciseState),
-      color: theme.color,
-      transition: 'background-color .5s ease',
-      outline: 'none',
-      '&hover': {
-        backgroundColor: theme.hoverBackgroundColor
-      }
+  return {
+    float: 'right',
+    margin: '10px 0px',
+    border: 'none',
+    padding: '3px',
+    backgroundColor: getBackgroundColor(theme, exerciseState),
+    color: theme.color,
+    transition: 'background-color .5s ease',
+    outline: 'none',
+    '&hover': {
+      backgroundColor: theme.hoverBackgroundColor
     }
   }
-)
+})
 
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState

@@ -53,19 +53,13 @@ export class InputExerciseEditor extends React.Component<
                   <input
                     type="checkbox"
                     checked={answer.isCorrect()}
-                    onChange={() =>
-                      answer.isCorrect.set(
-                        !answer.isCorrect()
-                      )
-                    }
+                    onChange={() => answer.isCorrect.set(!answer.isCorrect())}
                   />
 
                   <button onClick={() => state.answers.remove(index)}>
                     <Icon icon={faTrashAlt} /> Löschen
                   </button>
-                  <button
-                    onClick={() => answer.hasFeedback.set(true)}
-                  >
+                  <button onClick={() => answer.hasFeedback.set(true)}>
                     <Icon icon={faPlus} /> Feedback
                   </button>
                   {answer.hasFeedback() ? (
