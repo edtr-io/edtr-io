@@ -15,11 +15,8 @@ import { equationsState } from '.'
 import { ScopedActionCreator } from 'core/src/store'
 
 const DraggableContainer = styled.div({
-  border: '2px solid  #007ec1',
-  borderRadius: '5px',
   margin: '5px 0',
-  padding: '3px',
-  background: 'transparent'
+  padding: '3px'
 })
 
 const RemoveButton = styled.button({
@@ -32,12 +29,12 @@ const RemoveButton = styled.button({
   background: 'transparent',
   position: 'absolute',
   top: '-5px',
-  right: '-5px'
+  right: '-5px',
+  zIndex: 10
 })
 
 const ColWrapper = styled.div({
-  cursor: 'auto',
-  background: '#fff'
+  cursor: 'auto'
 })
 
 const AddButton = styled.button({
@@ -47,6 +44,7 @@ const AddButton = styled.button({
   outline: 'none',
   padding: '5px',
   margin: 'auto',
+  marginTop: '10px',
   backgroundColor: 'transparent'
 })
 
@@ -61,17 +59,26 @@ export function EquationsEditor(
   return <InnerEquationsEditor {...props} scope={scope} />
 }
 
+interface EquationsEditorStateProps {
+  focusedElement: ReturnType<typeof selectors['getFocused']>
+  isEmpty: (id: string) => ReturnType<typeof selectors['isEmpty']>
+}
+
+// Typescript somehow doesn't recognize an interface as Record<string, ..>
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+type EquationsEditorDispatchProps = {
+  focusNext: ScopedActionCreator<typeof actions['focusNext']>
+  focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
+}
 const InnerEquationsEditor = connect<
-  { focusedElement: ReturnType<typeof selectors['getFocused']> },
-  {
-    focusNext: ScopedActionCreator<typeof actions['focusNext']>
-    focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
-  },
+  EquationsEditorStateProps,
+  EquationsEditorDispatchProps,
   StatefulPluginEditorProps<typeof equationsState> & { scope: string }
 >(
   state => {
     return {
-      focusedElement: selectors.getFocused(state)
+      focusedElement: selectors.getFocused(state),
+      isEmpty: id => selectors.isEmpty(state, id)
     }
   },
   {
@@ -79,12 +86,9 @@ const InnerEquationsEditor = connect<
     focusPrevious: actions.focusPrevious
   }
 )(function InnerEquationsEditor(
-  props: StatefulPluginEditorProps<typeof equationsState> & {
-    focusedElement: ReturnType<typeof selectors['getFocused']>
-  } & {
-    focusNext: ScopedActionCreator<typeof actions['focusNext']>
-    focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
-  }
+  props: StatefulPluginEditorProps<typeof equationsState> &
+    EquationsEditorStateProps &
+    EquationsEditorDispatchProps
 ) {
   const addButton = () => {
     const { state } = props
@@ -105,12 +109,22 @@ const InnerEquationsEditor = connect<
       return [step.left.id, step.right.id, step.transform.id]
     })
   )
-  console.log(editable, focused, R.contains(props.focusedElement, children))
+  const noEmptyLine = !R.contains(
+    false,
+    props.state.steps().map(step => {
+      return R.contains(false, [
+        props.isEmpty(step.left.id),
+        props.isEmpty(step.right.id),
+        props.isEmpty(step.transform.id)
+      ])
+    })
+  )
   return editable && (focused || R.contains(props.focusedElement, children)) ? (
     <HotKeys
       keyMap={{
         FOCUS_NEXT: 'tab',
-        FOCUS_PREV: 'shift+tab'
+        FOCUS_PREV: 'shift+tab',
+        NEW_LINE: 'return'
       }}
       handlers={{
         FOCUS_NEXT: e => {
@@ -122,6 +136,13 @@ const InnerEquationsEditor = connect<
           handleKeyDown(e, () => {
             props.focusPrevious()
           })
+        },
+        NEW_LINE: e => {
+          if (noEmptyLine) {
+            handleKeyDown(e, () => {
+              props.state.steps.insert()
+            })
+          }
         }
       }}
     >
@@ -139,6 +160,17 @@ const InnerEquationsEditor = connect<
           {(provided: any) => {
             return (
               <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div>
+                  <div className="col-xs-4">
+                    <strong>Linke Seite</strong>{' '}
+                  </div>
+                  <div className="col-xs-4">
+                    <strong>Rechte Seite</strong>{' '}
+                  </div>
+                  <div className="col-xs-4">
+                    <strong>Umformung</strong>{' '}
+                  </div>
+                </div>
                 {state.steps().map((step, index) => {
                   return (
                     <Draggable
@@ -160,15 +192,12 @@ const InnerEquationsEditor = connect<
                               </RemoveButton>
                             </div>
                             <div className="col-xs-4">
-                              <strong>Linke Seite</strong>
                               <ColWrapper>{step.left.render()}</ColWrapper>
                             </div>
                             <div className="col-xs-4">
-                              <strong>Rechte Seite</strong>
                               <ColWrapper>{step.right.render()}</ColWrapper>
                             </div>
                             <div className="col-xs-4">
-                              <strong>Umformung</strong>
                               <ColWrapper>{step.transform.render()}</ColWrapper>
                             </div>
                           </DraggableContainer>

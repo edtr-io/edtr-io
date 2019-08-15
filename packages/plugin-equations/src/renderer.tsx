@@ -71,7 +71,6 @@ export class EquationsRenderer extends React.Component<
       step: StateType.StateDescriptorReturnType<typeof StepProps>
       fits: boolean
     }
-    console.log('renderHidden')
     const { state } = this.props
     let rows: StepFit[] = []
     rows = state.steps().map((step, index) => {
@@ -197,10 +196,6 @@ export class EquationsRenderer extends React.Component<
                 }
               }}
             >
-              {console.log(
-                this.state.widthLeftSingle,
-                this.state.widthRightSingle
-              )}
               <div
                 style={{
                   flexShrink: 0,
@@ -223,7 +218,6 @@ export class EquationsRenderer extends React.Component<
                   if (!ref) {
                     return
                   }
-                  console.log('left: ', ref.offsetWidth, this.state.phase)
                   if (
                     this.state.phase < Phase.maxWidthLeft &&
                     this.state.widthLeftSingle[index] === undefined
@@ -289,7 +283,6 @@ export class EquationsRenderer extends React.Component<
                     if (!ref) {
                       return
                     }
-                    console.log(ref.offsetWidth)
                     if (
                       this.state.phase < Phase.maxWidthRight &&
                       this.state.widthRightSingle[index] === undefined
@@ -380,9 +373,7 @@ export class EquationsRenderer extends React.Component<
   }
 
   private calculateLayout = () => {
-    console.log(this.props)
     const rows = this.props.state.steps()
-    console.log('calculateLayout')
     this.setState({
       phase: Phase.hiddenRender,
       widthLeftSingle: rows.map(() => {

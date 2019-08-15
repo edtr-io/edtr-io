@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.8.1..HEAD)
+
+### Changed
+
+- **plugin-equations**. UI and UX improvements
+
 ## [0.8.1](https://github.com/edtr-io/edtr-io/compare/v0.8.0..v0.8.1) - August 9, 2019
 
 ### Fixed

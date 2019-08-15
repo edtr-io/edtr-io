@@ -346,6 +346,9 @@ async function exec(): Promise<void> {
         '**core**. Export `MigratableStateDescriptor`',
         "**plugin-rows**. Add menu doesn't jump to the top of the root document anymore"
       ]
+    },
+    {
+      changed: ['**plugin-equations**. UI and UX improvements']
     }
   ])
 
