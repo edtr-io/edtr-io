@@ -13,20 +13,12 @@ enum Mode {
 }
 
 export class ScMcExerciseRenderer extends React.Component<
-  StatefulPluginEditorProps<typeof scMcExerciseState>,
+  ScMcRendererProps,
   ScMcExerciseRendererState
 > {
-  public state = { mode: Mode.test }
+  public state = { mode: Mode.feedback }
   public render() {
-    return (
-      <React.Fragment>
-        {this.renderRenderer()}
-        {this.renderModeButton(Mode.test)}
-        {this.renderModeButton(Mode.feedback)}
-        {this.renderModeButton(Mode.solution)}
-        <hr />
-      </React.Fragment>
-    )
+    return <React.Fragment>{this.renderRenderer()}</React.Fragment>
   }
   private renderRenderer(): React.ReactNode {
     switch (this.state.mode) {
@@ -94,4 +86,10 @@ export class ScMcExerciseRenderer extends React.Component<
 
 interface ScMcExerciseRendererState {
   mode: Mode
+}
+
+export type ScMcRendererProps = StatefulPluginEditorProps<
+  typeof scMcExerciseState
+> & {
+  isEmpty: (id: string) => boolean
 }

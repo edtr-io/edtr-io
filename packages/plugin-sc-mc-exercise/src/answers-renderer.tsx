@@ -1,7 +1,7 @@
 import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
-import * as R from 'ramda'
 import * as React from 'react'
+import * as R from 'ramda'
 
 import { AnswerProps, scMcExerciseState } from '.'
 import { calculateLayoutOptions } from './helpers'

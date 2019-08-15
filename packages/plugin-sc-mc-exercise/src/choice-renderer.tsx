@@ -1,9 +1,17 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
-
 import { scMcExerciseState } from '.'
+import { SCMCInput } from './button'
+import { select } from '@storybook/addon-knobs'
 
+const CheckboxContainer = styled.div({
+  //width: '5%',
+  textAlign: 'center',
+  marginRight: '10px',
+  marginBottom: '5px',
+  fontWeight: 'bold'
+})
 export class ScMcExerciseChoiceRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcExerciseState> & ChoiceRendererProps
 > {
@@ -14,34 +22,38 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
       index,
       onClick,
       showFeedback,
-      centered
+      selected
     } = this.props
-    const Container = centered ? this.Block : React.Fragment
     return (
-      <this.ChoiceButton
-        isCorrect={state.answers()[index].isCorrect()}
-        showFeedback={showFeedback}
-        onClick={
-          state.answers()[index].isCorrect() && showFeedback
-            ? undefined
-            : onClick
-        }
-      >
-        <Container>{children}</Container>
-      </this.ChoiceButton>
+      <div style={{ display: 'flex' }}>
+        <CheckboxContainer>
+          <SCMCInput
+            isSingleChoice={state.isSingleChoice()}
+            isActive={selected || false}
+            handleChange={onClick ? onClick : () => {}}
+          />
+        </CheckboxContainer>
+        <this.Container
+          isCorrect={state.answers()[index].isCorrect()}
+          showFeedback={showFeedback || false}
+        >
+          {children}
+        </this.Container>
+      </div>
     )
   }
-
-  private getBackgroundColor = () => {
-    const { showFeedback, selected, state, index } = this.props
-    return showFeedback
-      ? state.answers()[index].isCorrect()
-        ? '#95bc1a'
-        : '#f7b07c'
-      : selected
-      ? '#d9edf7'
-      : '#f8f8f8'
-  }
+  private Container = styled.div<{ isCorrect: boolean; showFeedback: boolean }>(
+    props => {
+      return {
+        paddingLeft: '20 px',
+        color: props.showFeedback
+          ? props.isCorrect
+            ? '#95bc1a'
+            : '#f7b07c'
+          : 'black'
+      }
+    }
+  )
 
   private ChoiceButton = styled.div<{
     isCorrect?: boolean
@@ -49,11 +61,10 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
     onClick?: ChoiceRendererProps['onClick']
   }>(({ isCorrect, showFeedback, onClick }) => {
     return {
-      borderBottom: '3px solid transparent',
-      minWidth: '20px',
-      backgroundColor: this.getBackgroundColor(),
-      margin: '5px 0 0',
-      paddingLeft: '5px',
+      // minWidth: '20px',
+      // backgroundColor: this.getBackgroundColor(),
+
+      paddingLeft: '20px',
       paddingTop: '10px',
       boxShadow: 'none',
       transition: 'background-color 0.5s ease',
@@ -79,7 +90,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
 
 export interface ChoiceRendererProps {
   index: number
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void
+  onClick?: (event: React.MouseEvent<Element>) => void
   showFeedback?: boolean
   centered?: boolean
   selected?: boolean

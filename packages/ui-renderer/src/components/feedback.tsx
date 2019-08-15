@@ -4,21 +4,26 @@ import { styled } from '../theme'
 
 export class Feedback extends React.Component<FeedbackProps> {
   public render() {
-    const { boxFree, children, isTrueAnswer } = this.props
+    const { boxFree, children, isTrueAnswer, showOnLeft } = this.props
     const Container = boxFree ? this.BoxFreeContainer : this.BoxContainer
 
-    return <Container correct={isTrueAnswer}>{children}</Container>
+    return (
+      <Container correct={isTrueAnswer} showOnLeft={showOnLeft}>
+        {children}
+      </Container>
+    )
   }
 
-  private BoxFreeContainer = styled.div<{ correct?: boolean }>(
-    ({ correct }) => {
-      return {
-        color: correct ? '#95bc1a' : '#f7b07c',
-        fontWeight: 'bold',
-        textAlign: 'right'
-      }
+  private BoxFreeContainer = styled.div<{
+    correct?: boolean
+    showOnLeft?: boolean
+  }>(({ correct, showOnLeft }) => {
+    return {
+      color: correct ? '#95bc1a' : '#f7b07c',
+      fontWeight: 'bold',
+      textAlign: showOnLeft ? 'left' : 'right'
     }
-  )
+  })
 
   private BoxContainer = styled.div<{ correct?: boolean }>({
     backgroundColor: '#fcf8e3',
@@ -31,4 +36,5 @@ export class Feedback extends React.Component<FeedbackProps> {
 export interface FeedbackProps {
   boxFree?: boolean
   isTrueAnswer?: boolean
+  showOnLeft?: boolean
 }

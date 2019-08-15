@@ -6,6 +6,7 @@ import * as React from 'react'
 import { scMcExerciseState, AnswerProps } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
+import { ScMcRendererProps } from './renderer'
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
@@ -71,13 +72,20 @@ export class ScMcRendererInteractive extends React.Component<
     if (!button.showFeedback) {
       return null
     }
-    if (answer.hasFeedback()) {
-      return <Feedback>{answer.feedback.render()}</Feedback>
+    if (!this.props.isEmpty(answer.feedback.id)) {
+      return (
+        <Feedback boxFree showOnLeft>
+          {answer.feedback.render()}
+        </Feedback>
+      )
     }
-    if (answer.isCorrect()) {
-      return null
-    }
-    return <Feedback>Leider falsch! versuche es doch noch einmal!</Feedback>
+    return (
+      <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect()}>
+        {answer.isCorrect()
+          ? 'Yeah!'
+          : 'Leider falsch! versuche es doch noch einmal!'}
+      </Feedback>
+    )
   }
   private showGlobalFeedback(): React.ReactNode {
     const { showGlobalFeedback, globalFeedback, solved } = this.state
@@ -181,9 +189,7 @@ export class ScMcRendererInteractive extends React.Component<
   private SubmitButton = styled.button({ float: 'right', margin: '10px 0px' })
 }
 
-export type ScMcRendererInteractiveProps = StatefulPluginEditorProps<
-  typeof scMcExerciseState
-> & {
+export type ScMcRendererInteractiveProps = ScMcRendererProps & {
   getFeedback?: (params: {
     mistakes: number
     missingSolutions: number
