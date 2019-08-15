@@ -1,9 +1,9 @@
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+import { StateType } from '@edtr-io/core'
 import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { scMcExerciseState, AnswerProps } from '.'
+import { AnswerProps } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
