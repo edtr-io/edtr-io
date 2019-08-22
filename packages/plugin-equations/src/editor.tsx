@@ -2,7 +2,7 @@ import {
   StatefulPluginEditorProps,
   connect,
   selectors,
-  ScopedActionCreator
+  ScopedActionCreator,
   ScopeContext,
   actions
 } from '@edtr-io/core'
@@ -66,7 +66,7 @@ interface EquationsEditorStateProps {
 }
 
 // Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/prefer-interface
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type EquationsEditorDispatchProps = {
   focusNext: ScopedActionCreator<typeof actions['focusNext']>
   focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
