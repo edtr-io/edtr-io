@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-equations",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -20,8 +20,8 @@
     "react-beautiful-dnd": "^10.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.8.2",
-    "@edtr-io/editor-ui": "^0.8.2",
+    "@edtr-io/core": "^0.8.3",
+    "@edtr-io/editor-ui": "^0.8.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0"
