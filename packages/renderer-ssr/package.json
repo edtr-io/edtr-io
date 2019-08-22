@@ -18,6 +18,22 @@
     "@types/styled-components": "^4.0.0"
   },
   "devDependencies": {
+    "@edtr-io/plugin-anchor": "^0.8.2",
+    "@edtr-io/plugin-blockquote": "^0.8.2",
+    "@edtr-io/plugin-geogebra": "^0.8.2",
+    "@edtr-io/plugin-highlight": "^0.8.2",
+    "@edtr-io/plugin-hint": "^0.8.2",
+    "@edtr-io/plugin-image": "^0.8.2",
+    "@edtr-io/plugin-important-statement": "^0.8.2",
+    "@edtr-io/plugin-input-exercise": "^0.8.2",
+    "@edtr-io/plugin-rows": "^0.8.2",
+    "@edtr-io/plugin-sc-mc-exercise": "^0.8.2",
+    "@edtr-io/plugin-serlo-injection": "^0.8.2",
+    "@edtr-io/plugin-solution": "^0.8.2",
+    "@edtr-io/plugin-spoiler": "^0.8.2",
+    "@edtr-io/plugin-table": "^0.8.2",
+    "@edtr-io/plugin-text": "^0.8.2",
+    "@edtr-io/plugin-video": "^0.8.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"

@@ -13,7 +13,7 @@ module.exports = {
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['import', 'import-order-alphabetical', 'react-hooks'],
+  plugins: ['import', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -50,8 +50,9 @@ module.exports = {
       'error',
       {
         devDependencies: [
+          'packages/*/{__fixtures__,__stories__,__tests__,__tests-ssr__}/**/*',
           'packages/bundle-size/webpack.config.js',
-          'packages/demo/{__stories__,src}/**/*',
+          'packages/demo/src/**/*',
           'scripts/**/*'
         ],
         optionalDependencies: false
@@ -85,17 +86,6 @@ module.exports = {
           ['parent', 'sibling', 'index', 'unknown']
         ],
         'newlines-between': 'always'
-      }
-    ],
-
-    // eslint-plugin-import-order-alphabetical
-    'import-order-alphabetical/order': [
-      'error',
-      {
-        groups: [
-          ['builtin', 'external', 'internal'],
-          ['parent', 'sibling', 'index']
-        ]
       }
     ],
 

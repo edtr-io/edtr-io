@@ -1,3 +1,5 @@
+// Declaring these as devDependencies would lead to cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
+/* eslint-disable import/no-extraneous-dependencies */
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
