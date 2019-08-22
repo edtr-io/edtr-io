@@ -6,6 +6,7 @@ import {
 } from '@edtr-io/core'
 import * as React from 'react'
 
+import { Menu } from './menu'
 import { Row } from './row'
 import { Separator } from './separator'
 import { rowsState } from '..'
@@ -24,15 +25,12 @@ export const RowsEditor = (
     | undefined
   >(undefined)
 
-  function openMenu(insertIndex: number, replaceIndex?: number) {
+  function openMenu(insertIndex: number) {
     setMenu({
       index: insertIndex,
       onClose: pluginState => {
         rows.insert(insertIndex, pluginState)
         setMenu(undefined)
-        if (typeof replaceIndex === 'number') {
-          rows.remove(replaceIndex)
-        }
       }
     })
   }
@@ -44,10 +42,7 @@ export const RowsEditor = (
         isFirst
         focused={rows.items.length == 0}
         onClick={() => {
-          rows.insert(0, {
-            plugin: 'text'
-          })
-          openMenu(0, 1)
+          openMenu(0)
         }}
       />
       {rows.items.map((row, index) => {
@@ -65,12 +60,13 @@ export const RowsEditor = (
               insert={rows.insert}
               scope={scope}
               openMenu={openMenu}
-              menu={menu}
-              setMenu={setMenu}
             />
           </div>
         )
       })}
+      {menu ? (
+        <Menu menu={menu} setMenu={setMenu} name={props.name} scope={scope} />
+      ) : null}
     </div>
   )
 }
