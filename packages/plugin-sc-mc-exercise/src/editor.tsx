@@ -1,97 +1,126 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { Icon, faPlus } from '@edtr-io/editor-ui'
-import { Feedback, styled } from '@edtr-io/renderer-ui'
+import {
+  ScopeContext,
+  StatefulPluginEditorProps,
+  connectStateOnly,
+  selectors
+} from '@edtr-io/core'
+import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { scMcExerciseState } from '.'
-import { ScMcChoiceEditor } from './choice-editor'
+import { SCMCInput } from './button'
 import { ScMcExerciseRenderer } from './renderer'
 
-export class ScMcExerciseEditor extends React.Component<
-  StatefulPluginEditorProps<typeof scMcExerciseState>
-> {
-  public render() {
-    const { editable, state, focused } = this.props
-    return (
-      <React.Fragment>
-        {!editable ? (
-          <ScMcExerciseRenderer {...this.props} />
-        ) : (
-          <React.Fragment>
-            <hr />
-            {state.answers().map((answer, index) => {
-              return (
-                <this.AnswerContainer key={index}>
-                  <this.AnswerLabel>
-                    <span>richtige Antwort</span>
+const AnswerContainer = styled.div({
+  marginBottom: '10px',
+  display: 'flex',
+  alignItems: 'center'
+})
 
-                    <input
-                      checked={answer.isCorrect()}
-                      type={state.isSingleChoice() ? 'radio' : 'checkbox'}
-                      onChange={
-                        state.isSingleChoice()
-                          ? this.handleRadioButtonChange(index)
-                          : this.handleCheckboxChange(index)
-                      }
-                    />
-                  </this.AnswerLabel>
+const CheckboxContainer = styled.div({
+  width: '10%',
+  textAlign: 'center',
+  marginRight: '10px',
+  fontWeight: 'bold'
+})
 
-                  <ScMcChoiceEditor key={index} index={index} {...this.props}>
-                    {answer.id.render()}
-                  </ScMcChoiceEditor>
-                  {answer.hasFeedback() ? (
-                    <Feedback>{answer.feedback.render()}</Feedback>
-                  ) : null}
-                </this.AnswerContainer>
-              )
-            })}
+const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
+  return {
+    width: '100%',
+    marginLeft: '10px',
+    borderRadius: '10px',
+    border: focused ? '3px solid #003399' : '2px solid lightgrey'
+  }
+})
+const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
+  return {
+    borderRadius: '50%',
+    outline: 'none',
+    background: 'white',
+    color: focused ? ' #003399' : 'lightgrey',
+    border: focused ? '3px solid #003399' : '2px solid lightgrey',
+    zIndex: 20,
+    float: 'right',
+    transform: 'translate(50%, -40%)',
+    '&:hover': {
+      border: '3px solid #003399',
+      color: '#003399'
+    }
+  }
+})
+const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
 
-            <this.AddButtonContainer>
-              <this.AddButton onClick={this.addButton}>
-                <Icon icon={faPlus} />
-              </this.AddButton>
-            </this.AddButtonContainer>
-          </React.Fragment>
-        )}
-        {focused ? (
-          <React.Fragment>
-            <hr />
-            Select the exercise type:
-            <select
-              value={
-                state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'
-              }
-              onChange={this.handleSCMCChange}
-            >
-              <option value="Multiple Choice">Multiple Choice</option>
-              <option value="Single Choice">Single Choice</option>
-            </select>
-          </React.Fragment>
-        ) : null}
-      </React.Fragment>
-    )
+const FeedbackField = styled.div({
+  paddingLeft: '20px',
+  paddingBottom: '10px',
+  paddingTop: '10px',
+  marginTop: '5px',
+  borderTop: '2px solid lightgrey'
+})
+
+const AddButton = styled.button({
+  marginLeft: 'calc(10% + 20px)',
+  width: 'calc(90% - 20px)',
+  borderRadius: '10px',
+  backgroundColor: 'white',
+  textAlign: 'left',
+  color: 'lightgrey',
+  minHeight: '50px',
+  border: '2px solid lightgrey',
+  outline: 'none',
+  '&:hover': { border: '3px solid #003399', color: '#003399' }
+})
+
+interface ScMcEditorStateProps {
+  focusedElement: ReturnType<typeof selectors['getFocused']>
+  isEmpty: (id: string) => boolean
+}
+
+export function ScMcExerciseEditor(
+  props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
+    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
+  }
+) {
+  const { scope } = React.useContext(ScopeContext)
+  return <Editor {...props} scope={scope} />
+}
+
+const Editor = connectStateOnly<
+  ScMcEditorStateProps,
+  StatefulPluginEditorProps<typeof scMcExerciseState> & { scope: string }
+>(state => {
+  return {
+    focusedElement: selectors.getFocused(state),
+    isEmpty: (id: string) => {
+      return selectors.isEmpty(state, id)
+    }
+  }
+})(function InnerEditor(
+  props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
+    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
+  } & ScMcEditorStateProps
+) {
+  const { editable, focused, state } = props
+  const children = R.flatten(
+    props.state.answers().map(answer => {
+      return [answer.id.id, answer.feedback.id]
+    })
+  )
+  const handleCheckboxChange = (index: number) => () => {
+    const { state } = props
+    state.answers()[index].isCorrect.set(currentVal => !currentVal)
   }
 
-  private handleCheckboxChange = (index: number) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const target = event.target
-    const value = target.checked
-
-    const { state } = this.props
-
-    state.answers()[index].isCorrect.set(value)
-  }
-
-  private handleRadioButtonChange = (rightanswerIndex: number) => () => {
-    const { state } = this.props
+  const handleRadioButtonChange = (rightanswerIndex: number) => () => {
+    const { state } = props
     state.answers().forEach((answer, index) => {
       answer.isCorrect.set(index === rightanswerIndex)
     })
   }
 
-  private handleSCMCChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { state } = this.props
+  const handleSCMCChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { state } = props
 
     state.isSingleChoice.set(event.target.value === 'Single Choice')
     state.isSingleChoice() &&
@@ -100,36 +129,103 @@ export class ScMcExerciseEditor extends React.Component<
       })
   }
 
-  private addButton = () => {
-    const { state } = this.props
+  const addButton = () => {
+    const { state } = props
 
     state.answers.insert()
   }
 
-  private AnswerContainer = styled.div({
-    marginBottom: '10px'
-  })
+  const removeAnswer = (index: number) => () => {
+    const { state } = props
+    state.answers.remove(index)
+  }
 
-  private AnswerLabel = styled.label({
-    float: 'left',
-    margin: '10px 0',
+  return (
+    <React.Fragment>
+      {editable ? (
+        <React.Fragment>
+          {props.renderIntoExtendedSettings ? (
+            props.renderIntoExtendedSettings(
+              <React.Fragment>
+                Select the exercise type:
+                <select
+                  value={
+                    state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'
+                  }
+                  onChange={handleSCMCChange}
+                >
+                  <option value="Multiple Choice">Multiple Choice</option>
+                  <option value="Single Choice">Single Choice</option>
+                </select>
+              </React.Fragment>
+            )
+          ) : (
+            <React.Fragment>
+              <hr />
+              Select the exercise type:
+              <select
+                value={
+                  state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'
+                }
+                onChange={handleSCMCChange}
+              >
+                <option value="Multiple Choice">Multiple Choice</option>
+                <option value="Single Choice">Single Choice</option>
+              </select>
+            </React.Fragment>
+          )}
 
-    span: {
-      marginRight: '10px',
-      paddingBottom: '5px'
-    }
-  })
-
-  private AddButtonContainer = styled.div({
-    textAlign: 'center'
-  })
-
-  private AddButton = styled.button({
-    borderRadius: '50%',
-    outline: 'none',
-    width: '35px',
-    height: '35px',
-    border: 'none',
-    margin: 'auto'
-  })
-}
+          {focused || R.contains(props.focusedElement, children) ? (
+            <React.Fragment>
+              {state.answers().map((answer, index) => {
+                return (
+                  // TODO: blue border for focused answer (after Redux PR)
+                  <AnswerContainer key={index}>
+                    <CheckboxContainer>
+                      Richtig?
+                      <SCMCInput
+                        isSingleChoice={state.isSingleChoice()}
+                        isActive={answer.isCorrect()}
+                        handleChange={
+                          state.isSingleChoice()
+                            ? handleRadioButtonChange(index)
+                            : handleCheckboxChange(index)
+                        }
+                      />
+                    </CheckboxContainer>
+                    {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
+                    <FramedContainer
+                      focused={
+                        answer.id() === props.focusedElement ||
+                        answer.feedback.id === props.focusedElement
+                      }
+                    >
+                      <AnswerField>{answer.id.render()}</AnswerField>
+                      <RemoveButton
+                        focused={
+                          answer.id() === props.focusedElement ||
+                          answer.feedback.id === props.focusedElement
+                        }
+                        onClick={removeAnswer(index)}
+                      >
+                        <Icon icon={faTimes} />
+                      </RemoveButton>
+                      <FeedbackField>{answer.feedback.render()}</FeedbackField>
+                    </FramedContainer>
+                  </AnswerContainer>
+                )
+              })}
+              <AddButton onClick={addButton}>
+                <Icon icon={faPlus} /> Antwort hinzufügen ...
+              </AddButton>
+            </React.Fragment>
+          ) : (
+            <ScMcExerciseRenderer {...props} />
+          )}
+        </React.Fragment>
+      ) : (
+        <ScMcExerciseRenderer {...props} />
+      )}
+    </React.Fragment>
+  )
+})

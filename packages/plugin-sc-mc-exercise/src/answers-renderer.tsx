@@ -28,6 +28,7 @@ export class ScMcAnswersRenderer extends React.Component<
     lastOption: [this.props.state.answers().length, 1] as [number, number]
   }
   public render() {
+    if (this.state.remainingOptions.length === 0) return null
     const currentOption = this.state.remainingOptions[0]
     return (
       <React.Fragment>
