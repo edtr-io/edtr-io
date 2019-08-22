@@ -1,4 +1,5 @@
 import {
+  ScopeContext,
   StatefulPluginEditorProps,
   connectStateOnly,
   selectors
@@ -81,8 +82,8 @@ export function ScMcExerciseEditor(
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {
-  //const { scope } = React.useContext(ScopeContext)
-  return <Editor {...props} scope="main" />
+  const { scope } = React.useContext(ScopeContext)
+  return <Editor {...props} scope={scope} />
 }
 
 const Editor = connectStateOnly<
