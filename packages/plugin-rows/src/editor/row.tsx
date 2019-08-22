@@ -9,13 +9,13 @@ import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 
-import { rowsPluginThemeFactory, rowsState } from '..'
 import { RowContainer } from '../row-container'
 import { Controls, ExtendedSettingsWrapper } from './controls'
 import { connectDnD, CollectedProps, TargetProps } from './dnd-hoc'
 import { Menu } from './menu'
-import render from './render'
+import { RowRenderer } from './render'
 import { Separator } from './separator'
+import { rowsPluginThemeFactory, rowsState } from '..'
 
 const PrimarySettingsWrapper: React.FunctionComponent = props => {
   React.useEffect(() => {
@@ -110,22 +110,22 @@ const RowSource = React.forwardRef<
           }
         }}
       >
-        {render({
-          row,
-          rows,
-          index,
-          store: props.fullStore,
-          getDocument: selectors.getDocument,
-          renderIntoExtendedSettings: children => {
+        <RowRenderer
+          row={row}
+          rows={rows}
+          index={index}
+          store={props.fullStore}
+          getDocument={selectors.getDocument}
+          renderIntoExtendedSettings={children => {
             if (!extendedSettingsNode.current) return null
 
             return createPortal(
               <ThemeProvider theme={theme}>{children}</ThemeProvider>,
               extendedSettingsNode.current
             )
-          },
-          PrimarySettingsWrapper
-        })}
+          }}
+          PrimarySettingsWrapper={PrimarySettingsWrapper}
+        />
         <ExtendedSettingsWrapper
           hideExtendedSettings={() => {
             setShowExtendedSettings(false)

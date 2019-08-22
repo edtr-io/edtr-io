@@ -6,9 +6,9 @@ import {
 } from '@edtr-io/core'
 import * as React from 'react'
 
-import { rowsState } from '..'
 import { Row } from './row'
 import { Separator } from './separator'
+import { rowsState } from '..'
 
 export const RowsEditor = (
   props: StatefulPluginEditorProps<typeof rowsState>
@@ -41,7 +41,7 @@ export const RowsEditor = (
     <div style={{ position: 'relative', marginTop: '25px' }}>
       <Separator
         name={props.name}
-        isFirst={true}
+        isFirst
         focused={rows.items.length == 0}
         onClick={() => {
           rows.insert(0, {

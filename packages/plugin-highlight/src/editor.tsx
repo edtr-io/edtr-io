@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps, insertNewText } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/core'
 import {
   EditorCheckbox,
   EditorInput,
@@ -73,11 +73,6 @@ export const HighlightEditor = (
           value={state.language.value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             state.language.set(e.target.value)
-          }}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter') {
-              insertNewText(props)
-            }
           }}
           placeholder="enter Language"
         />
