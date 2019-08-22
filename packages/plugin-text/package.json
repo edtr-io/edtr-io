@@ -19,7 +19,7 @@
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/slate": "^0.44.0",
+    "@types/slate": "^0.43.0",
     "@types/slate-html-serializer": "^0.6.0",
     "@types/slate-react": "^0.21.0",
     "exenv": "^1.0.0",
@@ -47,8 +47,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "@types/slate": "^0.43.0"
   }
 }

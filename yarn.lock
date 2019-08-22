@@ -2781,7 +2781,7 @@
     "@types/slate" "*"
     immutable "^3.8.2"
 
-"@types/slate@*", "@types/slate@^0.43.0", "@types/slate@^0.44.0":
+"@types/slate@*", "@types/slate@^0.43.0":
   version "0.43.9"
   resolved "https://registry.yarnpkg.com/@types/slate/-/slate-0.43.9.tgz#779e9593a7573fe28d80a9860474b3f3b14ade04"
   integrity sha512-ciEA4lSQNFPBM69lH5yLZd8y2cVfaHs+GBBZYQ2eBKQmmFDMYo1Gi88+gGGc0tbFGpeZ/BYc06NDxjMTmKzNtg==
