@@ -51,6 +51,18 @@ export const PreviewOverlay: React.FunctionComponent<
         >
           Aktivieren
         </ActivateButton>
+        {props.editable ? (
+          <ActivateButton
+            onClick={() => {
+              setActive(true)
+              if (props.showEditmode) {
+                props.showEditmode()
+              }
+            }}
+          >
+            Editieren
+          </ActivateButton>
+        ) : null}
       </Overlay>
       {props.children}
     </NoClickArea>
@@ -59,4 +71,6 @@ export const PreviewOverlay: React.FunctionComponent<
 
 interface PreviewOverlayProps {
   focused: boolean
+  editable?: boolean
+  showEditmode?: () => void
 }
