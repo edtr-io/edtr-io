@@ -60,7 +60,7 @@ export const createImagePlugin = (
 
 function getFilesFromDataTransfer(clipboardData: DataTransfer) {
   const items = clipboardData.files
-  let files: File[] = []
+  const files: File[] = []
   for (let i = 0; i < items.length; i++) {
     const item = items[i]
     if (!item) continue

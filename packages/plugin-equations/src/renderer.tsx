@@ -70,10 +70,10 @@ export class EquationsRenderer extends React.Component<
     }
 
     const { state } = this.props
-    let tempWidthLeftSingle = R.clone(this.state.widthLeftSingle)
-    let tempWidthLeftDouble = R.clone(this.state.widthLeftDouble)
-    let tempWidthRightSingle = R.clone(this.state.widthRightSingle)
-    let tempWidthRightDouble = R.clone(this.state.widthRightDouble)
+    const tempWidthLeftSingle = R.clone(this.state.widthLeftSingle)
+    const tempWidthLeftDouble = R.clone(this.state.widthLeftDouble)
+    const tempWidthRightSingle = R.clone(this.state.widthRightSingle)
+    const tempWidthRightDouble = R.clone(this.state.widthRightDouble)
     let rows: StepFit[] = []
     let changed = true
     let updated = false
@@ -81,19 +81,22 @@ export class EquationsRenderer extends React.Component<
     while (changed) {
       changed = false
       rows = state.steps().map((step, index) => {
-        let fit =
+        const fit =
           this.state.phase < Phase.maxWidthTotal ||
           R.max(
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             R.reduce(R.max, 0, tempWidthLeftSingle.filter(Boolean)),
             tempWidthLeftDouble[index] || 0
           ) <= 20 ||
           R.max(
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             R.reduce<number, number>(R.max, 0, tempWidthLeftSingle.filter(
               Boolean
             ) as number[]),
             tempWidthLeftDouble[index] || 0
           ) +
             R.max(
+              // eslint-disable-next-line @typescript-eslint/unbound-method
               R.reduce<number, number>(R.max, 0, tempWidthRightSingle.filter(
                 Boolean
               ) as number[]),
@@ -180,6 +183,7 @@ export class EquationsRenderer extends React.Component<
                       ? 'auto'
                       : Math.ceil(
                           R.reduce<number, number>(
+                            // eslint-disable-next-line @typescript-eslint/unbound-method
                             R.max,
                             0,
                             this.state.widthLeftSingle.filter(
@@ -244,6 +248,7 @@ export class EquationsRenderer extends React.Component<
                         : Math.ceil(
                             row.fits
                               ? R.reduce<number, number>(
+                                  // eslint-disable-next-line @typescript-eslint/unbound-method
                                   R.max,
                                   0,
                                   this.state.widthRightSingle.filter(
@@ -346,7 +351,7 @@ export class EquationsRenderer extends React.Component<
     )
   }
 
-  private calculateLayout() {
+  private calculateLayout = () => {
     const rows = this.props.state.steps()
 
     this.setState({

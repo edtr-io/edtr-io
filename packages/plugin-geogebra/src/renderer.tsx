@@ -107,7 +107,7 @@ export function GeogebraRenderer({
   const [data, setApiResponse] = React.useState<ApiResponse>(Error.NotExisting)
   let id = state.value
   // check if state was the full url
-  const match = state.value.match(/geogebra\.org\/m\/(.+)/)
+  const match = /geogebra\.org\/m\/(.+)/.exec(state.value)
   if (match) {
     id = match[1]
   }

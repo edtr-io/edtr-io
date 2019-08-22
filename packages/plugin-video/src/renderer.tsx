@@ -100,8 +100,8 @@ function checkMatch(
   | undefined {
   switch (type) {
     case VideoType.YouTube: {
-      const match = url.match(
-        /^(https?:\/\/)?(.*?youtube\.com\/watch\?(.*&)?v=|.*?youtu\.be\/)(.+)/
+      const match = /^(https?:\/\/)?(.*?youtube\.com\/watch\?(.*&)?v=|.*?youtu\.be\/)(.+)/.exec(
+        url
       )
       if (match) {
         return {
@@ -112,7 +112,7 @@ function checkMatch(
       break
     }
     case VideoType.Vimeo: {
-      const match = url.match(/^(https?:\/\/)?(.*?vimeo\.com\/)(.+)/)
+      const match = /^(https?:\/\/)?(.*?vimeo\.com\/)(.+)/.exec(url)
       if (match) {
         return {
           embed: `https://player.vimeo.com/video/${match[3]}`,
@@ -122,9 +122,7 @@ function checkMatch(
       break
     }
     case VideoType.Wikimedia: {
-      const match = url.match(
-        /^(https?:\/\/)?(.*?upload\.wikimedia\.org\/)(.+)/
-      )
+      const match = /^(https?:\/\/)?(.*?upload\.wikimedia\.org\/)(.+)/.exec(url)
       if (match) {
         return {
           embed: url,
@@ -134,7 +132,7 @@ function checkMatch(
       break
     }
     case VideoType.BR: {
-      const match = url.match(/^(https?:\/\/)?(.*?br\.de\/)(.+)/)
+      const match = /^(https?:\/\/)?(.*?br\.de\/)(.+)/.exec(url)
       if (match) {
         return {
           embed: `https://www.br.de/mediathek/embed/${match[3]}`,

@@ -13,7 +13,7 @@ describe('list', () => {
 
   let helpers: StoreDeserializeHelpers & { createDocument: jest.Mock }
   let store: T[]
-  let onChange = (
+  const onChange = (
     updater: (oldItems: T[], helpers: StoreDeserializeHelpers) => T[]
   ) => {
     store = updater(store, helpers)

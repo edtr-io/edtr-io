@@ -14,7 +14,7 @@ export function parseFileType(name: string): FileType {
   if (/\.(jpe?g|png|bmp|gif|svg)$/.test(normalized)) {
     return FileType.Image
   }
-  if (/\.pdf$/.test(normalized)) {
+  if (normalized.endsWith('.pdf')) {
     return FileType.PDF
   }
   if (/\.(pptx?|odp)$/.test(normalized)) {
@@ -55,7 +55,7 @@ export const Upload: React.FunctionComponent<UploadProps> = props => {
         onChange={event => {
           if (event.target.files) {
             let files: File[] = []
-            for (let file of (event.target.files as unknown) as File[]) {
+            for (const file of (event.target.files as unknown) as File[]) {
               files = [...files, file]
             }
             props.onFiles(files)

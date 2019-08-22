@@ -88,7 +88,7 @@ export function connectDnD(
           transfer = createFakeDataTransfer([], urls[0])
         }
 
-        for (let key in props.plugins) {
+        for (const key in props.plugins) {
           const { onPaste } = props.plugins[key]
           if (typeof onPaste === 'function') {
             const result = onPaste(transfer)

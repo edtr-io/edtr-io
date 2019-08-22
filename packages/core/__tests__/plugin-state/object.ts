@@ -101,6 +101,7 @@ describe('object', () => {
     expect(objectValue.foo()).toEqual(initial.foo)
     expect(typeof objectValue.foo.render).toEqual('function')
     expect(objectValue.counter()).toEqual(initial.counter)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(typeof objectValue.counter.set).toEqual('function')
   })
 

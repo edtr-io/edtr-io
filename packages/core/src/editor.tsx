@@ -242,7 +242,7 @@ export interface EditorStateProps {
 }
 
 // Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/prefer-interface
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type EditorDispatchProps = {
   initRoot: ScopedActionCreator<typeof actions['initRoot']>
   undo: ScopedActionCreator<typeof actions['undo']>

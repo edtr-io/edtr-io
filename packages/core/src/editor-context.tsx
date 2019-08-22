@@ -15,7 +15,8 @@ import { getScope } from './store/reducer'
 import {
   ActionCreator,
   ScopedActionCreator,
-  UnscopedActionCreator
+  UnscopedActionCreator,
+  ActionFromActionCreator
 } from './store/types'
 
 export const ScopeContext = React.createContext<{
@@ -87,14 +88,26 @@ function scopedMapDispatchToProps<
   OwnProps
 > {
   return (dispatch, { scope }) => {
-    return R.map(
-      mapper => (...args: Parameters<typeof mapper>) => {
-        const action = mapper(...args)(scope)
-        dispatch(action)
-        return action
+    return (R.map(
+      (actionCreator: ActionCreator) => {
+        return scopeActionCreator(actionCreator)
       },
       mapEditorDispatchToProps as any
-    ) as any
+    ) as any) as { [K in keyof T]: ScopedActionCreator<T[K]> }
+
+    function scopeActionCreator<T extends string, P>(
+      actionCreator: ActionCreator<T, P>
+    ): ScopedActionCreator<typeof actionCreator> {
+      return (...args: Parameters<typeof actionCreator>) => {
+        const action = (actionCreator as (
+          ...args: Parameters<typeof actionCreator>
+        ) => (scope: string) => ActionFromActionCreator<typeof actionCreator>)(
+          ...args
+        )(scope)
+        dispatch(action)
+        return action
+      }
+    }
   }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

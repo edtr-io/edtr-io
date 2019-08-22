@@ -28,7 +28,7 @@ export function createStore<K extends string>({
   const enhancer = c(applyMiddleware(...getMiddleware()))
 
   const initialStates: DeepPartial<EditorState> = {}
-  for (let scope in instances) {
+  for (const scope in instances) {
     initialStates[scope] = {
       plugins: {
         defaultPlugin: instances[scope].defaultPlugin,

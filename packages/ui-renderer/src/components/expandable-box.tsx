@@ -80,7 +80,7 @@ export function ExpandableBox({
   alwaysVisible?: boolean
   title: React.ReactNode
 }) {
-  let [collapsed, setCollapsed] = React.useState(true)
+  const [collapsed, setCollapsed] = React.useState(true)
 
   return (
     <Wrapper collapsed={collapsed}>

@@ -90,7 +90,7 @@ export const createHeadingsPlugin = ({
 }: HeadingsPluginOptions = {}) => (): TextPlugin => {
   return {
     deserialize(el, next) {
-      const match = el.tagName.toLowerCase().match(/h([1-6])/)
+      const match = /h([1-6])/.exec(el.tagName.toLowerCase())
 
       if (match) {
         const level = parseInt(match[1], 10) as HeadingLevel
@@ -107,7 +107,7 @@ export const createHeadingsPlugin = ({
       const block = obj as Block
 
       if (block.object === 'block') {
-        const match = block.type.match(/@splish-me\/h([1-6])/)
+        const match = /@splish-me\/h([1-6])/.exec(block.type)
 
         if (match) {
           const level = parseInt(match[1], 10) as HeadingLevel
@@ -125,7 +125,7 @@ export const createHeadingsPlugin = ({
       const block = props.node
 
       if (block.object === 'block') {
-        const match = block.type.match(/@splish-me\/h([1-6])/)
+        const match = /@splish-me\/h([1-6])/.exec(block.type)
 
         if (match) {
           const level = parseInt(match[1], 10) as HeadingLevel

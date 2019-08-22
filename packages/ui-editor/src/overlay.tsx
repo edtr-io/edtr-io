@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-let portalNode = React.createRef<HTMLDivElement>()
+const portalNode = React.createRef<HTMLDivElement>()
 
 export const OverlayContext = React.createContext<OverlayContextValue>({
   visible: false,

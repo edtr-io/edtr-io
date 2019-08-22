@@ -63,13 +63,13 @@ export function* handleRecursiveInserts(
   act: (helpers: StoreDeserializeHelpers) => unknown,
   initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
 ) {
-  let actions: Action[] = []
-  let pendingDocs: {
+  const actions: Action[] = []
+  const pendingDocs: {
     id: string
     plugin?: string
     state?: unknown
   }[] = initialDocuments
-  let helpers: StoreDeserializeHelpers = {
+  const helpers: StoreDeserializeHelpers = {
     createDocument(doc) {
       pendingDocs.push(doc)
     }

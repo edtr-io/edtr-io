@@ -36,7 +36,7 @@ export function waitUntil(check: () => boolean): Promise<void> {
       resolve()
     }
 
-    return wait().then(() => waitUntil(check))
+    resolve(wait().then(() => waitUntil(check)))
   })
 }
 

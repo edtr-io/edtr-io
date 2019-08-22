@@ -45,7 +45,7 @@ export const createTextEditor = (
   }
   return function SlateEditor(props: SlateEditorProps) {
     const { focusPrevious, focusNext } = useEditorFocus()
-    const editor = React.useRef<Editor>()
+    const editor = React.useRef<CoreEditor>()
     const store = useStore()
     const overlayContext = React.useContext(OverlayContext)
     const plugins = selectors.getPlugins(store.getState())
@@ -94,7 +94,10 @@ export const createTextEditor = (
     React.useEffect(() => {
       if (!editor.current) return
       if (props.focused) {
-        setTimeout(editor.current.focus)
+        setTimeout(() => {
+          if (!editor.current) return
+          editor.current.focus()
+        })
       } else {
         editor.current.blur()
       }
@@ -160,7 +163,8 @@ export const createTextEditor = (
 
     return (
       <Editor
-        ref={slateReact => {
+        ref={slate => {
+          const slateReact = (slate as unknown) as CoreEditor | null
           if (slateReact && !editor.current) {
             editor.current = slateReact
             patchSlateInsertFragment(slateReact)
@@ -197,7 +201,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
 
     const { clipboardData } = e as ClipboardEvent
 
-    for (let key in plugins) {
+    for (const key in plugins) {
       const { onPaste } = plugins[key]
       if (clipboardData && typeof onPaste === 'function') {
         const result = onPaste(clipboardData)
@@ -551,10 +555,8 @@ interface SlateClosure extends SlateEditorAdditionalProps {
 // TEMPORARY
 // Testbed for integration of slate fix
 // polyfilling slate editor
-function patchSlateInsertFragment(reacteditor: Editor) {
-  // @ts-ignore
-  const editor = reacteditor as CoreEditor
-  // @ts-ignore
+function patchSlateInsertFragment(editor: CoreEditor) {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   editor.insertFragment = fragment => {
     if (!fragment.nodes.size) return editor
 
@@ -563,7 +565,8 @@ function patchSlateInsertFragment(reacteditor: Editor) {
     }
 
     let { value } = editor
-    let { document, selection } = value
+    let { document } = value
+    const { selection } = value
     const { start, end } = selection
     const { startText, endText, startInline } = value
     const lastText = fragment.getLastText()

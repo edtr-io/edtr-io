@@ -15,7 +15,9 @@ describe('Child', () => {
     // Store
     const id = state.createInitialState(helpers)
     expect(typeof id).toEqual('string')
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toBeCalledWith({
       id
     })
@@ -27,7 +29,9 @@ describe('Child', () => {
     // Store
     const id = state.createInitialState(helpers)
     expect(typeof id).toEqual('string')
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toBeCalledWith({
       id,
       plugin: 'counter'
@@ -40,7 +44,9 @@ describe('Child', () => {
     // Store
     const id = state.createInitialState(helpers)
     expect(typeof id).toEqual('string')
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toBeCalledWith({
       id,
       plugin: 'counter',
@@ -58,7 +64,9 @@ describe('Child', () => {
     // Store
     const id = state.deserialize(serialized, helpers)
     expect(typeof id).toEqual('string')
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toBeCalledWith({
       id,
       plugin: 'counter',

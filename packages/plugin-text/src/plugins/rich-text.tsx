@@ -146,7 +146,7 @@ export const createRichTextPlugin = ({
 
       if (
         mark.object === 'mark' &&
-        [strongMark, emphasizeMark, codeMark].indexOf(mark.type) > -1
+        [strongMark, emphasizeMark, codeMark].includes(mark.type)
       ) {
         return <RenderComponent mark={mark}>{children}</RenderComponent>
       }
@@ -157,7 +157,7 @@ export const createRichTextPlugin = ({
 
       if (
         mark.object === 'mark' &&
-        [strongMark, emphasizeMark, codeMark].indexOf(mark.type) > -1
+        [strongMark, emphasizeMark, codeMark].includes(mark.type)
       ) {
         return <EditorComponent {...props} />
       }

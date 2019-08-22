@@ -9,7 +9,6 @@ import {
 } from '@edtr-io/editor-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
-import { Block, Inline } from 'slate'
 
 import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
@@ -100,7 +99,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
 > = props => {
   const { attributes, node, editor, readOnly, name } = props
 
-  const { data } = node as Block | Inline
+  const { data } = node
   const inline = data.get('inline')
   const formula = data.get('formula')
 
@@ -220,7 +219,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   if (edit) {
-    let mathquillConfig = {
+    const mathquillConfig = {
       supSubsRequireOperand: true,
       autoCommands: 'pi alpha beta gamma delta',
       handlers: {
@@ -351,7 +350,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
 }
 
 function alternativeTextArea() {
-  let x = document.createElement('input')
+  const x = document.createElement('input')
   x.setAttribute('type', 'password')
   return x
 }
@@ -365,10 +364,10 @@ function alternativeSaneKeyboard(
   el_: [HTMLInputElement],
   handler: SaneKeyboardHandler
 ) {
-  let el = el_[0]
+  const el = el_[0]
   el.value = ' '
   el.addEventListener('input', () => {
-    let value: string = el.value
+    const value: string = el.value
     if (value.length == 2) {
       handler.typedText(value.charAt(1))
     } else if (value.length == 0) {

@@ -37,7 +37,7 @@ describe('History', () => {
     )
   })
 
-  test('Initial state after initializing the root', async () => {
+  test('Initial state after initializing the root', () => {
     const { initialState } = getHistory(store.getState())
     if (!initialState) throw new Error('Expected initial state')
     expect(initialState.documents).toEqual({

@@ -1,5 +1,3 @@
-import * as R from 'ramda'
-
 import { StateDescriptor, StoreDeserializeHelpers } from './types'
 
 export function boolean(initialValue?: boolean) {
@@ -15,8 +13,8 @@ export function string(initialValue?: string) {
 }
 export function scalar<S>(initialState: S) {
   return serializedScalar<S, S>(initialState, {
-    deserialize: R.identity,
-    serialize: R.identity
+    deserialize: state => state,
+    serialize: state => state
   })
 }
 

@@ -7,24 +7,30 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['import', 'react-hooks'],
+  parserOptions: {
+    project: ['tsconfig.json', 'tsconfig.eslint.json']
+  },
+  plugins: ['@typescript-eslint', 'import', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
     // @typescript-eslint/eslint-plugin
+    '@typescript-eslint/ban-ts-ignore': 'warn',
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-extraneous-class': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
-    '@typescript-eslint/no-this-alias': 'warning',
-    '@typescript-eslint/no-unnecessary-type-assertion:': 'warning',
+    '@typescript-eslint/no-this-alias': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': [
       'error',

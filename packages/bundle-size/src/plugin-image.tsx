@@ -19,7 +19,7 @@ export interface FileError {
 
 function matchesAllowedExtensions(fileName: string) {
   const extension = fileName.toLowerCase().slice(fileName.lastIndexOf('.') + 1)
-  return ALLOWED_EXTENSIONS.indexOf(extension) >= 0
+  return ALLOWED_EXTENSIONS.includes(extension)
 }
 
 function handleErrors(errors: FileErrorCode[]): FileError[] {

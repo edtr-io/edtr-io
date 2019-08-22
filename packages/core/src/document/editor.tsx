@@ -202,7 +202,7 @@ export interface DocumentEditorStateProps {
 }
 
 // Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/prefer-interface
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type DocumentEditorDispatchProps = {
   focusNext: ScopedActionCreator<typeof actions['focusNext']>
   focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
