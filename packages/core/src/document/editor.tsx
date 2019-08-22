@@ -10,7 +10,7 @@ import {
   StatelessPluginEditorProps
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
-import { actions, selectors, ScopedActionCreator } from '../store'
+import { actions, ScopedActionCreator, selectors } from '../store'
 
 const StyledDocument = styled.div({
   outline: 'none'
@@ -140,8 +140,10 @@ export const DocumentEditor = connect<
           },
           INSERT_TEXT: e => {
             handleKeyDown(e, () => {
-              if (pluginProps && typeof pluginProps.insert === 'function') {
-                pluginProps.insert({ plugin: 'text' })
+              if (pluginProps) {
+                if (typeof pluginProps.insert === 'function') {
+                  pluginProps.insert({ plugin: 'text' })
+                }
               }
             })
           },

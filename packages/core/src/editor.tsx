@@ -2,7 +2,7 @@ import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { HotKeys } from 'react-hotkeys'
+import { configure, GlobalHotKeys } from 'react-hotkeys'
 
 import { SubDocument } from './document'
 import {
@@ -21,6 +21,12 @@ import {
   ChangeListener,
   ScopedActionCreator
 } from './store'
+
+configure({
+  ignoreEventsCondition() {
+    return false
+  }
+})
 
 const MAIN_SCOPE = 'main'
 
@@ -127,8 +133,8 @@ export function Document<K extends string = string>({
 
 const defaultTheme: CustomTheme = {}
 const hotKeysKeyMap = {
-  UNDO: 'mod+z',
-  REDO: ['mod+y', 'mod+shift+z']
+  UNDO: ['ctrl+z', 'command+z'],
+  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
 }
 
 export const InnerDocument = connect<
@@ -203,9 +209,8 @@ export const InnerDocument = connect<
   if (!id) return null
 
   return (
-    <HotKeys
-      focused
-      attach={document.body}
+    <GlobalHotKeys
+      allowChanges
       keyMap={hotKeysKeyMap}
       handlers={hotKeysHandlers}
     >
@@ -218,7 +223,7 @@ export const InnerDocument = connect<
           </OverlayContextProvider>
         </RootThemeProvider>
       </div>
-    </HotKeys>
+    </GlobalHotKeys>
   )
 
   function renderChildren(id: string) {

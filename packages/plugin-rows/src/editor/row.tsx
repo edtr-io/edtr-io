@@ -38,33 +38,13 @@ export type RowSourceProps = RowExposedProps & CollectedProps & TargetProps
 
 const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },
-  RowSourceProps & RowStateProps
+  RowSourceProps & RowStateProps & RowMenuProps
 >((props, ref) => {
   const [expandedState, setExpanded] = React.useState(false)
-  const [menu, setMenu] = React.useState<
-    | {
-        index: number
-        onClose: (pluginState: { plugin: string; state?: unknown }) => void
-      }
-    | undefined
-  >(undefined)
   const [showExtendedSettings, setShowExtendedSettings] = React.useState(false)
   const rows = props.state
   const index = props.index
   const row = rows()[index]
-
-  function openMenu(insertIndex: number, replaceIndex?: number) {
-    setMenu({
-      index: insertIndex,
-      onClose: pluginState => {
-        rows.insert(insertIndex, pluginState)
-        setMenu(undefined)
-        if (typeof replaceIndex === 'number') {
-          rows.remove(replaceIndex)
-        }
-      }
-    })
-  }
 
   // DnD
   const rowRef = React.useRef<HTMLDivElement>(null)
@@ -117,84 +97,83 @@ const RowSource = React.forwardRef<
   }, [focused, props.focused])
   const expanded = (props.focused || focused) && expandedState
   return (
-    <RowContainer
-      editable={props.editable || false}
-      ref={rowRef}
-      noHeight={props.doc.plugin === 'notes' && !props.editable}
-      name={props.name}
-      isFirst={index === 0}
-      expanded={expanded}
-      onMouseMove={() => {
-        if (focused) {
-          setExpanded(true)
-        }
-      }}
-    >
-      {index === 0 && (
-        <Separator name={props.name} isFirst onClick={() => openMenu(index)} />
-      )}
-
-      <RowRenderer
-        row={row}
-        rows={rows}
-        index={index}
-        store={props.fullStore}
-        getDocument={selectors.getDocument}
-        renderIntoExtendedSettings={children => {
-          if (!extendedSettingsNode.current) return null
-
-          return createPortal(
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>,
-            extendedSettingsNode.current
-          )
-        }}
-        PrimarySettingsWrapper={PrimarySettingsWrapper}
-      />
-      <ExtendedSettingsWrapper
-        hideExtendedSettings={() => {
-          setShowExtendedSettings(false)
-        }}
-        expanded={expanded}
-        index={index}
-        rows={rows}
-        duplicateRow={() => rows.insert(index, props.doc)}
-        ref={extendedSettingsNode}
-        extendedSettingsVisible={showExtendedSettings}
+    <React.Fragment>
+      <RowContainer
+        editable={props.editable || false}
+        ref={rowRef}
+        noHeight={props.doc.plugin === 'notes' && !props.editable}
         name={props.name}
-      />
+        expanded={expanded}
+        onMouseMove={() => {
+          if (focused) {
+            setExpanded(true)
+          }
+        }}
+      >
+        <RowRenderer
+          row={row}
+          rows={rows}
+          index={index}
+          store={props.fullStore}
+          getDocument={selectors.getDocument}
+          renderIntoExtendedSettings={children => {
+            if (!extendedSettingsNode.current) return null
+
+            return createPortal(
+              <ThemeProvider theme={theme}>{children}</ThemeProvider>,
+              extendedSettingsNode.current
+            )
+          }}
+          PrimarySettingsWrapper={PrimarySettingsWrapper}
+        />
+        <ExtendedSettingsWrapper
+          hideExtendedSettings={() => {
+            setShowExtendedSettings(false)
+          }}
+          expanded={expanded}
+          index={index}
+          rows={rows}
+          duplicateRow={() => rows.insert(index, props.doc)}
+          ref={extendedSettingsNode}
+          extendedSettingsVisible={showExtendedSettings}
+          name={props.name}
+        />
+        {props.editable && (
+          <React.Fragment>
+            <Controls
+              name={props.name}
+              index={index}
+              expanded={expanded}
+              setShowExtendedSettings={setShowExtendedSettings}
+              rows={rows}
+              row={row}
+              connectDragSource={props.connectDragSource}
+            />
+            <Menu
+              visible={!!props.menu}
+              menu={props.menu}
+              setMenu={props.setMenu}
+              plugins={props.plugins}
+              name={props.name}
+            />
+          </React.Fragment>
+        )}
+      </RowContainer>
       <Separator
         name={props.name}
         focused={focused}
-        onClick={() => openMenu(index + 1)}
+        onClick={() => {
+          props.openMenu(index + 1)
+        }}
       />
-      {props.editable && (
-        <React.Fragment>
-          <Controls
-            name={props.name}
-            index={index}
-            expanded={expanded}
-            setShowExtendedSettings={setShowExtendedSettings}
-            rows={rows}
-            row={row}
-            connectDragSource={props.connectDragSource}
-          />
-          <Menu
-            visible={!!menu}
-            menu={menu}
-            setMenu={setMenu}
-            plugins={props.plugins}
-            name={props.name}
-          />
-        </React.Fragment>
-      )}
-    </RowContainer>
+    </React.Fragment>
   )
 })
 RowSource.displayName = 'RowSource'
 
 export const Row = connectStateOnly<
   RowStateProps,
-  RowExposedProps & { scope: string }
+  RowExposedProps & { scope: string } & RowMenuProps
 >(state => {
   return {
     focusedElement: selectors.getFocused(state),
@@ -205,4 +184,15 @@ export const Row = connectStateOnly<
 export interface RowStateProps {
   focusedElement: ReturnType<typeof selectors['getFocused']>
   plugins: ReturnType<typeof selectors['getPlugins']>
+}
+
+export interface RowMenuProps {
+  menu: MenuType | undefined
+  setMenu: (menu: MenuType | undefined) => void
+  openMenu: (insertIndex: number, replaceIndex?: number) => void
+}
+
+interface MenuType {
+  index: number
+  onClose: (pluginState: { plugin: string; state?: unknown }) => void
 }

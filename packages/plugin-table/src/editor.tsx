@@ -1,28 +1,13 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/editor-ui'
+import { EditorTextarea } from '@edtr-io/renderer-ui'
 import * as React from 'react'
-import Textarea from 'react-textarea-autosize'
 
 import { tableState } from '.'
 import { TableRenderer } from './renderer'
 
 const Form = styled.form({
   marginTop: '10px'
-})
-
-const MarkdownTextarea = styled(Textarea)({
-  minHeight: '100px',
-  width: '100%',
-  margin: 'auto',
-  padding: '10px',
-  resize: 'none',
-  fontFamily: 'Menlo, Monaco, "Courier New", monospace',
-  border: 'none',
-  outline: 'none',
-  boxShadow: '0 1px 1px 0 rgba(0,0,0,0.50)',
-  '&::-webkit-input-placeholder': {
-    color: 'rgba(0,0,0,0.5)'
-  }
 })
 
 export const TableEditor = (
@@ -34,7 +19,7 @@ export const TableEditor = (
       {focused ? (
         <Form>
           <div>
-            <MarkdownTextarea
+            <EditorTextarea
               value={state.value}
               placeholder="Schreibe deine Tabelle in Markdown. Eine Vorschau siehst du, wenn du das Plugin verlässt."
               name="markdown"
@@ -43,7 +28,7 @@ export const TableEditor = (
               }}
             >
               {state.value}
-            </MarkdownTextarea>
+            </EditorTextarea>
           </div>
         </Form>
       ) : (
