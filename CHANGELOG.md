@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.3](https://github.com/edtr-io/edtr-io/compare/v0.8.2..v0.8.3) - August 22, 2019
+
+### Changed
+
+- **plugin-equations**. Heavily simplified for first release
+- **plugin-sc-mc-exercise**. Complete redesign
+
+### Fixed
+
+- **plugin-highlight**. Handle arrow keys and enter within textarea
+- **plugin-rows**. Show add button when no children exist
+- **plugin-table**. Handle arrow keys and enter within textarea
+
 ## [0.8.2](https://github.com/edtr-io/edtr-io/compare/v0.8.1..v0.8.2) - August 14, 2019
 
 ### Changed

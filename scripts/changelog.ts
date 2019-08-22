@@ -360,6 +360,20 @@ async function exec(): Promise<void> {
         'Enable eslint rules to enforce consistency in our import statements (automatically fixable with `yarn format`)',
         'Enable eslint rules that warn for common errors in imports (e.g. missing dependencies, ...)'
       ]
+    },
+    {
+      tagName: 'v0.8.3',
+      name: '0.8.3',
+      date: '2019-08-22',
+      changed: [
+        '**plugin-equations**. Heavily simplified for first release',
+        '**plugin-sc-mc-exercise**. Complete redesign'
+      ],
+      fixed: [
+        '**plugin-highlight**. Handle arrow keys and enter within textarea',
+        '**plugin-rows**. Show add button when no children exist',
+        '**plugin-table**. Handle arrow keys and enter within textarea'
+      ]
     }
   ])
 
