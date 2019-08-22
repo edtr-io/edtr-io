@@ -12,12 +12,12 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json --target node"
   },
   "dependencies": {
-    "@edtr-io/renderer": "^0.8.2"
-  },
-  "devDependencies": {
+    "@edtr-io/renderer": "^0.8.2",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/styled-components": "^4.0.0",
+    "@types/styled-components": "^4.0.0"
+  },
+  "devDependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"

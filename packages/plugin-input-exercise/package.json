@@ -14,6 +14,8 @@
   "dependencies": {
     "@types/algebra.js": "^0.2.0",
     "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
     "@types/string": "^0.0.29",
     "algebra.js": "^0.2.0",
     "ramda": "^0.26.1",

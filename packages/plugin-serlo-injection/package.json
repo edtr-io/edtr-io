@@ -12,6 +12,10 @@
     "prebuild": "rimraf dist",
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
+  "dependencies": {
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0"
+  },
   "devDependencies": {
     "@edtr-io/core": "^0.8.2",
     "@edtr-io/ui": "^0.8.2",

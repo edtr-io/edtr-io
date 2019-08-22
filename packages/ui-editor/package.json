@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
     "@types/react-onclickoutside": "^6.0.0",
+    "@types/styled-components": "^4.0.0",
     "ramda": "^0.26.1",
     "react-hotkeys": "^1.0.0",
     "react-onclickoutside": "^6.0.0"
@@ -22,9 +25,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
-    "@types/react": "^16.8.0",
-    "@types/react-dom": "^16.8.0",
-    "@types/styled-components": "^4.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"

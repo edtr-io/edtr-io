@@ -12,6 +12,8 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
     "@types/react-syntax-highlighter": "^10.0.0",
     "react-syntax-highlighter": "^10.0.0"
   },
