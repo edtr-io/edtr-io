@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { styled } from '@edtr-io/ui'
+import * as React from 'react'
 
 const Container = styled.div<{ isRadio: boolean; checked: boolean }>(
   ({ isRadio, checked }) => {

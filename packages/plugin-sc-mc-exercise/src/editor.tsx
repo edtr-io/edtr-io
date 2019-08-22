@@ -4,11 +4,12 @@ import {
   selectors
 } from '@edtr-io/core'
 import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
-import * as React from 'react'
 import * as R from 'ramda'
+import * as React from 'react'
+
+import { scMcExerciseState } from '.'
 import { SCMCInput } from './button'
 import { ScMcExerciseRenderer } from './renderer'
-import { scMcExerciseState } from '.'
 
 const AnswerContainer = styled.div({
   marginBottom: '10px',
@@ -81,7 +82,7 @@ export function ScMcExerciseEditor(
   }
 ) {
   //const { scope } = React.useContext(ScopeContext)
-  return <Editor {...props} scope={'main'} />
+  return <Editor {...props} scope="main" />
 }
 
 const Editor = connectStateOnly<
@@ -105,7 +106,7 @@ const Editor = connectStateOnly<
       return [answer.id.id, answer.feedback.id]
     })
   )
-  const handleCheckboxChange = (index: number) => (event: React.MouseEvent) => {
+  const handleCheckboxChange = (index: number) => () => {
     const { state } = props
     state.answers()[index].isCorrect.set(currentVal => !currentVal)
   }
@@ -133,7 +134,7 @@ const Editor = connectStateOnly<
     state.answers.insert()
   }
 
-  const removeAnswer = (index: number) => (e: React.MouseEvent) => {
+  const removeAnswer = (index: number) => () => {
     const { state } = props
     state.answers.remove(index)
   }

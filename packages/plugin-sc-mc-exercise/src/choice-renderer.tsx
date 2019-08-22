@@ -1,9 +1,9 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
+
 import { scMcExerciseState } from '.'
 import { SCMCInput } from './button'
-import { select } from '@storybook/addon-knobs'
 
 const CheckboxContainer = styled.div({
   //width: '5%',
