@@ -9,15 +9,11 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: ['tsconfig.json', 'tsconfig.eslint.json']
-  },
   plugins: ['@typescript-eslint', 'import', 'react-hooks'],
   rules: {
     // eslint
