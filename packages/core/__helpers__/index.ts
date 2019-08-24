@@ -1,9 +1,16 @@
+import { applyMiddleware, compose, Middleware } from 'redux'
+
 import { plugins } from '../__fixtures__/plugins'
 import { Action, createStore } from '../src/store'
 
 export const TEST_SCOPE = 'test'
 export function setupStore() {
   let actions: Action[] = []
+  const testMiddleware: Middleware = () => next => action => {
+    actions.push(action)
+    return next(action)
+  }
+
   const store = createStore({
     instances: {
       [TEST_SCOPE]: {
@@ -11,7 +18,12 @@ export function setupStore() {
         defaultPlugin: 'text'
       }
     },
-    actions
+    createEnhancer: defaultEnhancer => {
+      return compose(
+        defaultEnhancer,
+        applyMiddleware(testMiddleware)
+      )
+    }
   }).store
 
   return {

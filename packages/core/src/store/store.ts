@@ -2,11 +2,10 @@ import {
   applyMiddleware,
   createStore as createReduxStore,
   DeepPartial,
-  Middleware,
-  Store
+  Store,
+  StoreEnhancer
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { composeWithDevTools } from 'remote-redux-devtools'
 
 import { selectors } from '.'
 import { Plugin } from '../plugin'
@@ -15,17 +14,15 @@ import { reducer } from './reducer'
 import { saga } from './saga'
 import { EditorState } from './types'
 
-export function createStore<K extends string>({
+export function createStore<K extends string, Ext, StateExt>({
   instances,
-  actions
-}: StoreOptions<K>): {
+  createEnhancer
+}: StoreOptions<K, Ext, StateExt>): {
   store: Store<EditorState, Action>
 } {
   const sagaMiddleware = createSagaMiddleware()
-  const composeEnhancers = composeWithDevTools({ realtime: true })
-  const c: typeof composeEnhancers =
-    process.env.NODE_ENV === 'test' ? e => e : composeEnhancers
-  const enhancer = c(applyMiddleware(...getMiddleware()))
+  const defaultEnhancer = applyMiddleware(sagaMiddleware)
+  const enhancer = createEnhancer(defaultEnhancer)
 
   const initialStates: DeepPartial<EditorState> = {}
   for (const scope in instances) {
@@ -45,29 +42,9 @@ export function createStore<K extends string>({
   sagaMiddleware.run(saga)
 
   return { store }
-
-  function getMiddleware(): Middleware[] {
-    const middlewares: Middleware[] = [sagaMiddleware]
-    if (process.env.NODE_ENV !== 'production') {
-      const createImmutableStateInvariantMiddleware = require('redux-immutable-state-invariant')
-        .default
-
-      middlewares.push(createImmutableStateInvariantMiddleware())
-    }
-    if (process.env.NODE_ENV === 'test') {
-      const testMiddleware: Middleware = () => next => action => {
-        if (actions) {
-          actions.push(action)
-        }
-        return next(action)
-      }
-      middlewares.push(testMiddleware)
-    }
-    return middlewares
-  }
 }
 
-export interface StoreOptions<K extends string> {
+export interface StoreOptions<K extends string, Ext, StateExt> {
   instances: Record<
     string,
     {
@@ -75,7 +52,9 @@ export interface StoreOptions<K extends string> {
       defaultPlugin: K
     }
   >
-  actions?: Action[]
+  createEnhancer: (
+    defaultEnhancer: StoreEnhancer
+  ) => StoreEnhancer<Ext, StateExt>
 }
 
 export type ChangeListener = (payload: {

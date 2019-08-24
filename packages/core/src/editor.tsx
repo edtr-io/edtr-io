@@ -3,6 +3,7 @@ import * as React from 'react'
 import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { configure, GlobalHotKeys } from 'react-hotkeys'
+import { StoreEnhancer } from 'redux'
 
 import { SubDocument } from './document'
 import {
@@ -33,7 +34,10 @@ const MAIN_SCOPE = 'main'
 let mountedProvider = false
 const mountedScopes: Record<string, boolean> = {}
 
-export function Editor<K extends string = string>(props: EditorProps<K>) {
+export function Editor<K extends string = string>({
+  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
+  ...props
+}: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
       instances: {
@@ -41,7 +45,8 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
           plugins: props.plugins,
           defaultPlugin: props.defaultPlugin
         }
-      }
+      },
+      createEnhancer: createStoreEnhancer
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -69,7 +74,11 @@ export function Editor<K extends string = string>(props: EditorProps<K>) {
 
 export const EditorProvider: React.FunctionComponent<{
   omitDragDropContext?: boolean
-}> = props => {
+  createStoreEnhancer?: EditorProps['createStoreEnhancer']
+}> = ({
+  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
+  ...props
+}) => {
   React.useEffect(() => {
     if (mountedProvider) {
       // eslint-disable-next-line no-console
@@ -82,7 +91,8 @@ export const EditorProvider: React.FunctionComponent<{
   }, [])
   const store = React.useMemo(() => {
     return createStore({
-      instances: {}
+      instances: {},
+      createEnhancer: createStoreEnhancer
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -266,4 +276,7 @@ export interface EditorProps<K extends string = string> {
   theme?: CustomTheme
   onChange?: ChangeListener
   editable?: boolean
+  createStoreEnhancer?: (
+    defaultEnhancer: StoreEnhancer
+  ) => StoreEnhancer<unknown, unknown>
 }

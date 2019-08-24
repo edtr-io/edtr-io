@@ -1,5 +1,6 @@
 import { Editor, EditorProps, useEditorHistory } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
+import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
 import { useEditable, useLogState } from '../hooks'
@@ -29,7 +30,11 @@ export function SerloEditorContainer(props: EditorProps) {
   )
 
   return (
-    <Editor {...props} editable={editable}>
+    <Editor
+      {...props}
+      editable={editable}
+      createStoreEnhancer={createStoreDevtoolsEnhancer}
+    >
       {children}
     </Editor>
   )
