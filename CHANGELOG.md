@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.0](https://github.com/edtr-io/edtr-io/compare/v0.8.3..v0.9.0) - August 24, 2019
+
+### Breaking Changes
+
+- **core**. `createStore` has a new required option `createStoreEnhancer`. Our high-level API (e.g. `<Editor />`, `<EditorProvider />` and `<Renderer />`) handle that change in a non-breaking way, though.
+
+### Added
+
+- **core**. Expose `getUndoStack` and `getRedoStack` selectors
+
+### Changed
+
+- **core**. Store no longer applies enhancers used for testing or development purposes. Instead, `<Editor />`, `<EditorProvider />` and `<Renderer />` provide a new optional prop `createStoreEnhancer` that allows to extend the store enhancer used. Our previous enhancer for development is published as a new package `@edtr-io/store-devtools` (e.g. used in our demo).
+
 ## [0.8.3](https://github.com/edtr-io/edtr-io/compare/v0.8.2..v0.8.3) - August 22, 2019
 
 ### Changed

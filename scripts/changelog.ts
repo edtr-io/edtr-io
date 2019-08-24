@@ -374,6 +374,18 @@ async function exec(): Promise<void> {
         '**plugin-rows**. Show add button when no children exist',
         '**plugin-table**. Handle arrow keys and enter within textarea'
       ]
+    },
+    {
+      tagName: 'v0.9.0',
+      name: '0.9.0',
+      date: '2019-08-24',
+      breakingChanges: [
+        '**core**. `createStore` has a new required option `createStoreEnhancer`. Our high-level API (e.g. `<Editor />`, `<EditorProvider />` and `<Renderer />`) handle that change in a non-breaking way, though.'
+      ],
+      added: ['**core**. Expose `getUndoStack` and `getRedoStack` selectors'],
+      changed: [
+        '**core**. Store no longer applies enhancers used for testing or development purposes. Instead,  `<Editor />`, `<EditorProvider />` and `<Renderer />` provide a new optional prop `createStoreEnhancer` that allows to extend the store enhancer used. Our previous enhancer for development is published as a new package `@edtr-io/store-devtools` (e.g. used in our demo).'
+      ]
     }
   ])
 

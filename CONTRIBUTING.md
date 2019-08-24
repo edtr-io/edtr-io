@@ -23,8 +23,8 @@ and makes sure that the packages work together:
 ```json
 {
   "dependencies": {
-    "@edtr-io/core": "^0.8.0",
-    "@edtr-io/ui": "^0.8.0"
+    "@edtr-io/core": "^0.9.0",
+    "@edtr-io/ui": "^0.9.0"
   }
 }
 ```
