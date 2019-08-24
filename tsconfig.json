@@ -8,6 +8,7 @@
       "@edtr-io/core": ["core/src"],
       "@edtr-io/renderer": ["renderer/src"],
       "@edtr-io/renderer-ssr": ["renderer-ssr/src"],
+      "@edtr-io/store-devtools": ["store-devtools/src"],
       "@edtr-io/ui": ["ui/src"],
       "@edtr-io/editor-ui": ["ui-editor/src"],
       "@edtr-io/renderer-ui": ["ui-renderer/src"],

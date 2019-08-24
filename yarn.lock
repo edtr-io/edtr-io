@@ -2749,6 +2749,13 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/redux-immutable-state-invariant@^2.0.0":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@types/redux-immutable-state-invariant/-/redux-immutable-state-invariant-2.1.1.tgz#8231007e9f370d2f5eb28b71c6a4d4b141973338"
+  integrity sha512-eosvcaKraeX8fyEKViFZ2vh3xSWF8teCSw+mEMjlwoN0Ai6ZAevczQr3YyZxZFfwH1LXUiV3aXcSAlsNKAnjNg==
+  dependencies:
+    redux "^3.6.0 || ^4.0.0"
+
 "@types/remote-redux-devtools@^0.5.0":
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@types/remote-redux-devtools/-/remote-redux-devtools-0.5.3.tgz#04a1ed04566bfd0115be14dc933d5c47a6e59676"
@@ -12074,7 +12081,7 @@ redux-saga@^1.0.0:
   dependencies:
     "@redux-saga/core" "^1.0.3"
 
-"redux@>=0.10 <5", redux@^4.0.0, redux@^4.0.1:
+"redux@>=0.10 <5", "redux@^3.6.0 || ^4.0.0", redux@^4.0.0, redux@^4.0.1:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
   integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==

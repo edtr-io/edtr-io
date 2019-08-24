@@ -1,4 +1,5 @@
 import { Document, EditorProps, EditorProvider } from '@edtr-io/core'
+import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
 import { useEditable } from '../hooks'
@@ -9,7 +10,7 @@ export function SerloWithPreviewEditorContainer(props: EditorProps) {
   const [editable, setEditable] = useEditable(props.editable)
 
   return (
-    <EditorProvider>
+    <EditorProvider createStoreEnhancer={createStoreDevtoolsEnhancer}>
       <div
         style={{
           position: 'fixed',

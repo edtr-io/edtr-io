@@ -5,12 +5,15 @@ import {
   useEditorHistory
 } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
+import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
 import { useLogState } from '../hooks'
 
 export function PlainRendererContainer(props: RendererProps) {
-  return <Renderer {...props} />
+  return (
+    <Renderer {...props} createStoreEnhancer={createStoreDevtoolsEnhancer} />
+  )
 }
 
 export function PlainEditorContainer(props: EditorProps) {
@@ -25,7 +28,11 @@ export function PlainEditorContainer(props: EditorProps) {
     [props.editable]
   )
 
-  return <Editor {...props}>{children}</Editor>
+  return (
+    <Editor {...props} createStoreEnhancer={createStoreDevtoolsEnhancer}>
+      {children}
+    </Editor>
+  )
 }
 
 function PlainEditorContainerInner(props: {

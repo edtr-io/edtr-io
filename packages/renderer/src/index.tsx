@@ -8,18 +8,21 @@ import {
 } from '@edtr-io/core'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
+import { StoreEnhancer } from 'redux'
 
 export function Renderer<K extends string = string>({
+  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   theme = {},
   ...props
 }: RendererProps<K>) {
-  const { store } = createStore<string>({
+  const { store } = createStore<string, unknown, unknown>({
     instances: {
       main: {
         plugins: props.plugins,
         defaultPlugin: ''
       }
-    }
+    },
+    createEnhancer: createStoreEnhancer
   })
 
   store.dispatch(
@@ -48,4 +51,7 @@ export interface RendererProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
+  createStoreEnhancer?: (
+    defaultEnhancer: StoreEnhancer
+  ) => StoreEnhancer<unknown, unknown>
 }
