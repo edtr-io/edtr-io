@@ -104,5 +104,7 @@ export function getRedoStack(state: ScopeState) {
 
 export const publicHistorySelectors = {
   getPendingChanges,
-  hasPendingChanges
+  hasPendingChanges,
+  getUndoStack,
+  getRedoStack
 }
