@@ -386,6 +386,13 @@ async function exec(): Promise<void> {
       changed: [
         '**core**. Store no longer applies enhancers used for testing or development purposes. Instead,  `<Editor />`, `<EditorProvider />` and `<Renderer />` provide a new optional prop `createStoreEnhancer` that allows to extend the store enhancer used. Our previous enhancer for development is published as a new package `@edtr-io/store-devtools` (e.g. used in our demo).'
       ]
+    },
+    {
+      tagName: 'v0.9.1',
+      name: '0.9.1',
+      date: '2019-08-24',
+      description:
+        "Redeployment of previous release since some types weren't published correctly."
     }
   ])
 
