@@ -11,7 +11,9 @@ import * as React from 'react'
 import { useLogState } from '../hooks'
 
 export function PlainRendererContainer(props: RendererProps) {
-  return <Renderer {...props} />
+  return (
+    <Renderer {...props} createStoreEnhancer={createStoreDevtoolsEnhancer} />
+  )
 }
 
 export function PlainEditorContainer(props: EditorProps) {
