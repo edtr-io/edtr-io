@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store-devtools",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
