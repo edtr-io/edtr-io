@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.2](https://github.com/edtr-io/edtr-io/compare/v0.9.1..v0.9.2) - August 25, 2019
+
+### Added
+
+- **plugin-text**. Make available plugins customizable via new export `createTextPlugin`
+- **plugin-rows**. Make available plugins customizable via new export `createRowsPlugin`
+
 ## [0.9.1](https://github.com/edtr-io/edtr-io/compare/v0.9.0..v0.9.1) - August 24, 2019
 
 Redeployment of previous release since some types weren't published correctly.

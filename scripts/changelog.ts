@@ -393,6 +393,15 @@ async function exec(): Promise<void> {
       date: '2019-08-24',
       description:
         "Redeployment of previous release since some types weren't published correctly."
+    },
+    {
+      tagName: 'v0.9.2',
+      name: '0.9.2',
+      date: '2019-08-25',
+      added: [
+        '**plugin-text**. Make available plugins customizable via new export `createTextPlugin`',
+        '**plugin-rows**. Make available plugins customizable via new export `createRowsPlugin`'
+      ]
     }
   ])
 
