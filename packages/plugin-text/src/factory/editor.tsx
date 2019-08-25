@@ -23,7 +23,7 @@ import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
-import { isValueEmpty, TextPlugin } from '..'
+import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -49,6 +49,11 @@ export const createTextEditor = (
     const store = useStore()
     const overlayContext = React.useContext(OverlayContext)
     const plugins = selectors.getPlugins(store.getState())
+    const availablePlugins: PluginRegistry = options.registry
+      ? options.registry
+      : Object.keys(plugins).map(name => {
+          return { ...plugins[name], name }
+        })
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )
@@ -69,6 +74,7 @@ export const createTextEditor = (
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
       name: props.name,
+      availabePlugins: availablePlugins,
       plugins: plugins,
       insert: props.insert,
       replace: props.replace,
@@ -81,6 +87,7 @@ export const createTextEditor = (
     })
     slateClosure.current = {
       name: props.name,
+      availabePlugins: availablePlugins,
       plugins: plugins,
       insert: props.insert,
       replace: props.replace,
@@ -108,6 +115,7 @@ export const createTextEditor = (
       name: props.name,
       parent: props.parent,
       replace: props.replace,
+      availablePlugins: availablePlugins,
       plugins: plugins
     })
     pluginClosure.current = {
@@ -115,6 +123,7 @@ export const createTextEditor = (
       name: props.name,
       parent: props.parent,
       replace: props.replace,
+      availablePlugins: availablePlugins,
       plugins: plugins
     }
     const slatePlugins = React.useRef<TextPlugin[]>()
@@ -549,6 +558,7 @@ export interface SlateEditorAdditionalProps {
 interface SlateClosure extends SlateEditorAdditionalProps {
   focusPrevious: () => void
   focusNext: () => void
+  availabePlugins: PluginRegistry
   plugins: Record<string, Plugin>
 }
 

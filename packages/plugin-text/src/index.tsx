@@ -10,7 +10,7 @@ import {
 } from 'slate-react'
 
 import { createUiPlugin, Controls } from './controls'
-import { createTextPlugin } from './factory'
+import { createTextPlugin as textPluginFactory } from './factory'
 import { plugins } from './plugins'
 
 export type MarkEditorProps = RenderMarkProps
@@ -34,14 +34,26 @@ export type TextPlugin = Plugin &
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
 
-export const textPlugin = createTextPlugin({
-  plugins: [...plugins, createUiPlugin({ Component: Controls })],
-  placeholder: (
-    <React.Fragment>
-      Schreibe etwas oder füge mit &#x2295; Elemente hinzu.
-    </React.Fragment>
-  )
-})
+export function createTextPlugin(registry?: PluginRegistry) {
+  return textPluginFactory({
+    registry,
+    plugins: [...plugins, createUiPlugin({ Component: Controls })],
+    placeholder: (
+      <React.Fragment>
+        Schreibe etwas oder füge mit &#x2295; Elemente hinzu.
+      </React.Fragment>
+    )
+  })
+}
+
+export const textPlugin = createTextPlugin()
+
+export type PluginRegistry = {
+  name: string
+  title?: string
+  icon?: React.ComponentType
+  description?: string
+}[]
 
 export interface TextTheme {
   backgroundColor: string

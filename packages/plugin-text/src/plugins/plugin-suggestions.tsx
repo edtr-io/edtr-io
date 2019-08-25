@@ -9,12 +9,11 @@ import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {
-    const plugins = pluginClosure.current.plugins
+    const plugins = pluginClosure.current.availablePlugins
     const search = editor.value.document.text.replace('/', '')
-    const pluginsStartingWithSearchString = Object.keys(plugins)
-      .filter(pluginKey => {
-        const plugin = plugins[pluginKey]
-        if (pluginKey === name || pluginKey === 'rows') return false
+    const pluginsStartingWithSearchString = plugins
+      .filter(plugin => {
+        if (plugin.name === name || plugin.name === 'rows') return false
         if (!search.length) return true
 
         return (
@@ -22,11 +21,10 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
           plugin.title.toLowerCase().startsWith(search.toLowerCase())
         )
       })
-      .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
-    const otherPluginsContainingSearchString = Object.keys(plugins)
-      .filter(pluginKey => {
-        const plugin = plugins[pluginKey]
-        if (pluginKey === name || pluginKey === 'rows') return false
+      .map(plugin => [plugin.title || plugin.name, plugin.name])
+    const otherPluginsContainingSearchString = plugins
+      .filter(plugin => {
+        if (plugin.name === name || plugin.name === 'rows') return false
 
         return (
           plugin.title &&
@@ -34,7 +32,7 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
           !plugin.title.toLowerCase().startsWith(search.toLowerCase())
         )
       })
-      .map(pluginName => [plugins[pluginName].title || pluginName, pluginName])
+      .map(plugin => [plugin.title || plugin.name, plugin.name])
     return [
       ...pluginsStartingWithSearchString,
       ...otherPluginsContainingSearchString
