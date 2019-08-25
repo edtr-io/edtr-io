@@ -3,7 +3,7 @@ import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRowPluginTheme } from '../..'
+import { createRowPluginTheme, PluginRegistry } from '../..'
 import { Plugin } from './plugin'
 import { Search } from './search'
 
@@ -54,11 +54,12 @@ interface MenuProps {
   setMenu: (newMenu?: MenuProps['menu']) => void
   plugins: ReturnType<typeof selectors['getPlugins']>
   name: string
+  registry?: PluginRegistry
 }
 
 export const Menu = connectStateOnly(state => {
   return { plugins: selectors.getPlugins(state) }
-})(function Menu({ menu, setMenu, plugins, name }: MenuProps) {
+})(function Menu({ menu, setMenu, plugins, name, registry }: MenuProps) {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -75,8 +76,8 @@ export const Menu = connectStateOnly(state => {
     }
   }, [close])
 
-  const mappedPlugins = Object.keys(plugins)
-    .filter(pluginKey => {
+  const mappedPlugins = getAvailablePlugins()
+    .filter(({ name: pluginKey }) => {
       const plugin = plugins[pluginKey]
       if (pluginKey === name || pluginKey === 'rows') return false
       if (!search.length) return true
@@ -93,12 +94,12 @@ export const Menu = connectStateOnly(state => {
         return true
       return pluginKey.toLowerCase().includes(search.toLowerCase())
     })
-    .map(pluginName => (
+    .map(plugin => (
       <Plugin
-        onClick={() => menu.onClose({ plugin: pluginName })}
-        key={pluginName}
-        pluginName={pluginName}
-        plugin={plugins[pluginName]}
+        onClick={() => menu.onClose({ plugin: plugin.name })}
+        key={plugin.name}
+        pluginName={plugin.name}
+        plugin={plugin}
         name={name}
       />
     ))
@@ -111,4 +112,12 @@ export const Menu = connectStateOnly(state => {
       </CloseButtonContainer>
     </Wrapper>
   )
+
+  function getAvailablePlugins(): PluginRegistry {
+    return registry
+      ? registry
+      : Object.keys(plugins).map(name => {
+          return { ...plugins[name], name }
+        })
+  }
 })

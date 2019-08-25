@@ -12,7 +12,7 @@ import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { rowsPlugin } from '@edtr-io/plugin-rows'
+import { createRowsPlugin, rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
@@ -46,6 +46,16 @@ export const plugins: Record<string, Plugin> = {
   inputExercise: inputExercisePlugin,
   importantStatement: importantStatementPlugin,
   rows: rowsPlugin,
+  customRows: createRowsPlugin([
+    {
+      ...textPlugin,
+      name: 'text'
+    },
+    {
+      ...imagePlugin,
+      name: 'image'
+    }
+  ]),
   scMcExercise: scMcExercisePlugin,
   serloInjection: serloInjectionPlugin,
   solution: solutionPlugin,

@@ -12,21 +12,38 @@ import { RowsRenderer } from './renderer'
 export const rowState = StateType.child()
 export const rowsState = StateType.list(rowState, 1)
 
-const RowsPlugin = (props: StatefulPluginEditorProps<typeof rowsState>) => {
-  return props.editable ? (
-    <RowsEditor {...props} />
-  ) : (
-    <RowsRenderer {...props} />
-  )
-}
-
-export const rowsPlugin: StatefulPlugin<typeof rowsState> = {
-  Component: RowsPlugin,
-  state: rowsState,
-  getFocusableChildren(state) {
-    return state()
+function createRowsComponent(plugins?: PluginRegistry) {
+  return function RowsComponent(
+    props: StatefulPluginEditorProps<typeof rowsState>
+  ) {
+    return props.editable ? (
+      <RowsEditor {...props} plugins={plugins} />
+    ) : (
+      <RowsRenderer {...props} />
+    )
   }
 }
+
+export function createRowsPlugin(
+  plugins?: PluginRegistry
+): StatefulPlugin<typeof rowsState> {
+  return {
+    Component: createRowsComponent(plugins),
+    state: rowsState,
+    getFocusableChildren(state) {
+      return state()
+    }
+  }
+}
+
+export const rowsPlugin = createRowsPlugin()
+
+export type PluginRegistry = {
+  name: string
+  title?: string
+  icon?: React.ComponentType
+  description?: string
+}[]
 
 export interface RowTheme {
   backgroundColor: string

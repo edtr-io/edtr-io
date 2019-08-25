@@ -9,10 +9,12 @@ import * as React from 'react'
 import { Menu } from './menu'
 import { Row } from './row'
 import { Separator } from './separator'
-import { rowsState } from '..'
+import { rowsState, PluginRegistry } from '..'
 
 export const RowsEditor = (
-  props: StatefulPluginEditorProps<typeof rowsState>
+  props: StatefulPluginEditorProps<typeof rowsState> & {
+    plugins?: PluginRegistry
+  }
 ) => {
   const rows = props.state
   const store = useStore()
@@ -65,7 +67,13 @@ export const RowsEditor = (
         )
       })}
       {menu ? (
-        <Menu menu={menu} setMenu={setMenu} name={props.name} scope={scope} />
+        <Menu
+          menu={menu}
+          setMenu={setMenu}
+          name={props.name}
+          scope={scope}
+          registry={props.plugins}
+        />
       ) : null}
     </div>
   )

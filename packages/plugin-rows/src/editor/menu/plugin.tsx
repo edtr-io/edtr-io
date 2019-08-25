@@ -1,4 +1,3 @@
-import { Plugin as EditorPlugin } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
@@ -57,7 +56,12 @@ export const Plugin = ({
   onClick,
   name
 }: {
-  plugin: EditorPlugin
+  plugin: {
+    name: string
+    title?: string
+    icon?: React.ComponentType
+    description?: string
+  }
   pluginName: string
   onClick: () => void
   name: string
