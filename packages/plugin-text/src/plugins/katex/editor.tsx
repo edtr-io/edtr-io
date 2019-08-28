@@ -10,7 +10,7 @@ import {
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 
-import { katexBlockNode, katexInlineNode } from '.'
+import { katexBlockNode, katexInlineNode, EditCommitCache } from '.'
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
 import { Button } from '../../toolbar/button'
@@ -95,9 +95,9 @@ function isAndroid() {
 }
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps & { name: string }
+  NodeEditorProps & { name: string; cache: EditCommitCache }
 > = props => {
-  const { attributes, node, editor, readOnly, name } = props
+  const { attributes, editor, readOnly, name, node, cache } = props
 
   const { data } = node
   const inline = data.get('inline')
@@ -141,8 +141,20 @@ export const DefaultEditorComponent: React.FunctionComponent<
   if (lastEdit.current !== edit) {
     if (formula !== formulaState) {
       setFormula(formulaState)
+      cache.key = undefined
+      cache.value = undefined
     }
     lastEdit.current = edit
+  }
+
+  // apply uncommited changes if present
+  if (cache.value && node.key == cache.key) {
+    if (formula !== cache.value) {
+      setFormula(cache.value)
+      setFormulaState(cache.value)
+      cache.key = undefined
+      cache.value = undefined
+    }
   }
 
   function checkLeaveLatexInput(e: React.KeyboardEvent) {
@@ -210,6 +222,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   function updateLatex(val: string) {
+    // store edits in cache
+    cache.key = node.key
+    cache.value = val
     //cant set formula directly, because otherwise focus jumps to end of input field
     setFormulaState(val)
     // but android is different ...
