@@ -79,6 +79,7 @@ Watch this space, there will be a public demo soon.
 
 ```
 git clone https://github.com/edtr-io/edtr-io.git
+cd edtr-io
 yarn
 yarn start
 ```
