@@ -1,5 +1,5 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { styled } from '@edtr-io/ui'
+import { Icon, faTable, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
@@ -18,13 +18,18 @@ const TableContainer = styled.div({
   }
 })
 
+const StyledIcon = styled(Icon)({ marginRight: '5px' })
+
 export function TableRenderer(
   props: StatefulPluginEditorProps<typeof tableState> & { placeholder?: string }
 ) {
-  const { state, placeholder } = props
+  const { editable, state, placeholder } = props
 
   return (
     <TableContainer>
+      {editable && state.value.trim() === '' ? (
+        <StyledIcon icon={faTable} />
+      ) : null}
       <ReactMarkdown source={state.value || placeholder} />
     </TableContainer>
   )
