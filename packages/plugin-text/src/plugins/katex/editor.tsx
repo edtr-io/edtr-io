@@ -7,6 +7,7 @@ import {
   Overlay,
   styled
 } from '@edtr-io/editor-ui'
+import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 
@@ -107,9 +108,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
 
   //Refs for positioning of hovering menu
   const mathQuillRef = React.createRef<typeof MathQuill>()
-  const latexInputRef = React.useRef<
+  const latexInputRef: React.MutableRefObject<
     HTMLInputElement | HTMLTextAreaElement | null
-  >()
+  > = React.useRef<HTMLInputElement | HTMLTextAreaElement>(null)
   const wrappedMathquillRef = Object.defineProperty({}, 'current', {
     // wrapper around Mathquill component
     get: () => {
@@ -221,7 +222,10 @@ export const DefaultEditorComponent: React.FunctionComponent<
             />
           ) : inline ? (
             <input
-              ref={ref => (latexInputRef.current = ref)}
+              ref={ref => {
+                if (!ref) return
+                latexInputRef.current = ref
+              }}
               type="text"
               value={formulaState}
               onChange={e => {
@@ -231,11 +235,13 @@ export const DefaultEditorComponent: React.FunctionComponent<
               autoFocus
             />
           ) : (
-            <textarea
-              style={{ width: '100%' }}
-              ref={ref => (latexInputRef.current = ref)}
-              value={formulaState}
+            <EditorTextarea
+              inputRef={ref => {
+                if (!ref) return
+                latexInputRef.current = ref
+              }}
               onChange={e => updateLatex(e.target.value)}
+              value={formulaState}
               onKeyDown={checkLeaveLatexInput}
               autoFocus
             />

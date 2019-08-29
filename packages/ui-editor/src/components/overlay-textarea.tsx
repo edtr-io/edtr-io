@@ -61,6 +61,10 @@ export class Textarea extends React.Component<TextareaProps> {
     }
   }
 
+  public getTextareaRef(): HTMLTextAreaElement | null {
+    return this.textarea.current
+  }
+
   public render() {
     const { label, ...props } = this.props
     return (
