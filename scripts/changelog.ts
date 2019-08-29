@@ -402,6 +402,15 @@ async function exec(): Promise<void> {
         '**plugin-text**. Make available plugins customizable via new export `createTextPlugin`',
         '**plugin-rows**. Make available plugins customizable via new export `createRowsPlugin`'
       ]
+    },
+    {
+      tagName: 'v0.9.3',
+      name: '0.9.3',
+      date: '2019-08-29',
+      added: [
+        '**plugin-table**. Add placeholder for empty tables',
+        '**plugin-text**. Fixed persisting of math formulas'
+      ]
     }
   ])
 

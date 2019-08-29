@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.3](https://github.com/edtr-io/edtr-io/compare/v0.9.2..v0.9.3) - August 29, 2019
+
+### Added
+
+- **plugin-table**. Add placeholder for empty tables
+- **plugin-text**. Fixed persisting of math formulas
+
 ## [0.9.2](https://github.com/edtr-io/edtr-io/compare/v0.9.1..v0.9.2) - August 25, 2019
 
 ### Added
