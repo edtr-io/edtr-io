@@ -7,10 +7,11 @@ import {
   Overlay,
   styled
 } from '@edtr-io/editor-ui'
+import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 
-import { katexBlockNode, katexInlineNode } from '.'
+import { katexBlockNode, katexInlineNode, EditCommitCache } from '.'
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
 import { Button } from '../../toolbar/button'
@@ -95,31 +96,21 @@ function isAndroid() {
 }
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps & { name: string }
+  NodeEditorProps & { name: string; cache: EditCommitCache }
 > = props => {
-  const { attributes, node, editor, readOnly, name } = props
+  const { attributes, editor, readOnly, name, node, cache } = props
 
   const { data } = node
   const inline = data.get('inline')
   const formula = data.get('formula')
 
-  function setFormula(value: string) {
-    editor.setNodeByKey(node.key, {
-      type: node.type,
-      data: {
-        formula: value,
-        inline: node.data.get('inline')
-      }
-    })
-  }
-
   const [useVisual, setUseVisual] = React.useState(true)
 
   //Refs for positioning of hovering menu
   const mathQuillRef = React.createRef<typeof MathQuill>()
-  const latexInputRef = React.useRef<
+  const latexInputRef: React.MutableRefObject<
     HTMLInputElement | HTMLTextAreaElement | null
-  >()
+  > = React.useRef<HTMLInputElement | HTMLTextAreaElement>(null)
   const wrappedMathquillRef = Object.defineProperty({}, 'current', {
     // wrapper around Mathquill component
     get: () => {
@@ -137,86 +128,38 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const edit =
     props.isSelected && editor.value.selection.isCollapsed && !readOnly
 
-  const lastEdit = React.useRef(edit)
-  if (lastEdit.current !== edit) {
+  const setFormula = React.useCallback(
+    (value: string) => {
+      editor.setNodeByKey(node.key, {
+        type: node.type,
+        data: {
+          formula: value,
+          inline: node.data.get('inline')
+        }
+      })
+    },
+    [editor, node]
+  )
+
+  React.useEffect(() => {
     if (formula !== formulaState) {
       setFormula(formulaState)
+      cache.key = undefined
+      cache.value = undefined
     }
-    lastEdit.current = edit
-  }
+  }, [edit, cache, formula, formulaState, setFormula])
 
-  function checkLeaveLatexInput(e: React.KeyboardEvent) {
-    if (!latexInputRef.current) return
-    const { selectionEnd, value } = latexInputRef.current
-    if (e.key === 'ArrowLeft' && selectionEnd === 0) {
-      // leave left
-      editor
-        .moveToStart()
-        .moveBackward(1)
-        .focus()
-    } else if (e.key === 'ArrowRight' && selectionEnd === value.length) {
-      // leave right
-      editor
-        .moveToEnd()
-        .moveForward(1)
-        .focus()
-    }
-  }
-
-  function handleInlineToggle(checked: boolean) {
-    const newData = { formula: formulaState, inline: !checked }
-
-    // remove old node, merge blocks if necessary
-    if (node.isLeafBlock()) {
-      const n = editor.value.document.getNextBlock(node.key)
-      editor.removeNodeByKey(node.key)
-      if (n) {
-        editor.mergeNodeByKey(n.key)
+  // apply uncommited changes if present
+  React.useEffect(() => {
+    if (cache.value && node.key == cache.key) {
+      if (formula !== cache.value) {
+        setFormula(cache.value)
+        setFormulaState(cache.value)
+        cache.key = undefined
+        cache.value = undefined
       }
-    } else {
-      editor.removeNodeByKey(node.key)
     }
-
-    if (checked) {
-      editor.insertBlock({
-        type: katexBlockNode,
-        data: newData
-      })
-    } else {
-      editor.insertInline({
-        type: katexInlineNode,
-        data: newData
-      })
-    }
-  }
-
-  function checkLatexError(mathquill: {
-    latex: () => string
-    focus: () => void
-  }) {
-    if (mathquill) {
-      if (mathquill.latex() == '' && formula != '') {
-        // Error occured
-        alert('Error while parsing LaTeX.')
-        setUseVisual(false)
-      }
-      setTimeout(() => {
-        editor.blur()
-        setTimeout(() => {
-          mathquill.focus()
-        })
-      })
-    }
-  }
-
-  function updateLatex(val: string) {
-    //cant set formula directly, because otherwise focus jumps to end of input field
-    setFormulaState(val)
-    // but android is different ...
-    if (isAndroid()) {
-      setFormula(val)
-    }
-  }
+  }, [cache, formula, formulaState, setFormula, setFormulaState, node.key])
 
   if (edit) {
     const mathquillConfig = {
@@ -279,7 +222,10 @@ export const DefaultEditorComponent: React.FunctionComponent<
             />
           ) : inline ? (
             <input
-              ref={ref => (latexInputRef.current = ref)}
+              ref={ref => {
+                if (!ref) return
+                latexInputRef.current = ref
+              }}
               type="text"
               value={formulaState}
               onChange={e => {
@@ -289,11 +235,13 @@ export const DefaultEditorComponent: React.FunctionComponent<
               autoFocus
             />
           ) : (
-            <textarea
-              style={{ width: '100%' }}
-              ref={ref => (latexInputRef.current = ref)}
-              value={formulaState}
+            <EditorTextarea
+              inputRef={ref => {
+                if (!ref) return
+                latexInputRef.current = ref
+              }}
               onChange={e => updateLatex(e.target.value)}
+              value={formulaState}
               onKeyDown={checkLeaveLatexInput}
               autoFocus
             />
@@ -346,6 +294,82 @@ export const DefaultEditorComponent: React.FunctionComponent<
         )}
       </span>
     )
+  }
+
+  function updateLatex(val: string) {
+    // store edits in cache
+    cache.key = node.key
+    cache.value = val
+    //cant set formula directly, because otherwise focus jumps to end of input field
+    setFormulaState(val)
+    // but android is different ...
+    if (isAndroid()) {
+      setFormula(val)
+    }
+  }
+
+  function checkLatexError(mathquill: {
+    latex: () => string
+    focus: () => void
+  }) {
+    if (mathquill) {
+      if (mathquill.latex() == '' && formula != '') {
+        // Error occured
+        alert('Error while parsing LaTeX.')
+        setUseVisual(false)
+      }
+      setTimeout(() => {
+        editor.blur()
+        setTimeout(() => {
+          mathquill.focus()
+        })
+      })
+    }
+  }
+
+  function checkLeaveLatexInput(e: React.KeyboardEvent) {
+    if (!latexInputRef.current) return
+    const { selectionEnd, value } = latexInputRef.current
+    if (e.key === 'ArrowLeft' && selectionEnd === 0) {
+      // leave left
+      editor
+        .moveToStart()
+        .moveBackward(1)
+        .focus()
+    } else if (e.key === 'ArrowRight' && selectionEnd === value.length) {
+      // leave right
+      editor
+        .moveToEnd()
+        .moveForward(1)
+        .focus()
+    }
+  }
+
+  function handleInlineToggle(checked: boolean) {
+    const newData = { formula: formulaState, inline: !checked }
+
+    // remove old node, merge blocks if necessary
+    if (node.isLeafBlock()) {
+      const n = editor.value.document.getNextBlock(node.key)
+      editor.removeNodeByKey(node.key)
+      if (n) {
+        editor.mergeNodeByKey(n.key)
+      }
+    } else {
+      editor.removeNodeByKey(node.key)
+    }
+
+    if (checked) {
+      editor.insertBlock({
+        type: katexBlockNode,
+        data: newData
+      })
+    } else {
+      editor.insertInline({
+        type: katexInlineNode,
+        data: newData
+      })
+    }
   }
 }
 

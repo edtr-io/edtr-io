@@ -21,12 +21,16 @@ const Textarea = styled(TextareaAutosize)({
   }
 })
 
+const StyledIgnoreKeys = styled(IgnoreKeys)({
+  width: '100%'
+})
+
 export function EditorTextarea(
   props: Omit<TextareaAutosizeProps, 'as' | 'ref'>
 ) {
   return (
-    <IgnoreKeys>
+    <StyledIgnoreKeys>
       <Textarea {...props} />
-    </IgnoreKeys>
+    </StyledIgnoreKeys>
   )
 }

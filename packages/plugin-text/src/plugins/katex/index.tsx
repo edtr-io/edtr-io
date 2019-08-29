@@ -68,9 +68,16 @@ export const removeKatex = (editor: Editor) => {
 }
 
 export interface KatexPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps & { name: string }>
+  EditorComponent?: React.ComponentType<
+    NodeEditorProps & { name: string; cache: EditCommitCache }
+  >
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
+}
+
+export interface EditCommitCache {
+  key?: string
+  value?: string
 }
 
 export const createKatexPlugin = ({
@@ -79,6 +86,8 @@ export const createKatexPlugin = ({
 }: KatexPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
+  // this state is needed to hold uncommited edits of math editor
+  const editCommitCache = { key: undefined, value: undefined }
   return {
     deserialize(el, next) {
       switch (el.tagName.toLowerCase()) {
@@ -137,7 +146,14 @@ export const createKatexPlugin = ({
         (block.object === 'block' && block.type === katexBlockNode) ||
         (inline.object === 'inline' && inline.type === katexInlineNode)
       ) {
-        return <EditorComponent {...props} editor={editor} name={name} />
+        return (
+          <EditorComponent
+            {...props}
+            cache={editCommitCache}
+            editor={editor}
+            name={name}
+          />
+        )
       }
 
       return next()
