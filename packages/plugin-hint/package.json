@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-hint",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -16,10 +16,10 @@
     "@types/react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.9.2",
-    "@edtr-io/editor-ui": "^0.9.2",
-    "@edtr-io/renderer-ui": "^0.9.2",
-    "@edtr-io/ui": "^0.9.2",
+    "@edtr-io/core": "^0.9.3",
+    "@edtr-io/editor-ui": "^0.9.3",
+    "@edtr-io/renderer-ui": "^0.9.3",
+    "@edtr-io/ui": "^0.9.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
