@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/core",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

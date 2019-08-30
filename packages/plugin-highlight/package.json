@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-highlight",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
     "react-syntax-highlighter": "^10.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.9.3",
+    "@edtr-io/core": "^0.9.4",
     "@edtr-io/editor-ui": "^0.9.3",
     "@edtr-io/renderer-ui": "^0.9.3",
     "react": "^16.8.0",
