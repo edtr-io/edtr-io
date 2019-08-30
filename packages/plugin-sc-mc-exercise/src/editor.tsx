@@ -4,7 +4,13 @@ import {
   connectStateOnly,
   selectors
 } from '@edtr-io/core'
-import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
+import {
+  Icon,
+  faPlus,
+  faTimes,
+  styled,
+  PreviewOverlay
+} from '@edtr-io/editor-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -140,10 +146,19 @@ const Editor = connectStateOnly<
     state.answers.remove(index)
   }
 
+  const nestedFocus = focused || R.contains(props.focusedElement, children)
+
+  if (!editable) {
+    return <ScMcExerciseRenderer {...props} />
+  }
+
   return (
     <React.Fragment>
+      <PreviewOverlay focused={nestedFocus || false}>
+        <ScMcExerciseRenderer {...props} />
+      </PreviewOverlay>
       {editable ? (
-        <React.Fragment>
+        <div>
           {props.renderIntoExtendedSettings ? (
             props.renderIntoExtendedSettings(
               <React.Fragment>
@@ -175,7 +190,7 @@ const Editor = connectStateOnly<
             </React.Fragment>
           )}
 
-          {focused || R.contains(props.focusedElement, children) ? (
+          {nestedFocus ? (
             <React.Fragment>
               {state.answers().map((answer, index) => {
                 return (
@@ -219,13 +234,9 @@ const Editor = connectStateOnly<
                 <Icon icon={faPlus} /> Antwort hinzufügen ...
               </AddButton>
             </React.Fragment>
-          ) : (
-            <ScMcExerciseRenderer {...props} />
-          )}
-        </React.Fragment>
-      ) : (
-        <ScMcExerciseRenderer {...props} />
-      )}
+          ) : null}
+        </div>
+      ) : null}
     </React.Fragment>
   )
 })

@@ -37,6 +37,7 @@ export class ScMcRendererInteractive extends React.Component<
         <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
         {this.showGlobalFeedback()}
         {this.showSubmitButton()}
+        <div style={{ clear: 'both' }} />
       </React.Fragment>
     )
   }

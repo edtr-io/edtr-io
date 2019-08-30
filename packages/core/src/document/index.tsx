@@ -5,9 +5,9 @@ import {
   connectDispatchOnly,
   ErrorContext
 } from '../editor-context'
+import { actions, ScopedActionCreator } from '../store'
 import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
-import { actions, ScopedActionCreator } from '../store'
 
 export const SubDocument = (props: DocumentProps) => {
   const { scope, editable } = React.useContext(ScopeContext)
