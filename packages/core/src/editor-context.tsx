@@ -31,6 +31,10 @@ export const EditorContext = React.createContext<
   undefined as any
 )
 
+export const ErrorContext = React.createContext<
+  ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
+>(undefined)
+
 export function Provider(
   props: ProviderProps<Action> & { children: React.ReactNode }
 ) {
@@ -67,6 +71,27 @@ export function connectStateOnly<
   return reduxConnect(scopedMapStateToProps(mapStateToProps), null, null, {
     context: EditorContext
   })
+}
+
+export function connectDispatchOnly<
+  DispatchProps extends Record<string, ScopedActionCreator>,
+  OwnProps extends { scope: string }
+>(
+  mapDispatchToProps: {
+    [K in keyof DispatchProps]: UnscopedActionCreator<DispatchProps[K]>
+  }
+) {
+  return reduxConnect(
+    null,
+    scopedMapDispatchToProps<
+      OwnProps,
+      { [K in keyof DispatchProps]: UnscopedActionCreator<DispatchProps[K]> }
+    >(mapDispatchToProps),
+    null,
+    {
+      context: EditorContext
+    }
+  )
 }
 
 function scopedMapStateToProps<StateProps, OwnProps extends { scope: string }>(

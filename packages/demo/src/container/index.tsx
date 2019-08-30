@@ -1,5 +1,6 @@
 import { EditorProps } from '@edtr-io/core'
 import { RendererProps } from '@edtr-io/renderer'
+import { action } from '@storybook/addon-actions'
 import { select } from '@storybook/addon-knobs'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -49,7 +50,14 @@ export function EditorStory(props: Partial<EditorProps>) {
     localStorage.setItem('storybook.container', container)
   }, [container])
 
-  return <Component plugins={plugins} defaultPlugin="text" {...props} />
+  return (
+    <Component
+      plugins={plugins}
+      defaultPlugin="text"
+      onError={action('onError')}
+      {...props}
+    />
+  )
 }
 
 export function RendererStory(props: Pick<RendererProps, 'state' | 'theme'>) {

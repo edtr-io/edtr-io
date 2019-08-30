@@ -10,7 +10,8 @@ import {
   connect,
   Provider,
   EditorContext,
-  ScopeContext
+  ScopeContext,
+  ErrorContext
 } from './editor-context'
 import { useStore } from './hooks'
 import { OverlayContextProvider } from './overlay'
@@ -175,7 +176,8 @@ export const InnerDocument = connect<
   scope,
   editable,
   theme = defaultTheme,
-  onChange
+  onChange,
+  onError
 }: EditorProps<K> & { scope: string; mirror?: boolean } & EditorStateProps &
   EditorDispatchProps) {
   const store = useStore()
@@ -225,13 +227,15 @@ export const InnerDocument = connect<
       handlers={hotKeysHandlers}
     >
       <div style={{ position: 'relative' }}>
-        <RootThemeProvider theme={theme}>
-          <OverlayContextProvider>
-            <ScopeContext.Provider value={scopeContextValue}>
-              {renderChildren(id)}
-            </ScopeContext.Provider>
-          </OverlayContextProvider>
-        </RootThemeProvider>
+        <ErrorContext.Provider value={onError}>
+          <RootThemeProvider theme={theme}>
+            <OverlayContextProvider>
+              <ScopeContext.Provider value={scopeContextValue}>
+                {renderChildren(id)}
+              </ScopeContext.Provider>
+            </OverlayContextProvider>
+          </RootThemeProvider>
+        </ErrorContext.Provider>
       </div>
     </GlobalHotKeys>
   )
@@ -279,4 +283,5 @@ export interface EditorProps<K extends string = string> {
   createStoreEnhancer?: (
     defaultEnhancer: StoreEnhancer
   ) => StoreEnhancer<unknown, unknown>
+  onError?: React.ContextType<typeof ErrorContext>
 }
