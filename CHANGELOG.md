@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.4](https://github.com/edtr-io/edtr-io/compare/v0.9.3..v0.9.4) - August 30, 2019
+
+### Added
+
+- **core**. Editor is now able to recover from errors. If any error is thrown in the subtree, the respective `<Document />` offers users to undo their last change. Furthermore, `<Editor />` now accepts an optional `onError` prop that gets called with the thrown error.
+- **plugin-rows**. Open plugin menu only when the respective button got clicked (instead of making the whole row clickable)
+- **plugin-sc-mc-exercise**. Display a preview in edit mode and simplify focusing of exercises.
+
 ## [0.9.3](https://github.com/edtr-io/edtr-io/compare/v0.9.2..v0.9.3) - August 29, 2019
 
 ### Added

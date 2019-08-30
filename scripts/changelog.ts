@@ -411,6 +411,16 @@ async function exec(): Promise<void> {
         '**plugin-table**. Add placeholder for empty tables',
         '**plugin-text**. Fixed persisting of math formulas'
       ]
+    },
+    {
+      tagName: 'v0.9.4',
+      name: '0.9.4',
+      date: '2019-08-30',
+      added: [
+        '**core**. Editor is now able to recover from errors. If any error is thrown in the subtree, the respective `<Document />` offers users to undo their last change. Furthermore, `<Editor />` now accepts an optional `onError` prop that gets called with the thrown error.',
+        '**plugin-rows**. Open plugin menu only when the respective button got clicked (instead of making the whole row clickable)',
+        '**plugin-sc-mc-exercise**. Display a preview in edit mode and simplify focusing of exercises.'
+      ]
     }
   ])
 
