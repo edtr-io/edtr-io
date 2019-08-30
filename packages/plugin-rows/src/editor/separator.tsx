@@ -64,6 +64,7 @@ const Icon = styled(EdtrIcon)({
 export const Add: React.FunctionComponent<{
   name: string
   focused: boolean
+  onClick: () => void
 }> = props => {
   return (
     <AddTrigger
@@ -71,6 +72,7 @@ export const Add: React.FunctionComponent<{
       name={props.name}
       focused={props.focused}
       title="Füge ein Element hinzu"
+      onMouseDown={props.onClick}
     >
       <Icon icon={edtrRowsControls.plus} />
     </AddTrigger>
@@ -84,9 +86,9 @@ export const Separator: React.FunctionComponent<{
   focused?: boolean
 }> = ({ isFirst, onClick, name, focused }) => {
   return (
-    <StyledSeparator isFirst={isFirst} onMouseDown={onClick}>
+    <StyledSeparator isFirst={isFirst}>
       <TriggerArea>
-        <Add name={name} focused={focused || false} />
+        <Add name={name} focused={focused || false} onClick={onClick} />
       </TriggerArea>
     </StyledSeparator>
   )
