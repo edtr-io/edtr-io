@@ -34,3 +34,6 @@ dist/
 
 # Rollup cache
 .rts2_cache*
+
+# .tool-versions from asdf vm (https://asdf-vm.com/)
+.tool-versions
