@@ -1,4 +1,4 @@
-import { OverlayContext } from '@edtr-io/core'
+import { OverlayContext, PreferenceContext } from '@edtr-io/core'
 import {
   faQuestionCircle,
   HoveringOverlay,
@@ -104,7 +104,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const inline = data.get('inline')
   const formula = data.get('formula')
 
-  const [useVisual, setUseVisual] = React.useState(true)
+  const preferences = React.useContext(PreferenceContext)
+  const [hasError, setError] = React.useState(false)
+  const useVisualMath = preferences.visualMath && !hasError
 
   //Refs for positioning of hovering menu
   const mathQuillRef = React.createRef<typeof MathQuill>()
@@ -210,7 +212,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           }}
           inline={inline}
         >
-          {useVisual ? (
+          {useVisualMath ? (
             <MathQuill
               latex={formulaState.replace('\\mathbb{N}', '\\N')}
               onChange={(e: MathField) => {
@@ -236,11 +238,11 @@ export const DefaultEditorComponent: React.FunctionComponent<
             />
           ) : (
             <EditorTextarea
-              inputRef={ref => {
+              inputRef={(ref: any) => {
                 if (!ref) return
                 latexInputRef.current = ref
               }}
-              onChange={e => updateLatex(e.target.value)}
+              onChange={(e: any) => updateLatex(e.target.value)}
               value={formulaState}
               onKeyDown={checkLeaveLatexInput}
               autoFocus
@@ -248,19 +250,20 @@ export const DefaultEditorComponent: React.FunctionComponent<
           )}
           <HoveringOverlay
             position="above"
-            anchor={useVisual ? wrappedMathquillRef : latexInputRef}
+            anchor={useVisualMath ? wrappedMathquillRef : latexInputRef}
           >
             <Dropdown
               name={name}
-              value={useVisual ? 'visual' : 'latex'}
+              value={useVisualMath ? 'visual' : 'latex'}
               onChange={e => {
-                setUseVisual(e.target.value == 'visual')
+                if (hasError) setError(false)
+                preferences.setVisualMath(e.target.value == 'visual')
               }}
             >
-              <Option active={useVisual} value="visual" name={name}>
+              <Option active={useVisualMath} value="visual" name={name}>
                 visual
               </Option>
-              <Option active={!useVisual} value="latex" name={name}>
+              <Option active={!useVisualMath} value="latex" name={name}>
                 latex
               </Option>
             </Dropdown>
@@ -280,6 +283,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
             >
               <Icon icon={faQuestionCircle} />
             </Button>
+            {hasError && <>Latex-Fehler!&nbsp;&nbsp;</>}
           </HoveringOverlay>
         </EditorWrapper>
       </>
@@ -315,8 +319,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
     if (mathquill) {
       if (mathquill.latex() == '' && formula != '') {
         // Error occured
-        alert('Error while parsing LaTeX.')
-        setUseVisual(false)
+        setError(true)
       }
       setTimeout(() => {
         editor.blur()
