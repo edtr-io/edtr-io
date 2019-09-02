@@ -284,6 +284,13 @@ export const DefaultEditorComponent: React.FunctionComponent<
               <Icon icon={faQuestionCircle} />
             </Button>
             {hasError && <>Latex-Fehler!&nbsp;&nbsp;</>}
+            <br></br>
+            {!useVisualMath && (
+              <>
+                <Math formula={formula} inline />
+                &nbsp;
+              </>
+            )}
           </HoveringOverlay>
         </EditorWrapper>
       </>
