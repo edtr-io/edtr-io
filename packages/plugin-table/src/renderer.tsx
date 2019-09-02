@@ -1,11 +1,11 @@
 import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Icon, faTable, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
-import ReactMarkdown from 'react-markdown'
 
-import { tableState } from '.'
+import { TablePluginConfig, tableState } from '.'
 
 const TableContainer = styled.div({
+  overflowX: 'auto',
   '& tr': {
     borderTop: '1px solid #c6cbd1'
   },
@@ -15,22 +15,38 @@ const TableContainer = styled.div({
   },
   '& table tr:nth-child(2n)': {
     background: '#f6f8fa'
+  },
+  '& table': {
+    width: '100%',
+    maxWidth: '100%'
   }
 })
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
-export function TableRenderer(
-  props: StatefulPluginEditorProps<typeof tableState> & { placeholder?: string }
-) {
-  const { editable, state, placeholder } = props
+export function createTableRenderer(config: TablePluginConfig) {
+  return function TableRenderer(
+    props: StatefulPluginEditorProps<typeof tableState>
+  ) {
+    const { editable, state } = props
 
-  return (
-    <TableContainer>
-      {editable && state.value.trim() === '' ? (
-        <StyledIcon icon={faTable} />
-      ) : null}
-      <ReactMarkdown source={state.value || placeholder} />
-    </TableContainer>
-  )
+    const renderedMarkdown = config.renderMarkdown(state.value)
+
+    return (
+      <TableContainer>
+        {editable && state.value.trim() === '' ? (
+          <StyledIcon icon={faTable} />
+        ) : null}
+        {typeof renderedMarkdown === 'string' ? (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: renderedMarkdown
+            }}
+          />
+        ) : (
+          renderedMarkdown
+        )}
+      </TableContainer>
+    )
+  }
 }
