@@ -1,6 +1,6 @@
+import { StatefulPlugin, StateType } from '@edtr-io/core'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
-import { StatefulPlugin, StateType } from '@edtr-io/core'
 
 import { createTableEditor } from './editor'
 
