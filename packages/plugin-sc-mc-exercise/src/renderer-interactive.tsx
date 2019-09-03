@@ -18,7 +18,21 @@ export class ScMcRendererInteractive extends React.Component<
 
   public constructor(props: ScMcRendererInteractiveProps) {
     super(props)
-    this.state = {
+    this.state = ScMcRendererInteractive.initialStateFromProps(props)
+  }
+
+  static getDerivedStateFromProps(
+    nextProps: ScMcRendererInteractiveProps,
+    prevState: ScMcRendererState
+  ) {
+    if (nextProps.state.answers.items.length !== prevState.buttons.length) {
+      return ScMcRendererInteractive.initialStateFromProps(nextProps)
+    }
+    return {}
+  }
+
+  static initialStateFromProps(props: ScMcRendererInteractiveProps) {
+    return {
       buttons: props.state.answers().map(() => {
         return {
           selected: false,
@@ -30,7 +44,6 @@ export class ScMcRendererInteractive extends React.Component<
       solved: false
     }
   }
-
   public render() {
     return (
       <React.Fragment>
