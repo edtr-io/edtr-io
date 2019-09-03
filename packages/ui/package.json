@@ -12,8 +12,6 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.9.3",
-    "@edtr-io/renderer-ui": "^0.9.3",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",

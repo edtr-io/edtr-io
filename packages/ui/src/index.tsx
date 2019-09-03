@@ -1,13 +1,3 @@
-import {
-  defaultEditorTheme,
-  EditorTheme,
-  EditorUiTheme
-} from '@edtr-io/editor-ui'
-import {
-  defaultRendererTheme,
-  RendererTheme,
-  RendererUiTheme
-} from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 import styled, {
@@ -16,6 +6,13 @@ import styled, {
   ThemeProvider as StyledThemeProvider,
   ThemeProviderProps as StyledThemeProviderProps
 } from 'styled-components'
+
+import { defaultEditorTheme, EditorTheme, EditorUiTheme } from './editor-theme'
+import {
+  defaultRendererTheme,
+  RendererTheme,
+  RendererUiTheme
+} from './renderer-theme'
 
 export { styled }
 
@@ -97,3 +94,6 @@ type DeepPartial<T> = {
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>
 }
+
+export * from './editor-theme'
+export * from './renderer-theme'

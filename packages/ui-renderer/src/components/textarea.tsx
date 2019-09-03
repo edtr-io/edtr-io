@@ -1,10 +1,9 @@
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { IgnoreKeys } from 'react-hotkeys'
 import TextareaAutosize, {
   TextareaAutosizeProps
 } from 'react-textarea-autosize'
-
-import { styled } from '../theme'
 
 const Textarea = styled(TextareaAutosize)({
   minHeight: '100px',

@@ -5,8 +5,6 @@ import styled, {
   ThemeProps as StyledThemeProps
 } from 'styled-components'
 
-import { ExpandableBoxTheme } from './components'
-
 export { styled }
 
 export interface RendererTheme {
@@ -65,6 +63,11 @@ export const defaultRendererTheme: RendererTheme = {
     color: '#ffffff',
     background: '#d9534f'
   }
+}
+export interface ExpandableBoxTheme {
+  containerBorderColor: string
+  toggleBackgroundColor: string
+  toggleColor: string
 }
 
 export interface RendererUiTheme {

@@ -1,7 +1,12 @@
+import {
+  createEditorUiTheme,
+  InputTheme,
+  EditorThemeProps,
+  styled
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
-import { InputProps, InputTheme } from './overlay-input'
+import { InputProps } from './overlay-input'
 
 export const createEditorInputTheme = createEditorUiTheme<InputTheme>(theme => {
   return {

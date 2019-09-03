@@ -1,6 +1,11 @@
+import {
+  createEditorUiTheme,
+  EditorThemeProps,
+  styled,
+  TextareaTheme
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { createOverlayTheme } from './settings-overlay'
 
 export const createOverlayTextareaTheme = createEditorUiTheme<TextareaTheme>(
@@ -82,11 +87,4 @@ export interface TextareaProps
     HTMLTextAreaElement
   > {
   label?: string
-}
-
-export interface TextareaTheme {
-  backgroundColor: string
-  color: string
-  borderColor: string
-  highlightColor: string
 }

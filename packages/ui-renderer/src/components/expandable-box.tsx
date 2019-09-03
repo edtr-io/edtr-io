@@ -1,6 +1,11 @@
+import {
+  createRendererUiTheme,
+  ExpandableBoxTheme,
+  RendererThemeProps,
+  styled
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRendererUiTheme, RendererThemeProps, styled } from '../theme'
 import { faSortDown, faSortUp, Icon } from './icon'
 
 export const createExpandableBoxTheme = createRendererUiTheme<
@@ -103,10 +108,4 @@ export function ExpandableBox({
       <Content collapsed={collapsed}>{children}</Content>
     </Wrapper>
   )
-}
-
-export interface ExpandableBoxTheme {
-  containerBorderColor: string
-  toggleBackgroundColor: string
-  toggleColor: string
 }

@@ -5,14 +5,6 @@ import styled, {
   ThemeContext as StyledThemeContext
 } from 'styled-components'
 
-import {
-  ButtonTheme,
-  CheckboxTheme,
-  InputTheme,
-  OverlayTheme,
-  TextareaTheme
-} from '.'
-
 export { styled }
 
 export interface EditorTheme {
@@ -71,6 +63,45 @@ export const defaultEditorTheme: EditorTheme = {
   },
   color: '#EEEEEE',
   backgroundColor: 'rgb(51,51,51,0.95)'
+}
+
+export interface ButtonTheme {
+  backgroundColor: string
+  color: string
+  borderColor: string
+  hoverBackgroundColor: string
+  hoverColor: string
+  hoverBorderColor: string
+}
+
+export interface CheckboxTheme {
+  boxSelectedColor: string
+  boxDeselectedColor: string
+  color: string
+}
+
+export interface InputTheme {
+  backgroundColor: string
+  color: string
+  highlightColor: string
+}
+
+export interface TextareaTheme {
+  backgroundColor: string
+  color: string
+  borderColor: string
+  highlightColor: string
+}
+
+export interface OverlayTheme {
+  backgroundColor: string
+  color: string
+  overlayBackgroundColor: string
+  highlightColor: string
+  button: ButtonTheme
+  checkbox: CheckboxTheme
+  input: InputTheme
+  textarea: TextareaTheme
 }
 
 export interface EditorUiTheme {
