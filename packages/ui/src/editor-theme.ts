@@ -1,11 +1,9 @@
 import * as R from 'ramda'
 import * as React from 'react'
-import styled, {
+import {
   ThemeProps as StyledThemeProps,
   ThemeContext as StyledThemeContext
 } from 'styled-components'
-
-export { styled }
 
 export interface EditorTheme {
   backgroundColor: string
