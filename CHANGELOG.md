@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.5](https://github.com/edtr-io/edtr-io/compare/v0.9.4..v0.9.5) - September 4, 2019
+
+### Added
+
+- **plugin-sc-mc-exercise**. Make preview overlay not editable
+- **plugin-table**. Allow overriding of markdown renderer via newly exported `createTablePlugin`
+
 ## [0.9.4](https://github.com/edtr-io/edtr-io/compare/v0.9.3..v0.9.4) - August 30, 2019
 
 ### Added

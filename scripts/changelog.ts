@@ -421,6 +421,15 @@ async function exec(): Promise<void> {
         '**plugin-rows**. Open plugin menu only when the respective button got clicked (instead of making the whole row clickable)',
         '**plugin-sc-mc-exercise**. Display a preview in edit mode and simplify focusing of exercises.'
       ]
+    },
+    {
+      tagName: 'v0.9.5',
+      name: '0.9.5',
+      date: '2019-09-04',
+      added: [
+        '**plugin-sc-mc-exercise**. Make preview overlay not editable',
+        '**plugin-table**. Allow overriding of markdown renderer via newly exported `createTablePlugin`'
+      ]
     }
   ])
 
