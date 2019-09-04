@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/core",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
-    "@edtr-io/ui": "^0.9.3",
+    "@edtr-io/ui": "^0.9.5",
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",
     "react-dnd": "^7.0.0",
