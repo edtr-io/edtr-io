@@ -1,4 +1,5 @@
-import { EditorThemeProps, styled } from '../theme'
+import { EditorThemeProps, styled } from '@edtr-io/ui'
+
 import { createOverlayTheme } from './settings-overlay'
 
 // Toolbar at the bottom of the browser.

@@ -147,54 +147,49 @@ const Editor = connectStateOnly<
   }
 
   const nestedFocus = focused || R.contains(props.focusedElement, children)
+  const [previewActive, setPreviewActive] = React.useState(false)
 
   if (!editable) {
     return <ScMcExerciseRenderer {...props} />
   }
 
+  const Controls = (
+    <React.Fragment>
+      Select the exercise type:
+      <select
+        value={state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'}
+        onChange={handleSCMCChange}
+      >
+        <option value="Multiple Choice">Multiple Choice</option>
+        <option value="Single Choice">Single Choice</option>
+      </select>
+    </React.Fragment>
+  )
+
   return (
     <React.Fragment>
-      <PreviewOverlay focused={nestedFocus || false}>
+      <PreviewOverlay
+        focused={nestedFocus || false}
+        onChange={setPreviewActive}
+        editable={previewActive}
+      >
         <ScMcExerciseRenderer {...props} />
       </PreviewOverlay>
       {editable ? (
         <div>
           {props.renderIntoExtendedSettings ? (
-            props.renderIntoExtendedSettings(
-              <React.Fragment>
-                Select the exercise type:
-                <select
-                  value={
-                    state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'
-                  }
-                  onChange={handleSCMCChange}
-                >
-                  <option value="Multiple Choice">Multiple Choice</option>
-                  <option value="Single Choice">Single Choice</option>
-                </select>
-              </React.Fragment>
-            )
+            props.renderIntoExtendedSettings(Controls)
           ) : (
             <React.Fragment>
               <hr />
-              Select the exercise type:
-              <select
-                value={
-                  state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'
-                }
-                onChange={handleSCMCChange}
-              >
-                <option value="Multiple Choice">Multiple Choice</option>
-                <option value="Single Choice">Single Choice</option>
-              </select>
+              {Controls}
             </React.Fragment>
           )}
 
-          {nestedFocus ? (
+          {nestedFocus && !previewActive ? (
             <React.Fragment>
               {state.answers().map((answer, index) => {
                 return (
-                  // TODO: blue border for focused answer (after Redux PR)
                   <AnswerContainer key={index}>
                     <CheckboxContainer>
                       Richtig?

@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^0.9.4",
+    "@edtr-io/editor-ui": "^0.9.3",
     "@edtr-io/renderer-ui": "^0.9.3",
     "react": "^16.8.0"
   },

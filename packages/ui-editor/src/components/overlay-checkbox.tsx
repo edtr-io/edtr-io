@@ -1,6 +1,11 @@
+import {
+  createEditorUiTheme,
+  CheckboxTheme,
+  EditorThemeProps,
+  styled
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { createOverlayTheme } from './settings-overlay'
 
 export const createOverlayCheckboxTheme = createEditorUiTheme<CheckboxTheme>(
@@ -140,10 +145,4 @@ export interface CheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label?: string
-}
-
-export interface CheckboxTheme {
-  boxSelectedColor: string
-  boxDeselectedColor: string
-  color: string
 }

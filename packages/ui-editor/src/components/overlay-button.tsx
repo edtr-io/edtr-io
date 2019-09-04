@@ -1,5 +1,11 @@
+import {
+  createEditorUiTheme,
+  EditorThemeProps,
+  ButtonTheme,
+  styled
+} from '@edtr-io/ui'
+
 import { createOverlayTheme } from '.'
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 
 export const createOverlayButtonTheme = createEditorUiTheme<ButtonTheme>(
   theme => {
@@ -34,12 +40,3 @@ export const Button = styled.button((props: EditorThemeProps) => {
     }
   }
 })
-
-export interface ButtonTheme {
-  backgroundColor: string
-  color: string
-  borderColor: string
-  hoverBackgroundColor: string
-  hoverColor: string
-  hoverBorderColor: string
-}

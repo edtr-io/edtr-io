@@ -1,6 +1,11 @@
+import {
+  createEditorUiTheme,
+  EditorThemeProps,
+  InputTheme,
+  styled
+} from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { createOverlayTheme } from './settings-overlay'
 
 export const createOverlayInputTheme = createEditorUiTheme<InputTheme>(
@@ -107,12 +112,6 @@ export class AutoFocusInput extends React.Component<InputProps> {
       />
     )
   }
-}
-
-export interface InputTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
 }
 
 export interface InputProps

@@ -1,13 +1,9 @@
 import * as R from 'ramda'
 import * as React from 'react'
-import styled, {
+import {
   ThemeContext as StyledThemeContext,
   ThemeProps as StyledThemeProps
 } from 'styled-components'
-
-import { ExpandableBoxTheme } from './components'
-
-export { styled }
 
 export interface RendererTheme {
   backgroundColor: string
@@ -65,6 +61,11 @@ export const defaultRendererTheme: RendererTheme = {
     color: '#ffffff',
     background: '#d9534f'
   }
+}
+export interface ExpandableBoxTheme {
+  containerBorderColor: string
+  toggleBackgroundColor: string
+  toggleColor: string
 }
 
 export interface RendererUiTheme {

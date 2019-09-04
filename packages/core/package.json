@@ -26,7 +26,6 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
-    "@edtr-io/editor-ui": "^0.9.3",
     "@edtr-io/ui": "^0.9.3",
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",

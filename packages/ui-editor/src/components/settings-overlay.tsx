@@ -1,15 +1,20 @@
+import { OverlayContext } from '@edtr-io/core'
+import {
+  createEditorUiTheme,
+  EditorThemeProps,
+  OverlayTheme,
+  styled
+} from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
-import { OverlayContext } from '../overlay'
-import { createEditorUiTheme, EditorThemeProps, styled } from '../theme'
 import { Icon, faTimes, faTrashAlt, faCog } from './icon'
 import { OnClickOutside } from './on-click-outside'
-import { ButtonTheme, createOverlayButtonTheme } from './overlay-button'
-import { CheckboxTheme, createOverlayCheckboxTheme } from './overlay-checkbox'
-import { InputTheme, createOverlayInputTheme } from './overlay-input'
-import { TextareaTheme, createOverlayTextareaTheme } from './overlay-textarea'
+import { createOverlayButtonTheme } from './overlay-button'
+import { createOverlayCheckboxTheme } from './overlay-checkbox'
+import { createOverlayInputTheme } from './overlay-input'
+import { createOverlayTextareaTheme } from './overlay-textarea'
 
 export const createOverlayTheme = (themeProp: EditorThemeProps['theme']) => {
   const themeCreator = createEditorUiTheme<OverlayTheme>(theme => {
@@ -320,15 +325,4 @@ export function ContainerWithConfigButton(props: {
       </ConfigIcon>
     </ConfigIconContainer>
   )
-}
-
-export interface OverlayTheme {
-  backgroundColor: string
-  color: string
-  overlayBackgroundColor: string
-  highlightColor: string
-  button: ButtonTheme
-  checkbox: CheckboxTheme
-  input: InputTheme
-  textarea: TextareaTheme
 }

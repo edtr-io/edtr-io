@@ -1,6 +1,6 @@
+import { ScopeContext } from '@edtr-io/core'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
-
-import { styled } from '../theme'
 
 const NoClickArea = styled.div<{ active: boolean }>(props => {
   return {
@@ -8,63 +8,94 @@ const NoClickArea = styled.div<{ active: boolean }>(props => {
     position: 'relative'
   }
 })
-const Overlay = styled.div<{ active: boolean }>(props => {
+const Overlay = styled.div<{ active: boolean; blur: boolean }>(props => {
   return {
     display: props.active ? 'none' : undefined,
     position: 'absolute',
     width: '100%',
     height: '100%',
     top: 0,
-    backgroundColor: 'rgba(255,255,255,0.8)'
+    backgroundColor: props.blur ? 'rgba(255,255,255,0.8)' : undefined
   }
+})
+
+const ButtonWrapper = styled.div({
+  width: '100%',
+  height: '100%',
+  textAlign: 'center',
+  display: 'flex'
 })
 const ActivateButton = styled.button({
   pointerEvents: 'all',
   color: 'white',
   border: 'none',
   borderRadius: '5px',
-  width: '100px',
+  padding: '2px 10px',
   textAlign: 'center',
   outline: 'none',
-  position: 'absolute',
-  top: '50%',
-  left: 'calc(50% - 50px)',
   backgroundColor: 'rgb(0,126,193)',
-  zIndex: 10
+  zIndex: 10,
+  margin: 'auto'
 })
 export const PreviewOverlay: React.FunctionComponent<
   PreviewOverlayProps
 > = props => {
-  const [active, setActive] = React.useState(false)
+  const [active, setActiveState] = React.useState(false)
+  const { scope } = React.useContext(ScopeContext)
+
+  const setActive = React.useCallback(
+    (nextActive: boolean) => {
+      if (props.onChange) {
+        props.onChange(nextActive)
+      }
+      setActiveState(nextActive)
+    },
+    [props]
+  )
+
   React.useEffect(() => {
     if (!props.focused && active) {
       setActive(false)
     }
-  }, [props.focused, active])
+  }, [props.focused, active, setActive])
   return (
     <NoClickArea active={active}>
-      <Overlay active={active}>
-        <ActivateButton
-          onClick={() => {
-            setActive(true)
+      <Overlay blur={props.focused} active={active}>
+        {props.focused ? (
+          <ButtonWrapper>
+            <ActivateButton
+              onClick={() => {
+                setActive(true)
+              }}
+            >
+              Aktivieren
+            </ActivateButton>
+          </ButtonWrapper>
+        ) : null}
+      </Overlay>
+      {!props.editable ? (
+        <ScopeContext.Provider
+          value={{
+            scope,
+            editable: false
           }}
         >
-          Aktivieren
-        </ActivateButton>
-        {props.editable ? (
+          {props.children}
+        </ScopeContext.Provider>
+      ) : (
+        props.children
+      )}
+      {active ? (
+        <ButtonWrapper>
           <ActivateButton
             onClick={() => {
-              setActive(true)
-              if (props.showEditmode) {
-                props.showEditmode()
-              }
+              setActive(false)
             }}
           >
             Editieren
           </ActivateButton>
-        ) : null}
-      </Overlay>
-      {props.children}
+        </ButtonWrapper>
+      ) : null}
     </NoClickArea>
   )
 }
@@ -72,5 +103,5 @@ export const PreviewOverlay: React.FunctionComponent<
 interface PreviewOverlayProps {
   focused: boolean
   editable?: boolean
-  showEditmode?: () => void
+  onChange?: (nextActive: boolean) => void
 }
