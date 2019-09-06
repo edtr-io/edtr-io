@@ -48,7 +48,8 @@ export function child<K extends string, S = unknown>(
   {
     get(): string
     id: string
-    render: (props?: PluginProps) => React.ReactNode
+    render: (props?: PluginProps) => React.ReactNode,
+    replace: (plugin?: K, state?: S) => void
   }
 > {
   return {
@@ -58,7 +59,13 @@ export function child<K extends string, S = unknown>(
           return id
         },
         id,
-        render: memoizedRender(pluginProps || {}, id)
+        render: memoizedRender(pluginProps || {}, id),
+        replace: (plugin, state) => {
+          onChange((_id, helpers) => {
+            helpers.createDocument({ id, plugin, state });
+            return id;
+          })
+        }
       }
     },
     createInitialState({ createDocument }) {
