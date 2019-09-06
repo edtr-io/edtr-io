@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.9.7](https://github.com/edtr-io/edtr-io/compare/v0.9.6..v0.9.7) - August 24, 2019
+## [0.9.7](https://github.com/edtr-io/edtr-io/compare/v0.9.6..v0.9.7) - September 6, 2019
 
 Redeployment of previous release since some types weren't published correctly.
 

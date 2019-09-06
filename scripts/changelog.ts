@@ -443,7 +443,7 @@ async function exec(): Promise<void> {
     {
       tagName: 'v0.9.7',
       name: '0.9.7',
-      date: '2019-08-24',
+      date: '2019-09-06',
       description:
         "Redeployment of previous release since some types weren't published correctly."
     }
