@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/renderer-ui",
-  "version": "0.9.5",
+  "version": "0.9.7",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

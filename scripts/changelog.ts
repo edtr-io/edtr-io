@@ -439,6 +439,13 @@ async function exec(): Promise<void> {
         '**plugin-text**. Remember math mode preference (visual vs. LaTeX)'
       ],
       changed: ['**core**. Improve performance']
+    },
+    {
+      tagName: 'v0.9.7',
+      name: '0.9.7',
+      date: '2019-08-24',
+      description:
+        "Redeployment of previous release since some types weren't published correctly."
     }
   ])
 
