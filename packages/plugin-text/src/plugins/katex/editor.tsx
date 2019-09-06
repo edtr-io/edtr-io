@@ -281,10 +281,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
             {!useVisualMath && (
               <>
                 <EditorTextarea
-                  ref={ref => {
-                    if (!ref || !latexInputRef.current) return
-                    latexInputRef.current.X = ref
-                  }}
                   style={{
                     color: 'black',
                     margin: 2,
@@ -295,7 +291,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     updateLatex(e.target.value)
                   }}
                   value={formulaState}
-                  onKeyDown={checkLeaveLatexInput}
                 />
                 &nbsp;
               </>
@@ -343,24 +338,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
           mathquill.focus()
         })
       })
-    }
-  }
-
-  function checkLeaveLatexInput(e: React.KeyboardEvent) {
-    if (!latexInputRef.current.X) return
-    const { selectionEnd, value } = latexInputRef.current.X
-    if (e.key === 'ArrowLeft' && selectionEnd === 0) {
-      // leave left
-      editor
-        .moveToStart()
-        .moveBackward(1)
-        .focus()
-    } else if (e.key === 'ArrowRight' && selectionEnd === value.length) {
-      // leave right
-      editor
-        .moveToEnd()
-        .moveForward(1)
-        .focus()
     }
   }
 
