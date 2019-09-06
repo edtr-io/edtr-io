@@ -16,6 +16,7 @@ import {
 import { useStore } from './hooks'
 import { OverlayContextProvider } from './overlay'
 import { Plugin } from './plugin'
+import { PreferenceContextProvider } from './preference-context'
 import {
   actions,
   selectors,
@@ -230,9 +231,11 @@ export const InnerDocument = connect<
         <ErrorContext.Provider value={onError}>
           <RootThemeProvider theme={theme}>
             <OverlayContextProvider>
-              <ScopeContext.Provider value={scopeContextValue}>
-                {renderChildren(id)}
-              </ScopeContext.Provider>
+              <PreferenceContextProvider>
+                <ScopeContext.Provider value={scopeContextValue}>
+                  {renderChildren(id)}
+                </ScopeContext.Provider>
+              </PreferenceContextProvider>
             </OverlayContextProvider>
           </RootThemeProvider>
         </ErrorContext.Provider>

@@ -26,3 +26,4 @@ export {
 export { StateType }
 export * from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'
+export { PreferenceContext } from './preference-context'
