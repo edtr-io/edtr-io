@@ -2,13 +2,14 @@ import KaTeX from 'katex'
 import * as React from 'react'
 
 const createMathComponent = (
-  Component: React.ComponentType<{ html: string }>,
+  Component: React.ComponentType<InnerMathProps>,
   { displayMode }: { displayMode: boolean }
 ) => {
   interface MathComponentProps {
     math: string
     errorColor?: string
     renderError: (error: KaTeX.ParseError) => React.ReactNode
+    innerRef: React.Ref<HTMLElement>
   }
 
   interface MathComponentState {
@@ -24,17 +25,17 @@ const createMathComponent = (
 
     public render() {
       const { error, html } = this.state
-      const { renderError } = this.props
+      const { renderError, innerRef } = this.props
 
       if (error) {
         return renderError ? (
           renderError(error)
         ) : (
-          <Component html={`${error.message}`} />
+          <Component html={`${error.message}`} innerRef={innerRef} />
         )
       }
 
-      return <Component html={html} />
+      return <Component html={html} innerRef={innerRef} />
     }
 
     public shouldComponentUpdate(nextProps: MathComponentProps) {
@@ -67,19 +68,30 @@ const createMathComponent = (
   return MathComponent
 }
 
-const IBlockMath = ({ html }: { html: string }) => {
+interface InnerMathProps {
+  html: string
+  innerRef: React.Ref<HTMLElement>
+}
+
+const IBlockMath = (props: InnerMathProps) => {
   return (
     <span
       style={{ display: 'block' }}
-      dangerouslySetInnerHTML={{ __html: html }}
+      ref={props.innerRef}
+      dangerouslySetInnerHTML={{ __html: props.html }}
     />
   )
 }
 
 const BlockMath = createMathComponent(IBlockMath, { displayMode: true })
 
-const IInlineMath = ({ html }: { html: string }) => {
-  return <span dangerouslySetInnerHTML={{ __html: html }} />
+const IInlineMath = (props: InnerMathProps) => {
+  return (
+    <span
+      ref={props.innerRef}
+      dangerouslySetInnerHTML={{ __html: props.html }}
+    />
+  )
 }
 
 const InlineMath = createMathComponent(IInlineMath, {
@@ -125,7 +137,7 @@ const handleError = (
 
 export class Math extends React.Component<MathProps> {
   public render() {
-    const { inline, formula, oldErrorPosition } = this.props
+    const { inline, formula, oldErrorPosition, innerRef } = this.props
 
     if (!formula) {
       return null
@@ -136,6 +148,7 @@ export class Math extends React.Component<MathProps> {
     return (
       <Component
         math={formula}
+        innerRef={innerRef as React.Ref<HTMLElement>}
         renderError={error =>
           handleError(formula, error, !inline, oldErrorPosition)
         }
@@ -148,4 +161,5 @@ export interface MathProps {
   formula?: string
   inline?: boolean
   oldErrorPosition?: number
+  innerRef?: React.Ref<HTMLElement>
 }
