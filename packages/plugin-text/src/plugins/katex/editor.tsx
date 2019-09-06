@@ -95,6 +95,8 @@ function isAndroid() {
   return isTouchDevice() && navigator && /(android)/i.test(navigator.userAgent)
 }
 
+const preferenceKey = 'katex:usevisualmath'
+
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & { name: string; cache: EditCommitCache }
 > = props => {
@@ -106,7 +108,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
 
   const preferences = React.useContext(PreferenceContext)
   const [hasError, setError] = React.useState(false)
-  const useVisualMath = preferences.visualMath && !hasError
+  const useVisualMath = preferences.getKey(preferenceKey) && !hasError
 
   //Refs for positioning of hovering menu
   const mathQuillRef = React.createRef<typeof MathQuill>()
@@ -202,6 +204,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           }
         : {})
     }
+
     return (
       <>
         <Overlay>{HelpText}</Overlay>
@@ -214,7 +217,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
         >
           {useVisualMath ? (
             <MathQuill
-              latex={formulaState.replace('\\mathbb{N}', '\\N')}
+              latex={formulaState}
               onChange={(e: MathField) => {
                 updateLatex(e.latex())
               }}
@@ -223,30 +226,20 @@ export const DefaultEditorComponent: React.FunctionComponent<
               mathquillDidMount={checkLatexError}
             />
           ) : inline ? (
-            <input
-              ref={ref => {
-                if (!ref) return
-                latexInputRef.current = ref
+            <Math
+              formula={formulaState}
+              inline
+              innerRef={(ref: any) => {
+                if (ref) {
+                  latexInputRef.current = ref
+                  ref.focus()
+                }
               }}
-              type="text"
-              value={formulaState}
-              onChange={e => {
-                updateLatex(e.target.value)
-              }}
-              onKeyDown={checkLeaveLatexInput}
-              autoFocus
             />
           ) : (
-            <EditorTextarea
-              inputRef={(ref: any) => {
-                if (!ref) return
-                latexInputRef.current = ref
-              }}
-              onChange={(e: any) => updateLatex(e.target.value)}
-              value={formulaState}
-              onKeyDown={checkLeaveLatexInput}
-              autoFocus
-            />
+            <>
+              <Math formula={formulaState} />
+            </>
           )}
           <HoveringOverlay
             position="above"
@@ -257,7 +250,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               value={useVisualMath ? 'visual' : 'latex'}
               onChange={e => {
                 if (hasError) setError(false)
-                preferences.setVisualMath(e.target.value == 'visual')
+                preferences.setKey(preferenceKey, e.target.value == 'visual')
               }}
             >
               <Option active={useVisualMath} value="visual" name={name}>
@@ -283,11 +276,27 @@ export const DefaultEditorComponent: React.FunctionComponent<
             >
               <Icon icon={faQuestionCircle} />
             </Button>
-            {hasError && <>Latex-Fehler!&nbsp;&nbsp;</>}
+            {hasError && <>Nur LaTeX verfügbar&nbsp;&nbsp;</>}
             <br></br>
             {!useVisualMath && (
               <>
-                <Math formula={formula} inline />
+                <EditorTextarea
+                  ref={ref => {
+                    if (!ref || !latexInputRef.current) return
+                    latexInputRef.current.X = ref
+                  }}
+                  style={{
+                    color: 'black',
+                    margin: 2,
+                    width: '80vw',
+                    maxWidth: 600
+                  }}
+                  onChange={(e: any) => {
+                    updateLatex(e.target.value)
+                  }}
+                  value={formulaState}
+                  onKeyDown={checkLeaveLatexInput}
+                />
                 &nbsp;
               </>
             )}
@@ -338,8 +347,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   function checkLeaveLatexInput(e: React.KeyboardEvent) {
-    if (!latexInputRef.current) return
-    const { selectionEnd, value } = latexInputRef.current
+    if (!latexInputRef.current.X) return
+    const { selectionEnd, value } = latexInputRef.current.X
     if (e.key === 'ArrowLeft' && selectionEnd === 0) {
       // leave left
       editor
