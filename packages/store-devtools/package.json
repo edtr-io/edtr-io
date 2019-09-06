@@ -12,9 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@types/redux-immutable-state-invariant": "^2.0.0",
     "@types/remote-redux-devtools": "^0.5.0",
-    "redux-immutable-state-invariant": "^2.0.0",
     "remote-redux-devtools": "^0.5.0"
   },
   "devDependencies": {

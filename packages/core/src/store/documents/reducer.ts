@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-import { isStatefulPlugin, isStatelessPlugin } from '../../plugin'
+import { isStatefulPlugin, isStatelessPlugin, Plugin } from '../../plugin'
 import { StoreSerializeHelpers } from '../../plugin-state'
 import { createSubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
@@ -84,7 +84,14 @@ export function isEmpty(state: ScopeState, id: string) {
   const doc = getDocument(state, id)
   if (!doc) return false
   const plugin = getPlugin(state, doc.plugin)
-  if (!plugin || isStatelessPlugin(plugin)) return false
+  return isDocumentEmpty(doc, plugin)
+}
+
+export function isDocumentEmpty(
+  doc: DocumentState | null,
+  plugin: Plugin | null
+) {
+  if (!doc || !plugin || isStatelessPlugin(plugin)) return false
 
   if (typeof plugin.isEmpty === 'function') {
     return plugin.isEmpty(doc.state)

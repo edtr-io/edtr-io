@@ -11,6 +11,7 @@ import {
 } from '../plugin'
 import { StoreDeserializeHelpers } from '../plugin-state'
 import { actions, ScopedActionCreator, selectors } from '../store'
+import { isDocumentEmpty } from '../store/documents/reducer'
 
 const StyledDocument = styled.div({
   outline: 'none'
@@ -24,7 +25,6 @@ export const DocumentEditor = connect<
   (state, { id }) => {
     const document = selectors.getDocument(state, id)
     return {
-      empty: selectors.isEmpty(state, id),
       focused: selectors.isFocused(state, id),
       document,
       plugin: document && selectors.getPlugin(state, document.plugin)
@@ -43,7 +43,6 @@ export const DocumentEditor = connect<
   focus,
   focusNext,
   focusPrevious,
-  empty,
   focused,
   id,
   pluginProps
@@ -148,7 +147,7 @@ export const DocumentEditor = connect<
             })
           },
           DELETE_EMPTY: e => {
-            if (empty) {
+            if (isDocumentEmpty(document, plugin)) {
               handleKeyDown(e, () => {
                 if (!e) return
 
@@ -184,7 +183,6 @@ export const DocumentEditor = connect<
   }, [
     change,
     document,
-    empty,
     focusNext,
     focusPrevious,
     focused,
@@ -198,7 +196,6 @@ export const DocumentEditor = connect<
 
 export interface DocumentEditorStateProps {
   document: ReturnType<typeof selectors['getDocument']>
-  empty: ReturnType<typeof selectors['isEmpty']>
   focused: ReturnType<typeof selectors['isFocused']>
   plugin: ReturnType<typeof selectors['getPlugin']>
 }
