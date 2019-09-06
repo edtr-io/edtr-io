@@ -430,6 +430,15 @@ async function exec(): Promise<void> {
         '**plugin-sc-mc-exercise**. Make preview overlay not editable',
         '**plugin-table**. Allow overriding of markdown renderer via newly exported `createTablePlugin`'
       ]
+    },
+    {
+      tagName: 'v0.9.6',
+      name: '0.9.6',
+      date: '2019-09-06',
+      added: [
+        '**plugin-text**. Remember math mode preference (visual vs. LaTeX)'
+      ],
+      changed: ['**core**. Improve performance']
     }
   ])
 

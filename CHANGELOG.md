@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.6](https://github.com/edtr-io/edtr-io/compare/v0.9.5..v0.9.6) - September 6, 2019
+
+### Added
+
+- **plugin-text**. Remember math mode preference (visual vs. LaTeX)
+
+### Changed
+
+- **core**. Improve performance
+
 ## [0.9.5](https://github.com/edtr-io/edtr-io/compare/v0.9.4..v0.9.5) - September 4, 2019
 
 ### Added
