@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-table",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -17,8 +17,8 @@
     "react-markdown": "^4.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.9.5",
-    "@edtr-io/editor-ui": "^0.9.5",
+    "@edtr-io/core": "^0.9.6",
+    "@edtr-io/editor-ui": "^0.9.6",
     "@edtr-io/renderer-ui": "^0.9.5",
     "@edtr-io/ui": "^0.9.5",
     "react": "^16.8.0",
