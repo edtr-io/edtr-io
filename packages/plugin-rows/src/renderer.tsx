@@ -1,4 +1,6 @@
-import { StatefulPluginEditorProps, selectors, useStore } from '@edtr-io/core'
+import { useScopedStore } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getDocument } from '@edtr-io/store'
 import * as React from 'react'
 
 import { rowsState } from '.'
@@ -7,12 +9,12 @@ import { RowContainer } from './row-container'
 export const RowsRenderer = (
   props: StatefulPluginEditorProps<typeof rowsState>
 ) => {
-  const store = useStore()
+  const store = useScopedStore()
 
   return (
     <React.Fragment>
       {props.state().map(row => {
-        const doc = selectors.getDocument(store.getState(), row.id)
+        const doc = getDocument(store.getState(), row.id)
 
         return (
           <RowContainer

@@ -1,4 +1,5 @@
-import { DocumentState, Plugin } from '@edtr-io/core'
+import { Plugin } from '@edtr-io/plugin'
+import { DocumentState } from '@edtr-io/store'
 import * as React from 'react'
 import {
   ConnectDragPreview,
@@ -10,7 +11,7 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { RowSourceProps, RowStateProps, RowMenuProps } from './row'
+import { RowSourceProps, RowMenuProps } from './row'
 
 export interface CollectedProps {
   connectDragSource: ConnectDragSource
@@ -23,7 +24,7 @@ export interface TargetProps {
 }
 
 export function connectDnD(
-  Comp: React.ComponentType<RowSourceProps & RowStateProps & RowMenuProps>
+  Comp: React.ComponentType<RowSourceProps & RowMenuProps>
 ) {
   return DropTarget<
     {

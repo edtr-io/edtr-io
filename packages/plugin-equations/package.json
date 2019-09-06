@@ -12,6 +12,9 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "@edtr-io/editor-ui": "^0.9.6",
+    "@edtr-io/plugin": "^0.9.7",
+    "@edtr-io/store": "^0.9.7",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-beautiful-dnd": "^10.0.0",
@@ -21,14 +24,12 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^0.9.6",
-    "@edtr-io/editor-ui": "^0.9.6",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0"
   },
   "peerDependencies": {
     "@edtr-io/core": "^0.9.0",
-    "@edtr-io/editor-ui": "^0.9.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0"

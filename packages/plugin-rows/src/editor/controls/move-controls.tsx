@@ -1,5 +1,5 @@
-import { StateType } from '@edtr-io/core'
 import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
+import { StateDescriptorReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { MoveControlsProps } from '.'
@@ -55,8 +55,8 @@ const Drag: React.FunctionComponent<
 interface IconProps {
   name: string
   index: number
-  rows: StateType.StateDescriptorReturnType<typeof rowsState>
-  row: StateType.StateDescriptorReturnType<typeof rowState>
+  rows: StateDescriptorReturnType<typeof rowsState>
+  row: StateDescriptorReturnType<typeof rowState>
 }
 
 export const MoveControls = ({

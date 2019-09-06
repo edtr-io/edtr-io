@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import axios from 'axios'
 import { debounce } from 'lodash'

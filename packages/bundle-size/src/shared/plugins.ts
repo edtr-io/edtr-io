@@ -1,5 +1,5 @@
-import { Plugin } from '@edtr-io/core'
 import { imagePlugin, readFile } from '@edtr-io/demo/src/plugin-image'
+import { Plugin } from '@edtr-io/plugin'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { equationsPlugin } from '@edtr-io/plugin-equations'

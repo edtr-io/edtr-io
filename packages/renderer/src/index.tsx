@@ -1,21 +1,15 @@
-import {
-  Provider,
-  ScopeContext,
-  Plugin,
-  actions,
-  createStore,
-  SubDocument
-} from '@edtr-io/core'
+import { Provider, ScopeContext, SubDocument } from '@edtr-io/core'
+import { Plugin } from '@edtr-io/plugin'
+import { initRoot, createStore, StoreEnhancerFactory } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
-import { StoreEnhancer } from 'redux'
 
 export function Renderer<K extends string = string>({
   createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   theme = {},
   ...props
 }: RendererProps<K>) {
-  const { store } = createStore<string, unknown, unknown>({
+  const { store } = createStore<string>({
     instances: {
       main: {
         plugins: props.plugins,
@@ -26,7 +20,7 @@ export function Renderer<K extends string = string>({
   })
 
   store.dispatch(
-    actions.initRoot({
+    initRoot({
       initialState: props.state,
       plugins: props.plugins,
       defaultPlugin: ''
@@ -51,7 +45,5 @@ export interface RendererProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  createStoreEnhancer?: (
-    defaultEnhancer: StoreEnhancer
-  ) => StoreEnhancer<unknown, unknown>
+  createStoreEnhancer?: StoreEnhancerFactory
 }

@@ -13,20 +13,21 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@edtr-io/abstract-plugin": "^0.9.7",
+    "@edtr-io/abstract-plugin-state": "^0.9.7",
+    "@edtr-io/store": "^0.9.7",
+    "@edtr-io/ui": "^0.9.5",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/react-redux": "^7.0.0",
+    "@types/react-redux": "^7.1.1",
     "@types/shortid": "^0.0.29",
     "ramda": "^0.26.1",
     "react-hotkeys": "^2.0.0",
-    "react-redux": "^7.0.0",
-    "redux": "^4.0.0",
-    "redux-saga": "^1.0.0",
+    "react-redux": "^7.1.1",
     "shortid": "^2.0.0"
   },
   "devDependencies": {
-    "@edtr-io/ui": "^0.9.5",
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",
     "react-dnd": "^7.0.0",
@@ -35,7 +36,6 @@
     "react-test-renderer": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/ui": "^0.9.0",
     "react": "^16.8.0",
     "react-dnd": "^7.0.0",
     "react-dnd-html5-backend": "^7.0.0",

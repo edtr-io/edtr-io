@@ -1,12 +1,11 @@
 import {
-  StatefulPluginEditorProps,
-  connect,
-  selectors,
-  ScopedActionCreator,
-  ScopeContext,
-  actions
+  useScopedDispatch,
+  useScopedSelector,
+  useScopedStore
 } from '@edtr-io/core'
 import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
@@ -56,41 +55,10 @@ const AddButtonWrapper = styled.div({
 export function EquationsEditor(
   props: StatefulPluginEditorProps<typeof equationsState>
 ) {
-  const { scope } = React.useContext(ScopeContext)
-  return <InnerEquationsEditor {...props} scope={scope} />
-}
+  const store = useScopedStore()
+  const focusedElement = useScopedSelector(getFocused)
+  const dispatch = useScopedDispatch()
 
-interface EquationsEditorStateProps {
-  focusedElement: ReturnType<typeof selectors['getFocused']>
-  isEmpty: (id: string) => ReturnType<typeof selectors['isEmpty']>
-}
-
-// Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-type EquationsEditorDispatchProps = {
-  focusNext: ScopedActionCreator<typeof actions['focusNext']>
-  focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
-}
-const InnerEquationsEditor = connect<
-  EquationsEditorStateProps,
-  EquationsEditorDispatchProps,
-  StatefulPluginEditorProps<typeof equationsState> & { scope: string }
->(
-  state => {
-    return {
-      focusedElement: selectors.getFocused(state),
-      isEmpty: id => selectors.isEmpty(state, id)
-    }
-  },
-  {
-    focusNext: actions.focusNext,
-    focusPrevious: actions.focusPrevious
-  }
-)(function InnerEquationsEditor(
-  props: StatefulPluginEditorProps<typeof equationsState> &
-    EquationsEditorStateProps &
-    EquationsEditorDispatchProps
-) {
   const addButton = () => {
     const { state } = props
     state.steps.insert()
@@ -114,13 +82,13 @@ const InnerEquationsEditor = connect<
     false,
     props.state.steps().map(step => {
       return R.contains(false, [
-        props.isEmpty(step.left.id),
-        props.isEmpty(step.right.id),
-        props.isEmpty(step.transform.id)
+        isEmpty(store.getState(), step.left.id),
+        isEmpty(store.getState(), step.right.id),
+        isEmpty(store.getState(), step.transform.id)
       ])
     })
   )
-  return editable && (focused || R.contains(props.focusedElement, children)) ? (
+  return editable && (focused || R.contains(focusedElement, children)) ? (
     <HotKeys
       keyMap={{
         FOCUS_NEXT: 'tab',
@@ -130,12 +98,12 @@ const InnerEquationsEditor = connect<
       handlers={{
         FOCUS_NEXT: e => {
           handleKeyDown(e, () => {
-            props.focusNext()
+            dispatch(focusNext())
           })
         },
         FOCUS_PREV: e => {
           handleKeyDown(e, () => {
-            props.focusPrevious()
+            dispatch(focusPrevious())
           })
         },
         NEW_LINE: e => {
@@ -222,4 +190,4 @@ const InnerEquationsEditor = connect<
   ) : (
     <EquationsRenderer {...props} />
   )
-})
+}

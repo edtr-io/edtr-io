@@ -1,15 +1,23 @@
-import { StatefulPlugin, StateType } from '@edtr-io/core'
 import { createIcon, faImages } from '@edtr-io/editor-ui'
+import {
+  number,
+  object,
+  string,
+  upload,
+  StatefulPlugin,
+  UploadHandler,
+  UploadValidator
+} from '@edtr-io/plugin'
 
 import { createImageEditor } from './editor'
 
-export const imageState = StateType.object({
-  src: StateType.upload(''),
-  href: StateType.string(''),
-  target: StateType.string(''),
-  rel: StateType.string(''),
-  description: StateType.string(''),
-  maxWidth: StateType.number(0)
+export const imageState = object({
+  src: upload(''),
+  href: string(''),
+  target: string(''),
+  rel: string(''),
+  description: string(''),
+  maxWidth: number(0)
 })
 export const createImagePlugin = (
   config: ImagePluginConfig
@@ -72,8 +80,8 @@ function getFilesFromDataTransfer(clipboardData: DataTransfer) {
 export type SecondInputType = 'description' | 'link'
 
 export interface ImagePluginConfig {
-  upload: StateType.UploadHandler<string>
-  validate: StateType.UploadValidator
+  upload: UploadHandler<string>
+  validate: UploadValidator
   secondInput?: SecondInputType
 }
 

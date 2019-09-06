@@ -1,4 +1,3 @@
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
 import {
   EditorButton,
   Icon,
@@ -7,6 +6,12 @@ import {
   EdtrIcon,
   edtrClose
 } from '@edtr-io/editor-ui'
+import {
+  isTempFile,
+  usePendingFilesUploader,
+  StatefulPluginEditorProps,
+  UploadHandler
+} from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { fileState, getFilesFromDataTransfer } from '.'
@@ -34,12 +39,12 @@ export const Center = styled.div({
 })
 
 export function createFilesEditor(
-  uploadHandler: StateType.UploadHandler<UploadedFile>
+  uploadHandler: UploadHandler<UploadedFile>
 ): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
   return function FilesEditor(props) {
     const { focused, state } = props
 
-    StateType.usePendingFilesUploader(state.items, uploadHandler)
+    usePendingFilesUploader(state.items, uploadHandler)
 
     function onPaste(data: DataTransfer) {
       const files = getFilesFromDataTransfer(data)
@@ -59,7 +64,7 @@ export function createFilesEditor(
         }}
       >
         {state.items.map((file, i) => {
-          if (!StateType.isTempFile(file.value)) {
+          if (!isTempFile(file.value)) {
             // finished uploading
             return <FileRenderer key={i} file={file.value} />
           }

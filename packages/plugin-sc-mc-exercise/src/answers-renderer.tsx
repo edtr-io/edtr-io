@@ -1,4 +1,7 @@
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+import {
+  StateDescriptorReturnType,
+  StatefulPluginEditorProps
+} from '@edtr-io/plugin'
 import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -15,7 +18,7 @@ enum Phase {
 export class ScMcAnswersRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcExerciseState> & {
     showAnswer: (
-      answer: StateType.StateDescriptorReturnType<typeof AnswerProps>,
+      answer: StateDescriptorReturnType<typeof AnswerProps>,
       index: number,
       centered: boolean
     ) => React.ReactNode

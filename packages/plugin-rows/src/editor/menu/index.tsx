@@ -1,5 +1,6 @@
-import { connectStateOnly, selectors } from '@edtr-io/core'
+import { useScopedSelector } from '@edtr-io/core'
 import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/editor-ui'
+import { getPlugins } from '@edtr-io/store'
 import { ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -52,14 +53,12 @@ interface MenuProps {
     onClose: (pluginState: { plugin: string; state?: unknown }) => void
   }
   setMenu: (newMenu?: MenuProps['menu']) => void
-  plugins: ReturnType<typeof selectors['getPlugins']>
   name: string
   registry?: PluginRegistry
 }
 
-export const Menu = connectStateOnly(state => {
-  return { plugins: selectors.getPlugins(state) }
-})(function Menu({ menu, setMenu, plugins, name, registry }: MenuProps) {
+export function Menu({ menu, setMenu, name, registry }: MenuProps) {
+  const plugins = useScopedSelector(getPlugins)
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -120,4 +119,4 @@ export const Menu = connectStateOnly(state => {
           return { ...plugins[name], name }
         })
   }
-})
+}

@@ -1,4 +1,4 @@
-import { StateType } from '@edtr-io/core'
+import { LoadedFile } from '@edtr-io/plugin'
 import {
   createFilePlugin,
   parseFileType,
@@ -17,7 +17,7 @@ function mockUploadFileHandler(file: File): Promise<UploadedFile> {
   })
 }
 
-function readFile(file: File): Promise<StateType.LoadedFile> {
+function readFile(file: File): Promise<LoadedFile> {
   return new Promise(resolve => {
     const reader = new FileReader()
 

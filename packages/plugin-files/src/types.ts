@@ -1,4 +1,4 @@
-import { StateType } from '@edtr-io/core'
+import { UploadHandler } from '@edtr-io/plugin'
 
 export interface UploadedFile {
   location: string
@@ -7,7 +7,7 @@ export interface UploadedFile {
 }
 
 export interface UploadFileConfig {
-  upload: StateType.UploadHandler<UploadedFile>
+  upload: UploadHandler<UploadedFile>
 }
 
 export interface UploadProps {

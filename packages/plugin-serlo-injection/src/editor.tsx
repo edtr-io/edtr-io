@@ -1,10 +1,10 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import {
   PrimarySettings,
   EditorInput,
   OverlayInput,
   PreviewOverlay
 } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { serloInjectionState } from '.'

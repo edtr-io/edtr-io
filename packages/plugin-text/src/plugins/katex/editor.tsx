@@ -229,7 +229,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
             <Math
               formula={formulaState}
               inline
-              innerRef={(ref: any) => {
+              innerRef={(
+                ref: HTMLInputElement | HTMLTextAreaElement | null
+              ) => {
                 if (ref) {
                   latexInputRef.current = ref
                   ref.focus()
@@ -237,9 +239,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               }}
             />
           ) : (
-            <>
-              <Math formula={formulaState} />
-            </>
+            <Math formula={formulaState} />
           )}
           <HoveringOverlay
             position="above"
@@ -287,7 +287,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     width: '80vw',
                     maxWidth: 600
                   }}
-                  onChange={(e: any) => {
+                  onChange={e => {
                     updateLatex(e.target.value)
                   }}
                   value={formulaState}

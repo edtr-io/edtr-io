@@ -1,8 +1,4 @@
-import {
-  StateType,
-  StatefulPluginEditorProps,
-  OverlayContext
-} from '@edtr-io/core'
+import { OverlayContext } from '@edtr-io/core'
 import {
   Checkbox,
   EditorButton,
@@ -16,6 +12,11 @@ import {
   faImages,
   styled
 } from '@edtr-io/editor-ui'
+import {
+  isTempFile,
+  usePendingFileUploader,
+  StatefulPluginEditorProps
+} from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { ImagePluginConfig, imageState } from '.'
@@ -50,11 +51,11 @@ export function createImageEditor(
   return function ImageEditor(props) {
     const { editable, focused, state } = props
 
-    StateType.usePendingFileUploader(state.src, config.upload)
+    usePendingFileUploader(state.src, config.upload)
 
     const imageComponent =
       state.src.value === '' ||
-      (StateType.isTempFile(state.src.value) && !state.src.value.loaded) ? (
+      (isTempFile(state.src.value) && !state.src.value.loaded) ? (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />
         </ImgPlaceholderWrapper>
@@ -184,11 +185,9 @@ function Controls<T = unknown>(
         label="Bild-Adresse (URL)"
         placeholder="http://beispiel.de/bild.png"
         value={
-          !StateType.isTempFile(state.src.value)
-            ? state.src.value
-            : 'Wird hochgeladen...'
+          !isTempFile(state.src.value) ? state.src.value : 'Wird hochgeladen...'
         }
-        disabled={StateType.isTempFile(state.src.value)}
+        disabled={isTempFile(state.src.value)}
         onChange={handleChange(props)('src')}
       />
       <OverlayButtonWrapper>

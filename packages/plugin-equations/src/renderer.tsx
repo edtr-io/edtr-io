@@ -1,4 +1,7 @@
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+import {
+  StateDescriptorReturnType,
+  StatefulPluginEditorProps
+} from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -68,7 +71,7 @@ export class EquationsRenderer extends React.Component<
 
   private renderHidden = () => {
     interface StepFit {
-      step: StateType.StateDescriptorReturnType<typeof StepProps>
+      step: StateDescriptorReturnType<typeof StepProps>
       fits: boolean
     }
     const { state } = this.props

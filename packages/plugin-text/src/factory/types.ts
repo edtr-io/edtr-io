@@ -1,4 +1,6 @@
-import { OverlayContextValue, Plugin, DocumentState } from '@edtr-io/core'
+import { OverlayContextValue } from '@edtr-io/core'
+import { Plugin } from '@edtr-io/plugin'
+import { DocumentState } from '@edtr-io/store'
 import * as React from 'react'
 
 import { SlateEditorAdditionalProps } from './editor'

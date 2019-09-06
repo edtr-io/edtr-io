@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 import SyntaxHighlight from 'react-syntax-highlighter'
 

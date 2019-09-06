@@ -1,0 +1,13 @@
+{
+  "name": "@edtr-io/fixtures",
+  "version": "0.9.7",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "private": true
+}

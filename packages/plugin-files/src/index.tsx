@@ -1,13 +1,13 @@
-import { StatefulPlugin, StateType } from '@edtr-io/core'
 import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
+import { list, upload, StatefulPlugin } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { createFilesEditor } from './editor'
 import { FilesRenderer } from './renderer'
 import { FileType, UploadedFile, UploadFileConfig } from './types'
 
-export const fileState = StateType.list(
-  StateType.upload<UploadedFile>({
+export const fileState = list(
+  upload<UploadedFile>({
     location: '',
     name: '',
     type: FileType.Other

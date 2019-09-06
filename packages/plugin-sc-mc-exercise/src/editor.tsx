@@ -1,9 +1,4 @@
-import {
-  ScopeContext,
-  StatefulPluginEditorProps,
-  connectStateOnly,
-  selectors
-} from '@edtr-io/core'
+import { useScopedSelector } from '@edtr-io/core'
 import {
   Icon,
   faPlus,
@@ -11,6 +6,8 @@ import {
   styled,
   PreviewOverlay
 } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -78,35 +75,15 @@ const AddButton = styled.button({
   '&:hover': { border: '3px solid #003399', color: '#003399' }
 })
 
-interface ScMcEditorStateProps {
-  focusedElement: ReturnType<typeof selectors['getFocused']>
-  isEmpty: (id: string) => boolean
-}
-
 export function ScMcExerciseEditor(
   props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {
-  const { scope } = React.useContext(ScopeContext)
-  return <Editor {...props} scope={scope} />
-}
-
-const Editor = connectStateOnly<
-  ScMcEditorStateProps,
-  StatefulPluginEditorProps<typeof scMcExerciseState> & { scope: string }
->(state => {
-  return {
-    focusedElement: selectors.getFocused(state),
-    isEmpty: (id: string) => {
-      return selectors.isEmpty(state, id)
-    }
-  }
-})(function InnerEditor(
-  props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
-    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  } & ScMcEditorStateProps
-) {
+  const focusedElement = useScopedSelector(getFocused)
+  const isEmpty = useScopedSelector(state => (id: string) =>
+    isEmptySelector(state, id)
+  )
   const { editable, focused, state } = props
   const children = R.flatten(
     props.state.answers().map(answer => {
@@ -146,11 +123,11 @@ const Editor = connectStateOnly<
     state.answers.remove(index)
   }
 
-  const nestedFocus = focused || R.contains(props.focusedElement, children)
+  const nestedFocus = focused || R.contains(focusedElement, children)
   const [previewActive, setPreviewActive] = React.useState(false)
 
   if (!editable) {
-    return <ScMcExerciseRenderer {...props} />
+    return <ScMcExerciseRenderer {...props} isEmpty={isEmpty} />
   }
 
   const Controls = (
@@ -173,7 +150,7 @@ const Editor = connectStateOnly<
         onChange={setPreviewActive}
         editable={previewActive}
       >
-        <ScMcExerciseRenderer {...props} />
+        <ScMcExerciseRenderer {...props} isEmpty={isEmpty} />
       </PreviewOverlay>
       {editable ? (
         <div>
@@ -206,15 +183,15 @@ const Editor = connectStateOnly<
                     {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
                     <FramedContainer
                       focused={
-                        answer.id() === props.focusedElement ||
-                        answer.feedback.id === props.focusedElement
+                        answer.id() === focusedElement ||
+                        answer.feedback.id === focusedElement
                       }
                     >
                       <AnswerField>{answer.id.render()}</AnswerField>
                       <RemoveButton
                         focused={
-                          answer.id() === props.focusedElement ||
-                          answer.feedback.id === props.focusedElement
+                          answer.id() === focusedElement ||
+                          answer.feedback.id === focusedElement
                         }
                         onClick={removeAnswer(index)}
                       >
@@ -234,4 +211,4 @@ const Editor = connectStateOnly<
       ) : null}
     </React.Fragment>
   )
-})
+}

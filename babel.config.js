@@ -15,9 +15,15 @@ module.exports = function(api) {
               'babel-plugin-module-resolver',
               {
                 alias: {
+                  '@edtr-io/abstract-plugin': '@edtr-io/abstract-plugin/src',
+                  '@edtr-io/abstract-plugin-state':
+                    '@edtr-io/abstract-plugin-state/src',
                   '@edtr-io/core': '@edtr-io/core/src',
+                  '@edtr-io/fixtures': '@edtr-io/fixtures/src',
+                  '@edtr-io/plugin': '@edtr-io/plugin/src',
                   '@edtr-io/renderer': '@edtr-io/renderer/src',
                   '@edtr-io/renderer-ssr': '@edtr-io/renderer-ssr/src',
+                  '@edtr-io/store': '@edtr-io/store/src',
                   '@edtr-io/store-devtools': '@edtr-io/store-devtools/src',
                   '@edtr-io/ui': '@edtr-io/ui/src',
                   '@edtr-io/editor-ui': '@edtr-io/editor-ui/src',

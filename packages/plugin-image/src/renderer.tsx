@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps, StateType } from '@edtr-io/core'
+import { isTempFile, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -27,7 +27,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
       <ImgWrapper maxWidth={state.maxWidth.value}>
         <Img
           src={
-            !StateType.isTempFile(state.src.value)
+            !isTempFile(state.src.value)
               ? state.src.value
               : state.src.value.loaded
               ? state.src.value.loaded.dataUrl

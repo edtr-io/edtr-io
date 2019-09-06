@@ -1,0 +1,34 @@
+{
+  "name": "@edtr-io/plugin",
+  "version": "0.9.7",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@edtr-io/abstract-plugin": "^0.9.7",
+    "@edtr-io/abstract-plugin-state": "^0.9.7",
+    "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.0",
+    "@types/shortid": "^0.0.29",
+    "ramda": "^0.26.1",
+    "shortid": "^2.0.0"
+  },
+  "devDependencies": {
+    "@edtr-io/core": "^0.9.7",
+    "react": "^16.8.0"
+  },
+  "peerDependencies": {
+    "@edtr-io/core": "^0.9.0",
+    "react": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
