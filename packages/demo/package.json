@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@edtr-io/core": "^0.9.6",
+    "@edtr-io/plugin": "^0.9.7",
     "@edtr-io/plugin-anchor": "^0.9.6",
     "@edtr-io/plugin-blockquote": "^0.9.6",
     "@edtr-io/plugin-equations": "^0.9.6",
@@ -31,8 +32,8 @@
     "@edtr-io/plugin-text": "^0.9.6",
     "@edtr-io/plugin-video": "^0.9.6",
     "@edtr-io/renderer": "^0.9.6",
+    "@edtr-io/store": "^0.9.7",
     "@edtr-io/store-devtools": "^0.9.6",
-    "@edtr-io/ui": "^0.9.5",
     "katex": "^0.10.0",
     "ramda": "^0.26.1",
     "react": "^16.8.0",

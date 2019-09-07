@@ -135,4 +135,4 @@ export function getTrimmedSelectionRange(editor: Editor) {
   return CoreRange.create(selection)
 }
 
-export * from './factory'
+export { defaultNode, isValueEmpty, textState } from './factory'

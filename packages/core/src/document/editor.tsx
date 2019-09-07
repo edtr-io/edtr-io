@@ -1,52 +1,38 @@
+import {
+  isStatefulPlugin,
+  StatefulPluginEditorProps,
+  StatelessPluginEditorProps
+} from '@edtr-io/abstract-plugin'
+import { StoreDeserializeHelpers } from '@edtr-io/abstract-plugin-state'
+import {
+  change,
+  focus,
+  focusNext,
+  focusPrevious,
+  getDocument,
+  getPlugin,
+  isDocumentEmpty,
+  isFocused
+} from '@edtr-io/store'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { HotKeys } from 'react-hotkeys'
 
 import { DocumentProps } from '.'
-import { connect } from '../editor-context'
-import {
-  isStatefulPlugin,
-  StatefulPluginEditorProps,
-  StatelessPluginEditorProps
-} from '../plugin'
-import { StoreDeserializeHelpers } from '../plugin-state'
-import { actions, ScopedActionCreator, selectors } from '../store'
-import { isDocumentEmpty } from '../store/documents/reducer'
+import { useScopedSelector, useScopedDispatch } from '../store'
 
 const StyledDocument = styled.div({
   outline: 'none'
 })
 
-export const DocumentEditor = connect<
-  DocumentEditorStateProps,
-  DocumentEditorDispatchProps,
-  DocumentProps & { scope: string }
->(
-  (state, { id }) => {
-    const document = selectors.getDocument(state, id)
-    return {
-      focused: selectors.isFocused(state, id),
-      document,
-      plugin: document && selectors.getPlugin(state, document.plugin)
-    }
-  },
-  {
-    focusPrevious: actions.focusPrevious,
-    focusNext: actions.focusNext,
-    focus: actions.focus,
-    change: actions.change
-  }
-)(function DocumentEditor({
-  change,
-  document,
-  plugin,
-  focus,
-  focusNext,
-  focusPrevious,
-  focused,
-  id,
-  pluginProps
-}: DocumentProps & DocumentEditorStateProps & DocumentEditorDispatchProps) {
+export function DocumentEditor({ id, pluginProps }: DocumentProps) {
+  const document = useScopedSelector(getDocument(id))
+  const focused = useScopedSelector(isFocused(id))
+  const plugin = useScopedSelector(
+    state => document && getPlugin(document.plugin)(state)
+  )
+  const dispatch = useScopedDispatch()
+
   const container = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -66,12 +52,10 @@ export const DocumentEditor = connect<
       const target = (e.target as HTMLDivElement).closest('[data-document]')
 
       if (!focused && target === container.current) {
-        focus(id)
+        dispatch(focus(id))
       }
     },
-    // TODO: focus changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [focus, focused, id]
+    [dispatch, focused, id]
   )
 
   const handleKeyDown = React.useCallback(
@@ -104,10 +88,12 @@ export const DocumentEditor = connect<
       const onChange = (
         updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
       ) => {
-        change({
-          id,
-          state: updater
-        })
+        dispatch(
+          change({
+            id,
+            state: updater
+          })
+        )
       }
       state = plugin.state(document.state, onChange, {
         ...pluginProps,
@@ -129,12 +115,12 @@ export const DocumentEditor = connect<
         handlers={{
           FOCUS_PREVIOUS: e => {
             handleKeyDown(e, () => {
-              focusPrevious()
+              dispatch(focusPrevious())
             })
           },
           FOCUS_NEXT: e => {
             handleKeyDown(e, () => {
-              focusNext()
+              dispatch(focusNext())
             })
           },
           INSERT_TEXT: e => {
@@ -153,9 +139,9 @@ export const DocumentEditor = connect<
 
                 if (pluginProps && typeof pluginProps.remove === 'function') {
                   if (e.key === 'Backspace') {
-                    focusPrevious()
+                    dispatch(focusPrevious())
                   } else if (e.key === 'Delete') {
-                    focusNext()
+                    dispatch(focusNext())
                   }
                   setTimeout(pluginProps.remove)
                 }
@@ -181,10 +167,8 @@ export const DocumentEditor = connect<
       </HotKeys>
     )
   }, [
-    change,
+    dispatch,
     document,
-    focusNext,
-    focusPrevious,
     focused,
     handleFocus,
     handleKeyDown,
@@ -192,19 +176,4 @@ export const DocumentEditor = connect<
     plugin,
     pluginProps
   ])
-})
-
-export interface DocumentEditorStateProps {
-  document: ReturnType<typeof selectors['getDocument']>
-  focused: ReturnType<typeof selectors['isFocused']>
-  plugin: ReturnType<typeof selectors['getPlugin']>
-}
-
-// Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type DocumentEditorDispatchProps = {
-  focusNext: ScopedActionCreator<typeof actions['focusNext']>
-  focusPrevious: ScopedActionCreator<typeof actions['focusPrevious']>
-  focus: ScopedActionCreator<typeof actions['focus']>
-  change: ScopedActionCreator<typeof actions['change']>
 }

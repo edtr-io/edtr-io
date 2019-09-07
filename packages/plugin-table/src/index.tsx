@@ -1,10 +1,10 @@
-import { StatefulPlugin, StateType } from '@edtr-io/core'
+import { string, StatefulPlugin } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
 import { createTableEditor } from './editor'
 
-export const tableState = StateType.string()
+export const tableState = string()
 
 export function createTablePlugin(
   config: TablePluginConfig

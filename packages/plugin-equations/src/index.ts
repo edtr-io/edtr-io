@@ -1,16 +1,16 @@
-import { StateType, StatefulPlugin } from '@edtr-io/core'
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
+import { child, list, object, StatefulPlugin } from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
 
-export const StepProps = StateType.object({
-  left: StateType.child(),
-  right: StateType.child(),
-  transform: StateType.child()
+export const StepProps = object({
+  left: child(),
+  right: child(),
+  transform: child()
 })
 
-export const equationsState = StateType.object({
-  steps: StateType.list(StepProps)
+export const equationsState = object({
+  steps: list(StepProps)
 })
 
 export const equationsPlugin: StatefulPlugin<typeof equationsState> = {

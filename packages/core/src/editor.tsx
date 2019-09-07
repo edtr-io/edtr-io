@@ -1,28 +1,33 @@
+import { Plugin } from '@edtr-io/abstract-plugin'
+import {
+  initRoot,
+  undo,
+  redo,
+  getPendingChanges,
+  getRoot,
+  hasPendingChanges,
+  serializeRootDocument,
+  createStore,
+  ChangeListener,
+  StoreEnhancerFactory
+} from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { configure, GlobalHotKeys } from 'react-hotkeys'
-import { StoreEnhancer } from 'redux'
 
 import { SubDocument } from './document'
+import { OverlayContextProvider } from './overlay'
+import { PreferenceContextProvider } from './preference-context'
 import {
-  connect,
   Provider,
   EditorContext,
   ScopeContext,
-  ErrorContext
-} from './editor-context'
-import { useStore } from './hooks'
-import { OverlayContextProvider } from './overlay'
-import { Plugin } from './plugin'
-import { PreferenceContextProvider } from './preference-context'
-import {
-  actions,
-  selectors,
-  createStore,
-  ChangeListener,
-  ScopedActionCreator
+  ErrorContext,
+  useSelector,
+  useDispatch,
+  useScopedStore
 } from './store'
 
 configure({
@@ -76,7 +81,7 @@ export function Editor<K extends string = string>({
 
 export const EditorProvider: React.FunctionComponent<{
   omitDragDropContext?: boolean
-  createStoreEnhancer?: EditorProps['createStoreEnhancer']
+  createStoreEnhancer?: StoreEnhancerFactory
 }> = ({
   createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   ...props
@@ -149,26 +154,7 @@ const hotKeysKeyMap = {
   REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
 }
 
-export const InnerDocument = connect<
-  EditorStateProps,
-  EditorDispatchProps,
-  EditorProps & { scope: string }
->(
-  (state): EditorStateProps => {
-    return {
-      id: selectors.getRoot(state)
-    }
-  },
-  {
-    initRoot: actions.initRoot,
-    undo: actions.undo,
-    redo: actions.redo
-  }
-)(function InnerDocument<K extends string = string>({
-  id,
-  initRoot,
-  undo,
-  redo,
+export function InnerDocument<K extends string = string>({
   children,
   initialState,
   mirror,
@@ -179,20 +165,24 @@ export const InnerDocument = connect<
   theme = defaultTheme,
   onChange,
   onError
-}: EditorProps<K> & { scope: string; mirror?: boolean } & EditorStateProps &
-  EditorDispatchProps) {
-  const store = useStore()
+}: EditorProps<K> & { scope: string; mirror?: boolean }) {
+  // Can't use `useScopedSelector` here since `InnerDocument` initializes the scoped state and `ScopeContext`
+  const id = useSelector(state => {
+    const scopedState = state[scope]
+    if (!scopedState) return null
+    return getRoot()(scopedState)
+  })
+  const dispatch = useDispatch()
+  const store = useScopedStore()
   React.useEffect(() => {
     if (typeof onChange !== 'function') return
-    let pendingChanges = selectors.getPendingChanges(store.getState())
+    let pendingChanges = getPendingChanges()(store.getState())
     return store.subscribe(() => {
-      const currentPendingChanges = selectors.getPendingChanges(
-        store.getState()
-      )
+      const currentPendingChanges = getPendingChanges()(store.getState())
       if (currentPendingChanges !== pendingChanges) {
         onChange({
-          changed: selectors.hasPendingChanges(store.getState()),
-          getDocument: () => selectors.serializeRootDocument(store.getState())
+          changed: hasPendingChanges()(store.getState()),
+          getDocument: () => serializeRootDocument()(store.getState())
         })
         pendingChanges = currentPendingChanges
       }
@@ -201,7 +191,7 @@ export const InnerDocument = connect<
 
   React.useEffect(() => {
     if (!mirror) {
-      initRoot({ initialState, plugins, defaultPlugin })
+      dispatch(initRoot({ initialState, plugins, defaultPlugin })(scope))
     }
     // TODO: initRoot changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -214,10 +204,10 @@ export const InnerDocument = connect<
   }, [scope, editable])
   const hotKeysHandlers = React.useMemo(() => {
     return {
-      UNDO: undo,
-      REDO: redo
+      UNDO: () => dispatch(undo()(scope)),
+      REDO: () => dispatch(redo()(scope))
     }
-  }, [undo, redo])
+  }, [dispatch, scope])
 
   if (!id) return null
 
@@ -257,18 +247,6 @@ export const InnerDocument = connect<
       </React.Fragment>
     )
   }
-})
-
-export interface EditorStateProps {
-  id: ReturnType<typeof selectors['getRoot']>
-}
-
-// Typescript somehow doesn't recognize an interface as Record<string, ..>
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type EditorDispatchProps = {
-  initRoot: ScopedActionCreator<typeof actions['initRoot']>
-  undo: ScopedActionCreator<typeof actions['undo']>
-  redo: ScopedActionCreator<typeof actions['redo']>
 }
 
 export interface EditorProps<K extends string = string> {
@@ -283,8 +261,6 @@ export interface EditorProps<K extends string = string> {
   theme?: CustomTheme
   onChange?: ChangeListener
   editable?: boolean
-  createStoreEnhancer?: (
-    defaultEnhancer: StoreEnhancer
-  ) => StoreEnhancer<unknown, unknown>
+  createStoreEnhancer?: StoreEnhancerFactory
   onError?: React.ContextType<typeof ErrorContext>
 }

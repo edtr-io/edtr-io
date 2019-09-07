@@ -1,11 +1,14 @@
 import {
-  StatefulPluginEditorProps,
-  Plugin,
   OverlayContext,
-  useEditorFocus,
-  selectors,
-  useStore
+  useScopedDispatch,
+  useScopedSelector
 } from '@edtr-io/core'
+import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
+import {
+  focusNext as focusNextActionCreator,
+  focusPrevious as focusPreviousActionCreator,
+  getPlugins
+} from '@edtr-io/store'
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
@@ -44,11 +47,16 @@ export const createTextEditor = (
     }
   }
   return function SlateEditor(props: SlateEditorProps) {
-    const { focusPrevious, focusNext } = useEditorFocus()
+    const dispatch = useScopedDispatch()
+    const focusNext = React.useCallback(() => {
+      dispatch(focusNextActionCreator())
+    }, [dispatch])
+    const focusPrevious = React.useCallback(() => {
+      dispatch(focusPreviousActionCreator())
+    }, [dispatch])
+    const plugins = useScopedSelector(getPlugins())
     const editor = React.useRef<CoreEditor>()
-    const store = useStore()
     const overlayContext = React.useContext(OverlayContext)
-    const plugins = selectors.getPlugins(store.getState())
     const availablePlugins: PluginRegistry = options.registry
       ? options.registry
       : Object.keys(plugins).map(name => {

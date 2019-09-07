@@ -1,24 +1,15 @@
+import { isStatefulPlugin } from '@edtr-io/abstract-plugin'
+import { getDocument, getPlugin } from '@edtr-io/store'
 import * as React from 'react'
 
 import { DocumentProps } from '.'
-import { connectStateOnly } from '../editor-context'
-import { isStatefulPlugin } from '../plugin'
-import { selectors } from '../store'
+import { useScopedSelector } from '../store'
 
-export const DocumentRenderer = connectStateOnly<
-  DocumentRendererStateProps,
-  DocumentProps & { scope: string }
->((state, { id }) => {
-  const document = selectors.getDocument(state, id)
-  return {
-    document: selectors.getDocument(state, id),
-    plugin: document && selectors.getPlugin(state, document.plugin)
-  }
-})(function({
-  pluginProps,
-  document,
-  plugin
-}: DocumentProps & DocumentRendererStateProps) {
+export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
+  const document = useScopedSelector(getDocument(id))
+  const plugin = useScopedSelector(
+    state => document && getPlugin(document.plugin)(state)
+  )
   if (!document) return null
   if (!plugin) {
     // TODO:
@@ -32,9 +23,4 @@ export const DocumentRenderer = connectStateOnly<
     pluginState = plugin.state(document.state, () => {})
   }
   return <plugin.Component {...pluginProps} state={pluginState} />
-})
-
-export interface DocumentRendererStateProps {
-  document: ReturnType<typeof selectors['getDocument']>
-  plugin: ReturnType<typeof selectors['getPlugin']>
 }

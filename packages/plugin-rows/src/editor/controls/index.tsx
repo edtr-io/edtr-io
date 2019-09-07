@@ -1,4 +1,4 @@
-import { StateType } from '@edtr-io/core'
+import { StateDescriptorReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { rowsState, rowState } from '../..'
@@ -16,8 +16,8 @@ export interface SettingsProps {
 export interface MoveControlsProps {
   name: string
   index: number
-  rows: StateType.StateDescriptorReturnType<typeof rowsState>
-  row: StateType.StateDescriptorReturnType<typeof rowState>
+  rows: StateDescriptorReturnType<typeof rowsState>
+  row: StateDescriptorReturnType<typeof rowState>
   connectDragSource: Function //TODO fix me
 }
 

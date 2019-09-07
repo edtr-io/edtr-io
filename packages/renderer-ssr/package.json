@@ -18,6 +18,7 @@
     "@types/styled-components": "^4.0.0"
   },
   "devDependencies": {
+    "@edtr-io/plugin": "^0.9.7",
     "@edtr-io/plugin-anchor": "^0.9.6",
     "@edtr-io/plugin-blockquote": "^0.9.6",
     "@edtr-io/plugin-geogebra": "^0.9.6",

@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { Feedback } from '@edtr-io/renderer-ui'
 import A from 'algebra.js'
 import * as React from 'react'

@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 

@@ -1,11 +1,11 @@
-import { StatefulPlugin, StateType } from '@edtr-io/core'
 import { createIcon, faFilm } from '@edtr-io/editor-ui'
+import { string, StatefulPlugin } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { VideoEditor } from './editor'
 import { VideoRenderer } from './renderer'
 
-export const videoState = StateType.string()
+export const videoState = string()
 export const videoPlugin: StatefulPlugin<typeof videoState> = {
   //eslint-disable-next-line react/display-name
   Component: props =>

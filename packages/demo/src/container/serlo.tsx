@@ -1,5 +1,6 @@
-import { Editor, EditorProps, useEditorHistory } from '@edtr-io/core'
+import { Editor, EditorProps, useScopedDispatch } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
+import { persist, reset } from '@edtr-io/store'
 import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
@@ -43,15 +44,13 @@ export function SerloEditorContainer(props: EditorProps) {
 export function SerloEditorContainerInner({
   editable,
   setEditable,
-  children,
-  scope
+  children
 }: {
   children: React.ReactNode
-  scope?: string
   editable: boolean
   setEditable: (value: boolean) => void
 }) {
-  const history = useEditorHistory(scope)
+  const dispatch = useScopedDispatch()
   const logState = useLogState()
 
   return (
@@ -59,7 +58,7 @@ export function SerloEditorContainerInner({
       editable={editable}
       onSave={() => {
         if (confirm('Are you sure you want to save?')) {
-          history.persist()
+          dispatch(persist())
           setEditable(false)
           logState()
         }
@@ -70,7 +69,7 @@ export function SerloEditorContainerInner({
             'Are you sure you want to abort editing? All of your unsaved changes will be lost!'
           )
         ) {
-          history.reset()
+          dispatch(reset())
           setEditable(false)
         }
       }}

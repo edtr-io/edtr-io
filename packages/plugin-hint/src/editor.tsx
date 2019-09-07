@@ -1,5 +1,5 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { EditorInput, styled } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'

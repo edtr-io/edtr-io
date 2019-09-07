@@ -52,7 +52,7 @@ module.exports = {
       'error',
       {
         devDependencies: [
-          'packages/*/{__fixtures__,__stories__,__tests__,__tests-ssr__}/**/*',
+          'packages/*/{__stories__,__tests__,__tests-ssr__}/**/*',
           'packages/bundle-size/webpack.config.js',
           'packages/demo/src/**/*',
           'scripts/**/*'

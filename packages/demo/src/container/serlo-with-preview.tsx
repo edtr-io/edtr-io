@@ -37,11 +37,7 @@ export function SerloWithPreviewEditorContainer(props: EditorProps) {
           </div>
         </div>
       </div>
-      <SerloEditorContainerInner
-        editable={editable}
-        setEditable={setEditable}
-        scope={scope}
-      >
+      <SerloEditorContainerInner editable={editable} setEditable={setEditable}>
         <Document {...props} scope={scope} editable={editable} />
       </SerloEditorContainerInner>
     </EditorProvider>

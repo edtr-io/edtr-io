@@ -1,3 +1,5 @@
+import { plugins } from '@edtr-io/fixtures'
+import { StateDescriptor, StateDescriptorSerializedType } from '@edtr-io/plugin'
 import { anchorState } from '@edtr-io/plugin-anchor'
 import { blockquoteState } from '@edtr-io/plugin-blockquote'
 import { geogebraState } from '@edtr-io/plugin-geogebra'
@@ -14,11 +16,6 @@ import { spoilerState } from '@edtr-io/plugin-spoiler'
 import { tableState } from '@edtr-io/plugin-table'
 import { videoState } from '@edtr-io/plugin-video'
 
-import { plugins } from '../../core/__fixtures__/plugins'
-import {
-  StateDescriptor,
-  StateDescriptorSerializedType
-} from '../../core/src/plugin-state'
 import { render } from '../src'
 
 describe('Renderer SSR', () => {

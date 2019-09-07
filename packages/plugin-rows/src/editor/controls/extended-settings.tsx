@@ -1,5 +1,5 @@
-import { StateType } from '@edtr-io/core'
 import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
+import { StateDescriptorReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { createRowPluginTheme, rowsState } from '../..'
@@ -77,7 +77,7 @@ interface ExtendedSettingsProps {
   hideExtendedSettings: () => void
   expanded: boolean
   index: number
-  rows: StateType.StateDescriptorReturnType<typeof rowsState>
+  rows: StateDescriptorReturnType<typeof rowsState>
   duplicateRow: () => void
   extendedSettingsVisible: boolean
   name: string

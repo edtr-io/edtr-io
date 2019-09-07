@@ -1,9 +1,6 @@
-import {
-  StatefulPluginEditorProps,
-  selectors,
-  useStore,
-  ScopeContext
-} from '@edtr-io/core'
+import { useScopedStore } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getDocument } from '@edtr-io/store'
 import * as React from 'react'
 
 import { Menu } from './menu'
@@ -17,8 +14,7 @@ export const RowsEditor = (
   }
 ) => {
   const rows = props.state
-  const store = useStore()
-  const { scope } = React.useContext(ScopeContext)
+  const store = useScopedStore()
   const [menu, setMenu] = React.useState<
     | {
         index: number
@@ -48,7 +44,7 @@ export const RowsEditor = (
         }}
       />
       {rows.items.map((row, index) => {
-        const doc = selectors.getDocument(store.getState(), row.id)
+        const doc = getDocument(row.id)(store.getState())
 
         if (!doc) return null
         return (
@@ -57,10 +53,8 @@ export const RowsEditor = (
               {...props}
               index={index}
               doc={doc}
-              fullStore={store}
               moveRow={rows.move}
               insert={rows.insert}
-              scope={scope}
               openMenu={openMenu}
             />
           </div>
@@ -71,7 +65,6 @@ export const RowsEditor = (
           menu={menu}
           setMenu={setMenu}
           name={props.name}
-          scope={scope}
           registry={props.plugins}
         />
       ) : null}

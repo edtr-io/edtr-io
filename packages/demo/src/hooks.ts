@@ -1,10 +1,11 @@
-import { selectors, useStore } from '@edtr-io/core'
+import { useScopedStore } from '@edtr-io/core'
+import { serializeRootDocument } from '@edtr-io/store'
 import * as React from 'react'
 
 export function useLogState(scope?: string) {
-  const store = useStore(scope)
+  const store = useScopedStore(scope)
   return () => {
-    const serialized = selectors.serializeRootDocument(store.getState())
+    const serialized = serializeRootDocument()(store.getState())
     const stringified = JSON.stringify({
       state: JSON.stringify(serialized)
     })

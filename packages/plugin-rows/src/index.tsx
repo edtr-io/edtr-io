@@ -1,16 +1,17 @@
 import {
+  child,
+  list,
   StatefulPlugin,
-  StatefulPluginEditorProps,
-  StateType
-} from '@edtr-io/core'
+  StatefulPluginEditorProps
+} from '@edtr-io/plugin'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
 
-export const rowState = StateType.child()
-export const rowsState = StateType.list(rowState, 1)
+export const rowState = child()
+export const rowsState = list(rowState, 1)
 
 function createRowsComponent(plugins?: PluginRegistry) {
   return function RowsComponent(

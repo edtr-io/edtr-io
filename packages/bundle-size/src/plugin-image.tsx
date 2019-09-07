@@ -1,4 +1,4 @@
-import { StateType } from '@edtr-io/core'
+import { LoadedFile, UploadValidator } from '@edtr-io/plugin'
 import { createImagePlugin } from '@edtr-io/plugin-image'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
@@ -47,7 +47,7 @@ function errorCodeToMessage(error: FileErrorCode) {
   }
 }
 
-const validateFile: StateType.UploadValidator<FileError[]> = file => {
+const validateFile: UploadValidator<FileError[]> = file => {
   let uploadErrors: FileErrorCode[] = []
 
   if (!file) {
@@ -80,7 +80,7 @@ function mockUploadImageHandler(file: File): Promise<string> {
   })
 }
 
-function readFile(file: File): Promise<StateType.LoadedFile> {
+function readFile(file: File): Promise<LoadedFile> {
   return new Promise(resolve => {
     const reader = new FileReader()
 

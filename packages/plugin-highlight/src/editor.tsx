@@ -1,4 +1,3 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import {
   EditorCheckbox,
   EditorInput,
@@ -7,6 +6,7 @@ import {
   faQuestionCircle,
   styled
 } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { EditorTextarea } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 

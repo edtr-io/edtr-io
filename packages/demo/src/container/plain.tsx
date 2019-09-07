@@ -1,10 +1,19 @@
 import {
   Editor,
   EditorProps,
-  useEditorFocus,
-  useEditorHistory
+  useScopedDispatch,
+  useScopedSelector
 } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
+import {
+  focusNext,
+  focusPrevious,
+  persist,
+  redo,
+  reset,
+  undo,
+  hasPendingChanges as hasPendingChangesSelector
+} from '@edtr-io/store'
 import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
@@ -39,8 +48,8 @@ function PlainEditorContainerInner(props: {
   children: React.ReactNode
   editable?: boolean
 }) {
-  const { focusPrevious, focusNext } = useEditorFocus()
-  const history = useEditorHistory()
+  const dispatch = useScopedDispatch()
+  const hasPendingChanges = useScopedSelector(hasPendingChangesSelector())
   const logState = useLogState()
   const [editable, setEditable] = React.useState(
     props.editable === undefined ? true : props.editable
@@ -50,16 +59,50 @@ function PlainEditorContainerInner(props: {
     <React.Fragment>
       <div style={{ margin: '20px 0' }}>{props.children}</div>
       <button onClick={logState}>Log State</button>
-      <button onClick={history.undo}>Undo</button>
-      <button onClick={history.redo}>Redo</button>
-      <button onClick={history.persist} disabled={!history.hasPendingChanges}>
+      <button
+        onClick={() => {
+          dispatch(undo())
+        }}
+      >
+        Undo
+      </button>
+      <button
+        onClick={() => {
+          dispatch(redo())
+        }}
+      >
+        Redo
+      </button>
+      <button
+        onClick={() => {
+          dispatch(persist())
+        }}
+        disabled={!hasPendingChanges}
+      >
         Mark persisted
       </button>
-      <button onClick={history.reset} disabled={!history.hasPendingChanges}>
+      <button
+        onClick={() => {
+          dispatch(reset())
+        }}
+        disabled={!hasPendingChanges}
+      >
         Reset
       </button>
-      <button onClick={focusPrevious}>Focus Previous</button>
-      <button onClick={focusNext}>FocusNext</button>
+      <button
+        onClick={() => {
+          dispatch(focusPrevious())
+        }}
+      >
+        Focus Previous
+      </button>
+      <button
+        onClick={() => {
+          dispatch(focusNext())
+        }}
+      >
+        FocusNext
+      </button>
       <button
         onClick={() => {
           setEditable(!editable)

@@ -1,10 +1,7 @@
-import {
-  StatefulPluginEditorProps,
-  selectors,
-  EditorStore,
-  connectStateOnly
-} from '@edtr-io/core'
+import { useScopedSelector } from '@edtr-io/core'
 import { PrimarySettings } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getFocused } from '@edtr-io/store'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
@@ -30,15 +27,15 @@ export type RowExposedProps = StatefulPluginEditorProps<typeof rowsState> & {
   insert: (index: number, options?: { plugin: string; state?: unknown }) => void
   index: number
   doc: { plugin: string; state?: unknown }
-  fullStore: EditorStore
-} & { scope: string }
+}
 
 export type RowSourceProps = RowExposedProps & CollectedProps & TargetProps
 
 const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },
-  RowSourceProps & RowStateProps & RowMenuProps
+  RowSourceProps & RowMenuProps
 >((props, ref) => {
+  const focusedElement = useScopedSelector(getFocused())
   const [expandedState, setExpanded] = React.useState(false)
   const [showExtendedSettings, setShowExtendedSettings] = React.useState(false)
   const rows = props.state
@@ -88,7 +85,7 @@ const RowSource = React.forwardRef<
       }
     }
   }, [settingsTheme])
-  const focused = props.focusedElement === row.id
+  const focused = focusedElement === row.id
   React.useLayoutEffect(() => {
     if (!props.focused && !focused) {
       setExpanded(false)
@@ -113,8 +110,6 @@ const RowSource = React.forwardRef<
           row={row}
           rows={rows}
           index={index}
-          store={props.fullStore}
-          getDocument={selectors.getDocument}
           renderIntoExtendedSettings={children => {
             if (!extendedSettingsNode.current) return null
 
@@ -163,18 +158,7 @@ const RowSource = React.forwardRef<
 })
 RowSource.displayName = 'RowSource'
 
-export const Row = connectStateOnly<
-  RowStateProps,
-  RowExposedProps & { scope: string } & RowMenuProps
->(state => {
-  return {
-    focusedElement: selectors.getFocused(state)
-  }
-})(connectDnD(RowSource))
-
-export interface RowStateProps {
-  focusedElement: ReturnType<typeof selectors['getFocused']>
-}
+export const Row = connectDnD(RowSource)
 
 export interface RowMenuProps {
   openMenu: (insertIndex: number) => void

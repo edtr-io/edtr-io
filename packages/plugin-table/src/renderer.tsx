@@ -1,5 +1,5 @@
-import { StatefulPluginEditorProps } from '@edtr-io/core'
 import { Icon, faTable, styled } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { TablePluginConfig, tableState } from '.'
