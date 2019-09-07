@@ -24,7 +24,7 @@
     "react": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.9.0",
+    "@edtr-io/core": "^0.10.0",
     "react": "^16.8.0"
   },
   "publishConfig": {
