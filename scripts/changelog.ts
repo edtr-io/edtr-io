@@ -446,6 +446,52 @@ async function exec(): Promise<void> {
       date: '2019-09-06',
       description:
         "Redeployment of previous release since some types weren't published correctly."
+    },
+    {
+      tagName: 'v0.10.0',
+      name: '0.10.0',
+      date: '2019-09-07',
+      breakingChanges: [
+        `**core** Moved \`actions\` and \`selectors\` to the new package\`@edtr-io/store\`:
+\`\`\`.js
+// before
+import { actions, selectors } from '@edtr-io/core'
+console.log(actions.undo, selectors.getDocument)
+// now
+import { undo, getDocument } from '@edtr-io/store'
+console.log(undo, getDocument)
+\`\`\``,
+        `**core**. Moved \`Plugin\`, \`StatefulPluginEditorProps\`, \`StatelessPluginEditorProps\`, \`StatefulPlugin\`, \`StatelessPlugin\` and \`StateType\` to the new package \`@edtr-io/plugin\`:
+\`\`\`.js
+// before
+import { StateType, StatefulPluginEditorProps } from '@edtr-io/core'
+const state = StateType.string()
+// now
+import { string, StatefulPluginEditorProps } from '@edtr-io/plugin'
+const state = string()
+\`\`\``,
+        '**core**. Removed `connect`, `connectDispatchOnly` and `connectStateOnly`. Instead, we now export hooks `useDispatch`, `useSelector` and `useStore` (with scoped counterparts `useScopedDispatch`, `useScopedSelector` and `useScopedStore`)',
+        '**core**. Removed `useEditorFocus` and `useEditorHistory` since they can easily be replicated with the new `useScopedDispatch` and `useScopedSelector` hooks',
+        '**core**. Moved all store exports (e.g. `createStore`) to the new package `@edtr-io/store`'
+      ],
+      added: [
+        '**plugin**. Published new package `@edtr-io/plugin` intended to be used by plugin authors. It exposes `Plugin`, `StatefulPluginEditorProps`, `StatelessPluginEditorProps`, `StatefulPlugin`, `StatelessPlugin` and (flatly) everything that was previously exported as `StateType`.',
+        '**store**. Published new package `@edtr-io/store`. It (flatly) exposes actions and selectors, and all previous store exports that are mostly for special use cases.'
+      ],
+      changed: [
+        `**store**. The signatures of selectors have been unified. Every selector is now a function (with any number of parameters) and returns a function that accepts the scoped state (and returns any type of return value):
+\`\`\`.js
+import { getDocument, getPlugin, getRoot } from '@edtr-io/store'
+useScopedSelector(getRoot())
+useScopedSelector(getDocument('some-id'))
+useScopedSelector(state => {
+  const document = /* do something */ null
+  return document && getPlugin(document.plugin)(state)
+})\`\`\``,
+        "**editor-ui**. Doesn't have to be a `peerDependency` anymore",
+        "**renderer-ui**. Doesn't have to be a `peerDependency` anymore",
+        "**ui**. Doesn't have to be a `peerDependency` anymore"
+      ]
     }
   ])
 
