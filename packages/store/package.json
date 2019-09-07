@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store",
-  "version": "0.9.7",
+  "version": "0.10.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,17 +12,16 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/abstract-plugin": "^0.9.7",
-    "@edtr-io/abstract-plugin-state": "^0.9.7",
+    "@edtr-io/abstract-plugin": "^0.10.0",
+    "@edtr-io/abstract-plugin-state": "^0.10.0",
     "@types/ramda": "^0.26.1",
     "ramda": "^0.26.1",
     "redux": "^4.0.0",
     "redux-saga": "^1.0.0"
   },
   "devDependencies": {
-    "@edtr-io/fixtures": "^0.9.7"
+    "@edtr-io/fixtures": "^0.10.0"
   },
-  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   }

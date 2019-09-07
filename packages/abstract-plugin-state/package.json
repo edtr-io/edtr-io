@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/abstract-plugin-state",
-  "version": "0.9.7",
+  "version": "0.10.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -11,8 +11,6 @@
     "prebuild": "rimraf dist",
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }

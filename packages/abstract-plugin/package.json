@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/abstract-plugin",
-  "version": "0.9.7",
+  "version": "0.10.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/abstract-plugin-state": "^0.9.7",
+    "@edtr-io/abstract-plugin-state": "^0.10.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "ramda": "^0.26.1",
