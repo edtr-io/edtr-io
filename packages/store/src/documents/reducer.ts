@@ -6,9 +6,9 @@ import {
 import { StoreSerializeHelpers } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
 
-import { createSubReducer } from '../helpers'
+import { createSelector, createSubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
-import { DocumentState, ScopedState } from '../types'
+import { DocumentState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
@@ -24,7 +24,7 @@ export const documentsReducer = createSubReducer(
   {
     [pureInsert.type](documentState, action: PureInsertAction, state) {
       const { id, plugin: type, state: pluginState } = action.payload
-      const plugin = getPlugin(state, type)
+      const plugin = getPlugin(type)(state)
       if (!plugin) return documentState
 
       return {
@@ -53,28 +53,20 @@ export const documentsReducer = createSubReducer(
   }
 )
 
-export function getDocuments(state: ScopedState) {
-  return state.documents
-}
+export const getDocuments = createSelector(state => state.documents)
 
-export function getDocument(
-  state: ScopedState,
-  id: string | null
-): DocumentState | null {
+export const getDocument = createSelector((state, id: string | null) => {
   if (!id) return null
-  return getDocuments(state)[id] || null
-}
+  return getDocuments()(state)[id] || null
+})
 
-export function serializeDocument(
-  state: ScopedState,
-  id: string | null
-): DocumentState | null {
-  const doc = getDocument(state, id)
+export const serializeDocument = createSelector((state, id: string | null) => {
+  const doc = getDocument(id)(state)
   if (!doc) return null
-  const plugin = getPlugin(state, doc.plugin)
+  const plugin = getPlugin(doc.plugin)(state)
   if (!plugin) return null
   const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => serializeDocument(state, id)
+    getDocument: (id: string) => serializeDocument(id)(state)
   }
   return {
     plugin: doc.plugin,
@@ -82,14 +74,14 @@ export function serializeDocument(
       ? {}
       : { state: plugin.state.serialize(doc.state, serializeHelpers) })
   }
-}
+})
 
-export function isEmpty(state: ScopedState, id: string) {
-  const doc = getDocument(state, id)
+export const isEmpty = createSelector((state, id: string) => {
+  const doc = getDocument(id)(state)
   if (!doc) return false
-  const plugin = getPlugin(state, doc.plugin)
+  const plugin = getPlugin(doc.plugin)(state)
   return isDocumentEmpty(doc, plugin)
-}
+})
 
 export function isDocumentEmpty(
   doc: DocumentState | null,

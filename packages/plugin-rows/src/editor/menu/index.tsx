@@ -58,7 +58,7 @@ interface MenuProps {
 }
 
 export function Menu({ menu, setMenu, name, registry }: MenuProps) {
-  const plugins = useScopedSelector(getPlugins)
+  const plugins = useScopedSelector(getPlugins())
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(

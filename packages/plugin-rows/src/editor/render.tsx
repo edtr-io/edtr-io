@@ -4,8 +4,8 @@ import {
   change,
   findNextNode,
   findPreviousNode,
-  getFocusTree,
-  ScopedState
+  getDocument,
+  getFocusTree
 } from '@edtr-io/store'
 import * as React from 'react'
 
@@ -15,17 +15,12 @@ export function RowRenderer({
   row,
   rows,
   index,
-  getDocument,
   renderIntoExtendedSettings,
   PrimarySettingsWrapper
 }: {
   row: StateDescriptorReturnType<typeof rowState>
   rows: StateDescriptorReturnType<typeof rowsState>
   index: number
-  getDocument: (
-    state: ScopedState,
-    id: string
-  ) => { plugin: string; state?: unknown } | null
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
   PrimarySettingsWrapper: React.ComponentType
 }) {
@@ -47,20 +42,20 @@ export function RowRenderer({
       mergeWithPrevious: (merge: (statePrevious: unknown) => unknown) => {
         if (index - 1 < 0) return
 
-        const current = getDocument(store.getState(), row.id)
+        const current = getDocument(row.id)(store.getState())
 
-        let previous = getDocument(store.getState(), rows()[index - 1].id)
+        let previous = getDocument(rows()[index - 1].id)(store.getState())
         if (!previous || !current) return
 
         if (previous.plugin !== current.plugin) {
           // check if previous focus plugin is the same type
-          const root = getFocusTree(store.getState())
+          const root = getFocusTree()(store.getState())
           if (!root) return
 
           const previousFocusId = findPreviousNode(root, row.id)
           if (!previousFocusId) return
 
-          previous = getDocument(store.getState(), previousFocusId)
+          previous = getDocument(previousFocusId)(store.getState())
           if (!previous || previous.plugin !== current.plugin) return
 
           const merged = merge(previous.state)
@@ -78,19 +73,19 @@ export function RowRenderer({
       },
       mergeWithNext: (merge: (statePrevious: unknown) => unknown) => {
         if (index + 1 === rows().length) return
-        const current = getDocument(store.getState(), row.id)
-        let next = getDocument(store.getState(), rows()[index + 1].id)
+        const current = getDocument(row.id)(store.getState())
+        let next = getDocument(rows()[index + 1].id)(store.getState())
         if (!next || !current) return
         if (next.plugin !== current.plugin) {
           // check if next focus plugin is the same type
-          const root = getFocusTree(store.getState())
+          const root = getFocusTree()(store.getState())
           if (!root) return
 
           const nextFocusId = findNextNode(root, row.id)
           if (!nextFocusId) return
 
           // use that plugin for merge
-          next = getDocument(store.getState(), nextFocusId)
+          next = getDocument(nextFocusId)(store.getState())
           if (!next || next.plugin !== current.plugin) return
         }
 
@@ -104,7 +99,6 @@ export function RowRenderer({
     store,
     PrimarySettingsWrapper,
     dispatch,
-    getDocument,
     index,
     renderIntoExtendedSettings,
     row.id,

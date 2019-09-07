@@ -26,10 +26,10 @@ const StyledDocument = styled.div({
 })
 
 export function DocumentEditor({ id, pluginProps }: DocumentProps) {
-  const document = useScopedSelector(state => getDocument(state, id))
-  const focused = useScopedSelector(state => isFocused(state, id))
+  const document = useScopedSelector(getDocument(id))
+  const focused = useScopedSelector(isFocused(id))
   const plugin = useScopedSelector(
-    state => document && getPlugin(state, document.plugin)
+    state => document && getPlugin(document.plugin)(state)
   )
   const dispatch = useScopedDispatch()
 

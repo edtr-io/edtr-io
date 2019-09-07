@@ -1,7 +1,6 @@
 import { Plugin } from '@edtr-io/abstract-plugin'
 
-import { createSubReducer } from '../helpers'
-import { ScopedState } from '../types'
+import { createSelector, createSubReducer } from '../helpers'
 
 export const pluginsReducer = createSubReducer(
   'plugins',
@@ -9,29 +8,19 @@ export const pluginsReducer = createSubReducer(
   {}
 )
 
-export function getDefaultPlugin(state: ScopedState) {
-  return state.plugins.defaultPlugin
-}
-
-export function getPlugins(state: ScopedState) {
-  return state.plugins.plugins
-}
-
-export function getPlugin(state: ScopedState, type: string): Plugin | null {
-  const plugins = getPlugins(state)
-  return plugins[type] || null
-}
-
-export function getPluginTypeOrDefault(
-  state: ScopedState,
-  type = getDefaultPlugin(state)
-): string {
-  return type
-}
-
-export function getPluginOrDefault(
-  state: ScopedState,
-  type = getDefaultPlugin(state)
-): Plugin | null {
-  return getPlugin(state, type)
-}
+export const getDefaultPlugin = createSelector(
+  state => state.plugins.defaultPlugin
+)
+export const getPlugins = createSelector(state => state.plugins.plugins)
+export const getPlugin = createSelector(
+  (state, type: string): Plugin | null => {
+    const plugins = getPlugins()(state)
+    return plugins[type] || null
+  }
+)
+export const getPluginTypeOrDefault = createSelector(
+  (state, type: string = getDefaultPlugin()(state)) => type
+)
+export const getPluginOrDefault = createSelector(
+  (state, type: string = getDefaultPlugin()(state)) => getPlugin(type)(state)
+)

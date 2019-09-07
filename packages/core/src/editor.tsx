@@ -170,19 +170,19 @@ export function InnerDocument<K extends string = string>({
   const id = useSelector(state => {
     const scopedState = state[scope]
     if (!scopedState) return null
-    return getRoot(scopedState)
+    return getRoot()(scopedState)
   })
   const dispatch = useDispatch()
   const store = useScopedStore()
   React.useEffect(() => {
     if (typeof onChange !== 'function') return
-    let pendingChanges = getPendingChanges(store.getState())
+    let pendingChanges = getPendingChanges()(store.getState())
     return store.subscribe(() => {
-      const currentPendingChanges = getPendingChanges(store.getState())
+      const currentPendingChanges = getPendingChanges()(store.getState())
       if (currentPendingChanges !== pendingChanges) {
         onChange({
-          changed: hasPendingChanges(store.getState()),
-          getDocument: () => serializeRootDocument(store.getState())
+          changed: hasPendingChanges()(store.getState()),
+          getDocument: () => serializeRootDocument()(store.getState())
         })
         pendingChanges = currentPendingChanges
       }

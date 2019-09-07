@@ -1,5 +1,5 @@
 import { Action } from './actions'
-import { State, ScopedState } from './types'
+import { State, ScopedState, Selector } from './types'
 
 export function createAction<T, P>(type: T) {
   const actionCreator = (payload: P) => (scope: string) => {
@@ -40,12 +40,19 @@ export function createSubReducer<K extends keyof ScopedState>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createSelector<T, P extends any[]>(
+  f: (state: ScopedState, ...args: P) => T
+): Selector<T, P> {
+  return (...args: P) => (state: ScopedState) => f(state, ...args)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function scopeSelector<T, P extends any[]>(
-  selector: (state: ScopedState, ...args: P) => T,
+  selector: Selector<T, P>,
   scope: string
 ) {
   return (storeState: State, ...args: P) => {
-    return selector(storeState[scope], ...args)
+    return selector(...args)(storeState[scope])
   }
 }
 

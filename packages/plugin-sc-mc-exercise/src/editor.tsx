@@ -80,9 +80,9 @@ export function ScMcExerciseEditor(
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {
-  const focusedElement = useScopedSelector(getFocused)
+  const focusedElement = useScopedSelector(getFocused())
   const isEmpty = useScopedSelector(state => (id: string) =>
-    isEmptySelector(state, id)
+    isEmptySelector(id)(state)
   )
   const { editable, focused, state } = props
   const children = R.flatten(

@@ -7,12 +7,4 @@ export * from './plugins'
 export * from './root'
 export { getScope } from './reducer'
 export { createStore, ChangeListener, StoreEnhancerFactory } from './store'
-export {
-  DocumentState,
-  State,
-  Store,
-  ActionCreator,
-  ActionFromActionCreator,
-  ScopedActionCreator,
-  ScopedState
-} from './types'
+export { DocumentState, State, Store, ScopedState } from './types'

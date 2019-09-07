@@ -34,7 +34,7 @@ describe('History', () => {
   })
 
   test('Initial state after initializing the root', () => {
-    const { initialState } = getHistory(store.getState())
+    const { initialState } = getHistory()(store.getState())
     if (!initialState) throw new Error('Expected initial state')
     expect(initialState.documents).toEqual({
       root: {
@@ -42,13 +42,13 @@ describe('History', () => {
         state: 0
       }
     })
-    expect(S.hasPendingChanges(store.getState())).toEqual(false)
+    expect(S.hasPendingChanges()(store.getState())).toEqual(false)
   })
 
   test('Changes will be committed to the history', async () => {
     await change({ id: 'root', state: () => 1 })
-    expect(S.hasPendingChanges(store.getState())).toEqual(true)
-    const undoStack = getUndoStack(store.getState())
+    expect(S.hasPendingChanges()(store.getState())).toEqual(true)
+    const undoStack = getUndoStack()(store.getState())
     expect(undoStack).toHaveLength(1)
     expect(undoStack[0]).toHaveLength(1)
     expect(undoStack[0][0].type).toEqual(pureChange.type)
@@ -57,16 +57,16 @@ describe('History', () => {
   test('Commits will be added to the redo stack after reverting', async () => {
     await change({ id: 'root', state: () => 1 })
     await undo()
-    expect(getUndoStack(store.getState())).toHaveLength(0)
-    expect(getRedoStack(store.getState())).toHaveLength(1)
+    expect(getUndoStack()(store.getState())).toHaveLength(0)
+    expect(getRedoStack()(store.getState())).toHaveLength(1)
   })
 
   test('Redo stack will be purged after a commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await undo()
     store.dispatch(S.change({ id: 'root', state: () => 2 }))
-    expect(getUndoStack(store.getState())).toHaveLength(1)
-    expect(getRedoStack(store.getState())).toHaveLength(0)
+    expect(getUndoStack()(store.getState())).toHaveLength(1)
+    expect(getRedoStack()(store.getState())).toHaveLength(0)
   })
 
   test('Undo reverts the last committed actions', async () => {
@@ -74,7 +74,7 @@ describe('History', () => {
     await wait(1000)
     await change({ id: 'root', state: () => 2 })
     await undo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 1
     })
@@ -85,7 +85,7 @@ describe('History', () => {
     await change({ id: 'root', state: () => 2 })
     await undo()
     await redo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
     })
@@ -98,12 +98,12 @@ describe('History', () => {
     await wait(1000)
     await change({ id: 'root', state: () => 3 })
     await undo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
     })
     await undo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 1
     })
@@ -119,12 +119,12 @@ describe('History', () => {
     await undo()
     await undo()
     await redo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 1
     })
     await redo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
     })
@@ -136,7 +136,7 @@ describe('History', () => {
     await wait(1000)
     await change({ id: 'root', state: () => 3 })
     await undo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
     })
@@ -151,7 +151,7 @@ describe('History', () => {
     await undo()
     await redo()
     await redo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 3
     })
@@ -160,14 +160,14 @@ describe('History', () => {
   test('Changes in a small time frame will be combined into a single commit', async () => {
     await change({ id: 'root', state: () => 1 })
     await change({ id: 'root', state: () => 2 })
-    expect(getUndoStack(store.getState())).toHaveLength(1)
+    expect(getUndoStack()(store.getState())).toHaveLength(1)
   })
 
   test('Changes in a longer time frame will not be combined', async () => {
     await change({ id: 'root', state: () => 1 })
     await wait(1000)
     await change({ id: 'root', state: () => 2 })
-    expect(getUndoStack(store.getState())).toHaveLength(2)
+    expect(getUndoStack()(store.getState())).toHaveLength(2)
   })
 
   test('Undo after redo', async () => {
@@ -177,7 +177,7 @@ describe('History', () => {
     await undo()
     await redo()
     await undo()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 1
     })
@@ -186,7 +186,7 @@ describe('History', () => {
   test('Reset after one change', async () => {
     await change({ id: 'root', state: () => 1 })
     await reset()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 0
     })
@@ -197,7 +197,7 @@ describe('History', () => {
     await change({ id: 'root', state: () => 2 })
     // undoStack: [[1, 2]]
     await reset()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 0
     })
@@ -209,7 +209,7 @@ describe('History', () => {
     store.dispatch(S.persist())
     await undo()
     await reset()
-    expect(S.getDocument(store.getState(), 'root')).toEqual({
+    expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
     })

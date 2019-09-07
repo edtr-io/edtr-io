@@ -6,9 +6,9 @@ import { DocumentProps } from '.'
 import { useScopedSelector } from '../store'
 
 export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
-  const document = useScopedSelector(state => getDocument(state, id))
+  const document = useScopedSelector(getDocument(id))
   const plugin = useScopedSelector(
-    state => document && getPlugin(state, document.plugin)
+    state => document && getPlugin(document.plugin)(state)
   )
   if (!document) return null
   if (!plugin) {

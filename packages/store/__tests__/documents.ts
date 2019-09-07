@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe('Documents', () => {
   test('Initial state', () => {
-    expect(getDocuments(store.getState())).toEqual({})
+    expect(getDocuments()(store.getState())).toEqual({})
   })
 
   describe('Insert', () => {
@@ -22,7 +22,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      const doc = S.getDocument(store.getState(), '0')
+      const doc = S.getDocument('0')(store.getState())
       if (!doc) throw new Error('Document not found')
       expect(doc.plugin).toEqual('text')
     })
@@ -37,7 +37,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      expect(S.getDocument(store.getState(), '1')).toEqual({
+      expect(S.getDocument('1')(store.getState())).toEqual({
         plugin: 'stateless'
       })
     })
@@ -52,7 +52,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      expect(S.getDocument(store.getState(), '0')).toEqual({
+      expect(S.getDocument('0')(store.getState())).toEqual({
         plugin: 'stateful',
         state: { counter: 0 }
       })
@@ -71,7 +71,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(S.remove('1'))
-      expect(getDocuments(store.getState())).toEqual({})
+      expect(getDocuments()(store.getState())).toEqual({})
     })
     test('Two documents', async () => {
       store.dispatch(
@@ -94,7 +94,7 @@ describe('Documents', () => {
           ).length >= 2
       )
       store.dispatch(S.remove('1'))
-      expect(getDocuments(store.getState())).toEqual({
+      expect(getDocuments()(store.getState())).toEqual({
         2: {
           plugin: 'stateless'
         }
@@ -111,7 +111,7 @@ describe('Documents', () => {
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
       store.dispatch(S.remove('2'))
-      expect(R.values(getDocuments(store.getState()))).toHaveLength(1)
+      expect(R.values(getDocuments()(store.getState()))).toHaveLength(1)
     })
   })
 
@@ -136,7 +136,7 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureChange.type, store.getActions())
       )
-      expect(S.getDocument(store.getState(), '1')).toEqual({
+      expect(S.getDocument('1')(store.getState())).toEqual({
         plugin: 'stateful',
         state: 1
       })

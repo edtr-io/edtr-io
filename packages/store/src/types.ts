@@ -64,16 +64,15 @@ export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<
   ReturnType<T>
 >
 
-export type ScopedActionCreator<F = ActionCreator> = F extends (
-  ...args: infer P
-) => (scope: string) => infer A
-  ? (...args: P) => A
-  : never
+/**
+ * Selectors
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Selector<T = any, P extends any[] = []> = (
+  ...args: P
+) => (scopedState: ScopedState) => T
 
-export type UnscopedActionCreator<
-  F = ScopedActionCreator<ActionCreator>
-> = F extends ScopedActionCreator<ActionCreator<infer T>>
-  ? (((...args: Parameters<F>) => (scope: string) => ReturnType<F>) & {
-      type: T
-    })
-  : never
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ReturnTypeFromSelector<T extends Selector<any, any>> = ReturnType<
+  ReturnType<T>
+>

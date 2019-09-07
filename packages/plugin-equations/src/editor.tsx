@@ -56,7 +56,7 @@ export function EquationsEditor(
   props: StatefulPluginEditorProps<typeof equationsState>
 ) {
   const store = useScopedStore()
-  const focusedElement = useScopedSelector(getFocused)
+  const focusedElement = useScopedSelector(getFocused())
   const dispatch = useScopedDispatch()
 
   const addButton = () => {
@@ -82,9 +82,9 @@ export function EquationsEditor(
     false,
     props.state.steps().map(step => {
       return R.contains(false, [
-        isEmpty(store.getState(), step.left.id),
-        isEmpty(store.getState(), step.right.id),
-        isEmpty(store.getState(), step.transform.id)
+        isEmpty(step.left.id)(store.getState()),
+        isEmpty(step.right.id)(store.getState()),
+        isEmpty(step.transform.id)(store.getState())
       ])
     })
   )
@@ -131,13 +131,13 @@ export function EquationsEditor(
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div>
                   <div className="col-xs-4">
-                    <strong>Linke Seite</strong>{' '}
+                    <strong>Linke Seite</strong>
                   </div>
                   <div className="col-xs-4">
-                    <strong>Rechte Seite</strong>{' '}
+                    <strong>Rechte Seite</strong>
                   </div>
                   <div className="col-xs-4">
-                    <strong>Umformung</strong>{' '}
+                    <strong>Umformung</strong>
                   </div>
                 </div>
                 {state.steps().map((step, index) => {

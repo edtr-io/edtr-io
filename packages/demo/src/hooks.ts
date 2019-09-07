@@ -5,7 +5,7 @@ import * as React from 'react'
 export function useLogState(scope?: string) {
   const store = useScopedStore(scope)
   return () => {
-    const serialized = serializeRootDocument(store.getState())
+    const serialized = serializeRootDocument()(store.getState())
     const stringified = JSON.stringify({
       state: JSON.stringify(serialized)
     })

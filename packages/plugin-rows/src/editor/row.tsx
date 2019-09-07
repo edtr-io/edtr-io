@@ -1,7 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { PrimarySettings } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { getDocument, getFocused } from '@edtr-io/store'
+import { getFocused } from '@edtr-io/store'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
@@ -35,7 +35,7 @@ const RowSource = React.forwardRef<
   { getNode: () => HTMLDivElement | null },
   RowSourceProps & RowMenuProps
 >((props, ref) => {
-  const focusedElement = useScopedSelector(getFocused)
+  const focusedElement = useScopedSelector(getFocused())
   const [expandedState, setExpanded] = React.useState(false)
   const [showExtendedSettings, setShowExtendedSettings] = React.useState(false)
   const rows = props.state
@@ -110,7 +110,6 @@ const RowSource = React.forwardRef<
           row={row}
           rows={rows}
           index={index}
-          getDocument={getDocument}
           renderIntoExtendedSettings={children => {
             if (!extendedSettingsNode.current) return null
 

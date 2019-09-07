@@ -12,7 +12,7 @@ import { Action } from './actions'
 import { reducer } from './reducer'
 import { serializeRootDocument } from './root/reducer'
 import { saga } from './saga'
-import { State } from './types'
+import { ReturnTypeFromSelector, State } from './types'
 
 export function createStore<K extends string>({
   instances,
@@ -61,5 +61,5 @@ export type StoreEnhancerFactory = (
 
 export type ChangeListener = (payload: {
   changed: boolean
-  getDocument: () => ReturnType<typeof serializeRootDocument>
+  getDocument: () => ReturnTypeFromSelector<typeof serializeRootDocument>
 }) => void

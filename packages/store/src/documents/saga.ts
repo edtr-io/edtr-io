@@ -6,6 +6,7 @@ import { Action } from '../actions'
 import { scopeSelector } from '../helpers'
 import { commit } from '../history/actions'
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
+import { ReturnTypeFromSelector } from '../types'
 import {
   change,
   ChangeAction,
@@ -36,7 +37,7 @@ function* insertSaga(action: InsertAction) {
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
-  const document: ReturnType<typeof getDocument> = yield select(
+  const document: ReturnTypeFromSelector<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
@@ -78,10 +79,9 @@ export function* handleRecursiveInserts(
   while (pendingDocs.length > 0) {
     const doc = pendingDocs.pop()
     if (!doc) return
-    const plugin: ReturnType<typeof getPluginOrDefault> = yield select(
-      scopeSelector(getPluginOrDefault, scope),
-      doc.plugin
-    )
+    const plugin: ReturnTypeFromSelector<
+      typeof getPluginOrDefault
+    > = yield select(scopeSelector(getPluginOrDefault, scope), doc.plugin)
     if (!plugin) return
 
     let pluginState: unknown
@@ -93,10 +93,9 @@ export function* handleRecursiveInserts(
       }
     }
 
-    const pluginType: ReturnType<typeof getPluginTypeOrDefault> = yield select(
-      scopeSelector(getPluginTypeOrDefault, scope),
-      doc.plugin
-    )
+    const pluginType: ReturnTypeFromSelector<
+      typeof getPluginTypeOrDefault
+    > = yield select(scopeSelector(getPluginTypeOrDefault, scope), doc.plugin)
     actions.push(
       pureInsert({
         id: doc.id,

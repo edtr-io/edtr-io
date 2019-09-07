@@ -2,8 +2,7 @@ import * as R from 'ramda'
 
 import { Action } from '../actions'
 import { getDocuments } from '../documents/reducer'
-import { createSubReducer } from '../helpers'
-import { ScopedState } from '../types'
+import { createSelector, createSubReducer } from '../helpers'
 import {
   persist,
   PersistAction,
@@ -27,7 +26,7 @@ export const historyReducer = createSubReducer(
       return {
         ...historyState,
         initialState: historyState.initialState || {
-          documents: getDocuments(state)
+          documents: getDocuments()(state)
         },
         pendingChanges: 0
       }
@@ -78,26 +77,23 @@ export const historyReducer = createSubReducer(
   }
 )
 
-export function getHistory(state: ScopedState) {
-  return state.history
-}
+export const getHistory = createSelector(state => state.history)
 
-export function getInitialState(state: ScopedState) {
-  return getHistory(state).initialState
-}
+export const getInitialState = createSelector(
+  state => getHistory()(state).initialState
+)
 
-export function getPendingChanges(state: ScopedState) {
-  return getHistory(state).pendingChanges
-}
+export const getPendingChanges = createSelector(
+  state => getHistory()(state).pendingChanges
+)
 
-export function hasPendingChanges(state: ScopedState) {
-  return getPendingChanges(state) !== 0
-}
+export const hasPendingChanges = createSelector(
+  state => getPendingChanges()(state) !== 0
+)
 
-export function getUndoStack(state: ScopedState) {
-  return getHistory(state).undoStack as Action[][]
-}
-
-export function getRedoStack(state: ScopedState) {
-  return getHistory(state).redoStack as Action[][]
-}
+export const getUndoStack = createSelector(
+  state => getHistory()(state).undoStack as Action[][]
+)
+export const getRedoStack = createSelector(
+  state => getHistory()(state).redoStack as Action[][]
+)

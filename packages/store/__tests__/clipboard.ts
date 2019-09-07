@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('Clipboard', () => {
   test('Initial state', () => {
-    expect(S.getClipboard(store.getState())).toEqual([])
+    expect(S.getClipboard()(store.getState())).toEqual([])
   })
 
   describe('Copy', () => {
@@ -29,11 +29,11 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(S.copy(S.getRoot(store.getState())))
+      store.dispatch(S.copy(S.getRoot()(store.getState())))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toEqual([
+      expect(S.getClipboard()(store.getState())).toEqual([
         {
           plugin: 'stateful',
           state: 0
@@ -57,11 +57,11 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      store.dispatch(S.copy(S.getRoot(store.getState())))
+      store.dispatch(S.copy(S.getRoot()(store.getState())))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toEqual([
+      expect(S.getClipboard()(store.getState())).toEqual([
         {
           plugin: 'nested',
           state: {
@@ -82,14 +82,14 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureInsert.type, store.getActions())
       )
-      const root = S.getRoot(store.getState())
+      const root = S.getRoot()(store.getState())
       if (!root) throw new Error('No root document found')
       store.dispatch(S.copy(root))
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toHaveLength(1)
-      expect(S.getClipboard(store.getState())[0]).toEqual({
+      expect(S.getClipboard()(store.getState())).toHaveLength(1)
+      expect(S.getClipboard()(store.getState())[0]).toEqual({
         plugin: 'stateful',
         state: 0
       })
@@ -98,8 +98,8 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toHaveLength(2)
-      expect(S.getClipboard(store.getState())[0]).toEqual({
+      expect(S.getClipboard()(store.getState())).toHaveLength(2)
+      expect(S.getClipboard()(store.getState())[0]).toEqual({
         plugin: 'stateful',
         state: 1
       })
@@ -108,8 +108,8 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toHaveLength(3)
-      expect(S.getClipboard(store.getState())[0]).toEqual({
+      expect(S.getClipboard()(store.getState())).toHaveLength(3)
+      expect(S.getClipboard()(store.getState())[0]).toEqual({
         plugin: 'stateful',
         state: 2
       })
@@ -118,8 +118,8 @@ describe('Clipboard', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureCopy.type, store.getActions())
       )
-      expect(S.getClipboard(store.getState())).toHaveLength(3)
-      expect(S.getClipboard(store.getState())[0]).toEqual({
+      expect(S.getClipboard()(store.getState())).toHaveLength(3)
+      expect(S.getClipboard()(store.getState())[0]).toEqual({
         plugin: 'stateful',
         state: 3
       })

@@ -54,7 +54,7 @@ export const createTextEditor = (
     const focusPrevious = React.useCallback(() => {
       dispatch(focusPreviousActionCreator())
     }, [dispatch])
-    const plugins = useScopedSelector(getPlugins)
+    const plugins = useScopedSelector(getPlugins())
     const editor = React.useRef<CoreEditor>()
     const overlayContext = React.useContext(OverlayContext)
     const availablePlugins: PluginRegistry = options.registry

@@ -44,7 +44,7 @@ export const RowsEditor = (
         }}
       />
       {rows.items.map((row, index) => {
-        const doc = getDocument(store.getState(), row.id)
+        const doc = getDocument(row.id)(store.getState())
 
         if (!doc) return null
         return (

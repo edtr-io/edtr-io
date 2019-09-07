@@ -49,7 +49,7 @@ function PlainEditorContainerInner(props: {
   editable?: boolean
 }) {
   const dispatch = useScopedDispatch()
-  const hasPendingChanges = useScopedSelector(hasPendingChangesSelector)
+  const hasPendingChanges = useScopedSelector(hasPendingChangesSelector())
   const logState = useLogState()
   const [editable, setEditable] = React.useState(
     props.editable === undefined ? true : props.editable

@@ -12,6 +12,7 @@ import {
 
 import { Action, setPartialState } from '../actions'
 import { scopeSelector } from '../helpers'
+import { ReturnTypeFromSelector } from '../types'
 import {
   undo,
   redo,
@@ -74,7 +75,7 @@ function* executeCommit(actions: Action[], combine: boolean, scope: string) {
 }
 
 function* undoSaga(action: UndoAction) {
-  const undoStack: ReturnType<typeof getUndoStack> = yield select(
+  const undoStack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
     scopeSelector(getUndoStack, action.scope)
   )
   const replay = R.tail(undoStack)
@@ -95,7 +96,7 @@ function* undoSaga(action: UndoAction) {
 }
 
 function* redoSaga(action: RedoAction) {
-  const redoStack: ReturnType<typeof getRedoStack> = yield select(
+  const redoStack: ReturnTypeFromSelector<typeof getRedoStack> = yield select(
     scopeSelector(getRedoStack, action.scope)
   )
   const replay = R.head(redoStack)
@@ -106,9 +107,9 @@ function* redoSaga(action: RedoAction) {
 
 function* resetSaga(action: ResetAction) {
   while (true) {
-    const pendingChanges: ReturnType<typeof getPendingChanges> = yield select(
-      scopeSelector(getPendingChanges, action.scope)
-    )
+    const pendingChanges: ReturnTypeFromSelector<
+      typeof getPendingChanges
+    > = yield select(scopeSelector(getPendingChanges, action.scope))
     if (pendingChanges === 0) break
     else if (pendingChanges < 0) {
       yield call(redoSaga, redo()(action.scope))

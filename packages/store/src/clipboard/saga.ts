@@ -2,6 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { serializeDocument } from '../documents/reducer'
 import { scopeSelector } from '../helpers'
+import { ReturnTypeFromSelector } from '../types'
 import { copy, CopyAction, pureCopy } from './actions'
 
 export function* clipboardSaga() {
@@ -9,7 +10,9 @@ export function* clipboardSaga() {
 }
 
 function* copySaga(action: CopyAction) {
-  const document: ReturnType<typeof serializeDocument> = yield select(
+  const document: ReturnTypeFromSelector<
+    typeof serializeDocument
+  > = yield select(
     scopeSelector(serializeDocument, action.scope),
     action.payload
   )

@@ -41,7 +41,7 @@ function renderDocument(onChange: StateProps['onChange']) {
 }
 
 function State({ onChange }: StateProps) {
-  const serialized = useScopedSelector(serializeRootDocument)
+  const serialized = useScopedSelector(serializeRootDocument())
   React.useEffect(() => {
     onChange(serialized)
   })

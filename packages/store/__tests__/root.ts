@@ -21,7 +21,7 @@ beforeEach(() => {
 
 describe('Root', () => {
   test('Initial state', () => {
-    expect(S.getRoot(store.getState())).toEqual(null)
+    expect(S.getRoot()(store.getState())).toEqual(null)
   })
 
   describe('Init Root', () => {
@@ -30,7 +30,7 @@ describe('Root', () => {
       await waitUntil(() =>
         R.any(action => action.type === persist.type, store.getActions())
       )
-      expect(S.serializeRootDocument(store.getState())).toEqual({
+      expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'stateless'
       })
     })
@@ -40,7 +40,7 @@ describe('Root', () => {
       await waitUntil(() =>
         R.any(action => action.type === persist.type, store.getActions())
       )
-      expect(S.serializeRootDocument(store.getState())).toEqual({
+      expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'stateful',
         state: 0
       })
@@ -58,7 +58,7 @@ describe('Root', () => {
       await waitUntil(() =>
         R.any(action => action.type === persist.type, store.getActions())
       )
-      expect(S.serializeRootDocument(store.getState())).toEqual({
+      expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nested',
         state: {
           child: {
@@ -81,7 +81,7 @@ describe('Root', () => {
       await waitUntil(() =>
         R.any(action => action.type === persist.type, store.getActions())
       )
-      expect(S.serializeRootDocument(store.getState())).toEqual({
+      expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nestedArray',
         state: {
           children: [
@@ -117,7 +117,7 @@ describe('Root', () => {
       await waitUntil(() =>
         R.any(action => action.type === persist.type, store.getActions())
       )
-      expect(S.serializeRootDocument(store.getState())).toEqual({
+      expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nestedArray',
         state: {
           children: [

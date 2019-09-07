@@ -20,18 +20,18 @@ beforeEach(() => {
 describe('Focus', () => {
   describe('FocusDocument', () => {
     test('Blurred initially', () => {
-      expect(S.isFocused(store.getState(), '0')).toEqual(false)
+      expect(S.isFocused('0')(store.getState())).toEqual(false)
     })
 
     test('Focused after requesting focus', () => {
       store.dispatch(S.focus('0'))
-      expect(S.isFocused(store.getState(), '0')).toEqual(true)
+      expect(S.isFocused('0')(store.getState())).toEqual(true)
     })
 
     test('Blurred after another focus request', () => {
       store.dispatch(S.focus('0'))
       store.dispatch(S.focus('1'))
-      expect(S.isFocused(store.getState(), '0')).toEqual(false)
+      expect(S.isFocused('0')(store.getState())).toEqual(false)
     })
   })
 
@@ -74,7 +74,7 @@ describe('Focus', () => {
           ).length >= 5
       )
 
-      const tree = getFocusTree(store.getState())
+      const tree = getFocusTree()(store.getState())
       if (!tree) throw new Error('Expected tree')
       expect(tree.children).toHaveLength(4)
     })
@@ -98,7 +98,7 @@ describe('Focus', () => {
           ).length >= 2
       )
 
-      const tree = getFocusTree(store.getState())
+      const tree = getFocusTree()(store.getState())
       if (!tree) throw new Error('Expected tree')
       if (!tree.children) throw new Error('Expected children')
       expect(tree.children[0].children).toHaveLength(1)

@@ -10,15 +10,15 @@ beforeEach(() => {
 describe('Plugins', () => {
   describe('Default plugin', () => {
     test('Initial state', () => {
-      expect(S.getDefaultPlugin(store.getState())).toEqual('text')
+      expect(S.getDefaultPlugin()(store.getState())).toEqual('text')
     })
   })
   describe('Plugins', () => {
     test('Existing plugins', () => {
-      expect(S.getPlugin(store.getState(), 'text')).toBeDefined()
+      expect(S.getPlugin('text')(store.getState())).toBeDefined()
     })
     test('Non-existing plugin', () => {
-      expect(S.getPlugin(store.getState(), 'foobar')).toBeNull()
+      expect(S.getPlugin('foobar')(store.getState())).toBeNull()
     })
   })
 })
