@@ -217,6 +217,7 @@ export type HoverPosition = 'above' | 'below'
 export const HoveringOverlay: React.FunctionComponent<{
   position: HoverPosition
   anchor?: React.RefObject<HTMLElement>
+  ignoreSelection?: boolean
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
   const triangle = React.createRef<HTMLDivElement>()
@@ -249,9 +250,11 @@ export const HoveringOverlay: React.FunctionComponent<{
       parentRect.left - 5 > rect.left ||
       parentRect.left + parentRect.width + 5 < rect.left + rect.width
     ) {
-      menu.style.top = null
-      menu.style.left = null
-      return
+      if (!props.ignoreSelection) {
+        menu.style.top = null
+        menu.style.left = null
+        return
+      }
     }
     menu.style.opacity = '1'
     const aboveValue = rect.top - menu.offsetHeight - 6
@@ -272,7 +275,14 @@ export const HoveringOverlay: React.FunctionComponent<{
       parentRect.left -
       triangle.current.offsetWidth / 2 +
       rect.width / 2}px`
-  }, [overlay, triangle, props.position, props.anchor, positionAbove])
+  }, [
+    overlay,
+    triangle,
+    props.position,
+    props.anchor,
+    positionAbove,
+    props.ignoreSelection
+  ])
 
   return (
     <InlineOverlayWrapper ref={overlay}>

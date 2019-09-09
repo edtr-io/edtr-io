@@ -42,7 +42,8 @@ const EditorWrapper = styled.div<{ inline: boolean }>(props => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginTop: '15px'
+          marginTop: '0.9em',
+          marginBottom: '0.9em'
         })
   }
 })
@@ -207,43 +208,49 @@ export const DefaultEditorComponent: React.FunctionComponent<
 
     return (
       <>
-        <Overlay>{HelpText}</Overlay>
-        <EditorWrapper
-          {...attributes}
-          onClick={e => {
-            e.stopPropagation()
-          }}
-          inline={inline}
+        {useVisualMath ? (
+          <>
+            <Overlay>{HelpText}</Overlay>
+            <EditorWrapper
+              {...attributes}
+              onClick={e => {
+                e.stopPropagation()
+              }}
+              inline={inline}
+            >
+              <MathQuill
+                latex={formulaState}
+                onChange={(e: MathField) => {
+                  updateLatex(e.latex())
+                }}
+                config={mathquillConfig}
+                ref={mathQuillRef}
+                mathquillDidMount={checkLatexError}
+              />
+            </EditorWrapper>
+          </>
+        ) : (
+          <Math
+            formula={formulaState}
+            inline={inline}
+            innerRef={(ref: HTMLInputElement | HTMLTextAreaElement | null) => {
+              if (ref) {
+                latexInputRef.current = ref
+                ref.focus()
+              }
+            }}
+          />
+        )}
+
+        <HoveringOverlay
+          position="above"
+          anchor={useVisualMath ? wrappedMathquillRef : latexInputRef}
+          ignoreSelection
         >
-          {useVisualMath ? (
-            <MathQuill
-              latex={formulaState}
-              onChange={(e: MathField) => {
-                updateLatex(e.latex())
-              }}
-              config={mathquillConfig}
-              ref={mathQuillRef}
-              mathquillDidMount={checkLatexError}
-            />
-          ) : inline ? (
-            <Math
-              formula={formulaState}
-              inline
-              innerRef={(
-                ref: HTMLInputElement | HTMLTextAreaElement | null
-              ) => {
-                if (ref) {
-                  latexInputRef.current = ref
-                  ref.focus()
-                }
-              }}
-            />
-          ) : (
-            <Math formula={formulaState} />
-          )}
-          <HoveringOverlay
-            position="above"
-            anchor={useVisualMath ? wrappedMathquillRef : latexInputRef}
+          <div
+            onClick={e => {
+              e.stopPropagation()
+            }}
           >
             <Dropdown
               name={name}
@@ -268,15 +275,18 @@ export const DefaultEditorComponent: React.FunctionComponent<
                 onChange={handleInlineToggle}
               />
             ) : null}
-            <Button
-              name={name}
-              onClick={() => {
-                overlayContext.show()
-              }}
-            >
-              <Icon icon={faQuestionCircle} />
-            </Button>
-            {hasError && <>Nur LaTeX verfügbar&nbsp;&nbsp;</>}
+            {useVisualMath && (
+              <Button
+                name={name}
+                onClick={() => {
+                  overlayContext.show()
+                }}
+              >
+                <Icon icon={faQuestionCircle} />
+              </Button>
+            )}
+
+            {hasError && <>Nur LaTeX verfügbar!&nbsp;&nbsp;</>}
             <br></br>
             {!useVisualMath && (
               <>
@@ -287,16 +297,15 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     width: '80vw',
                     maxWidth: 600
                   }}
-                  onChange={e => {
+                  onChange={(e: any) => {
                     updateLatex(e.target.value)
                   }}
                   value={formulaState}
                 />
-                &nbsp;
               </>
             )}
-          </HoveringOverlay>
-        </EditorWrapper>
+          </div>
+        </HoveringOverlay>
       </>
     )
   } else {
