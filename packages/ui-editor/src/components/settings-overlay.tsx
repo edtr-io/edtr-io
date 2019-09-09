@@ -281,7 +281,7 @@ export const HoveringOverlay: React.FunctionComponent<{
     props.position,
     props.anchor,
     positionAbove,
-    props.ignoreSelection
+    props.allowSelectionOverflow
   ])
 
   return (
