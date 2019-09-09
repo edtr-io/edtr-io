@@ -246,36 +246,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
       }
     }
 
-    const currentBlock = editor.value.blocks.first()
-
-    // no plugin handled the pasted data
-    // continue normal then split the plugin if multiple blocks were inserted
     next()
-    const blocks = editor.value.document.getBlocks()
-
-    //blocks must be inserted in reversed order
-    const afterSelected = blocks.reverse().takeUntil(block => {
-      if (!block) {
-        return false
-      }
-      return currentBlock.key === block.key
-    })
-
-    if (afterSelected.size) {
-      afterSelected.forEach(block => {
-        if (!block) return
-        editor.removeNodeByKey(block.key)
-      })
-
-      setTimeout(() => {
-        afterSelected.forEach(block => {
-          const isOnlyWhitespace = (text: string) => /^\s*$/.test(text)
-          if (!block || isOnlyWhitespace(block.text)) return
-
-          insert({ plugin: name, state: createDocumentFromBlocks([block]) })
-        })
-      })
-    }
   }
 }
 
@@ -522,7 +493,7 @@ function splitBlockAtSelection(editor: CoreEditor) {
   } else {
     editor.splitBlock(1)
   }
-  const blocks = editor.value.document.getBlocks()
+  const blocks = editor.value.document.nodes
 
   const afterSelected = blocks.skipUntil(block => {
     if (!block) {
