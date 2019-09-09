@@ -245,7 +245,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
         <HoveringOverlay
           position="above"
           anchor={useVisualMath ? wrappedMathquillRef : latexInputRef}
-          ignoreSelection
+          allowSelectionOverflow
         >
           <div
             onClick={e => {

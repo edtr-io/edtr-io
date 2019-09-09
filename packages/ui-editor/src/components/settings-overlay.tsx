@@ -217,7 +217,7 @@ export type HoverPosition = 'above' | 'below'
 export const HoveringOverlay: React.FunctionComponent<{
   position: HoverPosition
   anchor?: React.RefObject<HTMLElement>
-  ignoreSelection?: boolean
+  allowSelectionOverflow?: boolean
 }> = props => {
   const overlay = React.createRef<HTMLDivElement>()
   const triangle = React.createRef<HTMLDivElement>()
@@ -250,7 +250,7 @@ export const HoveringOverlay: React.FunctionComponent<{
       parentRect.left - 5 > rect.left ||
       parentRect.left + parentRect.width + 5 < rect.left + rect.width
     ) {
-      if (!props.ignoreSelection) {
+      if (!props.allowSelectionOverflow) {
         menu.style.top = null
         menu.style.left = null
         return
