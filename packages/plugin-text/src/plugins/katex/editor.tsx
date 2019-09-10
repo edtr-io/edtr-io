@@ -11,7 +11,7 @@ import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 
-import { katexBlockNode, katexInlineNode, EditCommitCache } from '.'
+import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
 import { Button } from '../../toolbar/button'
@@ -99,17 +99,18 @@ function isAndroid() {
 const preferenceKey = 'katex:usevisualmath'
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps & { name: string; cache: EditCommitCache }
+  NodeEditorProps & { name: string }
 > = props => {
-  const { attributes, editor, readOnly, name, node, cache } = props
+  const { attributes, editor, readOnly, name, node } = props
 
-  const { data } = node
+  const { data, key: nodeKey, type: nodeType } = node
   const inline = data.get('inline')
   const formula = data.get('formula')
 
   const preferences = React.useContext(PreferenceContext)
   const [hasError, setError] = React.useState(false)
   const useVisualMath = preferences.getKey(preferenceKey) && !hasError
+  const overlayContext = React.useContext(OverlayContext)
 
   //Refs for positioning of hovering menu
   const mathQuillRef = React.createRef<typeof MathQuill>()
@@ -125,48 +126,20 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
   })
 
-  // state for math formula, because focus jumps to end of input field if updated directly
-  const [formulaState, setFormulaState] = React.useState(formula)
-  const overlayContext = React.useContext(OverlayContext)
-
-  // if math formula gets selected or leaves edit, update formula from state
-  const edit =
-    props.isSelected && editor.value.selection.isCollapsed && !readOnly
-
   const setFormula = React.useCallback(
     (value: string) => {
-      editor.setNodeByKey(node.key, {
-        type: node.type,
+      editor.setNodeByKey(nodeKey, {
+        type: nodeType,
         data: {
           formula: value,
-          inline: node.data.get('inline')
+          inline: inline
         }
       })
     },
-    [editor, node]
+    [editor, nodeKey, nodeType, inline]
   )
 
-  React.useEffect(() => {
-    if (formula !== formulaState) {
-      setFormula(formulaState)
-      cache.key = undefined
-      cache.value = undefined
-    }
-  }, [edit, cache, formula, formulaState, setFormula])
-
-  // apply uncommited changes if present
-  React.useEffect(() => {
-    if (cache.value && node.key == cache.key) {
-      if (formula !== cache.value) {
-        setFormula(cache.value)
-        setFormulaState(cache.value)
-        cache.key = undefined
-        cache.value = undefined
-      }
-    }
-  }, [cache, formula, formulaState, setFormula, setFormulaState, node.key])
-
-  if (edit) {
+  if (props.isSelected && editor.value.selection.isCollapsed && !readOnly) {
     const mathquillConfig = {
       supSubsRequireOperand: true,
       autoCommands: 'pi alpha beta gamma delta',
@@ -219,9 +192,9 @@ export const DefaultEditorComponent: React.FunctionComponent<
               inline={inline}
             >
               <MathQuill
-                latex={formulaState}
+                latex={formula}
                 onChange={(e: MathField) => {
-                  updateLatex(e.latex())
+                  setFormula(e.latex())
                 }}
                 config={mathquillConfig}
                 ref={mathQuillRef}
@@ -231,7 +204,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           </>
         ) : (
           <Math
-            formula={formulaState}
+            formula={formula}
             inline={inline}
             innerRef={(ref: HTMLInputElement | HTMLTextAreaElement | null) => {
               if (ref) {
@@ -289,20 +262,10 @@ export const DefaultEditorComponent: React.FunctionComponent<
             {hasError && <>Nur LaTeX verfügbar!&nbsp;&nbsp;</>}
             <br></br>
             {!useVisualMath && (
-              <>
-                <EditorTextarea
-                  style={{
-                    color: 'black',
-                    margin: 2,
-                    width: '80vw',
-                    maxWidth: 600
-                  }}
-                  onChange={(e: any) => {
-                    updateLatex(e.target.value)
-                  }}
-                  value={formulaState}
-                />
-              </>
+              <MathEditorTextArea
+                defaultValue={formula}
+                onChange={setFormula}
+              />
             )}
           </div>
         </HoveringOverlay>
@@ -318,18 +281,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
         )}
       </span>
     )
-  }
-
-  function updateLatex(val: string) {
-    // store edits in cache
-    cache.key = node.key
-    cache.value = val
-    //cant set formula directly, because otherwise focus jumps to end of input field
-    setFormulaState(val)
-    // but android is different ...
-    if (isAndroid()) {
-      setFormula(val)
-    }
   }
 
   function checkLatexError(mathquill: {
@@ -351,7 +302,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }
 
   function handleInlineToggle(checked: boolean) {
-    const newData = { formula: formulaState, inline: !checked }
+    const newData = { formula, inline: !checked }
 
     // remove old node, merge blocks if necessary
     if (node.isLeafBlock()) {
@@ -376,6 +327,37 @@ export const DefaultEditorComponent: React.FunctionComponent<
       })
     }
   }
+}
+const mathEditorTextAreaStyles = {
+  color: 'black',
+  margin: 2,
+  width: '80vw',
+  maxWidth: 600
+}
+
+interface MathEditorTextAreaProps {
+  defaultValue: string
+  onChange: (val: string) => void
+}
+
+const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
+  const [latex, setLatex] = React.useState(props.defaultValue)
+  const { onChange } = props
+  const parentOnChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const val = e.target.value
+      setLatex(val)
+      onChange(val)
+    },
+    [onChange]
+  )
+  return (
+    <EditorTextarea
+      style={mathEditorTextAreaStyles}
+      onChange={parentOnChange}
+      value={latex}
+    />
+  )
 }
 
 function alternativeTextArea() {
