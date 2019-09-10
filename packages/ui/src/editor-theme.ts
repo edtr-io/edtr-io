@@ -60,7 +60,7 @@ export const defaultEditorTheme: EditorTheme = {
     background: '#d9534f'
   },
   color: '#EEEEEE',
-  backgroundColor: 'rgb(51,51,51,0.95)'
+  backgroundColor: 'rgba(51,51,51,0.95)'
 }
 
 export interface ButtonTheme {
