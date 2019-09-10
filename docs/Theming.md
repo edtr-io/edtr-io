@@ -77,7 +77,7 @@ const Themed: React.FunctionComponent = () => {
     // Override shared theme for editor ui elements
     editor: {
       color: '#eeeeee',
-      background: 'rgb(51,51,51,0.95)',
+      background: 'rgba(51,51,51,0.95)',
       primary: {
         background: 'rgb(70, 155, 255)'
       }
