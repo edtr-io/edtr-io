@@ -1,6 +1,7 @@
 import { serializeDocument } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
 import { pureInitRoot, PureInitRootAction } from './actions'
+import { ReturnTypeFromSelector } from '../types'
 
 export const rootReducer = createSubReducer('root', null, {
   [pureInitRoot.type](_rootState, _action: PureInitRootAction) {
@@ -9,7 +10,10 @@ export const rootReducer = createSubReducer('root', null, {
 })
 
 export const getRoot = createSelector(state => state.root)
-export const serializeRootDocument = createSelector(state => {
-  const root = getRoot()(state)
-  return root ? serializeDocument(root)(state) : null
-})
+export const serializeRootDocument = createSelector(
+  (state): ReturnTypeFromSelector<typeof serializeDocument> => {
+    const root = getRoot()(state)
+    if (!root) return null
+    return serializeDocument(root)(state)
+  }
+)
