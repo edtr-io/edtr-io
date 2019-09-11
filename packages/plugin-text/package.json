@@ -24,9 +24,9 @@
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/slate": "^0.43.0",
-    "@types/slate-html-serializer": "^0.6.0",
-    "@types/slate-react": "^0.21.0",
+    "@types/slate": "0.47.4",
+    "@types/slate-html-serializer": "0.6.3",
+    "@types/slate-react": "0.22.4",
     "exenv": "^1.0.0",
     "immutable": "^3.8.1",
     "is-hotkey": "^0.1.0",
@@ -34,9 +34,9 @@
     "ramda": "^0.26.1",
     "react-hotkeys": "^2.0.0",
     "react-mathquill": "^0.1.0",
-    "slate": "^0.44.0",
-    "slate-html-serializer": "^0.7.0",
-    "slate-react": "^0.21.0"
+    "slate": "0.47.4",
+    "slate-html-serializer": "0.8.6",
+    "slate-react": "0.22.4"
   },
   "devDependencies": {
     "@edtr-io/core": "^0.10.1",
