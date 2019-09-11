@@ -79,6 +79,10 @@ export const createKatexPlugin = ({
 }: KatexPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
+  function renderEditorComponent(props: any, editor: Editor) {
+    const name = pluginClosure.current ? pluginClosure.current.name : ''
+    return <EditorComponent {...props} editor={editor} name={name} />
+  }
   return {
     deserialize(el, next) {
       switch (el.tagName.toLowerCase()) {
@@ -128,18 +132,19 @@ export const createKatexPlugin = ({
       return next()
     },
 
-    renderNode(props, editor, next) {
-      const block = props.node as Block
+    renderInline(props, editor, next) {
       const inline = props.node as Inline
-
-      const name = pluginClosure.current ? pluginClosure.current.name : ''
-      if (
-        (block.object === 'block' && block.type === katexBlockNode) ||
-        (inline.object === 'inline' && inline.type === katexInlineNode)
-      ) {
-        return <EditorComponent {...props} editor={editor} name={name} />
+      if (inline.type === katexInlineNode) {
+        return renderEditorComponent(props, editor)
       }
+      return next()
+    },
 
+    renderBlock(props, editor, next) {
+      const block = props.node as Block
+      if (block.type === katexBlockNode) {
+        return renderEditorComponent(props, editor)
+      }
       return next()
     }
   }

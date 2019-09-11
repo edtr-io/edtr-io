@@ -121,17 +121,15 @@ export const createHeadingsPlugin = ({
       }
     },
 
-    renderNode(props, _editor, next) {
+    renderBlock(props, _editor, next) {
       const block = props.node
 
-      if (block.object === 'block') {
-        const match = /@splish-me\/h([1-6])/.exec(block.type)
+      const match = /@splish-me\/h([1-6])/.exec(block.type)
 
-        if (match) {
-          const level = parseInt(match[1], 10) as HeadingLevel
+      if (match) {
+        const level = parseInt(match[1], 10) as HeadingLevel
 
-          return <EditorComponent level={level} {...props} />
-        }
+        return <EditorComponent level={level} {...props} />
       }
 
       return next()
