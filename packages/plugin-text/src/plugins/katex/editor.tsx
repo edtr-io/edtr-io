@@ -1,4 +1,8 @@
-import { OverlayContext, PreferenceContext } from '@edtr-io/core'
+import {
+  OverlayContext,
+  PreferenceContext,
+  setDefaultPreference
+} from '@edtr-io/core'
 import {
   faQuestionCircle,
   HoveringOverlay,
@@ -97,6 +101,8 @@ function isAndroid() {
 }
 
 const preferenceKey = 'katex:usevisualmath'
+
+setDefaultPreference(preferenceKey, true)
 
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & { name: string }

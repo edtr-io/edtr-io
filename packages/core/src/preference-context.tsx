@@ -16,6 +16,10 @@ export const PreferenceContext = React.createContext<Preference>({
 
 const store: { [key: string]: any } = {}
 
+export function setDefaultPreference(key: string, val: string) {
+  store[key] = val
+}
+
 export function PreferenceContextProvider(props: React.PropsWithChildren<{}>) {
   const [state, setState] = React.useState(1)
 
