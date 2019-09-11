@@ -1,10 +1,11 @@
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
-import { child, list, object, StatefulPlugin } from '@edtr-io/plugin'
+import { child, string, list, object, StatefulPlugin } from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
 
 export const StepProps = object({
   left: child(),
+  symbol: string('equals'),
   right: child(),
   transform: child()
 })

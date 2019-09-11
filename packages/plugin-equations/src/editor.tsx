@@ -3,7 +3,7 @@ import {
   useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
-import { Icon, faPlus, faTimes, styled } from '@edtr-io/editor-ui'
+import { Icon, faPlus, faTimes, styled, faEllipsisV } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -12,29 +12,27 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { HotKeys } from 'react-hotkeys'
 
 import { equationsState } from '.'
-import { EquationsRenderer } from './renderer'
+import { EquationsRenderer, LayoutContainer } from './renderer'
 
-const DraggableContainer = styled.div({
-  margin: '5px 0',
-  padding: '3px'
-})
-
-const RemoveButton = styled.button({
-  borderRadius: '50%',
-  outline: 'none',
-  width: '35px',
-  height: '35px',
-  border: 'none',
+const ButtonContainer = styled.div({
+  display: 'flex',
   float: 'right',
-  background: 'transparent',
+  flexDirection: 'row',
+  alignItems: 'center',
   position: 'absolute',
-  top: '-5px',
-  right: '-5px',
+  right: '-50px',
   zIndex: 10
 })
 
-const ColWrapper = styled.div({
-  cursor: 'auto'
+const RemoveButton = styled.button({
+  outline: 'none',
+  width: '35px',
+  border: 'none',
+  background: 'transparent'
+})
+const DragButton = styled.div({
+  cursor: 'grab',
+  paddingRight: '5px'
 })
 
 const AddButton = styled.button({
@@ -50,6 +48,11 @@ const AddButton = styled.button({
 
 const AddButtonWrapper = styled.div({
   textAlign: 'center'
+})
+
+const Header = styled.div({
+  textAlign: 'center',
+  width: '33%'
 })
 
 export function EquationsEditor(
@@ -129,17 +132,17 @@ export function EquationsEditor(
           {(provided: any) => {
             return (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div>
-                  <div className="col-xs-4">
+                <LayoutContainer>
+                  <Header>
                     <strong>Linke Seite</strong>
-                  </div>
-                  <div className="col-xs-4">
+                  </Header>
+                  <Header>
                     <strong>Rechte Seite</strong>
-                  </div>
-                  <div className="col-xs-4">
-                    <strong>Umformung</strong>
-                  </div>
-                </div>
+                  </Header>
+                  <Header>
+                    <strong>Umformung / Erklärung</strong>
+                  </Header>
+                </LayoutContainer>
                 {state.steps().map((step, index) => {
                   return (
                     <Draggable
@@ -149,27 +152,59 @@ export function EquationsEditor(
                     >
                       {(provided: any) => {
                         return (
-                          <DraggableContainer
+                          <LayoutContainer
                             className="row"
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
                           >
-                            <div className="col-xs-12">
+                            <div
+                              style={{
+                                textAlign: 'right',
+                                width: '33%'
+                              }}
+                            >
+                              {step.left.render()}
+                            </div>
+
+                            <div
+                              style={{
+                                width: '33%',
+                                display: 'flex',
+                                flexDirection: 'row'
+                              }}
+                            >
+                              <select
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLSelectElement>
+                                ) => {
+                                  step.symbol.set(e.target.value)
+                                }}
+                                value={step.symbol()}
+                              >
+                                <option value="equals">=</option>
+                                <option value="greater">{'>'}</option>
+                                <option value="lesser">{'<'}</option>
+                                <option value="greater-equal">&#8805;</option>
+                                <option value="lesser-equal">&#8804;</option>
+                                <option value="approx">&#8776;</option>
+                              </select>
+                              <div style={{ flexGrow: 1 }}>
+                                {step.right.render()}
+                              </div>
+                            </div>
+
+                            <div style={{ width: '33%' }}>
+                              {step.transform.render()}
+                            </div>
+                            <ButtonContainer>
+                              <DragButton {...provided.dragHandleProps}>
+                                <Icon icon={faEllipsisV} />
+                              </DragButton>
                               <RemoveButton onClick={removeButton(index)}>
                                 <Icon icon={faTimes} />
                               </RemoveButton>
-                            </div>
-                            <div className="col-xs-4">
-                              <ColWrapper>{step.left.render()}</ColWrapper>
-                            </div>
-                            <div className="col-xs-4">
-                              <ColWrapper>{step.right.render()}</ColWrapper>
-                            </div>
-                            <div className="col-xs-4">
-                              <ColWrapper>{step.transform.render()}</ColWrapper>
-                            </div>
-                          </DraggableContainer>
+                            </ButtonContainer>
+                          </LayoutContainer>
                         )
                       }}
                     </Draggable>

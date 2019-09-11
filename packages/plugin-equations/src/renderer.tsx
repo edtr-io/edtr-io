@@ -1,7 +1,9 @@
+import { styled } from '@edtr-io/editor-ui'
 import {
   StateDescriptorReturnType,
   StatefulPluginEditorProps
 } from '@edtr-io/plugin'
+import katex from 'katex'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -15,6 +17,33 @@ enum Phase {
   maxWidthTotal = 4,
   newLine = 5
 }
+
+export const LayoutContainer = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'flex-start'
+})
+
+export const LeftSide = styled.div({
+  width: '33%',
+  //textAlign: 'right',
+  '@media(max-width: 480px)': { width: '100%', textAlign: 'left' },
+  '@media(max-width: 768px)': { width: '50%', textAlign: 'right' },
+  '@media(min-width:768px)': { textAlign: 'right' }
+})
+
+export const RightSide = styled.div({
+  width: '33%',
+  display: 'flex',
+  flexDirection: 'row',
+  '@media(max-width: 480px)': { width: '100%' },
+  '@media(max-width: 768px)': { width: '50%' }
+})
+export const Transformation = styled.div({
+  width: '33%',
+  '@media(max-width: 768px)': { width: '100%', textAlign: 'center' }
+})
 
 export class EquationsRenderer extends React.Component<
   StatefulPluginEditorProps<typeof equationsState>,
@@ -37,20 +66,18 @@ export class EquationsRenderer extends React.Component<
       <React.Fragment>
         {/* {this.state.phase === Phase.noJS ? ( */}
         <div>
-          {rows.map((row, index) => {
+          {rows.map(row => {
             return (
-              <div key={index} className="row">
-                <div className="col-sm-12 col-md-4">{row.left.render()}</div>
-                <div className="col-sm-12 col-md-4">{row.right.render()}</div>
+              <LayoutContainer key={row.left.id}>
+                <LeftSide>{row.left.render()}</LeftSide>
+                <RightSide>
+                  {this.showSymbol(row.symbol())}
+                  {row.right.render()}
+                </RightSide>
                 {row.transform === undefined ? null : (
-                  <div
-                    style={{ textAlign: 'right' }}
-                    className="col-sm-12 col-md-4"
-                  >
-                    {row.transform.render()}
-                  </div>
+                  <Transformation>{row.transform.render()}</Transformation>
                 )}
-              </div>
+              </LayoutContainer>
             )
           })}
         </div>
@@ -68,7 +95,52 @@ export class EquationsRenderer extends React.Component<
   public componentWillUnmount() {
     window.removeEventListener('resize', this.calculateLayout)
   }
-
+  public showSymbol(symbol: string) {
+    console.log('symbol:', symbol)
+    switch (symbol) {
+      case 'equals':
+        console.log('equals:', symbol)
+        return (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: katex.renderToString('=')
+            }}
+          />
+        )
+      case 'approx':
+        return (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: katex.renderToString('\\approx')
+            }}
+          />
+        )
+      case 'greater':
+        return (
+          <span
+            dangerouslySetInnerHTML={{ __html: katex.renderToString('>') }}
+          />
+        )
+      case 'lesser':
+        return (
+          <span
+            dangerouslySetInnerHTML={{ __html: katex.renderToString('<') }}
+          />
+        )
+      case 'greater-equal':
+        return (
+          <span
+            dangerouslySetInnerHTML={{ __html: katex.renderToString('\\geq') }}
+          />
+        )
+      case 'lesser-equal':
+        return (
+          <span
+            dangerouslySetInnerHTML={{ __html: katex.renderToString('\\leq') }}
+          />
+        )
+    }
+  }
   private renderHidden = () => {
     interface StepFit {
       step: StateDescriptorReturnType<typeof StepProps>
