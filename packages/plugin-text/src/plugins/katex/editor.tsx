@@ -14,7 +14,6 @@ import {
 import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
-import { Editor } from 'slate'
 
 import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
