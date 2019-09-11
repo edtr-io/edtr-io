@@ -12,4 +12,4 @@ export {
   useScopedStore
 } from './store'
 export { OverlayContext, OverlayContextValue } from './overlay'
-export { PreferenceContext } from './preference-context'
+export { PreferenceContext, setDefaultPreference } from './preference-context'

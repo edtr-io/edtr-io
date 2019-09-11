@@ -5,8 +5,8 @@ import * as React from 'react'
 // Basically a key-value store, no persistent yet
 
 export interface Preference {
-  getKey: (key: string) => any
-  setKey: (key: string, val: any) => void
+  getKey: (key: string) => unknown
+  setKey: (key: string, val: unknown) => void
 }
 
 export const PreferenceContext = React.createContext<Preference>({
@@ -14,12 +14,16 @@ export const PreferenceContext = React.createContext<Preference>({
   setKey: () => {}
 })
 
-const store: { [key: string]: any } = {}
+const store: { [key: string]: unknown } = {}
+
+export function setDefaultPreference(key: string, val: unknown) {
+  store[key] = val
+}
 
 export function PreferenceContextProvider(props: React.PropsWithChildren<{}>) {
   const [state, setState] = React.useState(1)
 
-  function setKey(key: string, val: any) {
+  function setKey(key: string, val: unknown) {
     store[key] = val
     setState(state + 1)
   }
