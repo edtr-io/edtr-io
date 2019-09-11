@@ -23,18 +23,15 @@ export const RowsEditor = (
     | undefined
   >(undefined)
 
-  const openMenu = React.useCallback(
-    (insertIndex: number) => {
-      setMenu({
-        index: insertIndex,
-        onClose: pluginState => {
-          rows.insert(insertIndex, pluginState)
-          setMenu(undefined)
-        }
-      })
-    },
-    [rows]
-  )
+  function openMenu(insertIndex: number) {
+    setMenu({
+      index: insertIndex,
+      onClose: pluginState => {
+        rows.insert(insertIndex, pluginState)
+        setMenu(undefined)
+      }
+    })
+  }
 
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
