@@ -20,7 +20,7 @@ import {
   Operation,
   Block
 } from 'slate'
-import { Editor, EventHook, findNode } from 'slate-react'
+import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
@@ -167,7 +167,7 @@ export const createTextEditor = (
     const onClick = React.useCallback((e, editor, next): CoreEditor | void => {
       if (e.target) {
         // @ts-ignore
-        const node = findNode(e.target as Element, editor)
+        const node = editor.findNode(e.target as Element)
         if (!node) {
           return editor
         }
@@ -195,6 +195,12 @@ export const createTextEditor = (
     return React.useMemo(
       () => (
         <Editor
+          ref={slate => {
+            const slateReact = (slate as unknown) as CoreEditor | null
+            if (slateReact && !editor.current) {
+              editor.current = slateReact
+            }
+          }}
           onPaste={onPaste}
           onKeyDown={onKeyDown}
           onClick={onClick}
