@@ -133,7 +133,7 @@ export const createKatexPlugin = ({
     },
 
     renderInline(props, editor, next) {
-      const inline = props.node as Inline
+      const inline = props.node
       if (inline.type === katexInlineNode) {
         return renderEditorComponent(props, editor)
       }
@@ -141,7 +141,7 @@ export const createKatexPlugin = ({
     },
 
     renderBlock(props, editor, next) {
-      const block = props.node as Block
+      const block = props.node
       if (block.type === katexBlockNode) {
         return renderEditorComponent(props, editor)
       }
