@@ -29,7 +29,8 @@ module.exports = function(api) {
                     '@edtr-io/plugin-important-statement/src',
                   '@edtr-io/plugin-input-exercise':
                     '@edtr-io/plugin-input-exercise/src',
-                  '@edtr-io/plugin-multimedia-explanation': '@edtr-io/plugin-multimedia-explanation/src',
+                  '@edtr-io/plugin-multimedia-explanation':
+                    '@edtr-io/plugin-multimedia-explanation/src',
                   '@edtr-io/plugin-rows': '@edtr-io/plugin-rows/src',
                   '@edtr-io/plugin-sc-mc-exercise':
                     '@edtr-io/plugin-sc-mc-exercise/src',

@@ -28,7 +28,7 @@ addStory('Plugins/Multimedia Explanation/Prefilled Illustrating Image', {
               target: '',
               rel: '',
               description: 'Ein Schüler lernt mit serlo.org',
-              maxWidth: 300
+              maxWidth: 0
             }
           },
           illustrating: true,
@@ -38,7 +38,6 @@ addStory('Plugins/Multimedia Explanation/Prefilled Illustrating Image', {
     ]
   }
 })
-
 
 addStory('Plugins/Multimedia Explanation/Prefilled Explaining Image', {
   state: {

@@ -1,20 +1,22 @@
+import { useScopedSelector } from '@edtr-io/core'
+import { styled } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getDocument, isFocused } from '@edtr-io/store'
 import * as React from 'react'
-import { StatefulPluginEditorProps } from '@edtr-io/core'
-import { EditorCheckbox, styled } from '@edtr-io/editor-ui'
 
-import { multimediaExplanationState, PluginRegistry } from './index'
+import { MultimediaExplanationState, PluginRegistry } from '.'
 
 const Floating = styled.div<{ floating: boolean }>(props => {
   return {
     ...(props.floating
       ? {
-          maxWidth: '50%',
+          width: '50%',
           float: 'right',
-          zIndex: 10,
-          position: 'relative'
+          zIndex: 10
         }
       : {}),
-    padding: '5px'
+    padding: '5px',
+    position: 'relative'
   }
 })
 
@@ -28,11 +30,23 @@ const Container = styled.div<{ focused: boolean }>(props => {
   }
 })
 
+const Start = styled.div({
+  textAlign: 'center'
+})
+
+const FlexWrapper = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  '> div': {
+    flex: 1
+  }
+})
+
 export function createMultimediaExplanationEditor(
   multimediaPlugins: PluginRegistry
 ) {
   return function MultimediaExplanationEditor(
-    props: StatefulPluginEditorProps<typeof multimediaExplanationState> & {
+    props: StatefulPluginEditorProps<MultimediaExplanationState> & {
       renderIntoExtendedSettings?: (
         children: React.ReactNode
       ) => React.ReactNode
@@ -43,32 +57,53 @@ export function createMultimediaExplanationEditor(
     }
 
     const IllustratingSelection = (
-      <div>
-        <strong>Wie wichtig ist der Multimedia Inhalt?</strong>
-        <select
-          value={props.state.illustrating.value ? 'illustrating' : 'explaining'}
-          onChange={handleIllustratingChange}
-        >
-          <option value="illustrating">
-            Es ist nur eine Veranschaulichung
-          </option>
-          <option value="explaining">Es spielt eine zentrale Rolle</option>
-        </select>
-      </div>
+      <React.Fragment>
+        <div style={{ flex: 1 }}>
+          <strong>Wie wichtig ist der Multimedia Inhalt?</strong>
+        </div>
+        <div style={{ flex: 1 }}>
+          <select
+            value={
+              props.state.illustrating.value ? 'illustrating' : 'explaining'
+            }
+            onChange={handleIllustratingChange}
+          >
+            <option value="illustrating">
+              Es ist nur eine Veranschaulichung
+            </option>
+            <option value="explaining">Es spielt eine zentrale Rolle</option>
+          </select>
+        </div>
+      </React.Fragment>
     )
 
-    const PluginSelection = multimediaPlugins.map((plugin, i) => {
-      return <button key={i} onClick={() => {
-        props.state.multimedia.replace(plugin.name)
-        props.state.initialized.set(true);
-      }}>{ plugin.title }</button>
-    })
+    const multimediaFocused = useScopedSelector(
+      isFocused(props.state.multimedia.id)
+    )
+    const multimedia = useScopedSelector(getDocument(props.state.multimedia.id))
+    function handleMultimediaChange(e: React.ChangeEvent<HTMLSelectElement>) {
+      props.state.multimedia.replace(e.target.value)
+    }
+    const PluginSelection = (
+      <select
+        value={multimedia ? multimedia.plugin : ''}
+        onChange={handleMultimediaChange}
+      >
+        {multimediaPlugins.map((plugin, i) => {
+          return (
+            <option key={i} value={plugin.name}>
+              {plugin.title}
+            </option>
+          )
+        })}
+      </select>
+    )
 
     return (
       <React.Fragment>
         {props.state.initialized.value ? (
           <React.Fragment>
-            <Container focused={props.focused || false}>
+            <Container focused={props.focused || multimediaFocused}>
               <Floating floating={props.state.illustrating.value}>
                 {props.state.multimedia.render()}
               </Floating>
@@ -82,7 +117,7 @@ export function createMultimediaExplanationEditor(
                     {IllustratingSelection}
                     <div>
                       <strong>Tausche das Multimedia Element:</strong>
-                      { PluginSelection }
+                      {PluginSelection}
                     </div>
                   </React.Fragment>
                 )
@@ -90,11 +125,18 @@ export function createMultimediaExplanationEditor(
           </React.Fragment>
         ) : (
           <React.Fragment>
-            { IllustratingSelection }
-            <div>
-              <strong>Wähle das Multimedia Element:</strong>
-              { PluginSelection }
-            </div>
+            <FlexWrapper>
+              {IllustratingSelection}
+              <div>
+                <strong>Wähle das Multimedia Element:</strong>
+                {PluginSelection}
+              </div>
+            </FlexWrapper>
+            <Start>
+              <button onClick={() => props.state.initialized.set(true)}>
+                OK
+              </button>
+            </Start>
           </React.Fragment>
         )}
       </React.Fragment>

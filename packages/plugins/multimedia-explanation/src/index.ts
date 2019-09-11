@@ -1,23 +1,31 @@
-import { StatefulPlugin, StateType } from '@edtr-io/core'
-import { createIcon, faPhotoVideo } from '@edtr-io/editor-ui'
-
-import { createMultimediaExplanationEditor } from './editor'
+import { boolean, child, object, StatefulPlugin } from '@edtr-io/plugin'
+import { createIcon, faPhotoVideo } from '@edtr-io/ui'
 import * as React from 'react'
 
-export const multimediaExplanationState = StateType.object({
-  explanation: StateType.child('rows'),
-  multimedia: StateType.child(),
-  illustrating: StateType.boolean(true),
-  initialized: StateType.boolean(false)
-})
+import { createMultimediaExplanationEditor } from './editor'
 
-export const createMultimediaExplanationPlugin = (multimediaPlugins: PluginRegistry) : StatefulPlugin<typeof multimediaExplanationState> => {
+export const multimediaExplanationState = (multimediaPlugins: PluginRegistry) =>
+  object({
+    explanation: child('rows'),
+    multimedia: child(multimediaPlugins[0].name),
+    illustrating: boolean(true),
+    initialized: boolean(false)
+  })
+
+export type MultimediaExplanationState = ReturnType<
+  typeof multimediaExplanationState
+>
+
+export const createMultimediaExplanationPlugin = (
+  multimediaPlugins: PluginRegistry
+): StatefulPlugin<MultimediaExplanationState> => {
   return {
     Component: createMultimediaExplanationEditor(multimediaPlugins),
-    state: multimediaExplanationState,
+    state: multimediaExplanationState(multimediaPlugins),
     icon: createIcon(faPhotoVideo),
     title: 'Erklärung mit Multimedia-Inhalt',
-    description: 'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung.'
+    description:
+      'Erstelle einen veranschaulichenden oder erklärenden Multimedia-Inhalt mit zugehöriger Erklärung.'
   }
 }
 export type PluginRegistry = {

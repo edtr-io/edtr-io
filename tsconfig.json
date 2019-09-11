@@ -18,7 +18,9 @@
         "plugins/important-statement/src"
       ],
       "@edtr-io/plugin-input-exercise": ["plugins/input-exercise/src"],
-      "@edtr-io/plugin-multimedia-explanation": ["plugins/multimedia-explanation/src"],
+      "@edtr-io/plugin-multimedia-explanation": [
+        "plugins/multimedia-explanation/src"
+      ],
       "@edtr-io/plugin-rows": ["plugins/rows/src"],
       "@edtr-io/plugin-sc-mc-exercise": ["plugins/sc-mc-exercise/src"],
       "@edtr-io/plugin-serlo-injection": ["plugins/serlo-injection/src"],
