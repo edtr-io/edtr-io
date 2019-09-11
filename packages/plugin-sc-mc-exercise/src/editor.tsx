@@ -33,7 +33,7 @@ const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
     width: '100%',
     marginLeft: '10px',
     borderRadius: '10px',
-    border: focused ? '3px solid #003399' : '2px solid lightgrey'
+    border: focused ? '3px solid #007ec1' : '2px solid lightgrey'
   }
 })
 const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
@@ -41,25 +41,27 @@ const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
     borderRadius: '50%',
     outline: 'none',
     background: 'white',
-    color: focused ? ' #003399' : 'lightgrey',
-    border: focused ? '3px solid #003399' : '2px solid lightgrey',
+    color: focused ? ' #007ec1' : 'lightgrey',
+    border: focused ? '3px solid #007ec1' : '2px solid lightgrey',
     zIndex: 20,
     float: 'right',
     transform: 'translate(50%, -40%)',
     '&:hover': {
-      border: '3px solid #003399',
-      color: '#003399'
+      border: '3px solid #007ec1',
+      color: '#007ec1'
     }
   }
 })
 const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
 
-const FeedbackField = styled.div({
-  paddingLeft: '20px',
-  paddingBottom: '10px',
-  paddingTop: '10px',
-  marginTop: '5px',
-  borderTop: '2px solid lightgrey'
+const FeedbackField = styled.div<{ focused: boolean }>(({ focused }) => {
+  return {
+    paddingLeft: '20px',
+    paddingBottom: '10px',
+    paddingTop: '10px',
+    marginTop: '5px',
+    borderTop: focused ? '2px solid #007ec1' : '2px solid lightgrey'
+  }
 })
 
 const AddButton = styled.button({
@@ -72,7 +74,7 @@ const AddButton = styled.button({
   minHeight: '50px',
   border: '2px solid lightgrey',
   outline: 'none',
-  '&:hover': { border: '3px solid #003399', color: '#003399' }
+  '&:hover': { border: '3px solid #007ec1', color: '#007ec1' }
 })
 
 export function ScMcExerciseEditor(
@@ -197,7 +199,14 @@ export function ScMcExerciseEditor(
                       >
                         <Icon icon={faTimes} />
                       </RemoveButton>
-                      <FeedbackField>{answer.feedback.render()}</FeedbackField>
+                      <FeedbackField
+                        focused={
+                          answer.id() === focusedElement ||
+                          answer.feedback.id === focusedElement
+                        }
+                      >
+                        {answer.feedback.render()}
+                      </FeedbackField>
                     </FramedContainer>
                   </AnswerContainer>
                 )

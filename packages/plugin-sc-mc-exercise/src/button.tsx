@@ -7,15 +7,15 @@ const Container = styled.div<{ isRadio: boolean; checked: boolean }>(
       cursor: 'pointer',
       border: checked
         ? isRadio
-          ? '5px solid #003399'
-          : '2px solid #003399'
+          ? '5px solid #007ec1'
+          : '2px solid #007ec1'
         : '2px solid lightgray',
       borderRadius: isRadio ? '50%' : '15%',
       width: '20px',
       height: '20px',
       display: 'inline-block',
       verticalAlign: 'middle',
-      backgroundColor: checked && !isRadio ? '#003399' : 'white'
+      backgroundColor: checked && !isRadio ? '#007ec1' : 'white'
     }
   }
 )
