@@ -508,6 +508,12 @@ useScopedSelector(state => {
         '**editor-ui**. Fix background color in default editor theme',
         '**plugin-text**. Split on enter now works also when there is a list in the same block.'
       ]
+    },
+    {
+      tagName: 'v0.10.2',
+      name: '0.10.2',
+      date: '2019-09-11',
+      fixed: ['**store**. Specify return type of `serializeRootDocument`']
     }
   ])
 
