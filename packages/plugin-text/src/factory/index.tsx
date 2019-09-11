@@ -12,6 +12,7 @@ import { TextPluginOptions } from './types'
 export const defaultNode = 'paragraph'
 
 export const textState = scalar<ValueJSON>({
+  // @ts-ignore: slate.js has changed data format and typings are out-dated
   document: {
     nodes: [
       {
@@ -19,13 +20,7 @@ export const textState = scalar<ValueJSON>({
         type: defaultNode,
         nodes: [
           {
-            object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                text: ''
-              }
-            ]
+            object: 'text'
           }
         ]
       }
