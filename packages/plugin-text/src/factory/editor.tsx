@@ -65,8 +65,12 @@ export const createTextEditor = (
     const [rawState, setRawState] = React.useState(
       Value.fromJSON(props.state.value)
     )
+
+    const thisState = React.useRef(props.state)
     const lastValue = React.useRef(props.state.value)
+
     React.useEffect(() => {
+      thisState.current = props.state
       if (lastValue.current !== props.state.value) {
         setRawState(Value.fromJSON(props.state.value))
         lastValue.current = props.state.value
@@ -77,7 +81,7 @@ export const createTextEditor = (
           }
         })
       }
-    }, [lastValue, props.focused, props.state.value])
+    }, [lastValue, props.focused, props.state.value, props.state])
 
     // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
     const slateClosure = React.useRef<SlateClosure>({
@@ -161,6 +165,7 @@ export const createTextEditor = (
       }
       next()
     }, [])
+
     const onChange = React.useCallback(
       (change: { operations: Immutable.List<Operation>; value: Value }) => {
         const nextValue = change.value.toJSON()
@@ -172,32 +177,43 @@ export const createTextEditor = (
         )
         if (!withoutSelections.isEmpty()) {
           lastValue.current = nextValue
-          props.state.set(nextValue)
+          if (thisState.current) thisState.current.set(nextValue)
         }
       },
-      [props.state]
+      [thisState]
     )
 
-    return (
-      <Editor
-        ref={slate => {
-          const slateReact = (slate as unknown) as CoreEditor | null
-          if (slateReact && !editor.current) {
-            editor.current = slateReact
-            patchSlateInsertFragment(slateReact)
-          }
-        }}
-        // ref={editor as React.RefObject<Editor>}
-        onPaste={onPaste}
-        onKeyDown={onKeyDown}
-        onClick={onClick}
-        onChange={onChange}
-        placeholder={props.editable ? options.placeholder : ''}
-        plugins={slatePlugins.current}
-        readOnly={!props.focused}
-        value={rawState}
-        schema={schema}
-      />
+    return React.useMemo(
+      () => (
+        <Editor
+          ref={slate => {
+            const slateReact = (slate as unknown) as CoreEditor | null
+            if (slateReact && !editor.current) {
+              editor.current = slateReact
+              patchSlateInsertFragment(slateReact)
+            }
+          }}
+          // ref={editor as React.RefObject<Editor>}
+          onPaste={onPaste}
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+          onChange={onChange}
+          placeholder={props.editable ? options.placeholder : ''}
+          plugins={slatePlugins.current}
+          readOnly={!props.focused}
+          value={rawState}
+          schema={schema}
+        />
+      ),
+      [
+        onPaste,
+        onKeyDown,
+        onClick,
+        onChange,
+        props.editable,
+        props.focused,
+        rawState
+      ]
     )
   }
 }
