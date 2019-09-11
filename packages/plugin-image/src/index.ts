@@ -6,7 +6,8 @@ import {
   upload,
   StatefulPlugin,
   UploadHandler,
-  UploadValidator
+  UploadValidator,
+  isTempFile
 } from '@edtr-io/plugin'
 
 import { createImageEditor } from './editor'
@@ -62,6 +63,13 @@ export const createImagePlugin = (
           }
         }
       }
+    },
+    isEmpty: serializedState => {
+      return (
+        (!serializedState.src || isTempFile(serializedState.src)) &&
+        !serializedState.href &&
+        !serializedState.description
+      )
     }
   }
 }
