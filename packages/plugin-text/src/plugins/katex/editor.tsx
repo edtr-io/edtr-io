@@ -14,6 +14,7 @@ import {
 import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
+import { Editor } from 'slate'
 
 import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
@@ -107,6 +108,7 @@ setDefaultPreference(preferenceKey, true)
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & { name: string }
 > = props => {
+  // @ts-ignore FIXME
   const { attributes, editor, readOnly, name, node } = props
 
   const { data, key: nodeKey, type: nodeType } = node
@@ -246,8 +248,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
                 latex
               </Option>
             </Dropdown>
-            {!isList(orderedListNode)(editor) &&
-            !isList(unorderedListNode)(editor) ? (
+            {!isList(orderedListNode)(editor as any) /* FIXME*/ &&
+            !isList(unorderedListNode)(editor as any) /* FIXME*/ ? (
               <InlineCheckbox
                 label="eigene Zeile"
                 checked={!inline}
