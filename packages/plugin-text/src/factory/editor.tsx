@@ -28,6 +28,8 @@ import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 
+const emptyValue = Value.fromJSON({})
+
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
@@ -62,9 +64,16 @@ export const createTextEditor = (
       : Object.keys(plugins).map(name => {
           return { ...plugins[name], name }
         })
-    const [rawState, setRawState] = React.useState(
-      Value.fromJSON(props.state.value)
-    )
+
+    const [rawState, setRawState] = React.useState(emptyValue)
+
+    // run this effect once when mounted to load json value into slate
+    React.useEffect(() => {
+      // slate.js changed format with version 0.46
+      // old format is still supported, but new states will be in new format
+      setRawState(Value.fromJSON(props.state.value))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const thisState = React.useRef(props.state)
     const lastValue = React.useRef(props.state.value)
