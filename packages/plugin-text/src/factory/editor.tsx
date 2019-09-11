@@ -28,7 +28,7 @@ import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 
-const emptyValue = Value.fromJSON({})
+const emptyValue: Value = Value.fromJSON({})
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -195,14 +195,6 @@ export const createTextEditor = (
     return React.useMemo(
       () => (
         <Editor
-          ref={slate => {
-            const slateReact = (slate as unknown) as CoreEditor | null
-            if (slateReact && !editor.current) {
-              editor.current = slateReact
-              patchSlateInsertFragment(slateReact)
-            }
-          }}
-          // ref={editor as React.RefObject<Editor>}
           onPaste={onPaste}
           onKeyDown={onKeyDown}
           onClick={onClick}
@@ -564,68 +556,4 @@ interface SlateClosure extends SlateEditorAdditionalProps {
   focusNext: () => void
   availabePlugins: PluginRegistry
   plugins: Record<string, Plugin>
-}
-
-// TEMPORARY
-// Testbed for integration of slate fix
-// polyfilling slate editor
-function patchSlateInsertFragment(editor: CoreEditor) {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  editor.insertFragment = fragment => {
-    if (!fragment.nodes.size) return editor
-
-    if (editor.value.selection.isExpanded) {
-      editor.delete()
-    }
-
-    let { value } = editor
-    let { document } = value
-    const { selection } = value
-    const { start, end } = selection
-    const { startText, endText, startInline } = value
-    const lastText = fragment.getLastText()
-    // @ts-ignore
-    const lastInline = fragment.getClosestInline(lastText.key)
-    // @ts-ignore
-    const lastBlock = fragment.getClosestBlock(lastText.key)
-    const firstChild = fragment.nodes.first()
-    const lastChild = fragment.nodes.last()
-    // @ts-ignore
-    const keys = document.getTexts().map(text => text.key)
-    const isAppending =
-      !startInline ||
-      (start.isAtStartOfNode(startText) || end.isAtStartOfNode(startText)) ||
-      (start.isAtEndOfNode(endText) || end.isAtEndOfNode(endText))
-
-    const isInserting =
-      firstChild.hasBlockChildren() || lastChild.hasBlockChildren()
-
-    // @ts-ignore
-    editor.insertFragmentAtRange(selection, fragment)
-    value = editor.value
-    document = value.document
-
-    // @ts-ignore
-    const newTexts = document.getTexts().filter(n => !keys.includes(n.key))
-    const newText = isAppending ? newTexts.last() : newTexts.takeLast(2).first()
-
-    if (newText && (lastInline || isInserting)) {
-      editor.moveToEndOfNode(newText)
-    } else if (newText && lastBlock) {
-      // Changed code
-      const lastInlineIndex = lastBlock.nodes.findLastIndex(node => {
-        if (!node) return false
-        return node.object == 'inline'
-      })
-      const skipLength = lastBlock.nodes
-        .takeLast(lastBlock.nodes.size - lastInlineIndex - 1)
-        .reduce((num, v) => {
-          if (!num) num = 0
-          if (v) return num + v.text.length
-          return num
-        }, 0)
-      editor.moveToStartOfNode(newText).moveForward(skipLength)
-    }
-    return editor
-  }
 }

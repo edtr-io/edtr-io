@@ -11,8 +11,7 @@ import { TextPluginOptions } from './types'
 
 export const defaultNode = 'paragraph'
 
-export const textState = scalar<ValueJSON>({
-  // @ts-ignore: slate.js has changed data format and typings are out-dated
+const emptyDocument = {
   document: {
     nodes: [
       {
@@ -26,7 +25,12 @@ export const textState = scalar<ValueJSON>({
       }
     ]
   }
-})
+}
+
+export const textState = scalar<ValueJSON>(
+  // @ts-ignore: slightly mismatching types FIXME
+  Value.fromJSON(emptyDocument).toJSON()
+)
 
 export const createTextPlugin = (
   options: TextPluginOptions
