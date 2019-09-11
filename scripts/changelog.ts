@@ -492,6 +492,22 @@ useScopedSelector(state => {
         "**renderer-ui**. Doesn't have to be a `peerDependency` anymore",
         "**ui**. Doesn't have to be a `peerDependency` anymore"
       ]
+    },
+    {
+      tagName: 'v0.10.1',
+      name: '0.10.1',
+      date: '2019-09-11',
+      added: ['**plugin-image**. Show upload status of images'],
+      changed: [
+        '**plugin-image**. Better error messages',
+        '**plugin-rows**. Improved performance',
+        '**plugin-text**. Improved performance',
+        '**plugin-text**. Improved math formulas (e.g. better error messages, responsive block formulas)'
+      ],
+      fixed: [
+        '**editor-ui**. Fix background color in default editor theme',
+        '**plugin-text**. Split on enter now works also when there is a list in the same block.'
+      ]
     }
   ])
 
