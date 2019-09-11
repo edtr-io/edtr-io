@@ -32,7 +32,7 @@
     "is-hotkey": "^0.1.0",
     "katex": "^0.10.0",
     "ramda": "^0.26.1",
-    "react-hotkeys": "^1.0.0",
+    "react-hotkeys": "^2.0.0",
     "react-mathquill": "^0.1.0",
     "slate": "^0.44.0",
     "slate-html-serializer": "^0.7.0",

@@ -1,5 +1,6 @@
 import { OverlayContext } from '@edtr-io/core'
 import {
+  Button,
   Checkbox,
   EditorButton,
   EditorInput,
@@ -10,8 +11,10 @@ import {
   Textarea,
   faCog,
   faImages,
+  faRedoAlt,
   styled
 } from '@edtr-io/editor-ui'
+import { EditorThemeProps } from '@edtr-io/ui'
 import {
   isTempFile,
   usePendingFileUploader,
@@ -45,6 +48,12 @@ const OverlayButtonWrapper = styled.div({
   textAlign: 'right'
 })
 
+const Failed = styled.div<EditorThemeProps>(props => {
+  return {
+    fontWeight: 'bold',
+    color: props.theme.editor.danger.background
+  }
+})
 export function createImageEditor(
   config: ImagePluginConfig
 ): React.FunctionComponent<ImageProps> {
@@ -58,6 +67,9 @@ export function createImageEditor(
       (isTempFile(state.src.value) && !state.src.value.loaded) ? (
         <ImgPlaceholderWrapper>
           <Icon icon={faImages} size="5x" />
+          {isTempFile(state.src.value) && state.src.value.failed ? (
+            <Failed>Hochladen fehlgeschlagen</Failed>
+          ) : null }
         </ImgPlaceholderWrapper>
       ) : (
         <ImageRenderer {...props} disableMouseEvents={editable} />
@@ -97,16 +109,34 @@ function PrimaryControls(
   const overlayContext = React.useContext(OverlayContext)
 
   const { src } = props.state
-  return src.value === '' ? (
+  return src.value === '' || isTempFile(src.value) ? (
     <React.Fragment>
       <EditorInput
         label="Bild-Adresse (URL):"
-        placeholder="http://beispiel.de/bild.png"
+        placeholder={
+          !isTempFile(src.value) ? "http://beispiel.de/bild.png" :
+            !src.value.failed ? 'Wird hochgeladen...' : 'Upload fehlgeschlagen...'
+        }
+        value={
+          !isTempFile(src.value) ? src.value : undefined
+        }
+        disabled={isTempFile(src.value) && !src.value.failed}
         onChange={handleChange(props)('src')}
         editorInputWidth="70%"
         textfieldWidth="60%"
       />
       <ButtonWrapper>
+        { isTempFile(src.value) && src.value.failed ? (
+          <EditorButton
+            onClick={() => {
+              if(isTempFile(src.value) && src.value.failed){
+                src.upload(src.value.failed, props.config.upload)
+              }
+            }}
+          >
+            <Icon icon={faRedoAlt} />
+          </EditorButton>
+        ): null}
         <Upload
           onFile={file => {
             src.upload(file, props.config.upload)
@@ -183,14 +213,29 @@ function Controls<T = unknown>(
     <React.Fragment>
       <OverlayInput
         label="Bild-Adresse (URL)"
-        placeholder="http://beispiel.de/bild.png"
-        value={
-          !isTempFile(state.src.value) ? state.src.value : 'Wird hochgeladen...'
+        placeholder={
+          !isTempFile(state.src.value) ? "http://beispiel.de/bild.png" :
+            !state.src.value.failed ? 'Wird hochgeladen...' : 'Upload fehlgeschlagen...'
+
         }
-        disabled={isTempFile(state.src.value)}
+        value={
+          !isTempFile(state.src.value) ? state.src.value : undefined
+        }
+        disabled={isTempFile(state.src.value) && !state.src.value.failed}
         onChange={handleChange(props)('src')}
       />
       <OverlayButtonWrapper>
+        { isTempFile(state.src.value) && state.src.value.failed ? (
+          <Button
+            onClick={() => {
+              if(isTempFile(state.src.value) && state.src.value.failed){
+                state.src.upload(state.src.value.failed, props.config.upload)
+              }
+            }}
+          >
+            <Icon icon={faRedoAlt} />
+          </Button>
+        ): null }
         <Upload
           inOverlay
           onFile={file => {
