@@ -133,7 +133,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
   })
 
   const setFormula = React.useCallback(
-    (value: string) => {
+    value => {
       editor.setNodeByKey(nodeKey, {
         type: nodeType,
         data: {
