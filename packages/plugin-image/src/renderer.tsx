@@ -1,5 +1,5 @@
 import { isTempFile, StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { RendererThemeProps, styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { imageState } from '.'
@@ -57,7 +57,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
         ) : state.src.value.loaded ? (
           <Uploading>
             <PendingOverlay>
-                <Pending />
+              <Pending />
             </PendingOverlay>
             <Img
               src={state.src.value.loaded.dataUrl}
