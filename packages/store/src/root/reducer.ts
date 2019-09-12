@@ -1,7 +1,7 @@
 import { serializeDocument } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
-import { pureInitRoot, PureInitRootAction } from './actions'
 import { ReturnTypeFromSelector } from '../types'
+import { pureInitRoot, PureInitRootAction } from './actions'
 
 export const rootReducer = createSubReducer('root', null, {
   [pureInitRoot.type](_rootState, _action: PureInitRootAction) {
