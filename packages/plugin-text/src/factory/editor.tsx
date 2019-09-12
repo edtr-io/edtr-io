@@ -12,14 +12,7 @@ import {
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import {
-  Editor as CoreEditor,
-  Value,
-  ValueJSON,
-  Range as CoreRange,
-  Operation,
-  Block
-} from 'slate'
+import { Editor as CoreEditor, Value, ValueJSON, Operation, Block } from 'slate'
 import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
@@ -164,16 +157,19 @@ export const createTextEditor = (
     const onKeyDown = React.useMemo(() => {
       return createOnKeyDown(slateClosure)
     }, [slateClosure])
-    const onClick = React.useCallback((e, editor, next): CoreEditor | void => {
-      if (e.target) {
-        // @ts-ignore
-        const node = editor.findNode(e.target as Element)
-        if (!node) {
-          return editor
+    const onClick = React.useCallback<EventHook>(
+      (e, editor, next): CoreEditor | void => {
+        if (e.target) {
+          // @ts-ignore outdated slatejs types
+          const node = editor.findNode(e.target as Element)
+          if (!node) {
+            return editor
+          }
         }
-      }
-      next()
-    }, [])
+        next()
+      },
+      []
+    )
 
     const onChange = React.useCallback(
       (change: { operations: Immutable.List<Operation>; value: Value }) => {
@@ -312,9 +308,13 @@ function createOnKeyDown(
         if (typeof merge !== 'function') return
         merge(other => {
           const value = Value.fromJSON(other)
-          const selection = CoreRange.create(editor.value.selection)
-          editor.insertFragmentAtRange(selection, value.document)
-          if (!previous) editor.select(selection)
+          const insertionIndex = previous ? 0 : editor.value.document.nodes.size
+          // lower level command to merge two documents
+          editor.insertFragmentByKey(
+            editor.value.document.key,
+            insertionIndex,
+            value.document
+          )
           return editor.value.toJSON()
         })
       }
