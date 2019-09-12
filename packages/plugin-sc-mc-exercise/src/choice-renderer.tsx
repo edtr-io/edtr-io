@@ -1,9 +1,9 @@
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
+import { CheckElement } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { scMcExerciseState } from '.'
-import { SCMCInput } from './button'
 
 const CheckboxContainer = styled.div({
   //width: '5%',
@@ -27,8 +27,8 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
     return (
       <div style={{ display: 'flex' }}>
         <CheckboxContainer>
-          <SCMCInput
-            isSingleChoice={state.isSingleChoice()}
+          <CheckElement
+            isRadio={state.isSingleChoice()}
             isActive={selected || false}
             handleChange={onClick ? onClick : () => {}}
           />
@@ -54,38 +54,6 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
       }
     }
   )
-
-  private ChoiceButton = styled.div<{
-    isCorrect?: boolean
-    showFeedback?: boolean
-    onClick?: ChoiceRendererProps['onClick']
-  }>(({ isCorrect, showFeedback, onClick }) => {
-    return {
-      // minWidth: '20px',
-      // backgroundColor: this.getBackgroundColor(),
-
-      paddingLeft: '20px',
-      paddingTop: '10px',
-      boxShadow: 'none',
-      transition: 'background-color 0.5s ease',
-      '&:hover': {
-        borderBottom:
-          (isCorrect && showFeedback) || !onClick
-            ? undefined
-            : '3px solid #d9edf7'
-      },
-      cursor:
-        (isCorrect && showFeedback) || !onClick
-          ? 'default !important'
-          : undefined
-    }
-  })
-
-  private Block = styled.div({
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex'
-  })
 }
 
 export interface ChoiceRendererProps {

@@ -88,7 +88,7 @@ export class ScMcRendererInteractive extends React.Component<
     }
     if (!this.props.isEmpty(answer.feedback.id)) {
       return (
-        <Feedback boxFree showOnLeft>
+        <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect()}>
           {answer.feedback.render()}
         </Feedback>
       )
