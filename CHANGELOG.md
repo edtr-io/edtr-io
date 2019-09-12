@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.2](https://github.com/edtr-io/edtr-io/compare/v0.10.1..v0.10.2) - September 11, 2019
+
+### Fixed
+
+- **store**. Specify return type of `serializeRootDocument`
+
+## [0.10.1](https://github.com/edtr-io/edtr-io/compare/v0.10.0..v0.10.1) - September 11, 2019
+
+### Added
+
+- **plugin-image**. Show upload status of images
+
+### Changed
+
+- **plugin-image**. Better error messages
+- **plugin-rows**. Improved performance
+- **plugin-text**. Improved performance
+- **plugin-text**. Improved math formulas (e.g. better error messages, responsive block formulas)
+
+### Fixed
+
+- **editor-ui**. Fix background color in default editor theme
+- **plugin-text**. Split on enter now works also when there is a list in the same block.
+
 ## [0.10.0](https://github.com/edtr-io/edtr-io/compare/v0.9.7..v0.10.0) - September 7, 2019
 
 ### Breaking Changes
