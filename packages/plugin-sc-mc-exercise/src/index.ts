@@ -1,5 +1,11 @@
 import { createIcon, faDotCircle } from '@edtr-io/editor-ui'
-import { legacyBoolean, legacyChild, legacyList, legacyObject, StatefulPlugin } from '@edtr-io/plugin'
+import {
+  legacyBoolean,
+  legacyChild,
+  legacyList,
+  legacyObject,
+  StatefulPlugin
+} from '@edtr-io/plugin'
 
 import { ScMcExerciseEditor } from './editor'
 

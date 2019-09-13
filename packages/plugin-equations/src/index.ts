@@ -1,5 +1,10 @@
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
-import { legacyChild, legacyList, legacyObject, StatefulPlugin } from '@edtr-io/plugin'
+import {
+  legacyChild,
+  legacyList,
+  legacyObject,
+  StatefulPlugin
+} from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
 

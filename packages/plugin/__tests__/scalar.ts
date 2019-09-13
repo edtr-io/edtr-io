@@ -185,7 +185,7 @@ describe('boolean', () => {
     }
 
     const booleanValue = new state(initial, onChange)
-    booleanValue.set((value) => !value)
+    booleanValue.set(value => !value)
     expect(store).toEqual(true)
   })
 })

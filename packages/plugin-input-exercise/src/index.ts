@@ -1,5 +1,11 @@
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
-import { legacyChild, legacyList, legacyObject, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import {
+  legacyChild,
+  legacyList,
+  legacyObject,
+  legacyString,
+  StatefulPlugin
+} from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
 

@@ -1,5 +1,10 @@
 import { createIcon, faCode } from '@edtr-io/editor-ui'
-import { legacyBoolean, legacyObject, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import {
+  legacyBoolean,
+  legacyObject,
+  legacyString,
+  StatefulPlugin
+} from '@edtr-io/plugin'
 
 import { HighlightEditor } from './editor'
 

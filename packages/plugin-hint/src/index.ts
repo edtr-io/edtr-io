@@ -1,5 +1,10 @@
 import { createIcon, faLightbulb } from '@edtr-io/editor-ui'
-import { legacyChild, legacyObject, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import {
+  legacyChild,
+  legacyObject,
+  legacyString,
+  StatefulPlugin
+} from '@edtr-io/plugin'
 
 import { HintEditor } from './editor'
 
