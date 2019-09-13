@@ -67,9 +67,17 @@ export interface ExpandableBoxTheme {
   toggleBackgroundColor: string
   toggleColor: string
 }
+export interface SubmitButtonTheme {
+  backgroundColor: string
+  hoverBackgroundColor: string
+  color: string
+  correctBackgroundColor: string
+  wrongBackgroundColor: string
+}
 
 export interface RendererUiTheme {
   expandableBox: ExpandableBoxTheme
+  submitButton: SubmitButtonTheme
 }
 
 export type RendererThemeProps = StyledThemeProps<{

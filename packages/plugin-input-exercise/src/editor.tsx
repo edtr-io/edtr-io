@@ -61,7 +61,6 @@ export function InputExerciseEditor(
                     placeholder="Gib hier deine Antwort ein"
                     type="text"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      console.log(e)
                       answer.value.set(e.target.value)
                     }}
                   />

@@ -1,12 +1,34 @@
 import { useScopedStore } from '@edtr-io/core'
 import { isEmpty } from '@edtr-io/store'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { Feedback } from '@edtr-io/renderer-ui'
+import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/editor-ui'
+import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState } from '.'
+import { inputExerciseState, createInputExerciseTheme } from '.'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
+
+const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
+  ({ name, ...props }) => {
+    const theme = createInputExerciseTheme(name, props.theme)
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+      float: 'right',
+      textAlign: 'center',
+      outline: 'none',
+      marginBottom: '10px'
+    }
+  }
+)
 
 export function InputExerciseRenderer(
   props: StatefulPluginEditorProps<typeof inputExerciseState>
@@ -15,6 +37,9 @@ export function InputExerciseRenderer(
   const store = useScopedStore()
   const [feedbackIndex, setFeedbackIndex] = React.useState<number>(-1)
   const [feedbackVisible, setFeedbackVisible] = React.useState<boolean>()
+  const [exerciseState, setExerciseState] = React.useState<ExerciseState>(
+    ExerciseState.Default
+  )
   const input = React.createRef<HTMLInputElement>()
 
   function checkAnswer(event: React.FormEvent) {
@@ -22,9 +47,15 @@ export function InputExerciseRenderer(
       return
     }
     event.preventDefault()
-    const { state } = props
     setFeedbackIndex(-1)
-    setFeedbackVisible(false)
+    setFeedbackVisible(true)
+    setExerciseState(ExerciseState.Default)
+    if (input.current.value === '') {
+      setFeedbackVisible(false)
+      return
+    }
+    const { state } = props
+
     let containedAnswer = false
     state.answers().forEach((answer, index) => {
       if (
@@ -34,17 +65,26 @@ export function InputExerciseRenderer(
           input.current.value
         )
       ) {
-        setFeedbackVisible(true)
         setFeedbackIndex(index)
+        if (answer.isCorrect()) {
+          setExerciseState(ExerciseState.SolvedRight)
+        } else {
+          handleWrongAnswer()
+        }
         containedAnswer = true
       }
     })
 
     if (!containedAnswer) {
-      setFeedbackVisible(true)
+      handleWrongAnswer()
     }
   }
-
+  const handleWrongAnswer = () => {
+    setTimeout(() => {
+      setExerciseState(ExerciseState.Default)
+    }, 2000)
+    setExerciseState(ExerciseState.SolvedWrong)
+  }
   const matchesInput = (
     field: { type: string; value: string },
     input: string
@@ -88,11 +128,17 @@ export function InputExerciseRenderer(
   }
 
   return (
-    <div className="new-text-exercise active">
-      <form className="input-challenge-group" onSubmit={checkAnswer}>
-        <div className="input-challenge-input-wrapper pull-right">
-          <input
-            className="input-challenge-input"
+    <div>
+      <form onSubmit={checkAnswer}>
+        <div>
+          <InputExerciseField
+            name={props.name}
+            onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
+              const { key } = (k as unknown) as KeyboardEvent
+              if ((key === 'Enter' || key === 'Backspace') && props.editable) {
+                k.stopPropagation()
+              }
+            }}
             data-type={state.type()}
             type="text"
             placeholder="Deine Lösung"
@@ -104,6 +150,7 @@ export function InputExerciseRenderer(
             clear: 'both'
           }}
         />
+
         {feedbackVisible ? (
           feedbackIndex > -1 ? (
             <Feedback
@@ -122,17 +169,8 @@ export function InputExerciseRenderer(
             <Feedback boxFree> Leider falsch!</Feedback>
           )
         ) : null}
-        <div className="input-challenge-solution">
-          <button className="btn btn-primary btn-xs input-challenge-submit pull-right">
-            <span className="input-challenge-submit-check">
-              <i className="fa fa-check-circle" />
-              Stimmts?
-            </span>
-            <span className="input-challenge-submit-correct">
-              <i className="fa fa-smile-o" />
-              Stimmt!
-            </span>
-          </button>
+        <div>
+          <SubmitButton exerciseState={exerciseState} />
           <div style={{ clear: 'both' }} />
         </div>
       </form>
