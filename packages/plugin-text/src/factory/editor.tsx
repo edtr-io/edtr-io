@@ -12,21 +12,16 @@ import {
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import {
-  Editor as CoreEditor,
-  Value,
-  ValueJSON,
-  Range as CoreRange,
-  Operation,
-  Block
-} from 'slate'
-import { Editor, EventHook, findNode } from 'slate-react'
+import { Editor as CoreEditor, Value, ValueJSON, Operation, Block } from 'slate'
+import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
+
+const emptyValue: Value = Value.fromJSON({})
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -62,9 +57,16 @@ export const createTextEditor = (
       : Object.keys(plugins).map(name => {
           return { ...plugins[name], name }
         })
-    const [rawState, setRawState] = React.useState(
-      Value.fromJSON(props.state.value)
-    )
+
+    const [rawState, setRawState] = React.useState(emptyValue)
+
+    // run this effect once when mounted to load json value into slate
+    React.useEffect(() => {
+      // slate.js changed format with version 0.46
+      // old format is still supported, but new states will be in new format
+      setRawState(Value.fromJSON(props.state.value))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const thisState = React.useRef(props.state)
     const lastValue = React.useRef(props.state.value)
@@ -155,16 +157,19 @@ export const createTextEditor = (
     const onKeyDown = React.useMemo(() => {
       return createOnKeyDown(slateClosure)
     }, [slateClosure])
-    const onClick = React.useCallback((e, editor, next): CoreEditor | void => {
-      if (e.target) {
-        // @ts-ignore
-        const node = findNode(e.target as Element, editor)
-        if (!node) {
-          return editor
+    const onClick = React.useCallback<EventHook>(
+      (e, editor, next): CoreEditor | void => {
+        if (e.target) {
+          // @ts-ignore outdated slatejs types
+          const node = editor.findNode(e.target as Element)
+          if (!node) {
+            return editor
+          }
         }
-      }
-      next()
-    }, [])
+        next()
+      },
+      []
+    )
 
     const onChange = React.useCallback(
       (change: { operations: Immutable.List<Operation>; value: Value }) => {
@@ -190,10 +195,8 @@ export const createTextEditor = (
             const slateReact = (slate as unknown) as CoreEditor | null
             if (slateReact && !editor.current) {
               editor.current = slateReact
-              patchSlateInsertFragment(slateReact)
             }
           }}
-          // ref={editor as React.RefObject<Editor>}
           onPaste={onPaste}
           onKeyDown={onKeyDown}
           onClick={onClick}
@@ -305,9 +308,13 @@ function createOnKeyDown(
         if (typeof merge !== 'function') return
         merge(other => {
           const value = Value.fromJSON(other)
-          const selection = CoreRange.create(editor.value.selection)
-          editor.insertFragmentAtRange(selection, value.document)
-          if (!previous) editor.select(selection)
+          const insertionIndex = previous ? 0 : editor.value.document.nodes.size
+          // lower level command to merge two documents
+          editor.insertFragmentByKey(
+            editor.value.document.key,
+            insertionIndex,
+            value.document
+          )
           return editor.value.toJSON()
         })
       }
@@ -555,68 +562,4 @@ interface SlateClosure extends SlateEditorAdditionalProps {
   focusNext: () => void
   availabePlugins: PluginRegistry
   plugins: Record<string, Plugin>
-}
-
-// TEMPORARY
-// Testbed for integration of slate fix
-// polyfilling slate editor
-function patchSlateInsertFragment(editor: CoreEditor) {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  editor.insertFragment = fragment => {
-    if (!fragment.nodes.size) return editor
-
-    if (editor.value.selection.isExpanded) {
-      editor.delete()
-    }
-
-    let { value } = editor
-    let { document } = value
-    const { selection } = value
-    const { start, end } = selection
-    const { startText, endText, startInline } = value
-    const lastText = fragment.getLastText()
-    // @ts-ignore
-    const lastInline = fragment.getClosestInline(lastText.key)
-    // @ts-ignore
-    const lastBlock = fragment.getClosestBlock(lastText.key)
-    const firstChild = fragment.nodes.first()
-    const lastChild = fragment.nodes.last()
-    // @ts-ignore
-    const keys = document.getTexts().map(text => text.key)
-    const isAppending =
-      !startInline ||
-      (start.isAtStartOfNode(startText) || end.isAtStartOfNode(startText)) ||
-      (start.isAtEndOfNode(endText) || end.isAtEndOfNode(endText))
-
-    const isInserting =
-      firstChild.hasBlockChildren() || lastChild.hasBlockChildren()
-
-    // @ts-ignore
-    editor.insertFragmentAtRange(selection, fragment)
-    value = editor.value
-    document = value.document
-
-    // @ts-ignore
-    const newTexts = document.getTexts().filter(n => !keys.includes(n.key))
-    const newText = isAppending ? newTexts.last() : newTexts.takeLast(2).first()
-
-    if (newText && (lastInline || isInserting)) {
-      editor.moveToEndOfNode(newText)
-    } else if (newText && lastBlock) {
-      // Changed code
-      const lastInlineIndex = lastBlock.nodes.findLastIndex(node => {
-        if (!node) return false
-        return node.object == 'inline'
-      })
-      const skipLength = lastBlock.nodes
-        .takeLast(lastBlock.nodes.size - lastInlineIndex - 1)
-        .reduce((num, v) => {
-          if (!num) num = 0
-          if (v) return num + v.text.length
-          return num
-        }, 0)
-      editor.moveToStartOfNode(newText).moveForward(skipLength)
-    }
-    return editor
-  }
 }

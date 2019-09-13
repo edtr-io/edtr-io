@@ -66,6 +66,7 @@ export interface LinkPluginOptions {
 const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps
 > = props => {
+  //  @ts-ignore slate.js typings out of sync with documentation, node prop missing
   const { attributes, children, node, isSelected } = props
   const inline = node
   const href = inline.data.get('href')
@@ -231,10 +232,10 @@ export const createLinkPlugin = ({
       }
     },
 
-    renderNode(props, _editor, next) {
+    renderInline(props, _editor, next) {
       const block = props.node
 
-      if (block.object === 'inline' && block.type === linkNode) {
+      if (block.type === linkNode) {
         return <EditorComponent {...props} />
       }
 

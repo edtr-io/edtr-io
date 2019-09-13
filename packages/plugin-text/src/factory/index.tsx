@@ -11,7 +11,7 @@ import { TextPluginOptions } from './types'
 
 export const defaultNode = 'paragraph'
 
-export const textState = scalar<ValueJSON>({
+const emptyDocument = {
   document: {
     nodes: [
       {
@@ -19,19 +19,18 @@ export const textState = scalar<ValueJSON>({
         type: defaultNode,
         nodes: [
           {
-            object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                text: ''
-              }
-            ]
+            object: 'text'
           }
         ]
       }
     ]
   }
-})
+}
+
+export const textState = scalar<ValueJSON>(
+  // @ts-ignore: slightly mismatching types FIXME
+  Value.fromJSON(emptyDocument).toJSON()
+)
 
 export const createTextPlugin = (
   options: TextPluginOptions

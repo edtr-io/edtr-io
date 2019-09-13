@@ -9,7 +9,7 @@ import { TextPlugin, PluginRegistry } from '..'
 export interface TextPluginOptions {
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   registry?: PluginRegistry
-  placeholder?: React.ReactNode
+  placeholder?: string
 }
 
 export type SlatePluginClosure = React.RefObject<{
