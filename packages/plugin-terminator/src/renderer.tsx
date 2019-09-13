@@ -120,7 +120,7 @@ function createInterfaceOptions(
 
 interface TerminatorSettingsProps {
   state: StateDescriptorReturnType<typeof terminatorState>
-  inc: any
+  inc: () => void
 }
 
 function TerminatorSettings(props: TerminatorSettingsProps) {
@@ -316,7 +316,10 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
   )
 }
 
-function doPreset(key: string, state: any) {
+function doPreset(
+  key: string,
+  state: StateDescriptorReturnType<typeof terminatorState>
+) {
   if (key === 'p0') {
     state.catalog.set('kopfeasy')
     state.addition.set(1)
