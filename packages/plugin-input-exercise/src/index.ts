@@ -1,11 +1,11 @@
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
-import { child, list, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, list, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
 
 export const wrongAnswerObject = object({
   value: legacyString(''),
-  feedback: child()
+  feedback: legacyChild()
 })
 export const inputExerciseState = object({
   type: legacyString('Text'),

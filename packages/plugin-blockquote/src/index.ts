@@ -1,9 +1,9 @@
 import { createIcon, faQuoteRight } from '@edtr-io/editor-ui'
-import { child, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, StatefulPlugin } from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
 
-export const blockquoteState = child()
+export const blockquoteState = legacyChild()
 
 export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
   Component: BlockquoteRenderer,

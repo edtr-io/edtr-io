@@ -1,5 +1,5 @@
 import {
-  child,
+  legacyChild,
   list,
   StatefulPlugin,
   StatefulPluginEditorProps
@@ -10,7 +10,7 @@ import * as React from 'react'
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
 
-export const rowState = child()
+export const rowState = legacyChild()
 export const rowsState = list(rowState, 1)
 
 function createRowsComponent(plugins?: PluginRegistry) {

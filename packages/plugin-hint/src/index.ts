@@ -1,11 +1,11 @@
 import { createIcon, faLightbulb } from '@edtr-io/editor-ui'
-import { child, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { HintEditor } from './editor'
 
 export const hintState = object({
   title: legacyString(''),
-  content: child('rows')
+  content: legacyChild('rows')
 })
 
 export const hintPlugin: StatefulPlugin<typeof hintState> = {

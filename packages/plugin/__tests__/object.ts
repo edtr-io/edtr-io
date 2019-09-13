@@ -1,5 +1,5 @@
 import {
-  child,
+  legacyChild,
   legacyNumber,
   newObject,
   serializedScalar,
@@ -20,7 +20,7 @@ describe('object', () => {
 
   test('initial with child', () => {
     const state = object({
-      foo: child(),
+      foo: legacyChild(),
       counter: legacyNumber()
     })
     const initial = state.createInitialState(helpers)
@@ -32,8 +32,8 @@ describe('object', () => {
 
   test('initial with 2 children', () => {
     const state = object({
-      foo: child(),
-      bar: child()
+      foo: legacyChild(),
+      bar: legacyChild()
     })
     const initial = state.createInitialState(helpers)
 
@@ -45,7 +45,7 @@ describe('object', () => {
 
   test('deserialize', () => {
     const state = object({
-      foo: child(),
+      foo: legacyChild(),
       counter: legacyNumber()
     })
 
@@ -63,8 +63,8 @@ describe('object', () => {
 
   test('serialize', () => {
     const state = object({
-      foo: child(),
-      bar: child(),
+      foo: legacyChild(),
+      bar: legacyChild(),
       counter: legacyNumber()
     })
     const deserialized = {
@@ -90,7 +90,7 @@ describe('object', () => {
 
   test('return type', () => {
     const state = object({
-      foo: child(),
+      foo: legacyChild(),
       counter: legacyNumber()
     })
     const initial = {
@@ -109,7 +109,7 @@ describe('object', () => {
 
   test('store', () => {
     const state = object({
-      foo: child(),
+      foo: legacyChild(),
       counter: legacyNumber()
     })
     const initial = {

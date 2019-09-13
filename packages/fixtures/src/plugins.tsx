@@ -1,7 +1,7 @@
 // Declaring these as devDependencies would lead to a dependency cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-  child,
+  legacyChild,
   list,
   legacyNumber,
   object,
@@ -25,11 +25,11 @@ import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 const nestedArrayState = object({
-  children: list(child('stateful'), 1)
+  children: list(legacyChild('stateful'), 1)
 })
 
 const nestedState = object({
-  child: child('stateful')
+  child: legacyChild('stateful')
 })
 
 const statefulState = legacyNumber(0)
