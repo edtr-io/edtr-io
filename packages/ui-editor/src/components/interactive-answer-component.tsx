@@ -133,7 +133,7 @@ export function InteractiveAnswer(props: {
   answerID?: string
   feedbackID: string
   answer: HTMLInputElement | React.ReactNode
-  feedback: any
+  feedback: React.ReactNode
   focusedElement?: string
   remove: () => void
 }) {
