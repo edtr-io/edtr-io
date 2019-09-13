@@ -18,6 +18,7 @@ import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { tablePlugin } from '@edtr-io/plugin-table'
+import { terminatorPlugin } from '@edtr-io/plugin-terminator'
 import { createTextPlugin, textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
@@ -61,6 +62,7 @@ export const plugins: Record<string, Plugin> = {
   solution: solutionPlugin,
   spoiler: spoilerPlugin,
   table: tablePlugin,
+  terminator: terminatorPlugin,
   text: textPlugin,
   customText: createTextPlugin([
     {

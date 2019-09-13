@@ -29,6 +29,7 @@
     "@edtr-io/plugin-solution": "^0.10.3",
     "@edtr-io/plugin-spoiler": "^0.10.3",
     "@edtr-io/plugin-table": "^0.10.3",
+    "@edtr-io/plugin-terminator": "^0.10.3",
     "@edtr-io/plugin-text": "^0.10.3",
     "@edtr-io/plugin-video": "^0.10.3",
     "@edtr-io/renderer": "^0.10.3",

@@ -1,0 +1,34 @@
+{
+  "name": "@edtr-io/plugin-terminator",
+  "version": "0.10.3",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/plugin-terminator.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@edtr-io/editor-ui": "^0.10.3",
+    "@edtr-io/plugin": "^0.10.3",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "katex": "^0.10.0"
+  },
+  "devDependencies": {
+    "@edtr-io/core": "^0.10.3",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "@edtr-io/core": "^0.10.3",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
