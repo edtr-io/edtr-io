@@ -1,4 +1,4 @@
-import { legacyChild, list, StoreDeserializeHelpers, legacyString } from '../src'
+import { child, list, StoreDeserializeHelpers, string } from '../src'
 
 describe('list', () => {
   interface T {
@@ -22,14 +22,14 @@ describe('list', () => {
   })
 
   test('initial list with 0 children', () => {
-    const state = list(legacyChild())
+    const state = list(child())
     const initial = state.createInitialState(helpers)
 
     expect(initial).toEqual([])
   })
 
   test('initial list with one initial child', () => {
-    const state = list(legacyChild(), 1)
+    const state = list(child(), 1)
     const initial = state.createInitialState(helpers)
 
     expect(initial).toHaveLength(1)
@@ -38,7 +38,7 @@ describe('list', () => {
   })
 
   test('initial list with two initial children', () => {
-    const state = list(legacyChild(), 2)
+    const state = list(child(), 2)
     const initial = state.createInitialState(helpers)
 
     expect(initial).toHaveLength(2)
@@ -47,7 +47,7 @@ describe('list', () => {
   })
 
   test('deserialize', () => {
-    const state = list(legacyChild())
+    const state = list(child())
     const serialized = [
       { plugin: 'counter', state: 0 },
       { plugin: 'counter', state: 1 }
@@ -64,7 +64,7 @@ describe('list', () => {
   })
 
   test('serialize', () => {
-    const state = list(legacyChild())
+    const state = list(child())
     const deserialized = [
       {
         id: 'foo',
@@ -91,23 +91,21 @@ describe('list', () => {
   })
 
   test('return type, empty list', () => {
-    const state = list(legacyChild())
-    const listValue = state([], () => {})
-    expect(listValue()).toEqual([])
-    expect(listValue.items).toEqual([])
+    const state = list(child())
+    const listValue = new state([], () => {})
+    expect(listValue.length).toEqual(0)
   })
 
   test('return type, non-empty list', () => {
-    const state = list(legacyChild())
-    const listValue = state([{ id: 'foo', value: 'bar' }], () => {})
-    expect(listValue()).toHaveLength(1)
-    expect(listValue.items).toHaveLength(1)
+    const state = list(child())
+    const listValue = new state([{ id: 'foo', value: 'bar' }], () => {})
+    expect(listValue).toHaveLength(1)
   })
 
   test('return type, empty list, insert last', () => {
     store = []
-    const state = list(legacyChild())
-    const listValue = state(store, onChange)
+    const state = list(child())
+    const listValue = new state(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(1)
     expect(store[0].id).toBeDefined()
@@ -121,8 +119,8 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(legacyChild())
-    const listValue = state(store, onChange)
+    const state = list(child())
+    const listValue = new state(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(2)
     expect(store[0].id).toEqual('0')
@@ -135,8 +133,8 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(legacyChild())
-    const listValue = state(store, onChange)
+    const state = list(child())
+    const listValue = new state(store, onChange)
     listValue.insert(0)
     expect(store).toHaveLength(2)
     expect(store[1].id).toEqual('0')
@@ -149,8 +147,8 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(legacyChild())
-    const listValue = state(store, onChange)
+    const state = list(child())
+    const listValue = new state(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(0)
   })
@@ -166,8 +164,8 @@ describe('list', () => {
         value: 'bar'
       }
     ]
-    const state = list(legacyChild())
-    const listValue = state(store, onChange)
+    const state = list(child())
+    const listValue = new state(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(1)
     expect(store[0].id).toEqual('1')
@@ -185,9 +183,9 @@ describe('list', () => {
       }
     ]
 
-    const state = list(legacyString())
-    const listValue = state(store, onChange)
-    listValue()[0].set(val => val + 'bar')
+    const state = list(string())
+    const listValue = new state(store, onChange)
+    listValue[0].set(val => val + 'bar')
     expect(store).toEqual([
       {
         id: '0',

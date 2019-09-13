@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
   legacyChild,
-  list,
+  legacyList,
   legacyNumber,
   object,
   StateDescriptorReturnType
@@ -25,7 +25,7 @@ import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 const nestedArrayState = object({
-  children: list(legacyChild('stateful'), 1)
+  children: legacyList(legacyChild('stateful'), 1)
 })
 
 const nestedState = object({

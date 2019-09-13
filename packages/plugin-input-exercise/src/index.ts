@@ -1,5 +1,5 @@
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
-import { legacyChild, list, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, legacyList, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
 
@@ -9,8 +9,8 @@ export const wrongAnswerObject = object({
 })
 export const inputExerciseState = object({
   type: legacyString('Text'),
-  correctAnswers: list(legacyString('')),
-  wrongAnswers: list(wrongAnswerObject)
+  correctAnswers: legacyList(legacyString('')),
+  wrongAnswers: legacyList(wrongAnswerObject)
 })
 export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,
