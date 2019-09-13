@@ -3,9 +3,11 @@ import {
   number,
   scalar,
   serializedScalar,
+  newSerializedScalar,
   StateDescriptor,
   StoreDeserializeHelpers,
-  string
+  string,
+  StateType
 } from '../src'
 
 const deserializeHelpers = {
@@ -87,6 +89,69 @@ describe('serialized scalar', () => {
       store = updater(store, deserializeHelpers)
     }
     const scalarValue = state(initial, onChange)
+
+    scalarValue.set(() => ({ value: 1 }))
+    expect(store).toEqual({ value: 1 })
+  })
+})
+
+describe('new serialized scalar', () => {
+  interface T {
+    value: number
+  }
+  const serializer = {
+    deserialize(serialized: string) {
+      return JSON.parse(serialized)
+    },
+    serialize(deserialized: unknown) {
+      return JSON.stringify(deserialized)
+    }
+  }
+  let state: StateType<
+    string,
+    T,
+    {
+      value: T
+      set(updater: (oldValue: T) => T): void
+    }
+  >
+
+  beforeEach(() => {
+    state = newSerializedScalar({ value: 0 }, serializer)
+  })
+
+  test('initial', () => {
+    expect(state.createInitialState(deserializeHelpers)).toEqual({ value: 0 })
+  })
+
+  test('deserialize', () => {
+    expect(state.deserialize('{"value":1}', deserializeHelpers)).toEqual({
+      value: 1
+    })
+  })
+
+  test('serialize', () => {
+    expect(state.serialize({ value: 1 }, serializeHelpers)).toEqual(
+      '{"value":1}'
+    )
+  })
+
+  test('return type', () => {
+    const initial = { value: 0 }
+    const scalarValue = new state(initial, () => {})
+    // expect(scalarValue().toEqual(initial)
+    expect(scalarValue.value).toEqual(initial)
+  })
+
+  test('return type, set', () => {
+    const initial = { value: 0 }
+    let store = initial
+    const onChange = (
+      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+    ) => {
+      store = updater(store, deserializeHelpers)
+    }
+    const scalarValue = new state(initial, onChange)
 
     scalarValue.set(() => ({ value: 1 }))
     expect(store).toEqual({ value: 1 })

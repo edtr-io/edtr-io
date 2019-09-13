@@ -1,6 +1,7 @@
 import {
   StateDescriptor,
-  StoreDeserializeHelpers
+  StoreDeserializeHelpers,
+  StateType
 } from '@edtr-io/abstract-plugin-state'
 
 export function boolean(initialValue?: boolean) {
@@ -19,6 +20,51 @@ export function scalar<S>(initialState: S) {
     deserialize: state => state,
     serialize: state => state
   })
+}
+
+export function newSerializedScalar<S, T>(
+  initialState: T,
+  serializer: {
+    deserialize: (serialized: S) => T
+    serialize: (deserialized: T) => S
+  }
+): StateType<
+  S,
+  T,
+  {
+    value: T
+    set(value: T | ((currentValue: T) => T)): void
+  }
+> {
+  return class SerializedScalarType {
+    constructor(
+      public value: T,
+      private onChange: (
+        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+      ) => void
+    ) {}
+
+    static createInitialState() {
+      return initialState
+    }
+    static deserialize(serialized: S) {
+      return serializer.deserialize(serialized)
+    }
+    static serialize(deserialized: T) {
+      return serializer.serialize(deserialized)
+    }
+
+    public set(param: T | ((currentValue: T) => T)) {
+      this.onChange((currentValue: T) => {
+        if (typeof param === 'function') {
+          const updater = param as ((currentValue: T) => T)
+          return updater(currentValue)
+        } else {
+          return param
+        }
+      })
+    }
+  }
 }
 
 export function serializedScalar<S, T>(

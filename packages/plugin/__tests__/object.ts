@@ -1,4 +1,11 @@
-import { child, number, object, StoreDeserializeHelpers } from '../src'
+import {
+  child,
+  number,
+  newObject,
+  newSerializedScalar,
+  object,
+  StoreDeserializeHelpers
+} from '../src'
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
@@ -125,6 +132,112 @@ describe('object', () => {
     expect(store).toEqual({
       foo: 'foo',
       counter: 1
+    })
+  })
+})
+
+describe('new object', () => {
+  let helpers: StoreDeserializeHelpers<string, number> & {
+    createDocument: jest.Mock
+  }
+  interface T {
+    value: number
+  }
+  const serializer = {
+    deserialize(serialized: string) {
+      return JSON.parse(serialized)
+    },
+    serialize(deserialized: unknown) {
+      return JSON.stringify(deserialized)
+    }
+  }
+
+  beforeEach(() => {
+    helpers = {
+      createDocument: jest.fn()
+    }
+  })
+
+  test('initial with serialized child', () => {
+    const state = newObject({
+      foo: newSerializedScalar({ value: 0 }, serializer)
+    })
+    const initial = state.createInitialState(helpers)
+    expect(initial.foo).toEqual({ value: 0 })
+  })
+
+  test('deserialize', () => {
+    const state = newObject({
+      foo: newSerializedScalar({ value: 0 }, serializer)
+    })
+
+    const serialized = {
+      foo: '{"value":5}'
+    }
+
+    const deserialized = state.deserialize(serialized, helpers)
+    expect(deserialized.foo.value).toEqual(5)
+  })
+
+  test('serialize', () => {
+    const state = newObject({
+      foo: newSerializedScalar({ value: 0 }, serializer)
+    })
+    const deserialized = {
+      foo: { value: 5 }
+    }
+    expect(
+      state.serialize(deserialized, {
+        getDocument(id: string) {
+          return {
+            plugin: 'counter',
+            state: id === 'foo' ? 0 : 1
+          }
+        }
+      })
+    ).toEqual({
+      foo: '{"value":5}'
+    })
+  })
+
+  test('return type', () => {
+    const state = newObject({
+      foo: newSerializedScalar({ value: 0 }, serializer)
+    })
+    const initial = {
+      foo: { value: 5 }
+    }
+    const objectValue = new state(initial, () => {})
+    expect(objectValue.foo.value).toEqual(initial.foo)
+    expect(typeof objectValue.foo.set).toEqual('function')
+  })
+
+  test('store', () => {
+    const state = newObject({
+      foo: newSerializedScalar({ value: 0 }, serializer)
+    })
+    const initial = {
+      foo: { value: 5 }
+    }
+
+    let store = initial
+    const onChange = (
+      updater: (
+        oldValue: typeof initial,
+        helpers: StoreDeserializeHelpers
+      ) => typeof initial
+    ) => {
+      store = updater(store, helpers)
+    }
+
+    const objValue = new state(initial, onChange)
+    objValue.foo.set(state => {
+      return { value: state.value + 1 }
+    })
+    expect(store).toEqual({
+      foo: {
+        value: 6
+      }
     })
   })
 })
