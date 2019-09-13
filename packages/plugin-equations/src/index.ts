@@ -1,15 +1,15 @@
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
-import { legacyChild, legacyList, object, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, legacyList, legacyObject, StatefulPlugin } from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
 
-export const StepProps = object({
+export const StepProps = legacyObject({
   left: legacyChild(),
   right: legacyChild(),
   transform: legacyChild()
 })
 
-export const equationsState = object({
+export const equationsState = legacyObject({
   steps: legacyList(StepProps)
 })
 

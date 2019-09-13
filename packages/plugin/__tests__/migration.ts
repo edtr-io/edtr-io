@@ -1,4 +1,4 @@
-import { migratable, legacyNumber, object } from '../src'
+import { migratable, legacyNumber, legacyObject } from '../src'
 
 const deserializeHelpers = {
   createDocument: () => {}
@@ -9,10 +9,10 @@ const serializeHelpers = {
 
 describe('migration', () => {
   const state0 = legacyNumber(0)
-  const state1 = object({
+  const state1 = legacyObject({
     value: legacyNumber(0)
   })
-  const state2 = object({
+  const state2 = legacyObject({
     value: legacyNumber(0),
     by: legacyNumber(1)
   })

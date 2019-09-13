@@ -1,11 +1,4 @@
-import {
-  legacyChild,
-  legacyNumber,
-  newObject,
-  serializedScalar,
-  object,
-  StoreDeserializeHelpers
-} from '../src'
+import { child, number, object, StoreDeserializeHelpers } from '../src'
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
@@ -20,8 +13,8 @@ describe('object', () => {
 
   test('initial with child', () => {
     const state = object({
-      foo: legacyChild(),
-      counter: legacyNumber()
+      foo: child(),
+      counter: number()
     })
     const initial = state.createInitialState(helpers)
 
@@ -32,8 +25,8 @@ describe('object', () => {
 
   test('initial with 2 children', () => {
     const state = object({
-      foo: legacyChild(),
-      bar: legacyChild()
+      foo: child(),
+      bar: child()
     })
     const initial = state.createInitialState(helpers)
 
@@ -45,8 +38,8 @@ describe('object', () => {
 
   test('deserialize', () => {
     const state = object({
-      foo: legacyChild(),
-      counter: legacyNumber()
+      foo: child(),
+      counter: number()
     })
 
     const serialized = {
@@ -63,9 +56,9 @@ describe('object', () => {
 
   test('serialize', () => {
     const state = object({
-      foo: legacyChild(),
-      bar: legacyChild(),
-      counter: legacyNumber()
+      foo: child(),
+      bar: child(),
+      counter: number()
     })
     const deserialized = {
       foo: 'foo',
@@ -90,134 +83,30 @@ describe('object', () => {
 
   test('return type', () => {
     const state = object({
-      foo: legacyChild(),
-      counter: legacyNumber()
+      foo: child(),
+      counter: number()
     })
     const initial = {
       foo: 'foo',
       counter: 5
     }
-    const objectValue = state(initial, () => {})
-    expect(objectValue().foo()).toEqual(initial.foo)
-    expect(typeof objectValue().foo.render).toEqual('function')
-    expect(objectValue.foo()).toEqual(initial.foo)
+    const objectValue = new state(initial, () => {})
     expect(typeof objectValue.foo.render).toEqual('function')
-    expect(objectValue.counter()).toEqual(initial.counter)
+    expect(objectValue.foo.id).toBeDefined()
+    expect(typeof objectValue.foo.render).toEqual('function')
+    expect(objectValue.counter.value).toEqual(initial.counter)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(typeof objectValue.counter.set).toEqual('function')
   })
 
   test('store', () => {
     const state = object({
-      foo: legacyChild(),
-      counter: legacyNumber()
+      foo: child(),
+      counter: number()
     })
     const initial = {
       foo: 'foo',
       counter: 5
-    }
-
-    let store = initial
-    const onChange = (
-      updater: (
-        oldValue: typeof initial,
-        helpers: StoreDeserializeHelpers
-      ) => typeof initial
-    ) => {
-      store = updater(store, helpers)
-    }
-
-    const objValue = state(initial, onChange)
-    objValue.counter.set(() => 1)
-    expect(store).toEqual({
-      foo: 'foo',
-      counter: 1
-    })
-  })
-})
-
-describe('new object', () => {
-  let helpers: StoreDeserializeHelpers<string, number> & {
-    createDocument: jest.Mock
-  }
-  interface T {
-    value: number
-  }
-  const serializer = {
-    deserialize(serialized: string) {
-      return JSON.parse(serialized)
-    },
-    serialize(deserialized: unknown) {
-      return JSON.stringify(deserialized)
-    }
-  }
-
-  beforeEach(() => {
-    helpers = {
-      createDocument: jest.fn()
-    }
-  })
-
-  test('initial with serialized child', () => {
-    const state = newObject({
-      foo: serializedScalar({ value: 0 }, serializer)
-    })
-    const initial = state.createInitialState(helpers)
-    expect(initial.foo).toEqual({ value: 0 })
-  })
-
-  test('deserialize', () => {
-    const state = newObject({
-      foo: serializedScalar({ value: 0 }, serializer)
-    })
-
-    const serialized = {
-      foo: '{"value":5}'
-    }
-
-    const deserialized = state.deserialize(serialized, helpers)
-    expect(deserialized.foo.value).toEqual(5)
-  })
-
-  test('serialize', () => {
-    const state = newObject({
-      foo: serializedScalar({ value: 0 }, serializer)
-    })
-    const deserialized = {
-      foo: { value: 5 }
-    }
-    expect(
-      state.serialize(deserialized, {
-        getDocument(id: string) {
-          return {
-            plugin: 'counter',
-            state: id === 'foo' ? 0 : 1
-          }
-        }
-      })
-    ).toEqual({
-      foo: '{"value":5}'
-    })
-  })
-
-  test('return type', () => {
-    const state = newObject({
-      foo: serializedScalar({ value: 0 }, serializer)
-    })
-    const initial = {
-      foo: { value: 5 }
-    }
-    const objectValue = new state(initial, () => {})
-    expect(objectValue.foo.value).toEqual(initial.foo)
-    expect(typeof objectValue.foo.set).toEqual('function')
-  })
-
-  test('store', () => {
-    const state = newObject({
-      foo: serializedScalar({ value: 0 }, serializer)
-    })
-    const initial = {
-      foo: { value: 5 }
     }
 
     let store = initial
@@ -231,13 +120,10 @@ describe('new object', () => {
     }
 
     const objValue = new state(initial, onChange)
-    objValue.foo.set(state => {
-      return { value: state.value + 1 }
-    })
+    objValue.counter.set(value => value + 1)
     expect(store).toEqual({
-      foo: {
-        value: 6
-      }
+      foo: 'foo',
+      counter: 6
     })
   })
 })

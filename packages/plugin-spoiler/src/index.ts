@@ -1,9 +1,9 @@
 import { createIcon, faCaretSquareDown } from '@edtr-io/editor-ui'
-import { legacyChild, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyChild, legacyObject, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { SpoilerEditor } from './editor'
 
-export const spoilerState = object({
+export const spoilerState = legacyObject({
   title: legacyString(''),
   content: legacyChild('rows')
 })

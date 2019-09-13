@@ -14,19 +14,19 @@ import {
 } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
 
-export function newObject<Ds extends Record<string, StateType>>(
+export function object<Ds extends Record<string, StateType>>(
   types: Ds
 ): StateType<
   StateTypesSerializedType<Ds>,
   StateTypesValueType<Ds>,
-  { __types: StateTypesReturnType<Ds> } & StateTypesReturnType<Ds>
+  StateTypesReturnType<Ds>
 > {
   type S = StateTypesSerializedType<Ds>
   type T = StateTypesValueType<Ds>
   type U = StateTypesReturnType<Ds>
 
-  // @ts-ignore
-  return class ObjectType {
+  class ObjectType {
+    [key: string]: StateTypeReturnType<StateType>
     public __types: U
     constructor(
       value: T,
@@ -50,8 +50,7 @@ export function newObject<Ds extends Record<string, StateType>>(
       }, types) as U
 
       R.forEachObjIndexed((type, key) => {
-        // @ts-ignore
-        this[key] = type
+        this[key as string] = type
       }, this.__types)
     }
 
@@ -71,9 +70,16 @@ export function newObject<Ds extends Record<string, StateType>>(
       }, types) as S
     }
   }
+
+  return ObjectType as StateType<
+    StateTypesSerializedType<Ds>,
+    StateTypesValueType<Ds>,
+    StateTypesReturnType<Ds>
+  >
 }
 
-export function object<Ds extends Record<string, StateDescriptor>>(
+/** @deprecated */
+export function legacyObject<Ds extends Record<string, StateDescriptor>>(
   types: Ds
 ): StateDescriptor<
   StateDescriptorsSerializedType<Ds>,

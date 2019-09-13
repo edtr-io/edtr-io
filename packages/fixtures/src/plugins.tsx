@@ -4,7 +4,7 @@ import {
   legacyChild,
   legacyList,
   legacyNumber,
-  object,
+  legacyObject,
   StateDescriptorReturnType
 } from '@edtr-io/plugin'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
@@ -24,11 +24,11 @@ import { tablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
-const nestedArrayState = object({
+const nestedArrayState = legacyObject({
   children: legacyList(legacyChild('stateful'), 1)
 })
 
-const nestedState = object({
+const nestedState = legacyObject({
   child: legacyChild('stateful')
 })
 

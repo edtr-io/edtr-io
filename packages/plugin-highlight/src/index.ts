@@ -1,9 +1,9 @@
 import { createIcon, faCode } from '@edtr-io/editor-ui'
-import { legacyBoolean, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyBoolean, legacyObject, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { HighlightEditor } from './editor'
 
-export const highlightState = object({
+export const highlightState = legacyObject({
   text: legacyString(''),
   language: legacyString('text'),
   lineNumbers: legacyBoolean(false)
