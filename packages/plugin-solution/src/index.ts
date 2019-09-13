@@ -1,10 +1,10 @@
 import { createIcon, faCheckSquare } from '@edtr-io/editor-ui'
-import { child, object, string, StatefulPlugin } from '@edtr-io/plugin'
+import { child, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { SolutionEditor } from './editor'
 
 export const solutionState = object({
-  title: string(''),
+  title: legacyString(''),
   content: child('rows')
 })
 

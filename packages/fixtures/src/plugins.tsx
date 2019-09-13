@@ -3,7 +3,7 @@
 import {
   child,
   list,
-  number,
+  legacyNumber,
   object,
   StateDescriptorReturnType
 } from '@edtr-io/plugin'
@@ -32,7 +32,7 @@ const nestedState = object({
   child: child('stateful')
 })
 
-const statefulState = number(0)
+const statefulState = legacyNumber(0)
 
 export const plugins = {
   anchor: anchorPlugin,

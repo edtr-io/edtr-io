@@ -1,6 +1,6 @@
 import { createIcon, faParagraph } from '@edtr-io/editor-ui'
 import {
-  scalar,
+  legacyScalar,
   StateDescriptorValueType,
   StatefulPlugin
 } from '@edtr-io/plugin'
@@ -27,7 +27,7 @@ const emptyDocument = {
   }
 }
 
-export const textState = scalar<ValueJSON>(
+export const textState = legacyScalar<ValueJSON>(
   // @ts-ignore: slightly mismatching types FIXME
   Value.fromJSON(emptyDocument).toJSON()
 )

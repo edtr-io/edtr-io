@@ -1,8 +1,8 @@
 import { createIcon, faImages } from '@edtr-io/editor-ui'
 import {
-  number,
+  legacyNumber,
   object,
-  string,
+  legacyString,
   upload,
   StatefulPlugin,
   UploadHandler,
@@ -14,11 +14,11 @@ import { createImageEditor } from './editor'
 
 export const imageState = object({
   src: upload(''),
-  href: string(''),
-  target: string(''),
-  rel: string(''),
-  description: string(''),
-  maxWidth: number(0)
+  href: legacyString(''),
+  target: legacyString(''),
+  rel: legacyString(''),
+  description: legacyString(''),
+  maxWidth: legacyNumber(0)
 })
 export const createImagePlugin = (
   config: ImagePluginConfig

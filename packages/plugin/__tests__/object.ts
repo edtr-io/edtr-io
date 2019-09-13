@@ -1,8 +1,8 @@
 import {
   child,
-  number,
+  legacyNumber,
   newObject,
-  newSerializedScalar,
+  serializedScalar,
   object,
   StoreDeserializeHelpers
 } from '../src'
@@ -21,7 +21,7 @@ describe('object', () => {
   test('initial with child', () => {
     const state = object({
       foo: child(),
-      counter: number()
+      counter: legacyNumber()
     })
     const initial = state.createInitialState(helpers)
 
@@ -46,7 +46,7 @@ describe('object', () => {
   test('deserialize', () => {
     const state = object({
       foo: child(),
-      counter: number()
+      counter: legacyNumber()
     })
 
     const serialized = {
@@ -65,7 +65,7 @@ describe('object', () => {
     const state = object({
       foo: child(),
       bar: child(),
-      counter: number()
+      counter: legacyNumber()
     })
     const deserialized = {
       foo: 'foo',
@@ -91,7 +91,7 @@ describe('object', () => {
   test('return type', () => {
     const state = object({
       foo: child(),
-      counter: number()
+      counter: legacyNumber()
     })
     const initial = {
       foo: 'foo',
@@ -110,7 +110,7 @@ describe('object', () => {
   test('store', () => {
     const state = object({
       foo: child(),
-      counter: number()
+      counter: legacyNumber()
     })
     const initial = {
       foo: 'foo',
@@ -160,7 +160,7 @@ describe('new object', () => {
 
   test('initial with serialized child', () => {
     const state = newObject({
-      foo: newSerializedScalar({ value: 0 }, serializer)
+      foo: serializedScalar({ value: 0 }, serializer)
     })
     const initial = state.createInitialState(helpers)
     expect(initial.foo).toEqual({ value: 0 })
@@ -168,7 +168,7 @@ describe('new object', () => {
 
   test('deserialize', () => {
     const state = newObject({
-      foo: newSerializedScalar({ value: 0 }, serializer)
+      foo: serializedScalar({ value: 0 }, serializer)
     })
 
     const serialized = {
@@ -181,7 +181,7 @@ describe('new object', () => {
 
   test('serialize', () => {
     const state = newObject({
-      foo: newSerializedScalar({ value: 0 }, serializer)
+      foo: serializedScalar({ value: 0 }, serializer)
     })
     const deserialized = {
       foo: { value: 5 }
@@ -202,7 +202,7 @@ describe('new object', () => {
 
   test('return type', () => {
     const state = newObject({
-      foo: newSerializedScalar({ value: 0 }, serializer)
+      foo: serializedScalar({ value: 0 }, serializer)
     })
     const initial = {
       foo: { value: 5 }
@@ -214,7 +214,7 @@ describe('new object', () => {
 
   test('store', () => {
     const state = newObject({
-      foo: newSerializedScalar({ value: 0 }, serializer)
+      foo: serializedScalar({ value: 0 }, serializer)
     })
     const initial = {
       foo: { value: 5 }

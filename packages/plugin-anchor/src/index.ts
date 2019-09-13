@@ -1,9 +1,9 @@
 import { faAnchor, createIcon } from '@edtr-io/editor-ui'
-import { string, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
 
-export const anchorState = string()
+export const anchorState = legacyString()
 
 export const anchorPlugin: StatefulPlugin<typeof anchorState> = {
   Component: AnchorEditor,

@@ -1,12 +1,12 @@
 import { createIcon, faCode } from '@edtr-io/editor-ui'
-import { boolean, object, string, StatefulPlugin } from '@edtr-io/plugin'
+import { legacyBoolean, object, legacyString, StatefulPlugin } from '@edtr-io/plugin'
 
 import { HighlightEditor } from './editor'
 
 export const highlightState = object({
-  text: string(''),
-  language: string('text'),
-  lineNumbers: boolean(false)
+  text: legacyString(''),
+  language: legacyString('text'),
+  lineNumbers: legacyBoolean(false)
 })
 
 export const highlightPlugin: StatefulPlugin<typeof highlightState> = {

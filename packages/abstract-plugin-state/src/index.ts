@@ -10,6 +10,7 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/** @deprecated */
 export interface StateDescriptor<S = any, T = S, R = unknown> {
   (
     value: T,
@@ -23,26 +24,32 @@ export interface StateDescriptor<S = any, T = S, R = unknown> {
   serialize(deserialized: T, helpers: StoreSerializeHelpers): S
 }
 
+/** @deprecated */
 export type StateDescriptorSerializedType<
   D extends StateDescriptor<any>
 > = D extends StateDescriptor<infer S, any, any> ? S : never
 
+/** @deprecated */
 export type StateDescriptorsSerializedType<
   Ds extends Record<string, StateDescriptor<any>>
 > = { [K in keyof Ds]: StateDescriptorSerializedType<Ds[K]> }
 
+/** @deprecated */
 export type StateDescriptorValueType<
   D extends StateDescriptor<any>
 > = D extends StateDescriptor<any, infer T, any> ? T : never
 
+/** @deprecated */
 export type StateDescriptorsValueType<
   Ds extends Record<string, StateDescriptor<any>>
 > = { [K in keyof Ds]: StateDescriptorValueType<Ds[K]> }
 
+/** @deprecated */
 export type StateDescriptorReturnType<
   D extends StateDescriptor<any>
 > = D extends StateDescriptor<any, any, infer R> ? R : never
 
+/** @deprecated */
 export type StateDescriptorsReturnType<
   Ds extends Record<string, StateDescriptor<any>>
 > = { [K in keyof Ds]: StateDescriptorReturnType<Ds[K]> }

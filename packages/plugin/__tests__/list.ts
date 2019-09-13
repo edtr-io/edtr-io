@@ -1,4 +1,4 @@
-import { child, list, StoreDeserializeHelpers, string } from '../src'
+import { child, list, StoreDeserializeHelpers, legacyString } from '../src'
 
 describe('list', () => {
   interface T {
@@ -185,7 +185,7 @@ describe('list', () => {
       }
     ]
 
-    const state = list(string())
+    const state = list(legacyString())
     const listValue = state(store, onChange)
     listValue()[0].set(val => val + 'bar')
     expect(store).toEqual([
