@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { inputExerciseState } from '.'
 import { InputExerciseRenderer } from './renderer'
-import { InteractiveAnswer, AddButton } from '@edtr-io/editor-ui'
+import { InteractiveAnswer, AddButton, styled } from '@edtr-io/editor-ui'
 import { useScopedSelector } from '@edtr-io/core'
 import { getFocused } from '@edtr-io/store'
 
@@ -23,6 +23,11 @@ const types = [
   }
 ]
 
+const AnswerTextfield = styled.input({
+  border: 'none',
+  outline: 'none',
+  width: '100%'
+})
 export function InputExerciseEditor(
   props: StatefulPluginEditorProps<typeof inputExerciseState>
 ) {
@@ -50,12 +55,18 @@ export function InputExerciseEditor(
             return (
               <InteractiveAnswer
                 key={answer.feedback.id}
-                answer={answer.value}
-                updateAnswer={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log(e)
-                  answer.value.set(e.target.value)
-                }}
-                feedback={answer.feedback}
+                answer={
+                  <AnswerTextfield
+                    value={answer.value()}
+                    placeholder="Gib hier deine Antwort ein"
+                    type="text"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      console.log(e)
+                      answer.value.set(e.target.value)
+                    }}
+                  />
+                }
+                feedback={answer.feedback.render()}
                 feedbackID={answer.feedback.id}
                 isActive={answer.isCorrect()}
                 handleChange={() => {

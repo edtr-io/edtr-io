@@ -23,7 +23,8 @@ export function InputExerciseRenderer(
     }
     event.preventDefault()
     const { state } = props
-
+    setFeedbackIndex(-1)
+    setFeedbackVisible(false)
     let containedAnswer = false
     state.answers().forEach((answer, index) => {
       if (
@@ -104,18 +105,22 @@ export function InputExerciseRenderer(
           }}
         />
         {feedbackVisible ? (
-          <Feedback
-            boxFree
-            isTrueAnswer={state.answers()[feedbackIndex].isCorrect()}
-          >
-            {isEmpty(state.answers()[feedbackIndex].feedback.id)(
-              store.getState()
-            )
-              ? state.answers()[feedbackIndex].isCorrect()
-                ? 'Sehr gut!'
-                : 'Leider falsch!'
-              : state.answers()[feedbackIndex].feedback.render()}
-          </Feedback>
+          feedbackIndex > -1 ? (
+            <Feedback
+              boxFree
+              isTrueAnswer={state.answers()[feedbackIndex].isCorrect()}
+            >
+              {isEmpty(state.answers()[feedbackIndex].feedback.id)(
+                store.getState()
+              )
+                ? state.answers()[feedbackIndex].isCorrect()
+                  ? 'Sehr gut!'
+                  : 'Leider falsch!'
+                : state.answers()[feedbackIndex].feedback.render()}
+            </Feedback>
+          ) : (
+            <Feedback boxFree> Leider falsch!</Feedback>
+          )
         ) : null}
         <div className="input-challenge-solution">
           <button className="btn btn-primary btn-xs input-challenge-submit pull-right">

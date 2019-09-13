@@ -1,7 +1,6 @@
 import { styled } from '@edtr-io/ui'
 import { Icon, faTimes, faPlus } from './icon'
 import * as React from 'react'
-import none from 'ramda/es/none'
 
 export const AddButtonComponent = styled.button({
   marginLeft: 'calc(10% + 20px)',
@@ -62,11 +61,6 @@ const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
   }
 })
 const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
-const AnswerTextfield = styled.input({
-  border: 'none',
-  outline: 'none',
-  width: '100%'
-})
 
 const FeedbackField = styled.div<{ focused: boolean }>(({ focused }) => {
   return {
@@ -137,9 +131,8 @@ export function InteractiveAnswer(props: {
   isActive?: boolean
   handleChange: () => void
   answerID?: string
-  updateAnswer?: (e: React.ChangeEvent<HTMLInputElement>) => void
   feedbackID: string
-  answer: any
+  answer: HTMLInputElement | React.ReactNode
   feedback: any
   focusedElement?: string
   remove: () => void
@@ -161,23 +154,7 @@ export function InteractiveAnswer(props: {
           props.feedbackID === props.focusedElement
         }
       >
-        <AnswerField>
-          {props.answerID ? (
-            props.answer.render()
-          ) : (
-            <AnswerTextfield
-              value={props.answer}
-              type="text"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                console.log(e, ' onChange')
-                if (props.updateAnswer) {
-                  console.log('updateAnswer')
-                  props.updateAnswer(e)
-                }
-              }}
-            />
-          )}
-        </AnswerField>
+        <AnswerField>{props.answer}</AnswerField>
         <RemoveButton
           focused={
             props.answerID === props.focusedElement ||
@@ -193,7 +170,7 @@ export function InteractiveAnswer(props: {
             props.feedbackID === props.focusedElement
           }
         >
-          {props.feedback.render()}
+          {props.feedback}
         </FeedbackField>
       </FramedContainer>
     </AnswerContainer>

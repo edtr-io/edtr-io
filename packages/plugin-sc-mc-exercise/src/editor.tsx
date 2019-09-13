@@ -106,9 +106,9 @@ export function ScMcExerciseEditor(
                 return (
                   <InteractiveAnswer
                     key={answer.id.id}
-                    answer={answer.id}
+                    answer={answer.id.render()}
                     answerID={answer.id.id}
-                    feedback={answer.feedback}
+                    feedback={answer.feedback.render()}
                     feedbackID={answer.feedback.id}
                     focusedElement={focusedElement || undefined}
                     isRadio={state.isSingleChoice()}
