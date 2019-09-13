@@ -19,18 +19,23 @@ export interface HeadingsPluginOptions {
   >
 }
 
-const Heading = ({
-  level,
-  children,
-  ...props
-}: {
-  level: number
-  children: React.ReactNode
-}) => {
-  if (level <= 6 && level >= 1)
-    return React.createElement(`h${level}`, props, children)
-  else return <h6 {...props}>{children}</h6>
-}
+const Heading = React.forwardRef(
+  (
+    {
+      level,
+      children,
+      ...props
+    }: {
+      level: number
+      children: React.ReactNode
+    },
+    ref
+  ) => {
+    const headingLevel = level <= 6 && level >= 1 ? level : 6
+    return React.createElement(`h${headingLevel}`, { ...props, ref }, children)
+  }
+)
+Heading.displayName = 'Heading'
 
 class DefaultEditorComponent extends React.Component<
   NodeEditorProps & { level: HeadingLevel }
