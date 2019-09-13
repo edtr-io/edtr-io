@@ -1,12 +1,12 @@
-import { faFileAlt, createIcon } from '@edtr-io/editor-ui'
-import { legacyList, upload, StatefulPlugin } from '@edtr-io/plugin'
+import { createIcon, faFileAlt } from '@edtr-io/editor-ui'
+import { list, StatefulPlugin, upload } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { createFilesEditor } from './editor'
 import { FilesRenderer } from './renderer'
 import { FileType, UploadedFile, UploadFileConfig } from './types'
 
-export const fileState = legacyList(
+export const fileState = list(
   upload<UploadedFile>({
     location: '',
     name: '',

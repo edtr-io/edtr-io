@@ -13,7 +13,7 @@ export const RowsRenderer = (
 
   return (
     <React.Fragment>
-      {props.state().map(row => {
+      {Array.from(props.state).map(row => {
         const doc = getDocument(row.id)(store.getState())
 
         return (

@@ -1,24 +1,18 @@
 import { createIcon, faDotCircle } from '@edtr-io/editor-ui'
-import {
-  legacyBoolean,
-  legacyChild,
-  legacyList,
-  legacyObject,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { boolean, child, list, object, StatefulPlugin } from '@edtr-io/plugin'
 
 import { ScMcExerciseEditor } from './editor'
 
-export const AnswerProps = legacyObject({
-  id: legacyChild(),
-  isCorrect: legacyBoolean(false),
-  feedback: legacyChild(),
-  hasFeedback: legacyBoolean(false)
+export const AnswerProps = object({
+  id: child(),
+  isCorrect: boolean(false),
+  feedback: child(),
+  hasFeedback: boolean(false)
 })
 
-export const scMcExerciseState = legacyObject({
-  isSingleChoice: legacyBoolean(false),
-  answers: legacyList(AnswerProps)
+export const scMcExerciseState = object({
+  isSingleChoice: boolean(false),
+  answers: list(AnswerProps)
 })
 
 export const scMcExercisePlugin: StatefulPlugin<typeof scMcExerciseState> = {

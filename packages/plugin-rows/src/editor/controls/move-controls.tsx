@@ -1,5 +1,5 @@
 import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/editor-ui'
-import { StateDescriptorReturnType } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { MoveControlsProps } from '.'
@@ -44,7 +44,7 @@ const Drag: React.FunctionComponent<
         title="Verschiebe das Element innerhalb des Dokuments"
         name={name}
         draggable={false}
-        disabled={rows.items.length === 1}
+        disabled={rows.length === 1}
       >
         <EdtrIcon icon={edtrRowsControls.dragHandle} />
       </DragIcon>
@@ -55,8 +55,8 @@ const Drag: React.FunctionComponent<
 interface IconProps {
   name: string
   index: number
-  rows: StateDescriptorReturnType<typeof rowsState>
-  row: StateDescriptorReturnType<typeof rowState>
+  rows: StateTypeReturnType<typeof rowsState>
+  row: StateTypeReturnType<typeof rowState>
 }
 
 export const MoveControls = ({

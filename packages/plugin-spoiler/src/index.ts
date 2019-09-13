@@ -1,16 +1,11 @@
 import { createIcon, faCaretSquareDown } from '@edtr-io/editor-ui'
-import {
-  legacyChild,
-  legacyObject,
-  legacyString,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { SpoilerEditor } from './editor'
 
-export const spoilerState = legacyObject({
-  title: legacyString(''),
-  content: legacyChild('rows')
+export const spoilerState = object({
+  title: string(''),
+  content: child('rows')
 })
 
 export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
@@ -21,7 +16,7 @@ export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
   description:
     'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.',
   getFocusableChildren(state) {
-    return [state().content]
+    return [state.content]
   }
 }
 

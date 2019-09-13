@@ -1,10 +1,10 @@
-import { legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
 import { createTableEditor } from './editor'
 
-export const tableState = legacyString()
+export const tableState = string()
 
 export function createTablePlugin(
   config: TablePluginConfig

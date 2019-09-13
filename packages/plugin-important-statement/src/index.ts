@@ -1,8 +1,8 @@
-import { legacyChild, StatefulPlugin } from '@edtr-io/plugin'
+import { child, StatefulPlugin } from '@edtr-io/plugin'
 
 import { ImportantStatementRenderer } from './renderer'
 
-export const importantStatementState = legacyChild()
+export const importantStatementState = child()
 
 export const importantStatementPlugin: StatefulPlugin<
   typeof importantStatementState

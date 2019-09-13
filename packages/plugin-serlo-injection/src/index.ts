@@ -1,8 +1,8 @@
-import { legacyString, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { SerloInjectionEditor } from './editor'
 
-export const serloInjectionState = legacyString()
+export const serloInjectionState = string()
 
 export const serloInjectionPlugin: StatefulPlugin<
   typeof serloInjectionState

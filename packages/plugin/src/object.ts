@@ -1,11 +1,6 @@
 import {
-  StateDescriptorsReturnType,
-  StateDescriptorsValueType,
-  StateDescriptor,
   StoreDeserializeHelpers,
   StoreSerializeHelpers,
-  StateDescriptorReturnType,
-  StateDescriptorsSerializedType,
   StateType,
   StateTypesSerializedType,
   StateTypesValueType,
@@ -54,17 +49,17 @@ export function object<Ds extends Record<string, StateType>>(
       }, this.__types)
     }
 
-    static createInitialState(helpers: StoreDeserializeHelpers) {
+    public static createInitialState(helpers: StoreDeserializeHelpers) {
       return R.map(type => {
         return type.createInitialState(helpers)
       }, types) as T
     }
-    static deserialize(serialized: S, helpers: StoreDeserializeHelpers) {
+    public static deserialize(serialized: S, helpers: StoreDeserializeHelpers) {
       return R.mapObjIndexed((type, key) => {
         return type.deserialize(serialized[key], helpers)
       }, types) as T
     }
-    static serialize(deserialized: T, helpers: StoreSerializeHelpers) {
+    public static serialize(deserialized: T, helpers: StoreSerializeHelpers) {
       return R.mapObjIndexed((type, key) => {
         return type.serialize(deserialized[key], helpers)
       }, types) as S
@@ -76,62 +71,4 @@ export function object<Ds extends Record<string, StateType>>(
     StateTypesValueType<Ds>,
     StateTypesReturnType<Ds>
   >
-}
-
-/** @deprecated */
-export function legacyObject<Ds extends Record<string, StateDescriptor>>(
-  types: Ds
-): StateDescriptor<
-  StateDescriptorsSerializedType<Ds>,
-  StateDescriptorsValueType<Ds>,
-  {
-    (): StateDescriptorsReturnType<Ds>
-  } & StateDescriptorsReturnType<Ds>
-> {
-  type S = StateDescriptorsSerializedType<Ds>
-  type T = StateDescriptorsValueType<Ds>
-  type U = StateDescriptorsReturnType<Ds>
-  return Object.assign(
-    (
-      initialValue: T,
-      onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void,
-      parentProps?: unknown
-    ) => {
-      const getObject = (): U =>
-        R.mapObjIndexed((type, key) => {
-          function innerOnChange(
-            updater: (
-              oldValue: StateDescriptorReturnType<typeof type>,
-              helpers: StoreDeserializeHelpers
-            ) => StateDescriptorReturnType<typeof type>
-          ): void {
-            onChange((oldObj, helpers) =>
-              R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
-            )
-          }
-          return type(initialValue[key], innerOnChange, parentProps)
-        }, types) as U
-
-      return Object.assign(getObject, getObject())
-    },
-    {
-      createInitialState(helpers: StoreDeserializeHelpers): T {
-        return R.map(type => {
-          return type.createInitialState(helpers)
-        }, types) as T
-      },
-      deserialize(serialized: S, helpers: StoreDeserializeHelpers): T {
-        return R.mapObjIndexed((type, key) => {
-          return type.deserialize(serialized[key], helpers)
-        }, types) as T
-      },
-      serialize(deserialized: T, helpers: StoreSerializeHelpers): S {
-        return R.mapObjIndexed((type, key) => {
-          return type.serialize(deserialized[key], helpers)
-        }, types) as S
-      }
-    }
-  )
 }

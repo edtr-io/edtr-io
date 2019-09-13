@@ -1,4 +1,4 @@
-import { StateDescriptorReturnType } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import { Feedback, styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -25,7 +25,7 @@ export class ScMcRendererInteractive extends React.Component<
     nextProps: ScMcRendererInteractiveProps,
     prevState: ScMcRendererState
   ) {
-    if (nextProps.state.answers.items.length !== prevState.buttons.length) {
+    if (nextProps.state.answers.length !== prevState.buttons.length) {
       return ScMcRendererInteractive.initialStateFromProps(nextProps)
     }
     return {}
@@ -33,7 +33,7 @@ export class ScMcRendererInteractive extends React.Component<
 
   static initialStateFromProps(props: ScMcRendererInteractiveProps) {
     return {
-      buttons: props.state.answers().map(() => {
+      buttons: Array.from(props.state.answers).map(() => {
         return {
           selected: false,
           showFeedback: false
@@ -55,7 +55,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
   private showAnswer = (
-    answer: StateDescriptorReturnType<typeof AnswerProps>,
+    answer: StateTypeReturnType<typeof AnswerProps>,
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -80,7 +80,7 @@ export class ScMcRendererInteractive extends React.Component<
     answer,
     button
   }: {
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<typeof AnswerProps>
     button: Button
   }): React.ReactNode {
     if (!button.showFeedback) {
@@ -94,8 +94,8 @@ export class ScMcRendererInteractive extends React.Component<
       )
     }
     return (
-      <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect()}>
-        {answer.isCorrect()
+      <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
+        {answer.isCorrect.value
           ? 'Yeah!'
           : 'Leider falsch! versuche es doch noch einmal!'}
       </Feedback>
@@ -121,17 +121,17 @@ export class ScMcRendererInteractive extends React.Component<
 
   private submitAnswer = () => {
     const { buttons } = this.state
-    const temp = R.zip(buttons, this.props.state.answers())
+    const temp = R.zip(buttons, Array.from(this.props.state.answers))
     const mistakes = R.reduce(
       (acc, [button, answer]) => {
-        return acc + (answer.isCorrect() !== button.selected ? 1 : 0)
+        return acc + (answer.isCorrect.value !== button.selected ? 1 : 0)
       },
       0,
       temp
     )
     const missingSolutions = R.reduce(
       (acc, [button, answer]) => {
-        return acc + (answer.isCorrect() && !button.selected ? 1 : 0)
+        return acc + (answer.isCorrect.value && !button.selected ? 1 : 0)
       },
       0,
       temp
@@ -140,7 +140,7 @@ export class ScMcRendererInteractive extends React.Component<
     const nextButtonStates = buttons.map((button, i) => {
       return this.props.nextButtonStateAfterSubmit({
         button,
-        answer: this.props.state.answers()[i],
+        answer: this.props.state.answers[i],
         mistakes,
         missingSolutions
       })
@@ -157,7 +157,7 @@ export class ScMcRendererInteractive extends React.Component<
   private selectButton = (selectedIndex: number) => () => {
     const { buttons } = this.state
 
-    if (this.props.state.isSingleChoice()) {
+    if (this.props.state.isSingleChoice.value) {
       this.setState({
         buttons: buttons.map((button, index) => {
           return R.assoc('selected', index === selectedIndex, button)
@@ -210,7 +210,7 @@ export type ScMcRendererInteractiveProps = ScMcRendererProps & {
   }) => string | undefined
   nextButtonStateAfterSubmit: (params: {
     button: Button
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<typeof AnswerProps>
     mistakes: number
     missingSolutions: number
   }) => Button

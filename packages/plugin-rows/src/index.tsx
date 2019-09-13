@@ -1,6 +1,6 @@
 import {
-  legacyChild,
-  legacyList,
+  child,
+  list,
   StatefulPlugin,
   StatefulPluginEditorProps
 } from '@edtr-io/plugin'
@@ -10,8 +10,8 @@ import * as React from 'react'
 import { RowsEditor } from './editor'
 import { RowsRenderer } from './renderer'
 
-export const rowState = legacyChild()
-export const rowsState = legacyList(rowState, 1)
+export const rowState = child()
+export const rowsState = list(rowState, 1)
 
 function createRowsComponent(plugins?: PluginRegistry) {
   return function RowsComponent(
@@ -32,7 +32,7 @@ export function createRowsPlugin(
     Component: createRowsComponent(plugins),
     state: rowsState,
     getFocusableChildren(state) {
-      return state()
+      return Array.from(state)
     }
   }
 }

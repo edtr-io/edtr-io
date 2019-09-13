@@ -1,5 +1,5 @@
 import { styled, Icon, faCopy, faTrashAlt } from '@edtr-io/editor-ui'
-import { StateDescriptorReturnType } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { createRowPluginTheme, rowsState } from '../..'
@@ -56,7 +56,7 @@ const Remove = ({ rows, index, close, name }: GlobalsProps) => {
 interface GlobalsProps {
   name: string
   index: number
-  rows: StateDescriptorReturnType<typeof rowsState>
+  rows: StateTypeReturnType<typeof rowsState>
   close: () => void
   duplicateRow: () => void
 }

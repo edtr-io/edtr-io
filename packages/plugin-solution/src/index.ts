@@ -1,16 +1,11 @@
 import { createIcon, faCheckSquare } from '@edtr-io/editor-ui'
-import {
-  legacyChild,
-  legacyObject,
-  legacyString,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { SolutionEditor } from './editor'
 
-export const solutionState = legacyObject({
-  title: legacyString(''),
-  content: legacyChild('rows')
+export const solutionState = object({
+  title: string(''),
+  content: child('rows')
 })
 
 export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
@@ -21,6 +16,6 @@ export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
   description:
     'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.',
   getFocusableChildren(state) {
-    return [state().content]
+    return [state.content]
   }
 }

@@ -49,7 +49,7 @@ export class ScMcExerciseRenderer extends React.Component<
             }}
             nextButtonStateAfterSubmit={({ button, answer }) => {
               return {
-                selected: button.selected && answer.isCorrect(),
+                selected: button.selected && answer.isCorrect.value,
                 showFeedback: button.selected
               }
             }}

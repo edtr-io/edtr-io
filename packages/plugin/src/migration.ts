@@ -38,11 +38,11 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
       Object.assign(this, new nextType(value, onChange, pluginProps))
     }
 
-    static createInitialState(helpers: StoreDeserializeHelpers) {
+    public static createInitialState(helpers: StoreDeserializeHelpers) {
       return nextType.createInitialState(helpers)
     }
 
-    static deserialize(
+    public static deserialize(
       serialized: InitialS | Versionized<AllS | S1>,
       helpers: StoreDeserializeHelpers
     ): T1 {
@@ -53,7 +53,7 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
       return nextType.deserialize(f(recursiveMigrate(s)), helpers)
     }
 
-    static serialize(
+    public static serialize(
       deserialized: T1,
       helpers: StoreSerializeHelpers
     ): Versionized<S1> {
@@ -63,7 +63,7 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
       }
     }
 
-    static migrate<S2, T2, R2>(
+    public static migrate<S2, T2, R2>(
       nextNextType: StateType<S2, T2, R2>,
       f2: (previousState: S1) => S2
     ): MigratableStateType<InitialS, AllS | S1 | S2, S2, T2, R2> {

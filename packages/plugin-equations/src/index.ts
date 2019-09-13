@@ -1,21 +1,16 @@
 import { createIcon, faEquals } from '@edtr-io/editor-ui'
-import {
-  legacyChild,
-  legacyList,
-  legacyObject,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { child, list, object, StatefulPlugin } from '@edtr-io/plugin'
 
 import { EquationsEditor } from './editor'
 
-export const StepProps = legacyObject({
-  left: legacyChild(),
-  right: legacyChild(),
-  transform: legacyChild()
+export const StepProps = object({
+  left: child(),
+  right: child(),
+  transform: child()
 })
 
-export const equationsState = legacyObject({
-  steps: legacyList(StepProps)
+export const equationsState = object({
+  steps: list(StepProps)
 })
 
 export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
@@ -25,14 +20,12 @@ export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
   description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
   icon: createIcon(faEquals),
   getFocusableChildren(state) {
-    return state()
-      .steps()
-      .reduce(
-        (children, step) => {
-          return [...children, step().left, step().right, step().transform]
-        },
-        [] as { id: string }[]
-      )
+    return Array.from(state.steps).reduce(
+      (children, step) => {
+        return [...children, step.left, step.right, step.transform]
+      },
+      [] as { id: string }[]
+    )
   }
 }
 

@@ -1,13 +1,13 @@
 import {
-  StateDescriptor,
-  StateDescriptorReturnType,
-  StateDescriptorSerializedType,
-  StateDescriptorValueType
+  StateType,
+  StateTypeReturnType,
+  StateTypeSerializedType,
+  StateTypeValueType
 } from '@edtr-io/abstract-plugin-state'
 import * as React from 'react'
 
 export type Plugin<
-  S extends StateDescriptor = StateDescriptor,
+  S extends StateType = StateType,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Props extends Record<string, unknown> = any
 > = StatelessPlugin<Props> | StatefulPlugin<S, Props>
@@ -26,31 +26,29 @@ export type StatelessPluginEditorProps<Props = {}> = {
   focused?: boolean
 } & Props
 
-export interface StatefulPlugin<S extends StateDescriptor, Props = {}> {
+export interface StatefulPlugin<S extends StateType, Props = {}> {
   Component: React.ComponentType<StatefulPluginEditorProps<S, Props>>
   state: S
   onPaste?: (
     data: DataTransfer
-  ) => void | { state?: StateDescriptorSerializedType<S> }
+  ) => void | { state?: StateTypeSerializedType<S> }
   title?: string
   icon?: React.ComponentType
   description?: string
-  isEmpty?: (state: StateDescriptorValueType<S>) => boolean
+  isEmpty?: (state: StateTypeValueType<S>) => boolean
   onKeyDown?: (e: KeyboardEvent) => boolean
-  getFocusableChildren?: (
-    state: StateDescriptorReturnType<S>
-  ) => { id: string }[]
+  getFocusableChildren?: (state: StateTypeReturnType<S>) => { id: string }[]
 }
 
 export type StatefulPluginEditorProps<
-  S extends StateDescriptor = StateDescriptor,
+  S extends StateType = StateType,
   Props = {}
 > = StatelessPluginEditorProps<Props> & {
-  state: StateDescriptorReturnType<S>
+  state: StateTypeReturnType<S>
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function isStatefulPlugin<S extends StateDescriptor>(
+export function isStatefulPlugin<S extends StateType>(
   plugin: Plugin<S>
 ): plugin is StatefulPlugin<S, any> {
   return typeof (plugin as StatefulPlugin<S, any>).state !== 'undefined'

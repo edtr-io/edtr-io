@@ -34,11 +34,11 @@ export function SolutionEditor({
       {editable && focused ? (
         <EditorInputWithMarginLeft
           onChange={e => state.title.set(e.target.value)}
-          value={state.title()}
+          value={state.title.value}
           placeholder="Zusätzlicher Name"
         />
-      ) : state.title() ? (
-        <span> ({state.title()})</span>
+      ) : state.title.value ? (
+        <span> ({state.title.value})</span>
       ) : null}
     </React.Fragment>
   )

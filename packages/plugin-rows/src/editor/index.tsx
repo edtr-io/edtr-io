@@ -38,12 +38,12 @@ export const RowsEditor = (
       <Separator
         name={props.name}
         isFirst
-        focused={rows.items.length == 0}
+        focused={rows.length == 0}
         onClick={() => {
           openMenu(0)
         }}
       />
-      {rows.items.map((row, index) => {
+      {Array.from(rows).map((row, index) => {
         const doc = getDocument(row.id)(store.getState())
 
         if (!doc) return null
@@ -53,8 +53,12 @@ export const RowsEditor = (
               {...props}
               index={index}
               doc={doc}
-              moveRow={rows.move}
-              insert={rows.insert}
+              moveRow={(from, to) => {
+                rows.move(from, to)
+              }}
+              insert={(index, options) => {
+                rows.insert(index, options)
+              }}
               openMenu={openMenu}
             />
           </div>

@@ -42,7 +42,7 @@ export const getFocusTree = createSelector(
       isStatefulPlugin(plugin) &&
       typeof plugin.getFocusableChildren === 'function'
     ) {
-      const pluginState = plugin.state(document.state, () => {})
+      const pluginState = new plugin.state(document.state, () => {})
       children = plugin.getFocusableChildren(pluginState).map(child => {
         const subtree = getFocusTree(child.id)(state)
         return subtree || child

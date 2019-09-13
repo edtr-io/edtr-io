@@ -1,5 +1,5 @@
 import { plugins } from '@edtr-io/fixtures'
-import { StateDescriptor, StateDescriptorSerializedType } from '@edtr-io/plugin'
+import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
 import { anchorState } from '@edtr-io/plugin-anchor'
 import { blockquoteState } from '@edtr-io/plugin-blockquote'
 import { geogebraState } from '@edtr-io/plugin-geogebra'
@@ -245,7 +245,7 @@ describe('Renderer SSR', () => {
   })
 })
 
-interface Document<D extends StateDescriptor> {
+interface Document<D extends StateType> {
   plugin: string
-  state: StateDescriptorSerializedType<D>
+  state: StateTypeSerializedType<D>
 }

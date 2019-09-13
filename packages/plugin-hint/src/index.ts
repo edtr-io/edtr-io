@@ -1,16 +1,11 @@
 import { createIcon, faLightbulb } from '@edtr-io/editor-ui'
-import {
-  legacyChild,
-  legacyObject,
-  legacyString,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { HintEditor } from './editor'
 
-export const hintState = legacyObject({
-  title: legacyString(''),
-  content: legacyChild('rows')
+export const hintState = object({
+  title: string(''),
+  content: child('rows')
 })
 
 export const hintPlugin: StatefulPlugin<typeof hintState> = {
@@ -20,6 +15,6 @@ export const hintPlugin: StatefulPlugin<typeof hintState> = {
   description: 'Gib zusätzliche Tipps zur Aufgabe in dieser ausklappbaren Box.',
   icon: createIcon(faLightbulb),
   getFocusableChildren(state) {
-    return [state().content]
+    return [state.content]
   }
 }
