@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.3](https://github.com/edtr-io/edtr-io/compare/v0.10.2..v0.10.3) - September 13, 2019
+
+### Fixed
+
+- **plugin-text**. Various fixes (updated Slate)
+
 ## [0.10.2](https://github.com/edtr-io/edtr-io/compare/v0.10.1..v0.10.2) - September 11, 2019
 
 ### Fixed

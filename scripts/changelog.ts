@@ -514,6 +514,12 @@ useScopedSelector(state => {
       name: '0.10.2',
       date: '2019-09-11',
       fixed: ['**store**. Specify return type of `serializeRootDocument`']
+    },
+    {
+      tagName: 'v0.10.3',
+      name: '0.10.3',
+      date: '2019-09-13',
+      fixed: ['**plugin-text**. Various fixes (updated Slate)']
     }
   ])
 
