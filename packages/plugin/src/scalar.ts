@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/plugin
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { StateType } from '@edtr-io/abstract-plugin-state'
 
 export function boolean(initialValue?: boolean) {
