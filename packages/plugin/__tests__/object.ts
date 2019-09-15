@@ -90,7 +90,7 @@ describe('object', () => {
       foo: 'foo',
       counter: 5
     }
-    const objectValue = new state(initial, () => {})
+    const objectValue = state.init(initial, () => {})
     expect(typeof objectValue.foo.render).toEqual('function')
     expect(objectValue.foo.id).toBeDefined()
     expect(typeof objectValue.foo.render).toEqual('function')
@@ -119,7 +119,7 @@ describe('object', () => {
       store = updater(store, helpers)
     }
 
-    const objValue = new state(initial, onChange)
+    const objValue = state.init(initial, onChange)
     objValue.counter.set(value => value + 1)
     expect(store).toEqual({
       foo: 'foo',

@@ -1,6 +1,5 @@
 import {
   StoreDeserializeHelpers,
-  StoreSerializeHelpers,
   StateType,
   StateTypesSerializedType,
   StateTypesValueType,
@@ -20,17 +19,11 @@ export function object<Ds extends Record<string, StateType>>(
   type T = StateTypesValueType<Ds>
   type U = StateTypesReturnType<Ds>
 
-  class ObjectType {
-    [key: string]: StateTypeReturnType<StateType>
-    public __types: U
-    constructor(
-      value: T,
-      onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void,
-      pluginProps?: unknown
-    ) {
-      this.__types = R.mapObjIndexed((type, key) => {
+  return {
+    init(state, onChange, pluginProps) {
+      return R.mapObjIndexed((type, key) => {
+        return type.init(state[key], innerOnChange, pluginProps)
+
         function innerOnChange(
           updater: (
             oldValue: StateTypeReturnType<typeof type>,
@@ -41,34 +34,22 @@ export function object<Ds extends Record<string, StateType>>(
             R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
           )
         }
-        return new type(value[key], innerOnChange, pluginProps)
       }, types) as U
-
-      R.forEachObjIndexed((type, key) => {
-        this[key as string] = type
-      }, this.__types)
-    }
-
-    public static createInitialState(helpers: StoreDeserializeHelpers) {
+    },
+    createInitialState(helpers) {
       return R.map(type => {
         return type.createInitialState(helpers)
       }, types) as T
-    }
-    public static deserialize(serialized: S, helpers: StoreDeserializeHelpers) {
+    },
+    deserialize(serialized, helpers) {
       return R.mapObjIndexed((type, key) => {
         return type.deserialize(serialized[key], helpers)
       }, types) as T
-    }
-    public static serialize(deserialized: T, helpers: StoreSerializeHelpers) {
+    },
+    serialize(deserialized, helpers) {
       return R.mapObjIndexed((type, key) => {
         return type.serialize(deserialized[key], helpers)
       }, types) as S
     }
   }
-
-  return ObjectType as StateType<
-    StateTypesSerializedType<Ds>,
-    StateTypesValueType<Ds>,
-    StateTypesReturnType<Ds>
-  >
 }

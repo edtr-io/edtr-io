@@ -27,7 +27,7 @@ export class InputExerciseRenderer extends React.Component<
     const { state } = this.props
 
     let correct = false
-    Array.from(state.correctAnswers).forEach(correctAnswer => {
+    state.correctAnswers.forEach(correctAnswer => {
       if (
         this.matchesInput(
           { type: state.type.value, value: correctAnswer.value },
@@ -39,7 +39,7 @@ export class InputExerciseRenderer extends React.Component<
       }
     })
     if (!correct) {
-      const index = Array.from(state.wrongAnswers).findIndex(wrongAnswer => {
+      const index = state.wrongAnswers.findIndex(wrongAnswer => {
         return this.matchesInput(
           { type: state.type.value, value: wrongAnswer.value.get() },
           input.value

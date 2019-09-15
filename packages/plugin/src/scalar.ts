@@ -1,7 +1,4 @@
-import {
-  StoreDeserializeHelpers,
-  StateType
-} from '@edtr-io/abstract-plugin-state'
+import { StateType } from '@edtr-io/abstract-plugin-state'
 
 export function boolean(initialValue?: boolean) {
   return scalar<boolean>(initialValue || false)
@@ -38,46 +35,34 @@ export function serializedScalar<S, T>(
     set(value: T | ((currentValue: T) => T)): void
   }
 > {
-  return class SerializedScalarType {
-    constructor(
-      protected _value: T,
-      protected onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void
-    ) {}
-
-    public static createInitialState() {
-      return initialState
-    }
-    public static deserialize(serialized: S) {
-      return serializer.deserialize(serialized)
-    }
-    public static serialize(deserialized: T) {
-      return serializer.serialize(deserialized)
-    }
-
-    public get value(): T {
-      return this._value
-    }
-
-    public set value(param: T) {
-      this.set(param)
-    }
-
-    public get = () => {
-      return this._value
-    }
-
-    public set = (param: T | ((currentValue: T) => T)) => {
-      this.onChange((currentValue: T) => {
-        if (typeof param === 'function') {
-          const updater = param as ((currentValue: T) => T)
-          return updater(currentValue)
-        } else {
-          return param
+  return {
+    init(state, onChange) {
+      class SerializedScalarType {
+        public get value(): T {
+          return state
         }
-      })
-    }
+        public set value(param: T) {
+          this.set(param)
+        }
+        public get() {
+          return state
+        }
+        public set(param: T | ((previousValue: T) => T)) {
+          onChange(previousValue => {
+            if (typeof param === 'function') {
+              const updater = param as ((currentValue: T) => T)
+              return updater(previousValue)
+            }
+            return param
+          })
+        }
+      }
+      return new SerializedScalarType()
+    },
+    createInitialState() {
+      return initialState
+    },
+    ...serializer
   }
 }
 

@@ -69,7 +69,7 @@ describe('migration', () => {
 
   test('return type', () => {
     const initial = { value: 3, by: -1 }
-    const value = new state(initial, () => {})
+    const value = state.init(initial, () => {})
     expect(value.value.get()).toEqual(3)
   })
 })

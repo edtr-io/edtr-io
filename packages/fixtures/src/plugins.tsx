@@ -74,7 +74,7 @@ export const plugins = {
     getFocusableChildren: (
       state: StateTypeReturnType<typeof nestedArrayState>
     ) => {
-      return Array.from(state.children)
+      return state.children
     }
   }
 }

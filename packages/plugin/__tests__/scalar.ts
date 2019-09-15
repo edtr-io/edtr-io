@@ -62,14 +62,14 @@ describe('serialized scalar', () => {
   test('return type, value getter', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     const initial = { value: 0 }
-    const scalarValue = new state(initial, () => {})
+    const scalarValue = state.init(initial, () => {})
     expect(scalarValue.value).toEqual(initial)
   })
 
   test('return type, get', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     const initial = { value: 0 }
-    const scalarValue = new state(initial, () => {})
+    const scalarValue = state.init(initial, () => {})
     expect(scalarValue.get()).toEqual(initial)
   })
 
@@ -82,7 +82,7 @@ describe('serialized scalar', () => {
     ) => {
       store = updater(store, deserializeHelpers)
     }
-    const scalarValue = new state(initial, onChange)
+    const scalarValue = state.init(initial, onChange)
 
     scalarValue.value = { value: 1 }
     expect(store).toEqual({ value: 1 })
@@ -97,7 +97,7 @@ describe('serialized scalar', () => {
     ) => {
       store = updater(store, deserializeHelpers)
     }
-    const scalarValue = new state(initial, onChange)
+    const scalarValue = state.init(initial, onChange)
 
     scalarValue.set({ value: 1 })
     expect(store).toEqual({ value: 1 })
@@ -112,7 +112,7 @@ describe('serialized scalar', () => {
     ) => {
       store = updater(store, deserializeHelpers)
     }
-    const scalarValue = new state(initial, onChange)
+    const scalarValue = state.init(initial, onChange)
 
     scalarValue.set(({ value }) => {
       return { value: value + 1 }
@@ -134,13 +134,13 @@ describe('boolean', () => {
 
   test('return type, value getter', () => {
     const state = boolean(false)
-    const booleanValue = new state(true, () => {})
+    const booleanValue = state.init(true, () => {})
     expect(booleanValue.value).toEqual(true)
   })
 
   test('return type, get', () => {
     const state = boolean(false)
-    const booleanValue = new state(true, () => {})
+    const booleanValue = state.init(true, () => {})
     expect(booleanValue.get()).toEqual(true)
   })
 
@@ -154,7 +154,7 @@ describe('boolean', () => {
       store = updater(store, deserializeHelpers)
     }
 
-    const booleanValue = new state(initial, onChange)
+    const booleanValue = state.init(initial, onChange)
     booleanValue.value = true
     expect(store).toEqual(true)
   })
@@ -169,7 +169,7 @@ describe('boolean', () => {
       store = updater(store, deserializeHelpers)
     }
 
-    const booleanValue = new state(initial, onChange)
+    const booleanValue = state.init(initial, onChange)
     booleanValue.set(true)
     expect(store).toEqual(true)
   })
@@ -184,7 +184,7 @@ describe('boolean', () => {
       store = updater(store, deserializeHelpers)
     }
 
-    const booleanValue = new state(initial, onChange)
+    const booleanValue = state.init(initial, onChange)
     booleanValue.set(value => !value)
     expect(store).toEqual(true)
   })

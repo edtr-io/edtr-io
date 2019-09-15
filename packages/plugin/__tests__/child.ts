@@ -98,7 +98,7 @@ describe('Child', () => {
   test('return type', () => {
     const state = child()
     const id = 'foo'
-    const childValue = new state(id, () => {})
+    const childValue = state.init(id, () => {})
     expect(childValue.get()).toEqual(id)
     expect(childValue.id).toEqual(id)
     expect(typeof childValue.render).toEqual('function')

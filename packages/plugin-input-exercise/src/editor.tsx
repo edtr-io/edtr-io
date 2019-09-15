@@ -45,65 +45,55 @@ export class InputExerciseEditor extends React.Component<
         {editable ? (
           <React.Fragment>
             <InputExerciseRenderer {...this.props} />
-            {Array.from(state.correctAnswers).map(
-              (correctAnswer, index: number) => {
-                return (
-                  <div key={index}>
-                    <label>
-                      richtige Antwort:
-                      <input
-                        type="text"
-                        value={correctAnswer.value}
-                        placeholder="richtige Antwort eingeben"
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>
-                        ) =>
-                          state.correctAnswers[index].set(event.target.value)
-                        }
-                      />
-                    </label>
-                    <button onClick={() => state.correctAnswers.remove(index)}>
-                      Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
-                    </button>
-                  </div>
-                )
-              }
-            )}
+            {state.correctAnswers.map((correctAnswer, index: number) => {
+              return (
+                <div key={index}>
+                  <label>
+                    richtige Antwort:
+                    <input
+                      type="text"
+                      value={correctAnswer.value}
+                      placeholder="richtige Antwort eingeben"
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        state.correctAnswers[index].set(event.target.value)
+                      }
+                    />
+                  </label>
+                  <button onClick={() => state.correctAnswers.remove(index)}>
+                    Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
+                  </button>
+                </div>
+              )
+            })}
             <button onClick={() => state.correctAnswers.insert()}>
               Richtige Antwort hinzufügen
             </button>
-            {Array.from(state.wrongAnswers).map(
-              (wrongAnswer, index: number) => {
-                return (
-                  <div key={index}>
-                    <label>
-                      falsche Antwort:
-                      <input
-                        type="text"
-                        value={wrongAnswer.value.get()}
-                        placeholder="falsche Antwort eingeben"
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>
-                        ) =>
-                          state.wrongAnswers[index].value.set(
-                            event.target.value
-                          )
-                        }
-                      />
-                    </label>
-                    <button onClick={() => state.wrongAnswers.remove(index)}>
-                      Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
-                    </button>
-                    {wrongAnswer.feedback ? (
-                      <this.Label>
-                        Feedback:
-                        <Feedback>{wrongAnswer.feedback.render()}</Feedback>
-                      </this.Label>
-                    ) : null}
-                  </div>
-                )
-              }
-            )}
+            {state.wrongAnswers.map((wrongAnswer, index: number) => {
+              return (
+                <div key={index}>
+                  <label>
+                    falsche Antwort:
+                    <input
+                      type="text"
+                      value={wrongAnswer.value.get()}
+                      placeholder="falsche Antwort eingeben"
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        state.wrongAnswers[index].value.set(event.target.value)
+                      }
+                    />
+                  </label>
+                  <button onClick={() => state.wrongAnswers.remove(index)}>
+                    Löschen {/* <FontAwesomeIcon icon={faTrashAlt} /> */}
+                  </button>
+                  {wrongAnswer.feedback ? (
+                    <this.Label>
+                      Feedback:
+                      <Feedback>{wrongAnswer.feedback.render()}</Feedback>
+                    </this.Label>
+                  ) : null}
+                </div>
+              )
+            })}
             <button onClick={() => state.wrongAnswers.insert()}>
               Falsche Antwort hinzufügen
             </button>

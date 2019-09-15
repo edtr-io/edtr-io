@@ -32,7 +32,7 @@ export function createRowsPlugin(
     Component: createRowsComponent(plugins),
     state: rowsState,
     getFocusableChildren(state) {
-      return Array.from(state)
+      return state
     }
   }
 }

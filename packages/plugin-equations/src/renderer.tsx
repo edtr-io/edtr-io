@@ -29,7 +29,7 @@ export class EquationsRenderer extends React.Component<
 
   public render() {
     const { state } = this.props
-    const rows = Array.from(state.steps)
+    const rows = state.steps
     return (
       <React.Fragment>
         {/* {this.state.phase === Phase.noJS ? ( */}
@@ -73,7 +73,7 @@ export class EquationsRenderer extends React.Component<
     }
     const { state } = this.props
     let rows: StepFit[] = []
-    rows = Array.from(state.steps).map((step, index) => {
+    rows = state.steps.map((step, index) => {
       const fit =
         this.state.phase < Phase.maxWidthTotal ||
         R.max(
@@ -378,7 +378,7 @@ export class EquationsRenderer extends React.Component<
   }
 
   private calculateLayout = () => {
-    const rows = Array.from(this.props.state.steps)
+    const rows = this.props.state.steps
     this.setState({
       phase: Phase.hiddenRender,
       widthLeftSingle: rows.map(() => {

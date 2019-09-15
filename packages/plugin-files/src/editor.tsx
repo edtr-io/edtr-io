@@ -44,7 +44,7 @@ export function createFilesEditor(
   return function FilesEditor(props) {
     const { focused, state } = props
 
-    usePendingFilesUploader(Array.from(state), uploadHandler)
+    usePendingFilesUploader(state, uploadHandler)
 
     function onPaste(data: DataTransfer) {
       const files = getFilesFromDataTransfer(data)
@@ -63,7 +63,7 @@ export function createFilesEditor(
           onPaste(event.clipboardData)
         }}
       >
-        {Array.from(state).map((file, i) => {
+        {state.map((file, i) => {
           if (!isTempFile(file.value)) {
             // finished uploading
             return <FileRenderer key={i} file={file.value} />

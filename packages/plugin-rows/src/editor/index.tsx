@@ -43,7 +43,7 @@ export const RowsEditor = (
           openMenu(0)
         }}
       />
-      {Array.from(rows).map((row, index) => {
+      {rows.map((row, index) => {
         const doc = getDocument(row.id)(store.getState())
 
         if (!doc) return null

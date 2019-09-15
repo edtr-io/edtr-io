@@ -20,7 +20,7 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
 
   let pluginState: unknown
   if (isStatefulPlugin(plugin)) {
-    pluginState = new plugin.state(document.state, () => {})
+    pluginState = plugin.state.init(document.state, () => {})
   }
   return <plugin.Component {...pluginProps} state={pluginState} />
 }

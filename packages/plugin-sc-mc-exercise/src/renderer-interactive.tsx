@@ -33,7 +33,7 @@ export class ScMcRendererInteractive extends React.Component<
 
   static initialStateFromProps(props: ScMcRendererInteractiveProps) {
     return {
-      buttons: Array.from(props.state.answers).map(() => {
+      buttons: props.state.answers.map(() => {
         return {
           selected: false,
           showFeedback: false
@@ -121,7 +121,7 @@ export class ScMcRendererInteractive extends React.Component<
 
   private submitAnswer = () => {
     const { buttons } = this.state
-    const temp = R.zip(buttons, Array.from(this.props.state.answers))
+    const temp = R.zip(buttons, this.props.state.answers)
     const mistakes = R.reduce(
       (acc, [button, answer]) => {
         return acc + (answer.isCorrect.value !== button.selected ? 1 : 0)

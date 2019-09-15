@@ -90,7 +90,7 @@ export class ScMcAnswersRenderer extends React.Component<
       index: number
     ) => (instance: HTMLElement | null) => void = () => () => {}
   ) {
-    const rows = R.splitEvery(columns, Array.from(this.props.state.answers))
+    const rows = R.splitEvery(columns, this.props.state.answers)
     return rows.map((answers, rowIndex) => {
       return (
         <this.Row key={rowIndex}>

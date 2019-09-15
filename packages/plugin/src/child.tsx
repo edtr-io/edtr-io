@@ -1,5 +1,4 @@
 import {
-  StoreDeserializeHelpers,
   StoreSerializeHelpers,
   StateType
 } from '@edtr-io/abstract-plugin-state'
@@ -54,49 +53,32 @@ export function child<
     render: (props?: Props) => React.ReactNode
   }
 > {
-  return class ChildStateType {
-    public render: (props?: Props) => React.ReactNode
-
-    constructor(
-      public id: string,
-      protected onChange: (
-        updater: (oldValue: string, helpers: StoreDeserializeHelpers) => string
-      ) => void,
-      protected pluginProps?: unknown
-    ) {
-      this.render = memoizedRender(this.pluginProps, this.id)
-    }
-
-    static createInitialState({
-      createDocument
-    }: StoreDeserializeHelpers<K, S>) {
+  return {
+    init(id, onChange, pluginProps) {
+      return {
+        get() {
+          return id
+        },
+        id,
+        render: memoizedRender(pluginProps, id)
+      }
+    },
+    createInitialState({ createDocument }) {
       const id = generate()
       createDocument({ id, plugin, state })
       return id
-    }
-
-    static deserialize(
-      serialized: { plugin: K; state?: S },
-      { createDocument }: StoreDeserializeHelpers<K, S>
-    ): string {
+    },
+    deserialize(serialized, { createDocument }) {
       const id = generate()
       createDocument({ id, ...serialized })
       return id
-    }
-
-    static serialize(
-      id: string,
-      { getDocument }: StoreSerializeHelpers<K, S>
-    ): { plugin: K; state?: S } {
+    },
+    serialize(id, { getDocument }: StoreSerializeHelpers<K, S>) {
       const document = getDocument(id)
       if (document === null) {
         throw new Error('There exists no document with the given id')
       }
       return document
-    }
-
-    public get = () => {
-      return this.id
     }
   }
 }

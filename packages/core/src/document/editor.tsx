@@ -95,7 +95,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
           })
         )
       }
-      state = new plugin.state(document.state, onChange, {
+      state = plugin.state.init(document.state, onChange, {
         ...pluginProps,
         name: document.plugin
       })

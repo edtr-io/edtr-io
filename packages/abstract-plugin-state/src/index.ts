@@ -11,10 +11,10 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface StateType<S = any, T = S, R = unknown> {
-  new (
-    value: T,
+  init(
+    state: T,
     onChange: (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+      change: (previousState: T, helpers: StoreDeserializeHelpers) => T
     ) => void,
     pluginProps?: unknown
   ): R

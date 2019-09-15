@@ -86,7 +86,7 @@ export function ScMcExerciseEditor(
   )
   const { editable, focused, state } = props
   const children = R.flatten(
-    Array.from(props.state.answers).map(answer => {
+    props.state.answers.map(answer => {
       return [answer.id.id, answer.feedback.id]
     })
   )
@@ -97,7 +97,7 @@ export function ScMcExerciseEditor(
 
   const handleRadioButtonChange = (rightanswerIndex: number) => () => {
     const { state } = props
-    Array.from(state.answers).forEach((answer, index) => {
+    state.answers.forEach((answer, index) => {
       answer.isCorrect.set(index === rightanswerIndex)
     })
   }
@@ -107,7 +107,7 @@ export function ScMcExerciseEditor(
 
     state.isSingleChoice.set(event.target.value === 'Single Choice')
     state.isSingleChoice.value &&
-      Array.from(state.answers).forEach(answer => {
+      state.answers.forEach(answer => {
         answer.isCorrect.set(false)
       })
   }
@@ -165,7 +165,7 @@ export function ScMcExerciseEditor(
 
           {nestedFocus && !previewActive ? (
             <React.Fragment>
-              {Array.from(state.answers).map((answer, index) => {
+              {state.answers.map((answer, index) => {
                 return (
                   <AnswerContainer key={index}>
                     <CheckboxContainer>

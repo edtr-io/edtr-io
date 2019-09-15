@@ -16,50 +16,50 @@ export interface UploadStateReturnType<T> {
 export function upload<T>(
   defaultState: T
 ): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
-  const SerializedScalar = serializedScalar<FileState<T>, FileState<T>>(
-    defaultState,
-    {
-      deserialize(serialized) {
-        return serialized
-      },
-      serialize(deserialized) {
-        if (isTempFile(deserialized)) {
-          return defaultState
-        }
-        return deserialized
+  const state = serializedScalar<FileState<T>, FileState<T>>(defaultState, {
+    deserialize(serialized) {
+      return serialized
+    },
+    serialize(deserialized) {
+      if (isTempFile(deserialized)) {
+        return defaultState
       }
+      return deserialized
     }
-  )
-  return class UploadType extends SerializedScalar {
-    public get isPending() {
-      return isTempFile(this.value) && !!this.value.pending
-    }
+  })
+  return {
+    ...state,
+    init(...args) {
+      const s = state.init(...args)
+      return Object.assign(s, {
+        isPending: isTempFile(s.value) && !!s.value.pending,
+        upload(file: File, handler: UploadHandler<T>): Promise<T> {
+          const read = readFile(file)
+          let uploadFinished = false
 
-    public upload = (file: File, handler: UploadHandler<T>): Promise<T> => {
-      const read = readFile(file)
-      let uploadFinished = false
+          const uploaded = handler(file)
+            .then(uploaded => {
+              uploadFinished = true
+              return uploaded
+            })
+            .then(uploaded => {
+              s.value = uploaded
+              return uploaded
+            })
+            .catch(reason => {
+              s.value = { failed: file }
+              return Promise.reject(reason)
+            })
 
-      const uploaded = handler(file)
-        .then(uploaded => {
-          uploadFinished = true
+          read.then((loaded: LoadedFile) => {
+            if (!uploadFinished) {
+              s.value = { loaded }
+            }
+          })
+
           return uploaded
-        })
-        .then(uploaded => {
-          this.value = uploaded
-          return uploaded
-        })
-        .catch(reason => {
-          this.value = { failed: file }
-          return Promise.reject(reason)
-        })
-
-      read.then((loaded: LoadedFile) => {
-        if (!uploadFinished) {
-          this.value = { loaded }
         }
       })
-
-      return uploaded
     }
   }
 }

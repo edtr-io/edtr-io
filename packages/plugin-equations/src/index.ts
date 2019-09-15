@@ -20,7 +20,7 @@ export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
   description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
   icon: createIcon(faEquals),
   getFocusableChildren(state) {
-    return Array.from(state.steps).reduce(
+    return state.steps.reduce(
       (children, step) => {
         return [...children, step.left, step.right, step.transform]
       },

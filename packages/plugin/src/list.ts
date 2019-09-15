@@ -1,6 +1,5 @@
 import {
   StoreDeserializeHelpers,
-  StoreSerializeHelpers,
   StateType
 } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
@@ -15,33 +14,46 @@ export function list<S, T = S, U = unknown>(
     id: string
     value: T
   }[],
-  {
+  U[] & {
     insert(index?: number, options?: S): void
     remove(index: number): void
     move(from: number, to: number): void
-  } & ArrayLike<U>
+  }
 > {
-  return class ListType {
-    [key: number]: U
-    public readonly length: number
-    protected items: U[]
+  interface WrappedValue {
+    id: string
+    value: T
+  }
 
-    constructor(
-      protected rawItems: WrappedValue[],
-      protected onChange: (
-        updater: (
-          oldItems: WrappedValue[],
-          helpers: StoreDeserializeHelpers
-        ) => WrappedValue[]
-      ) => void,
-      protected pluginProps?: unknown
-    ) {
-      this.length = rawItems.length
-      this.items = rawItems.map(item => {
-        return new type(item.value, createOnChange(item.id), pluginProps)
+  return {
+    init(rawItems, onChange, pluginProps) {
+      const items = rawItems.map(item => {
+        return type.init(item.value, createOnChange(item.id), pluginProps)
       })
-      this.items.forEach((item, index) => {
-        this[index] = item
+
+      return Object.assign(items, {
+        insert(index?: number, options?: S) {
+          onChange((items, helpers) => {
+            const wrappedSubState = wrap(
+              options
+                ? type.deserialize(options, helpers)
+                : type.createInitialState(helpers)
+            )
+            return R.insert(
+              index === undefined ? items.length : index,
+              wrappedSubState,
+              items
+            )
+          })
+        },
+        remove(index: number) {
+          onChange(items => {
+            return R.remove(index, 1, items)
+          })
+        },
+        move(from: number, to: number) {
+          onChange(items => R.move(from, to, items))
+        }
       })
 
       function createOnChange(id: string) {
@@ -60,61 +72,22 @@ export function list<S, T = S, U = unknown>(
           )
         }
       }
-    }
-
-    public static createInitialState(helpers: StoreDeserializeHelpers) {
+    },
+    createInitialState(helpers) {
       return R.times(() => {
         return wrap(type.createInitialState(helpers))
       }, initialCount)
-    }
-
-    public static deserialize(
-      serialized: S[],
-      helpers: StoreDeserializeHelpers
-    ): WrappedValue[] {
+    },
+    deserialize(serialized, helpers) {
       return R.map(s => {
         return wrap(type.deserialize(s, helpers))
       }, serialized)
-    }
-
-    public static serialize(
-      deserialized: WrappedValue[],
-      helpers: StoreSerializeHelpers
-    ): S[] {
+    },
+    serialize(deserialized, helpers) {
       return R.map(({ value }) => {
         return type.serialize(value, helpers)
       }, deserialized)
     }
-
-    public insert = (index?: number, options?: S) => {
-      this.onChange((items, helpers) => {
-        const wrappedSubstate = wrap(
-          options
-            ? type.deserialize(options, helpers)
-            : type.createInitialState(helpers)
-        )
-        return R.insert(
-          index === undefined ? items.length : index,
-          wrappedSubstate,
-          items
-        )
-      })
-    }
-
-    public remove = (index: number) => {
-      this.onChange(items => {
-        return R.remove(index, 1, items)
-      })
-    }
-
-    public move = (from: number, to: number) => {
-      this.onChange(items => R.move(from, to, items))
-    }
-  }
-
-  interface WrappedValue {
-    id: string
-    value: T
   }
 
   function wrap(value: T): WrappedValue {
