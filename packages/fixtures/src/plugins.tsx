@@ -1,12 +1,6 @@
 // Declaring these as devDependencies would lead to a dependency cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
 /* eslint-disable import/no-extraneous-dependencies */
-import {
-  child,
-  list,
-  number,
-  object,
-  StateTypeReturnType
-} from '@edtr-io/plugin'
+import { child, list, number, object } from '@edtr-io/plugin'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
@@ -70,11 +64,6 @@ export const plugins = {
   },
   nestedArray: {
     Component: () => null,
-    state: nestedArrayState,
-    getFocusableChildren: (
-      state: StateTypeReturnType<typeof nestedArrayState>
-    ) => {
-      return state.children
-    }
+    state: nestedArrayState
   }
 }

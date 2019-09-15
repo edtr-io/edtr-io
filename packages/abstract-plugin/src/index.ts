@@ -13,8 +13,8 @@ import * as React from 'react'
 /**
  * An Edtr.io plugin is either a [[StatelessPlugin]] or a [[StatefulPlugin]]
  *
- * @typeparam S the state type of the Plugin (only used when the plugin is stateful)
- * @typeparam Props additional props that the plugin component accepts
+ * @typeparam S - [[StateType]] of the plugin (only used when the plugin is stateful)
+ * @typeparam Props - additional props that the plugin component accepts
  */
 export type Plugin<
   S extends StateType = StateType,
@@ -25,7 +25,7 @@ export type Plugin<
 /**
  * An Edtr.io plugin without state
  *
- * @typeparam Props additional props that the plugin component accepts
+ * @typeparam Props - additional props that the plugin component accepts
  */
 export interface StatelessPlugin<Props = {}> {
   /**
@@ -86,7 +86,7 @@ export interface StatelessPluginEditorProps {
 /**
  * An Edtr.io plugin with state
  *
- * @typeparam S [[StateType]] of the plugin
+ * @typeparam S - [[StateType]] of the plugin
  */
 export interface StatefulPlugin<S extends StateType, Props = {}> {
   /**
@@ -119,7 +119,7 @@ export interface StatefulPlugin<S extends StateType, Props = {}> {
    * Will be used to decide if the plugin is empty (e.g. to decide whether we can safely delete the plugin). If not provided, we consider a plugin empty iff its state equals its initial state.
    *
    * @param state - the current state
-   * @returns `true` iff the plugin is empty
+   * @returns `true` if the plugin is empty
    */
   isEmpty?(state: StateTypeValueType<S>): boolean
 
@@ -146,7 +146,7 @@ export interface StatefulPlugin<S extends StateType, Props = {}> {
 /**
  * Props for the component of a [[StatefulPlugin]]
  *
- * @typeparam S [[StateType]] of the plugin
+ * @typeparam S - [[StateType]] of the plugin
  */
 export interface StatefulPluginEditorProps<S extends StateType = StateType>
   extends StatelessPluginEditorProps {
@@ -162,8 +162,8 @@ export interface StatefulPluginEditorProps<S extends StateType = StateType>
 /**
  * [Type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types) that checks whether the given [[Plugin]] is stateful
  *
- * @param plugin
- * @typeparam S the [[StateType]] to assert
+ * @param plugin - plugin to check
+ * @typeparam S - [[StateType]] to assert
  * @returns `true` if the plugin is stateful
  */
 export function isStatefulPlugin<S extends StateType>(
@@ -175,7 +175,7 @@ export function isStatefulPlugin<S extends StateType>(
 /**
  * [Type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types) that checks whether the given [[Plugin]] is stateless
  *
- * @param plugin
+ * @param plugin - plugin to check
  * @returns `true` if the plugin is stateless
  */
 export function isStatelessPlugin(
