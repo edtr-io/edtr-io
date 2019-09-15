@@ -48,6 +48,7 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-import-order-alphabetical": "^0.0.2",
+    "eslint-plugin-jsdoc": "^15.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^2.0.0",
     "jest": "^24.0.0",
