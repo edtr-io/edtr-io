@@ -1,10 +1,11 @@
-import * as React from 'react'
 import {
   RendererThemeProps,
   styled,
   createRendererUiTheme,
   SubmitButtonTheme
 } from '@edtr-io/ui'
+import * as React from 'react'
+
 import { Icon, faSmile, faCheckCircle } from './icon'
 
 enum ExerciseState {

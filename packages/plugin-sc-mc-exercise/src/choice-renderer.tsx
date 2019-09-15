@@ -1,6 +1,6 @@
+import { CheckElement } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
-import { CheckElement } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { scMcExerciseState } from '.'

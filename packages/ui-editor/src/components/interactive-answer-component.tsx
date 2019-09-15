@@ -1,6 +1,7 @@
 import { styled } from '@edtr-io/ui'
-import { Icon, faTimes, faPlus } from './icon'
 import * as React from 'react'
+
+import { Icon, faTimes, faPlus } from './icon'
 
 export const AddButtonComponent = styled.button({
   marginLeft: 'calc(10% + 20px)',

@@ -1,8 +1,8 @@
 import { useScopedStore } from '@edtr-io/core'
-import { isEmpty } from '@edtr-io/store'
+import { styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
-import { styled } from '@edtr-io/editor-ui'
+import { isEmpty } from '@edtr-io/store'
 import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
@@ -41,7 +41,53 @@ export function InputExerciseRenderer(
     ExerciseState.Default
   )
   const input = React.createRef<HTMLInputElement>()
+  const handleWrongAnswer = () => {
+    setTimeout(() => {
+      setExerciseState(ExerciseState.Default)
+    }, 2000)
+    setExerciseState(ExerciseState.SolvedWrong)
+  }
 
+  const normalize = (type: string, string: string) => {
+    const normalizeNumber = function(string: string) {
+      return S(string).replaceAll(',', '.').s
+    }
+    const temp = S(string).collapseWhitespace()
+
+    switch (type) {
+      case 'input-number-exact-match-challenge':
+        return S(normalizeNumber((temp as unknown) as string))
+          .replaceAll(' /', '/')
+          .replaceAll('/ ', '/').s
+      case 'input-expression-equal-match-challenge':
+        return A.parse(normalizeNumber((temp as unknown) as string))
+      default:
+        return temp.s.toUpperCase()
+    }
+  }
+  const matchesInput = (
+    field: { type: string; value: string },
+    input: string
+  ) => {
+    try {
+      const solution = normalize(field.type, field.value)
+      const submission = normalize(field.type, input)
+
+      switch (field.type) {
+        case 'input-expression-equal-match-challenge':
+          return (
+            (solution as A.Expression)
+              .subtract(submission as A.Expression)
+              .toString() === '0'
+          )
+        default:
+          return solution === submission
+      }
+    } catch (err) {
+      // e.g. if user input could not be parsed
+      return false
+    }
+  }
   function checkAnswer(event: React.FormEvent) {
     if (!input.current) {
       return
@@ -77,53 +123,6 @@ export function InputExerciseRenderer(
 
     if (!containedAnswer) {
       handleWrongAnswer()
-    }
-  }
-  const handleWrongAnswer = () => {
-    setTimeout(() => {
-      setExerciseState(ExerciseState.Default)
-    }, 2000)
-    setExerciseState(ExerciseState.SolvedWrong)
-  }
-  const matchesInput = (
-    field: { type: string; value: string },
-    input: string
-  ) => {
-    try {
-      const solution = normalize(field.type, field.value)
-      const submission = normalize(field.type, input)
-
-      switch (field.type) {
-        case 'input-expression-equal-match-challenge':
-          return (
-            (solution as A.Expression)
-              .subtract(submission as A.Expression)
-              .toString() === '0'
-          )
-        default:
-          return solution === submission
-      }
-    } catch (err) {
-      // e.g. if user input could not be parsed
-      return false
-    }
-  }
-
-  const normalize = (type: string, string: string) => {
-    const normalizeNumber = function(string: string) {
-      return S(string).replaceAll(',', '.').s
-    }
-    const temp = S(string).collapseWhitespace()
-
-    switch (type) {
-      case 'input-number-exact-match-challenge':
-        return S(normalizeNumber((temp as unknown) as string))
-          .replaceAll(' /', '/')
-          .replaceAll('/ ', '/').s
-      case 'input-expression-equal-match-challenge':
-        return A.parse(normalizeNumber((temp as unknown) as string))
-      default:
-        return temp.s.toUpperCase()
     }
   }
 

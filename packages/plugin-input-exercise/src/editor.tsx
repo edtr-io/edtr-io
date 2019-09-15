@@ -1,12 +1,12 @@
+import { useScopedSelector } from '@edtr-io/core'
+import { InteractiveAnswer, AddButton, styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { inputExerciseState } from '.'
 import { InputExerciseRenderer } from './renderer'
-import { InteractiveAnswer, AddButton, styled } from '@edtr-io/editor-ui'
-import { useScopedSelector } from '@edtr-io/core'
-import { getFocused } from '@edtr-io/store'
 
 const types = [
   {

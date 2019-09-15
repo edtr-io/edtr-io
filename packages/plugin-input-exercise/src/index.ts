@@ -7,9 +7,9 @@ import {
   string,
   StatefulPlugin
 } from '@edtr-io/plugin'
+import { createPluginTheme } from '@edtr-io/ui'
 
 import { InputExerciseEditor } from './editor'
-import { createPluginTheme } from '@edtr-io/ui'
 
 export const answerObject = object({
   value: string(''),
