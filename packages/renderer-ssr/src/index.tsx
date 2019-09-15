@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/renderer-ssr
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Renderer, RendererProps } from '@edtr-io/renderer'
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
