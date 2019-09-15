@@ -9,7 +9,12 @@ import {
 import * as R from 'ramda'
 
 export function object<Ds extends Record<string, StateType>>(
-  types: Ds
+  types: Ds,
+  getFocusableChildren: (
+    children: { [K in keyof Ds]: { id: string }[] }
+  ) => { id: string }[] = children => {
+    return R.flatten(R.values(children))
+  }
 ): StateType<
   StateTypesSerializedType<Ds>,
   StateTypesValueType<Ds>,
@@ -50,6 +55,12 @@ export function object<Ds extends Record<string, StateType>>(
       return R.mapObjIndexed((type, key) => {
         return type.serialize(deserialized[key], helpers)
       }, types) as S
+    },
+    getFocusableChildren(state) {
+      const children = R.mapObjIndexed((type, key) => {
+        return type.getFocusableChildren(state[key])
+      }, types) as { [K in keyof Ds]: { id: string }[] }
+      return getFocusableChildren(children)
     }
   }
 }

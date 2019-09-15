@@ -79,6 +79,9 @@ export function child<
         throw new Error('There exists no document with the given id')
       }
       return document
+    },
+    getFocusableChildren(id) {
+      return [{ id }]
     }
   }
 }

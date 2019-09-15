@@ -13,8 +13,5 @@ export const hintPlugin: StatefulPlugin<typeof hintState> = {
   state: hintState,
   title: 'Hinweis',
   description: 'Gib zusätzliche Tipps zur Aufgabe in dieser ausklappbaren Box.',
-  icon: createIcon(faLightbulb),
-  getFocusableChildren(state) {
-    return [state.content]
-  }
+  icon: createIcon(faLightbulb)
 }

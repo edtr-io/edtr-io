@@ -37,7 +37,6 @@ export interface StatefulPlugin<S extends StateType, Props = {}> {
   description?: string
   isEmpty?: (state: StateTypeValueType<S>) => boolean
   onKeyDown?: (e: KeyboardEvent) => boolean
-  getFocusableChildren?: (state: StateTypeReturnType<S>) => { id: string }[]
 }
 
 export type StatefulPluginEditorProps<

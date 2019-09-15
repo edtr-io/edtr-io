@@ -21,6 +21,7 @@ export interface StateType<S = any, T = S, R = unknown> {
   createInitialState(helpers: StoreDeserializeHelpers): T
   deserialize(serialized: S, helpers: StoreDeserializeHelpers): T
   serialize(deserialized: T, helpers: StoreSerializeHelpers): S
+  getFocusableChildren(state: T): { id: string }[]
 }
 
 export type StateTypeSerializedType<

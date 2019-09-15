@@ -25,6 +25,11 @@ describe('scalar', () => {
     const state = scalar(0)
     expect(state.deserialize(1, deserializeHelpers)).toEqual(1)
   })
+
+  test('get focusable children', () => {
+    const state = scalar(0)
+    expect(state.getFocusableChildren(1)).toEqual([])
+  })
 })
 
 describe('serialized scalar', () => {
@@ -118,6 +123,12 @@ describe('serialized scalar', () => {
       return { value: value + 1 }
     })
     expect(store).toEqual({ value: 1 })
+  })
+
+  test('get focusable children', () => {
+    const state = serializedScalar({ value: 0 }, serializer)
+    const initial = { value: 0 }
+    expect(state.getFocusableChildren(initial)).toEqual([])
   })
 })
 

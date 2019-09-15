@@ -38,15 +38,13 @@ export const getFocusTree = createSelector(
     if (!plugin) return null
 
     let children
-    if (
-      isStatefulPlugin(plugin) &&
-      typeof plugin.getFocusableChildren === 'function'
-    ) {
-      const pluginState = plugin.state.init(document.state, () => {})
-      children = plugin.getFocusableChildren(pluginState).map(child => {
-        const subtree = getFocusTree(child.id)(state)
-        return subtree || child
-      })
+    if (isStatefulPlugin(plugin)) {
+      children = plugin.state
+        .getFocusableChildren(document.state)
+        .map(child => {
+          const subtree = getFocusTree(child.id)(state)
+          return subtree || child
+        })
     }
 
     return {

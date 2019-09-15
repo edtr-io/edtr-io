@@ -126,4 +126,17 @@ describe('object', () => {
       counter: 6
     })
   })
+
+  test('get focusable children', () => {
+    const state = object({
+      foo: child(),
+      counter: number()
+    })
+    const initial = {
+      foo: 'foo',
+      counter: 5
+    }
+
+    expect(state.getFocusableChildren(initial)).toEqual([{ id: 'foo' }])
+  })
 })

@@ -9,9 +9,5 @@ export const importantStatementPlugin: StatefulPlugin<
 > = {
   Component: ImportantStatementRenderer,
   state: importantStatementState,
-  title: 'Merksatz',
-  description: 'Hebe eine wichtige Information durch einen Merksatz hervor',
-  getFocusableChildren(state) {
-    return [state]
-  }
+  title: 'Merksatz'
 }

@@ -103,4 +103,9 @@ describe('Child', () => {
     expect(childValue.id).toEqual(id)
     expect(typeof childValue.render).toEqual('function')
   })
+
+  test('get focusable children', () => {
+    const state = child()
+    expect(state.getFocusableChildren('foo')).toEqual([{ id: 'foo' }])
+  })
 })

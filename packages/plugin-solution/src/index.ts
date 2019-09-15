@@ -14,8 +14,5 @@ export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
   icon: createIcon(faCheckSquare),
   title: 'Lösung',
   description:
-    'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.',
-  getFocusableChildren(state) {
-    return [state.content]
-  }
+    'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.'
 }

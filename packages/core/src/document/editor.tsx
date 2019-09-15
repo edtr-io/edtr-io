@@ -39,12 +39,14 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     if (
       focused &&
       container.current &&
+      document &&
       plugin &&
-      (!isStatefulPlugin(plugin) || !plugin.getFocusableChildren)
+      (!isStatefulPlugin(plugin) ||
+        !plugin.state.getFocusableChildren(document.state).length)
     ) {
       container.current.focus()
     }
-  }, [focused, plugin])
+  }, [focused, plugin, document])
 
   const handleFocus = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {

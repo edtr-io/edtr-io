@@ -87,6 +87,13 @@ export function list<S, T = S, U = unknown>(
       return R.map(({ value }) => {
         return type.serialize(value, helpers)
       }, deserialized)
+    },
+    getFocusableChildren(items) {
+      return R.flatten(
+        R.map(item => {
+          return type.getFocusableChildren(item.value)
+        }, items)
+      )
     }
   }
 

@@ -171,6 +171,13 @@ describe('list', () => {
     expect(store[0].id).toEqual('1')
   })
 
+  test('get focusable children', () => {
+    const state = list(child())
+    expect(state.getFocusableChildren([{ id: 'foo', value: 'bar' }])).toEqual([
+      { id: 'bar' }
+    ])
+  })
+
   test('inner change', () => {
     store = [
       {

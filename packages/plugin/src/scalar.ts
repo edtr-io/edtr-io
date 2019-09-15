@@ -62,6 +62,9 @@ export function serializedScalar<S, T>(
     createInitialState() {
       return initialState
     },
+    getFocusableChildren() {
+      return []
+    },
     ...serializer
   }
 }
