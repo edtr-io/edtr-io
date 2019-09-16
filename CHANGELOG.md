@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - **plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) now allows to set the value. Instead of `state.set("foo")`, you may now also use `state.value = "foo"`.
+- **store**. Add new selector `hasFocusedChild` that checks whether the given document has any (direct) child that is focused
+- **store**. Add new selector `hasFocusedDescendant` that checks whether the given document has any descendant that is focused (i.e. also recursively checks children of children)
 
 ## [0.10.3](https://github.com/edtr-io/edtr-io/compare/v0.10.2..v0.10.3) - September 13, 2019
 

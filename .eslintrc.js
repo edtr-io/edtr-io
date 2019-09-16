@@ -117,6 +117,7 @@ module.exports = {
   },
   settings: {
     jsdoc: {
+      ignorePrivate: true,
       tagNamePreference: {
         hidden: 'ignore'
       }

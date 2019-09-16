@@ -7,6 +7,8 @@ export {
   isFocused,
   getFocused,
   getFocusTree,
+  hasFocusedChild,
+  hasFocusedDescendant,
   findPreviousNode,
   findNextNode
 } from './reducer'

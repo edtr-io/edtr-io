@@ -7,6 +7,7 @@ module.exports = {
     '**/__stories__/**',
     '**/__tests__/**',
     '**/__tests-ssr__/**',
+    '**/dist/**',
     'packages/bundle-size/**',
     'packages/demo/**',
     'packages/fixtures/**',
