@@ -29,7 +29,7 @@
     "react-hotkeys": "^2.0.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.10.0",
+    "@edtr-io/core": "^0.11.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0"
