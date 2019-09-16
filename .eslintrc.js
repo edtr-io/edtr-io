@@ -9,12 +9,13 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'import', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'import', 'jsdoc', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -91,6 +92,20 @@ module.exports = {
       }
     ],
 
+    // eslint-plugin-jsdoc
+    'jsdoc/check-indentation': 'warn',
+    'jsdoc/check-tag-names': [
+      'warn',
+      {
+        definedTags: ['category', 'typeparam']
+      }
+    ],
+    'jsdoc/check-types': 'off',
+    'jsdoc/require-hyphen-before-param-description': 'warn',
+    'jsdoc/require-jsdoc': 'off',
+    'jsdoc/require-param-type': 'off',
+    'jsdoc/require-returns-type': 'off',
+
     // eslint-plugin-react
     'react/jsx-boolean-value': 'error',
     'react/jsx-curly-brace-presence': 'error',
@@ -101,6 +116,12 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error'
   },
   settings: {
+    jsdoc: {
+      ignorePrivate: true,
+      tagNamePreference: {
+        hidden: 'ignore'
+      }
+    },
     react: {
       version: 'detect'
     }

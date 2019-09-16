@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/core
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { getScope, Action, State, ScopedState, Store } from '@edtr-io/store'
 import * as React from 'react'
 import {

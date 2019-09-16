@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.0](https://github.com/edtr-io/edtr-io/compare/v0.10.3..v0.11.0) - September 16, 2019
+
+### Breaking Changes
+
+- **plugin**. Refactored `StateType` API. This should only affect you if you defined custom state types.
+- **plugin**. Consistently renamed `StateDescriptor*` types to `StateType*`
+- **plugin**. `StatelessPluginEditorProps` and `StatefulPluginEditorProps` no longer accept the type param `Props`. Replace `StatelessPluginEditorProps<Props>` with `StatelessPluginEditorProps & Props`.
+- **plugin**. `StatelessPlugin` may no longer define `getFocusableChildren`. This is handled by state types instead.
+- **plugin**. The return type of the built-in `child` state type is no longer callable. Replace `state()` with `state.get()` or `state.id` to retrieve the `id`.
+- **plugin**. The return type of the built-in `list` state type is no longer callable and doesn't expose `items` anymore. Instead, the return types behaves like an array itself. Replace `state()` resp. `state.items` with `state`.
+- **plugin**. The return type of the built-in `object` state type is no longer callable. Replace `state()` with `state`.
+- **plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) is no longer callable. Replace `state()` with `state.get()` or `state.value`.
+- **plugin**. The return type of the built-in `upload` state type is no longer callable. Replace `state()` with `state.get()` or `state.value`.
+
+### Added
+
+- **plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) now allows to set the value. Instead of `state.set("foo")`, you may now also use `state.value = "foo"`.
+- **store**. Add new selector `hasFocusedChild` that checks whether the given document has any (direct) child that is focused
+- **store**. Add new selector `hasFocusedDescendant` that checks whether the given document has any descendant that is focused (i.e. also recursively checks children of children)
+
 ## [0.10.3](https://github.com/edtr-io/edtr-io/compare/v0.10.2..v0.10.3) - September 13, 2019
 
 ### Fixed

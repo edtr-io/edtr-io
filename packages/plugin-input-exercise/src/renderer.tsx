@@ -27,10 +27,10 @@ export class InputExerciseRenderer extends React.Component<
     const { state } = this.props
 
     let correct = false
-    state.correctAnswers().forEach(correctAnswer => {
+    state.correctAnswers.forEach(correctAnswer => {
       if (
         this.matchesInput(
-          { type: state.type(), value: correctAnswer() },
+          { type: state.type.value, value: correctAnswer.value },
           input.value
         )
       ) {
@@ -39,9 +39,9 @@ export class InputExerciseRenderer extends React.Component<
       }
     })
     if (!correct) {
-      const index = state.wrongAnswers().findIndex(wrongAnswer => {
+      const index = state.wrongAnswers.findIndex(wrongAnswer => {
         return this.matchesInput(
-          { type: state.type(), value: wrongAnswer.value() },
+          { type: state.type.value, value: wrongAnswer.value.get() },
           input.value
         )
       })
@@ -104,7 +104,7 @@ export class InputExerciseRenderer extends React.Component<
           <div className="input-challenge-input-wrapper pull-right">
             <input
               className="input-challenge-input"
-              data-type={state.type()}
+              data-type={state.type.value}
               type="text"
               placeholder="Deine Lösung"
               ref={this.input}
@@ -124,9 +124,9 @@ export class InputExerciseRenderer extends React.Component<
               </div>
             ) : this.state.negativeFeedbackIndex !== -1 ? (
               <Feedback boxFree>
-                {state
-                  .wrongAnswers()
-                  [this.state.negativeFeedbackIndex].feedback.render()}
+                {state.wrongAnswers[
+                  this.state.negativeFeedbackIndex
+                ].feedback.render()}
               </Feedback>
             ) : (
               <Feedback boxFree> Leider falsch!</Feedback>

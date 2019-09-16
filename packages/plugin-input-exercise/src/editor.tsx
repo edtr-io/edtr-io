@@ -45,7 +45,7 @@ export class InputExerciseEditor extends React.Component<
         {editable ? (
           <React.Fragment>
             <InputExerciseRenderer {...this.props} />
-            {state.correctAnswers().map((correctAnswer, index: number) => {
+            {state.correctAnswers.map((correctAnswer, index: number) => {
               return (
                 <div key={index}>
                   <label>
@@ -55,7 +55,7 @@ export class InputExerciseEditor extends React.Component<
                       value={correctAnswer.value}
                       placeholder="richtige Antwort eingeben"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        state.correctAnswers()[index].set(event.target.value)
+                        state.correctAnswers[index].set(event.target.value)
                       }
                     />
                   </label>
@@ -68,19 +68,17 @@ export class InputExerciseEditor extends React.Component<
             <button onClick={() => state.correctAnswers.insert()}>
               Richtige Antwort hinzufügen
             </button>
-            {state.wrongAnswers().map((wrongAnswer, index: number) => {
+            {state.wrongAnswers.map((wrongAnswer, index: number) => {
               return (
                 <div key={index}>
                   <label>
                     falsche Antwort:
                     <input
                       type="text"
-                      value={wrongAnswer.value()}
+                      value={wrongAnswer.value.get()}
                       placeholder="falsche Antwort eingeben"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        state
-                          .wrongAnswers()
-                          [index].value.set(event.target.value)
+                        state.wrongAnswers[index].value.set(event.target.value)
                       }
                     />
                   </label>
@@ -111,7 +109,7 @@ export class InputExerciseEditor extends React.Component<
               onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
                 state.type.set(this.translateDataName(event.target.value))
               }
-              value={this.translateDataType(state.type())}
+              value={this.translateDataType(state.type.value)}
             >
               {R.map(dataType => {
                 return (

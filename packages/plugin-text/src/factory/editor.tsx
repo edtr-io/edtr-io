@@ -542,10 +542,8 @@ function createDocumentFromBlocks(blocks: Block[]) {
   }
 }
 
-export type SlateEditorProps = StatefulPluginEditorProps<
-  typeof textState,
+export type SlateEditorProps = StatefulPluginEditorProps<typeof textState> &
   SlateEditorAdditionalProps
->
 
 export interface SlateEditorAdditionalProps {
   name: string

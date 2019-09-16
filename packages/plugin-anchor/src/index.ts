@@ -1,5 +1,5 @@
-import { faAnchor, createIcon } from '@edtr-io/editor-ui'
-import { string, StatefulPlugin } from '@edtr-io/plugin'
+import { createIcon, faAnchor } from '@edtr-io/editor-ui'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
 

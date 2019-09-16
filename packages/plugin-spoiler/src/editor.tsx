@@ -34,11 +34,11 @@ export function SpoilerEditor({
     focused && editable ? (
       <EditorInput
         onChange={e => state.title.set(e.target.value)}
-        value={state.title()}
+        value={state.title.value}
         placeholder="Titel eingeben"
       />
-    ) : state.title() ? (
-      state.title()
+    ) : state.title.value ? (
+      state.title.value
     ) : (
       'Spoiler'
     )

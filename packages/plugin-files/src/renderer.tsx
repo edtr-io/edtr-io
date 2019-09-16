@@ -55,7 +55,7 @@ export function FilesRenderer(
 ) {
   return (
     <React.Fragment>
-      {props.state.items.map((file, i) => {
+      {props.state.map((file, i) => {
         if (isTempFile(file.value)) {
           return null
         }

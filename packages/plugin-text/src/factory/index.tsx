@@ -1,9 +1,5 @@
 import { createIcon, faParagraph } from '@edtr-io/editor-ui'
-import {
-  scalar,
-  StateDescriptorValueType,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { scalar, StatefulPlugin } from '@edtr-io/plugin'
 import { Value, ValueJSON } from 'slate'
 
 import { createTextEditor, SlateEditorAdditionalProps } from './editor'
@@ -11,7 +7,7 @@ import { TextPluginOptions } from './types'
 
 export const defaultNode = 'paragraph'
 
-const emptyDocument = {
+const emptyDocument: ValueJSON = {
   document: {
     nodes: [
       {
@@ -19,7 +15,8 @@ const emptyDocument = {
         type: defaultNode,
         nodes: [
           {
-            object: 'text'
+            object: 'text',
+            leaves: []
           }
         ]
       }
@@ -27,10 +24,7 @@ const emptyDocument = {
   }
 }
 
-export const textState = scalar<ValueJSON>(
-  // @ts-ignore: slightly mismatching types FIXME
-  Value.fromJSON(emptyDocument).toJSON()
-)
+export const textState = scalar<ValueJSON>(emptyDocument)
 
 export const createTextPlugin = (
   options: TextPluginOptions
@@ -44,7 +38,7 @@ export const createTextPlugin = (
     onKeyDown() {
       return false
     },
-    isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
+    isEmpty: state => {
       const value = Value.fromJSON(state)
       return isValueEmpty(value)
     }

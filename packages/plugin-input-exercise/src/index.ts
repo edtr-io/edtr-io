@@ -1,5 +1,5 @@
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
-import { child, list, object, string, StatefulPlugin } from '@edtr-io/plugin'
+import { child, list, object, StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
 

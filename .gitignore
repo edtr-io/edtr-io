@@ -34,3 +34,7 @@ dist/
 
 # Rollup cache
 .rts2_cache*
+
+# API documentation
+api/
+website/

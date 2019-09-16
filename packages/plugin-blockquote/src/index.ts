@@ -10,8 +10,5 @@ export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
   state: blockquoteState,
   title: 'Zitat',
   description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
-  getFocusableChildren(state) {
-    return [state]
-  },
   icon: createIcon(faQuoteRight)
 }

@@ -1,7 +1,10 @@
+/**
+ * @module @edtr-io/plugin
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  StateDescriptor,
-  StoreDeserializeHelpers,
-  StoreSerializeHelpers
+  StoreSerializeHelpers,
+  StateType
 } from '@edtr-io/abstract-plugin-state'
 import { SubDocument } from '@edtr-io/core'
 import * as React from 'react'
@@ -25,8 +28,8 @@ function PluginPropsDocument<Props extends Record<string, unknown>>({
 const memoizedRender = <Props extends Record<string, unknown>>(
   parentProps: unknown,
   id: string
-) =>
-  function Child(props?: Props) {
+) => {
+  return function Child(props?: Props) {
     return (
       <PluginPropsDocument
         key={id}
@@ -36,6 +39,7 @@ const memoizedRender = <Props extends Record<string, unknown>>(
       />
     )
   }
+}
 
 export function child<
   K extends string,
@@ -44,53 +48,44 @@ export function child<
 >(
   plugin?: K,
   state?: S
-): StateDescriptor<
+): StateType<
   { plugin: K; state?: S },
   string,
   {
-    (): string
+    get(): string
     id: string
     render: (props?: Props) => React.ReactNode
   }
 > {
-  return Object.assign(
-    (
-      id: string,
-      _onChange: (
-        updater: (oldValue: string, helpers: StoreDeserializeHelpers) => string
-      ) => void,
-      parentProps?: unknown
-    ) => {
-      return Object.assign(() => id, {
+  return {
+    init(id, onChange, pluginProps) {
+      return {
+        get() {
+          return id
+        },
         id,
-        //eslint-disable-next-line react/display-name
-        render: memoizedRender(parentProps, id)
-      })
-    },
-    {
-      createInitialState({ createDocument }: StoreDeserializeHelpers<K, S>) {
-        const id = generate()
-        createDocument({ id, plugin, state })
-        return id
-      },
-      deserialize(
-        serialized: { plugin: K; state?: S },
-        { createDocument }: StoreDeserializeHelpers<K, S>
-      ): string {
-        const id = generate()
-        createDocument({ id, ...serialized })
-        return id
-      },
-      serialize(
-        id: string,
-        { getDocument }: StoreSerializeHelpers<K, S>
-      ): { plugin: K; state?: S } {
-        const document = getDocument(id)
-        if (document === null) {
-          throw new Error('There exists no document with the given id')
-        }
-        return document
+        render: memoizedRender(pluginProps, id)
       }
+    },
+    createInitialState({ createDocument }) {
+      const id = generate()
+      createDocument({ id, plugin, state })
+      return id
+    },
+    deserialize(serialized, { createDocument }) {
+      const id = generate()
+      createDocument({ id, ...serialized })
+      return id
+    },
+    serialize(id, { getDocument }: StoreSerializeHelpers<K, S>) {
+      const document = getDocument(id)
+      if (document === null) {
+        throw new Error('There exists no document with the given id')
+      }
+      return document
+    },
+    getFocusableChildren(id) {
+      return [{ id }]
     }
-  )
+  }
 }

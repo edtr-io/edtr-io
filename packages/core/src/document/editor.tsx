@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/core
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
@@ -39,12 +43,14 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     if (
       focused &&
       container.current &&
+      document &&
       plugin &&
-      (!isStatefulPlugin(plugin) || !plugin.getFocusableChildren)
+      (!isStatefulPlugin(plugin) ||
+        !plugin.state.getFocusableChildren(document.state).length)
     ) {
       container.current.focus()
     }
-  }, [focused, plugin])
+  }, [focused, plugin, document])
 
   const handleFocus = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -95,7 +101,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
           })
         )
       }
-      state = plugin.state(document.state, onChange, {
+      state = plugin.state.init(document.state, onChange, {
         ...pluginProps,
         name: document.plugin
       })

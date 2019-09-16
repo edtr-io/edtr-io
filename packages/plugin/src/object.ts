@@ -1,67 +1,70 @@
+/**
+ * @module @edtr-io/plugin
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  StateDescriptorsReturnType,
-  StateDescriptorsValueType,
-  StateDescriptor,
   StoreDeserializeHelpers,
-  StoreSerializeHelpers,
-  StateDescriptorReturnType,
-  StateDescriptorsSerializedType
+  StateType,
+  StateTypesSerializedType,
+  StateTypesValueType,
+  StateTypesReturnType,
+  StateTypeReturnType
 } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
 
-export function object<Ds extends Record<string, StateDescriptor>>(
-  types: Ds
-): StateDescriptor<
-  StateDescriptorsSerializedType<Ds>,
-  StateDescriptorsValueType<Ds>,
-  {
-    (): StateDescriptorsReturnType<Ds>
-  } & StateDescriptorsReturnType<Ds>
+export function object<Ds extends Record<string, StateType>>(
+  types: Ds,
+  getFocusableChildren: (
+    children: { [K in keyof Ds]: { id: string }[] }
+  ) => { id: string }[] = children => {
+    return R.flatten(R.values(children))
+  }
+): StateType<
+  StateTypesSerializedType<Ds>,
+  StateTypesValueType<Ds>,
+  StateTypesReturnType<Ds>
 > {
-  type S = StateDescriptorsSerializedType<Ds>
-  type T = StateDescriptorsValueType<Ds>
-  type U = StateDescriptorsReturnType<Ds>
-  return Object.assign(
-    (
-      initialValue: T,
-      onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void,
-      parentProps?: unknown
-    ) => {
-      const getObject = (): U =>
-        R.mapObjIndexed((type, key) => {
-          function innerOnChange(
-            updater: (
-              oldValue: StateDescriptorReturnType<typeof type>,
-              helpers: StoreDeserializeHelpers
-            ) => StateDescriptorReturnType<typeof type>
-          ): void {
-            onChange((oldObj, helpers) =>
-              R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
-            )
-          }
-          return type(initialValue[key], innerOnChange, parentProps)
-        }, types) as U
+  type S = StateTypesSerializedType<Ds>
+  type T = StateTypesValueType<Ds>
+  type U = StateTypesReturnType<Ds>
 
-      return Object.assign(getObject, getObject())
+  return {
+    init(state, onChange, pluginProps) {
+      return R.mapObjIndexed((type, key) => {
+        return type.init(state[key], innerOnChange, pluginProps)
+
+        function innerOnChange(
+          updater: (
+            oldValue: StateTypeReturnType<typeof type>,
+            helpers: StoreDeserializeHelpers
+          ) => StateTypeReturnType<typeof type>
+        ): void {
+          onChange((oldObj, helpers) =>
+            R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
+          )
+        }
+      }, types) as U
     },
-    {
-      createInitialState(helpers: StoreDeserializeHelpers): T {
-        return R.map(type => {
-          return type.createInitialState(helpers)
-        }, types) as T
-      },
-      deserialize(serialized: S, helpers: StoreDeserializeHelpers): T {
-        return R.mapObjIndexed((type, key) => {
-          return type.deserialize(serialized[key], helpers)
-        }, types) as T
-      },
-      serialize(deserialized: T, helpers: StoreSerializeHelpers): S {
-        return R.mapObjIndexed((type, key) => {
-          return type.serialize(deserialized[key], helpers)
-        }, types) as S
-      }
+    createInitialState(helpers) {
+      return R.map(type => {
+        return type.createInitialState(helpers)
+      }, types) as T
+    },
+    deserialize(serialized, helpers) {
+      return R.mapObjIndexed((type, key) => {
+        return type.deserialize(serialized[key], helpers)
+      }, types) as T
+    },
+    serialize(deserialized, helpers) {
+      return R.mapObjIndexed((type, key) => {
+        return type.serialize(deserialized[key], helpers)
+      }, types) as S
+    },
+    getFocusableChildren(state) {
+      const children = R.mapObjIndexed((type, key) => {
+        return type.getFocusableChildren(state[key])
+      }, types) as { [K in keyof Ds]: { id: string }[] }
+      return getFocusableChildren(children)
     }
-  )
+  }
 }

@@ -86,18 +86,18 @@ export function ScMcExerciseEditor(
   )
   const { editable, focused, state } = props
   const children = R.flatten(
-    props.state.answers().map(answer => {
+    props.state.answers.map(answer => {
       return [answer.id.id, answer.feedback.id]
     })
   )
   const handleCheckboxChange = (index: number) => () => {
     const { state } = props
-    state.answers()[index].isCorrect.set(currentVal => !currentVal)
+    state.answers[index].isCorrect.set(currentVal => !currentVal)
   }
 
   const handleRadioButtonChange = (rightanswerIndex: number) => () => {
     const { state } = props
-    state.answers().forEach((answer, index) => {
+    state.answers.forEach((answer, index) => {
       answer.isCorrect.set(index === rightanswerIndex)
     })
   }
@@ -106,8 +106,8 @@ export function ScMcExerciseEditor(
     const { state } = props
 
     state.isSingleChoice.set(event.target.value === 'Single Choice')
-    state.isSingleChoice() &&
-      state.answers().forEach(answer => {
+    state.isSingleChoice.value &&
+      state.answers.forEach(answer => {
         answer.isCorrect.set(false)
       })
   }
@@ -134,7 +134,7 @@ export function ScMcExerciseEditor(
     <React.Fragment>
       Select the exercise type:
       <select
-        value={state.isSingleChoice() ? 'Single Choice' : 'Multiple Choice'}
+        value={state.isSingleChoice.value ? 'Single Choice' : 'Multiple Choice'}
         onChange={handleSCMCChange}
       >
         <option value="Multiple Choice">Multiple Choice</option>
@@ -165,16 +165,16 @@ export function ScMcExerciseEditor(
 
           {nestedFocus && !previewActive ? (
             <React.Fragment>
-              {state.answers().map((answer, index) => {
+              {state.answers.map((answer, index) => {
                 return (
                   <AnswerContainer key={index}>
                     <CheckboxContainer>
                       Richtig?
                       <SCMCInput
-                        isSingleChoice={state.isSingleChoice()}
-                        isActive={answer.isCorrect()}
+                        isSingleChoice={state.isSingleChoice.value}
+                        isActive={answer.isCorrect.value}
                         handleChange={
-                          state.isSingleChoice()
+                          state.isSingleChoice.value
                             ? handleRadioButtonChange(index)
                             : handleCheckboxChange(index)
                         }
@@ -183,14 +183,14 @@ export function ScMcExerciseEditor(
                     {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
                     <FramedContainer
                       focused={
-                        answer.id() === focusedElement ||
+                        answer.id.id === focusedElement ||
                         answer.feedback.id === focusedElement
                       }
                     >
                       <AnswerField>{answer.id.render()}</AnswerField>
                       <RemoveButton
                         focused={
-                          answer.id() === focusedElement ||
+                          answer.id.id === focusedElement ||
                           answer.feedback.id === focusedElement
                         }
                         onClick={removeAnswer(index)}

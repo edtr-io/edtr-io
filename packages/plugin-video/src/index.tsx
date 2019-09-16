@@ -1,5 +1,5 @@
 import { createIcon, faFilm } from '@edtr-io/editor-ui'
-import { string, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { VideoEditor } from './editor'

@@ -90,12 +90,11 @@ describe('object', () => {
       foo: 'foo',
       counter: 5
     }
-    const objectValue = state(initial, () => {})
-    expect(objectValue().foo()).toEqual(initial.foo)
-    expect(typeof objectValue().foo.render).toEqual('function')
-    expect(objectValue.foo()).toEqual(initial.foo)
+    const objectValue = state.init(initial, () => {})
     expect(typeof objectValue.foo.render).toEqual('function')
-    expect(objectValue.counter()).toEqual(initial.counter)
+    expect(objectValue.foo.id).toBeDefined()
+    expect(typeof objectValue.foo.render).toEqual('function')
+    expect(objectValue.counter.value).toEqual(initial.counter)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(typeof objectValue.counter.set).toEqual('function')
   })
@@ -120,11 +119,24 @@ describe('object', () => {
       store = updater(store, helpers)
     }
 
-    const objValue = state(initial, onChange)
-    objValue.counter.set(() => 1)
+    const objValue = state.init(initial, onChange)
+    objValue.counter.set(value => value + 1)
     expect(store).toEqual({
       foo: 'foo',
-      counter: 1
+      counter: 6
     })
+  })
+
+  test('get focusable children', () => {
+    const state = object({
+      foo: child(),
+      counter: number()
+    })
+    const initial = {
+      foo: 'foo',
+      counter: 5
+    }
+
+    expect(state.getFocusableChildren(initial)).toEqual([{ id: 'foo' }])
   })
 })

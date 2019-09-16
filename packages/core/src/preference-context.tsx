@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/core
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as React from 'react'
 
 // Scaffolding implementation of a preference context

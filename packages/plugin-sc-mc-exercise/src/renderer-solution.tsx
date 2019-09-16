@@ -1,7 +1,4 @@
-import {
-  StateDescriptorReturnType,
-  StatefulPluginEditorProps
-} from '@edtr-io/plugin'
+import { StateTypeReturnType, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { AnswerProps, scMcExerciseState } from '.'
@@ -16,7 +13,7 @@ export class ScMcRendererSolution extends React.Component<
   }
 
   private showAnswer = (
-    answer: StateDescriptorReturnType<typeof AnswerProps>,
+    answer: StateTypeReturnType<typeof AnswerProps>,
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -24,7 +21,7 @@ export class ScMcRendererSolution extends React.Component<
       <ScMcExerciseChoiceRenderer
         key={index}
         index={index}
-        selected={answer.isCorrect()}
+        selected={answer.isCorrect.value}
         showFeedback
         {...this.props}
         centered={centered}

@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/store
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { ClipboardAction } from './clipboard/actions'
 import { DocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'
