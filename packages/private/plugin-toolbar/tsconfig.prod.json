@@ -1,0 +1,8 @@
+{
+  "include": ["src"],
+  "extends": "../../../tsconfig.prod",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "./"
+  }
+}
