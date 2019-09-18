@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.1](https://github.com/edtr-io/edtr-io/compare/v0.11.0..v0.11.1) - September 18, 2019
+
+### Fixed
+
+- **core**. Documents no longer lose focus during editing
+
 ## [0.11.0](https://github.com/edtr-io/edtr-io/compare/v0.10.3..v0.11.0) - September 16, 2019
 
 ### Breaking Changes

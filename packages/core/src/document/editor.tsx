@@ -50,7 +50,9 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     ) {
       container.current.focus()
     }
-  }, [focused, plugin, document])
+    // `document` should not be part of the dependencies because we only want to call this once when the document gets focused
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused, plugin])
 
   const handleFocus = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {

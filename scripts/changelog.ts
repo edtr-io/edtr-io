@@ -541,6 +541,14 @@ useScopedSelector(state => {
         '**store**. Add new selector `hasFocusedChild` that checks whether the given document has any (direct) child that is focused',
         '**store**. Add new selector `hasFocusedDescendant` that checks whether the given document has any descendant that is focused (i.e. also recursively checks children of children)'
       ]
+    },
+    {
+      tagName: 'v0.11.1',
+      name: '0.11.1',
+      date: '2019-09-18',
+      fixed: [
+        '**core**. Documents no longer lose focus during editing'
+      ]
     }
   ])
 
