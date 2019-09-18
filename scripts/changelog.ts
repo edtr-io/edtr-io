@@ -546,9 +546,7 @@ useScopedSelector(state => {
       tagName: 'v0.11.1',
       name: '0.11.1',
       date: '2019-09-18',
-      fixed: [
-        '**core**. Documents no longer lose focus during editing'
-      ]
+      fixed: ['**core**. Documents no longer lose focus during editing']
     }
   ])
 
