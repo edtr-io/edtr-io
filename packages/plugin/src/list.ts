@@ -4,7 +4,8 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
-  StateType
+  StateType,
+  FocusableChild
 } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
 import { generate } from 'shortid'
@@ -93,7 +94,7 @@ export function list<S, T = S, U = unknown>(
       }, deserialized)
     },
     getFocusableChildren(items) {
-      return R.flatten(
+      return R.flatten<FocusableChild>(
         R.map(item => {
           return type.getFocusableChildren(item.value)
         }, items)

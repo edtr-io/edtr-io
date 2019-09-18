@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Block, Editor } from 'slate'
 
 import { defaultNode } from '../factory'
-import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
+import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 
 export const paragraphNode = defaultNode
 
@@ -11,11 +11,11 @@ export const setParagraph = (editor: Editor) => {
 }
 
 export interface ParagraphPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
-  RenderComponent?: React.ComponentType<NodeRendererProps>
+  EditorComponent?: React.ComponentType<BlockEditorProps>
+  RenderComponent?: React.ComponentType<BlockRendererProps>
 }
 
-class DefaultEditorComponent extends React.Component<NodeEditorProps> {
+class DefaultEditorComponent extends React.Component<BlockEditorProps> {
   public render() {
     const { attributes, children } = this.props
 
@@ -23,7 +23,7 @@ class DefaultEditorComponent extends React.Component<NodeEditorProps> {
   }
 }
 
-class DefaultRendererComponent extends React.Component<NodeRendererProps> {
+class DefaultRendererComponent extends React.Component<BlockRendererProps> {
   public render() {
     const { children } = this.props
 
