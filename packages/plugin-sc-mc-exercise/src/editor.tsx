@@ -60,7 +60,7 @@ export function ScMcExerciseEditor(
     state.answers.remove(index)
   }
 
-  const nestedFocus = focused || R.contains(focusedElement, children)
+  const nestedFocus = focused || R.includes(focusedElement, children)
   const [previewActive, setPreviewActive] = React.useState(false)
 
   if (!editable) {

@@ -37,41 +37,58 @@ const CheckboxContainer = styled.div({
   fontWeight: 'bold'
 })
 
+const RemoveButton = styled.button({
+  borderRadius: '50%',
+  outline: 'none',
+  background: 'white',
+  zIndex: 20,
+  float: 'right',
+  transform: 'translate(50%, -40%)',
+  '&:hover': {
+    border: '3px solid #007ec1',
+    color: '#007ec1'
+  }
+})
+
+const FeedbackField = styled.div({
+  paddingLeft: '20px',
+  paddingBottom: '10px',
+  paddingTop: '10px',
+  marginTop: '5px'
+})
+
 const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
+  const defaultBorders = {
+    border: '2px solid lightgrey',
+    [`${RemoveButton}`]: {
+      border: '2px solid lightgrey',
+      color: 'lightgrey'
+    },
+    [`${FeedbackField}`]: {
+      borderTop: '2px solid lightgrey'
+    }
+  }
+  const focusedBorders = {
+    border: '3px solid #007ec1',
+    [`${RemoveButton}`]: {
+      border: '3px solid #007ec1',
+      color: '#007ec1'
+    },
+    [`${FeedbackField}`]: {
+      borderTop: '2px solid #007ec1'
+    }
+  }
+
   return {
     width: '100%',
     marginLeft: '10px',
     borderRadius: '10px',
-    border: focused ? '3px solid #007ec1' : '2px solid lightgrey'
-  }
-})
-const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
-  return {
-    borderRadius: '50%',
-    outline: 'none',
-    background: 'white',
-    color: focused ? ' #007ec1' : 'lightgrey',
-    border: focused ? '3px solid #007ec1' : '2px solid lightgrey',
-    zIndex: 20,
-    float: 'right',
-    transform: 'translate(50%, -40%)',
-    '&:hover': {
-      border: '3px solid #007ec1',
-      color: '#007ec1'
-    }
+
+    ...(focused ? focusedBorders : defaultBorders),
+    '&:focus-within': focusedBorders
   }
 })
 const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
-
-const FeedbackField = styled.div<{ focused: boolean }>(({ focused }) => {
-  return {
-    paddingLeft: '20px',
-    paddingBottom: '10px',
-    paddingTop: '10px',
-    marginTop: '5px',
-    borderTop: focused ? '2px solid #007ec1' : '2px solid lightgrey'
-  }
-})
 
 const Container = styled.div<{ isRadio: boolean; checked: boolean }>(
   ({ isRadio, checked }) => {
@@ -156,23 +173,10 @@ export function InteractiveAnswer(props: {
         }
       >
         <AnswerField>{props.answer}</AnswerField>
-        <RemoveButton
-          focused={
-            props.answerID === props.focusedElement ||
-            props.feedbackID === props.focusedElement
-          }
-          onClick={props.remove}
-        >
+        <RemoveButton onClick={props.remove}>
           <Icon icon={faTimes} />
         </RemoveButton>
-        <FeedbackField
-          focused={
-            props.answerID === props.focusedElement ||
-            props.feedbackID === props.focusedElement
-          }
-        >
-          {props.feedback}
-        </FeedbackField>
+        <FeedbackField>{props.feedback}</FeedbackField>
       </FramedContainer>
     </AnswerContainer>
   )

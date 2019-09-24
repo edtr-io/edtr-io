@@ -1,5 +1,10 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { InteractiveAnswer, AddButton, styled } from '@edtr-io/editor-ui'
+import {
+  InteractiveAnswer,
+  AddButton,
+  styled,
+  PreviewOverlay
+} from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -46,65 +51,75 @@ export function InputExerciseEditor(
 
   const { editable, state, focused } = props
   const focusedElement = useScopedSelector(getFocused())
+  const nestedFocus =
+    focused ||
+    R.includes(
+      focusedElement,
+      props.state.answers.map(answer => answer.feedback.id)
+    )
+
+  const [previewActive, setPreviewActive] = React.useState(false)
   return (
     <React.Fragment>
       {editable ? (
         <React.Fragment>
-          <InputExerciseRenderer {...props} />
-          {state.answers.map((answer, index: number) => {
-            return (
-              <InteractiveAnswer
-                key={answer.feedback.id}
-                answer={
-                  <AnswerTextfield
-                    value={answer.value.value}
-                    placeholder="Gib hier deine Antwort ein"
-                    type="text"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      answer.value.set(e.target.value)
+          <PreviewOverlay focused={nestedFocus} onChange={setPreviewActive}>
+            <InputExerciseRenderer {...props} />
+          </PreviewOverlay>
+          {nestedFocus && !previewActive ? (
+            <React.Fragment>
+              {state.answers.map((answer, index: number) => {
+                return (
+                  <InteractiveAnswer
+                    key={answer.feedback.id}
+                    answer={
+                      <AnswerTextfield
+                        value={answer.value.value}
+                        placeholder="Gib hier deine Antwort ein"
+                        type="text"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          answer.value.set(e.target.value)
+                        }}
+                      />
+                    }
+                    feedback={answer.feedback.render()}
+                    feedbackID={answer.feedback.id}
+                    isActive={answer.isCorrect.value}
+                    handleChange={() => {
+                      answer.isCorrect.set(!answer.isCorrect.value)
                     }}
+                    remove={() => {
+                      state.answers.remove(index)
+                    }}
+                    focusedElement={focusedElement || undefined}
                   />
+                )
+              })}
+              <AddButton onClick={() => state.answers.insert()}>
+                Antwort hinzufügen...
+              </AddButton>
+              <hr />
+              Wähle den Antworttyp:
+              <select
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                  state.type.set(translateDataName(event.target.value))
                 }
-                feedback={answer.feedback.render()}
-                feedbackID={answer.feedback.id}
-                isActive={answer.isCorrect.value}
-                handleChange={() => {
-                  answer.isCorrect.set(!answer.isCorrect.value)
-                }}
-                remove={() => {
-                  state.answers.remove(index)
-                }}
-                focusedElement={focusedElement || undefined}
-              />
-            )
-          })}
-          <AddButton onClick={() => state.answers.insert()}>
-            Antwort hinzufügen...
-          </AddButton>
+                value={translateDataType(state.type.value)}
+              >
+                {R.map(dataType => {
+                  return (
+                    <option key={dataType.name} value={dataType.name}>
+                      {dataType.name}
+                    </option>
+                  )
+                }, types)}
+              </select>
+            </React.Fragment>
+          ) : null}
         </React.Fragment>
       ) : (
         <InputExerciseRenderer {...props} />
       )}
-      {focused ? (
-        <React.Fragment>
-          <hr />
-          Wähle den Antworttyp:
-          <select
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-              state.type.set(translateDataName(event.target.value))
-            }
-            value={translateDataType(state.type.value)}
-          >
-            {R.map(dataType => {
-              return (
-                <option key={dataType.name} value={dataType.name}>
-                  {dataType.name}
-                </option>
-              )
-            }, types)}
-          </select>
-        </React.Fragment>
-      ) : null}
     </React.Fragment>
   )
 }

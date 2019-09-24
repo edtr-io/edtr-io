@@ -81,7 +81,7 @@ export class SubmitButton extends React.Component<{
         ) : (
           <span>
             <Icon icon={faCheckCircle} />
-            {' Stimmt´s?'}
+            {' Stimmt’s?'}
           </span>
         )}
       </SubmitButtonComponent>

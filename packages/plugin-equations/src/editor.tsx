@@ -78,17 +78,17 @@ export function EquationsEditor(
       return [step.left.id, step.right.id, step.transform.id]
     })
   )
-  const noEmptyLine = !R.contains(
+  const noEmptyLine = !R.includes(
     false,
     props.state.steps.map(step => {
-      return R.contains(false, [
+      return R.includes(false, [
         isEmpty(step.left.id)(store.getState()),
         isEmpty(step.right.id)(store.getState()),
         isEmpty(step.transform.id)(store.getState())
       ])
     })
   )
-  return editable && (focused || R.contains(focusedElement, children)) ? (
+  return editable && (focused || R.includes(focusedElement, children)) ? (
     <HotKeys
       keyMap={{
         FOCUS_NEXT: 'tab',
