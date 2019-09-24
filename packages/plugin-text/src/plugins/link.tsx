@@ -7,12 +7,12 @@ import {
 } from '@edtr-io/editor-ui'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Editor, Data, InlineJSON, Inline } from 'slate'
+import { Data, Editor, Inline } from 'slate'
 
 import {
   NodeControlsProps,
-  NodeEditorProps,
-  NodeRendererProps,
+  InlineEditorProps,
+  InlineRendererProps,
   TextPlugin,
   trimSelection
 } from '..'
@@ -58,18 +58,16 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
 }
 
 export interface LinkPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps>
-  RenderComponent?: React.ComponentType<NodeRendererProps>
+  EditorComponent?: React.ComponentType<InlineEditorProps>
+  RenderComponent?: React.ComponentType<InlineRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
 const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps
+  InlineEditorProps
 > = props => {
-  //  @ts-ignore slate.js typings out of sync with documentation, node prop missing
   const { attributes, children, node, isSelected } = props
-  const inline = node
-  const href = inline.data.get('href')
+  const href = node.data.get('href')
 
   return (
     <a
@@ -180,10 +178,10 @@ const DefaultControlsComponent: React.FunctionComponent<
   )
 }
 
-class DefaultRendererComponent extends React.Component<NodeRendererProps> {
+class DefaultRendererComponent extends React.Component<InlineRendererProps> {
   public render() {
     const { children, node } = this.props
-    const { data } = node as InlineJSON
+    const { data } = node
 
     if (!data) {
       return null

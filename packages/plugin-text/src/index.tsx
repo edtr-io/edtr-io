@@ -1,12 +1,19 @@
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor, MarkJSON, NodeJSON, Range as CoreRange } from 'slate'
+import {
+  BlockJSON,
+  Editor,
+  InlineJSON,
+  MarkJSON,
+  Range as CoreRange
+} from 'slate'
 import { Rule } from 'slate-html-serializer'
 import {
   EditorProps,
   Plugin,
-  RenderMarkProps,
-  RenderNodeProps
+  RenderBlockProps,
+  RenderInlineProps,
+  RenderMarkProps
 } from 'slate-react'
 
 import { createUiPlugin, Controls } from './controls'
@@ -19,13 +26,19 @@ export interface MarkRendererProps {
   mark: MarkJSON
 }
 
-export type NodeEditorProps = RenderNodeProps
+export type BlockEditorProps = RenderBlockProps
+export type InlineEditorProps = RenderInlineProps
+export type NodeEditorProps = BlockEditorProps | InlineEditorProps
 export type NodeControlsProps = EditorProps & {
   editor: Editor
 }
-export interface NodeRendererProps {
-  node: NodeJSON
+export interface InlineRendererProps {
+  node: InlineJSON
 }
+export interface BlockRendererProps {
+  node: BlockJSON
+}
+export type NodeRendererProps = BlockRendererProps | InlineRendererProps
 
 export type TextPlugin = Plugin &
   Rule & {
