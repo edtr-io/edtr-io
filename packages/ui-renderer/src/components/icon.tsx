@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/renderer-ui
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as R from 'ramda'
 import * as React from 'react'

@@ -1,7 +1,8 @@
-import {
-  StateDescriptor,
-  StoreDeserializeHelpers
-} from '@edtr-io/abstract-plugin-state'
+/**
+ * @module @edtr-io/plugin
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { StateType } from '@edtr-io/abstract-plugin-state'
 
 export function boolean(initialValue?: boolean) {
   return scalar<boolean>(initialValue || false)
@@ -14,57 +15,65 @@ export function number(initialValue?: number) {
 export function string(initialValue?: string) {
   return scalar<string>(initialValue || '')
 }
+
 export function scalar<S>(initialState: S) {
   return serializedScalar<S, S>(initialState, {
-    deserialize: state => state,
-    serialize: state => state
+    deserialize(state) {
+      return state
+    },
+    serialize(state) {
+      return state
+    }
   })
 }
 
 export function serializedScalar<S, T>(
   initialState: T,
-  serializer: {
-    deserialize: (serialized: S) => T
-    serialize: (deserialized: T) => S
-  }
-): StateDescriptor<
+  serializer: Serializer<S, T>
+): StateType<
   S,
   T,
   {
-    (): T
     value: T
+    get(): T
     set(value: T | ((currentValue: T) => T)): void
   }
 > {
-  return Object.assign(
-    (
-      value: T,
-      onChange: (
-        updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-      ) => void
-    ) => {
-      return Object.assign(() => value, {
-        value,
-        set(param: T | ((currentValue: T) => T)) {
-          onChange((currentValue: T) => {
+  return {
+    init(state, onChange) {
+      class SerializedScalarType {
+        public get value(): T {
+          return state
+        }
+        public set value(param: T) {
+          this.set(param)
+        }
+        public get() {
+          return state
+        }
+        public set(param: T | ((previousValue: T) => T)) {
+          onChange(previousValue => {
             if (typeof param === 'function') {
               const updater = param as ((currentValue: T) => T)
-              return updater(currentValue)
-            } else {
-              return param
+              return updater(previousValue)
             }
+            return param
           })
         }
-      })
-    },
-    {
-      createInitialState: () => initialState,
-      deserialize(serialized: S) {
-        return serializer.deserialize(serialized)
-      },
-      serialize(deserialized: T) {
-        return serializer.serialize(deserialized)
       }
-    }
-  )
+      return new SerializedScalarType()
+    },
+    createInitialState() {
+      return initialState
+    },
+    getFocusableChildren() {
+      return []
+    },
+    ...serializer
+  }
+}
+
+export interface Serializer<S, T> {
+  deserialize(serialized: S): T
+  serialize(deserialized: T): S
 }

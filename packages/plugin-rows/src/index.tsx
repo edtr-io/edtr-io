@@ -30,10 +30,7 @@ export function createRowsPlugin(
 ): StatefulPlugin<typeof rowsState> {
   return {
     Component: createRowsComponent(plugins),
-    state: rowsState,
-    getFocusableChildren(state) {
-      return state()
-    }
+    state: rowsState
   }
 }
 

@@ -38,11 +38,7 @@ export function createTextPlugin(registry?: PluginRegistry) {
   return textPluginFactory({
     registry,
     plugins: [...plugins, createUiPlugin({ Component: Controls })],
-    placeholder: (
-      <React.Fragment>
-        Schreibe etwas oder füge mit &#x2295; Elemente hinzu.
-      </React.Fragment>
-    )
+    placeholder: 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.'
   })
 }
 

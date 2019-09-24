@@ -69,7 +69,12 @@ describe('migration', () => {
 
   test('return type', () => {
     const initial = { value: 3, by: -1 }
-    const value = state(initial, () => {})
-    expect(value.value()).toEqual(3)
+    const value = state.init(initial, () => {})
+    expect(value.value.get()).toEqual(3)
+  })
+
+  test('get focusable children', () => {
+    const initial = { value: 3, by: -1 }
+    expect(state.getFocusableChildren(initial)).toEqual([])
   })
 })

@@ -103,16 +103,16 @@ export function InputExerciseRenderer(
     const { state } = props
 
     let containedAnswer = false
-    state.answers().forEach((answer, index) => {
+    state.answers.forEach((answer, index) => {
       if (
         input.current &&
         matchesInput(
-          { type: state.type(), value: answer.value() },
+          { type: state.type.value, value: answer.value.value },
           input.current.value
         )
       ) {
         setFeedbackIndex(index)
-        if (answer.isCorrect()) {
+        if (answer.isCorrect.value) {
           setExerciseState(ExerciseState.SolvedRight)
         } else {
           handleWrongAnswer()
@@ -138,7 +138,7 @@ export function InputExerciseRenderer(
                 k.stopPropagation()
               }
             }}
-            data-type={state.type()}
+            data-type={state.type.value}
             type="text"
             placeholder="Deine Lösung"
             ref={input}
@@ -154,15 +154,15 @@ export function InputExerciseRenderer(
           feedbackIndex > -1 ? (
             <Feedback
               boxFree
-              isTrueAnswer={state.answers()[feedbackIndex].isCorrect()}
+              isTrueAnswer={state.answers[feedbackIndex].isCorrect.value}
             >
-              {isEmpty(state.answers()[feedbackIndex].feedback.id)(
+              {isEmpty(state.answers[feedbackIndex].feedback.id)(
                 store.getState()
               )
-                ? state.answers()[feedbackIndex].isCorrect()
+                ? state.answers[feedbackIndex].isCorrect.value
                   ? 'Sehr gut!'
                   : 'Leider falsch!'
-                : state.answers()[feedbackIndex].feedback.render()}
+                : state.answers[feedbackIndex].feedback.render()}
             </Feedback>
           ) : (
             <Feedback boxFree> Leider falsch!</Feedback>

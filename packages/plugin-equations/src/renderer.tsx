@@ -1,7 +1,4 @@
-import {
-  StateDescriptorReturnType,
-  StatefulPluginEditorProps
-} from '@edtr-io/plugin'
+import { StateTypeReturnType, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -32,7 +29,7 @@ export class EquationsRenderer extends React.Component<
 
   public render() {
     const { state } = this.props
-    const rows = state.steps()
+    const rows = state.steps
     return (
       <React.Fragment>
         {/* {this.state.phase === Phase.noJS ? ( */}
@@ -71,12 +68,12 @@ export class EquationsRenderer extends React.Component<
 
   private renderHidden = () => {
     interface StepFit {
-      step: StateDescriptorReturnType<typeof StepProps>
+      step: StateTypeReturnType<typeof StepProps>
       fits: boolean
     }
     const { state } = this.props
     let rows: StepFit[] = []
-    rows = state.steps().map((step, index) => {
+    rows = state.steps.map((step, index) => {
       const fit =
         this.state.phase < Phase.maxWidthTotal ||
         R.max(
@@ -381,7 +378,7 @@ export class EquationsRenderer extends React.Component<
   }
 
   private calculateLayout = () => {
-    const rows = this.props.state.steps()
+    const rows = this.props.state.steps
     this.setState({
       phase: Phase.hiddenRender,
       widthLeftSingle: rows.map(() => {

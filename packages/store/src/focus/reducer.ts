@@ -1,11 +1,16 @@
+/**
+ * @module @edtr-io/store
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { isStatefulPlugin } from '@edtr-io/abstract-plugin'
+import * as R from 'ramda'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
-import { ScopedState } from '../types'
+import { ScopedState, Selector } from '../types'
 import {
   focus,
   FocusDocumentAction,
@@ -14,6 +19,9 @@ import {
   focusPrevious
 } from './actions'
 
+/**
+ * @ignore
+ **/
 export const focusReducer = createSubReducer('focus', null, {
   [focus.type](_focusState, action: FocusDocumentAction) {
     return action.payload
@@ -29,7 +37,13 @@ export const focusReducer = createSubReducer('focus', null, {
   }
 })
 
-export const getFocusTree = createSelector(
+/**
+ * [[Selector]] that returns the focus tree from the root document with the given id
+ *
+ * @param id - optional id of the document that should be considered as the root of the focus tree. By default, we use the root document of the current scope
+ * @returns the [[focus tree|Node]] if it exists (`null` otherwise)
+ */
+export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
   (state: ScopedState, root: string | null = getRoot()(state)): Node | null => {
     if (!root) return null
     const document = getDocument(root)(state)
@@ -38,15 +52,13 @@ export const getFocusTree = createSelector(
     if (!plugin) return null
 
     let children
-    if (
-      isStatefulPlugin(plugin) &&
-      typeof plugin.getFocusableChildren === 'function'
-    ) {
-      const pluginState = plugin.state(document.state, () => {})
-      children = plugin.getFocusableChildren(pluginState).map(child => {
-        const subtree = getFocusTree(child.id)(state)
-        return subtree || child
-      })
+    if (isStatefulPlugin(plugin)) {
+      children = plugin.state
+        .getFocusableChildren(document.state)
+        .map(child => {
+          const subtree = getFocusTree(child.id)(state)
+          return subtree || child
+        })
     }
 
     return {
@@ -70,12 +82,64 @@ function handleFocus(
   return next
 }
 
-export const getFocused = createSelector(state => state.focus)
+/**
+ * [[Selector]] that returns the id of the focused element (if there is any)
+ *
+ * @returns id of the focused element (`null` if there is no focused element)
+ */
+export const getFocused: Selector<string | null, []> = createSelector(
+  state => state.focus
+)
 
-export const isFocused = createSelector(
+/**
+ * [[Selector]] that checks whether the document with the given id is focused
+ *
+ * @param id - id of the document to check
+ * @returns `true` if the given document is focused
+ */
+export const isFocused: Selector<boolean, [string]> = createSelector(
   (state, id: string) => getFocused()(state) === id
 )
 
+/**
+ * [[Selector]] that checks whether the document with the given id has a focused child. In contrast to [[hasFocusedDescendant]], this only returns `true` if the focused document is a direct child of the document.
+ *
+ * @param id - id of the document to check
+ * @returns `true` if the given document has a focused child
+ */
+export const hasFocusedChild: Selector<boolean, [string]> = createSelector(
+  (state, id: string) => {
+    const tree = getFocusTree(id)(state)
+    if (!tree || !tree.children) return false
+    const focused = getFocused()(state)
+    return R.any(node => node.id === focused, tree.children)
+  }
+)
+
+/**
+ * [[Selector]] that checks whether the document with the given id has a focused descendant. In contrast to [[hasFocusedChild]], this also returns `true` if the focused document is an indirect child (e.g. a child of a child of a child).
+ *
+ * @param id - id of the document to check
+ * @returns `true` if the given document has a focused descendant
+ */
+export const hasFocusedDescendant: Selector<boolean, [string]> = createSelector(
+  (state, id: string): boolean => {
+    const tree = getFocusTree(id)(state)
+    if (!tree || !tree.children) return false
+    return R.any(
+      node => isFocused(node.id)(state) || hasFocusedDescendant(node.id)(state),
+      tree.children
+    )
+  }
+)
+
+/**
+ * Finds the next node in a focus tree in focus order
+ *
+ * @param root - focus tree
+ * @param from - id of the current document
+ * @returns the id of the next document if it exists (`null` otherwise)
+ */
 export function findNextNode(root: Node, from: string): string | null {
   const parent = findParent(root, from)
   if (!parent || parent.id === from) return null
@@ -98,6 +162,13 @@ export function findNextNode(root: Node, from: string): string | null {
   return findNextNode(root, parent.id)
 }
 
+/**
+ * Finds the previous node in a focus tree in focus order
+ *
+ * @param root - focus tree
+ * @param from - id of the current document
+ * @returns the id of the previous document if it exists (`null` otherwise)
+ */
 export function findPreviousNode(root: Node, from: string): string | null {
   const parent = findParent(root, from)
   if (!parent || parent.id === from) return null
@@ -119,6 +190,10 @@ export function findPreviousNode(root: Node, from: string): string | null {
   return findPreviousNode(root, parent.id)
 }
 
+/**
+ * @ignore
+ * @private
+ **/
 export function findParent(root: Node, id: string): Node | null {
   if (root.id === id) {
     return root
@@ -139,6 +214,10 @@ export function findParent(root: Node, id: string): Node | null {
   return null
 }
 
+/**
+ * @ignore
+ * @private
+ **/
 export interface Node {
   id: string
   children?: Node[]

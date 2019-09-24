@@ -74,13 +74,13 @@ export function EquationsEditor(
 
   const { focused, state, editable } = props
   const children = R.flatten(
-    props.state.steps().map(step => {
+    props.state.steps.map(step => {
       return [step.left.id, step.right.id, step.transform.id]
     })
   )
   const noEmptyLine = !R.contains(
     false,
-    props.state.steps().map(step => {
+    props.state.steps.map(step => {
       return R.contains(false, [
         isEmpty(step.left.id)(store.getState()),
         isEmpty(step.right.id)(store.getState()),
@@ -140,7 +140,7 @@ export function EquationsEditor(
                     <strong>Umformung</strong>
                   </div>
                 </div>
-                {state.steps().map((step, index) => {
+                {state.steps.map((step, index) => {
                   return (
                     <Draggable
                       key={index}

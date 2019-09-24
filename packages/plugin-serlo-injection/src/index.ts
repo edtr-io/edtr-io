@@ -1,4 +1,4 @@
-import { string, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { SerloInjectionEditor } from './editor'
 

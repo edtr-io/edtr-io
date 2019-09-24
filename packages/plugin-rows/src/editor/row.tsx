@@ -39,7 +39,7 @@ const RowSource = React.forwardRef<
   const [showExtendedSettings, setShowExtendedSettings] = React.useState(false)
   const rows = props.state
   const index = props.index
-  const row = rows()[index]
+  const row = rows[index]
   const focused = useScopedSelector(isFocused(row.id))
 
   // DnD

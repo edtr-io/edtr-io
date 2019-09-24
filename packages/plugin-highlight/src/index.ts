@@ -1,5 +1,5 @@
 import { createIcon, faCode } from '@edtr-io/editor-ui'
-import { boolean, object, string, StatefulPlugin } from '@edtr-io/plugin'
+import { boolean, object, StatefulPlugin, string } from '@edtr-io/plugin'
 
 import { HighlightEditor } from './editor'
 

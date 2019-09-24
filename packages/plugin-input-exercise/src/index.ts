@@ -1,11 +1,11 @@
 import { createIcon, faKeyboard } from '@edtr-io/editor-ui'
 import {
+  boolean,
   child,
   list,
-  boolean,
   object,
-  string,
-  StatefulPlugin
+  StatefulPlugin,
+  string
 } from '@edtr-io/plugin'
 import { createPluginTheme } from '@edtr-io/ui'
 

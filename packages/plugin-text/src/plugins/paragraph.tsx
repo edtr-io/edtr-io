@@ -57,13 +57,10 @@ export const createParagraphPlugin = ({
       }
     },
 
-    renderNode(props, _editor, next) {
+    renderBlock(props, _editor, next) {
       const block = props.node
 
-      if (
-        (block.object === 'block' && block.type === paragraphNode) ||
-        block.type === '@splish-me/p'
-      ) {
+      if (block.type === paragraphNode || block.type === '@splish-me/p') {
         return <EditorComponent {...props} />
       }
 

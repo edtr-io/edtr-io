@@ -28,13 +28,13 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
       <div style={{ display: 'flex' }}>
         <CheckboxContainer>
           <CheckElement
-            isRadio={state.isSingleChoice()}
+            isRadio={state.isSingleChoice.value}
             isActive={selected || false}
             handleChange={onClick ? onClick : () => {}}
           />
         </CheckboxContainer>
         <this.Container
-          isCorrect={state.answers()[index].isCorrect()}
+          isCorrect={state.answers[index].isCorrect.value}
           showFeedback={showFeedback || false}
         >
           {children}

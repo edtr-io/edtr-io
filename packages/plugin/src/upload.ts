@@ -1,11 +1,14 @@
-import {
-  StateDescriptor,
-  StoreDeserializeHelpers
-} from '@edtr-io/abstract-plugin-state'
+/**
+ * @module @edtr-io/plugin
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { StateType } from '@edtr-io/abstract-plugin-state'
 import * as React from 'react'
 
+import { serializedScalar } from './scalar'
+
 export interface UploadStateReturnType<T> {
-  (): FileState<T>
+  get(): FileState<T>
   value: FileState<T>
   isPending: boolean
   upload(file: File, handler: UploadHandler<T>): Promise<T>
@@ -16,20 +19,24 @@ export interface UploadStateReturnType<T> {
 
 export function upload<T>(
   defaultState: T
-): StateDescriptor<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
-  return Object.assign(
-    (
-      value: FileState<T>,
-      onChange: (
-        updater: (
-          oldValue: FileState<T>,
-          helpers: StoreDeserializeHelpers
-        ) => FileState<T>
-      ) => void
-    ) => {
-      return Object.assign(() => value, {
-        value,
-        isPending: isTempFile(value) && !!value.pending,
+): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
+  const state = serializedScalar<FileState<T>, FileState<T>>(defaultState, {
+    deserialize(serialized) {
+      return serialized
+    },
+    serialize(deserialized) {
+      if (isTempFile(deserialized)) {
+        return defaultState
+      }
+      return deserialized
+    }
+  })
+  return {
+    ...state,
+    init(...args) {
+      const s = state.init(...args)
+      return Object.assign(s, {
+        isPending: isTempFile(s.value) && !!s.value.pending,
         upload(file: File, handler: UploadHandler<T>): Promise<T> {
           const read = readFile(file)
           let uploadFinished = false
@@ -40,51 +47,25 @@ export function upload<T>(
               return uploaded
             })
             .then(uploaded => {
-              onChange(() => uploaded)
+              s.value = uploaded
               return uploaded
             })
             .catch(reason => {
-              onChange(() => ({ failed: file }))
+              s.value = { failed: file }
               return Promise.reject(reason)
             })
 
           read.then((loaded: LoadedFile) => {
             if (!uploadFinished) {
-              onChange(() => ({ loaded }))
+              s.value = { loaded }
             }
           })
 
           return uploaded
-        },
-        set(
-          param: FileState<T> | ((currentValue: FileState<T>) => FileState<T>)
-        ) {
-          onChange((currentValue: FileState<T>) => {
-            if (typeof param === 'function') {
-              const updater = param as ((
-                currentValue: FileState<T>
-              ) => FileState<T>)
-              return updater(currentValue)
-            } else {
-              return param
-            }
-          })
         }
       })
-    },
-    {
-      createInitialState: () => defaultState,
-      deserialize(serialized: FileState<T>) {
-        return serialized
-      },
-      serialize(deserialized: FileState<T>) {
-        if (isTempFile(deserialized)) {
-          return defaultState
-        }
-        return deserialized
-      }
     }
-  )
+  }
 }
 
 function readFile(file: File): Promise<LoadedFile> {

@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/editor-ui
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { ScopeContext } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'

@@ -51,13 +51,13 @@ export function InputExerciseEditor(
       {editable ? (
         <React.Fragment>
           <InputExerciseRenderer {...props} />
-          {state.answers().map((answer, index: number) => {
+          {state.answers.map((answer, index: number) => {
             return (
               <InteractiveAnswer
                 key={answer.feedback.id}
                 answer={
                   <AnswerTextfield
-                    value={answer.value()}
+                    value={answer.value.value}
                     placeholder="Gib hier deine Antwort ein"
                     type="text"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,9 +67,9 @@ export function InputExerciseEditor(
                 }
                 feedback={answer.feedback.render()}
                 feedbackID={answer.feedback.id}
-                isActive={answer.isCorrect()}
+                isActive={answer.isCorrect.value}
                 handleChange={() => {
-                  answer.isCorrect.set(!answer.isCorrect())
+                  answer.isCorrect.set(!answer.isCorrect.value)
                 }}
                 remove={() => {
                   state.answers.remove(index)
@@ -93,7 +93,7 @@ export function InputExerciseEditor(
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
               state.type.set(translateDataName(event.target.value))
             }
-            value={translateDataType(state.type())}
+            value={translateDataType(state.type.value)}
           >
             {R.map(dataType => {
               return (

@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/core
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { isStatefulPlugin } from '@edtr-io/abstract-plugin'
 import { getDocument, getPlugin } from '@edtr-io/store'
 import * as React from 'react'
@@ -20,7 +24,7 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
 
   let pluginState: unknown
   if (isStatefulPlugin(plugin)) {
-    pluginState = plugin.state(document.state, () => {})
+    pluginState = plugin.state.init(document.state, () => {})
   }
   return <plugin.Component {...pluginProps} state={pluginState} />
 }
