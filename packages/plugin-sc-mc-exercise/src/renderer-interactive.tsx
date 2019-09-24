@@ -1,5 +1,5 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { Feedback, styled } from '@edtr-io/renderer-ui'
+import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -7,6 +7,12 @@ import { AnswerProps } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
@@ -41,7 +47,8 @@ export class ScMcRendererInteractive extends React.Component<
       }),
       globalFeedback: '',
       showGlobalFeedback: false,
-      solved: false
+      solved: false,
+      exerciseState: ExerciseState.Default
     }
   }
   public render() {
@@ -49,7 +56,10 @@ export class ScMcRendererInteractive extends React.Component<
       <React.Fragment>
         <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
         {this.showGlobalFeedback()}
-        {this.showSubmitButton()}
+        <SubmitButton
+          exerciseState={this.state.exerciseState}
+          onClick={this.submitAnswer}
+        />
         <div style={{ clear: 'both' }} />
       </React.Fragment>
     )
@@ -88,7 +98,7 @@ export class ScMcRendererInteractive extends React.Component<
     }
     if (!this.props.isEmpty(answer.feedback.id)) {
       return (
-        <Feedback boxFree showOnLeft>
+        <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
           {answer.feedback.render()}
         </Feedback>
       )
@@ -96,7 +106,7 @@ export class ScMcRendererInteractive extends React.Component<
     return (
       <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
         {answer.isCorrect.value
-          ? 'Yeah!'
+          ? ''
           : 'Leider falsch! versuche es doch noch einmal!'}
       </Feedback>
     )
@@ -112,11 +122,12 @@ export class ScMcRendererInteractive extends React.Component<
     }
     return null
   }
-
-  private showSubmitButton(): React.ReactNode {
-    return (
-      <this.SubmitButton onClick={this.submitAnswer}>Submit</this.SubmitButton>
+  private handleWrongAnswer = () => {
+    setTimeout(
+      () => this.setState({ exerciseState: ExerciseState.Default }),
+      3000
     )
+    return ExerciseState.SolvedWrong
   }
 
   private submitAnswer = () => {
@@ -150,7 +161,9 @@ export class ScMcRendererInteractive extends React.Component<
       showGlobalFeedback: true,
       buttons: nextButtonStates,
       solved: mistakes === 0,
-      globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions })
+      globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions }),
+      exerciseState:
+        mistakes === 0 ? ExerciseState.SolvedRight : this.handleWrongAnswer()
     })
   }
 
@@ -222,6 +235,7 @@ export interface ScMcRendererState {
   globalFeedback: string
   showGlobalFeedback: boolean
   solved: boolean
+  exerciseState: ExerciseState
 }
 
 export interface Button {

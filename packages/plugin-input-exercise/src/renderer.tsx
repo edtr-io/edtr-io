@@ -1,158 +1,178 @@
+import { useScopedStore } from '@edtr-io/core'
+import { styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { Feedback } from '@edtr-io/renderer-ui'
+import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import { isEmpty } from '@edtr-io/store'
+import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState } from '.'
+import { inputExerciseState, createInputExerciseTheme } from '.'
 
-export class InputExerciseRenderer extends React.Component<
-  StatefulPluginEditorProps<typeof inputExerciseState>,
-  InputExerciseRendererState
-> {
-  public state = {
-    positiveFeedback: false,
-    negativeFeedbackIndex: -1,
-    showFeedback: false
-  }
-  private input = React.createRef<HTMLInputElement>()
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
 
-  private checkAnswer = (event: React.FormEvent) => {
-    const input = this.input.current
-
-    if (!input) {
-      return
-    }
-    event.preventDefault()
-    const { state } = this.props
-
-    let correct = false
-    state.correctAnswers.forEach(correctAnswer => {
-      if (
-        this.matchesInput(
-          { type: state.type.value, value: correctAnswer.value },
-          input.value
-        )
-      ) {
-        this.setState({ positiveFeedback: true, showFeedback: true })
-        correct = true
-      }
-    })
-    if (!correct) {
-      const index = state.wrongAnswers.findIndex(wrongAnswer => {
-        return this.matchesInput(
-          { type: state.type.value, value: wrongAnswer.value.get() },
-          input.value
-        )
-      })
-
-      this.setState({
-        negativeFeedbackIndex: index,
-        showFeedback: true,
-        positiveFeedback: false
-      })
+const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
+  ({ name, ...props }) => {
+    const theme = createInputExerciseTheme(name, props.theme)
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+      float: 'right',
+      textAlign: 'center',
+      outline: 'none',
+      marginBottom: '10px'
     }
   }
+)
 
-  private matchesInput = (
-    field: { type: string; value: string },
-    input: string
-  ) => {
-    try {
-      const solution = this.normalize(field.type, field.value)
-      const submission = this.normalize(field.type, input)
+function normalizeNumber(string: string) {
+  return S(string).replaceAll(',', '.').s
+}
 
-      switch (field.type) {
-        case 'input-expression-equal-match-challenge':
-          return (
-            (solution as A.Expression)
-              .subtract(submission as A.Expression)
-              .toString() === '0'
-          )
-        default:
-          return solution === submission
-      }
-    } catch (err) {
-      // e.g. if user input could not be parsed
-      return false
-    }
-  }
+function normalize(type: string, string: string) {
+  const temp = S(string).collapseWhitespace()
 
-  private normalize = (type: string, string: string) => {
-    const normalizeNumber = function(string: string) {
-      return S(string).replaceAll(',', '.').s
-    }
-    const temp = S(string).collapseWhitespace()
-
-    switch (type) {
-      case 'input-number-exact-match-challenge':
-        return S(normalizeNumber((temp as unknown) as string))
-          .replaceAll(' /', '/')
-          .replaceAll('/ ', '/').s
-      case 'input-expression-equal-match-challenge':
-        return A.parse(normalizeNumber((temp as unknown) as string))
-      default:
-        return temp.s.toUpperCase()
-    }
-  }
-
-  public render() {
-    const { state } = this.props
-    return (
-      <div className="new-text-exercise active">
-        <form className="input-challenge-group" onSubmit={this.checkAnswer}>
-          <div className="input-challenge-input-wrapper pull-right">
-            <input
-              className="input-challenge-input"
-              data-type={state.type.value}
-              type="text"
-              placeholder="Deine Lösung"
-              ref={this.input}
-            />
-          </div>
-          <div
-            style={{
-              clear: 'both'
-            }}
-          />
-          {this.state.showFeedback ? (
-            this.state.positiveFeedback ? (
-              <div>
-                <Feedback boxFree isTrueAnswer>
-                  Sehr gut!
-                </Feedback>
-              </div>
-            ) : this.state.negativeFeedbackIndex !== -1 ? (
-              <Feedback boxFree>
-                {state.wrongAnswers[
-                  this.state.negativeFeedbackIndex
-                ].feedback.render()}
-              </Feedback>
-            ) : (
-              <Feedback boxFree> Leider falsch!</Feedback>
-            )
-          ) : null}
-          <div className="input-challenge-solution">
-            <button className="btn btn-primary btn-xs input-challenge-submit pull-right">
-              <span className="input-challenge-submit-check">
-                <i className="fa fa-check-circle" />
-                Stimmts?
-              </span>
-              <span className="input-challenge-submit-correct">
-                <i className="fa fa-smile-o" />
-                Stimmt!
-              </span>
-            </button>
-            <div style={{ clear: 'both' }} />
-          </div>
-        </form>
-      </div>
-    )
+  switch (type) {
+    case 'input-number-exact-match-challenge':
+      return S(normalizeNumber(temp.s))
+        .replaceAll(' /', '/')
+        .replaceAll('/ ', '/').s
+    case 'input-expression-equal-match-challenge':
+      return A.parse(normalizeNumber(temp.s))
+    default:
+      return temp.s.toUpperCase()
   }
 }
 
-interface InputExerciseRendererState {
-  positiveFeedback: boolean
-  negativeFeedbackIndex: number
-  showFeedback: boolean
+function matchesInput(field: { type: string; value: string }, input: string) {
+  try {
+    const solution = normalize(field.type, field.value)
+    const submission = normalize(field.type, input)
+
+    switch (field.type) {
+      case 'input-expression-equal-match-challenge':
+        return (
+          (solution as A.Expression)
+            .subtract(submission as A.Expression)
+            .toString() === '0'
+        )
+      default:
+        return solution === submission
+    }
+  } catch (err) {
+    // e.g. if user input could not be parsed
+    return false
+  }
+}
+
+export function InputExerciseRenderer(
+  props: StatefulPluginEditorProps<typeof inputExerciseState>
+) {
+  const { state } = props
+  const store = useScopedStore()
+  const [feedbackIndex, setFeedbackIndex] = React.useState<number>(-1)
+  const [feedbackVisible, setFeedbackVisible] = React.useState<boolean>()
+  const [exerciseState, setExerciseState] = React.useState<ExerciseState>(
+    ExerciseState.Default
+  )
+  const input = React.createRef<HTMLInputElement>()
+  const handleWrongAnswer = () => {
+    setTimeout(() => {
+      setExerciseState(ExerciseState.Default)
+    }, 2000)
+    setExerciseState(ExerciseState.SolvedWrong)
+  }
+
+  function checkAnswer(event: React.FormEvent) {
+    if (!input.current) {
+      return
+    }
+    event.preventDefault()
+    setFeedbackIndex(-1)
+    setFeedbackVisible(true)
+    setExerciseState(ExerciseState.Default)
+    if (input.current.value === '') {
+      setFeedbackVisible(false)
+      return
+    }
+    const { state } = props
+
+    let containedAnswer = false
+    state.answers.forEach((answer, index) => {
+      if (
+        input.current &&
+        matchesInput(
+          { type: state.type.value, value: answer.value.value },
+          input.current.value
+        )
+      ) {
+        setFeedbackIndex(index)
+        if (answer.isCorrect.value) {
+          setExerciseState(ExerciseState.SolvedRight)
+        } else {
+          handleWrongAnswer()
+        }
+        containedAnswer = true
+      }
+    })
+
+    if (!containedAnswer) {
+      handleWrongAnswer()
+    }
+  }
+
+  return (
+    <div>
+      <form onSubmit={checkAnswer}>
+        <div>
+          <InputExerciseField
+            name={props.name}
+            onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
+              const { key } = (k as unknown) as KeyboardEvent
+              if ((key === 'Enter' || key === 'Backspace') && props.editable) {
+                k.stopPropagation()
+              }
+            }}
+            data-type={state.type.value}
+            type="text"
+            placeholder="Deine Lösung"
+            ref={input}
+          />
+        </div>
+        <div
+          style={{
+            clear: 'both'
+          }}
+        />
+
+        {feedbackVisible ? (
+          feedbackIndex > -1 ? (
+            <Feedback
+              boxFree
+              isTrueAnswer={state.answers[feedbackIndex].isCorrect.value}
+            >
+              {isEmpty(state.answers[feedbackIndex].feedback.id)(
+                store.getState()
+              )
+                ? state.answers[feedbackIndex].isCorrect.value
+                  ? 'Sehr gut!'
+                  : 'Leider falsch!'
+                : state.answers[feedbackIndex].feedback.render()}
+            </Feedback>
+          ) : (
+            <Feedback boxFree> Leider falsch!</Feedback>
+          )
+        ) : null}
+        <div>
+          <SubmitButton exerciseState={exerciseState} />
+          <div style={{ clear: 'both' }} />
+        </div>
+      </form>
+    </div>
+  )
 }

@@ -135,8 +135,7 @@ describe('Renderer SSR', () => {
       plugin: 'inputExercise',
       state: {
         type: 'Text',
-        wrongAnswers: [],
-        correctAnswers: []
+        answers: []
       }
     }
     render({

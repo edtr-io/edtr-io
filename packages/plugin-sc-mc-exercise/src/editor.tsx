@@ -1,10 +1,8 @@
 import { useScopedSelector } from '@edtr-io/core'
 import {
-  Icon,
-  faPlus,
-  faTimes,
-  styled,
-  PreviewOverlay
+  PreviewOverlay,
+  InteractiveAnswer,
+  AddButton
 } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
@@ -12,68 +10,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { scMcExerciseState } from '.'
-import { SCMCInput } from './button'
 import { ScMcExerciseRenderer } from './renderer'
-
-const AnswerContainer = styled.div({
-  marginBottom: '10px',
-  display: 'flex',
-  alignItems: 'center'
-})
-
-const CheckboxContainer = styled.div({
-  width: '10%',
-  textAlign: 'center',
-  marginRight: '10px',
-  fontWeight: 'bold'
-})
-
-const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
-  return {
-    width: '100%',
-    marginLeft: '10px',
-    borderRadius: '10px',
-    border: focused ? '3px solid #003399' : '2px solid lightgrey'
-  }
-})
-const RemoveButton = styled.button<{ focused: boolean }>(({ focused }) => {
-  return {
-    borderRadius: '50%',
-    outline: 'none',
-    background: 'white',
-    color: focused ? ' #003399' : 'lightgrey',
-    border: focused ? '3px solid #003399' : '2px solid lightgrey',
-    zIndex: 20,
-    float: 'right',
-    transform: 'translate(50%, -40%)',
-    '&:hover': {
-      border: '3px solid #003399',
-      color: '#003399'
-    }
-  }
-})
-const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
-
-const FeedbackField = styled.div({
-  paddingLeft: '20px',
-  paddingBottom: '10px',
-  paddingTop: '10px',
-  marginTop: '5px',
-  borderTop: '2px solid lightgrey'
-})
-
-const AddButton = styled.button({
-  marginLeft: 'calc(10% + 20px)',
-  width: 'calc(90% - 20px)',
-  borderRadius: '10px',
-  backgroundColor: 'white',
-  textAlign: 'left',
-  color: 'lightgrey',
-  minHeight: '50px',
-  border: '2px solid lightgrey',
-  outline: 'none',
-  '&:hover': { border: '3px solid #003399', color: '#003399' }
-})
 
 export function ScMcExerciseEditor(
   props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
@@ -123,7 +60,7 @@ export function ScMcExerciseEditor(
     state.answers.remove(index)
   }
 
-  const nestedFocus = focused || R.contains(focusedElement, children)
+  const nestedFocus = focused || R.includes(focusedElement, children)
   const [previewActive, setPreviewActive] = React.useState(false)
 
   if (!editable) {
@@ -167,44 +104,25 @@ export function ScMcExerciseEditor(
             <React.Fragment>
               {state.answers.map((answer, index) => {
                 return (
-                  <AnswerContainer key={index}>
-                    <CheckboxContainer>
-                      Richtig?
-                      <SCMCInput
-                        isSingleChoice={state.isSingleChoice.value}
-                        isActive={answer.isCorrect.value}
-                        handleChange={
-                          state.isSingleChoice.value
-                            ? handleRadioButtonChange(index)
-                            : handleCheckboxChange(index)
-                        }
-                      />
-                    </CheckboxContainer>
-                    {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
-                    <FramedContainer
-                      focused={
-                        answer.id.id === focusedElement ||
-                        answer.feedback.id === focusedElement
-                      }
-                    >
-                      <AnswerField>{answer.id.render()}</AnswerField>
-                      <RemoveButton
-                        focused={
-                          answer.id.id === focusedElement ||
-                          answer.feedback.id === focusedElement
-                        }
-                        onClick={removeAnswer(index)}
-                      >
-                        <Icon icon={faTimes} />
-                      </RemoveButton>
-                      <FeedbackField>{answer.feedback.render()}</FeedbackField>
-                    </FramedContainer>
-                  </AnswerContainer>
+                  <InteractiveAnswer
+                    key={answer.id.id}
+                    answer={answer.id.render()}
+                    answerID={answer.id.id}
+                    feedback={answer.feedback.render()}
+                    feedbackID={answer.feedback.id}
+                    focusedElement={focusedElement || undefined}
+                    isRadio={state.isSingleChoice.value}
+                    isActive={answer.isCorrect.value}
+                    remove={removeAnswer(index)}
+                    handleChange={
+                      state.isSingleChoice.value
+                        ? handleRadioButtonChange(index)
+                        : handleCheckboxChange(index)
+                    }
+                  />
                 )
               })}
-              <AddButton onClick={addButton}>
-                <Icon icon={faPlus} /> Antwort hinzufügen ...
-              </AddButton>
+              <AddButton onClick={addButton}>Antwort hinzufügen...</AddButton>
             </React.Fragment>
           ) : null}
         </div>
