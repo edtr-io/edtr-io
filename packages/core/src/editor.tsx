@@ -13,7 +13,8 @@ import {
   serializeRootDocument,
   createStore,
   ChangeListener,
-  StoreEnhancerFactory
+  StoreEnhancerFactory,
+  getScope
 } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
@@ -31,7 +32,7 @@ import {
   ErrorContext,
   useSelector,
   useDispatch,
-  useScopedStore
+  useStore
 } from './store'
 
 configure({
@@ -177,21 +178,27 @@ export function InnerDocument<K extends string = string>({
     return getRoot()(scopedState)
   })
   const dispatch = useDispatch()
-  const store = useScopedStore()
+  // Can't use `useScopedStore` here since `InnerDocument` initializes the scoped state and `ScopeContext`
+  const fullStore = useStore()
   React.useEffect(() => {
     if (typeof onChange !== 'function') return
-    let pendingChanges = getPendingChanges()(store.getState())
-    return store.subscribe(() => {
-      const currentPendingChanges = getPendingChanges()(store.getState())
+    let pendingChanges = getPendingChanges()(
+      getScope(fullStore.getState(), scope)
+    )
+    return fullStore.subscribe(() => {
+      const currentPendingChanges = getPendingChanges()(
+        getScope(fullStore.getState(), scope)
+      )
       if (currentPendingChanges !== pendingChanges) {
         onChange({
-          changed: hasPendingChanges()(store.getState()),
-          getDocument: () => serializeRootDocument()(store.getState())
+          changed: hasPendingChanges()(getScope(fullStore.getState(), scope)),
+          getDocument: () =>
+            serializeRootDocument()(getScope(fullStore.getState(), scope))
         })
         pendingChanges = currentPendingChanges
       }
     })
-  }, [onChange, store])
+  }, [onChange, fullStore, scope])
 
   React.useEffect(() => {
     if (!mirror) {
