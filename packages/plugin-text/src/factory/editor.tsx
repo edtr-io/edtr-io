@@ -12,7 +12,7 @@ import {
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Editor as CoreEditor, Value, ValueJSON, Operation, Block } from 'slate'
+import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
 import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
@@ -160,7 +160,7 @@ export const createTextEditor = (
     const onClick = React.useCallback<EventHook>(
       (e, editor, next): CoreEditor | void => {
         if (e.target) {
-          // @ts-ignore outdated slatejs types
+          // @ts-ignore FIXME: outdated slatejs types
           const node = editor.findNode(e.target as Element)
           if (!node) {
             return editor
@@ -531,13 +531,13 @@ function splitBlockAtSelection(editor: CoreEditor) {
     editor.removeNodeByKey(block.key)
   })
 
-  return createDocumentFromBlocks(afterSelected.toArray())
+  return createDocumentFromNodes(afterSelected.toArray())
 }
 
-function createDocumentFromBlocks(blocks: Block[]) {
+function createDocumentFromNodes(nodes: Node[]) {
   return {
     document: {
-      nodes: [...blocks.map(block => block.toJSON())]
+      nodes: [...nodes.map(node => node.toJSON())]
     }
   }
 }

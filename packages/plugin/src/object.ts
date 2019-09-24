@@ -8,7 +8,8 @@ import {
   StateTypesSerializedType,
   StateTypesValueType,
   StateTypesReturnType,
-  StateTypeReturnType
+  StateTypeReturnType,
+  FocusableChild
 } from '@edtr-io/abstract-plugin-state'
 import * as R from 'ramda'
 
@@ -17,7 +18,7 @@ export function object<Ds extends Record<string, StateType>>(
   getFocusableChildren: (
     children: { [K in keyof Ds]: { id: string }[] }
   ) => { id: string }[] = children => {
-    return R.flatten(R.values(children))
+    return R.flatten<FocusableChild>(R.values(children))
   }
 ): StateType<
   StateTypesSerializedType<Ds>,

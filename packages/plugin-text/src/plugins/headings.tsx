@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { Block, Editor } from 'slate'
 
-import { NodeEditorProps, NodeRendererProps, TextPlugin } from '..'
+import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
@@ -12,10 +12,10 @@ export const createHeadingNode = (level: HeadingLevel) => {
 
 export interface HeadingsPluginOptions {
   EditorComponent?: React.ComponentType<
-    NodeEditorProps & { level: HeadingLevel }
+    BlockEditorProps & { level: HeadingLevel }
   >
   RenderComponent?: React.ComponentType<
-    NodeRendererProps & { level: HeadingLevel }
+    BlockRendererProps & { level: HeadingLevel }
   >
 }
 
@@ -38,7 +38,7 @@ const Heading = React.forwardRef(
 Heading.displayName = 'Heading'
 
 class DefaultEditorComponent extends React.Component<
-  NodeEditorProps & { level: HeadingLevel }
+  BlockEditorProps & { level: HeadingLevel }
 > {
   public render() {
     const { attributes, children, level } = this.props
@@ -52,7 +52,7 @@ class DefaultEditorComponent extends React.Component<
 }
 
 class DefaultRenderComponent extends React.Component<
-  NodeRendererProps & { level: HeadingLevel }
+  BlockRendererProps & { level: HeadingLevel }
 > {
   public render() {
     const { children, level } = this.props
