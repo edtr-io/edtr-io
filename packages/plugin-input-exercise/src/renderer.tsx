@@ -30,6 +30,46 @@ const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
   }
 )
 
+function normalizeNumber(string: string) {
+  return S(string).replaceAll(',', '.').s
+}
+
+function normalize(type: string, string: string) {
+  const temp = S(string).collapseWhitespace()
+
+  switch (type) {
+    case 'input-number-exact-match-challenge':
+      return S(normalizeNumber(temp.s))
+        .replaceAll(' /', '/')
+        .replaceAll('/ ', '/').s
+    case 'input-expression-equal-match-challenge':
+      return A.parse(normalizeNumber(temp.s))
+    default:
+      return temp.s.toUpperCase()
+  }
+}
+
+function matchesInput(field: { type: string; value: string }, input: string) {
+  try {
+    const solution = normalize(field.type, field.value)
+    const submission = normalize(field.type, input)
+
+    switch (field.type) {
+      case 'input-expression-equal-match-challenge':
+        return (
+          (solution as A.Expression)
+            .subtract(submission as A.Expression)
+            .toString() === '0'
+        )
+      default:
+        return solution === submission
+    }
+  } catch (err) {
+    // e.g. if user input could not be parsed
+    return false
+  }
+}
+
 export function InputExerciseRenderer(
   props: StatefulPluginEditorProps<typeof inputExerciseState>
 ) {
@@ -48,46 +88,6 @@ export function InputExerciseRenderer(
     setExerciseState(ExerciseState.SolvedWrong)
   }
 
-  const normalize = (type: string, string: string) => {
-    const normalizeNumber = function(string: string) {
-      return S(string).replaceAll(',', '.').s
-    }
-    const temp = S(string).collapseWhitespace()
-
-    switch (type) {
-      case 'input-number-exact-match-challenge':
-        return S(normalizeNumber((temp as unknown) as string))
-          .replaceAll(' /', '/')
-          .replaceAll('/ ', '/').s
-      case 'input-expression-equal-match-challenge':
-        return A.parse(normalizeNumber((temp as unknown) as string))
-      default:
-        return temp.s.toUpperCase()
-    }
-  }
-  const matchesInput = (
-    field: { type: string; value: string },
-    input: string
-  ) => {
-    try {
-      const solution = normalize(field.type, field.value)
-      const submission = normalize(field.type, input)
-
-      switch (field.type) {
-        case 'input-expression-equal-match-challenge':
-          return (
-            (solution as A.Expression)
-              .subtract(submission as A.Expression)
-              .toString() === '0'
-          )
-        default:
-          return solution === submission
-      }
-    } catch (err) {
-      // e.g. if user input could not be parsed
-      return false
-    }
-  }
   function checkAnswer(event: React.FormEvent) {
     if (!input.current) {
       return
