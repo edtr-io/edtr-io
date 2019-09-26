@@ -69,7 +69,7 @@ export function ScMcExerciseEditor(
 
   const Controls = (
     <React.Fragment>
-      Select the exercise type:
+      Wähle den Aufgabentyp:
       <select
         value={state.isSingleChoice.value ? 'Single Choice' : 'Multiple Choice'}
         onChange={handleSCMCChange}

@@ -34,7 +34,9 @@ const AnswerTextfield = styled.input({
   width: '100%'
 })
 export function InputExerciseEditor(
-  props: StatefulPluginEditorProps<typeof inputExerciseState>
+  props: StatefulPluginEditorProps<typeof inputExerciseState> & {
+    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
+  }
 ) {
   function translateDataType(type: string) {
     for (let i = 0; i < types.length; i++) {
@@ -57,7 +59,25 @@ export function InputExerciseEditor(
       focusedElement,
       props.state.answers.map(answer => answer.feedback.id)
     )
-
+  const Controls = (
+    <React.Fragment>
+      Wähle den Antworttyp:
+      <select
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+          state.type.set(translateDataName(event.target.value))
+        }
+        value={translateDataType(state.type.value)}
+      >
+        {R.map(dataType => {
+          return (
+            <option key={dataType.name} value={dataType.name}>
+              {dataType.name}
+            </option>
+          )
+        }, types)}
+      </select>
+    </React.Fragment>
+  )
   const [previewActive, setPreviewActive] = React.useState(false)
   return (
     <React.Fragment>
@@ -98,24 +118,16 @@ export function InputExerciseEditor(
               <AddButton onClick={() => state.answers.insert()}>
                 Antwort hinzufügen...
               </AddButton>
-              <hr />
-              Wähle den Antworttyp:
-              <select
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                  state.type.set(translateDataName(event.target.value))
-                }
-                value={translateDataType(state.type.value)}
-              >
-                {R.map(dataType => {
-                  return (
-                    <option key={dataType.name} value={dataType.name}>
-                      {dataType.name}
-                    </option>
-                  )
-                }, types)}
-              </select>
             </React.Fragment>
           ) : null}
+          {props.renderIntoExtendedSettings ? (
+            props.renderIntoExtendedSettings(Controls)
+          ) : (
+            <React.Fragment>
+              <hr />
+              {Controls}
+            </React.Fragment>
+          )}
         </React.Fragment>
       ) : (
         <InputExerciseRenderer {...props} />
