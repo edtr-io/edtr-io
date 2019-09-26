@@ -93,14 +93,14 @@ function SuggestionsBox({
 
   const options = showSuggestions ? mapPlugins(pluginClosure, editor) : []
   const closure = React.useRef({
+    showSuggestions,
     selected,
     options
   })
-  if (showSuggestions) {
-    closure.current = {
-      selected,
-      options
-    }
+  closure.current = {
+    showSuggestions,
+    selected,
+    options
   }
   React.useEffect(() => {
     if (options.length < selected) {
@@ -117,25 +117,31 @@ function SuggestionsBox({
       }}
       handlers={{
         DEC: () => {
-          setSelected(currentSelected => {
-            const optionsCount = closure.current.options.length
-            if (optionsCount === 0) return 0
-            return (currentSelected + optionsCount - 1) % optionsCount
-          })
+          if (closure.current.showSuggestions) {
+            setSelected(currentSelected => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + optionsCount - 1) % optionsCount
+            })
+          }
         },
         INC: () => {
-          setSelected(currentSelected => {
-            const optionsCount = closure.current.options.length
-            if (optionsCount === 0) return 0
-            return (currentSelected + 1) % optionsCount
-          })
+          if (closure.current.showSuggestions) {
+            setSelected(currentSelected => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + 1) % optionsCount
+            })
+          }
         },
         INSERT: () => {
-          const option = closure.current.options[closure.current.selected]
-          if (!option) return
-          setTimeout(() => {
-            insertPlugin(editor)(option[1])
-          })
+          if (closure.current.showSuggestions) {
+            const option = closure.current.options[closure.current.selected]
+            if (!option) return
+            setTimeout(() => {
+              insertPlugin(editor)(option[1])
+            })
+          }
         }
       }}
     >
