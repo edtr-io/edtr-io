@@ -555,7 +555,7 @@ useScopedSelector(state => {
       fixed: [
         '**plugin-text**. Updated slate types to newest version 0.47.1.',
         '**plugin-text**. Fix suggestions for inserting plugins after typing `/`.',
-        '**core**. `onChange` callback prop of `Editor` is now working again',
+        '**core**. `onChange` callback prop of `Editor` is now working again'
       ],
       changed: [
         '**plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`'
