@@ -547,6 +547,19 @@ useScopedSelector(state => {
       name: '0.11.1',
       date: '2019-09-18',
       fixed: ['**core**. Documents no longer lose focus during editing']
+    },
+    {
+      tagName: 'v0.11.2',
+      name: '0.11.2',
+      date: '2019-09-26',
+      fixed: [
+        '**plugin-text**. Updated slate types to newest version 0.47.1.',
+        '**plugin-text**. Fix suggestions for inserting plugins after typing `/`.',
+        '**core**. `onChange` callback prop of `Editor` is now working again'
+      ],
+      changed: [
+        '**plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`'
+      ]
     }
   ])
 

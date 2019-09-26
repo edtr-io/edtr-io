@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-equations",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.11.1",
-    "@edtr-io/plugin": "^0.11.1",
+    "@edtr-io/editor-ui": "^0.11.2",
+    "@edtr-io/plugin": "^0.11.2",
     "@edtr-io/store": "^0.11.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
@@ -23,7 +23,7 @@
     "react-beautiful-dnd": "^10.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.11.1",
+    "@edtr-io/core": "^0.11.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hotkeys": "^2.0.0"
