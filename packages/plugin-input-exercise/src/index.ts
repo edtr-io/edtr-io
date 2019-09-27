@@ -5,21 +5,58 @@ import {
   list,
   object,
   StatefulPlugin,
-  string
+  string,
+  migratable
 } from '@edtr-io/plugin'
 import { createPluginTheme } from '@edtr-io/ui'
 
 import { InputExerciseEditor } from './editor'
 
-export const answerObject = object({
+const stateV0 = object({
+  type: string('Text'),
+  correctAnswers: list(string('')),
+  wrongAnswers: list(
+    object({
+      value: string(''),
+      feedback: child()
+    })
+  )
+})
+
+const answerObject = object({
   value: string(''),
   isCorrect: boolean(),
   feedback: child()
 })
-export const inputExerciseState = object({
+const stateV1 = object({
   type: string('Text'),
   answers: list(answerObject)
 })
+
+export const inputExerciseState = migratable(stateV0).migrate(
+  stateV1,
+  previousState => {
+    return {
+      type: previousState.type,
+      answers: [
+        ...previousState.correctAnswers.map(answer => {
+          return {
+            value: answer,
+            isCorrect: true,
+            feedback: { plugin: 'text' }
+          }
+        }),
+        ...previousState.wrongAnswers.map(answer => {
+          return {
+            ...answer,
+            isCorrect: false
+          }
+        })
+      ]
+    }
+  }
+)
+
 export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,
   state: inputExerciseState,
