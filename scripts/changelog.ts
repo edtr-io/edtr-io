@@ -560,6 +560,11 @@ useScopedSelector(state => {
       changed: [
         '**plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`'
       ]
+    },
+    {
+      fixed: [
+        '**plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state'
+      ]
     }
   ])
 
