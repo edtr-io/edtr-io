@@ -6,9 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state
 - **plugin-text**. Fixed server side rendering
 - **plugin-sc-mc-exercise**. Fixed server side rendering
-- **plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 states
 - **renderer-ssr**. Tests now test for correct results additionally to working server side rendering.
 
 ## [0.11.2](https://github.com/edtr-io/edtr-io/compare/v0.11.1..v0.11.2) - September 26, 2019
