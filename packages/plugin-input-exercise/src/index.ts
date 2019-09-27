@@ -3,10 +3,11 @@ import {
   boolean,
   child,
   list,
+  migratable,
   object,
   StatefulPlugin,
-  string,
-  migratable
+  StateTypeSerializedType,
+  string
 } from '@edtr-io/plugin'
 import { createPluginTheme } from '@edtr-io/ui'
 
@@ -43,7 +44,9 @@ export const inputExerciseState = migratable(stateV0).migrate(
           return {
             value: answer,
             isCorrect: true,
-            feedback: { plugin: 'text' }
+            feedback: { plugin: 'text' } as StateTypeSerializedType<
+              ReturnType<typeof child>
+            >
           }
         }),
         ...previousState.wrongAnswers.map(answer => {

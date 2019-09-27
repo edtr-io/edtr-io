@@ -24,7 +24,7 @@ export class ScMcAnswersRenderer extends React.Component<
 > {
   public state = {
     phase: Phase.noJS,
-    remainingOptions: [],
+    remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
     lastOption: [this.props.state.answers.length, 1] as [number, number]
   }
   public render() {
@@ -116,9 +116,7 @@ export class ScMcAnswersRenderer extends React.Component<
   private calculateLayout() {
     this.setState({
       phase: Phase.optionTesting,
-      remainingOptions: calculateLayoutOptions(
-        this.props.state.answers.length
-      ) as [number, number][]
+      remainingOptions: calculateLayoutOptions(this.props.state.answers.length)
     })
   }
   private onResize = () => {

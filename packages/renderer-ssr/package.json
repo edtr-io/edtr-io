@@ -35,6 +35,7 @@
     "@edtr-io/plugin-table": "^0.11.2",
     "@edtr-io/plugin-text": "^0.11.2",
     "@edtr-io/plugin-video": "^0.11.2",
+    "slate": "^0.47.4",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"

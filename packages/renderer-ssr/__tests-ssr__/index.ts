@@ -14,7 +14,9 @@ import { serloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { solutionState } from '@edtr-io/plugin-solution'
 import { spoilerState } from '@edtr-io/plugin-spoiler'
 import { tableState } from '@edtr-io/plugin-table'
+import { textState } from '@edtr-io/plugin-text'
 import { videoState } from '@edtr-io/plugin-video'
+import { Mark, Text } from 'slate'
 
 import { render } from '../src'
 
@@ -24,10 +26,12 @@ describe('Renderer SSR', () => {
       plugin: 'anchor',
       state: 'foo'
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<a')
+    expect(html).toContain('id="foo"')
   })
 
   test('Blockquote plugin', () => {
@@ -38,10 +42,11 @@ describe('Renderer SSR', () => {
         state: 'foo'
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<blockquote')
   })
 
   test('GeoGebra plugin', () => {
@@ -49,10 +54,11 @@ describe('Renderer SSR', () => {
       plugin: 'geogebra',
       state: 'foo'
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('geogebra')
   })
 
   test('Highlight plugin', () => {
@@ -64,10 +70,11 @@ describe('Renderer SSR', () => {
         lineNumbers: true
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('const')
   })
 
   test('Hint plugin', () => {
@@ -81,10 +88,11 @@ describe('Renderer SSR', () => {
         }
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('foo')
   })
 
   test('Image plugin', () => {
@@ -99,10 +107,11 @@ describe('Renderer SSR', () => {
         maxWidth: 0
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<img')
   })
 
   test('Important statement plugin', () => {
@@ -113,10 +122,11 @@ describe('Renderer SSR', () => {
         state: 'foo'
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('foo')
   })
 
   test('Serlo injection plugin', () => {
@@ -124,10 +134,11 @@ describe('Renderer SSR', () => {
       plugin: 'injection',
       state: '1337'
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<iframe')
   })
 
   test('Input exercise plugin', () => {
@@ -137,14 +148,24 @@ describe('Renderer SSR', () => {
         __version__: 1,
         value: {
           type: 'Text',
-          answers: []
+          answers: [
+            {
+              value: 'Apfel',
+              isCorrect: true,
+              feedback: {
+                plugin: 'text',
+                state: createTextState([Text.create({ text: 'feedback' })])
+              }
+            }
+          ]
         }
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<input')
   })
 
   test('Rows plugin', () => {
@@ -157,10 +178,11 @@ describe('Renderer SSR', () => {
         }
       ]
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('foo')
   })
 
   test('Sc-Mc exercise plugin', () => {
@@ -171,23 +193,24 @@ describe('Renderer SSR', () => {
         answers: [
           {
             id: {
-              plugin: 'anchor',
-              state: 'foo'
+              plugin: 'text',
+              state: createTextState([Text.create({ text: 'option a' })])
             },
             isCorrect: true,
             feedback: {
-              plugin: 'anchor',
-              state: 'foo'
+              plugin: 'text',
+              state: createTextState([Text.create({ text: 'feedback' })])
             },
             hasFeedback: true
           }
         ]
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('option a')
   })
 
   test('Solution plugin', () => {
@@ -201,10 +224,11 @@ describe('Renderer SSR', () => {
         }
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('foo')
   })
 
   test('Spoiler plugin', () => {
@@ -218,36 +242,79 @@ describe('Renderer SSR', () => {
         }
       }
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('foo')
   })
 
   test('Table plugin', () => {
     const state: Document<typeof tableState> = {
-      plugin: 'spoiler',
-      state: '| foo |'
+      plugin: 'table',
+      state: '| foo |\n|-|'
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('<table')
+  })
+
+  test('Text plugin', () => {
+    const state: Document<typeof textState> = {
+      plugin: 'text',
+      state: createTextState([
+        Text.create({ text: 'This will be rendered' }),
+        Text.create({
+          text: 'bold',
+          marks: Mark.createSet(['@splish-me/strong'])
+        })
+      ])
+    }
+    const { html } = render({
+      state,
+      plugins
+    })
+
+    expect(html).toContain('This will be rendered')
+    expect(html).toContain('<strong')
   })
 
   test('Video plugin', () => {
     const state: Document<typeof videoState> = {
-      plugin: 'spoiler',
-      state: '123'
+      plugin: 'video',
+      state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo'
     }
-    render({
+    const { html } = render({
       state,
       plugins
     })
+    expect(html).toContain('youtube')
   })
 })
 
 interface Document<D extends StateType> {
   plugin: string
   state: StateTypeSerializedType<D>
+}
+
+function createTextState(
+  texts: Text[]
+): StateTypeSerializedType<typeof textState> {
+  return {
+    object: 'value',
+    document: {
+      object: 'document',
+      data: {},
+      nodes: [
+        {
+          object: 'block',
+          type: 'paragraph',
+          data: {},
+          nodes: texts.map(text => text.toJSON())
+        }
+      ]
+    }
+  }
 }
