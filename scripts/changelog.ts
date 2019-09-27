@@ -562,8 +562,14 @@ useScopedSelector(state => {
       ]
     },
     {
+      tagName: 'v0.11.3',
+      name: '0.11.3',
+      date: '2019-09-27',
       fixed: [
-        '**plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state'
+        '**plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state',
+        '**plugin-text**. Fixed server side rendering',
+        '**plugin-sc-mc-exercise**. Fixed server side rendering',
+        '**renderer-ssr**. Tests now test for correct results additionally to working server side rendering.'
       ]
     }
   ])

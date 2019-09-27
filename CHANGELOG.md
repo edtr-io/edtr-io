@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.3](https://github.com/edtr-io/edtr-io/compare/v0.11.2..v0.11.3) - September 27, 2019
+
+### Fixed
+
+- **plugin-text**. Fixed server side rendering
+- **plugin-sc-mc-exercise**. Fixed server side rendering
+- **plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 states
+- **renderer-ssr**. Tests now test for correct results additionally to working server side rendering.
+
 ## [0.11.2](https://github.com/edtr-io/edtr-io/compare/v0.11.1..v0.11.2) - September 26, 2019
 
 ### Changed
