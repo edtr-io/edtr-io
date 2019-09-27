@@ -118,16 +118,17 @@ export function InputExerciseEditor(
               <AddButton onClick={() => state.answers.insert()}>
                 Antwort hinzufügen...
               </AddButton>
+              {!props.renderIntoExtendedSettings ? (
+                <React.Fragment>
+                  <hr />
+                  {Controls}
+                </React.Fragment>
+              ) : null}
             </React.Fragment>
           ) : null}
-          {props.renderIntoExtendedSettings ? (
-            props.renderIntoExtendedSettings(Controls)
-          ) : (
-            <React.Fragment>
-              <hr />
-              {Controls}
-            </React.Fragment>
-          )}
+          {props.renderIntoExtendedSettings
+            ? props.renderIntoExtendedSettings(Controls)
+            : null}
         </React.Fragment>
       ) : (
         <InputExerciseRenderer {...props} />

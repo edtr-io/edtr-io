@@ -91,15 +91,6 @@ export function ScMcExerciseEditor(
       </PreviewOverlay>
       {editable ? (
         <div>
-          {props.renderIntoExtendedSettings ? (
-            props.renderIntoExtendedSettings(Controls)
-          ) : (
-            <React.Fragment>
-              <hr />
-              {Controls}
-            </React.Fragment>
-          )}
-
           {nestedFocus && !previewActive ? (
             <React.Fragment>
               {state.answers.map((answer, index) => {
@@ -123,8 +114,17 @@ export function ScMcExerciseEditor(
                 )
               })}
               <AddButton onClick={addButton}>Antwort hinzufügen...</AddButton>
+              {!props.renderIntoExtendedSettings ? (
+                <React.Fragment>
+                  <hr />
+                  {Controls}
+                </React.Fragment>
+              ) : null}
             </React.Fragment>
           ) : null}
+          {props.renderIntoExtendedSettings
+            ? props.renderIntoExtendedSettings(Controls)
+            : null}
         </div>
       ) : null}
     </React.Fragment>
