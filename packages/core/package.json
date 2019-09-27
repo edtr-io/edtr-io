@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/core",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "@edtr-io/abstract-plugin": "^0.11.0",
     "@edtr-io/abstract-plugin-state": "^0.11.0",
     "@edtr-io/store": "^0.11.0",
-    "@edtr-io/ui": "^0.11.0",
+    "@edtr-io/ui": "^0.11.2",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",

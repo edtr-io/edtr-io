@@ -134,8 +134,11 @@ describe('Renderer SSR', () => {
     const state: Document<typeof inputExerciseState> = {
       plugin: 'inputExercise',
       state: {
-        type: 'Text',
-        answers: []
+        __version__: 1,
+        value: {
+          type: 'Text',
+          answers: []
+        }
       }
     }
     render({

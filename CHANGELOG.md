@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.2](https://github.com/edtr-io/edtr-io/compare/v0.11.1..v0.11.2) - September 26, 2019
+
+### Changed
+
+- **plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`
+
+### Fixed
+
+- **plugin-text**. Updated slate types to newest version 0.47.1.
+- **plugin-text**. Fix suggestions for inserting plugins after typing `/`.
+- **core**. `onChange` callback prop of `Editor` is now working again
+
 ## [0.11.1](https://github.com/edtr-io/edtr-io/compare/v0.11.0..v0.11.1) - September 18, 2019
 
 ### Fixed
