@@ -1,8 +1,5 @@
 import { styled } from '@edtr-io/editor-ui'
-import {
-  StatefulPluginEditorProps,
-  StateDescriptorReturnType
-} from '@edtr-io/plugin'
+import { StatefulPluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
 import KaTeX from 'katex'
 import * as React from 'react'
 
@@ -46,7 +43,7 @@ export function TerminatorRenderer(
     if (newTerm) setTerm(newTerm)
   }, [index, stateRef, error])
 
-  const useFracs = props.state.catalog().includes('frac')
+  const useFracs = props.state.catalog.value.includes('frac')
   const numberRef = React.createRef<HTMLInputElement>()
   const fracWRef = React.createRef<HTMLInputElement>()
   const fracNRef = React.createRef<HTMLInputElement>()
@@ -76,10 +73,9 @@ export function TerminatorRenderer(
         if (!isNaN(n)) result = new Frac(n)
       }
       if (result) {
-        // @ts-ignore ???
-        if (term && result.equals(term.value)) {
+        if (term && result.equals(term.value as Frac)) {
           setResultState('success')
-          if (strikeCount + 1 == props.state.practiceCount()) {
+          if (strikeCount + 1 == props.state.practiceCount.value) {
             setTimeout(
               () =>
                 alert(
@@ -299,19 +295,23 @@ export function TerminatorRenderer(
             display: 'flex',
             flexDirection: 'column',
             backgroundColor:
-              strikeCount >= props.state.practiceCount() ? '#22B24C' : '#369',
+              strikeCount >= props.state.practiceCount.value
+                ? '#22B24C'
+                : '#369',
             width:
               Math.max(
                 1,
-                Math.round((strikeCount / props.state.practiceCount()) * 100)
+                Math.round(
+                  (strikeCount / props.state.practiceCount.value) * 100
+                )
               ) + '%'
           }}
         ></div>
       </div>
       <p>
-        Löse <strong>{props.state.practiceCount()}</strong> Aufgaben am Stück,
-        um diese Fähigkeit zu meistern (aktuell {strikeCount}/
-        {props.state.practiceCount()}
+        Löse <strong>{props.state.practiceCount.value}</strong> Aufgaben am
+        Stück, um diese Fähigkeit zu meistern (aktuell {strikeCount}/
+        {props.state.practiceCount.value}
         ).
         {/*
         <br /><br /><br />
@@ -337,46 +337,46 @@ export function TerminatorRenderer(
 }
 
 function createInterfaceOptions(
-  state: StateDescriptorReturnType<typeof terminatorState>
+  state: StateTypeReturnType<typeof terminatorState>
 ) {
-  if (state.catalog() == 'kopfexotic' && state.size() > 2) {
+  if (state.catalog.value == 'kopfexotic' && state.size.value > 2) {
     throw new Error('Schnapszahlen unterstützt nur Termlänge 1')
   }
-  if (state.catalog().includes('frac') && state.power() > 0) {
+  if (state.catalog.value.includes('frac') && state.power.value > 0) {
     throw new Error('Brüche unterstützen keine Potenzen')
   }
   if (
-    state.addition() +
-      state.multiplication() +
-      state.subtraction() +
-      state.division() +
-      state.power() ==
+    state.addition.value +
+      state.multiplication.value +
+      state.subtraction.value +
+      state.division.value +
+      state.power.value ==
     0
   ) {
     throw new Error('Bitte gib mindestens eine Rechenart an!')
   }
-  if (state.size() < 0 || state.size() > 10) {
+  if (state.size.value < 0 || state.size.value > 10) {
     throw new Error('Ungültige Termlänge')
   }
 
   return {
-    catalog: state.catalog(),
-    addition: state.addition(),
-    multiplication: state.multiplication(),
-    subtraction: state.subtraction(),
-    division: state.division(),
-    power: state.power(),
-    size: state.size(),
-    negative: state.negative(),
-    decimals: state.decimals(),
-    noMixed: state.noMixed()
+    catalog: state.catalog.value,
+    addition: state.addition.value,
+    multiplication: state.multiplication.value,
+    subtraction: state.subtraction.value,
+    division: state.division.value,
+    power: state.power.value,
+    size: state.size.value,
+    negative: state.negative.value,
+    decimals: state.decimals.value,
+    noMixed: state.noMixed.value
   }
 }
 
 // ------------------------------------------------------------
 
 interface TerminatorSettingsProps {
-  state: StateDescriptorReturnType<typeof terminatorState>
+  state: StateTypeReturnType<typeof terminatorState>
   inc: () => void
 }
 
@@ -419,7 +419,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Zahlenbereich:{' '}
         <select
-          value={catalog()}
+          value={catalog.value}
           onChange={e => {
             catalog.set(e.target.value)
             props.inc()
@@ -443,7 +443,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
           type="number"
           min="1"
           max="10"
-          value={size()}
+          value={size.value}
           size={5}
           onChange={e => {
             size.set(parseInt(e.target.value))
@@ -454,7 +454,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Negative Zahlen:{' '}
         <select
-          value={negative()}
+          value={negative.value}
           onChange={e => {
             negative.set(parseInt(e.target.value))
             props.inc()
@@ -474,7 +474,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
           type="number"
           min="1"
           max="100"
-          value={practiceCount()}
+          value={practiceCount.value}
           size={5}
           onChange={e => {
             practiceCount.set(parseInt(e.target.value))
@@ -486,7 +486,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Addition:{' '}
         <select
-          value={addition()}
+          value={addition.value}
           onChange={e => {
             addition.set(parseInt(e.target.value))
             props.inc()
@@ -502,7 +502,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Multiplikation:{' '}
         <select
-          value={multiplication()}
+          value={multiplication.value}
           onChange={e => {
             multiplication.set(parseInt(e.target.value))
             props.inc()
@@ -518,7 +518,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Subtraktion:{' '}
         <select
-          value={subtraction()}
+          value={subtraction.value}
           onChange={e => {
             subtraction.set(parseInt(e.target.value))
             props.inc()
@@ -534,7 +534,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Division:{' '}
         <select
-          value={division()}
+          value={division.value}
           onChange={e => {
             division.set(parseInt(e.target.value))
             props.inc()
@@ -550,7 +550,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
       <label>
         Potenz:{' '}
         <select
-          value={power()}
+          value={power.value}
           onChange={e => {
             power.set(parseInt(e.target.value))
             props.inc()
@@ -567,7 +567,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
         <input
           type="checkbox"
           value="dec"
-          defaultChecked={decimals()}
+          defaultChecked={decimals.value}
           onChange={e => {
             decimals.set(e.target.checked)
             props.inc()
@@ -579,7 +579,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
         <input
           type="checkbox"
           value="no_mixed"
-          defaultChecked={noMixed()}
+          defaultChecked={noMixed.value}
           onChange={e => {
             noMixed.set(e.target.checked)
             props.inc()
@@ -593,7 +593,7 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
 
 function doPreset(
   key: string,
-  state: StateDescriptorReturnType<typeof terminatorState>
+  state: StateTypeReturnType<typeof terminatorState>
 ) {
   if (key === 'p0') {
     state.catalog.set('kopfeasy')

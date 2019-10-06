@@ -31,7 +31,9 @@ const Content = styled.div<{ name: string }>(({ name, ...props }) => {
     padding: '15px',
     width: '98%',
     maxWidth: '600px',
-    margin: 'auto'
+    height: '90%',
+    margin: 'auto',
+    overflowY: 'scroll'
   }
 })
 
