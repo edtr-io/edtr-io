@@ -8,6 +8,7 @@ import * as React from 'react'
 
 import { terminatorState } from '.'
 import { TNode } from './terminator/05_TNode'
+import { Frac } from './terminator/15_Frac'
 import { Create } from './terminator/30_Interface'
 
 const BlockMathSpan = styled.span({
@@ -25,6 +26,9 @@ export function TerminatorRenderer(
   const [index, setIndex] = React.useState(1)
   const [error, setError] = React.useState('')
 
+  const [strikeCount, setStrikeCount] = React.useState(0)
+  const [resultState, setResultState] = React.useState('none')
+
   const stateRef = React.useRef(props.state)
   React.useEffect(() => {
     stateRef.current = props.state
@@ -41,6 +45,79 @@ export function TerminatorRenderer(
     if (newTerm && error) setError('')
     if (newTerm) setTerm(newTerm)
   }, [index, stateRef, error])
+
+  const useFracs = props.state.catalog().includes('frac')
+  const numberRef = React.createRef<HTMLInputElement>()
+  const fracWRef = React.createRef<HTMLInputElement>()
+  const fracNRef = React.createRef<HTMLInputElement>()
+  const fracDRef = React.createRef<HTMLInputElement>()
+
+  function checkResult() {
+    if (resultState == 'none') {
+      let result: Frac | null = null
+      if (useFracs) {
+        // parse frac input
+        const w = parseInt(fracWRef.current ? fracWRef.current.value : 'x')
+        const n = parseInt(fracNRef.current ? fracNRef.current.value : 'x')
+        const d = parseInt(fracDRef.current ? fracDRef.current.value : 'x')
+        if (!isNaN(w) && !isNaN(n) && !isNaN(d)) {
+          result = new Frac(w).add(new Frac(n, d))
+        } else if (!isNaN(n) && !isNaN(d)) {
+          result = new Frac(n, d)
+        } else if (!isNaN(w)) {
+          result = new Frac(w)
+        }
+        if (!isNaN(d) && result && result.den != d) {
+          alert('Bitte Ergebnis noch kürzen!')
+          return
+        }
+      } else {
+        const n = parseInt(numberRef.current ? numberRef.current.value : 'x')
+        if (!isNaN(n)) result = new Frac(n)
+      }
+      if (result) {
+        // @ts-ignore ???
+        if (term && result.equals(term.value)) {
+          setResultState('success')
+          if (strikeCount + 1 == props.state.practiceCount()) {
+            setTimeout(
+              () =>
+                alert(
+                  'Herzlichen Glückwunsch! Du hast diese Fähigkeit gemeistert!'
+                ),
+              200
+            )
+          }
+          setStrikeCount(strikeCount + 1)
+        } else {
+          setResultState('fail')
+          setStrikeCount(0)
+        }
+      } else {
+        alert('Bitte Anwort eingeben!')
+      }
+    } else {
+      setIndex(index + 1)
+      setResultState('none')
+      if (useFracs) {
+        if (fracNRef.current) {
+          fracNRef.current.value = ''
+        }
+        if (fracDRef.current) {
+          fracDRef.current.value = ''
+        }
+        if (fracWRef.current) {
+          fracWRef.current.value = ''
+          fracWRef.current.focus()
+        }
+      } else {
+        if (numberRef.current) {
+          numberRef.current.value = ''
+          numberRef.current.focus()
+        }
+      }
+    }
+  }
 
   return (
     <>
@@ -61,7 +138,11 @@ export function TerminatorRenderer(
             dangerouslySetInnerHTML={{
               __html: KaTeX.renderToString(
                 '\\displaystyle ' +
-                  (term ? term.toTeX() + ' = ' + term.value.toTeX() : 'xxx'),
+                  (term
+                    ? resultState == 'none'
+                      ? term.toTeX()
+                      : term.toTeX() + '\\\\ \\, \\\\ = ' + term.value.toTeX()
+                    : 'xxx'),
                 {
                   throwOnError: false
                 }
@@ -70,11 +151,187 @@ export function TerminatorRenderer(
           ></BlockMathSpan>
         )}
       </p>
-      <p>&nbsp;</p>
-      <p>
-        <button onClick={() => setIndex(index + 1)}>Neue Aufgabe</button>
-        &nbsp;&nbsp;<small>TODO: Interaktive Eingabe der Lösung</small>
+      {resultState != 'none' ? (
+        <p style={{ textAlign: 'center' }}>
+          <span
+            style={{
+              color: '#fff',
+              borderRadius: '0.25rem',
+              backgroundColor: resultState == 'success' ? '#22B24C' : '#EB6864',
+              fontWeight: 700,
+              padding: '0.25em 0.4em',
+              fontSize: '75%'
+            }}
+          >
+            {resultState == 'success' ? 'Gut gemacht!' : 'Leider falsch ...'}
+          </span>
+        </p>
+      ) : null}
+
+      {useFracs ? (
+        <table
+          style={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            textAlign: 'center',
+            fontSize: 20
+          }}
+        >
+          <tbody>
+            <tr>
+              <td rowSpan={2}>
+                ={' '}
+                <input
+                  ref={fracWRef}
+                  style={{ textAlign: 'center', margin: 3 }}
+                  defaultValue=""
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  pattern="[0-9\-]*"
+                  type="text"
+                  size={3}
+                  maxLength={7}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      checkResult()
+                      e.stopPropagation()
+                      e.preventDefault()
+                      return false
+                    }
+                  }}
+                />
+              </td>
+              <td>
+                <div style={{ borderBottom: '3px solid black' }}>
+                  <input
+                    ref={fracNRef}
+                    style={{ textAlign: 'center', margin: 3 }}
+                    defaultValue=""
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    pattern="[0-9\-]*"
+                    type="text"
+                    size={3}
+                    maxLength={7}
+                    onKeyDown={e => {
+                      if (e.keyCode === 13) {
+                        checkResult()
+                        e.stopPropagation()
+                        e.preventDefault()
+                        return false
+                      }
+                    }}
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  ref={fracDRef}
+                  style={{ textAlign: 'center', margin: 3 }}
+                  defaultValue=""
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  pattern="[0-9]*"
+                  type="text"
+                  size={3}
+                  maxLength={7}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      checkResult()
+                      e.stopPropagation()
+                      e.preventDefault()
+                      return false
+                    }
+                  }}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <p style={{ textAlign: 'center', fontSize: 20 }}>
+          ={' '}
+          <input
+            ref={numberRef}
+            style={{ textAlign: 'center' }}
+            defaultValue=""
+            autoComplete="off"
+            autoCapitalize="none"
+            pattern="[0-9\-]*"
+            type="text"
+            size={3}
+            maxLength={7}
+            onKeyDown={e => {
+              if (e.keyCode === 13) {
+                checkResult()
+                e.stopPropagation()
+                e.preventDefault()
+                return false
+              }
+            }}
+          />
+        </p>
+      )}
+      <p style={{ textAlign: 'right' }}>
+        <button onClick={checkResult}>
+          {resultState == 'none'
+            ? 'Prüfen'
+            : resultState == 'success'
+            ? 'Weiter'
+            : 'Neue Aufgabe'}
+        </button>
       </p>
+      <div
+        style={{
+          display: 'flex',
+          height: '1rem',
+          overflow: 'hidden',
+          backgroundColor: '#eee',
+          borderRadius: '0.25rem',
+          marginTop: '1.5rem',
+          marginBottom: '1.5rem'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor:
+              strikeCount >= props.state.practiceCount() ? '#22B24C' : '#369',
+            width:
+              Math.max(
+                1,
+                Math.round((strikeCount / props.state.practiceCount()) * 100)
+              ) + '%'
+          }}
+        ></div>
+      </div>
+      <p>
+        Löse <strong>{props.state.practiceCount()}</strong> Aufgaben am Stück,
+        um diese Fähigkeit zu meistern (aktuell {strikeCount}/
+        {props.state.practiceCount()}
+        ).
+        {/*
+        <br /><br /><br />
+        <small>
+          <a
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIndex(index + 1)
+              if (numberRef.current) {
+                numberRef.current.value = ''
+                numberRef.current.focus()
+              }
+            }}
+          >
+            Reset
+          </a>
+        </small>
+        */}
+      </p>
+      <p></p>
     </>
   )
 }
@@ -134,11 +391,31 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
     size,
     negative,
     decimals,
-    noMixed
+    noMixed,
+    practiceCount
   } = props.state
   return (
     <>
       <br />
+      <label>
+        Voreinstellungen:{' '}
+        <select
+          defaultValue="none"
+          onChange={e => {
+            doPreset(e.target.value, props.state)
+            props.inc()
+          }}
+        >
+          <option value="none">---</option>
+          <option value="p1">Kopfrechnen</option>
+          <option value="p2">Terme mit natürlichen Zahlen</option>
+          <option value="p3">Negative Zahlen</option>
+          <option value="p4">Einstieg Bruchrechnung</option>
+          <option value="p5">Dezimalzahlen</option>
+          <option value="p0">(leer)</option>
+        </select>
+      </label>
+      <hr />
       <label>
         Zahlenbereich:{' '}
         <select
@@ -158,7 +435,8 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
           <option value="fracbasic">normale Brüche</option>
         </select>
       </label>
-      <hr />
+      <br />
+      <br />
       <label>
         Termgröße:{' '}
         <input
@@ -187,6 +465,22 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
           <option value="2">mittel</option>
           <option value="3">viel</option>
         </select>
+      </label>
+      <br />
+      <br />
+      <label>
+        Gemeistert bei:{' '}
+        <input
+          type="number"
+          min="1"
+          max="100"
+          value={practiceCount()}
+          size={5}
+          onChange={e => {
+            practiceCount.set(parseInt(e.target.value))
+            props.inc()
+          }}
+        />
       </label>
       <hr />
       <label>
@@ -293,25 +587,6 @@ function TerminatorSettings(props: TerminatorSettingsProps) {
         />{' '}
         Keine gemischten Brüche
       </label>
-      <hr />
-      <label>
-        Voreinstellungen:{' '}
-        <select
-          value="none"
-          onChange={e => {
-            doPreset(e.target.value, props.state)
-            props.inc()
-          }}
-        >
-          <option value="none">---</option>
-          <option value="p1">Kopfrechnen</option>
-          <option value="p2">Terme mit natürlichen Zahlen</option>
-          <option value="p3">Negative Zahlen</option>
-          <option value="p4">Einstieg Bruchrechnung</option>
-          <option value="p5">Dezimalzahlen</option>
-          <option value="p0">(leer)</option>
-        </select>
-      </label>
     </>
   )
 }
@@ -331,6 +606,7 @@ function doPreset(
     state.negative.set(0)
     state.decimals.set(false)
     state.noMixed.set(false)
+    state.practiceCount.set(0)
   }
   if (key === 'p1') {
     state.catalog.set('kopfmedium')
@@ -343,6 +619,7 @@ function doPreset(
     state.negative.set(0)
     state.decimals.set(false)
     state.noMixed.set(false)
+    state.practiceCount.set(10)
   }
   if (key === 'p2') {
     state.catalog.set('kopfeasy')
@@ -355,6 +632,7 @@ function doPreset(
     state.negative.set(0)
     state.decimals.set(false)
     state.noMixed.set(false)
+    state.practiceCount.set(5)
   }
   if (key === 'p3') {
     state.catalog.set('kopfmedium')
@@ -367,6 +645,7 @@ function doPreset(
     state.negative.set(3)
     state.decimals.set(false)
     state.noMixed.set(false)
+    state.practiceCount.set(7)
   }
   if (key === 'p4') {
     state.catalog.set('fraceasy')
@@ -379,6 +658,7 @@ function doPreset(
     state.negative.set(0)
     state.decimals.set(false)
     state.noMixed.set(false)
+    state.practiceCount.set(4)
   }
   if (key === 'p5') {
     state.catalog.set('fracbasic')
@@ -391,5 +671,6 @@ function doPreset(
     state.negative.set(3)
     state.decimals.set(true)
     state.noMixed.set(true)
+    state.practiceCount.set(3)
   }
 }

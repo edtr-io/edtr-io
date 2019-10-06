@@ -18,7 +18,8 @@ export const terminatorState = object({
   size: number(0),
   negative: number(0),
   decimals: boolean(false),
-  noMixed: boolean(false)
+  noMixed: boolean(false),
+  practiceCount: number(1)
 })
 
 export const terminatorPlugin: StatefulPlugin<typeof terminatorState> = {
