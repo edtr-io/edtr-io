@@ -1,13 +1,13 @@
 import { createIcon, faImages } from '@edtr-io/editor-ui'
 import {
+  isTempFile,
   number,
   object,
+  StatefulPlugin,
   string,
   upload,
-  StatefulPlugin,
   UploadHandler,
-  UploadValidator,
-  isTempFile
+  UploadValidator
 } from '@edtr-io/plugin'
 
 import { createImageEditor } from './editor'

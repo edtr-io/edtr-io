@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/renderer-ui
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -42,9 +46,11 @@ export {
 export { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
 export { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive'
 export { faFileAudio } from '@fortawesome/free-solid-svg-icons/faFileAudio'
+export { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
 export { faFileExcel } from '@fortawesome/free-solid-svg-icons/faFileExcel'
 export { faFileImage } from '@fortawesome/free-solid-svg-icons/faFileImage'
 export { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf'
+export { faSmile } from '@fortawesome/free-solid-svg-icons/faSmile'
 export { faFileWord } from '@fortawesome/free-solid-svg-icons/faFileWord'
 export { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo'
 export {

@@ -73,22 +73,22 @@ export function EquationsEditor(
   }
 
   const { focused, state, editable } = props
-  const children = R.flatten(
-    props.state.steps().map(step => {
+  const children = R.flatten<string>(
+    props.state.steps.map(step => {
       return [step.left.id, step.right.id, step.transform.id]
     })
   )
-  const noEmptyLine = !R.contains(
+  const noEmptyLine = !R.includes(
     false,
-    props.state.steps().map(step => {
-      return R.contains(false, [
+    props.state.steps.map(step => {
+      return R.includes(false, [
         isEmpty(step.left.id)(store.getState()),
         isEmpty(step.right.id)(store.getState()),
         isEmpty(step.transform.id)(store.getState())
       ])
     })
   )
-  return editable && (focused || R.contains(focusedElement, children)) ? (
+  return editable && (focused || R.includes(focusedElement, children)) ? (
     <HotKeys
       keyMap={{
         FOCUS_NEXT: 'tab',
@@ -140,7 +140,7 @@ export function EquationsEditor(
                     <strong>Umformung</strong>
                   </div>
                 </div>
-                {state.steps().map((step, index) => {
+                {state.steps.map((step, index) => {
                   return (
                     <Draggable
                       key={index}

@@ -1,7 +1,4 @@
-import {
-  StateDescriptorReturnType,
-  StatefulPluginEditorProps
-} from '@edtr-io/plugin'
+import { StateTypeReturnType, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -18,7 +15,7 @@ enum Phase {
 export class ScMcAnswersRenderer extends React.Component<
   StatefulPluginEditorProps<typeof scMcExerciseState> & {
     showAnswer: (
-      answer: StateDescriptorReturnType<typeof AnswerProps>,
+      answer: StateTypeReturnType<typeof AnswerProps>,
       index: number,
       centered: boolean
     ) => React.ReactNode
@@ -27,8 +24,8 @@ export class ScMcAnswersRenderer extends React.Component<
 > {
   public state = {
     phase: Phase.noJS,
-    remainingOptions: [],
-    lastOption: [this.props.state.answers().length, 1] as [number, number]
+    remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
+    lastOption: [this.props.state.answers.length, 1] as [number, number]
   }
   public render() {
     if (this.state.remainingOptions.length === 0) return null
@@ -48,7 +45,7 @@ export class ScMcAnswersRenderer extends React.Component<
     return (
       <FetchDimensions
         key={option.toString()}
-        length={this.props.state.answers().length + 1}
+        length={this.props.state.answers.length + 1}
         onDone={({ widths, scrollWidths, heights }) => {
           const adequateRatio = heights.every((height, index) => {
             return 1.5 * height <= widths[index]
@@ -93,7 +90,7 @@ export class ScMcAnswersRenderer extends React.Component<
       index: number
     ) => (instance: HTMLElement | null) => void = () => () => {}
   ) {
-    const rows = R.splitEvery(columns, this.props.state.answers())
+    const rows = R.splitEvery(columns, this.props.state.answers)
     return rows.map((answers, rowIndex) => {
       return (
         <this.Row key={rowIndex}>
@@ -119,9 +116,7 @@ export class ScMcAnswersRenderer extends React.Component<
   private calculateLayout() {
     this.setState({
       phase: Phase.optionTesting,
-      remainingOptions: calculateLayoutOptions(
-        this.props.state.answers().length
-      ) as [number, number][]
+      remainingOptions: calculateLayoutOptions(this.props.state.answers.length)
     })
   }
   private onResize = () => {

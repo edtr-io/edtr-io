@@ -1,5 +1,5 @@
-import { StateDescriptorReturnType } from '@edtr-io/plugin'
-import { Feedback, styled } from '@edtr-io/renderer-ui'
+import { StateTypeReturnType } from '@edtr-io/plugin'
+import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -7,6 +7,12 @@ import { AnswerProps } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
+
+enum ExerciseState {
+  Default = 1,
+  SolvedRight,
+  SolvedWrong
+}
 
 export class ScMcRendererInteractive extends React.Component<
   ScMcRendererInteractiveProps,
@@ -25,7 +31,7 @@ export class ScMcRendererInteractive extends React.Component<
     nextProps: ScMcRendererInteractiveProps,
     prevState: ScMcRendererState
   ) {
-    if (nextProps.state.answers.items.length !== prevState.buttons.length) {
+    if (nextProps.state.answers.length !== prevState.buttons.length) {
       return ScMcRendererInteractive.initialStateFromProps(nextProps)
     }
     return {}
@@ -33,7 +39,7 @@ export class ScMcRendererInteractive extends React.Component<
 
   static initialStateFromProps(props: ScMcRendererInteractiveProps) {
     return {
-      buttons: props.state.answers().map(() => {
+      buttons: props.state.answers.map(() => {
         return {
           selected: false,
           showFeedback: false
@@ -41,7 +47,8 @@ export class ScMcRendererInteractive extends React.Component<
       }),
       globalFeedback: '',
       showGlobalFeedback: false,
-      solved: false
+      solved: false,
+      exerciseState: ExerciseState.Default
     }
   }
   public render() {
@@ -49,13 +56,16 @@ export class ScMcRendererInteractive extends React.Component<
       <React.Fragment>
         <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
         {this.showGlobalFeedback()}
-        {this.showSubmitButton()}
+        <SubmitButton
+          exerciseState={this.state.exerciseState}
+          onClick={this.submitAnswer}
+        />
         <div style={{ clear: 'both' }} />
       </React.Fragment>
     )
   }
   private showAnswer = (
-    answer: StateDescriptorReturnType<typeof AnswerProps>,
+    answer: StateTypeReturnType<typeof AnswerProps>,
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -80,7 +90,7 @@ export class ScMcRendererInteractive extends React.Component<
     answer,
     button
   }: {
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<typeof AnswerProps>
     button: Button
   }): React.ReactNode {
     if (!button.showFeedback) {
@@ -88,15 +98,15 @@ export class ScMcRendererInteractive extends React.Component<
     }
     if (!this.props.isEmpty(answer.feedback.id)) {
       return (
-        <Feedback boxFree showOnLeft>
+        <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
           {answer.feedback.render()}
         </Feedback>
       )
     }
     return (
-      <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect()}>
-        {answer.isCorrect()
-          ? 'Yeah!'
+      <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
+        {answer.isCorrect.value
+          ? ''
           : 'Leider falsch! versuche es doch noch einmal!'}
       </Feedback>
     )
@@ -112,26 +122,27 @@ export class ScMcRendererInteractive extends React.Component<
     }
     return null
   }
-
-  private showSubmitButton(): React.ReactNode {
-    return (
-      <this.SubmitButton onClick={this.submitAnswer}>Submit</this.SubmitButton>
+  private handleWrongAnswer = () => {
+    setTimeout(
+      () => this.setState({ exerciseState: ExerciseState.Default }),
+      3000
     )
+    return ExerciseState.SolvedWrong
   }
 
   private submitAnswer = () => {
     const { buttons } = this.state
-    const temp = R.zip(buttons, this.props.state.answers())
+    const temp = R.zip(buttons, this.props.state.answers)
     const mistakes = R.reduce(
       (acc, [button, answer]) => {
-        return acc + (answer.isCorrect() !== button.selected ? 1 : 0)
+        return acc + (answer.isCorrect.value !== button.selected ? 1 : 0)
       },
       0,
       temp
     )
     const missingSolutions = R.reduce(
       (acc, [button, answer]) => {
-        return acc + (answer.isCorrect() && !button.selected ? 1 : 0)
+        return acc + (answer.isCorrect.value && !button.selected ? 1 : 0)
       },
       0,
       temp
@@ -140,7 +151,7 @@ export class ScMcRendererInteractive extends React.Component<
     const nextButtonStates = buttons.map((button, i) => {
       return this.props.nextButtonStateAfterSubmit({
         button,
-        answer: this.props.state.answers()[i],
+        answer: this.props.state.answers[i],
         mistakes,
         missingSolutions
       })
@@ -150,14 +161,16 @@ export class ScMcRendererInteractive extends React.Component<
       showGlobalFeedback: true,
       buttons: nextButtonStates,
       solved: mistakes === 0,
-      globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions })
+      globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions }),
+      exerciseState:
+        mistakes === 0 ? ExerciseState.SolvedRight : this.handleWrongAnswer()
     })
   }
 
   private selectButton = (selectedIndex: number) => () => {
     const { buttons } = this.state
 
-    if (this.props.state.isSingleChoice()) {
+    if (this.props.state.isSingleChoice.value) {
       this.setState({
         buttons: buttons.map((button, index) => {
           return R.assoc('selected', index === selectedIndex, button)
@@ -210,7 +223,7 @@ export type ScMcRendererInteractiveProps = ScMcRendererProps & {
   }) => string | undefined
   nextButtonStateAfterSubmit: (params: {
     button: Button
-    answer: StateDescriptorReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<typeof AnswerProps>
     mistakes: number
     missingSolutions: number
   }) => Button
@@ -222,6 +235,7 @@ export interface ScMcRendererState {
   globalFeedback: string
   showGlobalFeedback: boolean
   solved: boolean
+  exerciseState: ExerciseState
 }
 
 export interface Button {

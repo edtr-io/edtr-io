@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.10.3",
+  "version": "0.11.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,18 +13,18 @@
   },
   "dependencies": {
     "@convertkit/slate-lists": "^0.2.0",
-    "@edtr-io/editor-ui": "^0.10.3",
-    "@edtr-io/plugin": "^0.10.3",
-    "@edtr-io/renderer-ui": "^0.10.1",
-    "@edtr-io/store": "^0.10.3",
-    "@edtr-io/ui": "^0.10.1",
+    "@edtr-io/editor-ui": "^0.11.3",
+    "@edtr-io/plugin": "^0.11.3",
+    "@edtr-io/renderer-ui": "^0.11.3",
+    "@edtr-io/store": "^0.11.0",
+    "@edtr-io/ui": "^0.11.3",
     "@types/exenv": "^1.0.0",
     "@types/is-hotkey": "^0.1.0",
     "@types/katex": "^0.10.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/slate": "0.47.4",
+    "@types/slate": "0.47.1",
     "@types/slate-html-serializer": "0.6.3",
     "@types/slate-react": "0.22.4",
     "exenv": "^1.0.0",
@@ -39,12 +39,12 @@
     "slate-react": "0.22.4"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.10.3",
+    "@edtr-io/core": "^0.11.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.10.0",
+    "@edtr-io/core": "^0.11.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

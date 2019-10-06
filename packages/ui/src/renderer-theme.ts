@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/ui
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 import * as React from 'react'
 import {
@@ -67,9 +71,17 @@ export interface ExpandableBoxTheme {
   toggleBackgroundColor: string
   toggleColor: string
 }
+export interface SubmitButtonTheme {
+  backgroundColor: string
+  hoverBackgroundColor: string
+  color: string
+  correctBackgroundColor: string
+  wrongBackgroundColor: string
+}
 
 export interface RendererUiTheme {
   expandableBox: ExpandableBoxTheme
+  submitButton: SubmitButtonTheme
 }
 
 export type RendererThemeProps = StyledThemeProps<{

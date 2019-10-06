@@ -520,6 +520,57 @@ useScopedSelector(state => {
       name: '0.10.3',
       date: '2019-09-13',
       fixed: ['**plugin-text**. Various fixes (updated Slate)']
+    },
+    {
+      tagName: 'v0.11.0',
+      name: '0.11.0',
+      date: '2019-09-16',
+      breakingChanges: [
+        '**plugin**. Refactored `StateType` API. This should only affect you if you defined custom state types.',
+        '**plugin**. Consistently renamed `StateDescriptor*` types to `StateType*`',
+        '**plugin**. `StatelessPluginEditorProps` and `StatefulPluginEditorProps` no longer accept the type param `Props`. Replace `StatelessPluginEditorProps<Props>` with `StatelessPluginEditorProps & Props`.',
+        '**plugin**. `StatelessPlugin` may no longer define `getFocusableChildren`. This is handled by state types instead.',
+        '**plugin**. The return type of the built-in `child` state type is no longer callable. Replace `state()` with `state.get()` or `state.id` to retrieve the `id`.',
+        "**plugin**. The return type of the built-in `list` state type is no longer callable and doesn't expose `items` anymore. Instead, the return types behaves like an array itself. Replace `state()` resp. `state.items` with `state`.",
+        '**plugin**. The return type of the built-in `object` state type is no longer callable. Replace `state()` with `state`.',
+        '**plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) is no longer callable. Replace `state()` with `state.get()` or `state.value`.',
+        '**plugin**. The return type of the built-in `upload` state type is no longer callable. Replace `state()` with `state.get()` or `state.value`.'
+      ],
+      added: [
+        '**plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) now allows to set the value. Instead of `state.set("foo")`, you may now also use `state.value = "foo"`.',
+        '**store**. Add new selector `hasFocusedChild` that checks whether the given document has any (direct) child that is focused',
+        '**store**. Add new selector `hasFocusedDescendant` that checks whether the given document has any descendant that is focused (i.e. also recursively checks children of children)'
+      ]
+    },
+    {
+      tagName: 'v0.11.1',
+      name: '0.11.1',
+      date: '2019-09-18',
+      fixed: ['**core**. Documents no longer lose focus during editing']
+    },
+    {
+      tagName: 'v0.11.2',
+      name: '0.11.2',
+      date: '2019-09-26',
+      fixed: [
+        '**plugin-text**. Updated slate types to newest version 0.47.1.',
+        '**plugin-text**. Fix suggestions for inserting plugins after typing `/`.',
+        '**core**. `onChange` callback prop of `Editor` is now working again'
+      ],
+      changed: [
+        '**plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`'
+      ]
+    },
+    {
+      tagName: 'v0.11.3',
+      name: '0.11.3',
+      date: '2019-09-27',
+      fixed: [
+        '**plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state',
+        '**plugin-text**. Fixed server side rendering',
+        '**plugin-sc-mc-exercise**. Fixed server side rendering',
+        '**renderer-ssr**. Tests now test for correct results additionally to working server side rendering.'
+      ]
     }
   ])
 

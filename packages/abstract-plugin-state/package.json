@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/abstract-plugin-state",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

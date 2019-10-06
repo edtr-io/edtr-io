@@ -105,9 +105,8 @@ const preferenceKey = 'katex:usevisualmath'
 setDefaultPreference(preferenceKey, true)
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  NodeEditorProps & { name: string }
+  (NodeEditorProps) & { name: string }
 > = props => {
-  // @ts-ignore FIXME
   const { attributes, editor, readOnly, name, node } = props
 
   const { data, key: nodeKey, type: nodeType } = node
@@ -247,8 +246,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
                 latex
               </Option>
             </Dropdown>
-            {!isList(orderedListNode)(editor as any) /* FIXME*/ &&
-            !isList(unorderedListNode)(editor as any) /* FIXME*/ ? (
+            {!isList(orderedListNode)(editor.controller) &&
+            !isList(unorderedListNode)(editor.controller) ? (
               <InlineCheckbox
                 label="eigene Zeile"
                 checked={!inline}

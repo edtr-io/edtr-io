@@ -1,5 +1,5 @@
 import { useScopedDispatch, useScopedStore } from '@edtr-io/core'
-import { StateDescriptorReturnType } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
   change,
   findNextNode,
@@ -18,8 +18,8 @@ export function RowRenderer({
   renderIntoExtendedSettings,
   PrimarySettingsWrapper
 }: {
-  row: StateDescriptorReturnType<typeof rowState>
-  rows: StateDescriptorReturnType<typeof rowsState>
+  row: StateTypeReturnType<typeof rowState>
+  rows: StateTypeReturnType<typeof rowsState>
   index: number
   renderIntoExtendedSettings: (children: React.ReactChild) => React.ReactNode
   PrimarySettingsWrapper: React.ComponentType
@@ -44,7 +44,7 @@ export function RowRenderer({
 
         const current = getDocument(row.id)(store.getState())
 
-        let previous = getDocument(rows()[index - 1].id)(store.getState())
+        let previous = getDocument(rows[index - 1].id)(store.getState())
         if (!previous || !current) return
 
         if (previous.plugin !== current.plugin) {
@@ -72,9 +72,9 @@ export function RowRenderer({
         }
       },
       mergeWithNext: (merge: (statePrevious: unknown) => unknown) => {
-        if (index + 1 === rows().length) return
+        if (index + 1 === rows.length) return
         const current = getDocument(row.id)(store.getState())
-        let next = getDocument(rows()[index + 1].id)(store.getState())
+        let next = getDocument(rows[index + 1].id)(store.getState())
         if (!next || !current) return
         if (next.plugin !== current.plugin) {
           // check if next focus plugin is the same type

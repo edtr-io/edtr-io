@@ -79,7 +79,7 @@ export class Suggestions extends React.Component<SuggestionProps> {
                 <Suggestion
                   key={index}
                   active={index === this.props.selected}
-                  onClick={() => this.props.onSelect(option[1])}
+                  onMouseDown={() => this.props.onSelect(option[1])}
                   name={this.props.name}
                 >
                   {fragments.map((f, index) => {

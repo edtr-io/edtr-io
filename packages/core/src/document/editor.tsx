@@ -1,3 +1,7 @@
+/**
+ * @module @edtr-io/core
+ */
+/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   isStatefulPlugin,
   StatefulPluginEditorProps,
@@ -39,11 +43,15 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     if (
       focused &&
       container.current &&
+      document &&
       plugin &&
-      (!isStatefulPlugin(plugin) || !plugin.getFocusableChildren)
+      (!isStatefulPlugin(plugin) ||
+        !plugin.state.getFocusableChildren(document.state).length)
     ) {
       container.current.focus()
     }
+    // `document` should not be part of the dependencies because we only want to call this once when the document gets focused
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused, plugin])
 
   const handleFocus = React.useCallback(
@@ -95,7 +103,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
           })
         )
       }
-      state = plugin.state(document.state, onChange, {
+      state = plugin.state.init(document.state, onChange, {
         ...pluginProps,
         name: document.plugin
       })

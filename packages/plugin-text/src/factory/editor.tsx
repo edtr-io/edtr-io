@@ -12,7 +12,7 @@ import {
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Editor as CoreEditor, Value, ValueJSON, Operation, Block } from 'slate'
+import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
 import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
@@ -20,8 +20,6 @@ import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
-
-const emptyValue: Value = Value.fromJSON({})
 
 export const createTextEditor = (
   options: TextPluginOptions
@@ -58,15 +56,11 @@ export const createTextEditor = (
           return { ...plugins[name], name }
         })
 
-    const [rawState, setRawState] = React.useState(emptyValue)
-
-    // run this effect once when mounted to load json value into slate
-    React.useEffect(() => {
+    const [rawState, setRawState] = React.useState(() => {
       // slate.js changed format with version 0.46
       // old format is still supported, but new states will be in new format
-      setRawState(Value.fromJSON(props.state.value))
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+      return Value.fromJSON(props.state.value)
+    })
 
     const thisState = React.useRef(props.state)
     const lastValue = React.useRef(props.state.value)
@@ -160,7 +154,7 @@ export const createTextEditor = (
     const onClick = React.useCallback<EventHook>(
       (e, editor, next): CoreEditor | void => {
         if (e.target) {
-          // @ts-ignore outdated slatejs types
+          // @ts-ignore FIXME: outdated slatejs types
           const node = editor.findNode(e.target as Element)
           if (!node) {
             return editor
@@ -531,21 +525,19 @@ function splitBlockAtSelection(editor: CoreEditor) {
     editor.removeNodeByKey(block.key)
   })
 
-  return createDocumentFromBlocks(afterSelected.toArray())
+  return createDocumentFromNodes(afterSelected.toArray())
 }
 
-function createDocumentFromBlocks(blocks: Block[]) {
+function createDocumentFromNodes(nodes: Node[]) {
   return {
     document: {
-      nodes: [...blocks.map(block => block.toJSON())]
+      nodes: [...nodes.map(node => node.toJSON())]
     }
   }
 }
 
-export type SlateEditorProps = StatefulPluginEditorProps<
-  typeof textState,
+export type SlateEditorProps = StatefulPluginEditorProps<typeof textState> &
   SlateEditorAdditionalProps
->
 
 export interface SlateEditorAdditionalProps {
   name: string

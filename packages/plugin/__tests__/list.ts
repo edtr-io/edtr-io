@@ -92,22 +92,20 @@ describe('list', () => {
 
   test('return type, empty list', () => {
     const state = list(child())
-    const listValue = state([], () => {})
-    expect(listValue()).toEqual([])
-    expect(listValue.items).toEqual([])
+    const listValue = state.init([], () => {})
+    expect(listValue.length).toEqual(0)
   })
 
   test('return type, non-empty list', () => {
     const state = list(child())
-    const listValue = state([{ id: 'foo', value: 'bar' }], () => {})
-    expect(listValue()).toHaveLength(1)
-    expect(listValue.items).toHaveLength(1)
+    const listValue = state.init([{ id: 'foo', value: 'bar' }], () => {})
+    expect(listValue).toHaveLength(1)
   })
 
   test('return type, empty list, insert last', () => {
     store = []
     const state = list(child())
-    const listValue = state(store, onChange)
+    const listValue = state.init(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(1)
     expect(store[0].id).toBeDefined()
@@ -122,7 +120,7 @@ describe('list', () => {
       }
     ]
     const state = list(child())
-    const listValue = state(store, onChange)
+    const listValue = state.init(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(2)
     expect(store[0].id).toEqual('0')
@@ -136,7 +134,7 @@ describe('list', () => {
       }
     ]
     const state = list(child())
-    const listValue = state(store, onChange)
+    const listValue = state.init(store, onChange)
     listValue.insert(0)
     expect(store).toHaveLength(2)
     expect(store[1].id).toEqual('0')
@@ -150,7 +148,7 @@ describe('list', () => {
       }
     ]
     const state = list(child())
-    const listValue = state(store, onChange)
+    const listValue = state.init(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(0)
   })
@@ -167,10 +165,17 @@ describe('list', () => {
       }
     ]
     const state = list(child())
-    const listValue = state(store, onChange)
+    const listValue = state.init(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(1)
     expect(store[0].id).toEqual('1')
+  })
+
+  test('get focusable children', () => {
+    const state = list(child())
+    expect(state.getFocusableChildren([{ id: 'foo', value: 'bar' }])).toEqual([
+      { id: 'bar' }
+    ])
   })
 
   test('inner change', () => {
@@ -186,8 +191,8 @@ describe('list', () => {
     ]
 
     const state = list(string())
-    const listValue = state(store, onChange)
-    listValue()[0].set(val => val + 'bar')
+    const listValue = state.init(store, onChange)
+    listValue[0].set(val => val + 'bar')
     expect(store).toEqual([
       {
         id: '0',

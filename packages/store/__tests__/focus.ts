@@ -4,10 +4,14 @@ import * as R from 'ramda'
 import { setupStore, waitUntil } from '../__helpers__'
 import * as S from '../src'
 import { pureInsert } from '../src/documents/actions'
+import { focus } from '../src/focus/actions'
 import {
   findNextNode,
   findPreviousNode,
   getFocusTree,
+  hasFocusedChild,
+  hasFocusedDescendant,
+  isFocused,
   Node
 } from '../src/focus/reducer'
 
@@ -203,6 +207,94 @@ describe('Focus', () => {
       const previous = findPreviousNode(root, 'root.1')
       if (!previous) throw new Error('Expected to find node')
       expect(previous).toEqual('root.0.2')
+    })
+  })
+
+  describe('isFocused', () => {
+    let rootId: string
+    let level1Id: string
+    let leafId: string
+
+    beforeEach(async () => {
+      store.dispatch(
+        S.initRoot({
+          initialState: {
+            plugin: 'nestedArray',
+            state: {
+              children: [
+                {
+                  plugin: 'nestedArray',
+                  state: {
+                    children: [{ plugin: 'stateful', state: 0 }]
+                  }
+                }
+              ]
+            }
+          },
+          plugins,
+          defaultPlugin: 'text'
+        })
+      )
+      await waitUntil(
+        () =>
+          R.filter(
+            action => action.type === pureInsert.type,
+            store.getActions()
+          ).length >= 3
+      )
+      const tree = getFocusTree()(store.getState())
+      if (!tree) throw new Error('Expected tree')
+      rootId = tree.id
+      if (!tree.children) throw new Error('Expected child')
+      level1Id = tree.children[0].id
+      if (!tree.children[0].children) throw new Error('Expected leaf')
+      leafId = tree.children[0].children[0].id
+    })
+
+    describe('isFocused', () => {
+      test('true for focused document', () => {
+        store.dispatch(focus(leafId))
+        expect(isFocused(leafId)(store.getState())).toBeTruthy()
+      })
+
+      test('false for blurred document', () => {
+        store.dispatch(focus(leafId))
+        expect(isFocused(level1Id)(store.getState())).toBeFalsy()
+      })
+    })
+
+    describe('hasFocusedChild', () => {
+      test('true for direct ancestor of focused document', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedChild(level1Id)(store.getState())).toBeTruthy()
+      })
+
+      test('false for focused document', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedChild(leafId)(store.getState())).toBeFalsy()
+      })
+
+      test('false for indirect ancestor of focused document', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedChild(rootId)(store.getState())).toBeFalsy()
+      })
+    })
+
+    describe('hasFocusedDescendant', () => {
+      test('true for direct ancestor of focused document', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedDescendant(level1Id)(store.getState())).toBeTruthy()
+      })
+
+      test('false for focused item', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedDescendant(leafId)(store.getState())).toBeFalsy()
+      })
+
+      test('true for indirect ancestor of focused item', () => {
+        store.dispatch(focus(leafId))
+        expect(hasFocusedDescendant(rootId)(store.getState())).toBeTruthy()
+      })
     })
   })
 })

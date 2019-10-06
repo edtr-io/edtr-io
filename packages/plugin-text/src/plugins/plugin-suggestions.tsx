@@ -4,7 +4,7 @@ import { HotKeys } from 'react-hotkeys'
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
-import { SuggestionProps, Suggestions } from './suggestions'
+import { Suggestions } from './suggestions'
 import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
@@ -53,51 +53,60 @@ export function pluginSuggestions(
 ): TextPlugin {
   return {
     renderEditor(props, editor, next) {
-      const { text } = editor.value.document
-
-      if (!editor.readOnly && text.startsWith('/')) {
-        const mappedPlugins = mapPlugins(pluginClosure, editor)
-        return (
-          <SuggestionsBox
-            onSelect={insertPlugin(editor)}
-            options={mappedPlugins}
-            currentValue={text.substr(1)}
-            name={pluginClosure.current ? pluginClosure.current.name : ''}
-          >
-            {next()}
-          </SuggestionsBox>
-        )
-      }
-
-      return next()
+      const children = next()
+      return (
+        <SuggestionsBox editor={editor} pluginClosure={pluginClosure}>
+          {children}
+        </SuggestionsBox>
+      )
     },
     onKeyDown(event, editor, next) {
-      const { text } = editor.value.document
+      const { key } = (event as unknown) as KeyboardEvent
+      if (['ArrowDown', 'ArrowUp', 'Enter'].includes(key)) {
+        const { text } = editor.value.document
 
-      if (
-        text.startsWith('/') &&
-        mapPlugins(pluginClosure, editor).length > 0
-      ) {
-        const { key } = (event as unknown) as KeyboardEvent
-        if (['ArrowDown', 'ArrowUp', 'Enter'].includes(key)) {
+        if (
+          text.startsWith('/') &&
+          mapPlugins(pluginClosure, editor).length > 0
+        ) {
           event.preventDefault()
           return
         }
       }
 
-      next()
+      return next()
     }
   }
 }
 
 function SuggestionsBox({
   children,
-  ...props
-}: SuggestionProps & {
-  children: React.ReactNode
-}) {
+  editor,
+  pluginClosure
+}: React.PropsWithChildren<{
+  editor: Editor
+  pluginClosure: SlatePluginClosure
+}>) {
   const [selected, setSelected] = React.useState(0)
-  const optionsCount = props.options.length
+  const { text } = editor.value.document
+  const showSuggestions = !editor.readOnly && text.startsWith('/')
+
+  const options = showSuggestions ? mapPlugins(pluginClosure, editor) : []
+  const closure = React.useRef({
+    showSuggestions,
+    selected,
+    options
+  })
+  closure.current = {
+    showSuggestions,
+    selected,
+    options
+  }
+  React.useEffect(() => {
+    if (options.length < selected) {
+      setSelected(0)
+    }
+  }, [options.length, selected])
 
   return (
     <HotKeys
@@ -108,24 +117,46 @@ function SuggestionsBox({
       }}
       handlers={{
         DEC: () => {
-          setSelected((selected + optionsCount - 1) % optionsCount)
+          if (closure.current.showSuggestions) {
+            setSelected(currentSelected => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + optionsCount - 1) % optionsCount
+            })
+          }
         },
         INC: () => {
-          setSelected((selected + 1) % optionsCount)
+          if (closure.current.showSuggestions) {
+            setSelected(currentSelected => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + 1) % optionsCount
+            })
+          }
         },
         INSERT: () => {
-          const option = props.options[selected]
-          if (!option) return
-          setTimeout(() => {
-            props.onSelect(option[1])
-          })
+          if (closure.current.showSuggestions) {
+            const option = closure.current.options[closure.current.selected]
+            if (!option) return
+            setTimeout(() => {
+              insertPlugin(editor)(option[1])
+            })
+          }
         }
       }}
     >
       {children}
-      <HoveringOverlay position="below">
-        <Suggestions selected={selected} {...props} />
-      </HoveringOverlay>
+      {showSuggestions ? (
+        <HoveringOverlay position="below">
+          <Suggestions
+            onSelect={insertPlugin(editor)}
+            options={options}
+            currentValue={text.substr(1)}
+            selected={selected}
+            name={pluginClosure.current ? pluginClosure.current.name : ''}
+          />
+        </HoveringOverlay>
+      ) : null}
     </HotKeys>
   )
 }

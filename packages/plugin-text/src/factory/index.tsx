@@ -1,9 +1,5 @@
 import { createIcon, faParagraph } from '@edtr-io/editor-ui'
-import {
-  scalar,
-  StateDescriptorValueType,
-  StatefulPlugin
-} from '@edtr-io/plugin'
+import { scalar, StatefulPlugin } from '@edtr-io/plugin'
 import { Value, ValueJSON } from 'slate'
 
 import { createTextEditor, SlateEditorAdditionalProps } from './editor'
@@ -11,7 +7,7 @@ import { TextPluginOptions } from './types'
 
 export const defaultNode = 'paragraph'
 
-const emptyDocument = {
+const emptyDocument: ValueJSON = {
   document: {
     nodes: [
       {
@@ -27,10 +23,7 @@ const emptyDocument = {
   }
 }
 
-export const textState = scalar<ValueJSON>(
-  // @ts-ignore: slightly mismatching types FIXME
-  Value.fromJSON(emptyDocument).toJSON()
-)
+export const textState = scalar<ValueJSON>(emptyDocument)
 
 export const createTextPlugin = (
   options: TextPluginOptions
@@ -44,7 +37,7 @@ export const createTextPlugin = (
     onKeyDown() {
       return false
     },
-    isEmpty: (state: StateDescriptorValueType<typeof textState>) => {
+    isEmpty: state => {
       const value = Value.fromJSON(state)
       return isValueEmpty(value)
     }
@@ -52,10 +45,16 @@ export const createTextPlugin = (
 }
 
 export function isValueEmpty(value: Value) {
-  return (
-    value.document.text === '' &&
-    value.document.nodes.size === 1 &&
-    value.document.nodes.get(0).type === defaultNode &&
-    value.document.getTexts().size === 1
-  )
+  // check if there is no content and only one node
+  if (
+    value.document.text !== '' ||
+    value.document.nodes.size !== 1 ||
+    value.document.getTexts().size !== 1
+  ) {
+    return false
+  }
+
+  // check if the node is the default node
+  const block = value.document.nodes.get(0)
+  return block.object !== 'text' && block.type === defaultNode
 }

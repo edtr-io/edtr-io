@@ -1,4 +1,4 @@
-import { string, StatefulPlugin } from '@edtr-io/plugin'
+import { StatefulPlugin, string } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
