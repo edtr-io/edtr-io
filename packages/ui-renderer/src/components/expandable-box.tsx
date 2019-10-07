@@ -82,14 +82,14 @@ export function ExpandableBox({
   children,
   editable,
   alwaysVisible,
-  title
+  renderTitle
 }: {
   children?: React.ReactNode
   editable?: boolean
   alwaysVisible?: boolean
-  title: React.ReactNode
+  renderTitle: (collapsed: boolean) => React.ReactNode
 }) {
-  const [collapsed, setCollapsed] = React.useState(true)
+  const [collapsed, setCollapsed] = React.useState(false)
 
   return (
     <Wrapper collapsed={collapsed}>
@@ -106,7 +106,7 @@ export function ExpandableBox({
             collapsed={collapsed}
             icon={collapsed ? faSortDown : faSortUp}
           />
-          <a>{title}</a>
+          <a>{renderTitle(collapsed)}</a>
         </React.Fragment>
       </Toggle>
       <Content collapsed={collapsed}>{children}</Content>
