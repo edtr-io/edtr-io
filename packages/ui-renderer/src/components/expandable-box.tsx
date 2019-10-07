@@ -89,7 +89,7 @@ export function ExpandableBox({
   alwaysVisible?: boolean
   renderTitle: (collapsed: boolean) => React.ReactNode
 }) {
-  const [collapsed, setCollapsed] = React.useState(false)
+  const [collapsed, setCollapsed] = React.useState(!editable)
 
   return (
     <Wrapper collapsed={collapsed}>
