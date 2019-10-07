@@ -1081,6 +1081,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
+"@entkenntnis/plugin-terminator@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@entkenntnis/plugin-terminator/-/plugin-terminator-0.1.0.tgz#8ceb02998d92b58cee9d598b260cb74c414a1168"
+  integrity sha512-+g5CR7zxOorAdForQgy8rc92MeSUsoTq7GLMLNwGmIcr8bmlmPt/LK71EGAwILJ8L1IqZGNPdwwCX6ONS659aw==
+  dependencies:
+    "@edtr-io/editor-ui" "^0.11.3"
+    "@edtr-io/plugin" "^0.11.3"
+    katex "^0.10.0"
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"
