@@ -88,6 +88,12 @@ export interface InputTheme {
   highlightColor: string
 }
 
+export interface SelectTheme {
+  backgroundColor: string
+  color: string
+  highlightColor: string
+}
+
 export interface TextareaTheme {
   backgroundColor: string
   color: string
@@ -104,6 +110,7 @@ export interface OverlayTheme {
   checkbox: CheckboxTheme
   input: InputTheme
   textarea: TextareaTheme
+  select: SelectTheme
 }
 
 export interface EditorUiTheme {
@@ -112,6 +119,7 @@ export interface EditorUiTheme {
   input: InputTheme
   overlay: OverlayTheme
   textarea: TextareaTheme
+  select: SelectTheme
 }
 
 export type EditorThemeProps = StyledThemeProps<{
