@@ -15,14 +15,18 @@ enum ExerciseState {
   SolvedRight,
   SolvedWrong
 }
-
+const InputContainer = styled.div({
+  float: 'right',
+  display: 'flex',
+  flexDirection: 'row'
+})
 const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
   ({ name, ...props }) => {
     const theme = createInputExerciseTheme(name, props.theme)
     return {
       border: 'none',
       borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
-      float: 'right',
+
       textAlign: 'center',
       outline: 'none',
       marginBottom: '10px'
@@ -129,7 +133,7 @@ export function InputExerciseRenderer(
   return (
     <div>
       <form onSubmit={checkAnswer}>
-        <div>
+        <InputContainer>
           <InputExerciseField
             name={props.name}
             onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
@@ -143,7 +147,8 @@ export function InputExerciseRenderer(
             placeholder="Deine Lösung"
             ref={input}
           />
-        </div>
+          {state.unit.value}
+        </InputContainer>
         <div
           style={{
             clear: 'both'

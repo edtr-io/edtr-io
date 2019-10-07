@@ -3,7 +3,8 @@ import {
   InteractiveAnswer,
   AddButton,
   styled,
-  PreviewOverlay
+  PreviewOverlay,
+  OverlayInput
 } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused } from '@edtr-io/store'
@@ -61,6 +62,13 @@ export function InputExerciseEditor(
     )
   const Controls = (
     <React.Fragment>
+      <OverlayInput
+        label="Einheit (optional)"
+        value={state.unit.value}
+        onChange={e => {
+          state.unit.set(e.target.value)
+        }}
+      />
       Wähle den Antworttyp:
       <select
         onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
