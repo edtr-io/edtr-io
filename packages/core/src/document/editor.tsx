@@ -39,7 +39,9 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
 
   const container = React.useRef<HTMLDivElement>(null)
 
-  const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(null)
+  const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
+    null
+  )
 
   React.useEffect(() => {
     if (focused) {

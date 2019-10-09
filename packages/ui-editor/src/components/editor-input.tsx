@@ -50,7 +50,10 @@ const EditorInputInner = styled.input(
   }
 )
 
-const EditorInputRefForward: React.RefForwardingComponent<HTMLInputElement, InputProps> = (props, ref) => {
+const EditorInputRefForward: React.RefForwardingComponent<
+  HTMLInputElement,
+  InputProps
+> = (props, ref) => {
   const { label, ...rest } = props
   return (
     <EditorInputLabel width={rest.editorInputWidth}>

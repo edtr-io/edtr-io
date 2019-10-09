@@ -43,7 +43,7 @@ export function SpoilerEditor({
         <React.Fragment>{state.title.value}</React.Fragment>
       )
     },
-    [editable, state.title]
+    [defaultFocusRef, editable, state.title]
   )
 
   return (

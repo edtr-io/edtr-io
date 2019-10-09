@@ -52,12 +52,15 @@ const InputInner = styled.input((props: EditorThemeProps) => {
   }
 })
 
-const OverlayInputRefForward : React.RefForwardingComponent<HTMLInputElement, InputProps> = (props, ref) => {
+const OverlayInputRefForward: React.RefForwardingComponent<
+  HTMLInputElement,
+  InputProps
+> = (props, ref) => {
   const { label, ...rest } = props
   return (
     <InputLabel>
       <InputLabelInner>{label}</InputLabelInner>
-      <InputInner {...rest} ref={ref}/>
+      <InputInner {...rest} ref={ref} />
     </InputLabel>
   )
 }
@@ -78,7 +81,10 @@ const InlineInputInner = styled.input((props: EditorThemeProps) => {
   }
 })
 
-const InlineInputRefForward: React.RefForwardingComponent<HTMLInputElement, InputProps> = (props, ref) => {
+const InlineInputRefForward: React.RefForwardingComponent<
+  HTMLInputElement,
+  InputProps
+> = (props, ref) => {
   return <InlineInputInner {...props} ref={ref} />
 }
 export const InlineInput = React.forwardRef(InlineInputRefForward)
