@@ -16,6 +16,7 @@
     "@edtr-io/editor-ui": "^0.11.3",
     "@edtr-io/plugin": "^0.11.3",
     "@edtr-io/renderer-ui": "^0.11.3",
+    "iframe-resizer-react": "^1.0.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0"
   },
