@@ -1,7 +1,7 @@
-import * as React from 'react'
+import { styled } from '@edtr-io/renderer-ui'
 //@ts-ignore
 import IframeResizer from 'iframe-resizer-react'
-import { styled } from '@edtr-io/renderer-ui'
+import * as React from 'react'
 
 const Iframe = styled(IframeResizer)({
   width: '100%',
@@ -10,5 +10,9 @@ const Iframe = styled(IframeResizer)({
 })
 
 export const SerloInjectionRenderer = (props: { src: string }) => {
-  return <div><Iframe key={props.src} src={props.src}/></div>
+  return (
+    <div>
+      <Iframe key={props.src} src={props.src} />
+    </div>
+  )
 }

@@ -54,7 +54,7 @@ export const SerloInjectionEditor = (
 
   React.useEffect(() => {
     setCache(props.state.value)
-  }, [props.focused])
+  }, [props.focused, props.state.value])
 
   if (!props.editable) {
     return <SerloInjectionRenderer src={createURL(props.state.value)} />
