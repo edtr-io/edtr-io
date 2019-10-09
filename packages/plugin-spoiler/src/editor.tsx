@@ -9,7 +9,6 @@ import { spoilerState, SpoilerTheme } from '.'
 export function SpoilerEditor({
   state,
   editable,
-  focused,
   name
 }: StatefulPluginEditorProps<typeof spoilerState>) {
   const theme = usePluginTheme<SpoilerTheme>(name, () => {
@@ -30,22 +29,28 @@ export function SpoilerEditor({
     }
   }, [theme])
 
-  const title =
-    focused && editable ? (
-      <EditorInput
-        onChange={e => state.title.set(e.target.value)}
-        value={state.title.value}
-        placeholder="Titel eingeben"
-      />
-    ) : state.title.value ? (
-      state.title.value
-    ) : (
-      'Spoiler'
-    )
+  const renderTitle = React.useCallback(
+    (_collapsed: boolean) => {
+      return editable ? (
+        <EditorInput
+          onChange={e => state.title.set(e.target.value)}
+          value={state.title.value}
+          placeholder="Titel eingeben"
+        />
+      ) : (
+        <React.Fragment>{state.title.value}</React.Fragment>
+      )
+    },
+    [editable, state.title]
+  )
 
   return (
     <ThemeProvider theme={spoilerTheme}>
-      <ExpandableBox title={title} editable={editable} alwaysVisible>
+      <ExpandableBox
+        renderTitle={renderTitle}
+        editable={editable}
+        alwaysVisible
+      >
         {state.content.render()}
       </ExpandableBox>
     </ThemeProvider>
