@@ -28,12 +28,37 @@ const StyledIgnoreKeys = styled(IgnoreKeys)({
   width: '100%'
 })
 
-export function EditorTextarea(
-  props: Omit<TextareaAutosizeProps, 'as' | 'ref'>
-) {
+const EditorTextareaRefForward: React.RefForwardingComponent<
+  HTMLTextAreaElement,
+  Omit<TextareaAutosizeProps, 'as' | 'ref'>
+> = (props, ref) => {
   return (
-    <StyledIgnoreKeys>
-      <Textarea {...props} />
+    <StyledIgnoreKeys except={['up', 'down']}>
+      <Textarea
+        {...props}
+        inputRef={ref || undefined}
+        onKeyDown={e => {
+          if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
+            return
+          }
+          if (ref && typeof ref !== 'function' && ref.current) {
+            const { selectionStart, selectionEnd, value } = ref.current
+
+            if (selectionStart !== selectionEnd) {
+              return
+            }
+
+            if (e.key === 'ArrowUp' && selectionStart !== 0) {
+              e.stopPropagation()
+            }
+            if (e.key === 'ArrowDown' && selectionStart !== value.length) {
+              e.stopPropagation()
+            }
+          }
+        }}
+      />
     </StyledIgnoreKeys>
   )
 }
+
+export const EditorTextarea = React.forwardRef(EditorTextareaRefForward)

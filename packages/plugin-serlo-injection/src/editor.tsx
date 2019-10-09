@@ -81,6 +81,7 @@ export const SerloInjectionEditor = (
             }}
             textfieldWidth="30%"
             editorInputWidth="100%"
+            ref={props.defaultFocusRef}
           />
         </PrimarySettings>
       ) : null}

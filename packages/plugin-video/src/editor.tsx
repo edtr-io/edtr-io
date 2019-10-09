@@ -48,6 +48,7 @@ export const VideoEditor = (
             }}
             textfieldWidth="80%"
             editorInputWidth="100%"
+            ref={props.defaultFocusRef}
           />
         </PrimarySettings>
       ) : null}

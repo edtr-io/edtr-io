@@ -51,7 +51,19 @@ const InputInner = styled.input((props: EditorThemeProps) => {
     }
   }
 })
-const InputInlineInner = styled.input((props: EditorThemeProps) => {
+
+const OverlayInputRefForward : React.RefForwardingComponent<HTMLInputElement, InputProps> = (props, ref) => {
+  const { label, ...rest } = props
+  return (
+    <InputLabel>
+      <InputLabelInner>{label}</InputLabelInner>
+      <InputInner {...rest} ref={ref}/>
+    </InputLabel>
+  )
+}
+export const OverlayInput = React.forwardRef(OverlayInputRefForward)
+
+const InlineInputInner = styled.input((props: EditorThemeProps) => {
   const theme = createOverlayTheme(props.theme)
 
   return {
@@ -66,57 +78,10 @@ const InputInlineInner = styled.input((props: EditorThemeProps) => {
   }
 })
 
-export class InlineInput extends React.Component<InputProps> {
-  private input = React.createRef<HTMLInputElement>()
-
-  public focus() {
-    const input = this.input.current
-    if (input) {
-      input.focus()
-    }
-  }
-
-  public render() {
-    return <InputInlineInner {...this.props} ref={this.input} />
-  }
+const InlineInputRefForward: React.RefForwardingComponent<HTMLInputElement, InputProps> = (props, ref) => {
+  return <InlineInputInner {...props} ref={ref} />
 }
-
-export class OverlayInput extends React.Component<InputProps> {
-  private input = React.createRef<HTMLInputElement>()
-
-  public focus() {
-    const input = this.input.current
-    if (input) {
-      input.focus()
-    }
-  }
-
-  public render() {
-    const { label, ...props } = this.props
-    return (
-      <InputLabel>
-        <InputLabelInner>{label}</InputLabelInner>
-        <InputInner {...props} ref={this.input} />
-      </InputLabel>
-    )
-  }
-}
-
-export class AutoFocusInput extends React.Component<InputProps> {
-  public render() {
-    return (
-      <OverlayInput
-        {...this.props}
-        //@ts-ignore FIXME
-        ref={(ref: Input | null) => {
-          if (ref) {
-            ref.focus()
-          }
-        }}
-      />
-    )
-  }
-}
+export const InlineInput = React.forwardRef(InlineInputRefForward)
 
 export interface InputProps
   extends React.DetailedHTMLProps<

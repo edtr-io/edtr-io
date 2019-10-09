@@ -39,6 +39,18 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
 
   const container = React.useRef<HTMLDivElement>(null)
 
+  const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(null)
+
+  React.useEffect(() => {
+    if (focused) {
+      setTimeout(() => {
+        if (defaultFocusRef.current) {
+          defaultFocusRef.current.focus()
+        }
+      })
+    }
+  }, [focused])
+
   React.useEffect(() => {
     if (
       focused &&
@@ -169,6 +181,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             {...pluginProps}
             editable
             focused={focused}
+            defaultFocusRef={defaultFocusRef}
             state={state}
             name={document.plugin}
           />

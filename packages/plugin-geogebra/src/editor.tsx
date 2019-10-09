@@ -24,6 +24,7 @@ export const GeogebraEditor = (
             }}
             textfieldWidth="70%"
             editorInputWidth="100%"
+            ref={props.defaultFocusRef}
           />
         </PrimarySettings>
       ) : null}

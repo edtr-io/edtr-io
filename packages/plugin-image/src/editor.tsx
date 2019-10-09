@@ -125,6 +125,7 @@ function PrimaryControls(
         onChange={handleChange(props)('src')}
         editorInputWidth="70%"
         textfieldWidth="60%"
+        ref={props.defaultFocusRef}
       />
       <ButtonWrapper>
         {isTempFile(src.value) && src.value.failed ? (
@@ -181,6 +182,7 @@ function PrimaryControls(
               onChange={handleChange(props)('description')}
               editorInputWidth="90%"
               textfieldWidth="70%"
+              ref={props.defaultFocusRef}
             />
           </React.Fragment>
         )
@@ -194,6 +196,7 @@ function PrimaryControls(
               onChange={handleChange(props)('href')}
               editorInputWidth="90%"
               textfieldWidth="70%"
+              ref={props.defaultFocusRef}
             />
           </React.Fragment>
         )

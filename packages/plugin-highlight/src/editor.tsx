@@ -64,6 +64,7 @@ export const HighlightEditor = (
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           state.text.set(e.target.value)
         }}
+        ref={props.defaultFocusRef}
       >
         {state.text.value}
       </EditorTextarea>

@@ -9,7 +9,8 @@ import { spoilerState, SpoilerTheme } from '.'
 export function SpoilerEditor({
   state,
   editable,
-  name
+  name,
+  defaultFocusRef
 }: StatefulPluginEditorProps<typeof spoilerState>) {
   const theme = usePluginTheme<SpoilerTheme>(name, () => {
     return {
@@ -36,6 +37,7 @@ export function SpoilerEditor({
           onChange={e => state.title.set(e.target.value)}
           value={state.title.value}
           placeholder="Titel eingeben"
+          ref={defaultFocusRef}
         />
       ) : (
         <React.Fragment>{state.title.value}</React.Fragment>
