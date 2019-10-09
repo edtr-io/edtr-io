@@ -17,7 +17,6 @@ import {
   toggleList,
   unorderedListNode
 } from '../plugins/list'
-import { setParagraph } from '../plugins/paragraph'
 import {
   isEmphasized,
   isStrong,
@@ -70,12 +69,7 @@ export const DefaultControls: React.FunctionComponent<
         name={name}
         active={!!getHeadingLevel(props.editor)}
         onClick={() => {
-          if (getHeadingLevel(props.editor)) {
-            setParagraph(props.editor)
-            props.onChange(editor)
-          } else {
-            props.switchControls(VisibleControls.Headings)
-          }
+          props.switchControls(VisibleControls.Headings)
         }}
         title="Überschriften"
       >
