@@ -29,15 +29,11 @@ const StyledIgnoreKeys = styled(IgnoreKeys)({
 })
 
 export function EditorTextarea(
-  props: Omit<TextareaAutosizeProps, 'as' | 'ref'> & {
-    inputRef?:
-      | React.RefObject<HTMLTextAreaElement>
-      | ((node: HTMLTextAreaElement) => void)
-  }
+  props: Omit<TextareaAutosizeProps, 'as' | 'ref'>
 ) {
   return (
     <StyledIgnoreKeys>
-      <Textarea {...props} inputRef={props.inputRef} />
+      <Textarea {...props} />
     </StyledIgnoreKeys>
   )
 }
