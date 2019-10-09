@@ -5,7 +5,7 @@ import {
   PreviewOverlay,
   styled,
   Icon,
-  faCode,
+  faNewspaper,
   Button,
   EditorButton
 } from '@edtr-io/editor-ui'
@@ -76,7 +76,7 @@ export const SerloInjectionEditor = (
         </PreviewOverlay>
       ) : (
         <PlaceholderWrapper>
-          <Icon icon={faCode} size="5x"/>
+          <Icon icon={faNewspaper} size="5x" />
         </PlaceholderWrapper>
       )}
       {props.focused && !preview ? (

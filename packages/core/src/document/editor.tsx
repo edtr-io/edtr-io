@@ -157,6 +157,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             }
           }
         }}
+        allowChanges
       >
         <StyledDocument
           onMouseDown={handleFocus}
