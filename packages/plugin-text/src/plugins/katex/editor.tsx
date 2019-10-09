@@ -357,11 +357,27 @@ const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
     },
     [onChange]
   )
+
+  // focus textarea when latex is empty
+  const textareaRef = React.createRef<HTMLTextAreaElement>()
+  React.useEffect(() => {
+    const val = textareaRef.current
+    if (val && !latex) {
+      // timeout is needed because hovering overlay is positioned only after render of this
+      setTimeout(() => {
+        val.focus()
+      })
+    }
+    // componentDidMount behaviour
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <EditorTextarea
       style={mathEditorTextAreaStyles}
       onChange={parentOnChange}
       value={latex}
+      inputRef={textareaRef}
     />
   )
 }
