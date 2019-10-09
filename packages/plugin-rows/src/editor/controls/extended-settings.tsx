@@ -32,7 +32,7 @@ const Content = styled.div<{ name: string }>(({ name, ...props }) => {
     width: '90%',
     maxWidth: '600px',
     margin: 'auto',
-    height: '90%',
+    maxHeight: '90%',
     overflowY: 'auto'
   }
 })
