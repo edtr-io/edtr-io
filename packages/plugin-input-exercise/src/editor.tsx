@@ -73,7 +73,6 @@ export function InputExerciseEditor(
       <OverlaySelect
         label="Wähle den Antworttyp"
         onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-          console.log(event.target.value, state.type.value)
           state.type.set(translateDataName(event.target.value))
         }}
         value={translateDataType(state.type.value)}
