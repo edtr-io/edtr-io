@@ -34,9 +34,14 @@ const stateV1 = object({
   answers: list(answerObject)
 })
 
-export const inputExerciseState = migratable(stateV0).migrate(
-  stateV1,
-  previousState => {
+const stateV2 = object({
+  type: string('input-string-normalized-match-challenge'),
+  unit: string(''),
+  answers: list(answerObject)
+})
+
+export const inputExerciseState = migratable(stateV0)
+  .migrate(stateV1, previousState => {
     return {
       type: previousState.type,
       answers: [
@@ -57,8 +62,13 @@ export const inputExerciseState = migratable(stateV0).migrate(
         })
       ]
     }
-  }
-)
+  })
+  .migrate(stateV2, previousState => {
+    return {
+      ...previousState,
+      unit: ''
+    }
+  })
 
 export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,

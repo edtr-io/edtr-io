@@ -3,7 +3,9 @@ import {
   InteractiveAnswer,
   AddButton,
   styled,
-  PreviewOverlay
+  PreviewOverlay,
+  OverlayInput,
+  OverlaySelect
 } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused } from '@edtr-io/store'
@@ -61,21 +63,23 @@ export function InputExerciseEditor(
     )
   const Controls = (
     <React.Fragment>
-      Wähle den Antworttyp:
-      <select
-        onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+      <OverlayInput
+        label="Einheit (optional)"
+        value={state.unit.value}
+        onChange={e => {
+          state.unit.set(e.target.value)
+        }}
+      />
+      <OverlaySelect
+        label="Wähle den Antworttyp"
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
           state.type.set(translateDataName(event.target.value))
-        }
+        }}
         value={translateDataType(state.type.value)}
-      >
-        {R.map(dataType => {
-          return (
-            <option key={dataType.name} value={dataType.name}>
-              {dataType.name}
-            </option>
-          )
+        options={R.map(type => {
+          return type.name
         }, types)}
-      </select>
+      />
     </React.Fragment>
   )
   const [previewActive, setPreviewActive] = React.useState(false)

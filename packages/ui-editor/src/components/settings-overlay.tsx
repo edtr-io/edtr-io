@@ -18,6 +18,7 @@ import { OnClickOutside } from './on-click-outside'
 import { createOverlayButtonTheme } from './overlay-button'
 import { createOverlayCheckboxTheme } from './overlay-checkbox'
 import { createOverlayInputTheme } from './overlay-input'
+import { createOverlaySelectTheme } from './overlay-select'
 import { createOverlayTextareaTheme } from './overlay-textarea'
 
 export const createOverlayTheme = (themeProp: EditorThemeProps['theme']) => {
@@ -30,7 +31,8 @@ export const createOverlayTheme = (themeProp: EditorThemeProps['theme']) => {
       button: createOverlayButtonTheme('button', themeProp),
       input: createOverlayInputTheme('input', themeProp),
       textarea: createOverlayTextareaTheme('textarea', themeProp),
-      checkbox: createOverlayCheckboxTheme('checkbox', themeProp)
+      checkbox: createOverlayCheckboxTheme('checkbox', themeProp),
+      select: createOverlaySelectTheme('select', themeProp)
     }
   })
 
