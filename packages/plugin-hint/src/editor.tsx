@@ -1,4 +1,3 @@
-import { EditorInput, styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
@@ -6,18 +5,10 @@ import * as React from 'react'
 
 import { hintState } from '.'
 
-const EditorInputWithMarginLeft = styled(EditorInput)({
-  marginLeft: '5px',
-  paddingLeft: '3px',
-  '&:focus': {
-    borderColor: 'black'
-  }
-})
-
 const hintTheme = {
   rendererUi: {
     expandableBox: {
-      toggleBackgroundColor: '#d9edf7',
+      toggleBackgroundColor: '#eee',
       containerBorderColor: '#333'
     }
   }
@@ -25,27 +16,18 @@ const hintTheme = {
 
 export function HintEditor({
   state,
-  editable,
-  focused
+  editable
 }: StatefulPluginEditorProps<typeof hintState>) {
-  const title = (
-    <React.Fragment>
-      Hinweis
-      {editable && focused ? (
-        <EditorInputWithMarginLeft
-          onChange={e => state.title.set(e.target.value)}
-          value={state.title.value}
-          placeholder="Zusätzlicher Name"
-        />
-      ) : state.title.value ? (
-        <span> ({state.title.value})</span>
-      ) : null}
-    </React.Fragment>
-  )
-
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Tipp {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
   return (
     <ThemeProvider theme={hintTheme}>
-      <ExpandableBox title={title} editable={editable}>
+      <ExpandableBox renderTitle={renderTitle} editable={editable}>
         {state.content.render()}
       </ExpandableBox>
     </ThemeProvider>

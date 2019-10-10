@@ -1,18 +1,9 @@
-import { EditorInput, styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { solutionState } from '.'
-
-const EditorInputWithMarginLeft = styled(EditorInput)({
-  marginLeft: '5px',
-  paddingLeft: '3px',
-  '&:focus': {
-    borderColor: 'black'
-  }
-})
 
 const solutionTheme = {
   rendererUi: {
@@ -25,27 +16,19 @@ const solutionTheme = {
 
 export function SolutionEditor({
   state,
-  editable,
-  focused
+  editable
 }: StatefulPluginEditorProps<typeof solutionState>) {
-  const title = (
-    <React.Fragment>
-      Lösung
-      {editable && focused ? (
-        <EditorInputWithMarginLeft
-          onChange={e => state.title.set(e.target.value)}
-          value={state.title.value}
-          placeholder="Zusätzlicher Name"
-        />
-      ) : state.title.value ? (
-        <span> ({state.title.value})</span>
-      ) : null}
-    </React.Fragment>
-  )
+  const renderTitle = React.useCallback((collapsed: boolean) => {
+    return (
+      <React.Fragment>
+        Lösung {collapsed ? 'anzeigen' : 'ausblenden'}
+      </React.Fragment>
+    )
+  }, [])
 
   return (
     <ThemeProvider theme={solutionTheme}>
-      <ExpandableBox title={title} editable={editable}>
+      <ExpandableBox renderTitle={renderTitle} editable={editable}>
         {state.content.render()}
       </ExpandableBox>
     </ThemeProvider>

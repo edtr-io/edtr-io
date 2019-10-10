@@ -29,9 +29,11 @@ const Content = styled.div<{ name: string }>(({ name, ...props }) => {
     backgroundColor: theme.backgroundColor,
     position: 'relative',
     padding: '15px',
-    width: '98%',
+    width: '90%',
     maxWidth: '600px',
-    margin: 'auto'
+    margin: 'auto',
+    maxHeight: '90%',
+    overflowY: 'auto'
   }
 })
 

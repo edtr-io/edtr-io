@@ -81,7 +81,7 @@ describe('Renderer SSR', () => {
     const state: Document<typeof hintState> = {
       plugin: 'hint',
       state: {
-        title: 'foo',
+        title: '',
         content: {
           plugin: 'rows',
           state: []
@@ -92,7 +92,8 @@ describe('Renderer SSR', () => {
       state,
       plugins
     })
-    expect(html).toContain('foo')
+    expect(html).toContain('Tipp')
+    expect(html).toContain('anzeigen')
   })
 
   test('Image plugin', () => {
@@ -217,7 +218,7 @@ describe('Renderer SSR', () => {
     const state: Document<typeof solutionState> = {
       plugin: 'solution',
       state: {
-        title: 'foo',
+        title: '',
         content: {
           plugin: 'rows',
           state: []
@@ -228,7 +229,8 @@ describe('Renderer SSR', () => {
       state,
       plugins
     })
-    expect(html).toContain('foo')
+    expect(html).toContain('Lösung')
+    expect(html).toContain('anzeigen')
   })
 
   test('Spoiler plugin', () => {
