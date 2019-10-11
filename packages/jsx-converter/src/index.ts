@@ -1,5 +1,9 @@
 import { EditorProps } from '@edtr-io/core'
 
+// TODO: The specific type definitions of hast should be used instead of the
+// more general type `Node'
+import { Node } from 'unist'
+
 /**
  * Converts an editor state into a JSX formatted string.
  *
@@ -16,11 +20,10 @@ export function toJSX(state: EditorProps['initialState']): string {
  * @param property The key of the object's property
  * @param value The value of the object's property
  */
-// TODO: Use type definitions for hast
 export function convertPropertyToHast(
   property: string,
   value: string | number | boolean
-): object {
+): Node {
   return hastElement(property, undefined, [hastText(String(value))])
 }
 
@@ -32,7 +35,11 @@ export function convertPropertyToHast(
  * @param properties Properties of the hast element
  * @param children children of the hast element
  */
-function hastElement(tagName: string, properties = {}, children = []) {
+function hastElement(
+  tagName: string,
+  properties: { [key: string]: string } = {},
+  children: Node[] = []
+): Node {
   return {
     type: 'element',
     tagName: tagName,
@@ -46,7 +53,7 @@ function hastElement(tagName: string, properties = {}, children = []) {
  *
  * @param text String which shall be converted to an hast element
  */
-function hastText(text: string) {
+function hastText(text: string): Node {
   return {
     type: 'text',
     value: text
