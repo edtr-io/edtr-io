@@ -1,4 +1,4 @@
-import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
+import { EditorInput, PrimarySettings, OverlayInput } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
@@ -16,7 +16,7 @@ export const VideoEditor = (
       <VideoRenderer {...props} disableCursorEvents={editable} />
       {props.renderIntoExtendedSettings
         ? props.renderIntoExtendedSettings(
-            <EditorInput
+            <OverlayInput
               label="Video URL:"
               value={state.value}
               onChange={e => {
