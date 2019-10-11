@@ -1,11 +1,18 @@
 import { createIcon, faFilm } from '@edtr-io/editor-ui'
-import { StatefulPlugin, string } from '@edtr-io/plugin'
+import { StatefulPlugin, string, object, migratable } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { VideoEditor } from './editor'
 import { VideoRenderer } from './renderer'
 
-export const videoState = string()
+const stateV0 = string()
+const stateV1 = object({ url: string(), alt: string() })
+export const videoState = migratable(stateV0).migrate(
+  stateV1,
+  previousState => {
+    return { url: previousState, alt: '' }
+  }
+)
 export const videoPlugin: StatefulPlugin<typeof videoState> = {
   //eslint-disable-next-line react/display-name
   Component: props =>

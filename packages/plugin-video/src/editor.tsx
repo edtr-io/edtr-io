@@ -16,24 +16,35 @@ export const VideoEditor = (
       <VideoRenderer {...props} disableCursorEvents={editable} />
       {props.renderIntoExtendedSettings
         ? props.renderIntoExtendedSettings(
-            <OverlayInput
-              label="Video URL:"
-              value={state.value}
-              onChange={e => {
-                state.set(e.target.value)
-              }}
-              textfieldWidth="80%"
-              editorInputWidth="100%"
-            />
+            <React.Fragment>
+              <OverlayInput
+                label="Video URL:"
+                value={state.url.value}
+                onChange={e => {
+                  state.url.set(e.target.value)
+                }}
+                textfieldWidth="80%"
+                editorInputWidth="100%"
+              />
+              <OverlayInput
+                label="alternativer Text:"
+                value={state.alt.value}
+                onChange={e => {
+                  state.alt.set(e.target.value)
+                }}
+                textfieldWidth="80%"
+                editorInputWidth="100%"
+              />
+            </React.Fragment>
           )
         : null}
       {focused ? (
         <PrimarySettings>
           <EditorInput
             label="Video URL:"
-            value={state.value}
+            value={state.url.value}
             onChange={e => {
-              state.set(e.target.value)
+              state.url.set(e.target.value)
             }}
             textfieldWidth="80%"
             editorInputWidth="100%"
