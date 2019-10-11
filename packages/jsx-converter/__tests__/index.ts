@@ -1,16 +1,16 @@
 import hast from 'hastscript'
 
-import { toJSX, convertPropertyToHast } from '../src'
+import { toJSX, convertValueToHast } from '../src'
 
 test('toJSX', () => {
   expect(toJSX({ plugin: 'Foo', state: null })).toEqual('')
 })
 
-test('Function convertPropertyToHast()', () => {
-  expect(convertPropertyToHast('foo', 42)).toEqual(hast('foo', '42'))
-  expect(convertPropertyToHast('foo', 'hello world')).toEqual(
+test('Function convertValueToHast()', () => {
+  expect(convertValueToHast('foo', 42)).toEqual(hast('foo', '42'))
+  expect(convertValueToHast('foo', 'hello world')).toEqual(
     hast('foo', 'hello world')
   )
-  expect(convertPropertyToHast('foo', true)).toEqual(hast('foo', 'true'))
-  expect(convertPropertyToHast('foo', false)).toEqual(hast('foo', 'false'))
+  expect(convertValueToHast('foo', true)).toEqual(hast('foo', 'true'))
+  expect(convertValueToHast('foo', false)).toEqual(hast('foo', 'false'))
 })

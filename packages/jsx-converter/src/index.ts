@@ -14,17 +14,17 @@ export function toJSX(state: EditorProps['initialState']): string {
 }
 
 /**
- * Converts an object's property to an hast node. This function is used by
- * `convertPluginStateToHast()` in order to convert the properties of an object.
+ * Converts the JavaScript value `value` into an hast element node with the name
+ * `tagName`.
  *
- * @param property The key of the object's property
- * @param value The value of the object's property
+ * @param tagName The element name of the returned hast node
+ * @param value The value which shall be converted into an hast node
  */
-export function convertPropertyToHast(
-  property: string,
+export function convertValueToHast(
+  tagName: string,
   value: string | number | boolean
 ): Node {
-  return hastElement(property, undefined, [hastText(String(value))])
+  return hastElement(tagName, undefined, [hastText(String(value))])
 }
 
 /**
