@@ -5,9 +5,7 @@ import {
   PreviewOverlay,
   styled,
   Icon,
-  faNewspaper,
-  Button,
-  EditorButton
+  faNewspaper
 } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
@@ -32,18 +30,6 @@ const PlaceholderWrapper = styled.div({
   textAlign: 'center'
 })
 
-const ButtonWrapper = styled.span({
-  float: 'right',
-  display: 'flex',
-  flexDirection: 'row',
-
-  justifyContent: 'flex-end'
-})
-
-const Clearfix = styled.div({
-  clear: 'both'
-})
-
 export const SerloInjectionEditor = (
   props: StatefulPluginEditorProps<typeof serloInjectionState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
@@ -53,7 +39,12 @@ export const SerloInjectionEditor = (
   const [preview, setPreview] = React.useState(false)
 
   React.useEffect(() => {
-    setCache(props.state.value)
+    const timeout = setTimeout(() => {
+      setCache(props.state.value)
+    }, 2000)
+    return () => {
+      clearTimeout(timeout)
+    }
   }, [props.focused, props.state.value])
 
   if (!props.editable) {
@@ -88,19 +79,9 @@ export const SerloInjectionEditor = (
             onChange={e => {
               props.state.set(e.target.value)
             }}
-            textfieldWidth="60%"
-            editorInputWidth="70%"
+            textfieldWidth="30%"
+            editorInputWidth="100%"
           />
-          <ButtonWrapper>
-            <EditorButton
-              onClick={() => {
-                setCache(props.state.value)
-              }}
-            >
-              Laden
-            </EditorButton>
-          </ButtonWrapper>
-          <Clearfix />
         </PrimarySettings>
       ) : null}
       {props.renderIntoExtendedSettings
@@ -114,16 +95,6 @@ export const SerloInjectionEditor = (
                   props.state.set(e.target.value)
                 }}
               />
-              <ButtonWrapper>
-                <Button
-                  onClick={() => {
-                    setCache(props.state.value)
-                  }}
-                >
-                  Laden
-                </Button>
-              </ButtonWrapper>
-              <Clearfix />
             </React.Fragment>
           )
         : null}
