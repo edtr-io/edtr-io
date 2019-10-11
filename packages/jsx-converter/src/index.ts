@@ -14,6 +14,26 @@ export function toJSX(state: EditorProps['initialState']): string {
 }
 
 /**
+ * Converts a plugin state into an hast tree.
+ *
+ * @param pluginState State of plugin which shall be converted
+ */
+export function convertPluginStateToHast(pluginState: {
+  plugin: string
+  state?: unknown
+}): Node {
+  if (
+    typeof pluginState.state === 'string' ||
+    typeof pluginState.state === 'number' ||
+    typeof pluginState.state === 'boolean'
+  ) {
+    return convertValueToHast(pluginState.plugin, pluginState.state)
+  } else {
+    throw TypeError('The plugin state is not convertable')
+  }
+}
+
+/**
  * Converts the JavaScript value `value` into an hast element node with the name
  * `tagName`.
  *
