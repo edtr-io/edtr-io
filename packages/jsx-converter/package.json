@@ -12,11 +12,12 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "hast-util-to-html": "^6.0.0"
   },
   "devDependencies": {
+    "hastscript": "^5.0.0"
   },
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   }
