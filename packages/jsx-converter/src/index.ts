@@ -1,4 +1,5 @@
 import { EditorProps } from '@edtr-io/core'
+import convertHastToString from 'hast-util-to-html'
 
 // TODO: The specific type definitions of hast should be used instead of the
 // more general type `Node'
@@ -9,8 +10,11 @@ import { Node } from 'unist'
  *
  * @param state the editor state
  */
-export function toJSX(state: EditorProps['initialState']): string {
-  return ''
+export function serializePluginState(state: {
+  plugin: string
+  state?: unknown
+}): string {
+  return convertHastToString(convertPluginStateToHast(state))
 }
 
 /**

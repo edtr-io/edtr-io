@@ -1,9 +1,31 @@
 import hast from 'hastscript'
+import {
+  serializePluginState,
+  convertPluginStateToHast,
+  convertValueToHast
+} from '../src'
 
-import { toJSX, convertPluginStateToHast, convertValueToHast } from '../src'
+// Examples for serialization of plugin states
+const serializePluginStateExamples = [
+  // Stateful plugins with state of primitive data type
+  {
+    state: { plugin: 'NumberStatePlugin', state: 42 },
+    markup: '<NumberStatePlugin>42</NumberStatePlugin>'
+  },
+  {
+    state: { plugin: 'boolean', state: false },
+    markup: '<boolean>false</boolean>'
+  },
+  {
+    state: { plugin: 'string-plugin', state: 'Hello World' },
+    markup: '<string-plugin>Hello World</string-plugin>'
+  }
+]
 
-test('toJSX', () => {
-  expect(toJSX({ plugin: 'Foo', state: null })).toEqual('')
+test('Function serializePluginState()', () => {
+  serializePluginStateExamples.forEach(example =>
+    expect(serializePluginState(example.state)).toEqual(example.markup)
+  )
 })
 
 test('Function convertPluginStateToHast()', () => {
