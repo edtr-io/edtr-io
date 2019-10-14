@@ -18,7 +18,7 @@ export const AddButtonComponent = styled.button({
 
 export function AddButton(props: { onClick: () => void; children: string }) {
   return (
-    <AddButtonComponent onClick={props.onClick}>
+    <AddButtonComponent onMouseDown={props.onClick}>
       <Icon icon={faPlus} /> {props.children}
     </AddButtonComponent>
   )

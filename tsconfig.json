@@ -32,6 +32,7 @@
       "@edtr-io/plugin-sc-mc-exercise": ["plugin-sc-mc-exercise/src"],
       "@edtr-io/plugin-serlo-injection": ["plugin-serlo-injection/src"],
       "@edtr-io/plugin-solution": ["plugin-solution/src"],
+      "@edtr-io/plugin-solution-steps": ["plugin-solution-steps/src"],
       "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
       "@edtr-io/plugin-table": ["plugin-table/src"],
       "@edtr-io/plugin-text": ["plugin-text/src"],

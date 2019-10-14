@@ -48,6 +48,8 @@ module.exports = function(api) {
                   '@edtr-io/plugin-serlo-injection':
                     '@edtr-io/plugin-serlo-injection/src',
                   '@edtr-io/plugin-solution': '@edtr-io/plugin-solution/src',
+                  '@edtr-io/plugin-solution-steps':
+                    '@edtr-io/plugin-solution-steps/src',
                   '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
                   '@edtr-io/plugin-table': '@edtr-io/plugin-table/src',
                   '@edtr-io/plugin-text': '@edtr-io/plugin-text/src',

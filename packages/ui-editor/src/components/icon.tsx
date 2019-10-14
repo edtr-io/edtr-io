@@ -15,6 +15,10 @@ export { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 export { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 export { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
 export { faImages } from '@fortawesome/free-solid-svg-icons/faImages'
+export { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
+export {
+  faLevelDownAlt
+} from '@fortawesome/free-solid-svg-icons/faLevelDownAlt'
 export { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
 export { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
 export { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
