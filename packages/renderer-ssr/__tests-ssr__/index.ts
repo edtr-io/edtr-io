@@ -286,13 +286,20 @@ describe('Renderer SSR', () => {
   test('Video plugin', () => {
     const state: Document<typeof videoState> = {
       plugin: 'video',
-      state: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo'
+      state: {
+        __version__: 1,
+        value: {
+          src: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo',
+          alt: 'Petworms'
+        }
+      }
     }
     const { html } = render({
       state,
       plugins
     })
     expect(html).toContain('youtube')
+    expect(html).toContain('Petworms')
   })
 })
 
