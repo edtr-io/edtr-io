@@ -347,14 +347,17 @@ function newSlateOnEnter(
 ): TextPlugin {
   return {
     commands: {
-      replaceWithPlugin(editor, options?: { plugin: string; state: unknown }) {
+      replaceWithPlugin(
+        editor: CoreEditor,
+        options?: { plugin: string; state: unknown }
+      ) {
         if (!slateClosure.current) return editor
         const { replace } = slateClosure.current
         if (typeof replace !== 'function') return editor
         replace(options)
         return editor
       },
-      unwrapParent(editor) {
+      unwrapParent(editor: CoreEditor) {
         if (!slateClosure.current) return editor
         const parentWithReplace = findParentWith(
           'replace',

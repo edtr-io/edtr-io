@@ -134,7 +134,7 @@ export function useEditorTheme(): {
   return React.useContext(StyledThemeContext)
 }
 
-export function createEditorUiTheme<T>(
+export function createEditorUiTheme<T extends object>(
   createDefaultTheme: EditorUiThemeFactory<T>
 ) {
   return (
@@ -147,7 +147,7 @@ export function createEditorUiTheme<T>(
     ) as unknown) as T
   }
 }
-export function useEditorUiTheme<T>(
+export function useEditorUiTheme<T extends object>(
   key: keyof EditorUiTheme,
   createDefaultTheme: EditorUiThemeFactory<T>
 ) {
@@ -155,7 +155,7 @@ export function useEditorUiTheme<T>(
   return createEditorUiTheme(createDefaultTheme)(key, theme)
 }
 
-export type EditorUiThemeFactory<T> = (theme: EditorTheme) => T
+export type EditorUiThemeFactory<T extends object> = (theme: EditorTheme) => T
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

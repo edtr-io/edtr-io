@@ -64,7 +64,7 @@ export function ThemeProvider(props: StyledThemeProviderProps<CustomTheme>) {
   return <StyledThemeProvider {...props} theme={theme} />
 }
 
-export function createPluginTheme<T>(
+export function createPluginTheme<T extends object>(
   createDefaultTheme: PluginThemeFactory<T>
 ) {
   return (pluginName: string, theme: Theme): T => {
@@ -74,7 +74,7 @@ export function createPluginTheme<T>(
     ) as unknown) as T
   }
 }
-export function usePluginTheme<T>(
+export function usePluginTheme<T extends object>(
   pluginName: string,
   createDefaultTheme: PluginThemeFactory<T>
 ) {
