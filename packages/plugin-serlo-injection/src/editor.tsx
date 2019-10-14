@@ -2,7 +2,10 @@ import {
   PrimarySettings,
   EditorInput,
   OverlayInput,
-  PreviewOverlay
+  PreviewOverlay,
+  styled,
+  Icon,
+  faNewspaper
 } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
@@ -21,17 +24,53 @@ const createURL = (id: string) => {
   return 'https://de.serlo.org/' + id + '?contentOnly&hideBreadcrumbs'
 }
 
+const PlaceholderWrapper = styled.div({
+  position: 'relative',
+  width: '100%',
+  textAlign: 'center'
+})
+
 export const SerloInjectionEditor = (
   props: StatefulPluginEditorProps<typeof serloInjectionState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) => {
-  return props.editable ? (
+  const [cache, setCache] = React.useState(props.state.value)
+  const [preview, setPreview] = React.useState(false)
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCache(props.state.value)
+    }, 2000)
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [props.focused, props.state.value])
+
+  if (!props.editable) {
+    return <SerloInjectionRenderer src={createURL(props.state.value)} />
+  }
+
+  return (
     <React.Fragment>
-      <PreviewOverlay focused={props.focused || false}>
-        <SerloInjectionRenderer src={createURL(props.state.value)} />
-      </PreviewOverlay>
-      {props.focused ? (
+      {cache ? (
+        <PreviewOverlay
+          focused={props.focused || false}
+          onChange={nextActive => {
+            setPreview(nextActive)
+            if (nextActive) {
+              setCache(props.state.value)
+            }
+          }}
+        >
+          <SerloInjectionRenderer src={createURL(cache)} />
+        </PreviewOverlay>
+      ) : (
+        <PlaceholderWrapper>
+          <Icon icon={faNewspaper} size="5x" />
+        </PlaceholderWrapper>
+      )}
+      {props.focused && !preview ? (
         <PrimarySettings>
           <EditorInput
             label="Serlo ID:"
@@ -47,18 +86,18 @@ export const SerloInjectionEditor = (
       ) : null}
       {props.renderIntoExtendedSettings
         ? props.renderIntoExtendedSettings(
-            <OverlayInput
-              label="Serlo ID:"
-              placeholder="123456"
-              value={props.state.value}
-              onChange={e => {
-                props.state.set(e.target.value)
-              }}
-            />
+            <React.Fragment>
+              <OverlayInput
+                label="Serlo ID:"
+                placeholder="123456"
+                value={props.state.value}
+                onChange={e => {
+                  props.state.set(e.target.value)
+                }}
+              />
+            </React.Fragment>
           )
         : null}
     </React.Fragment>
-  ) : (
-    <SerloInjectionRenderer src={createURL(props.state.value)} />
   )
 }

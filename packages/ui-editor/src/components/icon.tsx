@@ -56,6 +56,7 @@ export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
 export {
   faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'
+export { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
   return function I() {
