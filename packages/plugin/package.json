@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/abstract-plugin": "^0.11.0",
-    "@edtr-io/abstract-plugin-state": "^0.11.0",
+    "@edtr-io/abstract-plugin": "^0.12.0",
+    "@edtr-io/abstract-plugin-state": "^0.12.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/shortid": "^0.0.29",
@@ -21,7 +21,7 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.11.3",
+    "@edtr-io/core": "^0.12.0",
     "react": "^16.8.0"
   },
   "peerDependencies": {
