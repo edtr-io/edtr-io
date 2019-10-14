@@ -50,27 +50,17 @@ const EditorInputInner = styled.input(
   }
 )
 
-export class EditorInput extends React.Component<InputProps> {
-  private input = React.createRef<HTMLInputElement>()
-
-  public focus() {
-    const input = this.input.current
-    if (input) {
-      input.focus()
-    }
-  }
-
-  public render() {
-    const { label, ...props } = this.props
-    return (
-      <EditorInputLabel width={props.editorInputWidth}>
-        {label}
-        <EditorInputInner
-          textWidth={props.textfieldWidth}
-          {...props}
-          ref={this.input}
-        />
-      </EditorInputLabel>
-    )
-  }
+const EditorInputRefForward: React.RefForwardingComponent<
+  HTMLInputElement,
+  InputProps
+> = (props, ref) => {
+  const { label, ...rest } = props
+  return (
+    <EditorInputLabel width={rest.editorInputWidth}>
+      {label}
+      <EditorInputInner textWidth={rest.textfieldWidth} {...rest} ref={ref} />
+    </EditorInputLabel>
+  )
 }
+
+export const EditorInput = React.forwardRef(EditorInputRefForward)

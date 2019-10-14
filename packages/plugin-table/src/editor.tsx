@@ -28,6 +28,7 @@ export const createTableEditor = (config: TablePluginConfig) => {
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                   state.set(e.target.value)
                 }}
+                ref={props.defaultFocusRef}
               >
                 {state.value}
               </EditorTextarea>
