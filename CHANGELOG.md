@@ -2,13 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.12.0](https://github.com/edtr-io/edtr-io/compare/v0.11.3..v0.12.0) - October 14, 2019
+
+### Breaking Changes
+
+- **renderer-ui**. Removed `title` prop in `ExpandableBox`. Use the new `renderTitle` prop instead.
+
+### Added
+
+- **editor-ui**. Add new component `OverlaySelect`
+- **plugin**. Add prop `defaultFocusRef` for plugins that should be passed as `ref` to the input element that should be focused initially when the plugin gets focused
+- **plugin-video**. Add alt text
+
+### Changed
+
+- **plugin-input-exercise**. Add units to input exercises
+- **plugin-text**. Heading button opens sub menu even when the block is already a heading
+- **plugin-text**. Focus empty LaTeX textarea on mount initially
+- **renderer-ui**. Open `ExpandableBox` initially
+
+### Removed
+
+- **plugin-hint**. Remove title
+- **plugin-solution**. Remove title
+
+### Fixed
+
+- **core**. Hot keys handler considers the correct state for deleting empty plugins
+- **core**. Fix focus movement with arrow keys
+- **plugin-rows**. Make extended settings scrollable
+- **plugin-serlo-injection**. Automatically resize iframe when content or window height changes
+- **plugin-serlo-injection**. Reduce content jumps by lazily loading iframes
+
 ## [0.11.3](https://github.com/edtr-io/edtr-io/compare/v0.11.2..v0.11.3) - September 27, 2019
 
 ### Fixed
 
 - **plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state
-- **plugin-text**. Fixed server side rendering
 - **plugin-sc-mc-exercise**. Fixed server side rendering
+- **plugin-text**. Fixed server side rendering
 - **renderer-ssr**. Tests now test for correct results additionally to working server side rendering.
 
 ## [0.11.2](https://github.com/edtr-io/edtr-io/compare/v0.11.1..v0.11.2) - September 26, 2019
@@ -19,9 +51,9 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **core**. `onChange` callback prop of `Editor` is now working again
 - **plugin-text**. Updated slate types to newest version 0.47.1.
 - **plugin-text**. Fix suggestions for inserting plugins after typing `/`.
-- **core**. `onChange` callback prop of `Editor` is now working again
 
 ## [0.11.1](https://github.com/edtr-io/edtr-io/compare/v0.11.0..v0.11.1) - September 18, 2019
 
