@@ -289,7 +289,7 @@ describe('Renderer SSR', () => {
       state: {
         __version__: 1,
         value: {
-          url: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo',
+          src: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo',
           alt: 'Petworms'
         }
       }

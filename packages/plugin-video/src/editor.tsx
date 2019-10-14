@@ -19,9 +19,9 @@ export const VideoEditor = (
             <React.Fragment>
               <OverlayInput
                 label="Video URL:"
-                value={state.url.value}
+                value={state.src.value}
                 onChange={e => {
-                  state.url.set(e.target.value)
+                  state.src.set(e.target.value)
                 }}
                 textfieldWidth="80%"
                 editorInputWidth="100%"
@@ -42,9 +42,9 @@ export const VideoEditor = (
         <PrimarySettings>
           <EditorInput
             label="Video URL:"
-            value={state.url.value}
+            value={state.src.value}
             onChange={e => {
-              state.url.set(e.target.value)
+              state.src.set(e.target.value)
             }}
             textfieldWidth="80%"
             editorInputWidth="100%"

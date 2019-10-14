@@ -55,12 +55,12 @@ export type VideoRendererProps = StatefulPluginEditorProps<
 }
 
 export function VideoRenderer(props: VideoRendererProps) {
-  const data = getMatchingData(props.state.url.value)
+  const data = getMatchingData(props.state.src.value)
   if (!data) {
     return (
       <VideoPlaceholderWrapper>
         <Icon icon={faFilm} size="5x" />
-        <p>{props.state.url.value ? 'Fehlerhafte URL' : null}</p>
+        <p>{props.state.src.value ? 'Fehlerhafte URL' : null}</p>
       </VideoPlaceholderWrapper>
     )
   }

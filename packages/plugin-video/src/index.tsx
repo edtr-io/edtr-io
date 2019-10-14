@@ -6,13 +6,11 @@ import { VideoEditor } from './editor'
 import { VideoRenderer } from './renderer'
 
 const stateV0 = string()
-const stateV1 = object({ url: string(), alt: string() })
-export const videoState = migratable(stateV0).migrate(
-  stateV1,
-  previousState => {
-    return { url: previousState, alt: '' }
-  }
-)
+const stateV1 = object({ src: string(), alt: string() })
+export const videoState = migratable(stateV0).migrate(stateV1, src => {
+  return { src, alt: '' }
+})
+
 export const videoPlugin: StatefulPlugin<typeof videoState> = {
   //eslint-disable-next-line react/display-name
   Component: props =>
