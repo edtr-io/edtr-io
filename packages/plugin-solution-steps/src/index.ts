@@ -7,6 +7,7 @@ import {
   string,
   boolean
 } from '@edtr-io/plugin'
+
 import { SolutionStepsEditor } from './editor'
 
 export const solutionStepsState = object({

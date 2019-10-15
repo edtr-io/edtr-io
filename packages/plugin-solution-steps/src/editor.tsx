@@ -1,6 +1,4 @@
-import * as React from 'react'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { solutionStepsState } from '.'
+import { useScopedSelector } from '@edtr-io/core'
 import {
   AddButton,
   styled,
@@ -9,8 +7,11 @@ import {
   faLevelDownAlt,
   faLevelUpAlt
 } from '@edtr-io/editor-ui'
-import { useScopedSelector } from '@edtr-io/core'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
+import * as React from 'react'
+
+import { solutionStepsState } from '.'
 import { SolutionStepsRenderer } from './renderer'
 
 export const BigFlex = styled.div({
@@ -50,13 +51,12 @@ const RemoveButton = styled.button({
 
 function AddButtons(
   props: StatefulPluginEditorProps<typeof solutionStepsState> & {
-    id?: string
+    id: string
     index: number
   }
 ) {
-  const hasFocusedChild = props.id
-    ? useScopedSelector(hasFocusedDescendant(props.id))
-    : true
+  const hasFocusedChild = useScopedSelector(hasFocusedDescendant(props.id))
+
   const insertStep = () => {
     props.state.solutionSteps.insert(props.index + 1)
   }
@@ -69,7 +69,7 @@ function AddButtons(
   }
   return (
     <React.Fragment>
-      {hasFocusedChild ? (
+      {hasFocusedChild || props.id === '' ? (
         <Buttoncontainer>
           <AddButton onClick={insertStep}>Lösungsbestandteil</AddButton>
           <AddButton onClick={insertExplanation}>
@@ -89,17 +89,18 @@ export function SolutionStepsEditor(
   const introductionFocused = useScopedSelector(
     isFocused(state.introduction.id)
   )
-  const findPairs = () => {}
   return (
     <React.Fragment>
       {editable ? (
         <React.Fragment>
           {state.introduction.render()}
-          {introductionFocused ? <AddButtons index={-1} {...props} /> : null}
+          {introductionFocused ? (
+            <AddButtons index={-1} id="" {...props} />
+          ) : null}
           <BigFlex>
             {solutionSteps.map((solutionStep, index) => {
               return (
-                <React.Fragment>
+                <React.Fragment key={solutionStep.content.id}>
                   <Container
                     type={solutionStep.type.value}
                     isHalf={solutionStep.isHalf.value}
@@ -113,7 +114,8 @@ export function SolutionStepsEditor(
                     </RemoveButton>
 
                     {solutionStep.content.render()}
-                    {solutionStep.type.value === 'explanation' &&
+                    {index > 0 &&
+                    solutionStep.type.value === 'explanation' &&
                     solutionSteps[index - 1].type.value === 'step' ? (
                       <RemoveButton
                         onClick={() => {
@@ -133,7 +135,11 @@ export function SolutionStepsEditor(
                       </RemoveButton>
                     ) : null}
                   </Container>
-                  {index < solutionSteps.length - 1 ? (
+                  {index < solutionSteps.length - 1 &&
+                  !(
+                    solutionStep.type.value === 'step' &&
+                    solutionStep.isHalf.value
+                  ) ? (
                     <AddButtons
                       id={solutionStep.content.id}
                       index={index}
@@ -144,7 +150,7 @@ export function SolutionStepsEditor(
               )
             })}
             {solutionSteps.length > 0 ? (
-              <AddButtons index={solutionSteps.length} {...props} />
+              <AddButtons index={solutionSteps.length} id="" {...props} />
             ) : null}
           </BigFlex>
         </React.Fragment>

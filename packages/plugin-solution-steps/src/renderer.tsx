@@ -1,8 +1,9 @@
-import * as React from 'react'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { styled } from '@edtr-io/renderer-ui'
+import * as React from 'react'
+
 import { solutionStepsState } from '.'
 import { BigFlex } from './editor'
-import { styled } from '@edtr-io/renderer-ui'
 
 const Container = styled.div<{ isHalf: boolean }>(
   ({ isHalf }: { isHalf: boolean }) => {
@@ -24,9 +25,9 @@ export function SolutionStepsRenderer(
     <React.Fragment>
       {introduction.render()}
       <BigFlex>
-        {solutionSteps.map((solutionStep, index) => {
+        {solutionSteps.map(solutionStep => {
           return (
-            <React.Fragment>
+            <React.Fragment key={solutionStep.content.id}>
               <Container isHalf={solutionStep.isHalf.value}>
                 {solutionStep.content.render()}
               </Container>
