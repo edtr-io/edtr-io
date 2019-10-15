@@ -1,7 +1,13 @@
 import * as StateType from './plugin-state'
 
 export { SubDocument } from './document'
-export { Document, Editor, EditorProps, EditorProvider } from './editor'
+export {
+  Document,
+  Editor,
+  EditorProps,
+  EditorProvider,
+  PluginRepresentation
+} from './editor'
 export {
   ScopeContext,
   EditorContext,

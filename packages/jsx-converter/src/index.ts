@@ -1,4 +1,4 @@
-import { EditorProps } from '@edtr-io/core'
+import { PluginRepresentation } from '@edtr-io/core'
 import convertHastToString from 'hast-util-to-html'
 
 // TODO: The specific type definitions of hast should be used instead of the
@@ -10,10 +10,7 @@ import { Node } from 'unist'
  *
  * @param state the editor state
  */
-export function serializePluginState(state: {
-  plugin: string
-  state?: unknown
-}): string {
+export function serializePluginState(state: PluginRepresentation): string {
   return convertHastToString(convertPluginStateToHast(state))
 }
 
@@ -22,10 +19,9 @@ export function serializePluginState(state: {
  *
  * @param pluginState State of plugin which shall be converted
  */
-export function convertPluginStateToHast(pluginState: {
-  plugin: string
-  state?: unknown
-}): Node {
+export function convertPluginStateToHast(
+  pluginState: PluginRepresentation
+): Node {
   if (
     typeof pluginState.state === 'string' ||
     typeof pluginState.state === 'number' ||

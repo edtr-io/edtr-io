@@ -268,15 +268,17 @@ export type EditorDispatchProps = {
   redo: ScopedActionCreator<typeof actions['redo']>
 }
 
+export interface PluginRepresentation {
+  plugin: string
+  state?: unknown
+}
+
 export interface EditorProps<K extends string = string> {
   omitDragDropContext?: boolean
   children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
   plugins: Record<K, Plugin>
   defaultPlugin: K
-  initialState?: {
-    plugin: string
-    state?: unknown
-  }
+  initialState?: PluginRepresentation
   theme?: CustomTheme
   onChange?: ChangeListener
   editable?: boolean
