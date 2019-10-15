@@ -1,5 +1,9 @@
 import hast from 'hastscript'
-import { serializePlugin, convertPluginToHast, convertValueToHast } from '../src'
+import {
+  serializePlugin,
+  convertPluginToHast,
+  convertValueToHast
+} from '../src'
 
 // Examples for serialization of plugin states
 const serializePluginExamples = [
@@ -46,8 +50,13 @@ test('Function convertPluginToHast()', () => {
   )
 })
 
+type ConvertValueToHastExamples = {
+  args: [string, string | number | boolean]
+  result: any
+}[]
+
 test('Function convertValueToHast()', () => {
-  const testCases = [
+  const testCases: ConvertValueToHastExamples = [
     {
       args: ['foo', 42],
       result: hast('foo', '42')
