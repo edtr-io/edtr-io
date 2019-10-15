@@ -22,13 +22,13 @@ const serializePluginExamples = [
   }
 ]
 
-test('Function serializePlugin()', () => {
+test('serializePlugin()', () => {
   serializePluginExamples.forEach(example =>
     expect(serializePlugin(example.plugin)).toEqual(example.markup)
   )
 })
 
-test('Function convertPluginToHast()', () => {
+test('convertPluginToHast()', () => {
   const testCases = [
     // Plugins with state of primitive data type
     {
@@ -55,7 +55,7 @@ type ConvertValueToHastExamples = {
   result: any
 }[]
 
-test('Function convertValueToHast()', () => {
+test('convertValueToHast()', () => {
   const testCases: ConvertValueToHastExamples = [
     {
       args: ['foo', 42],
