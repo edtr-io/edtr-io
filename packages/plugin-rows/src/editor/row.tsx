@@ -1,6 +1,6 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { PrimarySettings } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { Plugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { isFocused } from '@edtr-io/store'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
@@ -26,6 +26,7 @@ export type RowExposedProps = StatefulPluginEditorProps<typeof rowsState> & {
   moveRow: (from: number, to: number) => void
   insert: (index: number, options?: { plugin: string; state?: unknown }) => void
   index: number
+  plugins: Record<string, Plugin>
   doc: { plugin: string; state?: unknown }
 }
 

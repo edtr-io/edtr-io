@@ -1,6 +1,6 @@
-import { useScopedStore } from '@edtr-io/core'
+import { useScopedSelector, useScopedStore } from '@edtr-io/core'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { getDocument } from '@edtr-io/store'
+import { getDocument, getPlugins } from '@edtr-io/store'
 import * as React from 'react'
 
 import { Menu } from './menu'
@@ -15,6 +15,7 @@ export const RowsEditor = (
 ) => {
   const rows = props.state
   const store = useScopedStore()
+  const plugins = useScopedSelector(getPlugins())
   const [menu, setMenu] = React.useState<
     | {
         index: number
@@ -60,6 +61,7 @@ export const RowsEditor = (
                 rows.insert(index, options)
               }}
               openMenu={openMenu}
+              plugins={plugins}
             />
           </div>
         )
