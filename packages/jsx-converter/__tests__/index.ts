@@ -1,34 +1,30 @@
 import hast from 'hastscript'
-import {
-  serializePluginState,
-  convertPluginStateToHast,
-  convertValueToHast
-} from '../src'
+import { serializePlugin, convertPluginToHast, convertValueToHast } from '../src'
 
 // Examples for serialization of plugin states
-const serializePluginStateExamples = [
+const serializePluginExamples = [
   // Stateful plugins with state of primitive data type
   {
-    state: { plugin: 'NumberStatePlugin', state: 42 },
+    plugin: { plugin: 'NumberStatePlugin', state: 42 },
     markup: '<NumberStatePlugin>42</NumberStatePlugin>'
   },
   {
-    state: { plugin: 'boolean', state: false },
+    plugin: { plugin: 'boolean', state: false },
     markup: '<boolean>false</boolean>'
   },
   {
-    state: { plugin: 'string-plugin', state: 'Hello World' },
+    plugin: { plugin: 'string-plugin', state: 'Hello World' },
     markup: '<string-plugin>Hello World</string-plugin>'
   }
 ]
 
-test('Function serializePluginState()', () => {
-  serializePluginStateExamples.forEach(example =>
-    expect(serializePluginState(example.state)).toEqual(example.markup)
+test('Function serializePlugin()', () => {
+  serializePluginExamples.forEach(example =>
+    expect(serializePlugin(example.plugin)).toEqual(example.markup)
   )
 })
 
-test('Function convertPluginStateToHast()', () => {
+test('Function convertPluginToHast()', () => {
   const testCases = [
     // Plugins with state of primitive data type
     {
@@ -46,7 +42,7 @@ test('Function convertPluginStateToHast()', () => {
   ]
 
   testCases.forEach(testCase =>
-    expect(convertPluginStateToHast(testCase.arg)).toEqual(testCase.result)
+    expect(convertPluginToHast(testCase.arg)).toEqual(testCase.result)
   )
 })
 

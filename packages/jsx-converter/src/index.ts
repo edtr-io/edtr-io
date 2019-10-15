@@ -6,30 +6,29 @@ import convertHastToString from 'hast-util-to-html'
 import { Node } from 'unist'
 
 /**
- * Converts an editor state into a JSX formatted string.
+ * Converts an editor plugin into text with markup. This text can be reconverted
+ * into the editor plugin with the function `deserializePlugin()`.
  *
- * @param state the editor state
+ * @param plugin Representation of the editor plugin
  */
-export function serializePluginState(state: PluginRepresentation): string {
-  return convertHastToString(convertPluginStateToHast(state))
+export function serializePlugin(plugin: PluginRepresentation): string {
+  return convertHastToString(convertPluginToHast(plugin))
 }
 
 /**
- * Converts a plugin state into an hast tree.
+ * Converts a representation of an editor plugin into an hast tree.
  *
- * @param pluginState State of plugin which shall be converted
+ * @param plugin Representation of plugin which shall be converted
  */
-export function convertPluginStateToHast(
-  pluginState: PluginRepresentation
-): Node {
+export function convertPluginToHast(plugin: PluginRepresentation): Node {
   if (
-    typeof pluginState.state === 'string' ||
-    typeof pluginState.state === 'number' ||
-    typeof pluginState.state === 'boolean'
+    typeof plugin.state === 'string' ||
+    typeof plugin.state === 'number' ||
+    typeof plugin.state === 'boolean'
   ) {
-    return convertValueToHast(pluginState.plugin, pluginState.state)
+    return convertValueToHast(plugin.plugin, plugin.state)
   } else {
-    throw TypeError('The plugin state is not convertable')
+    throw TypeError('The state type of the plugin is not convertable')
   }
 }
 
