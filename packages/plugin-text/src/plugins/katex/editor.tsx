@@ -11,16 +11,21 @@ import {
   Overlay,
   styled
 } from '@edtr-io/editor-ui'
+import {
+  katexBlockNode,
+  katexInlineNode,
+  orderedListNode,
+  unorderedListNode
+} from '@edtr-io/plugin-text-state'
 import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 
-import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
 import { Button } from '../../toolbar/button'
 import { Dropdown, Option } from '../../toolbar/dropdown'
-import { isList, orderedListNode, unorderedListNode } from '../list'
+import { isList } from '../list'
 import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

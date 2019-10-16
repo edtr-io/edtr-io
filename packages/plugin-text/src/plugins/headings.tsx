@@ -1,14 +1,9 @@
+import { HeadingLevel, createHeadingNode } from '@edtr-io/plugin-text-state'
 import * as R from 'ramda'
 import * as React from 'react'
 import { Block, Editor } from 'slate'
 
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
-
-export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
-
-export const createHeadingNode = (level: HeadingLevel) => {
-  return `@splish-me/h${level}`
-}
 
 export interface HeadingsPluginOptions {
   EditorComponent?: React.ComponentType<

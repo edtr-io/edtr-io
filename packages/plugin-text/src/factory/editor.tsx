@@ -4,6 +4,7 @@ import {
   useScopedSelector
 } from '@edtr-io/core'
 import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
+import { slateSchema, katexBlockNode } from '@edtr-io/plugin-text-state'
 import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
@@ -16,29 +17,13 @@ import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
 import { Editor, EventHook } from 'slate-react'
 
 import { textState } from '.'
-import { katexBlockNode, katexInlineNode } from '../plugins/katex'
-import { linkNode } from '../plugins/link'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
-  const schema = {
-    inlines: {
-      [katexInlineNode]: {
-        isVoid: true
-      },
-      [linkNode]: {
-        text: /.+/
-      }
-    },
-    blocks: {
-      [katexBlockNode]: {
-        isVoid: true
-      }
-    }
-  }
+  console.log('schema', slateSchema)
   return function SlateEditor(props: SlateEditorProps) {
     const dispatch = useScopedDispatch()
     const focusNext = React.useCallback(() => {
@@ -199,7 +184,7 @@ export const createTextEditor = (
           plugins={slatePlugins.current}
           readOnly={!props.focused}
           value={rawState}
-          schema={schema}
+          schema={slateSchema}
         />
       ),
       [

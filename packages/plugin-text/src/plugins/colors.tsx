@@ -1,3 +1,4 @@
+import { colorMark } from '@edtr-io/plugin-text-state'
 import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
@@ -9,8 +10,6 @@ import {
   MarkRendererProps,
   TextPlugin
 } from '..'
-
-export const colorMark = '@splish-me/color'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<

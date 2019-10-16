@@ -1,3 +1,4 @@
+import { strongMark, emphasizeMark } from '@edtr-io/plugin-text-state'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Mark } from 'slate'
@@ -10,9 +11,7 @@ import {
   trimSelection
 } from '..'
 
-export const strongMark = '@splish-me/strong'
-export const emphasizeMark = '@splish-me/em'
-export const codeMark = 'code'
+const codeMark = 'code'
 
 export interface RichTextPluginOptions {
   EditorComponent?: React.ComponentType<MarkEditorProps>

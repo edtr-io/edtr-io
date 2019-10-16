@@ -1,13 +1,13 @@
 //@ts-ignore FIXME
 import List from '@convertkit/slate-lists'
+import {
+  defaultNode,
+  orderedListNode,
+  unorderedListNode,
+  listItemNode,
+  listItemChildNode
+} from '@edtr-io/plugin-text-state'
 import { Block, Editor } from 'slate'
-
-import { defaultNode } from '../factory'
-
-export const orderedListNode = 'ordered-list'
-export const unorderedListNode = 'unordered-list'
-export const listItemNode = 'list-item'
-export const listItemChildNode = 'list-item-child'
 
 type ListType = typeof orderedListNode | typeof unorderedListNode
 

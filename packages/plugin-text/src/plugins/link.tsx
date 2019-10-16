@@ -5,6 +5,7 @@ import {
   faExternalLinkAlt,
   styled
 } from '@edtr-io/editor-ui'
+import { linkNode } from '@edtr-io/plugin-text-state'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Data, Editor, Inline } from 'slate'
@@ -16,8 +17,6 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-
-export const linkNode = '@splish-me/a'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 

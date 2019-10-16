@@ -1,3 +1,4 @@
+import { katexBlockNode, katexInlineNode } from '@edtr-io/plugin-text-state'
 import { canUseDOM } from 'exenv'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
@@ -17,9 +18,6 @@ import { DefaultRendererComponent } from './renderer'
 if (canUseDOM) {
   require('react-mathquill').addStyles()
 }
-
-export const katexBlockNode = '@splish-me/katex-block'
-export const katexInlineNode = '@splish-me/katex-inline'
 
 export const isKatex = (editor: Editor) => {
   return (

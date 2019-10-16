@@ -1,10 +1,8 @@
+import { paragraphNode } from '@edtr-io/plugin-text-state'
 import * as React from 'react'
 import { Block, Editor } from 'slate'
 
-import { defaultNode } from '../factory'
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
-
-export const paragraphNode = defaultNode
 
 export const setParagraph = (editor: Editor) => {
   return editor.setBlocks(paragraphNode)
