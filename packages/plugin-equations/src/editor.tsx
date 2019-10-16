@@ -73,7 +73,7 @@ export function EquationsEditor(
   }
 
   const { focused, state, editable } = props
-  const children = R.flatten<string>(
+  const children = R.flatten(
     props.state.steps.map(step => {
       return [step.left.id, step.right.id, step.transform.id]
     })

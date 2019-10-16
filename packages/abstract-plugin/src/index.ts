@@ -81,6 +81,11 @@ export interface StatelessPluginEditorProps {
    * `true` if the plugin is currently focused
    */
   focused?: boolean
+
+  /**
+   * Ref to use for an input element. The element will receive focus, when the plugin is focused.
+   */
+  defaultFocusRef: React.RefObject<HTMLInputElement & HTMLTextAreaElement>
 }
 
 /**

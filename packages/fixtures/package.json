@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/fixtures",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

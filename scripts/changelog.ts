@@ -553,9 +553,9 @@ useScopedSelector(state => {
       name: '0.11.2',
       date: '2019-09-26',
       fixed: [
+        '**core**. `onChange` callback prop of `Editor` is now working again',
         '**plugin-text**. Updated slate types to newest version 0.47.1.',
-        '**plugin-text**. Fix suggestions for inserting plugins after typing `/`.',
-        '**core**. `onChange` callback prop of `Editor` is now working again'
+        '**plugin-text**. Fix suggestions for inserting plugins after typing `/`.'
       ],
       changed: [
         '**plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`'
@@ -567,9 +567,39 @@ useScopedSelector(state => {
       date: '2019-09-27',
       fixed: [
         '**plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state',
-        '**plugin-text**. Fixed server side rendering',
         '**plugin-sc-mc-exercise**. Fixed server side rendering',
+        '**plugin-text**. Fixed server side rendering',
         '**renderer-ssr**. Tests now test for correct results additionally to working server side rendering.'
+      ]
+    },
+    {
+      tagName: 'v0.12.0',
+      name: '0.12.0',
+      date: '2019-10-14',
+      breakingChanges: [
+        '**renderer-ui**. Removed `title` prop in `ExpandableBox`. Use the new `renderTitle` prop instead.'
+      ],
+      added: [
+        '**editor-ui**. Add new component `OverlaySelect`',
+        '**plugin**. Add prop `defaultFocusRef` for plugins that should be passed as `ref` to the input element that should be focused initially when the plugin gets focused',
+        '**plugin-video**. Add alt text'
+      ],
+      fixed: [
+        '**core**. Hot keys handler considers the correct state for deleting empty plugins',
+        '**core**. Fix focus movement with arrow keys',
+        '**plugin-rows**. Make extended settings scrollable',
+        '**plugin-serlo-injection**. Automatically resize iframe when content or window height changes',
+        '**plugin-serlo-injection**. Reduce content jumps by lazily loading iframes'
+      ],
+      changed: [
+        '**plugin-input-exercise**. Add units to input exercises',
+        '**plugin-text**. Heading button opens sub menu even when the block is already a heading',
+        '**plugin-text**. Focus empty LaTeX textarea on mount initially',
+        '**renderer-ui**. Open `ExpandableBox` initially'
+      ],
+      removed: [
+        '**plugin-hint**. Remove title',
+        '**plugin-solution**. Remove title'
       ]
     }
   ])

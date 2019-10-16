@@ -22,6 +22,7 @@ export const AnchorEditor = (
           onChange={e => {
             state.set(e.target.value)
           }}
+          ref={props.defaultFocusRef}
         />
       ) : null}
     </React.Fragment>

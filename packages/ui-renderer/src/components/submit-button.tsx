@@ -76,12 +76,12 @@ export class SubmitButton extends React.Component<{
         {this.props.exerciseState === ExerciseState.SolvedRight ? (
           <span>
             <Icon icon={faSmile} />
-            {' Stimmt!'}
+            Stimmt!
           </span>
         ) : (
           <span>
             <Icon icon={faCheckCircle} />
-            {' Stimmt’s?'}
+            Stimmt’s?
           </span>
         )}
       </SubmitButtonComponent>

@@ -18,7 +18,7 @@ export function object<Ds extends Record<string, StateType>>(
   getFocusableChildren: (
     children: { [K in keyof Ds]: { id: string }[] }
   ) => { id: string }[] = children => {
-    return R.flatten<FocusableChild>(R.values(children))
+    return R.flatten<readonly FocusableChild[][]>(R.values(children))
   }
 ): StateType<
   StateTypesSerializedType<Ds>,

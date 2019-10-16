@@ -96,7 +96,7 @@ export function useRendererTheme(): {
   return React.useContext(StyledThemeContext)
 }
 
-export function createRendererUiTheme<T>(
+export function createRendererUiTheme<T extends object>(
   createDefaultTheme: (theme: RendererTheme) => T
 ) {
   return (
@@ -109,7 +109,7 @@ export function createRendererUiTheme<T>(
     ) as unknown) as T
   }
 }
-export function useRendererUiTheme<T>(
+export function useRendererUiTheme<T extends object>(
   key: keyof RendererUiTheme,
   createDefaultTheme: RendererUiThemeFactory<T>
 ) {

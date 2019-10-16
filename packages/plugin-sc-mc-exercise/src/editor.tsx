@@ -22,7 +22,7 @@ export function ScMcExerciseEditor(
     isEmptySelector(id)(state)
   )
   const { editable, focused, state } = props
-  const children = R.flatten<string>(
+  const children = R.flatten(
     props.state.answers.map(answer => {
       return [answer.id.id, answer.feedback.id]
     })

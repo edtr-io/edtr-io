@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-solution",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,20 +13,20 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.11.3",
-    "@edtr-io/plugin": "^0.11.3",
-    "@edtr-io/renderer-ui": "^0.11.3",
-    "@edtr-io/ui": "^0.11.3",
+    "@edtr-io/editor-ui": "^0.12.0",
+    "@edtr-io/plugin": "^0.12.0",
+    "@edtr-io/renderer-ui": "^0.12.0",
+    "@edtr-io/ui": "^0.12.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.11.3",
+    "@edtr-io/core": "^0.12.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.11.0",
+    "@edtr-io/core": "^0.12.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

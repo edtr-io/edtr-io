@@ -55,12 +55,12 @@ export type VideoRendererProps = StatefulPluginEditorProps<
 }
 
 export function VideoRenderer(props: VideoRendererProps) {
-  const data = getMatchingData(props.state.value)
+  const data = getMatchingData(props.state.src.value)
   if (!data) {
     return (
       <VideoPlaceholderWrapper>
         <Icon icon={faFilm} size="5x" />
-        <p>{props.state.value ? 'Fehlerhafte URL' : null}</p>
+        <p>{props.state.src.value ? 'Fehlerhafte URL' : null}</p>
       </VideoPlaceholderWrapper>
     )
   }
@@ -68,14 +68,18 @@ export function VideoRenderer(props: VideoRendererProps) {
   if (data.type === VideoType.Wikimedia) {
     return (
       <VideoWrapper disableCursorEvents={!!props.disableCursorEvents}>
-        <Video controls src={data.embed} />
+        <Video controls src={data.embed} title={props.state.alt.value} />
       </VideoWrapper>
     )
   }
 
   return (
     <VideoWrapper disableCursorEvents={!!props.disableCursorEvents}>
-      <VideoIframe allowFullScreen src={data.embed} />
+      <VideoIframe
+        allowFullScreen
+        src={data.embed}
+        title={props.state.alt.value}
+      />
     </VideoWrapper>
   )
 }
