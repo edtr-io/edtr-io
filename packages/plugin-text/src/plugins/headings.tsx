@@ -1,7 +1,7 @@
 import { HeadingLevel, createHeadingNode } from '@edtr-io/plugin-text-state'
 import * as R from 'ramda'
 import * as React from 'react'
-import { Block, Editor } from 'slate'
+import { Editor } from 'slate'
 
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 
@@ -46,15 +46,15 @@ class DefaultEditorComponent extends React.Component<
   }
 }
 
-class DefaultRenderComponent extends React.Component<
-  BlockRendererProps & { level: HeadingLevel }
-> {
-  public render() {
-    const { children, level } = this.props
+// class DefaultRenderComponent extends React.Component<
+//   BlockRendererProps & { level: HeadingLevel }
+// > {
+//   public render() {
+//     const { children, level } = this.props
 
-    return <Heading level={level}>{children}</Heading>
-  }
-}
+//     return <Heading level={level}>{children}</Heading>
+//   }
+// }
 
 export const createIsHeading = (level: HeadingLevel) => {
   return (editor: Editor) => {
@@ -85,42 +85,9 @@ export const getHeadingLevel = (editor: Editor): HeadingLevel | undefined => {
 }
 
 export const createHeadingsPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRenderComponent
+  EditorComponent = DefaultEditorComponent
 }: HeadingsPluginOptions = {}) => (): TextPlugin => {
   return {
-    deserialize(el, next) {
-      const match = /h([1-6])/.exec(el.tagName.toLowerCase())
-
-      if (match) {
-        const level = parseInt(match[1], 10) as HeadingLevel
-
-        return {
-          object: 'block',
-          type: createHeadingNode(level),
-          nodes: next(el.childNodes)
-        }
-      }
-    },
-
-    serialize(obj, children) {
-      const block = obj as Block
-
-      if (block.object === 'block') {
-        const match = /@splish-me\/h([1-6])/.exec(block.type)
-
-        if (match) {
-          const level = parseInt(match[1], 10) as HeadingLevel
-
-          return (
-            <RenderComponent level={level} node={obj}>
-              {children}
-            </RenderComponent>
-          )
-        }
-      }
-    },
-
     renderBlock(props, _editor, next) {
       const block = props.node
 

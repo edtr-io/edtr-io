@@ -4,7 +4,12 @@ import {
   useScopedSelector
 } from '@edtr-io/core'
 import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
-import { slateSchema, katexBlockNode } from '@edtr-io/plugin-text-state'
+import {
+  slateSchema,
+  katexBlockNode,
+  htmlToSlateValue,
+  slateValueToHtml
+} from '@edtr-io/plugin-text-state'
 import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
@@ -14,7 +19,7 @@ import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
-import { Editor, EventHook } from 'slate-react'
+import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { textState } from '.'
 import { TextPluginOptions } from './types'
@@ -23,7 +28,6 @@ import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
-  console.log('schema', slateSchema)
   return function SlateEditor(props: SlateEditorProps) {
     const dispatch = useScopedDispatch()
     const focusNext = React.useCallback(() => {
@@ -154,6 +158,7 @@ export const createTextEditor = (
       (change: { operations: Immutable.List<Operation>; value: Value }) => {
         const nextValue = change.value.toJSON()
         setRawState(change.value)
+        console.log('new value', slateValueToHtml(change.value))
         const withoutSelections = change.operations.filter(
           operation =>
             typeof operation !== 'undefined' &&
@@ -242,6 +247,17 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
           return
         }
       }
+    }
+
+    const transfer = getEventTransfer(e)
+    if (transfer.type === 'html') {
+      // @ts-ignore: outdated slate types
+      const html = transfer.html as string
+      console.log('transfer', html)
+      const { document } = htmlToSlateValue(html)
+      editor.insertFragment(document)
+      e.preventDefault()
+      return
     }
 
     next()

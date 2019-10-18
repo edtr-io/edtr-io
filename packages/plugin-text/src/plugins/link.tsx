@@ -8,7 +8,7 @@ import {
 import { linkNode } from '@edtr-io/plugin-text-state'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Data, Editor, Inline } from 'slate'
+import { Editor, Inline } from 'slate'
 
 import {
   NodeControlsProps,
@@ -177,22 +177,21 @@ const DefaultControlsComponent: React.FunctionComponent<
   )
 }
 
-class DefaultRendererComponent extends React.Component<InlineRendererProps> {
-  public render() {
-    const { children, node } = this.props
-    const { data } = node
+// class DefaultRendererComponent extends React.Component<InlineRendererProps> {
+//   public render() {
+//     const { children, node } = this.props
+//     const { data } = node
 
-    if (!data) {
-      return null
-    }
+//     if (!data) {
+//       return null
+//     }
 
-    return <a href={data.href}>{children}</a>
-  }
-}
+//     return <a href={data.href}>{children}</a>
+//   }
+// }
 
 export const createLinkPlugin = ({
   EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent,
   ControlsComponent = DefaultControlsComponent
 }: LinkPluginOptions = {}) => (): TextPlugin => {
   return {
@@ -204,29 +203,6 @@ export const createLinkPlugin = ({
       }
 
       return next()
-    },
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() === 'a') {
-        // @ts-ignore FIXME
-        const attr = el.attrs.find(({ name }) => name === 'href')
-
-        return {
-          object: 'inline',
-          type: linkNode,
-          nodes: next(el.childNodes),
-          data: Data.create({
-            href: attr ? attr.value : ''
-          })
-        }
-      }
-    },
-
-    serialize(obj, children) {
-      const block = obj as Inline
-
-      if (block.object === 'inline' && block.type === linkNode) {
-        return <RenderComponent node={obj}>{children}</RenderComponent>
-      }
     },
 
     renderInline(props, _editor, next) {

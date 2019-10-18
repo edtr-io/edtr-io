@@ -2,7 +2,7 @@ import { katexBlockNode, katexInlineNode } from '@edtr-io/plugin-text-state'
 import { canUseDOM } from 'exenv'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
-import { Block, Editor, Inline } from 'slate'
+import { Editor } from 'slate'
 
 import {
   NodeRendererProps,
@@ -13,7 +13,6 @@ import {
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
 import { DefaultEditorComponent } from './editor'
-import { DefaultRendererComponent } from './renderer'
 
 if (canUseDOM) {
   require('react-mathquill').addStyles()
@@ -72,8 +71,7 @@ export interface KatexPluginOptions {
 }
 
 export const createKatexPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent
+  EditorComponent = DefaultEditorComponent
 }: KatexPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
@@ -82,45 +80,6 @@ export const createKatexPlugin = ({
     return <EditorComponent {...props} name={name} />
   }
   return {
-    deserialize(el, next) {
-      switch (el.tagName.toLowerCase()) {
-        case 'katexblock':
-          return {
-            object: 'block',
-            type: katexBlockNode,
-            data: {
-              formula: el.childNodes[0].nodeValue,
-              inline: false
-            },
-            nodes: next(el.childNodes)
-          }
-        case 'katexinline':
-          return {
-            object: 'inline',
-            type: katexInlineNode,
-            data: {
-              formula: el.childNodes[0].nodeValue,
-              inline: true
-            },
-            nodes: next(el.childNodes)
-          }
-        default:
-          return
-      }
-    },
-
-    serialize(obj, children) {
-      const block = obj as Block
-      const inline = obj as Inline
-
-      if (
-        (block.object === 'block' && block.type === katexBlockNode) ||
-        (inline.object === 'inline' && inline.type === katexInlineNode)
-      ) {
-        return <RenderComponent node={obj}>{children}</RenderComponent>
-      }
-    },
-
     onKeyDown(event, editor, next) {
       const e = event as KeyboardEvent
       if (isHotkey('mod+m')(e)) {

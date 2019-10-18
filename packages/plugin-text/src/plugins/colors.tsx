@@ -1,7 +1,7 @@
 import { colorMark } from '@edtr-io/plugin-text-state'
 import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor, Mark } from 'slate'
+import { Editor } from 'slate'
 
 import {
   createTextPluginTheme,
@@ -88,33 +88,20 @@ class DefaultEditorComponent extends React.Component<
   }
 }
 
-class DefaultRendererComponent extends React.Component<
-  MarkRendererProps & { colorIndex: number }
-> {
-  public render() {
-    const { children, colorIndex } = this.props
-    return <Color colorIndex={colorIndex}>{children}</Color>
-  }
-}
+// class DefaultRendererComponent extends React.Component<
+//   MarkRendererProps & { colorIndex: number }
+// > {
+//   public render() {
+//     const { children, colorIndex } = this.props
+//     return <Color colorIndex={colorIndex}>{children}</Color>
+//   }
+// }
 
 export const createColorPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent
+  EditorComponent = DefaultEditorComponent
 }: ColorPluginOptions = {}) => (): TextPlugin => {
   // TODO: deserialize
   return {
-    serialize(obj, children) {
-      const mark = obj as Mark
-      if (mark.object === 'mark') {
-        const colorIndex = mark.data.get('colorIndex')
-        return (
-          <RenderComponent mark={mark} colorIndex={colorIndex}>
-            {children}
-          </RenderComponent>
-        )
-      }
-    },
-
     renderMark(props, _editor, next) {
       const { mark } = props
       if (mark.object === 'mark' && mark.type === colorMark) {
