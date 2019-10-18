@@ -16,7 +16,7 @@ import {
   katexBlockNode,
   katexInlineNode,
   colorMark
-} from './slate'
+} from './schema'
 
 export const rules: Rule[] = [
   // paragraph

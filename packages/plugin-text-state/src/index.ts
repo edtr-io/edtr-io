@@ -1,2 +1,2 @@
-export * from './slate'
+export * from './schema'
 export * from './serializer'

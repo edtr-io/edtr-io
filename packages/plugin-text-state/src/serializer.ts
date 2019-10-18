@@ -2,7 +2,7 @@ import { Value } from 'slate'
 import Html from 'slate-html-serializer'
 
 import { rules } from './rules'
-import { defaultNode } from './slate'
+import { defaultNode } from './schema'
 
 const serializer = new Html({ rules, defaultBlock: { type: defaultNode } })
 
