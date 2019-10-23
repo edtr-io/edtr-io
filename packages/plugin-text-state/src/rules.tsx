@@ -19,6 +19,34 @@ import {
 } from './schema'
 
 export const rules: Rule[] = [
+  // text
+  {
+    serialize(obj, children) {
+      if (obj.object === 'string') {
+        // our state should contain no newline characters
+        return children.replace(new RegExp('\\r|\\n', 'g'), '')
+      }
+    },
+
+    deserialize(el) {
+      if (el.tagName && el.tagName.toLowerCase() === 'br') {
+        return null
+      }
+
+      if (el.nodeName === '#text') {
+        if (el.nodeValue && /<!--.*?-->/.exec(el.nodeValue)) return
+
+        const text = el.nodeValue ? el.nodeValue : ''
+
+        // sanitize spurious newlines (and whitespace?)
+        return {
+          object: 'text',
+          text: text.replace(new RegExp('\\r|\\n|\\t', 'g'), ''),
+          marks: []
+        }
+      }
+    }
+  },
   // paragraph
   {
     serialize(obj, children) {
@@ -52,6 +80,8 @@ export const rules: Rule[] = [
             return <strong>{children}</strong>
           case emphasizeMark:
             return <em>{children}</em>
+          default:
+            return <>{children}</>
         }
       }
     },

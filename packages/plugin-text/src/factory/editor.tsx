@@ -7,8 +7,7 @@ import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
 import {
   slateSchema,
   katexBlockNode,
-  htmlToSlateValue,
-  slateValueToHtml
+  htmlToSlateValue
 } from '@edtr-io/plugin-text-state'
 import {
   focusNext as focusNextActionCreator,
@@ -158,7 +157,6 @@ export const createTextEditor = (
       (change: { operations: Immutable.List<Operation>; value: Value }) => {
         const nextValue = change.value.toJSON()
         setRawState(change.value)
-        console.log('new value', slateValueToHtml(change.value))
         const withoutSelections = change.operations.filter(
           operation =>
             typeof operation !== 'undefined' &&
@@ -253,7 +251,6 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
     if (transfer.type === 'html') {
       // @ts-ignore: outdated slate types
       const html = transfer.html as string
-      console.log('transfer', html)
       const { document } = htmlToSlateValue(html)
       editor.insertFragment(document)
       e.preventDefault()
