@@ -3,11 +3,11 @@ import { StatefulPluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
 import * as React from 'react'
 
+import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
 import { rowsState, rowState, RowsPluginConfig } from '..'
-import { RowsRenderer } from '../renderer'
 
 function RowEditor({
   insert,

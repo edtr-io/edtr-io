@@ -3,6 +3,7 @@
 import { child, list, number, object, Plugin } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { createEquationsPlugin } from '@edtr-io/plugin-equations'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
@@ -17,7 +18,6 @@ import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
-import { createEquationsPlugin } from '@edtr-io/plugin-equations'
 
 const registry = [
   // Must be placed before files for onPaste

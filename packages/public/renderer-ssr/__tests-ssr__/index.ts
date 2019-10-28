@@ -117,7 +117,7 @@ describe('Renderer SSR', () => {
 
   test('Important statement plugin', () => {
     const state: Document<typeof importantStatementState> = {
-      plugin: 'important',
+      plugin: 'importantStatement',
       state: {
         plugin: 'anchor',
         state: 'foo'
@@ -132,7 +132,7 @@ describe('Renderer SSR', () => {
 
   test('Serlo injection plugin', () => {
     const state: Document<typeof serloInjectionState> = {
-      plugin: 'injection',
+      plugin: 'serloInjection',
       state: '1337'
     }
     const { html } = render({
