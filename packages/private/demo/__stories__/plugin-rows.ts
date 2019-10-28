@@ -17,14 +17,3 @@ addStory('Plugins/Rows/Empty', {
     state: []
   }
 })
-
-addStory('Plugins/Rows/Custom', {
-  state: {
-    plugin: 'customRows',
-    state: [
-      {
-        plugin: 'text'
-      }
-    ]
-  }
-})
