@@ -1,1 +1,1 @@
-export { solutionPlugin } from '@edtr-io/plugin-solution'
+export { createSolutionPlugin } from '@edtr-io/plugin-solution'

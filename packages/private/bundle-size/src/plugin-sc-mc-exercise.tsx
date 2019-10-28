@@ -1,1 +1,1 @@
-export { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+export { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'

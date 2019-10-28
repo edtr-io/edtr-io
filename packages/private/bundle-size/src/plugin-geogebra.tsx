@@ -1,1 +1,1 @@
-export { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+export { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'

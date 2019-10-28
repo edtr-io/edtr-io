@@ -1,1 +1,1 @@
-export { anchorPlugin } from '@edtr-io/plugin-anchor'
+export { createAnchorPlugin } from '@edtr-io/plugin-anchor'

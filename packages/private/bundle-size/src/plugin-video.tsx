@@ -1,1 +1,1 @@
-export { videoPlugin } from '@edtr-io/plugin-video'
+export { createVideoPlugin } from '@edtr-io/plugin-video'

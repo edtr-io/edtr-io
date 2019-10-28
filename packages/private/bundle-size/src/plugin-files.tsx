@@ -1,11 +1,11 @@
 import { LoadedFile } from '@edtr-io/plugin'
 import {
-  createFilePlugin,
+  createFilesPlugin,
   parseFileType,
   UploadedFile
 } from '@edtr-io/plugin-files'
 
-export const filesPlugin = createFilePlugin({ upload: mockUploadFileHandler })
+export const filesPlugin = createFilesPlugin({ upload: mockUploadFileHandler })
 
 function mockUploadFileHandler(file: File): Promise<UploadedFile> {
   return readFile(file).then(loaded => {

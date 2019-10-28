@@ -1,1 +1,1 @@
-export { rowsPlugin } from '@edtr-io/plugin-rows'
+export { createRowsPlugin } from '@edtr-io/plugin-rows'

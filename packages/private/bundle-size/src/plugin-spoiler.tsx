@@ -1,1 +1,1 @@
-export { spoilerPlugin } from '@edtr-io/plugin-spoiler'
+export { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
