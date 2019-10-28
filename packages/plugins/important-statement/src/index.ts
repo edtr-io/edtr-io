@@ -4,10 +4,13 @@ import { ImportantStatementRenderer } from './renderer'
 
 export const importantStatementState = child()
 
-export const importantStatementPlugin: StatefulPlugin<
+export function createImportantStatementPlugin(): StatefulPlugin<
   typeof importantStatementState
-> = {
-  Component: ImportantStatementRenderer,
-  state: importantStatementState,
-  title: 'Merksatz'
+> {
+  return {
+    Component: ImportantStatementRenderer,
+    config: {},
+    state: importantStatementState,
+    title: 'Merksatz'
+  }
 }

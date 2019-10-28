@@ -5,10 +5,10 @@ import * as React from 'react'
 import { SlateEditorAdditionalProps } from './editor'
 import { TextPlugin, PluginRegistry } from '..'
 
-export interface TextPluginOptions {
+export interface TextPluginConfig {
+  placeholder: string
+  registry: PluginRegistry
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
-  registry?: PluginRegistry
-  placeholder?: string
 }
 
 export type SlatePluginClosure = React.RefObject<{

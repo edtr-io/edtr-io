@@ -2,8 +2,8 @@ import { scalar, StatefulPlugin } from '@edtr-io/plugin'
 import { createIcon, faParagraph } from '@edtr-io/ui'
 import { Value, ValueJSON } from 'slate'
 
-import { createTextEditor, SlateEditorAdditionalProps } from './editor'
-import { TextPluginOptions } from './types'
+import { TextEditor } from './editor'
+import { TextPluginConfig } from './types'
 
 export const defaultNode = 'paragraph'
 
@@ -26,10 +26,11 @@ const emptyDocument: ValueJSON = {
 export const textState = scalar<ValueJSON>(emptyDocument)
 
 export const createTextPlugin = (
-  options: TextPluginOptions
-): StatefulPlugin<typeof textState, SlateEditorAdditionalProps> => {
+  config: TextPluginConfig
+): StatefulPlugin<typeof textState, TextPluginConfig> => {
   return {
-    Component: createTextEditor(options),
+    Component: TextEditor,
+    config,
     state: textState,
     icon: createIcon(faParagraph),
     title: 'Text',

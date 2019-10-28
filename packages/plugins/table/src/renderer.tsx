@@ -24,29 +24,27 @@ const TableContainer = styled.div({
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
-export function createTableRenderer(config: TablePluginConfig) {
-  return function TableRenderer(
-    props: StatefulPluginEditorProps<typeof tableState>
-  ) {
-    const { editable, state } = props
+export function TableRenderer(
+  props: StatefulPluginEditorProps<typeof tableState, TablePluginConfig>
+) {
+  const { config, editable, state } = props
 
-    const renderedMarkdown = config.renderMarkdown(state.value)
+  const renderedMarkdown = config.renderMarkdown(state.value)
 
-    return (
-      <TableContainer>
-        {editable && state.value.trim() === '' ? (
-          <StyledIcon icon={faTable} />
-        ) : null}
-        {typeof renderedMarkdown === 'string' ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: renderedMarkdown
-            }}
-          />
-        ) : (
-          renderedMarkdown
-        )}
-      </TableContainer>
-    )
-  }
+  return (
+    <TableContainer>
+      {editable && state.value.trim() === '' ? (
+        <StyledIcon icon={faTable} />
+      ) : null}
+      {typeof renderedMarkdown === 'string' ? (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: renderedMarkdown
+          }}
+        />
+      ) : (
+        renderedMarkdown
+      )}
+    </TableContainer>
+  )
 }

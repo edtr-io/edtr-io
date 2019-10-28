@@ -69,12 +69,17 @@ export const inputExerciseState = migratable(stateV0)
     }
   })
 
-export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
-  Component: InputExerciseEditor,
-  state: inputExerciseState,
-  title: 'Eingabefeld',
-  icon: createIcon(faKeyboard),
-  description: 'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.'
+export function createInputExercisePlugin(): StatefulPlugin<
+  typeof inputExerciseState
+> {
+  return {
+    Component: InputExerciseEditor,
+    config: {},
+    state: inputExerciseState,
+    title: 'Eingabefeld',
+    icon: createIcon(faKeyboard),
+    description: 'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.'
+  }
 }
 
 export const createInputExerciseTheme = createPluginTheme<InputExerciseTheme>(

@@ -2,26 +2,27 @@ import { StatefulPlugin, string } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import { createTableEditor } from './editor'
+import { TableEditor } from './editor'
 
 export const tableState = string()
 
 export function createTablePlugin(
-  config: TablePluginConfig
-): StatefulPlugin<typeof tableState> {
+  renderMarkdown = defaultRenderMarkdown
+): StatefulPlugin<typeof tableState, TablePluginConfig> {
   return {
-    Component: createTableEditor(config),
+    Component: TableEditor,
+    config: {
+      renderMarkdown
+    },
     state: tableState,
     title: 'Tabelle',
     description: 'Erstelle eine Tabelle mit Markdown.'
   }
 }
 
-export const tablePlugin = createTablePlugin({
-  renderMarkdown: function RenderMarkdown(markdown) {
-    return <ReactMarkdown source={markdown} />
-  }
-})
+function defaultRenderMarkdown(markdown: string): React.ReactNode {
+  return <ReactMarkdown source={markdown} />
+}
 
 export interface TablePluginConfig {
   renderMarkdown: (markdown: string) => string | React.ReactNode

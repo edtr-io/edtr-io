@@ -15,11 +15,16 @@ export const scMcExerciseState = object({
   answers: list(AnswerProps)
 })
 
-export const scMcExercisePlugin: StatefulPlugin<typeof scMcExerciseState> = {
-  Component: ScMcExerciseEditor,
-  state: scMcExerciseState,
-  icon: createIcon(faDotCircle),
-  title: 'Auswahlaufgabe',
-  description:
-    'Füge deiner Aufgabe mehrere Single- oder Multiplechoice-Antworten hinzu.'
+export function createScMcExercisePlugin(): StatefulPlugin<
+  typeof scMcExerciseState
+> {
+  return {
+    Component: ScMcExerciseEditor,
+    config: {},
+    state: scMcExerciseState,
+    icon: createIcon(faDotCircle),
+    title: 'Auswahlaufgabe',
+    description:
+      'Füge deiner Aufgabe mehrere Single- oder Multiplechoice-Antworten hinzu.'
+  }
 }

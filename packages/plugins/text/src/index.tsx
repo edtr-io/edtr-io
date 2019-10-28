@@ -47,15 +47,21 @@ export type TextPlugin = Plugin &
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
 
-export function createTextPlugin(registry?: PluginRegistry) {
+export function createTextPlugin({
+  placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
+  registry
+}: {
+  placeholder?: string
+  registry: PluginRegistry
+}) {
   return textPluginFactory({
     registry,
     plugins: [...plugins, createUiPlugin({ Component: Controls })],
-    placeholder: 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.'
+    placeholder
   })
 }
 
-export const textPlugin = createTextPlugin()
+export { TextPluginConfig } from './factory/types'
 
 export type PluginRegistry = {
   name: string
@@ -111,7 +117,7 @@ export const createTextPluginTheme = createPluginTheme<TextTheme>(
 )
 
 export function trimSelection(editor: Editor) {
-  // Trimm selection before applying transformation
+  // Trim selection before applying transformation
   const selection = document.getSelection()
   if (selection) {
     let str = selection.toString()

@@ -5,10 +5,15 @@ import { BlockquoteRenderer } from './renderer'
 
 export const blockquoteState = child()
 
-export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
-  Component: BlockquoteRenderer,
-  state: blockquoteState,
-  title: 'Zitat',
-  description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
-  icon: createIcon(faQuoteRight)
+export function createBlockquotePlugin(): StatefulPlugin<
+  typeof blockquoteState
+> {
+  return {
+    Component: BlockquoteRenderer,
+    config: {},
+    state: blockquoteState,
+    title: 'Zitat',
+    description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
+    icon: createIcon(faQuoteRight)
+  }
 }

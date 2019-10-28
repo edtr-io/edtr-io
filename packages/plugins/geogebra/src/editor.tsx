@@ -10,6 +10,8 @@ export const GeogebraEditor = (
 ) => {
   const { focused, editable, state } = props
 
+  if (!editable) return <GeogebraRenderer {...props} />
+
   return (
     <React.Fragment>
       <GeogebraRenderer {...props} disableCursorEvents={editable} />

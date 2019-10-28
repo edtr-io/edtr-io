@@ -8,13 +8,16 @@ export const spoilerState = object({
   content: child('rows')
 })
 
-export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
-  Component: SpoilerEditor,
-  state: spoilerState,
-  icon: createIcon(faCaretSquareDown),
-  title: 'Spoiler',
-  description:
-    'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.'
+export function createSpoilerPlugin(): StatefulPlugin<typeof spoilerState> {
+  return {
+    Component: SpoilerEditor,
+    config: {},
+    state: spoilerState,
+    icon: createIcon(faCaretSquareDown),
+    title: 'Spoiler',
+    description:
+      'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.'
+  }
 }
 
 export interface SpoilerTheme {

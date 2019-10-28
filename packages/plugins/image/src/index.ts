@@ -10,7 +10,7 @@ import {
 } from '@edtr-io/plugin'
 import { createIcon, faImages } from '@edtr-io/ui'
 
-import { createImageEditor } from './editor'
+import { ImageEditor } from './editor'
 
 export const imageState = object({
   src: upload(''),
@@ -20,11 +20,13 @@ export const imageState = object({
   description: string(''),
   maxWidth: number(0)
 })
+
 export const createImagePlugin = (
   config: ImagePluginConfig
-): StatefulPlugin<typeof imageState> => {
+): StatefulPlugin<typeof imageState, ImagePluginConfig> => {
   return {
-    Component: createImageEditor(config),
+    Component: ImageEditor,
+    config,
     state: imageState,
     title: 'Bild',
     description:

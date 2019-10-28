@@ -6,7 +6,7 @@ export interface UploadedFile {
   name: string
 }
 
-export interface UploadFileConfig {
+export interface FilesPluginConfig {
   upload: UploadHandler<UploadedFile>
 }
 

@@ -13,12 +13,15 @@ export const equationsState = object({
   steps: list(StepProps)
 })
 
-export const equationsPlugin: StatefulPlugin<typeof equationsState> = {
-  Component: EquationsEditor,
-  state: equationsState,
-  title: 'Gleichungen',
-  description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
-  icon: createIcon(faEquals)
+export function createEquationsPlugin(): StatefulPlugin<typeof equationsState> {
+  return {
+    Component: EquationsEditor,
+    config: {},
+    state: equationsState,
+    title: 'Gleichungen',
+    description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
+    icon: createIcon(faEquals)
+  }
 }
 
 export * from './editor'

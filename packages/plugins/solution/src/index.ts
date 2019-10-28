@@ -8,11 +8,14 @@ export const solutionState = object({
   content: child('rows')
 })
 
-export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
-  Component: SolutionEditor,
-  state: solutionState,
-  icon: createIcon(faCheckSquare),
-  title: 'Lösung',
-  description:
-    'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.'
+export function createSolutionPlugin(): StatefulPlugin<typeof solutionState> {
+  return {
+    Component: SolutionEditor,
+    config: {},
+    state: solutionState,
+    icon: createIcon(faCheckSquare),
+    title: 'Lösung',
+    description:
+      'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.'
+  }
 }

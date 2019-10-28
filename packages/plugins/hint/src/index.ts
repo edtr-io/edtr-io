@@ -8,10 +8,14 @@ export const hintState = object({
   content: child('rows')
 })
 
-export const hintPlugin: StatefulPlugin<typeof hintState> = {
-  Component: HintEditor,
-  state: hintState,
-  title: 'Hinweis',
-  description: 'Gib zusätzliche Tipps zur Aufgabe in dieser ausklappbaren Box.',
-  icon: createIcon(faLightbulb)
+export function createHintPlugin(): StatefulPlugin<typeof hintState> {
+  return {
+    Component: HintEditor,
+    config: {},
+    state: hintState,
+    title: 'Hinweis',
+    description:
+      'Gib zusätzliche Tipps zur Aufgabe in dieser ausklappbaren Box.',
+    icon: createIcon(faLightbulb)
+  }
 }

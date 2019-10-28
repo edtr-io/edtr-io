@@ -6,7 +6,8 @@ import * as React from 'react'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { rowsState, rowState, PluginRegistry } from '..'
+import { rowsState, rowState, RowsPluginConfig } from '..'
+import { RowsRenderer } from '../renderer'
 
 function RowEditor({
   insert,
@@ -50,9 +51,7 @@ function RowEditor({
 }
 
 export function RowsEditor(
-  props: StatefulPluginEditorProps<typeof rowsState> & {
-    plugins?: PluginRegistry
-  }
+  props: StatefulPluginEditorProps<typeof rowsState, RowsPluginConfig>
 ) {
   const [menu, setMenu] = React.useState<
     | {
@@ -71,6 +70,8 @@ export function RowsEditor(
       }
     })
   }
+
+  if (!props.editable) return <RowsRenderer {...props} />
 
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
@@ -107,7 +108,7 @@ export function RowsEditor(
           menu={menu}
           setMenu={setMenu}
           name={props.name}
-          registry={props.plugins}
+          registry={props.config.plugins}
         />
       ) : null}
     </div>

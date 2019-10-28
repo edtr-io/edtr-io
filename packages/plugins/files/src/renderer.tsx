@@ -14,7 +14,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { fileState } from '.'
+import { FilesPluginConfig, fileState } from '.'
 import { FileType, UploadedFile } from './types'
 
 const Download = styled.a<{ tmp?: boolean; failed?: boolean }>({
@@ -51,7 +51,7 @@ export const FileRenderer: React.FunctionComponent<{
 }
 
 export function FilesRenderer(
-  props: StatefulPluginEditorProps<typeof fileState>
+  props: StatefulPluginEditorProps<typeof fileState, FilesPluginConfig>
 ) {
   return (
     <React.Fragment>

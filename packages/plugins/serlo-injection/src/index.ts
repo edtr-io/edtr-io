@@ -5,12 +5,15 @@ import { SerloInjectionEditor } from './editor'
 
 export const serloInjectionState = string()
 
-export const serloInjectionPlugin: StatefulPlugin<
+export function createSerloInjectionPlugin(): StatefulPlugin<
   typeof serloInjectionState
-> = {
-  Component: SerloInjectionEditor,
-  state: serloInjectionState,
-  title: 'Serlo Inhalt',
-  description: 'Binde einen Inhalt von serlo.org via ID ein',
-  icon: createIcon(faNewspaper)
+> {
+  return {
+    Component: SerloInjectionEditor,
+    config: {},
+    state: serloInjectionState,
+    title: 'Serlo Inhalt',
+    description: 'Binde einen Inhalt von serlo.org via ID ein',
+    icon: createIcon(faNewspaper)
+  }
 }

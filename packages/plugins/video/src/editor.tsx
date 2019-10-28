@@ -12,6 +12,9 @@ export const VideoEditor = (
   }
 ) => {
   const { editable, focused, state } = props
+
+  if (!editable) return <VideoRenderer {...props} />
+
   return (
     <React.Fragment>
       <VideoRenderer {...props} disableCursorEvents={editable} />

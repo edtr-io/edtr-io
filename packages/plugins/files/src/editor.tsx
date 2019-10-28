@@ -2,15 +2,14 @@ import { EditorButton } from '@edtr-io/editor-ui'
 import {
   isTempFile,
   usePendingFilesUploader,
-  StatefulPluginEditorProps,
-  UploadHandler
+  StatefulPluginEditorProps
 } from '@edtr-io/plugin'
 import { Icon, faRedoAlt, styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { fileState, getFilesFromDataTransfer } from '.'
-import { FileRenderer } from './renderer'
-import { UploadedFile } from './types'
+import { FileRenderer, FilesRenderer } from './renderer'
+import { FilesPluginConfig } from './types'
 import { parseFileType, Upload } from './upload'
 
 export const Wrapper = styled.div({
@@ -32,100 +31,99 @@ export const Center = styled.div({
   alignItems: 'center'
 })
 
-export function createFilesEditor(
-  uploadHandler: UploadHandler<UploadedFile>
-): React.FunctionComponent<StatefulPluginEditorProps<typeof fileState>> {
-  return function FilesEditor(props) {
-    const { focused, state } = props
+export function FilesEditor(
+  props: StatefulPluginEditorProps<typeof fileState, FilesPluginConfig>
+) {
+  const { config, editable, focused, state } = props
+  usePendingFilesUploader(state, config.upload)
 
-    usePendingFilesUploader(state, uploadHandler)
-
-    function onPaste(data: DataTransfer) {
-      const files = getFilesFromDataTransfer(data)
-      if (files.length) {
-        files.forEach(file => {
-          state.insert(state.length, {
-            pending: file
-          })
+  function onPaste(data: DataTransfer) {
+    const files = getFilesFromDataTransfer(data)
+    if (files.length) {
+      files.forEach(file => {
+        state.insert(state.length, {
+          pending: file
         })
-      }
+      })
     }
+  }
 
-    return (
-      <div
-        onPaste={event => {
-          onPaste(event.clipboardData)
-        }}
-      >
-        {state.map((file, i) => {
-          if (!isTempFile(file.value)) {
-            // finished uploading
-            return <FileRenderer key={i} file={file.value} />
-          }
+  if (!editable) return <FilesRenderer {...props} />
 
-          if (file.value.loaded) {
-            // finished loading as DataUrl, being uploaded atm
-            const tmpFile = file.value.loaded
-            return (
-              <Temporary key={i}>
-                <Center>
-                  <FileRenderer
-                    file={{
-                      location: tmpFile.dataUrl,
-                      name: tmpFile.file.name,
-                      type: parseFileType(tmpFile.file.name)
-                    }}
-                  />
+  return (
+    <div
+      onPaste={event => {
+        onPaste(event.clipboardData)
+      }}
+    >
+      {state.map((file, i) => {
+        if (!isTempFile(file.value)) {
+          // finished uploading
+          return <FileRenderer key={i} file={file.value} />
+        }
+
+        if (file.value.loaded) {
+          // finished loading as DataUrl, being uploaded atm
+          const tmpFile = file.value.loaded
+          return (
+            <Temporary key={i}>
+              <Center>
+                <FileRenderer
+                  file={{
+                    location: tmpFile.dataUrl,
+                    name: tmpFile.file.name,
+                    type: parseFileType(tmpFile.file.name)
+                  }}
+                />
+                <EditorButton onClick={() => state.remove(i)}>
+                  <EdtrIcon icon={edtrClose} />
+                </EditorButton>
+              </Center>
+            </Temporary>
+          )
+        }
+
+        if (file.value.failed) {
+          const tmpFile = file.value.failed
+          return (
+            <Failed key={i}>
+              <Center>
+                <FileRenderer
+                  file={{
+                    location: '',
+                    name: tmpFile.name,
+                    type: parseFileType(tmpFile.name)
+                  }}
+                />
+                <span>Fehlgeschlagen</span>
+                <span>
+                  <EditorButton
+                    onClick={() => file.upload(tmpFile, config.upload)}
+                  >
+                    <Icon icon={faRedoAlt} />
+                  </EditorButton>
                   <EditorButton onClick={() => state.remove(i)}>
                     <EdtrIcon icon={edtrClose} />
                   </EditorButton>
-                </Center>
-              </Temporary>
-            )
-          }
+                </span>
+              </Center>
+            </Failed>
+          )
+        }
 
-          if (file.value.failed) {
-            const tmpFile = file.value.failed
-            return (
-              <Failed key={i}>
-                <Center>
-                  <FileRenderer
-                    file={{
-                      location: '',
-                      name: tmpFile.name,
-                      type: parseFileType(tmpFile.name)
-                    }}
-                  />
-                  <span>Fehlgeschlagen</span>
-                  <span>
-                    <EditorButton
-                      onClick={() => file.upload(tmpFile, uploadHandler)}
-                    >
-                      <Icon icon={faRedoAlt} />
-                    </EditorButton>
-                    <EditorButton onClick={() => state.remove(i)}>
-                      <EdtrIcon icon={edtrClose} />
-                    </EditorButton>
-                  </span>
-                </Center>
-              </Failed>
-            )
-          }
-
-          return null
-        })}
-        {focused ? (
-          <Upload
-            onFiles={files => {
-              files.forEach(file => {
-                state.insert(state.length, {
-                  pending: file
-                })
+        return null
+      })}
+      {focused ? (
+        <Upload
+          onFiles={files => {
+            files.forEach(file => {
+              state.insert(state.length, {
+                pending: file
               })
-            }}
-          />
-        ) : null}
-      </div>
-    )
-  }
+            })
+          }}
+        />
+      ) : null}
+    </div>
+  )
 }
