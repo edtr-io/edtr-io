@@ -1,0 +1,34 @@
+{
+  "name": "@edtr-io/plugin-serlo-injection",
+  "version": "0.12.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/plugin-serlo-injection.esm.js",
+  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@edtr-io/editor-ui": "^0.12.0",
+    "@edtr-io/plugin": "^0.12.0",
+    "@edtr-io/ui": "^0.12.0",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "iframe-resizer-react": "^1.0.0"
+  },
+  "devDependencies": {
+    "@edtr-io/core": "^0.12.0",
+    "react": "^16.8.0"
+  },
+  "peerDependencies": {
+    "@edtr-io/core": "^0.12.0",
+    "react": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
