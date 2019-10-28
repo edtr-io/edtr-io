@@ -2,19 +2,10 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import {
-  isStatefulPlugin,
-  Plugin,
-  StatefulPluginEditorProps,
-  StatelessPluginEditorProps
-} from '@edtr-io/internal__plugin'
-import {
-  StateType,
-  StoreDeserializeHelpers
-} from '@edtr-io/internal__plugin-state'
+import { isStatefulPlugin } from '@edtr-io/internal__plugin'
+import { StoreDeserializeHelpers } from '@edtr-io/internal__plugin-state'
 import {
   change,
-  DocumentState,
   focus,
   focusNext,
   focusPrevious,
@@ -23,7 +14,7 @@ import {
   isDocumentEmpty,
   isFocused
 } from '@edtr-io/store'
-import { styled } from '@edtr-io/ui'
+import { styled, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
@@ -121,12 +112,35 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     [settingsRef]
   )
 
+  const theme = useTheme()
+
   return React.useMemo(() => {
     if (!document) return null
     if (!plugin) {
       // eslint-disable-next-line no-console
       console.log('Plugin does not exist')
       return null
+    }
+
+    const config =
+      typeof plugin.config === 'function' ? plugin.config(theme) : plugin.config
+
+    let state: unknown
+    if (isStatefulPlugin(plugin)) {
+      const onChange = (
+        updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
+      ) => {
+        dispatch(
+          change({
+            id,
+            state: updater
+          })
+        )
+      }
+      state = plugin.state.init(document.state, onChange, {
+        ...pluginProps,
+        name: document.plugin
+      })
     }
 
     return (
@@ -193,14 +207,13 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
           >
             <plugin.Component
               renderIntoSettings={renderIntoSettings}
-              {...getPluginEditorProps({
-                id,
-                document,
-                dispatch,
-                focused,
-                plugin,
-                pluginProps
-              })}
+              name={document.plugin}
+              {...pluginProps}
+              config={config}
+              id={id}
+              editable
+              focused={focused}
+              state={state}
               defaultFocusRef={defaultFocusRef}
             />
           </DocumentEditor>
@@ -217,57 +230,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     plugin,
     pluginProps,
     renderIntoSettings,
-    hasSettings
+    hasSettings,
+    theme
   ])
-}
-
-function getPluginEditorProps<S extends StateType>({
-  id,
-  document,
-  focused,
-  plugin,
-  dispatch,
-  pluginProps
-}: {
-  id: string
-  document: DocumentState
-  focused: boolean
-  plugin: Plugin
-  dispatch: ReturnType<typeof useScopedDispatch>
-  pluginProps: DocumentProps['pluginProps']
-}):
-  | Omit<StatefulPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'>
-  | Omit<StatelessPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
-  if (isStatefulPlugin(plugin)) {
-    const onChange = (
-      updater: (value: unknown, helpers: StoreDeserializeHelpers) => void
-    ) => {
-      dispatch(
-        change({
-          id,
-          state: updater
-        })
-      )
-    }
-    const state = plugin.state.init(document.state, onChange, {
-      ...pluginProps,
-      name: document.plugin
-    })
-    return {
-      ...pluginProps,
-      id,
-      editable: true,
-      focused,
-      name: document.plugin,
-      state
-    }
-  }
-
-  return {
-    ...pluginProps,
-    id,
-    editable: true,
-    focused,
-    name: document.plugin
-  }
 }
