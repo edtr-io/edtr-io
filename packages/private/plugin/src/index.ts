@@ -8,30 +8,34 @@ import {
   StateTypeSerializedType,
   StateTypeValueType
 } from '@edtr-io/internal__plugin-state'
+import { Theme } from '@edtr-io/ui'
 import * as React from 'react'
 
 /**
  * An Edtr.io plugin is either a [[StatelessPlugin]] or a [[StatefulPlugin]]
  *
  * @typeparam S - [[StateType]] of the plugin (only used when the plugin is stateful)
- * @typeparam Props - additional props that the plugin component accepts
+ * @typeparam Config - config that the plugin component accepts
  */
-export type Plugin<
-  S extends StateType = StateType,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Props = any
-> = StatelessPlugin<Props> | StatefulPlugin<S, Props>
+export type Plugin<S extends StateType = StateType, Config extends {} = {}> =
+  | StatelessPlugin<Config>
+  | StatefulPlugin<S, Config>
 
 /**
  * An Edtr.io plugin without state
  *
- * @typeparam Props - additional props that the plugin component accepts
+ * @typeparam Config - config that the plugin component accepts
  */
-export interface StatelessPlugin<Props = {}> {
+export interface StatelessPlugin<Config extends {} = {}> {
   /**
-   * React component that will be used to render the plugin. It accepts [[StatelessPluginEditorProps]] and `Props`..
+   * React component that will be used to render the plugin. It accepts [[StatelessPluginEditorProps]].
    */
-  Component: React.ComponentType<StatelessPluginEditorProps & Props>
+  Component: React.ComponentType<StatelessPluginEditorProps<Config>>
+
+  /**
+   * Plugin configuration
+   */
+  config: Config | ((theme: Theme) => Config)
 
   /**
    * May be provided to let the plugin respond to [`paste` events](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
@@ -63,8 +67,15 @@ export interface StatelessPlugin<Props = {}> {
 
 /**
  * Props for the component of a [[StatelessPlugin]]
+ *
+ * @typeparam Config - config that the plugin component accepts
  */
-export interface StatelessPluginEditorProps {
+export interface StatelessPluginEditorProps<Config extends {} = {}> {
+  /**
+   * Plugin configuration
+   */
+  config: Config
+
   /**
    * ID of the document
    */
@@ -104,12 +115,18 @@ export interface StatelessPluginEditorProps {
  * An Edtr.io plugin with state
  *
  * @typeparam S - [[StateType]] of the plugin
+ * @typeparam Config - config that the plugin component accepts
  */
-export interface StatefulPlugin<S extends StateType, Props = {}> {
+export interface StatefulPlugin<S extends StateType, Config extends {} = {}> {
   /**
-   * React component that will be used to render the plugin. It accepts [[StatefulPluginEditorProps]] and `Props`.
+   * React component that will be used to render the plugin. It accepts [[StatefulPluginEditorProps]].
    */
-  Component: React.ComponentType<StatefulPluginEditorProps<S> & Props>
+  Component: React.ComponentType<StatefulPluginEditorProps<S, Config>>
+
+  /**
+   * Plugin configuration
+   */
+  config: Config | ((theme: Theme) => Config)
 
   /**
    * [[StateType]] of the plugin
@@ -164,9 +181,12 @@ export interface StatefulPlugin<S extends StateType, Props = {}> {
  * Props for the component of a [[StatefulPlugin]]
  *
  * @typeparam S - [[StateType]] of the plugin
+ * @typeparam Config - config that the plugin component accepts
  */
-export interface StatefulPluginEditorProps<S extends StateType = StateType>
-  extends StatelessPluginEditorProps {
+export interface StatefulPluginEditorProps<
+  S extends StateType = StateType,
+  Config extends {} = {}
+> extends StatelessPluginEditorProps<Config> {
   /**
    * Current state of the document
    *
