@@ -95,24 +95,26 @@ export function createDefaultDocumentEditor(
     })
 
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
-      return renderSettings ? ( children, { close }) => {
-        return (
-          <React.Fragment>
-            <Header>
-              <H4>Erweiterte Einstellungen</H4>
-              <BorderlessOverlayButton
-                onClick={() => {
-                  close()
-                }}
-                label="Schließen"
-              >
-                <EdtrIcon icon={edtrClose} />
-              </BorderlessOverlayButton>
-            </Header>
-            {renderSettings(children, { close })}
-          </React.Fragment>
-        )
-      } : undefined
+      return renderSettings
+        ? (children, { close }) => {
+            return (
+              <React.Fragment>
+                <Header>
+                  <H4>Erweiterte Einstellungen</H4>
+                  <BorderlessOverlayButton
+                    onClick={() => {
+                      close()
+                    }}
+                    label="Schließen"
+                  >
+                    <EdtrIcon icon={edtrClose} />
+                  </BorderlessOverlayButton>
+                </Header>
+                {renderSettings(children, { close })}
+              </React.Fragment>
+            )
+          }
+        : undefined
     }, [renderSettings])
     const expanded = focused && (showSettings() || showToolbar())
     const toolbar = (

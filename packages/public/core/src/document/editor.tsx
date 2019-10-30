@@ -26,7 +26,7 @@ import {
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { HotKeys } from 'react-hotkeys'
+import { HotKeys, IgnoreKeys } from 'react-hotkeys'
 
 import { DocumentProps } from '.'
 import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
@@ -113,7 +113,10 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     (children: React.ReactNode) => {
       setHasSettings(true)
       if (!settingsRef.current) return null
-      return createPortal(children, settingsRef.current)
+      return createPortal(
+        <IgnoreKeys>{children}</IgnoreKeys>,
+        settingsRef.current
+      )
     },
     [settingsRef]
   )
@@ -204,16 +207,17 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       </HotKeys>
     )
   }, [
-    dispatch,
     document,
-    focused,
-    handleFocus,
-    handleKeyDown,
-    id,
     plugin,
+    handleFocus,
+    hasSettings,
+    focused,
     pluginProps,
+    PluginToolbar,
     renderIntoSettings,
-    hasSettings
+    id,
+    dispatch,
+    handleKeyDown
   ])
 }
 

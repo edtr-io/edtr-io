@@ -16,7 +16,6 @@ import {
 } from '@edtr-io/store'
 import {
   edtrDragHandle,
-  edtrClose,
   EdtrIcon,
   styled,
   Icon,

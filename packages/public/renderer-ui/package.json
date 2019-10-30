@@ -27,7 +27,6 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-hotkeys": "^2.0.0",
     "styled-components": "^4.0.0"
   },
   "peerDependencies": {
@@ -36,7 +35,6 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-hotkeys": "^2.0.0",
     "styled-components": "^4.0.0"
   },
   "publishConfig": {

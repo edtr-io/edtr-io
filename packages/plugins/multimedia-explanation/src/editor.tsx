@@ -1,7 +1,11 @@
 import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { getDocument, hasFocusedDescendant, isFocused } from '@edtr-io/store'
-import { styled, faSyncAlt, EdtrIcon, edtrClose } from '@edtr-io/ui'
+import {
+  hasFocusedDescendant,
+  isFocused,
+  serializeDocument
+} from '@edtr-io/store'
+import { styled, faRandom, Icon } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { MultimediaExplanationState, PluginRegistry } from '.'
@@ -30,6 +34,39 @@ const Container = styled.div<{ hasFocus: boolean }>(props => {
   }
 })
 
+const InlineOptionsWrapper = styled.div({
+  position: 'absolute',
+  top: '-30px',
+  right: '0',
+  padding: '30px',
+  zIndex: 95,
+  whiteSpace: 'nowrap'
+})
+
+const InlineOptionsContentWrapper = styled.div({
+  boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  borderRadius: '4px'
+})
+
+function InlineOptions(props: React.PropsWithChildren<{}>) {
+  return (
+    <InlineOptionsWrapper>
+      <InlineOptionsContentWrapper>
+        {props.children}
+      </InlineOptionsContentWrapper>
+    </InlineOptionsWrapper>
+  )
+}
+const Option = styled.div({
+  padding: '5px 10px',
+  cursor: 'pointer',
+  width: '100%',
+  minWidth: '150px',
+  '&:hover': {
+    color: 'rgb(70, 155, 255)'
+  }
+})
 export function createMultimediaExplanationEditor(
   multimediaPlugins: PluginRegistry
 ) {
@@ -39,19 +76,41 @@ export function createMultimediaExplanationEditor(
     function handleIllustratingChange(e: React.ChangeEvent<HTMLSelectElement>) {
       props.state.illustrating.set(e.target.value === 'illustrating')
     }
-    const textFocused = useScopedSelector(hasFocusedDescendant(props.state.explanation.id))
+    const textFocused = useScopedSelector(
+      hasFocusedDescendant(props.state.explanation.id)
+    )
 
     const multimediaFocused = useScopedSelector(
       isFocused(props.state.multimedia.id)
     )
-    const multimedia = useScopedSelector(getDocument(props.state.multimedia.id))
-    function handleMultimediaChange(e: React.ChangeEvent<HTMLSelectElement>) {
-      props.state.multimedia.replace(e.target.value)
+    const multimedia: {
+      plugin: string
+      state?: unknown
+    } | null = useScopedSelector(serializeDocument(props.state.multimedia.id))
+    const [
+      replacedMultimediaCache,
+      setReplacedMultimediaCache
+    ] = React.useState<Record<string, unknown>>({})
+    function handleMultimediaChange(selected: string) {
+      setReplacedMultimediaCache(current => {
+        if (!multimedia) return current
+
+        return {
+          ...current,
+          [multimedia.plugin]: multimedia.state
+        }
+      })
+      props.state.multimedia.replace(
+        selected,
+        replacedMultimediaCache[selected]
+      )
     }
+    const [showOptions, setShowOptions] = React.useState(false)
+
     const PluginSelection = (
       <select
         value={multimedia ? multimedia.plugin : ''}
-        onChange={handleMultimediaChange}
+        onChange={e => handleMultimediaChange(e.target.value)}
       >
         {multimediaPlugins.map((plugin, i) => {
           return (
@@ -94,17 +153,49 @@ export function createMultimediaExplanationEditor(
         <Container hasFocus={props.focused || multimediaFocused || textFocused}>
           <Floating floating={props.state.illustrating.value}>
             {props.state.multimedia.render({
-              // renderToolbar(children) {
-              //   return (
-              //     <React.Fragment>
-              //       <PluginToolbarButton
-              //         icon={faSyncAlt}
-              //         label="Tausche das Multimedia Element"
-              //       />
-              //       {children}
-              //     </React.Fragment>
-              //   )
-              // },
+              renderToolbar(children) {
+                return (
+                  <React.Fragment>
+                    <div
+                      style={{ position: 'relative' }}
+                      onMouseLeave={() => {
+                        setShowOptions(false)
+                      }}
+                    >
+                      <PluginToolbarButton
+                        icon={<Icon icon={faRandom} />}
+                        label="Tausche das Multimedia Element"
+                        onClick={() => {
+                          setShowOptions(true)
+                        }}
+                      />
+                      {showOptions ? (
+                        <InlineOptions>
+                          {multimediaPlugins
+                            .filter(
+                              plugin =>
+                                !multimedia || plugin.name !== multimedia.plugin
+                            )
+                            .map((plugin, i) => {
+                              return (
+                                <Option
+                                  key={i}
+                                  onClick={() => {
+                                    handleMultimediaChange(plugin.name)
+                                    setShowOptions(false)
+                                  }}
+                                >
+                                  {plugin.title}
+                                </Option>
+                              )
+                            })}
+                        </InlineOptions>
+                      ) : null}
+                    </div>
+                    {children}
+                  </React.Fragment>
+                )
+              },
               renderSettings(children) {
                 return (
                   <React.Fragment>

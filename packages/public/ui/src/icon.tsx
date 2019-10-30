@@ -100,7 +100,7 @@ export { faDotCircle } from '@fortawesome/free-solid-svg-icons/faDotCircle'
 export { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare'
 export { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
 export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
-export { faSyncAlt } from '@fortawesome/free-solid-svg-icons/faSyncAlt'
+export { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom'
 export {
   faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'

@@ -17,3 +17,4 @@ export {
 } from './store'
 export { PreferenceContext, setDefaultPreference } from './contexts'
 export * from './plugin-toolbar'
+export { HotKeys, IgnoreKeys, GlobalHotKeys } from 'react-hotkeys'
