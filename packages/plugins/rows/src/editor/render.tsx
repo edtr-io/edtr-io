@@ -58,15 +58,6 @@ const Left = styled.div({
   flex: 1
 })
 
-const Header = styled.div({
-  display: 'flex',
-  justifyContent: 'space-between'
-})
-
-const H4 = styled.h4({
-  marginRight: '25px'
-})
-
 const BorderlessOverlayButton = styled(OverlayButton)({
   border: 'none !important',
   padding: '0 !important',
@@ -230,17 +221,6 @@ export function RowRenderer({
       renderSettings(children: React.ReactNode, { close }: { close(): void }) {
         return (
           <React.Fragment>
-            <Header>
-              <H4>Erweiterte Einstellungen</H4>
-              <BorderlessOverlayButton
-                onClick={() => {
-                  close()
-                }}
-                label="Schließen"
-              >
-                <EdtrIcon icon={edtrClose} />
-              </BorderlessOverlayButton>
-            </Header>
             {children}
             <hr />
             <ButtonContainer>

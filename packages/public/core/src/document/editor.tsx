@@ -29,11 +29,7 @@ import { createPortal } from 'react-dom'
 import { HotKeys } from 'react-hotkeys'
 
 import { DocumentProps } from '.'
-import { DocumentEditorContext } from '../contexts'
-import {
-  PluginToolbarButton,
-  PluginToolbarOverlayButton
-} from '../plugin-toolbar'
+import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
 import { useScopedDispatch, useScopedSelector } from '../store'
 
 const StyledDocument = styled.div({
@@ -54,6 +50,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     window.document.createElement('div')
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
+  const PluginToolbar = React.useContext(PluginToolbarContext)
   const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
     null
   )
@@ -188,8 +185,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             renderSettings={pluginProps && pluginProps.renderSettings}
             renderToolbar={pluginProps && pluginProps.renderToolbar}
             settingsRef={settingsRef}
-            PluginToolbarButton={PluginToolbarButton}
-            PluginToolbarOverlayButton={PluginToolbarOverlayButton}
+            PluginToolbar={PluginToolbar}
           >
             <plugin.Component
               renderIntoSettings={renderIntoSettings}

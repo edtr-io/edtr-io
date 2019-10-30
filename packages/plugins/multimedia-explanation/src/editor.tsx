@@ -1,7 +1,7 @@
-import { useScopedSelector } from '@edtr-io/core'
-import { styled } from '@edtr-io/editor-ui'
+import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { getDocument, isFocused } from '@edtr-io/store'
+import { getDocument, hasFocusedDescendant, isFocused } from '@edtr-io/store'
+import { styled, faSyncAlt, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { MultimediaExplanationState, PluginRegistry } from '.'
@@ -24,21 +24,9 @@ const Clear = styled.div({
   clear: 'both'
 })
 
-const Container = styled.div<{ focused: boolean }>(props => {
+const Container = styled.div<{ hasFocus: boolean }>(props => {
   return {
-    border: props.focused ? '2px solid #ccc' : ''
-  }
-})
-
-const Start = styled.div({
-  textAlign: 'center'
-})
-
-const FlexWrapper = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  '> div': {
-    flex: 1
+    border: props.hasFocus ? '2px solid #ccc' : ''
   }
 })
 
@@ -46,36 +34,12 @@ export function createMultimediaExplanationEditor(
   multimediaPlugins: PluginRegistry
 ) {
   return function MultimediaExplanationEditor(
-    props: StatefulPluginEditorProps<MultimediaExplanationState> & {
-      renderIntoExtendedSettings?: (
-        children: React.ReactNode
-      ) => React.ReactNode
-    }
+    props: StatefulPluginEditorProps<MultimediaExplanationState>
   ) {
     function handleIllustratingChange(e: React.ChangeEvent<HTMLSelectElement>) {
       props.state.illustrating.set(e.target.value === 'illustrating')
     }
-
-    const IllustratingSelection = (
-      <React.Fragment>
-        <div style={{ flex: 1 }}>
-          <strong>Wie wichtig ist der Multimedia Inhalt?</strong>
-        </div>
-        <div style={{ flex: 1 }}>
-          <select
-            value={
-              props.state.illustrating.value ? 'illustrating' : 'explaining'
-            }
-            onChange={handleIllustratingChange}
-          >
-            <option value="illustrating">
-              Es ist nur eine Veranschaulichung
-            </option>
-            <option value="explaining">Es spielt eine zentrale Rolle</option>
-          </select>
-        </div>
-      </React.Fragment>
-    )
+    const textFocused = useScopedSelector(hasFocusedDescendant(props.state.explanation.id))
 
     const multimediaFocused = useScopedSelector(
       isFocused(props.state.multimedia.id)
@@ -99,46 +63,62 @@ export function createMultimediaExplanationEditor(
       </select>
     )
 
+    const MultimediaSettings = (
+      <React.Fragment>
+        <hr />
+        <div style={{ flex: 1 }}>
+          <strong>Wie wichtig ist der Multimedia Inhalt?</strong>
+        </div>
+        <div style={{ flex: 1 }}>
+          <select
+            value={
+              props.state.illustrating.value ? 'illustrating' : 'explaining'
+            }
+            onChange={handleIllustratingChange}
+          >
+            <option value="illustrating">
+              Es ist nur eine Veranschaulichung
+            </option>
+            <option value="explaining">Es spielt eine zentrale Rolle</option>
+          </select>
+        </div>
+        <div>
+          <strong>Tausche das Multimedia Element:</strong>
+          {PluginSelection}
+        </div>
+      </React.Fragment>
+    )
+
     return (
       <React.Fragment>
-        {props.state.initialized.value ? (
-          <React.Fragment>
-            <Container focused={props.focused || multimediaFocused}>
-              <Floating floating={props.state.illustrating.value}>
-                {props.state.multimedia.render()}
-              </Floating>
-              {props.state.explanation.render()}
-              <Clear />
-            </Container>
-            {props.renderIntoExtendedSettings
-              ? props.renderIntoExtendedSettings(
+        <Container hasFocus={props.focused || multimediaFocused || textFocused}>
+          <Floating floating={props.state.illustrating.value}>
+            {props.state.multimedia.render({
+              // renderToolbar(children) {
+              //   return (
+              //     <React.Fragment>
+              //       <PluginToolbarButton
+              //         icon={faSyncAlt}
+              //         label="Tausche das Multimedia Element"
+              //       />
+              //       {children}
+              //     </React.Fragment>
+              //   )
+              // },
+              renderSettings(children) {
+                return (
                   <React.Fragment>
-                    <hr />
-                    {IllustratingSelection}
-                    <div>
-                      <strong>Tausche das Multimedia Element:</strong>
-                      {PluginSelection}
-                    </div>
+                    {children}
+                    {MultimediaSettings}
                   </React.Fragment>
                 )
-              : null}
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <FlexWrapper>
-              {IllustratingSelection}
-              <div>
-                <strong>Wähle das Multimedia Element:</strong>
-                {PluginSelection}
-              </div>
-            </FlexWrapper>
-            <Start>
-              <button onClick={() => props.state.initialized.set(true)}>
-                OK
-              </button>
-            </Start>
-          </React.Fragment>
-        )}
+              }
+            })}
+          </Floating>
+          {props.state.explanation.render()}
+          <Clear />
+        </Container>
+        {props.editable ? props.renderIntoSettings(MultimediaSettings) : null}
       </React.Fragment>
     )
   }

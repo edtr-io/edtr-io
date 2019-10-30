@@ -8,8 +8,7 @@ export const multimediaExplanationState = (multimediaPlugins: PluginRegistry) =>
   object({
     explanation: child('rows'),
     multimedia: child(multimediaPlugins[0].name),
-    illustrating: boolean(true),
-    initialized: boolean(false)
+    illustrating: boolean(true)
   })
 
 export type MultimediaExplanationState = ReturnType<
