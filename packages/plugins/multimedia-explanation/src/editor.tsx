@@ -6,19 +6,26 @@ import {
   serializeDocument
 } from '@edtr-io/store'
 import { styled, faRandom, Icon } from '@edtr-io/ui'
+import { Resizable } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { MultimediaExplanationState, PluginRegistry } from '.'
 
-const Floating = styled.div<{ floating: boolean }>(props => {
+const STEPS = 4
+
+const Floating = styled.div<{ floating: boolean; width: number }>(props => {
   return {
     ...(props.floating
       ? {
-          width: '50%',
+          width: `${props.width}%`,
           float: 'right',
           zIndex: 10
         }
       : {}),
+    '@media (max-width: 650px)': {
+      width: '100%',
+      float: 'none'
+    },
     padding: '5px',
     position: 'relative'
   }
@@ -83,6 +90,9 @@ export function createMultimediaExplanationEditor(
     const multimediaFocused = useScopedSelector(
       isFocused(props.state.multimedia.id)
     )
+
+    const hasFocus = props.focused || multimediaFocused || textFocused
+
     const multimedia: {
       plugin: string
       state?: unknown
@@ -148,63 +158,99 @@ export function createMultimediaExplanationEditor(
       </React.Fragment>
     )
 
+    const [rowWidth, setRowWidth] = React.useState(0)
+    console.log(rowWidth)
+    const [widthInSteps, setWidthInSteps] = React.useState(
+      (props.state.width.value * STEPS) / 100
+    )
+    React.useEffect(() => {
+      setWidthInSteps((props.state.width.value * STEPS) / 100)
+    }, [props.state.width.value])
+
+    const multimediaRendered = props.state.multimedia.render({
+      renderToolbar(children) {
+        return (
+          <React.Fragment>
+            <div
+              style={{ position: 'relative' }}
+              onMouseLeave={() => {
+                setShowOptions(false)
+              }}
+            >
+              <PluginToolbarButton
+                icon={<Icon icon={faRandom} />}
+                label="Tausche das Multimedia Element"
+                onClick={() => {
+                  setShowOptions(true)
+                }}
+              />
+              {showOptions ? (
+                <InlineOptions>
+                  {multimediaPlugins
+                    .filter(
+                      plugin => !multimedia || plugin.name !== multimedia.plugin
+                    )
+                    .map((plugin, i) => {
+                      return (
+                        <Option
+                          key={i}
+                          onClick={() => {
+                            handleMultimediaChange(plugin.name)
+                            setShowOptions(false)
+                          }}
+                        >
+                          {plugin.title}
+                        </Option>
+                      )
+                    })}
+                </InlineOptions>
+              ) : null}
+            </div>
+            {children}
+          </React.Fragment>
+        )
+      },
+      renderSettings(children) {
+        return (
+          <React.Fragment>
+            {children}
+            {MultimediaSettings}
+          </React.Fragment>
+        )
+      }
+    })
+
     return (
       <React.Fragment>
-        <Container hasFocus={props.focused || multimediaFocused || textFocused}>
-          <Floating floating={props.state.illustrating.value}>
-            {props.state.multimedia.render({
-              renderToolbar(children) {
-                return (
-                  <React.Fragment>
-                    <div
-                      style={{ position: 'relative' }}
-                      onMouseLeave={() => {
-                        setShowOptions(false)
-                      }}
-                    >
-                      <PluginToolbarButton
-                        icon={<Icon icon={faRandom} />}
-                        label="Tausche das Multimedia Element"
-                        onClick={() => {
-                          setShowOptions(true)
-                        }}
-                      />
-                      {showOptions ? (
-                        <InlineOptions>
-                          {multimediaPlugins
-                            .filter(
-                              plugin =>
-                                !multimedia || plugin.name !== multimedia.plugin
-                            )
-                            .map((plugin, i) => {
-                              return (
-                                <Option
-                                  key={i}
-                                  onClick={() => {
-                                    handleMultimediaChange(plugin.name)
-                                    setShowOptions(false)
-                                  }}
-                                >
-                                  {plugin.title}
-                                </Option>
-                              )
-                            })}
-                        </InlineOptions>
-                      ) : null}
-                    </div>
-                    {children}
-                  </React.Fragment>
-                )
-              },
-              renderSettings(children) {
-                return (
-                  <React.Fragment>
-                    {children}
-                    {MultimediaSettings}
-                  </React.Fragment>
-                )
-              }
-            })}
+        <Container
+          hasFocus={hasFocus}
+          ref={el => {
+            if (!el) return
+            setRowWidth(el.offsetWidth)
+          }}
+        >
+          <Floating
+            floating={props.state.illustrating.value}
+            width={(widthInSteps * 100) / STEPS}
+          >
+            {props.editable && hasFocus ? (
+              <Resizable
+                steps={STEPS}
+                onChange={newWidth => {
+                  setWidthInSteps(newWidth)
+                }}
+                onResizeEnd={newWidth => {
+                  props.state.width.set(Math.round((newWidth * 100) / STEPS))
+                }}
+                rowWidth={rowWidth}
+                widthInSteps={widthInSteps}
+                floating="right"
+              >
+                {multimediaRendered}
+              </Resizable>
+            ) : (
+              multimediaRendered
+            )}
           </Floating>
           {props.state.explanation.render()}
           <Clear />

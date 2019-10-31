@@ -1,4 +1,4 @@
-import { boolean, child, object, StatefulPlugin } from '@edtr-io/plugin'
+import { boolean, child, number, object, StatefulPlugin } from '@edtr-io/plugin'
 import { createIcon, faPhotoVideo } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -8,7 +8,8 @@ export const multimediaExplanationState = (multimediaPlugins: PluginRegistry) =>
   object({
     explanation: child('rows'),
     multimedia: child(multimediaPlugins[0].name),
-    illustrating: boolean(true)
+    illustrating: boolean(true),
+    width: number(50) //percent
   })
 
 export type MultimediaExplanationState = ReturnType<
