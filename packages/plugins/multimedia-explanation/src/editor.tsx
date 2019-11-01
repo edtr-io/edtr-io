@@ -1,4 +1,5 @@
 import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
+import { Resizable } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import {
   hasFocusedDescendant,
@@ -6,29 +7,16 @@ import {
   serializeDocument
 } from '@edtr-io/store'
 import { styled, faRandom, Icon } from '@edtr-io/ui'
-import { Resizable } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { MultimediaExplanationState, PluginRegistry } from '.'
 
 const STEPS = 4
+const BREAKPOINT = 650
 
-const Floating = styled.div<{ floating: boolean; width: number }>(props => {
-  return {
-    ...(props.floating
-      ? {
-          width: `${props.width}%`,
-          float: 'right',
-          zIndex: 10
-        }
-      : {}),
-    '@media (max-width: 650px)': {
-      width: '100%',
-      float: 'none'
-    },
-    padding: '5px',
-    position: 'relative'
-  }
+const StyledResizable = styled(Resizable)({
+  padding: '5px',
+  position: 'relative'
 })
 
 const Clear = styled.div({
@@ -159,13 +147,6 @@ export function createMultimediaExplanationEditor(
     )
 
     const [rowWidth, setRowWidth] = React.useState(0)
-    console.log(rowWidth)
-    const [widthInSteps, setWidthInSteps] = React.useState(
-      (props.state.width.value * STEPS) / 100
-    )
-    React.useEffect(() => {
-      setWidthInSteps((props.state.width.value * STEPS) / 100)
-    }, [props.state.width.value])
 
     const multimediaRendered = props.state.multimedia.render({
       renderToolbar(children) {
@@ -229,29 +210,25 @@ export function createMultimediaExplanationEditor(
             setRowWidth(el.offsetWidth)
           }}
         >
-          <Floating
-            floating={props.state.illustrating.value}
-            width={(widthInSteps * 100) / STEPS}
-          >
-            {props.editable && hasFocus ? (
-              <Resizable
-                steps={STEPS}
-                onChange={newWidth => {
-                  setWidthInSteps(newWidth)
-                }}
-                onResizeEnd={newWidth => {
-                  props.state.width.set(Math.round((newWidth * 100) / STEPS))
-                }}
-                rowWidth={rowWidth}
-                widthInSteps={widthInSteps}
-                floating="right"
-              >
-                {multimediaRendered}
-              </Resizable>
-            ) : (
-              multimediaRendered
-            )}
-          </Floating>
+          {props.state.illustrating.value ? (
+            <StyledResizable
+              enabled={
+                props.editable && hasFocus && props.state.illustrating.value
+              }
+              responsiveBreakpoint={BREAKPOINT}
+              steps={STEPS}
+              onResizeEnd={newWidth => {
+                props.state.width.set(Math.round((newWidth * 100) / STEPS))
+              }}
+              rowWidth={rowWidth}
+              widthInSteps={(props.state.width.value * STEPS) / 100}
+              floating="right"
+            >
+              {multimediaRendered}
+            </StyledResizable>
+          ) : (
+            multimediaRendered
+          )}
           {props.state.explanation.render()}
           <Clear />
         </Container>

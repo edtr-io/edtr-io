@@ -32,7 +32,7 @@ addStory('Plugins/Multimedia Explanation/Prefilled Illustrating Image', {
             }
           },
           illustrating: true,
-          initialized: true
+          width: 50
         }
       }
     ]
@@ -60,7 +60,7 @@ addStory('Plugins/Multimedia Explanation/Prefilled Explaining Image', {
             }
           },
           illustrating: false,
-          initialized: true
+          width: 50
         }
       }
     ]
