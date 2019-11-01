@@ -2821,7 +2821,7 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-resizable@^1.7.1":
+"@types/react-resizable@^1.0.0":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@types/react-resizable/-/react-resizable-1.7.1.tgz#a9383c488a935e6bca3d845cec10e83218b623a9"
   integrity sha512-kb9Sq/KDGQy8BIyB/xtWFv1Jqb5ff1CsmZCfWUuwZXSVrfYE+snnFtmNs98jpcBRXsSuoPmOdYd6a3MiLJI5zQ==
@@ -11841,7 +11841,7 @@ react-redux@^7.1.1:
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-react-resizable@^1.9.0:
+react-resizable@^1.0.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.9.0.tgz#7426f06852180e6844bbbc32ead67760d2904a65"
   integrity sha512-YAls7H4+34MMDg2cPnhVfLtes//XWvrLNuxbVwawwJFIGlPvhGi8BLCcIsDdLJ2CCCxtymVotk2Hq4RtPJ7t5g==

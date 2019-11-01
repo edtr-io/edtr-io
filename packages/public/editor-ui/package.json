@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@edtr-io/ui": "^0.12.0",
-    "react-resizable": "^1.9.0",
+    "react-resizable": "^1.0.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-onclickoutside": "^6.0.0",
-    "@types/react-resizable": "^1.7.1",
+    "@types/react-resizable": "^1.0.0",
     "@types/styled-components": "^4.0.0",
     "ramda": "^0.26.1",
     "react-onclickoutside": "^6.0.0"

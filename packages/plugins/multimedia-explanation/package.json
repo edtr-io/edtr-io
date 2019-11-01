@@ -16,9 +16,7 @@
     "@edtr-io/plugin": "^0.12.0",
     "@edtr-io/renderer-ui": "^0.12.0",
     "@types/react": "^16.8.0",
-    "@types/react-dom": "^16.8.0",
-    "@types/react-syntax-highlighter": "^10.0.0",
-    "react-syntax-highlighter": "^10.0.0"
+    "@types/react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@edtr-io/core": "^0.12.0",
