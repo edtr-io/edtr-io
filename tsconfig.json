@@ -5,40 +5,6 @@
     "importHelpers": false,
     "baseUrl": "packages",
     "paths": {
-<<<<<<< HEAD
-      "@edtr-io/abstract-plugin": ["abstract-plugin/src"],
-      "@edtr-io/abstract-plugin-state": ["abstract-plugin-state/src"],
-      "@edtr-io/core": ["core/src"],
-      "@edtr-io/fixtures": ["fixtures/src"],
-      "@edtr-io/plugin": ["plugin/src"],
-      "@edtr-io/renderer": ["renderer/src"],
-      "@edtr-io/renderer-ssr": ["renderer-ssr/src"],
-      "@edtr-io/store": ["store/src"],
-      "@edtr-io/store-devtools": ["store-devtools/src"],
-      "@edtr-io/ui": ["ui/src"],
-      "@edtr-io/editor-ui": ["ui-editor/src"],
-      "@edtr-io/renderer-ui": ["ui-renderer/src"],
-      "@edtr-io/plugin-anchor": ["plugin-anchor/src"],
-      "@edtr-io/plugin-blockquote": ["plugin-blockquote/src"],
-      "@edtr-io/plugin-equations": ["plugin-equations/src"],
-      "@edtr-io/plugin-files": ["plugin-files/src"],
-      "@edtr-io/plugin-geogebra": ["plugin-geogebra/src"],
-      "@edtr-io/plugin-h5p": ["plugin-h5p/src"],
-      "@edtr-io/plugin-highlight": ["plugin-highlight/src"],
-      "@edtr-io/plugin-hint": ["plugin-hint/src"],
-      "@edtr-io/plugin-image": ["plugin-image/src"],
-      "@edtr-io/plugin-important-statement": ["plugin-important-statement/src"],
-      "@edtr-io/plugin-input-exercise": ["plugin-input-exercise/src"],
-      "@edtr-io/plugin-rows": ["plugin-rows/src"],
-      "@edtr-io/plugin-sc-mc-exercise": ["plugin-sc-mc-exercise/src"],
-      "@edtr-io/plugin-serlo-injection": ["plugin-serlo-injection/src"],
-      "@edtr-io/plugin-solution": ["plugin-solution/src"],
-      "@edtr-io/plugin-spoiler": ["plugin-spoiler/src"],
-      "@edtr-io/plugin-table": ["plugin-table/src"],
-      "@edtr-io/plugin-text": ["plugin-text/src"],
-      "@edtr-io/plugin-text-state": ["plugin-text-state/src"],
-      "@edtr-io/plugin-video": ["plugin-video/src"]
-=======
       // Plugins
       "@edtr-io/plugin-anchor": ["plugins/anchor/src"],
       "@edtr-io/plugin-blockquote": ["plugins/blockquote/src"],
@@ -86,7 +52,6 @@
       "@edtr-io/store": ["public/store/src"],
       "@edtr-io/store-devtools": ["public/store-devtools/src"],
       "@edtr-io/ui": ["public/ui/src"]
->>>>>>> master
     }
   }
 }

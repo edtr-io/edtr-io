@@ -1,9 +1,9 @@
-import { HeadingLevel, createHeadingNode } from '@edtr-io/plugin-text-state'
 import * as R from 'ramda'
 import * as React from 'react'
 import { Editor } from 'slate'
 
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
+import { HeadingLevel, createHeadingNode } from '../model'
 
 export interface HeadingsPluginOptions {
   EditorComponent?: React.ComponentType<

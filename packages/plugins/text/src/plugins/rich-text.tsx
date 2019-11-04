@@ -1,4 +1,3 @@
-import { strongMark, emphasizeMark } from '@edtr-io/plugin-text-state'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor } from 'slate'
@@ -10,6 +9,7 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
+import { strongMark, emphasizeMark } from '../model'
 
 // in use?
 const codeMark = 'code'

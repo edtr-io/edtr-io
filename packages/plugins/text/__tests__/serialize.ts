@@ -1,4 +1,4 @@
-import { htmlToSlateValue, slateValueToHtml } from '@edtr-io/plugin-text-state'
+import { htmlToSlateValue, slateValueToHtml } from '../src/model'
 
 describe('HTML -> Slate -> HTML', () => {
   test('case 1', () => {

@@ -1,4 +1,3 @@
-import { katexBlockNode, katexInlineNode } from '@edtr-io/plugin-text-state'
 import { canUseDOM } from 'exenv'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
@@ -12,6 +11,7 @@ import {
   trimSelection
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
+import { katexBlockNode, katexInlineNode } from '../../model'
 import { DefaultEditorComponent } from './editor'
 
 if (canUseDOM) {

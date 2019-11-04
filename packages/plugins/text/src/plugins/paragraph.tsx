@@ -1,6 +1,7 @@
-import { paragraphNode } from '@edtr-io/plugin-text-state'
 import * as React from 'react'
 import { Editor } from 'slate'
+
+import { paragraphNode } from '../model'
 
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 

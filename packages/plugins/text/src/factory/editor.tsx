@@ -1,11 +1,6 @@
 import { useScopedDispatch, useScopedSelector } from '@edtr-io/core'
 import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
 import {
-  slateSchema,
-  katexBlockNode,
-  htmlToSlateValue
-} from '@edtr-io/plugin-text-state'
-import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
   getPlugins
@@ -19,6 +14,11 @@ import { Editor, EventHook, getEventTransfer } from 'slate-react'
 import { textState } from '.'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
+import {
+  slateSchema,
+  katexBlockNode,
+  htmlToSlateValue
+} from '../model'
 
 export const createTextEditor = (
   options: TextPluginOptions

@@ -1,16 +1,5 @@
-<<<<<<< HEAD:packages/plugin-text/src/plugins/link.tsx
-import {
-  InlineInput,
-  InlineSettings,
-  Icon,
-  faExternalLinkAlt,
-  styled
-} from '@edtr-io/editor-ui'
-import { linkNode } from '@edtr-io/plugin-text-state'
-=======
 import { styled } from '@edtr-io/editor-ui'
 import { Icon, faExternalLinkAlt } from '@edtr-io/ui'
->>>>>>> master:packages/plugins/text/src/plugins/link.tsx
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Inline } from 'slate'
@@ -24,6 +13,7 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
+import { linkNode } from '../model'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 

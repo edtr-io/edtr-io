@@ -1,44 +1,23 @@
-<<<<<<< HEAD:packages/plugin-text/src/plugins/katex/editor.tsx
-import {
-  OverlayContext,
-  PreferenceContext,
-  setDefaultPreference
-} from '@edtr-io/core'
-import {
-  faQuestionCircle,
-  HoveringOverlay,
-  Icon,
-  InlineCheckbox,
-  Overlay,
-  styled
-} from '@edtr-io/editor-ui'
-import {
-  katexBlockNode,
-  katexInlineNode,
-  orderedListNode,
-  unorderedListNode
-} from '@edtr-io/plugin-text-state'
-=======
 import { PreferenceContext, setDefaultPreference } from '@edtr-io/core'
-import { styled } from '@edtr-io/editor-ui'
->>>>>>> master:packages/plugins/text/src/plugins/katex/editor.tsx
 import { EditorTextarea } from '@edtr-io/renderer-ui'
-import { faQuestionCircle, Icon } from '@edtr-io/ui'
+import { faQuestionCircle, Icon, styled } from '@edtr-io/ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 import Modal from 'react-modal'
 
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
+import {
+  katexBlockNode,
+  katexInlineNode,
+  orderedListNode,
+  unorderedListNode
+} from '../../model'
 import { Button } from '../../toolbar/button'
 import { Dropdown, Option } from '../../toolbar/dropdown'
-<<<<<<< HEAD:packages/plugin-text/src/plugins/katex/editor.tsx
-import { isList } from '../list'
-=======
 import { HoveringOverlay } from '../hovering-overlay'
 import { InlineCheckbox } from '../inline-checkbox'
-import { isList, orderedListNode, unorderedListNode } from '../list'
->>>>>>> master:packages/plugins/text/src/plugins/katex/editor.tsx
+import { isList } from '../list'
 import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

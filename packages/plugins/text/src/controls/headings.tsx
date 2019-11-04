@@ -1,13 +1,9 @@
-<<<<<<< HEAD:packages/plugin-text/src/controls/headings.tsx
-import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
-import { HeadingLevel } from '@edtr-io/plugin-text-state'
-=======
 import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
->>>>>>> master:packages/plugins/text/src/controls/headings.tsx
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { HeadingLevel } from '../model'
 import { createIsHeading, createSetHeading } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
 import { Button } from '../toolbar/button'

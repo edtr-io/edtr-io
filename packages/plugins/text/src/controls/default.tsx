@@ -1,12 +1,8 @@
-<<<<<<< HEAD:packages/plugin-text/src/controls/default.tsx
-import { EdtrIcon, edtrTextControls } from '@edtr-io/editor-ui'
-import { orderedListNode, unorderedListNode } from '@edtr-io/plugin-text-state'
-=======
 import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
->>>>>>> master:packages/plugins/text/src/controls/default.tsx
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { orderedListNode, unorderedListNode } from '../model'
 import {
   createBlockquote,
   isBlockquote,

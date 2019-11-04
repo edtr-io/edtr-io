@@ -1,4 +1,3 @@
-import { unorderedListNode, orderedListNode } from '@edtr-io/plugin-text-state'
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
@@ -6,6 +5,7 @@ import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'
 import { toggleList, isList } from './list'
 import { TextPlugin } from '..'
+import { unorderedListNode, orderedListNode } from '../model'
 
 const handleMarkdown = (
   chars: string,

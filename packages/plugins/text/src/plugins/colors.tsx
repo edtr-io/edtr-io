@@ -1,4 +1,3 @@
-import { colorMark } from '@edtr-io/plugin-text-state'
 import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor } from 'slate'
@@ -10,6 +9,7 @@ import {
   MarkRendererProps,
   TextPlugin
 } from '..'
+import { colorMark } from '../model'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<
