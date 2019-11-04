@@ -964,19 +964,19 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@convertkit/slate-keymap@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@convertkit/slate-keymap/-/slate-keymap-0.1.8.tgz#a99fe0923c78c69166480a124a750b3342e49250"
-  integrity sha512-7KV/rsNvCHWNOt/9k7D2uwV3wAm9QMGs/iY+0eAY0IXzCoLEq2oZLjsUJkJfPLXP6yGSAPukkKtPRgoVQCMmZw==
+"@convertkit/slate-keymap@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@convertkit/slate-keymap/-/slate-keymap-0.1.9.tgz#e249e0f25a8d4846a439631310f11bf1c3a4e8b6"
+  integrity sha512-poqSnfqYtdeCTp8jdRnhizStausR84LLaWcVDgEIK+fhhQkQhjLNAsWNTy3B80ER9MML027rp8dYTiUb2Wod3w==
   dependencies:
     is-hotkey "^0.1.4"
 
-"@convertkit/slate-lists@^0.2.0":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@convertkit/slate-lists/-/slate-lists-0.2.4.tgz#6216a4e646c41c3cd52712a2f95bc50f26660eac"
-  integrity sha512-SXaCjtMUiZNltlNH+Y2czYMEFdIHqkORJJdBxVJ9D0oIRsFkTQxFrfVS3eUy/5yN9Wdi7cW5vbeszSwPNSbXvg==
+"@convertkit/slate-lists@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@convertkit/slate-lists/-/slate-lists-0.2.5.tgz#16d05ce9961e15408a6a536ec58095d410cdf33d"
+  integrity sha512-3tkcC+PDzhMC0qkvkzfHxPk/7WQ5XlaktZTu8unQeHxqNNfQtUI1tMPIuOESjtX0qjxjaV9mpfiWtmVYXcBgsQ==
   dependencies:
-    "@convertkit/slate-keymap" "^0.1.8"
+    "@convertkit/slate-keymap" "^0.1.9"
 
 "@edtr-io/mathquill@^0.11.0":
   version "0.11.0"
