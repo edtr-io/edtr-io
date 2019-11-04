@@ -9,9 +9,9 @@
     "test": "jest",
     "test:ssr": "jest --config jest-ssr.config.js",
     "prebuild": "yarn --frozen-lockfile",
-    "build": "lerna run --ignore=@edtr-io/{bundle-size,demo} --stream build",
+    "build": "lerna run --ignore=@edtr-io/internal__{bundle-size,demo} --stream build",
     "prebuild-demo": "yarn build",
-    "build-demo": "lerna run --scope=@edtr-io/demo build",
+    "build-demo": "lerna run --scope=@edtr-io/internal__demo build",
     "prebuild-api-docs": "rimraf api",
     "build-api-docs": "npm-run-all build-api-docs:*",
     "build-api-docs:html": "typedoc --out api/html packages --plugin typedoc-plugin-external-module-name",
@@ -28,9 +28,9 @@
     "deploy": "yarn _publish",
     "deploy:from-package": "yarn deploy from-package",
     "deploy:prerelease": "yarn lerna version --amend --no-push && yarn deploy:from-package --dist-tag next",
-    "_eslint": "eslint \"{{packages/*,scripts}/{{__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\" --config .eslint-extended-ci.config.js --no-eslintrc",
+    "_eslint": "eslint \"{{packages/*/*,scripts}/{{__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx}\" --config .eslint-extended-ci.config.js --no-eslintrc",
     "_publish": "lerna publish --message \"release %v\"",
-    "_prettier": "prettier \"{{.circleci,docs,packages/*,scripts}/{{__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
+    "_prettier": "prettier \"{{.circleci,docs,packages/*/*,scripts}/{{__helpers__,__stories__,__tests-ssr__,__tests__,src}/**/*,*},*}.{js,jsx,ts,tsx,json,md,yaml,yml}\""
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -66,6 +66,8 @@
   },
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/plugins/*",
+    "packages/private/*",
+    "packages/public/*"
   ]
 }
