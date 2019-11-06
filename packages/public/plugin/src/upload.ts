@@ -51,13 +51,13 @@ export function upload<T>(
               return uploaded
             })
             .catch(reason => {
-              s.value = { failed: file }
+              s.value = { uploadHandled: true, failed: file }
               return Promise.reject(reason)
             })
 
           read.then((loaded: LoadedFile) => {
             if (!uploadFinished) {
-              s.value = { loaded }
+              s.value = { uploadHandled: true, loaded }
             }
           })
 
@@ -98,8 +98,10 @@ export function usePendingFilesUploader<T>(
       if (
         isTempFile(fileState.value) &&
         fileState.value.pending &&
-        !uploading[i]
+        !uploading[i] &&
+        !fileState.value.uploadHandled
       ) {
+        fileState.value.uploadHandled = true
         setUploading(currentUploading => {
           return {
             ...currentUploading,
@@ -131,6 +133,7 @@ export type UploadValidator<E = unknown> = (
 ) => { valid: true } | { valid: false; errors: E }
 
 export interface TempFile {
+  uploadHandled?: boolean
   pending?: File
   failed?: File
   loaded?: LoadedFile
