@@ -14,7 +14,7 @@ import {
   takeEvery
 } from 'redux-saga/effects'
 
-import { Action, setPartialState } from '../actions'
+import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -30,12 +30,7 @@ import {
   RedoAction,
   ResetAction
 } from './actions'
-import {
-  getInitialState,
-  getPendingChanges,
-  getRedoStack,
-  getUndoStack
-} from './reducer'
+import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
 export function* historySaga() {
   yield all([
@@ -68,8 +63,12 @@ function* commitSaga() {
   }
 }
 
-function* executeCommit(actions: Action[], combine: boolean, scope: string) {
-  yield all(actions.map(action => put(action)))
+function* executeCommit(
+  actions: ReversibleAction[],
+  combine: boolean,
+  scope: string
+) {
+  yield all(actions.map(action => put(action.action)))
   yield put(
     pureCommit({
       combine,
@@ -82,19 +81,15 @@ function* undoSaga(action: UndoAction) {
   const undoStack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
     scopeSelector(getUndoStack, action.scope)
   )
-  const replay = R.tail(undoStack)
-
-  // Revert state to last computed state
-  const { documents, focus } = yield select(
-    scopeSelector(getInitialState, action.scope)
-  )
-  yield put(setPartialState({ documents, focus })(action.scope))
-
-  // Replay all except last commit
+  const toUndo = R.head(undoStack)
+  if (!toUndo) return
   yield all(
-    R.reverse(replay).map(actions => {
-      return all(actions.map(action => put(action)))
-    })
+    R.reverse(toUndo)
+      .filter(reversibleAction => !!reversibleAction.reverse)
+      .map(reversibleAction => {
+        if (!reversibleAction.reverse) return
+        return put(reversibleAction.reverse)
+      })
   )
   yield put(pureUndo()(action.scope))
 }
@@ -105,7 +100,7 @@ function* redoSaga(action: RedoAction) {
   )
   const replay = R.head(redoStack)
   if (!replay) return
-  yield all(replay.map(action => put(action)))
+  yield all(replay.map(reversibleAction => put(reversibleAction.action)))
   yield put(pureRedo()(action.scope))
 }
 

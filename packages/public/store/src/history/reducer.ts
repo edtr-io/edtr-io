@@ -4,7 +4,7 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 
-import { Action } from '../actions'
+import { Action, ReversibleAction } from '../actions'
 import { getDocuments } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
 import {
@@ -96,8 +96,8 @@ export const hasPendingChanges = createSelector(
 )
 
 export const getUndoStack = createSelector(
-  state => getHistory()(state).undoStack as Action[][]
+  state => getHistory()(state).undoStack as ReversibleAction[][]
 )
 export const getRedoStack = createSelector(
-  state => getHistory()(state).redoStack as Action[][]
+  state => getHistory()(state).redoStack as ReversibleAction[][]
 )

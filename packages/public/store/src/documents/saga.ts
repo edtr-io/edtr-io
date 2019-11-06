@@ -6,7 +6,7 @@ import { isStatefulPlugin } from '@edtr-io/internal__plugin'
 import { StoreDeserializeHelpers } from '@edtr-io/internal__plugin-state'
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { Action } from '../actions'
+import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { commit } from '../history/actions'
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
@@ -30,7 +30,7 @@ export function* documentsSaga() {
 
 function* insertSaga(action: InsertAction) {
   const initialState = action.payload
-  const [actions]: [Action[], unknown] = yield call(
+  const [actions]: [ReversibleAction[], unknown] = yield call(
     handleRecursiveInserts,
     action.scope,
     () => {},
@@ -47,19 +47,23 @@ function* changeSaga(action: ChangeAction) {
   )
   if (!document) return
 
-  const [actions, state]: [Action[], unknown] = yield call(
+  const [actions, state]: [ReversibleAction[], unknown] = yield call(
     handleRecursiveInserts,
     action.scope,
     (helpers: StoreDeserializeHelpers) => {
       return stateHandler(document.state, helpers)
     }
   )
-  actions.push(
-    pureChange({
+  actions.push({
+    action: pureChange({
       id,
       state
+    })(action.scope),
+    reverse: pureChange({
+      id,
+      state: document.state
     })(action.scope)
-  )
+  })
   yield put(commit(actions)(action.scope))
 }
 
@@ -68,7 +72,7 @@ export function* handleRecursiveInserts(
   act: (helpers: StoreDeserializeHelpers) => unknown,
   initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
 ) {
-  const actions: Action[] = []
+  const actions: ReversibleAction[] = []
   const pendingDocs: {
     id: string
     plugin?: string
@@ -100,13 +104,14 @@ export function* handleRecursiveInserts(
     const pluginType: ReturnTypeFromSelector<
       typeof getPluginTypeOrDefault
     > = yield select(scopeSelector(getPluginTypeOrDefault, scope), doc.plugin)
-    actions.push(
-      pureInsert({
+    // we could, but don't need to reverse inserts.
+    actions.push({
+      action: pureInsert({
         id: doc.id,
         plugin: pluginType,
         state: pluginState
       })(scope)
-    )
+    })
   }
   return [actions, result]
 }

@@ -23,3 +23,13 @@ export type Action =
   | HistoryAction
   | RootAction
   | SetPartialState
+
+export interface Reversible<A = unknown, R = unknown> {
+  action: A
+  reverse?: R
+}
+
+export type ReversibleAction<
+  A extends Action = Action,
+  R extends Action = Action
+> = Reversible<A, R>

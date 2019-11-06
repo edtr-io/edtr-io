@@ -51,7 +51,7 @@ describe('History', () => {
     const undoStack = getUndoStack()(store.getState())
     expect(undoStack).toHaveLength(1)
     expect(undoStack[0]).toHaveLength(1)
-    expect(undoStack[0][0].type).toEqual(pureChange.type)
+    expect(undoStack[0][0].action.type).toEqual(pureChange.type)
   })
 
   test('Commits will be added to the redo stack after reverting', async () => {
