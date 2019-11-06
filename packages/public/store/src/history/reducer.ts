@@ -4,7 +4,7 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 
-import { Action, ReversibleAction } from '../actions'
+import { ReversibleAction } from '../actions'
 import { getDocuments } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
 import {

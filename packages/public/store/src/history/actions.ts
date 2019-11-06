@@ -2,9 +2,9 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { Reversible } from '../actions'
 import { createAction, createActionWithoutPayload } from '../helpers'
 import { ActionFromActionCreator } from '../types'
-import { Reversible } from '../actions'
 
 export const persist = createActionWithoutPayload<'Persist'>('Persist')
 export type PersistAction = ActionFromActionCreator<typeof persist>
