@@ -112,7 +112,7 @@ function PrimaryControls(
             ? 'Wird hochgeladen...'
             : 'Upload fehlgeschlagen...'
         }
-        value={!isTempFile(src.value) ? src.value : undefined}
+        value={!isTempFile(src.value) ? src.value : ''}
         disabled={isTempFile(src.value) && !src.value.failed}
         onChange={handleChange(props)('src')}
         editorInputWidth="70%"

@@ -114,7 +114,7 @@ export function createFilesEditor(
 
           return null
         })}
-        {focused ? (
+        {focused || !state.length ? (
           <Upload
             onFiles={files => {
               files.forEach(file => {
