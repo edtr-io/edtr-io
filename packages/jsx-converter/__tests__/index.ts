@@ -191,6 +191,50 @@ describe('Conversion of editor plugins to XML and back', () => {
   })
 
   /*
+   * ## Conversion of properties with attributes
+   *
+   * Properties of types `boolean`, `number` or `string` can be converted to
+   * XML attributes. A property with name `propertyName` with the value
+   * `propertyValue` of type `propertyType` is converted to
+   * `<propertyName>.<propertyType>="<propertyValue>"`.
+   *
+   * A property without a value is interpreted as `true`.
+   */
+  describe.each([
+    [
+      '<object a.int="42" b.boolean="false"></object>',
+      { a: 42, b: false }
+    ],
+    [
+      '<object s.string="Hello World"></object>',
+      { s: 'Hello World' }
+    ],
+    [
+      '<object fullscreen></object>',
+      { fullscreen: true }
+    ],
+    [
+      `<object message.string="Hello World" foo="42">
+         <bar.object baz></bar.object>
+         <bar.object baz="false"></bar.object>
+         <a.object result.int="100"></a.object>
+       </object>`,
+      {
+        message: "Hello World",
+        foo: 42,
+        bar: [
+          { baz: true },
+          { baz: false }
+        ],
+        a: { result: 100 }
+      }
+    ]
+  ])('%# object conversion with list properties', (value, markup) => {
+    test.todo('serialization')
+    test.todo('deserialization')
+  })
+
+  /*
    * ## Conversion of stateless plugin
    *
    * A stateless plugin `{ plugin: '<name>' }` is represented by
@@ -218,12 +262,106 @@ describe('Conversion of editor plugins to XML and back', () => {
    * has the prefix `plugin:name.`. The prefix `plugin:` can be omited when
    * `name` is not the name of another plugin.
    */
+  describe.each([
+    [
+      '<plugin:foo.int>42</plugin:foo.int>',
+      { plugin: 'foo', state: 42 }
+    ],
+    [
+      '<bar.string>I am a string</bar.string>',
+      { plugin: 'bar', state: 'I am a string' }
+    ],
+    [
+      `<hello.object>
+         <message>Hello World!</message>
+       </hello.object>`,
+      { plugin: 'hello', state: { message: 'Hello World!' } }
+    ]
+  ])('%# conversion of stateful plugins', () => {
+    test.todo('serialization')
+    test.todo('deserialization')
+  })
 
+  /*
+   * ## Omitting type name
+   *
+   * The type name can be omitted. In this case the type is guessed based on the
+   * following rules:
+   *
+   * 1. If the node content is text and if it is `false` or `true`, the type is
+   * `boolean`.
+   * 2. If the node content is text and if it can be converted into a number,
+   * the type is `number`
+   * 3. If the node content is text and (1) and (2) cannot be applied, the type
+   * is `string`.
+   * 4. In all other cases the type shall be `object`.
+   */
+  describe.each([
+    [ '<foo>42</foo>', { plugin: 'foo', state: 42 } ],
+    [ '<foo>false</foo>', { plugin: 'foo', state: false } ],
+    [ '<foo>Hello World</foo>', { plugin: 'foo', state: 'Hello World' } ],
+    [
+      `<object>
+         <foo>true</true>
+         <message>Hello World</message>
+         <bar.baz>
+          <a>42</a>
+         </bar.baz>
+      <object>`,
+      {
+        foo: true,
+        message: 'Hello World',
+        baz: { plugin: 'baz', state: { a: 42 } }
+      }
+    ]
+  ])('%# omitting types in the xml description.', () => {
+    test.todo('serialization')
+    test.todo('deserialization')
+  })
 
-
-   // Complex examples
-   // * list with objects, plugins
-   // * einfache Objects testen, with stateless plugins
+  /*
+   * ## Complex examples
+   */
+  describe.each([
+    [
+      `<foo>
+         <bar>42</bar>
+         <bar>
+           <singleton.list>12</singleton.list>
+         </bar>
+         <baz.boo>
+           <a>Hello World</a>
+         </baz.boo>
+       </foo>`,
+      {
+        plugin: 'foo',
+        state: {
+          bar: [ 42, { singleton: [ 42 ] }],
+          baz: { plugin: 'baz', state: { a: 'Hello World' } }
+        }
+      }
+    ],
+    [
+      `<multiplechoice>
+         <question>What is 1+1?</question>
+         <answer text.string="1" right="false"></answer>
+         <answer text.string="2" right="true"></answer>
+       </multiplechoice>`,
+      {
+        plugin: 'multiplechoice',
+        state: {
+          question: 'What is 1+1?',
+          answer: [
+            { answer: '1', right: false },
+            { answer: '2', right: true }
+          ]
+        }
+      }
+    ]
+  ])('%# omitting types in the xml description.', () => {
+    test.todo('serialization')
+    test.todo('deserialization')
+  })
 })
 
 // Examples for serialization of plugin states
