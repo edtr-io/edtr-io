@@ -1,3 +1,5 @@
+import { pluginStateToXml } from '../src/'
+
 describe('Conversion of editor plugins to XML and back', () => {
   /*
    * ## Basics
@@ -31,7 +33,9 @@ describe('Conversion of editor plugins to XML and back', () => {
     ['a&b', '<string>a&amp;b</string>'],
     ['', '<string></string>']
   ])('Primitive data %p is represented by %p', (value, markup) => {
-    test.todo(`Serialization of ${value} is ${markup}`)
+    test(`Serialization of '${value}' is '${markup}'`, () => {
+      expect(pluginStateToXml(value)).toBe(markup)
+    })
     test.todo(`Deserialization of ${markup} is ${value}`)
   })
 

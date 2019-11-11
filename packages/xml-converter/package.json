@@ -11,7 +11,9 @@
     "prebuild": "rimraf dist",
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
-  "dependencies": {},
+  "dependencies": {
+    "xml-js": "^1.6.0"
+  },
   "devDependencies": {},
   "peerDependencies": {},
   "publishConfig": {
