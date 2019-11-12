@@ -3,25 +3,36 @@ import { createIcon, faDotCircle } from '@edtr-io/ui'
 
 import { ScMcExerciseEditor } from './editor'
 
-export const AnswerProps = object({
-  id: child(),
-  isCorrect: boolean(false),
-  feedback: child(),
-  hasFeedback: boolean(false)
-})
+function createScMcExerciseState(
+  content: Parameters<typeof child>,
+  feedback: Parameters<typeof child>
+) {
+  const AnswerProps = object({
+    id: child(...content),
+    isCorrect: boolean(false),
+    feedback: child(...feedback),
+    hasFeedback: boolean(false)
+  })
 
-export const scMcExerciseState = object({
-  isSingleChoice: boolean(false),
-  answers: list(AnswerProps)
-})
+  return object({
+    isSingleChoice: boolean(false),
+    answers: list(AnswerProps)
+  })
+}
 
-export function createScMcExercisePlugin(): StatefulPlugin<
-  typeof scMcExerciseState
-> {
+export type ScMcExercisePluginState = ReturnType<typeof createScMcExerciseState>
+
+export function createScMcExercisePlugin({
+  content = [],
+  feedback = []
+}: {
+  content?: Parameters<typeof child>
+  feedback?: Parameters<typeof child>
+} = {}): StatefulPlugin<ScMcExercisePluginState> {
   return {
     Component: ScMcExerciseEditor,
     config: {},
-    state: scMcExerciseState,
+    state: createScMcExerciseState(content, feedback),
     icon: createIcon(faDotCircle),
     title: 'Auswahlaufgabe',
     description:

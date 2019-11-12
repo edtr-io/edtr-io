@@ -3,21 +3,37 @@ import { createIcon, faEquals } from '@edtr-io/ui'
 
 import { EquationsEditor } from './editor'
 
-export const StepProps = object({
-  left: child(),
-  right: child(),
-  transform: child()
-})
+function createEquationsState(
+  left: Parameters<typeof child>,
+  right: Parameters<typeof child>,
+  transform: Parameters<typeof child>
+) {
+  const StepProps = object({
+    left: child(...left),
+    right: child(...right),
+    transform: child(...transform)
+  })
 
-export const equationsState = object({
-  steps: list(StepProps)
-})
+  return object({
+    steps: list(StepProps)
+  })
+}
 
-export function createEquationsPlugin(): StatefulPlugin<typeof equationsState> {
+export type EquationsPluginState = ReturnType<typeof createEquationsState>
+
+export function createEquationsPlugin({
+  left = [],
+  right = [],
+  transform = []
+}: {
+  left?: Parameters<typeof child>
+  right?: Parameters<typeof child>
+  transform?: Parameters<typeof child>
+} = {}): StatefulPlugin<EquationsPluginState> {
   return {
     Component: EquationsEditor,
     config: {},
-    state: equationsState,
+    state: createEquationsState(left, right, transform),
     title: 'Gleichungen',
     description: 'Erzeuge einfach übersichtliche mathematische Gleichungen.',
     icon: createIcon(faEquals)

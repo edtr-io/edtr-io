@@ -3,12 +3,11 @@ import { styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
 import { isEmpty } from '@edtr-io/store'
-import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState, createInputExerciseTheme } from '.'
+import { InputExercisePluginState, InputExercisePluginConfig } from '.'
 
 enum ExerciseState {
   Default = 1,
@@ -20,9 +19,9 @@ const InputContainer = styled.div({
   display: 'flex',
   flexDirection: 'row'
 })
-const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
-  ({ name, ...props }) => {
-    const theme = createInputExerciseTheme(name, props.theme)
+const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
+  ({ config }) => {
+    const theme = config.theme
     return {
       border: 'none',
       borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
@@ -75,7 +74,10 @@ function matchesInput(field: { type: string; value: string }, input: string) {
 }
 
 export function InputExerciseRenderer(
-  props: StatefulPluginEditorProps<typeof inputExerciseState>
+  props: StatefulPluginEditorProps<
+    InputExercisePluginState,
+    InputExercisePluginConfig
+  >
 ) {
   const { state } = props
   const store = useScopedStore()
@@ -135,7 +137,7 @@ export function InputExerciseRenderer(
       <form onSubmit={checkAnswer}>
         <InputContainer>
           <InputExerciseField
-            name={props.name}
+            config={props.config}
             onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
               const { key } = (k as unknown) as KeyboardEvent
               if ((key === 'Enter' || key === 'Backspace') && props.editable) {

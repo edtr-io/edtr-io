@@ -11,7 +11,7 @@ import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { HotKeys } from 'react-hotkeys'
 
-import { equationsState } from '.'
+import { EquationsPluginState } from '.'
 import { EquationsRenderer } from './renderer'
 
 const DraggableContainer = styled.div({
@@ -53,7 +53,7 @@ const AddButtonWrapper = styled.div({
 })
 
 export function EquationsEditor(
-  props: StatefulPluginEditorProps<typeof equationsState>
+  props: StatefulPluginEditorProps<EquationsPluginState>
 ) {
   const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())

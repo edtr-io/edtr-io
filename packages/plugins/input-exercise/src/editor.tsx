@@ -10,7 +10,7 @@ import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { inputExerciseState } from '.'
+import { InputExercisePluginState, InputExercisePluginConfig } from '.'
 import { InputExerciseRenderer } from './renderer'
 
 const types = [
@@ -34,7 +34,10 @@ const AnswerTextfield = styled.input({
   width: '100%'
 })
 export function InputExerciseEditor(
-  props: StatefulPluginEditorProps<typeof inputExerciseState> & {
+  props: StatefulPluginEditorProps<
+    InputExercisePluginState,
+    InputExercisePluginConfig
+  > & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {

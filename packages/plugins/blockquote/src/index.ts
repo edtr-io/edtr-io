@@ -3,15 +3,20 @@ import { createIcon, faQuoteRight } from '@edtr-io/ui'
 
 import { BlockquoteRenderer } from './renderer'
 
-export const blockquoteState = child()
+function createBlockquoteState(content: Parameters<typeof child>) {
+  return child(...content)
+}
+export type BlockquotePluginState = ReturnType<typeof createBlockquoteState>
 
-export function createBlockquotePlugin(): StatefulPlugin<
-  typeof blockquoteState
+export function createBlockquotePlugin({
+  content = []
+}: { content?: Parameters<typeof child> } = {}): StatefulPlugin<
+  BlockquotePluginState
 > {
   return {
     Component: BlockquoteRenderer,
     config: {},
-    state: blockquoteState,
+    state: createBlockquoteState(content),
     title: 'Zitat',
     description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
     icon: createIcon(faQuoteRight)

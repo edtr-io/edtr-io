@@ -9,11 +9,11 @@ import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { scMcExerciseState } from '.'
+import { ScMcExercisePluginState } from '.'
 import { ScMcExerciseRenderer } from './renderer'
 
 export function ScMcExerciseEditor(
-  props: StatefulPluginEditorProps<typeof scMcExerciseState> & {
+  props: StatefulPluginEditorProps<ScMcExercisePluginState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {
