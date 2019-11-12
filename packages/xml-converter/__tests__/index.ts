@@ -1,4 +1,9 @@
-import { pluginStateToXml } from '../src/'
+import { PluginState, pluginStateToXml } from '../src/'
+
+type ConversionExamples = [PluginState, string][]
+
+// TODO: This type need to be deleted after implementing all TestCases
+type ConversionExamplesTodo = [any, string][]
 
 describe('Conversion of editor plugins to XML and back', () => {
   /*
@@ -20,7 +25,7 @@ describe('Conversion of editor plugins to XML and back', () => {
    *
    * A value `value` whose type `type` is one of the primitive data types
    * `number`, `boolean` or `string` is represented by the markup
-   * `<type>value</type>`. For example the number 42 is represnted by
+   * `<type>value</type>`. For example the number 42 is represented by
    * `<number>42</number>.
    */
   describe.each([
@@ -32,12 +37,15 @@ describe('Conversion of editor plugins to XML and back', () => {
     ['hello world', '<string>hello world</string>'],
     ['a&b', '<string>a&amp;b</string>'],
     ['', '<string></string>']
-  ])('Primitive data %p is represented by %p', (value, markup) => {
-    test(`Serialization of '${value}' is '${markup}'`, () => {
-      expect(pluginStateToXml(value)).toBe(markup)
-    })
-    test.todo(`Deserialization of ${markup} is ${value}`)
-  })
+  ] as ConversionExamples)(
+    'Primitive data %p is represented by %p',
+    (value, markup) => {
+      test(`Serialization of '${value}' is '${markup}'`, () => {
+        expect(pluginStateToXml(value)).toBe(markup)
+      })
+      test.todo(`Deserialization of ${markup} is ${value}`)
+    }
+  )
 
   /*
    * ## Conversion of strings with whitespaces
@@ -58,10 +66,13 @@ describe('Conversion of editor plugins to XML and back', () => {
     [' ', '<string> </string>'],
     ['\t \t', '<string>\t \t</string>'],
     ['\nhello world\n\t', '<string>\nhello world\n\t']
-  ])('%# Conversion string with whitespaces', (value, markup) => {
-    test.todo(`Serialization`)
-    test.todo(`Deserialization`)
-  })
+  ] as ConversionExamples)(
+    '%# Conversion string with whitespaces',
+    (value, markup) => {
+      test.todo(`Serialization`)
+      test.todo(`Deserialization`)
+    }
+  )
 
   /*
    * ## Conversion of lists
@@ -90,7 +101,7 @@ describe('Conversion of editor plugins to XML and back', () => {
     [[-2.3], '<list><number>-2.3</number></list>'],
     [[], '<list></list>'],
     [
-      [[true,''], []],
+      [[true, ''], []],
       `<list>
          <list>
            <boolean>true</boolean>
@@ -99,7 +110,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          <list></list>
        </list>`
     ]
-  ])('%# list conversion', (value, markup) => {
+  ] as ConversionExamplesTodo)('%# list conversion', (value, markup) => {
     test.todo('serialization')
     test.todo('deserialization')
   })
@@ -127,9 +138,9 @@ describe('Conversion of editor plugins to XML and back', () => {
          <bar.string>hello</bar.string>
        </object>`
     ],
-    [{}, '<object></object>']
+    [{}, '<object></object>'],
     [
-      { a: { b: 'hello' }, c: [ ' ', {} ], d: true },
+      { a: { b: 'hello' }, c: [' ', {}], d: true },
       `<object>
          <a.object>
            <b.string>hello</b.string>
@@ -140,7 +151,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          <d.boolean>true</d.boolean>
        </object>`
     ]
-  ])('%# object conversion', (value, markup) => {
+  ] as ConversionExamplesTodo)('%# object conversion', (value, markup) => {
     test.todo('serialization')
     test.todo('deserialization')
   })
@@ -169,7 +180,7 @@ describe('Conversion of editor plugins to XML and back', () => {
        </object>`
     ],
     [
-      { foo: false, bar: [ { a: 42 }, 42, 'hello' ], baz: [ 23 ] },
+      { foo: false, bar: [{ a: 42 }, 42, 'hello'], baz: [23] },
       `<object>
          <foo.boolean>false</foo.boolean>
          <bar.object>
@@ -182,10 +193,13 @@ describe('Conversion of editor plugins to XML and back', () => {
         </baz.list>
       </object>`
     ]
-  ])('%# object conversion with list properties', (value, markup) => {
-    test.todo('serialization')
-    test.todo('deserialization')
-  })
+  ] as ConversionExamplesTodo)(
+    '%# object conversion with list properties',
+    (value, markup) => {
+      test.todo('serialization')
+      test.todo('deserialization')
+    }
+  )
 
   /*
    * ## Conversion of properties with attributes
@@ -198,38 +212,29 @@ describe('Conversion of editor plugins to XML and back', () => {
    * A property without a value is interpreted as `true`.
    */
   describe.each([
+    [{ a: 42, b: false }, '<object a.int="42" b.boolean="false"></object>'],
+    [{ s: 'Hello World' }, '<object s.string="Hello World"></object>'],
+    [{ fullscreen: true }, '<object fullscreen></object>'],
     [
-      '<object a.int="42" b.boolean="false"></object>',
-      { a: 42, b: false }
-    ],
-    [
-      '<object s.string="Hello World"></object>',
-      { s: 'Hello World' }
-    ],
-    [
-      '<object fullscreen></object>',
-      { fullscreen: true }
-    ],
-    [
+      {
+        message: 'Hello World',
+        foo: 42,
+        bar: [{ baz: true }, { baz: false }],
+        a: { result: 100 }
+      },
       `<object message.string="Hello World" foo="42">
          <bar.object baz></bar.object>
          <bar.object baz="false"></bar.object>
          <a.object result.int="100"></a.object>
-       </object>`,
-      {
-        message: "Hello World",
-        foo: 42,
-        bar: [
-          { baz: true },
-          { baz: false }
-        ],
-        a: { result: 100 }
-      }
+       </object>`
     ]
-  ])('%# object conversion with list properties', (value, markup) => {
-    test.todo('serialization')
-    test.todo('deserialization')
-  })
+  ] as ConversionExamplesTodo)(
+    '%# object conversion with list properties',
+    (value, markup) => {
+      test.todo('serialization')
+      test.todo('deserialization')
+    }
+  )
 
   /*
    * ## Conversion of stateless plugin
@@ -260,24 +265,24 @@ describe('Conversion of editor plugins to XML and back', () => {
    * `name` is not the name of another plugin.
    */
   describe.each([
+    [{ plugin: 'foo', state: 42 }, '<plugin:foo.int>42</plugin:foo.int>'],
     [
-      '<plugin:foo.int>42</plugin:foo.int>',
-      { plugin: 'foo', state: 42 }
+      { plugin: 'bar', state: 'I am a string' },
+      '<bar.string>I am a string</bar.string>'
     ],
     [
-      '<bar.string>I am a string</bar.string>',
-      { plugin: 'bar', state: 'I am a string' }
-    ],
-    [
+      { plugin: 'hello', state: { message: 'Hello World!' } },
       `<hello.object>
          <message>Hello World!</message>
-       </hello.object>`,
-      { plugin: 'hello', state: { message: 'Hello World!' } }
+       </hello.object>`
     ]
-  ])('%# conversion of stateful plugins', () => {
-    test.todo('serialization')
-    test.todo('deserialization')
-  })
+  ] as ConversionExamplesTodo)(
+    '%# conversion of stateful plugins',
+    (value, markup) => {
+      test.todo('serialization')
+      test.todo('deserialization')
+    }
+  )
 
   /*
    * ## Omitting type name
@@ -294,33 +299,43 @@ describe('Conversion of editor plugins to XML and back', () => {
    * 4. In all other cases the type shall be `object`.
    */
   describe.each([
-    [ '<foo>42</foo>', { plugin: 'foo', state: 42 } ],
-    [ '<foo>false</foo>', { plugin: 'foo', state: false } ],
-    [ '<foo>Hello World</foo>', { plugin: 'foo', state: 'Hello World' } ],
+    [{ plugin: 'foo', state: 42 }, '<foo>42</foo>'],
+    [{ plugin: 'foo', state: false }, '<foo>false</foo>'],
+    [{ plugin: 'foo', state: 'Hello World' }, '<foo>Hello World</foo>'],
     [
+      {
+        foo: true,
+        message: 'Hello World',
+        baz: { plugin: 'baz', state: { a: 42 } }
+      },
       `<object>
          <foo>true</true>
          <message>Hello World</message>
          <bar.baz>
           <a>42</a>
          </bar.baz>
-      <object>`,
-      {
-        foo: true,
-        message: 'Hello World',
-        baz: { plugin: 'baz', state: { a: 42 } }
-      }
+      <object>`
     ]
-  ])('%# omitting types in the xml description.', () => {
-    test.todo('serialization')
-    test.todo('deserialization')
-  })
+  ] as ConversionExamplesTodo)(
+    '%# omitting types in the xml description.',
+    (value, markup) => {
+      test.todo('serialization')
+      test.todo('deserialization')
+    }
+  )
 
   /*
    * ## Complex examples
    */
   describe.each([
     [
+      {
+        plugin: 'foo',
+        state: {
+          bar: [42, { singleton: [42] }],
+          baz: { plugin: 'baz', state: { a: 'Hello World' } }
+        }
+      },
       `<foo>
          <bar>42</bar>
          <bar>
@@ -329,34 +344,27 @@ describe('Conversion of editor plugins to XML and back', () => {
          <baz.boo>
            <a>Hello World</a>
          </baz.boo>
-       </foo>`,
-      {
-        plugin: 'foo',
-        state: {
-          bar: [ 42, { singleton: [ 42 ] }],
-          baz: { plugin: 'baz', state: { a: 'Hello World' } }
-        }
-      }
+       </foo>`
     ],
     [
-      `<multiplechoice>
-         <question>What is 1+1?</question>
-         <answer text.string="1" right="false"></answer>
-         <answer text.string="2" right="true"></answer>
-       </multiplechoice>`,
       {
         plugin: 'multiplechoice',
         state: {
           question: 'What is 1+1?',
-          answer: [
-            { answer: '1', right: false },
-            { answer: '2', right: true }
-          ]
+          answer: [{ answer: '1', right: false }, { answer: '2', right: true }]
         }
-      }
+      },
+      `<multiplechoice>
+         <question>What is 1+1?</question>
+         <answer text.string="1" right="false"></answer>
+         <answer text.string="2" right="true"></answer>
+       </multiplechoice>`
     ]
-  ])('%# omitting types in the xml description.', () => {
-    test.todo('serialization')
-    test.todo('deserialization')
-  })
+  ] as ConversionExamplesTodo)(
+    '%# omitting types in the xml description.',
+    (value, markup) => {
+      test.todo('serialization')
+      test.todo('deserialization')
+    }
+  )
 })

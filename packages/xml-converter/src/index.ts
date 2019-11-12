@@ -5,7 +5,7 @@ import { js2xml, Element as XmlElement } from 'xml-js'
  * Type for the plugin state which can be converted with
  */
 // TODO: Move the following types to @edtr-io/core
-type PluginState = number | boolean | string
+export type PluginState = number | boolean | string
 
 /*
  * Converts a plugin state into a XML string. With the function
