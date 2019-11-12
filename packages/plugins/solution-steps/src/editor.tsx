@@ -1,12 +1,12 @@
 import { useScopedSelector } from '@edtr-io/core'
+import { AddButton } from '@edtr-io/editor-ui'
 import {
-  AddButton,
   styled,
   Icon,
   faTimes,
   faLevelDownAlt,
   faLevelUpAlt
-} from '@edtr-io/editor-ui'
+} from '@edtr-io/ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
 import * as React from 'react'
@@ -32,17 +32,24 @@ const Container = styled.div<{ type: string; isHalf: boolean }>(
       marginTop: '10px',
       boxShadow: ` 0 1px 3px 0 ${type === 'step' ? 'black' : 'blue'}`,
       padding: '10px 0',
-      width: isHalf ? '50%' : '100%'
+      width: isHalf ? '50%' : '100%',
+      position: 'relative'
     }
   }
 )
+const RemoveControls = styled.div({
+  right: '0',
+  position: 'absolute',
+  top: '0',
+  transform: 'translate(50%, -5px)',
+  display: 'flex',
+  flexDirection: 'column'
+})
 const RemoveButton = styled.button({
   borderRadius: '50%',
   outline: 'none',
   background: 'white',
   zIndex: 20,
-  float: 'right',
-  transform: 'translate(50%, -40%)',
   '&:hover': {
     border: '3px solid #007ec1',
     color: '#007ec1'
@@ -56,6 +63,8 @@ function AddButtons(
   }
 ) {
   const hasFocusedChild = useScopedSelector(hasFocusedDescendant(props.id))
+
+  console.log(props.id, hasFocusedChild)
 
   const insertStep = () => {
     props.state.solutionSteps.insert(props.index + 1)
@@ -95,7 +104,7 @@ export function SolutionStepsEditor(
         <React.Fragment>
           {state.introduction.render()}
           {introductionFocused ? (
-            <AddButtons index={-1} id="" {...props} />
+            <AddButtons {...props} index={-1} id="" />
           ) : null}
           <BigFlex>
             {solutionSteps.map((solutionStep, index) => {
@@ -105,35 +114,45 @@ export function SolutionStepsEditor(
                     type={solutionStep.type.value}
                     isHalf={solutionStep.isHalf.value}
                   >
-                    <RemoveButton
-                      onClick={() => {
-                        solutionSteps.remove(index)
-                      }}
-                    >
-                      <Icon icon={faTimes} />
-                    </RemoveButton>
-
+                    <RemoveControls>
+                      {solutionStep.type.value === 'explanation' ||
+                      !solutionStep.isHalf.value ? (
+                        <RemoveButton
+                          onClick={() => {
+                            solutionSteps.remove(index)
+                            if (
+                              solutionStep.type.value === 'explanation' &&
+                              solutionStep.isHalf.value
+                            ) {
+                              solutionSteps.remove(index - 1)
+                            }
+                          }}
+                        >
+                          <Icon icon={faTimes} />
+                        </RemoveButton>
+                      ) : null}
+                      {index > 0 &&
+                      solutionStep.type.value === 'explanation' &&
+                      solutionSteps[index - 1].type.value === 'step' ? (
+                        <RemoveButton
+                          onClick={() => {
+                            solutionStep.isHalf.set(!solutionStep.isHalf.value)
+                            solutionSteps[index - 1].isHalf.set(
+                              !solutionSteps[index].isHalf.value
+                            )
+                          }}
+                        >
+                          <Icon
+                            icon={
+                              solutionStep.isHalf.value
+                                ? faLevelDownAlt
+                                : faLevelUpAlt
+                            }
+                          />
+                        </RemoveButton>
+                      ) : null}
+                    </RemoveControls>
                     {solutionStep.content.render()}
-                    {index > 0 &&
-                    solutionStep.type.value === 'explanation' &&
-                    solutionSteps[index - 1].type.value === 'step' ? (
-                      <RemoveButton
-                        onClick={() => {
-                          solutionStep.isHalf.set(!solutionStep.isHalf.value)
-                          solutionSteps[index - 1].isHalf.set(
-                            !solutionSteps[index].isHalf.value
-                          )
-                        }}
-                      >
-                        <Icon
-                          icon={
-                            solutionStep.isHalf.value
-                              ? faLevelDownAlt
-                              : faLevelUpAlt
-                          }
-                        />
-                      </RemoveButton>
-                    ) : null}
                   </Container>
                   {index < solutionSteps.length - 1 &&
                   !(
@@ -141,16 +160,16 @@ export function SolutionStepsEditor(
                     solutionStep.isHalf.value
                   ) ? (
                     <AddButtons
+                      {...props}
                       id={solutionStep.content.id}
                       index={index}
-                      {...props}
                     />
                   ) : null}
                 </React.Fragment>
               )
             })}
             {solutionSteps.length > 0 ? (
-              <AddButtons index={solutionSteps.length} id="" {...props} />
+              <AddButtons {...props} index={solutionSteps.length} id="" />
             ) : null}
           </BigFlex>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import { createIcon, faCheckSquare } from '@edtr-io/editor-ui'
+import { createIcon, faCheckSquare } from '@edtr-io/ui'
 import {
   child,
   object,
