@@ -65,11 +65,13 @@ describe('Conversion of editor plugins to XML and back', () => {
   describe.each([
     [' ', '<string> </string>'],
     ['\t \t', '<string>\t \t</string>'],
-    ['\nhello world\n\t', '<string>\nhello world\n\t']
+    ['\nhello world\n\t', '<string>\nhello world\n\t</string>']
   ] as ConversionExamples)(
     '%# Conversion string with whitespaces',
     (value, markup) => {
-      test.todo(`Serialization`)
+      test('Serialization', () => {
+        expect(pluginStateToXml(value)).toBe(markup)
+      })
       test.todo(`Deserialization`)
     }
   )
