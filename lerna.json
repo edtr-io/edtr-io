@@ -1,6 +1,8 @@
 {
   "packages": [
-    "packages/*"
+    "packages/plugins/*",
+    "packages/private/*",
+    "packages/public/*"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
