@@ -1,8 +1,8 @@
-import { PluginState, pluginStateToXml } from '../src/'
 import stripIndent from 'strip-indent'
 
-type ConversionExamples = [PluginState, string][]
+import { PluginState, pluginStateToXml } from '../src'
 
+type ConversionExamples = [PluginState, string][]
 
 describe('Conversion of editor plugins to XML and back', () => {
   /*
@@ -176,6 +176,9 @@ describe('Conversion of editor plugins to XML and back', () => {
     })
     test.todo('deserialization')
   })
+
+  /* eslint-disable no-unused-vars */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
 
   /*
    * ## Conversion of list properties
@@ -388,4 +391,7 @@ describe('Conversion of editor plugins to XML and back', () => {
       test.todo('deserialization')
     }
   )
+
+  /* eslint-enable no-unused-vars */
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 })

@@ -6,7 +6,7 @@ import {
 } from 'xml-js'
 
 /*
- * Type for the plugin state which can be converted with
+ * Type of a plugin state which can be converted into XML.
  */
 // TODO: Move the following types to @edtr-io/core
 export type PluginState =
@@ -21,6 +21,8 @@ export type PluginState =
 // or above, this Workaround should be removed.
 //
 // TODO: Remove this workaround when Typescript 3.7 or above is used.
+//
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PluginStateArray extends Array<PluginState> {}
 
 /*
@@ -57,7 +59,6 @@ function pluginStateToXmlElement(
   prefix?: string
 ): XmlElement {
   let tagType: string
-  let attributes: XmlAttributes = {}
   let children: XmlElement[] = []
 
   if (
@@ -75,9 +76,9 @@ function pluginStateToXmlElement(
     children = R.toPairs(state).map(R.apply(R.flip(pluginStateToXmlElement)))
   }
 
-  let tagName = prefix ? prefix + '.' + tagType : tagType
+  const tagName = prefix ? prefix + '.' + tagType : tagType
 
-  return xmlElement(tagName, attributes, children)
+  return xmlElement(tagName, {}, children)
 }
 
 /*
