@@ -1,19 +1,27 @@
 import * as R from 'ramda'
-import { js2xml, Element as XmlElement } from 'xml-js'
+import {
+  js2xml,
+  Element as XmlElement,
+  Attributes as XmlAttributes
+} from 'xml-js'
 
 /*
  * Type for the plugin state which can be converted with
  */
 // TODO: Move the following types to @edtr-io/core
-export type PluginState = number | boolean | string | PluginStateArray |
-                          { [property: string]: PluginState }
+export type PluginState =
+  | number
+  | boolean
+  | string
+  | PluginStateArray
+  | { [property: string]: PluginState }
 
 // Workaround because Typescript does not support recursive types before version
 // 3.7 (see https://stackoverflow.com/a/45999529/1165155 ). With Typescript 3.7
 // or above, this Workaround should be removed.
 //
 // TODO: Remove this workaround when Typescript 3.7 or above is used.
-export interface PluginStateArray extends Array<PluginState> { }
+export interface PluginStateArray extends Array<PluginState> {}
 
 /*
  * Type guard for `PluginStateArray`.
@@ -48,9 +56,9 @@ function pluginStateToXmlElement(
   state: PluginState,
   prefix?: string
 ): XmlElement {
-  let tagType
-  let attributes
-  let children
+  let tagType: string
+  let attributes: XmlAttributes = {}
+  let children: XmlElement[] = []
 
   if (
     typeof state === 'number' ||
@@ -82,9 +90,9 @@ function pluginStateToXmlElement(
  */
 function xmlElement(
   tagName: string,
-  attributes: { [key: string]: string } = {},
-  children: XmlElement[] = []
-) {
+  attributes: XmlAttributes,
+  children: XmlElement[]
+): XmlElement {
   return {
     type: 'element',
     name: tagName,
