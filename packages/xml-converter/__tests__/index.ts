@@ -3,8 +3,6 @@ import stripIndent from 'strip-indent'
 
 type ConversionExamples = [PluginState, string][]
 
-// TODO: This type need to be deleted after implementing all TestCases
-type ConversionExamplesTodo = [any, string][]
 
 describe('Conversion of editor plugins to XML and back', () => {
   /*
@@ -172,7 +170,7 @@ describe('Conversion of editor plugins to XML and back', () => {
         </object>
       `
     ]
-  ] as ConversionExamplesTodo)('%# object conversion', (value, markup) => {
+  ] as ConversionExamples)('%# object conversion', (value, markup) => {
     test('Serialization', () => {
       expect(pluginStateToXml(value)).toBe(stripIndent(markup).trim())
     })
@@ -216,7 +214,7 @@ describe('Conversion of editor plugins to XML and back', () => {
         </baz.list>
       </object>`
     ]
-  ] as ConversionExamplesTodo)(
+  ] as ConversionExamples)(
     '%# object conversion with list properties',
     (value, markup) => {
       test.todo('serialization')
@@ -251,7 +249,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          <a.object result.int="100"></a.object>
        </object>`
     ]
-  ] as ConversionExamplesTodo)(
+  ] as ConversionExamples)(
     '%# object conversion with list properties',
     (value, markup) => {
       test.todo('serialization')
@@ -299,7 +297,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          <message>Hello World!</message>
        </hello.object>`
     ]
-  ] as ConversionExamplesTodo)(
+  ] as ConversionExamples)(
     '%# conversion of stateful plugins',
     (value, markup) => {
       test.todo('serialization')
@@ -339,7 +337,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          </bar.baz>
       <object>`
     ]
-  ] as ConversionExamplesTodo)(
+  ] as ConversionExamples)(
     '%# omitting types in the xml description.',
     (value, markup) => {
       test.todo('serialization')
@@ -383,7 +381,7 @@ describe('Conversion of editor plugins to XML and back', () => {
          <answer text.string="2" right="true"></answer>
        </multiplechoice>`
     ]
-  ] as ConversionExamplesTodo)(
+  ] as ConversionExamples)(
     '%# omitting types in the xml description.',
     (value, markup) => {
       test.todo('serialization')
