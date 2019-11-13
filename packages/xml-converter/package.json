@@ -12,9 +12,11 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
+    "ramda": "^0.26.0",
     "xml-js": "^1.6.0"
   },
   "devDependencies": {
+    "@types/ramda": "^0.26.0",
     "strip-indent": "^3.0.0"
   },
   "peerDependencies": {},

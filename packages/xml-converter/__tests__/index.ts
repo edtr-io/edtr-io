@@ -149,26 +149,33 @@ describe('Conversion of editor plugins to XML and back', () => {
   describe.each([
     [
       { foo: 42, bar: 'hello' },
-      `<object>
-         <foo.int>42</foo.int>
-         <bar.string>hello</bar.string>
-       </object>`
+      `
+        <object>
+          <foo.number>42</foo.number>
+          <bar.string>hello</bar.string>
+        </object>
+      `
     ],
     [{}, '<object></object>'],
     [
       { a: { b: 'hello' }, c: [' ', {}], d: true },
-      `<object>
-         <a.object>
-           <b.string>hello</b.string>
-         </a.object>
-         <c.list>
-           <string> </string>
-           <object></object>
-         <d.boolean>true</d.boolean>
-       </object>`
+      `
+        <object>
+          <a.object>
+            <b.string>hello</b.string>
+          </a.object>
+          <c.list>
+            <string> </string>
+            <object></object>
+          </c.list>
+          <d.boolean>true</d.boolean>
+        </object>
+      `
     ]
   ] as ConversionExamplesTodo)('%# object conversion', (value, markup) => {
-    test.todo('serialization')
+    test('Serialization', () => {
+      expect(pluginStateToXml(value)).toBe(stripIndent(markup).trim())
+    })
     test.todo('deserialization')
   })
 
