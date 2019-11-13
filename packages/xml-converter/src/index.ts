@@ -48,28 +48,26 @@ function pluginStateToXmlElement(
   state: PluginState,
   prefix?: string
 ): XmlElement {
-  let tagType;
-  let attributes;
-  let children;
+  let tagType
+  let attributes
+  let children
 
-  if (typeof state === 'number') {
-    tagType = 'number'
-    children = [xmlText(String(state))]
-  } else if (typeof state === 'boolean') {
-    tagType = 'boolean'
-    children = [xmlText(String(state))]
-  } else if (typeof state === 'string') {
-    tagType = 'string'
+  if (
+    typeof state === 'number' ||
+    typeof state === 'boolean' ||
+    typeof state === 'string'
+  ) {
+    tagType = typeof state
     children = [xmlText(String(state))]
   } else if (isPluginStateArray(state)) {
     tagType = 'list'
     children = state.map(x => pluginStateToXmlElement(x))
   } else {
-    tagType = 'object',
+    tagType = 'object'
     children = R.toPairs(state).map(R.apply(R.flip(pluginStateToXmlElement)))
   }
 
-  let tagName = prefix ? prefix + "." + tagType : tagType
+  let tagName = prefix ? prefix + '.' + tagType : tagType
 
   return xmlElement(tagName, attributes, children)
 }
