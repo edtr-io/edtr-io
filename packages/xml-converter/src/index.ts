@@ -1,4 +1,3 @@
-import { PluginRepresentation } from '@edtr-io/core'
 import { js2xml, Element as XmlElement } from 'xml-js'
 
 /*
