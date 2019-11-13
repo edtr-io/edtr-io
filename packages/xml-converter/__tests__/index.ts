@@ -1,4 +1,5 @@
 import { PluginState, pluginStateToXml } from '../src/'
+import stripIndent from 'strip-indent'
 
 type ConversionExamples = [PluginState, string][]
 
@@ -94,26 +95,39 @@ describe('Conversion of editor plugins to XML and back', () => {
   describe.each([
     [
       [1, true, 'hello'],
-      `<list>
-         <number>1</number>
-         <boolean>true</boolean>
-         <string>hello</string>
-       </list>`
+      `
+        <list>
+          <number>1</number>
+          <boolean>true</boolean>
+          <string>hello</string>
+        </list>
+      `
     ],
-    [[-2.3], '<list><number>-2.3</number></list>'],
+    [
+      [-2.3],
+      `
+        <list>
+          <number>-2.3</number>
+        </list>
+      `
+    ],
     [[], '<list></list>'],
     [
       [[true, ''], []],
-      `<list>
-         <list>
-           <boolean>true</boolean>
-           <string></string>
-         </list>
-         <list></list>
-       </list>`
+      `
+        <list>
+          <list>
+            <boolean>true</boolean>
+            <string></string>
+          </list>
+          <list></list>
+        </list>
+      `
     ]
-  ] as ConversionExamplesTodo)('%# list conversion', (value, markup) => {
-    test.todo('serialization')
+  ] as ConversionExamples)('%# list conversion', (value, markup) => {
+    test('Serialization', () => {
+      expect(pluginStateToXml(value)).toBe(stripIndent(markup).trim())
+    })
     test.todo('deserialization')
   })
 

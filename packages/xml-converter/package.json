@@ -14,7 +14,9 @@
   "dependencies": {
     "xml-js": "^1.6.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "strip-indent": "^3.0.0"
+  },
   "peerDependencies": {},
   "publishConfig": {
     "access": "public"
