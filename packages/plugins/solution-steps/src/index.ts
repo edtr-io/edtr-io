@@ -1,4 +1,3 @@
-import { createIcon, faCheckSquare } from '@edtr-io/ui'
 import {
   child,
   object,
@@ -7,6 +6,7 @@ import {
   string,
   boolean
 } from '@edtr-io/plugin'
+import { createIcon, faCheckSquare } from '@edtr-io/ui'
 
 import { SolutionStepsEditor } from './editor'
 

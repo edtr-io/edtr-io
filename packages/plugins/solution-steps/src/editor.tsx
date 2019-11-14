@@ -1,5 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
 import {
   styled,
   Icon,
@@ -7,8 +9,6 @@ import {
   faLevelDownAlt,
   faLevelUpAlt
 } from '@edtr-io/ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
 import * as React from 'react'
 
 import { solutionStepsState } from '.'
