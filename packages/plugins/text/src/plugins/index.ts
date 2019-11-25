@@ -8,6 +8,7 @@ import { markdownShortcuts } from './markdown'
 import { createParagraphPlugin } from './paragraph'
 import { pluginSuggestions } from './plugin-suggestions'
 import { createRichTextPlugin } from './rich-text'
+import { createWordgapPlugin } from './wordgap'
 
 export const plugins: TextPluginOptions['plugins'] = [
   pluginSuggestions,
@@ -18,5 +19,6 @@ export const plugins: TextPluginOptions['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownShortcuts
+  markdownShortcuts,
+  createWordgapPlugin()
 ]

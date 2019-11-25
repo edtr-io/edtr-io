@@ -9,11 +9,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-enum ExerciseState {
-  Default = 1,
-  SolvedRight,
-  SolvedWrong
-}
+import { ExerciseState, getColor } from './interactive-color-rules'
 
 const createSubmitButtonTheme = createRendererUiTheme<SubmitButtonTheme>(
   theme => {
@@ -27,26 +23,9 @@ const createSubmitButtonTheme = createRendererUiTheme<SubmitButtonTheme>(
   }
 )
 
-const getBackgroundColor = (
-  theme: SubmitButtonTheme,
-  exerciseState: ExerciseState
-) => {
-  switch (exerciseState) {
-    case ExerciseState.Default: {
-      return theme.backgroundColor
-    }
-    case ExerciseState.SolvedRight: {
-      return theme.correctBackgroundColor
-    }
-    case ExerciseState.SolvedWrong: {
-      return theme.wrongBackgroundColor
-    }
-  }
-}
-
 const SubmitButtonComponent = styled.button<
-  { exerciseState: ExerciseState } & RendererThemeProps
->(({ exerciseState, ...props }) => {
+  { exerciseState: ExerciseState; disabled: boolean } & RendererThemeProps
+>(({ exerciseState, disabled, ...props }) => {
   const theme = createSubmitButtonTheme('submitButton', props.theme)
 
   return {
@@ -54,7 +33,16 @@ const SubmitButtonComponent = styled.button<
     margin: '10px 0px',
     border: 'none',
     padding: '3px',
-    backgroundColor: getBackgroundColor(theme, exerciseState),
+    backgroundColor: disabled
+      ? 'lightgrey'
+      : getColor(
+          {
+            defaultColor: theme.backgroundColor,
+            correctColor: theme.correctBackgroundColor,
+            wrongColor: theme.wrongBackgroundColor
+          },
+          exerciseState
+        ),
     color: theme.color,
     transition: 'background-color .5s ease',
     outline: 'none',
@@ -66,6 +54,7 @@ const SubmitButtonComponent = styled.button<
 
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState
+  disabled?: boolean
   onClick?: () => void
 }> {
   public render() {
@@ -73,6 +62,7 @@ export class SubmitButton extends React.Component<{
       <SubmitButtonComponent
         exerciseState={this.props.exerciseState}
         onClick={this.props.onClick}
+        disabled={this.props.disabled ? this.props.disabled : false}
       >
         {this.props.exerciseState === ExerciseState.SolvedRight ? (
           <span>

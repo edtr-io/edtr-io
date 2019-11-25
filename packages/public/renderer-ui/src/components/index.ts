@@ -5,5 +5,7 @@
 export * from './expandable-box'
 export * from './feedback'
 export * from './fetch-dimensions'
+export * from './input-exercise-field'
+export * from './interactive-color-rules'
 export * from './textarea'
 export * from './submit-button'

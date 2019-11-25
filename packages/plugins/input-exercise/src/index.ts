@@ -76,17 +76,3 @@ export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
   icon: createIcon(faKeyboard),
   description: 'Füge deiner Aufgabe ein Eingabefeld für die Lernenden hinzu.'
 }
-
-export const createInputExerciseTheme = createPluginTheme<InputExerciseTheme>(
-  theme => {
-    return {
-      borderColor: theme.renderer.primary.background,
-      borderStyle: '3px solid'
-    }
-  }
-)
-
-interface InputExerciseTheme {
-  borderColor: string
-  borderStyle: string
-}

@@ -1,38 +1,25 @@
 import { useScopedStore } from '@edtr-io/core'
 import { styled } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import {
+  Feedback,
+  SubmitButton,
+  ExerciseState,
+  InputExerciseField,
+  handleWrongAnswer
+} from '@edtr-io/renderer-ui'
 import { isEmpty } from '@edtr-io/store'
-import { ThemeProps } from '@edtr-io/ui'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { inputExerciseState, createInputExerciseTheme } from '.'
-
-enum ExerciseState {
-  Default = 1,
-  SolvedRight,
-  SolvedWrong
-}
+import { inputExerciseState } from '.'
 const InputContainer = styled.div({
   float: 'right',
   display: 'flex',
-  flexDirection: 'row'
+  flexDirection: 'row',
+  marginBottom: '10px'
 })
-const InputExerciseField = styled.input<{ name: string } & ThemeProps>(
-  ({ name, ...props }) => {
-    const theme = createInputExerciseTheme(name, props.theme)
-    return {
-      border: 'none',
-      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
-
-      textAlign: 'center',
-      outline: 'none',
-      marginBottom: '10px'
-    }
-  }
-)
 
 function normalizeNumber(string: string) {
   return S(string).replaceAll(',', '.').s
@@ -85,12 +72,6 @@ export function InputExerciseRenderer(
     ExerciseState.Default
   )
   const input = React.createRef<HTMLInputElement>()
-  const handleWrongAnswer = () => {
-    setTimeout(() => {
-      setExerciseState(ExerciseState.Default)
-    }, 2000)
-    setExerciseState(ExerciseState.SolvedWrong)
-  }
 
   function checkAnswer(event: React.FormEvent) {
     if (!input.current) {
@@ -119,14 +100,14 @@ export function InputExerciseRenderer(
         if (answer.isCorrect.value) {
           setExerciseState(ExerciseState.SolvedRight)
         } else {
-          handleWrongAnswer()
+          handleWrongAnswer(setExerciseState)
         }
         containedAnswer = true
       }
     })
 
     if (!containedAnswer) {
-      handleWrongAnswer()
+      handleWrongAnswer(setExerciseState)
     }
   }
 
@@ -135,7 +116,7 @@ export function InputExerciseRenderer(
       <form onSubmit={checkAnswer}>
         <InputContainer>
           <InputExerciseField
-            name={props.name}
+            exerciseState={exerciseState}
             onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
               const { key } = (k as unknown) as KeyboardEvent
               if ((key === 'Enter' || key === 'Backspace') && props.editable) {

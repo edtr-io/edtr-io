@@ -29,6 +29,12 @@ addStory('Plugins/Text/Prefilled with Math', {
   )
 })
 
+addStory('Plugins/Text/Example: Fill in the gaps', {
+  state: JSON.parse(
+    '{"plugin":"rows","state":[{"plugin":"text","state":{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"paragraph","data":{},"nodes":[{"object":"text","text":"Dies ist ein ","marks":[]},{"object":"inline","type":"@splish-me/wordgap","data":{"correctValue":"Lückentext"},"nodes":[{"object":"text","text":" ","marks":[]}]},{"object":"text","text":". Füge mit ","marks":[]},{"object":"text","text":"ctrl+g ","marks":[{"object":"mark","type":"code","data":{}}]},{"object":"text","text":"eine ","marks":[]},{"object":"inline","type":"@splish-me/wordgap","data":{"correctValue":"Lücke"},"nodes":[{"object":"text","text":"Lücke","marks":[]}]},{"object":"text","text":"hinzu. Klicke auf den \\"Stimmt\'s?\\"-Button, um dein Ergebnis zu überprüfen.","marks":[]}]}]}}}]}'
+  )
+})
+
 addStory('Plugins/Text/Custom', {
   state: {
     plugin: 'rows',
