@@ -16,10 +16,10 @@ import { DocumentState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
-  remove,
   RemoveAction,
   pureChange,
-  PureChangeAction
+  PureChangeAction,
+  pureRemove
 } from './actions'
 
 export const documentsReducer = createSubReducer(
@@ -39,7 +39,7 @@ export const documentsReducer = createSubReducer(
         }
       }
     },
-    [remove.type](documentState, action: RemoveAction) {
+    [pureRemove.type](documentState, action: RemoveAction) {
       return R.omit([action.payload], documentState)
     },
     [pureChange.type](documentState, action: PureChangeAction) {

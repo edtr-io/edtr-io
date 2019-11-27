@@ -17,15 +17,40 @@ import {
   pureChange,
   insert,
   InsertAction,
-  pureInsert
+  pureInsert,
+  pureRemove,
+  remove,
+  RemoveAction
 } from './actions'
 import { getDocument } from './reducer'
 
 export function* documentsSaga() {
   yield all([
     takeEvery(insert.type, insertSaga),
-    takeEvery(change.type, changeSaga)
+    takeEvery(change.type, changeSaga),
+    takeEvery(remove.type, removeSaga)
   ])
+}
+
+function* removeSaga(action: RemoveAction) {
+  const id = action.payload
+  const doc: ReturnTypeFromSelector<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  if (!doc) return
+
+  const actions: ReversibleAction[] = [
+    {
+      action: pureRemove(id)(action.scope),
+      reverse: pureInsert({
+        id,
+        plugin: doc.plugin,
+        state: doc.state
+      })(action.scope)
+    }
+  ]
+  yield put(commit(actions)(action.scope))
 }
 
 function* insertSaga(action: InsertAction) {
@@ -110,7 +135,8 @@ export function* handleRecursiveInserts(
         id: doc.id,
         plugin: pluginType,
         state: pluginState
-      })(scope)
+      })(scope),
+      reverse: pureRemove(doc.id)(scope)
     })
   }
   return [actions, result]

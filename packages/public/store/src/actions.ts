@@ -26,7 +26,7 @@ export type Action =
 
 export interface Reversible<A = unknown, R = unknown> {
   action: A
-  reverse?: R
+  reverse: R
 }
 
 export type ReversibleAction<

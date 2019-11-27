@@ -27,6 +27,9 @@ export type PureInsertAction = ActionFromActionCreator<typeof pureInsert>
 export const remove = createAction<'Remove', string>('Remove')
 export type RemoveAction = ActionFromActionCreator<typeof remove>
 
+export const pureRemove = createAction<'PureRemove', string>('PureRemove')
+export type PureRemoveAction = ActionFromActionCreator<typeof pureRemove>
+
 export const change = createAction<
   'Change',
   {
@@ -45,5 +48,6 @@ export type DocumentsAction =
   | InsertAction
   | PureInsertAction
   | RemoveAction
-  | PureChangeAction
+  | PureRemoveAction
   | ChangeAction
+  | PureChangeAction

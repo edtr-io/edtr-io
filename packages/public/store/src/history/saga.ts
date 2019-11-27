@@ -84,12 +84,7 @@ function* undoSaga(action: UndoAction) {
   const toUndo = R.head(undoStack)
   if (!toUndo) return
   yield all(
-    R.reverse(toUndo)
-      .filter(reversibleAction => !!reversibleAction.reverse)
-      .map(reversibleAction => {
-        if (!reversibleAction.reverse) return
-        return put(reversibleAction.reverse)
-      })
+    R.reverse(toUndo).map(reversibleAction => put(reversibleAction.reverse))
   )
   yield put(pureUndo()(action.scope))
 }

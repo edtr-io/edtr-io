@@ -214,6 +214,28 @@ describe('History', () => {
       state: 2
     })
   })
+
+  test('Undo insert', async () => {
+    await insert({ id: '1', plugin: 'stateful', state: 2 })
+    expect(S.getDocument('1')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+    await undo()
+    expect(S.getDocument('1')(store.getState())).toEqual(null)
+  })
+
+  test('Undo remove', async () => {
+    await insert({ id: '1', plugin: 'stateful', state: 2 })
+    await wait(1000)
+    await remove('1')
+    expect(S.getDocument('1')(store.getState())).toEqual(null)
+    await undo()
+    expect(S.getDocument('1')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+  })
 })
 
 async function undo() {
@@ -232,6 +254,20 @@ async function redo() {
 
 async function change(...args: Parameters<typeof S.change>) {
   store.dispatch(S.change(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === commit.type, store.getActions())
+  )
+}
+
+async function insert(...args: Parameters<typeof S.insert>) {
+  store.dispatch(S.insert(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === commit.type, store.getActions())
+  )
+}
+
+async function remove(...args: Parameters<typeof S.remove>) {
+  store.dispatch(S.remove(...args))
   await waitUntil(() =>
     R.any(action => action.type === commit.type, store.getActions())
   )
