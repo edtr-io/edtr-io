@@ -9,7 +9,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ExerciseState, getColor } from './interactive-color-rules'
+import { ExerciseState, getColor } from './interactive-behaviour'
 
 const createSubmitButtonTheme = createRendererUiTheme<SubmitButtonTheme>(
   theme => {

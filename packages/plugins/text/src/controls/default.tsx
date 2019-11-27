@@ -1,7 +1,7 @@
 import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { SubControlProps, VisibleControls } from '.'
+import { SubControlProps, VisibleControls, Controls } from '.'
 import {
   createBlockquote,
   isBlockquote,
@@ -25,6 +25,7 @@ import {
 } from '../plugins/rich-text'
 import { Button } from '../toolbar/button'
 import { ColoredTextIcon } from './colors'
+import { isWordgap, setWordgap, unsetWordgap } from '../plugins/wordgap'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps
@@ -130,6 +131,18 @@ export const DefaultControls: React.FunctionComponent<
         title="Matheformel (Strg + M)"
       >
         <EdtrIcon icon={edtrTextControls.formel} />
+      </Button>
+      <Button
+        name={name}
+        active={isWordgap(editor)}
+        onClick={() => {
+          console.log(isWordgap(editor))
+          isWordgap(editor) ? unsetWordgap(editor) : setWordgap()
+          props.onChange(editor)
+        }}
+        title="Lückentext (Strg + g)"
+      >
+        _
       </Button>
     </React.Fragment>
   )

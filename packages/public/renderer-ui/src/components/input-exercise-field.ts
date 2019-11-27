@@ -4,7 +4,7 @@ import {
   InputExerciseFieldTheme,
   RendererThemeProps
 } from '@edtr-io/ui'
-import { ExerciseState, getColor } from './interactive-color-rules'
+import { ExerciseState, getColor } from './interactive-behaviour'
 
 const createInputExerciseFieldTheme = createRendererUiTheme<
   InputExerciseFieldTheme
