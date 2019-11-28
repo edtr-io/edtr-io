@@ -10,8 +10,7 @@ import {
   pureRedo,
   pureReset,
   pureUndo,
-  tempCommit,
-  resolveCommit
+  tempCommit
 } from '../src/history/actions'
 import { getHistory, getRedoStack, getUndoStack } from '../src/history/reducer'
 
@@ -353,6 +352,42 @@ describe('History', () => {
       state: 5
     })
   })
+
+
+  test('Async change with reject', async () => {
+    store.dispatch(
+      tempCommit({
+        resolver: (_resolve, reject, _next) => {
+          setTimeout(() => {
+            reject([
+              {
+                action: pureChange({ id: 'root', state: -1 })(TEST_SCOPE),
+                reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+              }
+            ])
+          }, 300)
+        },
+        initialActions: [
+          {
+            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+          }
+        ]
+      })
+    )
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+    await wait(300)
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: -1
+    })
+    expect(getUndoStack()(store.getState())).toHaveLength(1)
+    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+  })
+
 })
 
 async function undo() {

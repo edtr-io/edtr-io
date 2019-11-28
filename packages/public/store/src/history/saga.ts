@@ -15,7 +15,7 @@ import {
 } from 'redux-saga/effects'
 import { channel, Channel } from 'redux-saga'
 
-import { ReversibleAction } from '../actions'
+import { Reversible, ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -54,23 +54,21 @@ function* tempCommitSaga(action: TempCommitAction) {
       actions
     })(action.scope)
   )
-  const chan = yield call(channel)
-  action.payload.resolver(
-    function(finalActions) {
+  const chan: Channel<ChannelAction> = yield call(channel)
+
+  function createPutToChannel(type: 'resolve' | 'reject' | 'next') {
+    return function(finalActions: Reversible[]) {
       chan.put({
-        resolve: finalActions,
-        scope: action.scope,
-        tempActions: actions
-      })
-    },
-    () => {},
-    function(nextActions) {
-      chan.put({
-        next: nextActions,
+        [type]: finalActions,
         scope: action.scope,
         tempActions: actions
       })
     }
+  }
+  action.payload.resolver(
+    createPutToChannel('resolve'),
+    createPutToChannel('reject'),
+    createPutToChannel('next')
   )
   yield call(resolveSaga, chan)
 }
@@ -78,6 +76,7 @@ function* tempCommitSaga(action: TempCommitAction) {
 interface ChannelAction {
   resolve?: ReversibleAction[]
   next?: ReversibleAction[]
+  reject?: ReversibleAction[]
   scope: string
   tempActions: ReversibleAction[]
 }
@@ -85,7 +84,7 @@ interface ChannelAction {
 function* resolveSaga(chan: Channel<ChannelAction>) {
   while (true) {
     const payload: ChannelAction = yield take(chan)
-    const finalActions = payload.resolve || payload.next || []
+    const finalActions = payload.resolve || payload.next || payload.reject || []
     const tempActions = payload.tempActions
 
     const stack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
@@ -113,7 +112,7 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
 
     // replace in history
     replaceInArray(tempActions, finalActions)
-    if (payload.resolve) {
+    if (payload.resolve || payload.reject) {
       break
     }
   }

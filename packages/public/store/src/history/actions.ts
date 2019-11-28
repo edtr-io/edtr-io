@@ -26,10 +26,17 @@ export const pureCommit = createAction<
 >('PureCommit')
 export type PureCommitAction = ActionFromActionCreator<typeof pureCommit>
 
-export const tempCommit = createAction<'TempCommitAction', {
-  resolver: (resolve: (actions: Reversible[]) => void, reject: Function, next: (actions: Reversible[]) => void) => void
-  initialActions: Reversible[]
-}>('TempCommitAction')
+export const tempCommit = createAction<
+  'TempCommitAction',
+  {
+    resolver: (
+      resolve: (actions: Reversible[]) => void,
+      reject: (actions: Reversible[]) => void,
+      next: (actions: Reversible[]) => void
+    ) => void
+    initialActions: Reversible[]
+  }
+>('TempCommitAction')
 export type TempCommitAction = ActionFromActionCreator<typeof tempCommit>
 
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
