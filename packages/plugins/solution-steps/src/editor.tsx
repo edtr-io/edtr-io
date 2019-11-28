@@ -9,7 +9,9 @@ import {
   faLevelDownAlt,
   faLevelUpAlt
 } from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { solutionStepsState } from '.'
 import { SolutionStepsRenderer } from './renderer'
@@ -31,7 +33,7 @@ const Container = styled.div<{ type: string; isHalf: boolean }>(
     return {
       marginTop: '10px',
       boxShadow: ` 0 1px 3px 0 ${type === 'step' ? 'black' : 'blue'}`,
-      padding: '10px 0',
+      padding: '10px 3px',
       width: isHalf ? '50%' : '100%',
       position: 'relative'
     }
@@ -64,8 +66,6 @@ function AddButtons(
 ) {
   const hasFocusedChild = useScopedSelector(hasFocusedDescendant(props.id))
 
-  console.log(props.id, hasFocusedChild)
-
   const insertStep = () => {
     props.state.solutionSteps.insert(props.index + 1)
   }
@@ -95,87 +95,113 @@ export function SolutionStepsEditor(
 ) {
   const { state, editable } = props
   const { solutionSteps } = state
+  const focusedDescendant = useScopedSelector(hasFocusedDescendant(props.id))
   const introductionFocused = useScopedSelector(
     isFocused(state.introduction.id)
   )
-  return (
-    <React.Fragment>
-      {editable ? (
-        <React.Fragment>
-          {state.introduction.render()}
-          {introductionFocused ? (
-            <AddButtons {...props} index={-1} id="" />
-          ) : null}
-          <BigFlex>
-            {solutionSteps.map((solutionStep, index) => {
-              return (
-                <React.Fragment key={solutionStep.content.id}>
-                  <Container
-                    type={solutionStep.type.value}
-                    isHalf={solutionStep.isHalf.value}
+  return editable && (props.focused || focusedDescendant) ? (
+    <DragDropContext
+      onDragEnd={result => {
+        const { source, destination } = result
+        if (!destination) {
+          return
+        }
+        state.solutionSteps.move(source.index, destination.index)
+      }}
+    >
+      {state.introduction.render()}
+      {introductionFocused ? <AddButtons {...props} index={-1} id="" /> : null}
+      <Droppable droppableId="default" direction="vertical">
+        {(provided: any) => {
+          return (
+            <BigFlex ref={provided.innerRef} {...provided.droppableProps}>
+              {solutionSteps.map((solutionStep, index) => {
+                return (
+                  <Draggable
+                    key={index}
+                    draggableId={solutionStep.content.id}
+                    index={index}
                   >
-                    <RemoveControls>
-                      {solutionStep.type.value === 'explanation' ||
-                      !solutionStep.isHalf.value ? (
-                        <RemoveButton
-                          onClick={() => {
-                            solutionSteps.remove(index)
-                            if (
+                    {(provided: any) => {
+                      return (
+                        <React.Fragment key={solutionStep.content.id}>
+                          <Container
+                            className="row"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            type={solutionStep.type.value}
+                            isHalf={solutionStep.isHalf.value}
+                          >
+                            <RemoveControls>
+                              {solutionStep.type.value === 'explanation' ||
+                              !solutionStep.isHalf.value ? (
+                                <RemoveButton
+                                  onClick={() => {
+                                    solutionSteps.remove(index)
+                                    if (
+                                      solutionStep.type.value ===
+                                        'explanation' &&
+                                      solutionStep.isHalf.value
+                                    ) {
+                                      solutionSteps.remove(index - 1)
+                                    }
+                                  }}
+                                >
+                                  <Icon icon={faTimes} />
+                                </RemoveButton>
+                              ) : null}
+                              {index > 0 &&
                               solutionStep.type.value === 'explanation' &&
-                              solutionStep.isHalf.value
-                            ) {
-                              solutionSteps.remove(index - 1)
-                            }
-                          }}
-                        >
-                          <Icon icon={faTimes} />
-                        </RemoveButton>
-                      ) : null}
-                      {index > 0 &&
-                      solutionStep.type.value === 'explanation' &&
-                      solutionSteps[index - 1].type.value === 'step' ? (
-                        <RemoveButton
-                          onClick={() => {
-                            solutionStep.isHalf.set(!solutionStep.isHalf.value)
-                            solutionSteps[index - 1].isHalf.set(
-                              !solutionSteps[index].isHalf.value
-                            )
-                          }}
-                        >
-                          <Icon
-                            icon={
-                              solutionStep.isHalf.value
-                                ? faLevelDownAlt
-                                : faLevelUpAlt
-                            }
-                          />
-                        </RemoveButton>
-                      ) : null}
-                    </RemoveControls>
-                    {solutionStep.content.render()}
-                  </Container>
-                  {index < solutionSteps.length - 1 &&
-                  !(
-                    solutionStep.type.value === 'step' &&
-                    solutionStep.isHalf.value
-                  ) ? (
-                    <AddButtons
-                      {...props}
-                      id={solutionStep.content.id}
-                      index={index}
-                    />
-                  ) : null}
-                </React.Fragment>
-              )
-            })}
-            {solutionSteps.length > 0 ? (
-              <AddButtons {...props} index={solutionSteps.length} id="" />
-            ) : null}
-          </BigFlex>
-        </React.Fragment>
-      ) : (
-        <SolutionStepsRenderer {...props} />
-      )}
-    </React.Fragment>
+                              solutionSteps[index - 1].type.value === 'step' ? (
+                                <RemoveButton
+                                  onClick={() => {
+                                    solutionStep.isHalf.set(
+                                      !solutionStep.isHalf.value
+                                    )
+                                    solutionSteps[index - 1].isHalf.set(
+                                      !solutionSteps[index].isHalf.value
+                                    )
+                                  }}
+                                >
+                                  <Icon
+                                    icon={
+                                      solutionStep.isHalf.value
+                                        ? faLevelDownAlt
+                                        : faLevelUpAlt
+                                    }
+                                  />
+                                </RemoveButton>
+                              ) : null}
+                            </RemoveControls>
+                            {solutionStep.content.render()}
+                          </Container>
+                          {index < solutionSteps.length - 1 &&
+                          !(
+                            solutionStep.type.value === 'step' &&
+                            solutionStep.isHalf.value
+                          ) ? (
+                            <AddButtons
+                              {...props}
+                              id={solutionStep.content.id}
+                              index={index}
+                            />
+                          ) : null}
+                        </React.Fragment>
+                      )
+                    }}
+                  </Draggable>
+                )
+              })}
+              {solutionSteps.length > 0 ? (
+                <AddButtons {...props} index={solutionSteps.length} id="" />
+              ) : null}
+            </BigFlex>
+          )
+        }}
+      </Droppable>
+    </DragDropContext>
+  ) : (
+    <SolutionStepsRenderer {...props} />
   )
 }
