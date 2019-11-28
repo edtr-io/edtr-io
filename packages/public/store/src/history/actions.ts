@@ -26,6 +26,12 @@ export const pureCommit = createAction<
 >('PureCommit')
 export type PureCommitAction = ActionFromActionCreator<typeof pureCommit>
 
+export const tempCommit = createAction<'TempCommitAction', {
+  resolver: (resolve: (actions: Reversible[]) => void, reject: Function, next: (actions: Reversible[]) => void) => void
+  initialActions: Reversible[]
+}>('TempCommitAction')
+export type TempCommitAction = ActionFromActionCreator<typeof tempCommit>
+
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
 export type UndoAction = ActionFromActionCreator<typeof undo>
 export const pureUndo = createActionWithoutPayload<'PureUndo'>('PureUndo')
@@ -46,3 +52,4 @@ export type HistoryAction =
   | PureUndoAction
   | RedoAction
   | PureRedoAction
+  | TempCommitAction

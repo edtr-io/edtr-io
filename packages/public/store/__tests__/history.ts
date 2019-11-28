@@ -1,7 +1,7 @@
 import { plugins } from '@edtr-io/internal__fixtures'
 import * as R from 'ramda'
 
-import { setupStore, wait, waitUntil } from '../__helpers__'
+import { setupStore, TEST_SCOPE, wait, waitUntil } from '../__helpers__'
 import * as S from '../src'
 import { pureChange } from '../src/documents/actions'
 import {
@@ -9,7 +9,9 @@ import {
   persist,
   pureRedo,
   pureReset,
-  pureUndo
+  pureUndo,
+  tempCommit,
+  resolveCommit
 } from '../src/history/actions'
 import { getHistory, getRedoStack, getUndoStack } from '../src/history/reducer'
 
@@ -234,6 +236,121 @@ describe('History', () => {
     expect(S.getDocument('1')(store.getState())).toEqual({
       plugin: 'stateful',
       state: 2
+    })
+  })
+
+  test('Async change', async () => {
+    store.dispatch(
+      tempCommit({
+        resolver: (resolve, _reject, _next) => {
+          setTimeout(() => {
+            resolve([
+              {
+                action: pureChange({ id: 'root', state: 2 })(TEST_SCOPE),
+                reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+              }
+            ])
+          }, 300)
+        },
+        initialActions: [
+          {
+            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+          }
+        ]
+      })
+    )
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+    await wait(300)
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+    expect(getUndoStack()(store.getState())).toHaveLength(1)
+    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+  })
+
+  test('Async change with continue', async () => {
+    store.dispatch(
+      tempCommit({
+        resolver: (resolve, _reject, next) => {
+          function firstAsyncUpdate() {
+            setTimeout(() => {
+              next([
+                {
+                  action: pureChange({ id: 'root', state: 2 })(TEST_SCOPE),
+                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+                }
+              ])
+              secondAsyncUpdate()
+            }, 200)
+          }
+          function secondAsyncUpdate() {
+            setTimeout(() => {
+              next([
+                {
+                  action: pureChange({ id: 'root', state: 3 })(TEST_SCOPE),
+                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+                }
+              ])
+              finalAsyncUpdate()
+            }, 200)
+          }
+          function finalAsyncUpdate() {
+            setTimeout(() => {
+              resolve([
+                {
+                  action: pureChange({ id: 'root', state: 5 })(TEST_SCOPE),
+                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+                }
+              ])
+            }, 200)
+          }
+
+          firstAsyncUpdate()
+        },
+        initialActions: [
+          {
+            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+          }
+        ]
+      })
+    )
+
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 1
+    })
+    await wait(200)
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 2
+    })
+    await wait(200)
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 3
+    })
+    await wait(200)
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 5
+    })
+    expect(getUndoStack()(store.getState())).toHaveLength(1)
+    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+    await undo()
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 0
+    })
+    await redo()
+    expect(S.getDocument('root')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 5
     })
   })
 })

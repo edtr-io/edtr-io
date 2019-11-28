@@ -13,6 +13,7 @@ import {
   take,
   takeEvery
 } from 'redux-saga/effects'
+import { channel, Channel } from 'redux-saga'
 
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
@@ -28,17 +29,98 @@ import {
   pureReset,
   UndoAction,
   RedoAction,
-  ResetAction
+  ResetAction,
+  tempCommit,
+  TempCommitAction
 } from './actions'
 import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
 export function* historySaga() {
   yield all([
     call(commitSaga),
+    takeEvery(tempCommit.type, tempCommitSaga),
     takeEvery(undo.type, undoSaga),
     takeEvery(redo.type, redoSaga),
     takeEvery(reset.type, resetSaga)
   ])
+}
+
+function* tempCommitSaga(action: TempCommitAction) {
+  const actions = action.payload.initialActions as ReversibleAction[]
+  yield all(actions.map(action => put(action.action)))
+  yield put(
+    pureCommit({
+      combine: false,
+      actions
+    })(action.scope)
+  )
+  const chan = yield call(channel)
+  action.payload.resolver(
+    function(finalActions) {
+      chan.put({
+        resolve: finalActions,
+        scope: action.scope,
+        tempActions: actions
+      })
+    },
+    () => {},
+    function(nextActions) {
+      chan.put({
+        next: nextActions,
+        scope: action.scope,
+        tempActions: actions
+      })
+    }
+  )
+  yield call(resolveSaga, chan)
+}
+
+interface ChannelAction {
+  resolve?: ReversibleAction[]
+  next?: ReversibleAction[]
+  scope: string
+  tempActions: ReversibleAction[]
+}
+
+function* resolveSaga(chan: Channel<ChannelAction>) {
+  while (true) {
+    const payload: ChannelAction = yield take(chan)
+    const finalActions = payload.resolve || payload.next || []
+    const tempActions = payload.tempActions
+
+    const stack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
+      scopeSelector(getUndoStack, payload.scope)
+    )
+
+    const replays = R.takeWhile(replay => replay !== tempActions, stack)
+    // revert all actions until the temporary actions
+    yield all(
+      replays.map(replay => {
+        return all(replay.map(a => put(a.reverse)))
+      })
+    )
+    // then revert the temporary action
+    yield all(tempActions.map(a => put(a.reverse)))
+
+    //apply final actions and all reverted actions
+    yield all((finalActions as ReversibleAction[]).map(a => put(a.action)))
+
+    yield all(
+      replays.map(replay => {
+        return all(replay.map(a => put(a.action)))
+      })
+    )
+
+    // replace in history
+    replaceInArray(tempActions, finalActions)
+    if (payload.resolve) {
+      break
+    }
+  }
+}
+
+function replaceInArray<T>(arr: T[], arr2: T[]) {
+  arr.splice(0, arr.length, ...arr2)
 }
 
 function* commitSaga() {
