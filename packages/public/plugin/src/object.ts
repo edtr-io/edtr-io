@@ -3,13 +3,14 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  StoreDeserializeHelpers,
   StateType,
   StateTypesSerializedType,
   StateTypesValueType,
   StateTypesReturnType,
   StateTypeReturnType,
-  FocusableChild
+  FocusableChild,
+  StateUpdater,
+  Updater
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
@@ -35,14 +36,34 @@ export function object<Ds extends Record<string, StateType>>(
         return type.init(state[key], innerOnChange, pluginProps)
 
         function innerOnChange(
-          updater: (
-            oldValue: StateTypeReturnType<typeof type>,
-            helpers: StoreDeserializeHelpers
-          ) => StateTypeReturnType<typeof type>
+          stateHandler: StateUpdater<StateTypeReturnType<typeof type>>
         ): void {
-          onChange((oldObj, helpers) =>
-            R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
-          )
+          function wrapUpdater(
+            dispatcher: Updater<StateTypeReturnType<typeof type>>
+          ): Updater<StateTypesValueType<Ds>> {
+            return (oldObj, helpers) =>
+              R.set(R.lensProp(key), dispatcher(oldObj[key], helpers), oldObj)
+          }
+          onChange({
+            immediateState: wrapUpdater(stateHandler.immediateState),
+            resolver: (resolve, reject, next) => {
+              if (!stateHandler.resolver) {
+                resolve(wrapUpdater(stateHandler.immediateState))
+              } else {
+                stateHandler.resolver(
+                  innerUpdater => {
+                    resolve(wrapUpdater(innerUpdater))
+                  },
+                  innerUpdater => {
+                    reject(wrapUpdater(innerUpdater))
+                  },
+                  innerUpdater => {
+                    next(wrapUpdater(innerUpdater))
+                  }
+                )
+              }
+            }
+          })
         }
       }, types) as U
     },

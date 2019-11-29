@@ -102,7 +102,7 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
     yield all(tempActions.map(a => put(a.reverse)))
 
     //apply final actions and all reverted actions
-    yield all((finalActions as ReversibleAction[]).map(a => put(a.action)))
+    yield all(finalActions.map(a => put(a.action)))
 
     yield all(
       replays.map(replay => {

@@ -3,7 +3,6 @@ import {
   number,
   scalar,
   serializedScalar,
-  StoreDeserializeHelpers,
   string,
   Serializer,
   StateUpdater

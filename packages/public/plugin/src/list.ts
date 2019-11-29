@@ -4,7 +4,9 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
-  StateType
+  StateType,
+  StateUpdater,
+  Updater
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 import { generate } from 'shortid'
@@ -37,35 +39,36 @@ export function list<S, T = S, U = unknown>(
 
       return Object.assign(items, {
         insert(index?: number, options?: S) {
-          onChange((items, helpers) => {
-            const wrappedSubState = wrap(
-              options
-                ? type.deserialize(options, helpers)
-                : type.createInitialState(helpers)
-            )
-            return R.insert(
-              index === undefined ? items.length : index,
-              wrappedSubState,
-              items
-            )
+          onChange({
+            immediateState: (items, helpers) => {
+              const wrappedSubState = wrap(
+                options
+                  ? type.deserialize(options, helpers)
+                  : type.createInitialState(helpers)
+              )
+              return R.insert(
+                index === undefined ? items.length : index,
+                wrappedSubState,
+                items
+              )
+            }
           })
         },
         remove(index: number) {
-          onChange(items => {
-            return R.remove(index, 1, items)
-          })
+          onChange({ immediateState: items => R.remove(index, 1, items) })
         },
         move(from: number, to: number) {
-          onChange(items => R.move(from, to, items))
+          onChange({ immediateState: items => R.move(from, to, items) })
         }
       })
 
       function createOnChange(id: string) {
-        return (
-          updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-        ) => {
-          onChange(
-            (oldItems: WrappedValue[], helpers: StoreDeserializeHelpers) => {
+        return (stateUpdater: StateUpdater<T>) => {
+          function wrapUpdater(updater: Updater<T>): Updater<WrappedValue[]> {
+            return (
+              oldItems: WrappedValue[],
+              helpers: StoreDeserializeHelpers
+            ) => {
               const index = R.findIndex(R.propEq('id', id), oldItems)
               return R.update(
                 index,
@@ -73,7 +76,21 @@ export function list<S, T = S, U = unknown>(
                 oldItems
               )
             }
-          )
+          }
+          onChange({
+            immediateState: wrapUpdater(stateUpdater.immediateState),
+            resolver: (resolve, reject, next) => {
+              if (!stateUpdater.resolver) {
+                resolve(wrapUpdater(stateUpdater.immediateState))
+              } else {
+                stateUpdater.resolver(
+                  innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                  innerUpdater => reject(wrapUpdater(innerUpdater)),
+                  innerUpdater => next(wrapUpdater(innerUpdater))
+                )
+              }
+            }
+          })
         }
       }
     },

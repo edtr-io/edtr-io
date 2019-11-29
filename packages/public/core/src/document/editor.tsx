@@ -8,10 +8,7 @@ import {
   StatefulPluginEditorProps,
   StatelessPluginEditorProps
 } from '@edtr-io/internal__plugin'
-import {
-  StateType, StateUpdater,
-  StoreDeserializeHelpers
-} from '@edtr-io/internal__plugin-state'
+import { StateType, StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
   change,
   DocumentState,
@@ -239,9 +236,7 @@ function getPluginEditorProps<S extends StateType>({
   | Omit<StatefulPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'>
   | Omit<StatelessPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
   if (isStatefulPlugin(plugin)) {
-    const onChange = (
-      updater: StateUpdater<unknown>,
-    ) => {
+    const onChange = (updater: StateUpdater<unknown>) => {
       dispatch(
         change({
           id,
