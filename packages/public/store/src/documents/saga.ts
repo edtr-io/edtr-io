@@ -3,12 +3,16 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { isStatefulPlugin } from '@edtr-io/internal__plugin'
-import { StoreDeserializeHelpers } from '@edtr-io/internal__plugin-state'
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import {
+  StoreDeserializeHelpers,
+  Updater
+} from '@edtr-io/internal__plugin-state'
+import { channel, Channel } from 'redux-saga'
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
 
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
-import { commit } from '../history/actions'
+import { commit, tempCommit } from '../history/actions'
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -20,7 +24,8 @@ import {
   pureInsert,
   pureRemove,
   remove,
-  RemoveAction
+  RemoveAction,
+  PureChangeAction
 } from './actions'
 import { getDocument } from './reducer'
 
@@ -76,20 +81,110 @@ function* changeSaga(action: ChangeAction) {
     handleRecursiveInserts,
     action.scope,
     (helpers: StoreDeserializeHelpers) => {
-      return stateHandler(document.state, helpers)
+      return stateHandler.immediateState(document.state, helpers)
     }
   )
-  actions.push({
-    action: pureChange({
-      id,
-      state
-    })(action.scope),
-    reverse: pureChange({
-      id,
-      state: document.state
-    })(action.scope)
-  })
-  yield put(commit(actions)(action.scope))
+
+  function createChange(
+    previousState: unknown,
+    newState: unknown
+  ): ReversibleAction<PureChangeAction, PureChangeAction> {
+    return {
+      action: pureChange({ id, state: newState })(action.scope),
+      reverse: pureChange({ id, state: previousState })(action.scope)
+    }
+  }
+
+  actions.push(createChange(document.state, state))
+
+  if (!stateHandler.resolver) {
+    yield put(commit(actions)(action.scope))
+  } else {
+    // async change, handle with stateHandler.resolver
+
+    const chan: Channel<ChannelAction> = yield call(channel)
+
+    yield put(
+      tempCommit({
+        initialActions: actions,
+        resolver: (resolve, reject, next) => {
+          if (!stateHandler.resolver) {
+            resolve(actions)
+            return
+          }
+
+          stateHandler.resolver(
+            function stateResolve(updater) {
+              chan.put({
+                resolve: updater,
+                scope: action.scope,
+                callback: (resolveActions, pureResolveState) => {
+                  resolve([
+                    ...resolveActions,
+                    createChange(document.state, pureResolveState)
+                  ])
+                }
+              })
+            },
+            function stateReject(updater) {
+              chan.put({
+                reject: updater,
+                scope: action.scope,
+                callback: (resolveActions, pureResolveState) => {
+                  reject([
+                    ...resolveActions,
+                    createChange(document.state, pureResolveState)
+                  ])
+                }
+              })
+            },
+            function stateNext(updater) {
+              chan.put({
+                next: updater,
+                scope: action.scope,
+                callback: (resolveActions, pureResolveState) => {
+                  next([
+                    ...resolveActions,
+                    createChange(document.state, pureResolveState)
+                  ])
+                }
+              })
+            }
+          )
+        }
+      })(action.scope)
+    )
+
+    while (true) {
+      const payload: ChannelAction = yield take(chan)
+
+      const updater =
+        payload.resolve || payload.next || payload.reject || (s => s)
+
+      const [resolveActions, pureResolveState]: [
+        ReversibleAction[],
+        unknown
+      ] = yield call(
+        handleRecursiveInserts,
+        action.scope,
+        (helpers: StoreDeserializeHelpers) => {
+          return updater(document.state, helpers)
+        }
+      )
+      payload.callback(resolveActions, pureResolveState)
+      if (payload.resolve || payload.reject) {
+        break
+      }
+    }
+  }
+}
+
+interface ChannelAction {
+  resolve?: Updater<unknown>
+  next?: Updater<unknown>
+  reject?: Updater<unknown>
+  scope: string
+  callback: (actions: ReversibleAction[], pureState: unknown) => void
 }
 
 export function* handleRecursiveInserts(

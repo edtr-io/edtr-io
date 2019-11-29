@@ -1,4 +1,5 @@
 import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
+import { Reversible } from '@edtr-io/store/src/actions'
 
 /**
  * @module @edtr-io/plugin
@@ -63,6 +64,8 @@ export interface StateType<S = any, T = S, R = unknown> {
   getFocusableChildren(state: T): FocusableChild[]
 }
 
+export type Updater<T> = (previousState: T, helpers: StoreDeserializeHelpers) => T
+
 /**
  * A state updater will get called with the current state and helpers and should return the new state
  *
@@ -70,10 +73,14 @@ export interface StateType<S = any, T = S, R = unknown> {
  * @param helpers - helpers (e.g. to insert an document in the store)
  * @returns new state
  */
-export type StateUpdater<T> = (
-  previousState: T,
-  helpers: StoreDeserializeHelpers
-) => T
+export interface StateUpdater<T> {
+  immediateState: Updater<T>
+  resolver?: (
+    resolve: (updater: Updater<T>) => void,
+    reject: (updater: Updater<T>) => void,
+    next: (updater: Updater<T>) => void
+  ) => void
+}
 
 /**
  * Describes a child document

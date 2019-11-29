@@ -1,4 +1,4 @@
-import { child, number, object, StoreDeserializeHelpers } from '../src'
+import { child, number, object, StateUpdater, StoreDeserializeHelpers } from '../src'
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
@@ -111,12 +111,9 @@ describe('object', () => {
 
     let store = initial
     const onChange = (
-      updater: (
-        oldValue: typeof initial,
-        helpers: StoreDeserializeHelpers
-      ) => typeof initial
+      updater: StateUpdater<typeof initial>
     ) => {
-      store = updater(store, helpers)
+      store = updater.immediateState(store, helpers)
     }
 
     const objValue = state.init(initial, onChange)

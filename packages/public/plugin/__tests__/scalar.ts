@@ -5,7 +5,8 @@ import {
   serializedScalar,
   StoreDeserializeHelpers,
   string,
-  Serializer
+  Serializer,
+  StateUpdater
 } from '../src'
 
 const deserializeHelpers = {
@@ -82,10 +83,8 @@ describe('serialized scalar', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     const initial = { value: 0 }
     let store = initial
-    const onChange = (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<T>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
     const scalarValue = state.init(initial, onChange)
 
@@ -97,10 +96,8 @@ describe('serialized scalar', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     const initial = { value: 0 }
     let store = initial
-    const onChange = (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<T>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
     const scalarValue = state.init(initial, onChange)
 
@@ -112,10 +109,8 @@ describe('serialized scalar', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     const initial = { value: 0 }
     let store = initial
-    const onChange = (
-      updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<T>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
     const scalarValue = state.init(initial, onChange)
 
@@ -159,12 +154,9 @@ describe('boolean', () => {
     const initial = false
     const state = boolean(initial)
     let store = initial
-    const onChange = (
-      updater: (oldValue: boolean, helpers: StoreDeserializeHelpers) => boolean
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<boolean>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
-
     const booleanValue = state.init(initial, onChange)
     booleanValue.value = true
     expect(store).toEqual(true)
@@ -174,10 +166,8 @@ describe('boolean', () => {
     const initial = false
     const state = boolean(initial)
     let store = initial
-    const onChange = (
-      updater: (oldValue: boolean, helpers: StoreDeserializeHelpers) => boolean
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<boolean>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
 
     const booleanValue = state.init(initial, onChange)
@@ -189,10 +179,8 @@ describe('boolean', () => {
     const initial = false
     const state = boolean(initial)
     let store = initial
-    const onChange = (
-      updater: (oldValue: boolean, helpers: StoreDeserializeHelpers) => boolean
-    ) => {
-      store = updater(store, deserializeHelpers)
+    const onChange = (updater: StateUpdater<boolean>) => {
+      store = updater.immediateState(store, deserializeHelpers)
     }
 
     const booleanValue = state.init(initial, onChange)

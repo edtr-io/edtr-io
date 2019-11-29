@@ -26,6 +26,10 @@ export function scalar<S>(initialState: S) {
     }
   })
 }
+// export function asyncSerializedScalar<S, T>(
+//   initialState: T,
+//   serializer: Serializer<S, T>
+// ): StateType<S, T, { value: T, get(): T, set(value:T | (())): void }>
 
 export function serializedScalar<S, T>(
   initialState: T,
@@ -52,12 +56,14 @@ export function serializedScalar<S, T>(
           return state
         }
         public set(param: T | ((previousValue: T) => T)) {
-          onChange(previousValue => {
-            if (typeof param === 'function') {
-              const updater = param as ((currentValue: T) => T)
-              return updater(previousValue)
+          onChange({
+            immediateState: previousValue => {
+              if (typeof param === 'function') {
+                const updater = param as ((currentValue: T) => T)
+                return updater(previousValue)
+              }
+              return param
             }
-            return param
           })
         }
       }

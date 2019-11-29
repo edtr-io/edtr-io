@@ -3,6 +3,7 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
+import { channel, Channel } from 'redux-saga'
 import {
   all,
   call,
@@ -13,7 +14,6 @@ import {
   take,
   takeEvery
 } from 'redux-saga/effects'
-import { channel, Channel } from 'redux-saga'
 
 import { Reversible, ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
