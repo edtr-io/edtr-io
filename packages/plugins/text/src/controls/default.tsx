@@ -137,7 +137,7 @@ export const DefaultControls: React.FunctionComponent<
         active={isWordgap(editor)}
         onClick={() => {
           console.log(isWordgap(editor))
-          isWordgap(editor) ? unsetWordgap(editor) : setWordgap()
+          isWordgap(editor) ? unsetWordgap(editor) : setWordgap(editor)
           props.onChange(editor)
         }}
         title="Lückentext (Strg + g)"

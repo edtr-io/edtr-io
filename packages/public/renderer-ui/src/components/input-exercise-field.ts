@@ -18,7 +18,7 @@ const createInputExerciseFieldTheme = createRendererUiTheme<
 })
 
 export const InputExerciseField = styled.input<
-  { exerciseState: ExerciseState } & RendererThemeProps
+  { exerciseState: ExerciseState; width?: number } & RendererThemeProps
 >(props => {
   const theme = createInputExerciseFieldTheme('inputExerciseField', props.theme)
   return {
@@ -37,6 +37,7 @@ export const InputExerciseField = styled.input<
     }`,
     transition: 'borderColor .5s ease',
     textAlign: 'center',
-    outline: 'none'
+    outline: 'none',
+    width: props.width ? props.width : undefined
   }
 })

@@ -45,7 +45,7 @@ export const unsetWordgap = (editor: Editor) => {
   return editor.unwrapInline(wordgapNode)
 }
 
-export const setWordgap = () => (editor: Editor) => {
+export const setWordgap = (editor: Editor) => {
   const selection = document.getSelection()
   const correctValue = selection ? selection.toString() : ''
   if (editor.value.selection.isExpanded) {
@@ -61,7 +61,7 @@ export const setWordgap = () => (editor: Editor) => {
   }
 
   return editor
-    .insertText(' ')
+    .insertText('')
     .focus()
     .moveFocusBackward(1)
     .wrapInline({
@@ -94,6 +94,7 @@ const DefaultEditorComponent: React.FunctionComponent<
     <InputExerciseField
       exerciseState={ExerciseState.Default}
       value={value}
+      width={10 + props.node.data.get('correctValue').length * 20}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props.editor.setNodeByKey(props.node.key, {
           type: props.node.type,
@@ -111,13 +112,35 @@ const DefaultEditorComponent: React.FunctionComponent<
         setValue(e.target.value)
       }}
       onClick={e => {
-        e.stopPropagation()
+        //e.stopPropagation()
+      }}
+      onFocus={e => {
+        console.log('focusing')
+        props.editor.moveTo(props.node.key)
+      }}
+      onKeyDown={e => {
+        //39 right 37 left
+        const target = e.target as HTMLInputElement
+        const cursorPosition = target.selectionStart
+        const correctValue = props.node.data.get('correctValue')
+        if (cursorPosition === 0 && e.keyCode === 37) {
+          props.editor
+            .moveToStart()
+            .moveBackward(1)
+            .focus()
+        } else if (cursorPosition === correctValue.length && e.keyCode === 39) {
+          props.editor
+            .moveToEnd()
+            .moveForward(1)
+            .focus()
+        }
       }}
     />
   ) : (
     <InputExerciseField
       exerciseState={getExerciseState()}
       value={value}
+      width={30 + props.node.data.get('correctValue').length * 30}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         props.editor.setNodeByKey(props.node.key, {
           type: props.node.type,
@@ -136,7 +159,7 @@ const DefaultEditorComponent: React.FunctionComponent<
         )
       }}
       onClick={e => {
-        e.stopPropagation()
+        //e.stopPropagation()
       }}
     />
   )
@@ -199,7 +222,7 @@ export const createWordgapPlugin = ({
       const e = (event as unknown) as KeyboardEvent
       if (isHotkey('mod+g', e)) {
         e.preventDefault()
-        return isWordgap(editor) ? unsetWordgap(editor) : setWordgap()(editor)
+        return isWordgap(editor) ? unsetWordgap(editor) : setWordgap(editor)
       }
 
       return next()
