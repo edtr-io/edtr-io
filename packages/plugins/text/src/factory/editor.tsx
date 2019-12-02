@@ -14,9 +14,9 @@ import { Editor, EventHook } from 'slate-react'
 import { textState } from '.'
 import { katexBlockNode, katexInlineNode } from '../plugins/katex'
 import { linkNode } from '../plugins/link'
+import { wordgapNode } from '../plugins/wordgap'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
-import { wordgapNode } from '../plugins/wordgap'
 
 export const createTextEditor = (
   options: TextPluginOptions
