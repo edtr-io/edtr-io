@@ -1,7 +1,7 @@
 import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { SubControlProps, VisibleControls, Controls } from '.'
+import { SubControlProps, VisibleControls } from '.'
 import {
   createBlockquote,
   isBlockquote,
@@ -23,9 +23,9 @@ import {
   toggleEmphasize,
   toggleStrong
 } from '../plugins/rich-text'
+import { isWordgap, setWordgap, unsetWordgap } from '../plugins/wordgap'
 import { Button } from '../toolbar/button'
 import { ColoredTextIcon } from './colors'
-import { isWordgap, setWordgap, unsetWordgap } from '../plugins/wordgap'
 
 export const DefaultControls: React.FunctionComponent<
   SubControlProps

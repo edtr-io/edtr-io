@@ -14,6 +14,7 @@ import * as React from 'react'
 import S from 'string'
 
 import { inputExerciseState } from '.'
+
 const InputContainer = styled.div({
   float: 'right',
   display: 'flex',

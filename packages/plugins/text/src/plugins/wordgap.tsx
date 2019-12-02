@@ -111,11 +111,7 @@ const DefaultEditorComponent: React.FunctionComponent<
         )
         setValue(e.target.value)
       }}
-      onClick={e => {
-        //e.stopPropagation()
-      }}
-      onFocus={e => {
-        console.log('focusing')
+      onFocus={() => {
         props.editor.moveTo(props.node.key)
       }}
       onKeyDown={e => {
@@ -157,9 +153,6 @@ const DefaultEditorComponent: React.FunctionComponent<
           ' current:',
           props.node.data.get('currentValue')
         )
-      }}
-      onClick={e => {
-        //e.stopPropagation()
       }}
     />
   )

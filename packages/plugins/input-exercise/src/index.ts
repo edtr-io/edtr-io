@@ -8,7 +8,7 @@ import {
   StateTypeSerializedType,
   string
 } from '@edtr-io/plugin'
-import { createIcon, createPluginTheme, faKeyboard } from '@edtr-io/ui'
+import { createIcon, faKeyboard } from '@edtr-io/ui'
 
 import { InputExerciseEditor } from './editor'
 
