@@ -1,10 +1,4 @@
 import {
-  InlineEditorProps,
-  TextPlugin,
-  NodeControlsProps,
-  trimSelection
-} from '@edtr-io/plugin-text'
-import {
   SubmitButton,
   InputExerciseField,
   ExerciseState,
@@ -14,6 +8,12 @@ import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Inline, Editor } from 'slate'
 import S from 'string'
+import {
+  InlineEditorProps,
+  NodeControlsProps,
+  trimSelection,
+  TextPlugin
+} from '..'
 
 export const wordgapNode = '@splish-me/wordgap'
 
