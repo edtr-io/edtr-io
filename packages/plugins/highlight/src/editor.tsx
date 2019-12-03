@@ -4,7 +4,7 @@ import {
   PrimarySettings
 } from '@edtr-io/editor-ui'
 import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { Icon, faQuestionCircle, faCode, styled, createIcon } from '@edtr-io/ui'
+import { faCode, styled, createIcon } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { highlightState } from '.'
@@ -21,14 +21,6 @@ const Textarea = styled.textarea({
   outline: 'none',
   boxShadow: '0 1px 1px 0 rgba(0,0,0,0.50)',
   '&::-webkit-input-placeholder': {
-    color: 'rgba(0,0,0,0.5)'
-  }
-})
-
-const QuestionIcon = styled(Icon)({
-  color: 'black',
-  margin: '0 10px -3px 5px',
-  '&:hover': {
     color: 'rgba(0,0,0,0.5)'
   }
 })
@@ -61,7 +53,7 @@ export const createHighlightEditor = (config: HighlightPluginConfig) =>
         <Textarea
           value={state.text.value}
           name="text"
-          placeholder="Write some code here. Preview will be shown when you leave the area"
+          placeholder="Füge hier deinen Code ein. Verlasse den Bereich, um eine Vorschau zu sehen."
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             state.text.set(e.target.value)
           }}
@@ -87,7 +79,7 @@ export const createHighlightEditor = (config: HighlightPluginConfig) =>
           </datalist>
           <CheckboxContainer>
             <EditorCheckbox
-              label="Show Line Numbers"
+              label="Zeilennummern anzeigen"
               onChange={() => {
                 state.lineNumbers.set(!state.lineNumbers.value)
               }}
