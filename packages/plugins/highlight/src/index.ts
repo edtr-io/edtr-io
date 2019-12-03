@@ -1,7 +1,8 @@
-import { boolean, object, StatefulPlugin, string } from '@edtr-io/plugin'
+import { StatefulPlugin, string, boolean, object } from '@edtr-io/plugin'
 import { createIcon, faCode } from '@edtr-io/ui'
+import * as React from 'react'
 
-import { HighlightEditor } from './editor'
+import { createHighlightEditor } from './editor'
 
 export const highlightState = object({
   text: string(''),
@@ -9,11 +10,22 @@ export const highlightState = object({
   lineNumbers: boolean(false)
 })
 
-export const highlightPlugin: StatefulPlugin<typeof highlightState> = {
-  Component: HighlightEditor,
-  state: highlightState,
-  title: 'Code',
-  description:
-    'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
-  icon: createIcon(faCode)
+import { HighlightRenderer, HighlightRendererProps } from './renderer'
+
+export const highlightPlugin : StatefulPlugin<typeof highlightState> =
+  createHighlightPlugin({ renderer: HighlightRenderer })
+
+export function createHighlightPlugin(config: HighlightPluginConfig) : StatefulPlugin<typeof highlightState> {
+  return {
+    Component: createHighlightEditor(config),
+    state: highlightState,
+    title: 'Code',
+    description:
+      'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
+    icon: createIcon(faCode)
+  }
+}
+
+export interface HighlightPluginConfig {
+  renderer: React.ComponentType<HighlightRendererProps>
 }
