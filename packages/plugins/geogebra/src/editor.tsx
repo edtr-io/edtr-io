@@ -1,12 +1,12 @@
 import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { geogebraState } from '.'
 import { GeogebraRenderer } from './renderer'
 
 export const GeogebraEditor = (
-  props: StatefulPluginEditorProps<typeof geogebraState>
+  props: PluginEditorProps<typeof geogebraState>
 ) => {
   const { focused, editable, state } = props
 

@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -9,7 +9,7 @@ const Row = styled.div({
 })
 
 export function RowsRenderer(
-  props: StatefulPluginEditorProps<typeof rowsState>
+  props: PluginEditorProps<typeof rowsState>
 ) {
   return (
     <React.Fragment>

@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import axios from 'axios'
 import { debounce } from 'lodash'
@@ -154,7 +154,7 @@ export function GeogebraRenderer({
   }
 }
 
-export type GeogebraRendererProps = StatefulPluginEditorProps<
+export type GeogebraRendererProps = PluginEditorProps<
   typeof geogebraState
 > & {
   disableCursorEvents?: boolean

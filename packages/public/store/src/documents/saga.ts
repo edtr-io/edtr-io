@@ -2,7 +2,6 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { isStatefulPlugin } from '@edtr-io/internal__plugin'
 import {
   StoreDeserializeHelpers,
   Updater
@@ -213,12 +212,10 @@ export function* handleRecursiveInserts(
     if (!plugin) return
 
     let pluginState: unknown
-    if (isStatefulPlugin(plugin)) {
-      if (doc.state === undefined) {
-        pluginState = plugin.state.createInitialState(helpers)
-      } else {
-        pluginState = plugin.state.deserialize(doc.state, helpers)
-      }
+    if (doc.state === undefined) {
+      pluginState = plugin.state.createInitialState(helpers)
+    } else {
+      pluginState = plugin.state.deserialize(doc.state, helpers)
     }
 
     const pluginType: ReturnTypeFromSelector<

@@ -5,7 +5,7 @@ import {
   styled,
   PreviewOverlay
 } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -34,7 +34,7 @@ const AnswerTextfield = styled.input({
   width: '100%'
 })
 export function InputExerciseEditor(
-  props: StatefulPluginEditorProps<typeof inputExerciseState> & {
+  props: PluginEditorProps<typeof inputExerciseState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {

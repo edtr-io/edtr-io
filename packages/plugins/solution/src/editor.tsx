@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
@@ -17,7 +17,7 @@ const solutionTheme = {
 export function SolutionEditor({
   state,
   editable
-}: StatefulPluginEditorProps<typeof solutionState>) {
+}: PluginEditorProps<typeof solutionState>) {
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>

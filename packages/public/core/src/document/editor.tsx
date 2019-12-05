@@ -3,10 +3,8 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  isStatefulPlugin,
   Plugin,
-  StatefulPluginEditorProps,
-  StatelessPluginEditorProps
+  PluginEditorProps
 } from '@edtr-io/internal__plugin'
 import { StateType, StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
@@ -68,8 +66,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       container.current &&
       document &&
       plugin &&
-      (!isStatefulPlugin(plugin) ||
-        !plugin.state.getFocusableChildren(document.state).length)
+      !plugin.state.getFocusableChildren(document.state).length
     ) {
       container.current.focus()
     }
@@ -94,7 +91,6 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       if (
         e &&
         plugin &&
-        isStatefulPlugin(plugin) &&
         typeof plugin.onKeyDown === 'function' &&
         !plugin.onKeyDown(e)
       ) {
@@ -232,37 +228,25 @@ function getPluginEditorProps<S extends StateType>({
   plugin: Plugin
   dispatch: ReturnType<typeof useScopedDispatch>
   pluginProps: DocumentProps['pluginProps']
-}):
-  | Omit<StatefulPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'>
-  | Omit<StatelessPluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
-  if (isStatefulPlugin(plugin)) {
-    const onChange = (updater: StateUpdater<unknown>) => {
-      dispatch(
-        change({
-          id,
-          state: updater
-        })
-      )
-    }
-    const state = plugin.state.init(document.state, onChange, {
-      ...pluginProps,
-      name: document.plugin
-    })
-    return {
-      ...pluginProps,
-      id,
-      editable: true,
-      focused,
-      name: document.plugin,
-      state
-    }
+}): Omit<PluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
+  const onChange = (updater: StateUpdater<unknown>) => {
+    dispatch(
+      change({
+        id,
+        state: updater
+      })
+    )
   }
-
+  const state = plugin.state.init(document.state, onChange, {
+    ...pluginProps,
+    name: document.plugin
+  })
   return {
     ...pluginProps,
     id,
     editable: true,
     focused,
-    name: document.plugin
+    name: document.plugin,
+    state
   }
 }

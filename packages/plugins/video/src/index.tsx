@@ -1,4 +1,4 @@
-import { StatefulPlugin, string, object, migratable } from '@edtr-io/plugin'
+import { Plugin, string, object, migratable } from '@edtr-io/plugin'
 import { createIcon, faFilm } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -11,7 +11,7 @@ export const videoState = migratable(stateV0).migrate(stateV1, src => {
   return { src, alt: '' }
 })
 
-export const videoPlugin: StatefulPlugin<typeof videoState> = {
+export const videoPlugin: Plugin<typeof videoState> = {
   //eslint-disable-next-line react/display-name
   Component: props =>
     props.editable ? <VideoEditor {...props} /> : <VideoRenderer {...props} />,

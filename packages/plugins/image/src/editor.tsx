@@ -8,7 +8,7 @@ import { EditorButton, EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
 import {
   isTempFile,
   usePendingFileUploader,
-  StatefulPluginEditorProps
+  PluginEditorProps
 } from '@edtr-io/plugin'
 import {
   EditorThemeProps,
@@ -23,7 +23,7 @@ import { ImagePluginConfig, imageState } from '.'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
 
-type ImageProps = StatefulPluginEditorProps<typeof imageState> & {
+type ImageProps = PluginEditorProps<typeof imageState> & {
   renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
 }
 

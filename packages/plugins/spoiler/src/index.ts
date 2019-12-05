@@ -1,4 +1,4 @@
-import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
+import { child, object, Plugin, string } from '@edtr-io/plugin'
 import { createIcon, faCaretSquareDown } from '@edtr-io/ui'
 
 import { SpoilerEditor } from './editor'
@@ -8,7 +8,7 @@ export const spoilerState = object({
   content: child('rows')
 })
 
-export const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
+export const spoilerPlugin: Plugin<typeof spoilerState> = {
   Component: SpoilerEditor,
   state: spoilerState,
   icon: createIcon(faCaretSquareDown),

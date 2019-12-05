@@ -67,9 +67,6 @@ export const plugins = {
   text: textPlugin,
   video: videoPlugin,
 
-  stateless: {
-    Component: () => null
-  },
   stateful: {
     Component: () => null,
     state: statefulState

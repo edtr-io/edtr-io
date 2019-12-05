@@ -1,4 +1,4 @@
-import { isTempFile, StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { isTempFile, PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -88,7 +88,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
   }
 }
 
-export type ImageRendererProps = StatefulPluginEditorProps<
+export type ImageRendererProps = PluginEditorProps<
   typeof imageState
 > & {
   disableMouseEvents?: boolean

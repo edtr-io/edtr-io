@@ -18,14 +18,14 @@ beforeEach(() => {
 test('default plugin', () => {
   renderDocument(document => {
     if (!document) throw new Error('No document found')
-    expect(document.plugin).toEqual('stateless')
+    expect(document.plugin).toEqual('stateful')
   })
 })
 
 function renderDocument(onChange: StateProps['onChange']) {
   act(() => {
     ReactDOM.render(
-      <Editor plugins={plugins} defaultPlugin="stateless">
+      <Editor plugins={plugins} defaultPlugin="stateful">
         {children => {
           return (
             <React.Fragment>

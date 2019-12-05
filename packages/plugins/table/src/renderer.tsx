@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { Icon, faTable, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -26,7 +26,7 @@ const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export function createTableRenderer(config: TablePluginConfig) {
   return function TableRenderer(
-    props: StatefulPluginEditorProps<typeof tableState>
+    props: PluginEditorProps<typeof tableState>
   ) {
     const { editable, state } = props
 

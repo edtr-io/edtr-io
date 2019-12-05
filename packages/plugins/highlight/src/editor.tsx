@@ -3,6 +3,7 @@ import {
   EditorInput,
   PrimarySettings
 } from '@edtr-io/editor-ui'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { faCode, styled, createIcon } from '@edtr-io/ui'
 import * as React from 'react'
@@ -31,7 +32,7 @@ const CheckboxContainer = styled.div({
 
 export const createHighlightEditor = (config: HighlightPluginConfig) =>
   function HighlightEditor(
-    props: StatefulPluginEditorProps<typeof highlightState>
+    props: PluginEditorProps <typeof highlightState>
   ) {
     const Renderer = config.renderer
 
