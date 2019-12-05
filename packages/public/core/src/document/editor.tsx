@@ -26,14 +26,10 @@ import {
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { HotKeys } from 'react-hotkeys'
+import { HotKeys, IgnoreKeys } from 'react-hotkeys'
 
 import { DocumentProps } from '.'
-import { DocumentEditorContext } from '../contexts'
-import {
-  PluginToolbarButton,
-  PluginToolbarOverlayButton
-} from '../plugin-toolbar'
+import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
 import { useScopedDispatch, useScopedSelector } from '../store'
 
 const StyledDocument = styled.div({
@@ -54,6 +50,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     window.document.createElement('div')
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
+  const PluginToolbar = React.useContext(PluginToolbarContext)
   const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
     null
   )
@@ -116,7 +113,10 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     (children: React.ReactNode) => {
       setHasSettings(true)
       if (!settingsRef.current) return null
-      return createPortal(children, settingsRef.current)
+      return createPortal(
+        <IgnoreKeys>{children}</IgnoreKeys>,
+        settingsRef.current
+      )
     },
     [settingsRef]
   )
@@ -188,8 +188,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             renderSettings={pluginProps && pluginProps.renderSettings}
             renderToolbar={pluginProps && pluginProps.renderToolbar}
             settingsRef={settingsRef}
-            PluginToolbarButton={PluginToolbarButton}
-            PluginToolbarOverlayButton={PluginToolbarOverlayButton}
+            PluginToolbar={PluginToolbar}
           >
             <plugin.Component
               renderIntoSettings={renderIntoSettings}
@@ -208,16 +207,17 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       </HotKeys>
     )
   }, [
-    dispatch,
     document,
-    focused,
-    handleFocus,
-    handleKeyDown,
-    id,
     plugin,
+    handleFocus,
+    hasSettings,
+    focused,
     pluginProps,
+    PluginToolbar,
     renderIntoSettings,
-    hasSettings
+    id,
+    dispatch,
+    handleKeyDown
   ])
 }
 

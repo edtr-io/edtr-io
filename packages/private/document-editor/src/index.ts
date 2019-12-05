@@ -1,7 +1,4 @@
-import {
-  PluginToolbarButtonProps,
-  PluginToolbarOverlayButtonProps
-} from '@edtr-io/internal__plugin-toolbar'
+import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar'
 import * as React from 'react'
 
 /**
@@ -59,8 +56,5 @@ export interface DocumentEditorProps {
    */
   focused: boolean
 
-  PluginToolbarButton: React.ComponentType<PluginToolbarButtonProps>
-  PluginToolbarOverlayButton: React.ComponentType<
-    PluginToolbarOverlayButtonProps
-  >
+  PluginToolbar: PluginToolbar
 }

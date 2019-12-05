@@ -8,6 +8,7 @@ import { hintState } from '@edtr-io/plugin-hint'
 import { imageState } from '@edtr-io/plugin-image'
 import { importantStatementState } from '@edtr-io/plugin-important-statement'
 import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsState } from '@edtr-io/plugin-rows'
 import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionState } from '@edtr-io/plugin-serlo-injection'
@@ -167,6 +168,42 @@ describe('Renderer SSR', () => {
       plugins
     })
     expect(html).toContain('<input')
+  })
+
+  test('Multimedia explanation plugin', () => {
+    const state: Document<MultimediaExplanationState> = {
+      plugin: 'multimediaExplanation',
+      state: {
+        illustrating: true,
+        explanation: {
+          plugin: 'rows',
+          state: [
+            {
+              plugin: 'text',
+              state: createTextState([
+                Text.create({ text: 'This will be rendered' })
+              ])
+            }
+          ]
+        },
+        multimedia: {
+          plugin: 'image',
+          state: {
+            src: 'foo',
+            href: '#',
+            target: '',
+            rel: '',
+            description: 'foo bar',
+            maxWidth: 0
+          }
+        },
+        width: 50
+      }
+    }
+
+    const { html } = render({ state, plugins })
+    expect(html).toContain('This will be rendered')
+    expect(html).toContain('<img')
   })
 
   test('Rows plugin', () => {

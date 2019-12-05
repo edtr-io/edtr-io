@@ -1,5 +1,5 @@
+import { HotKeys } from '@edtr-io/core'
 import * as React from 'react'
-import { HotKeys } from 'react-hotkeys'
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'

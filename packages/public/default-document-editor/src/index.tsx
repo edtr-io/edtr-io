@@ -1,5 +1,5 @@
 import { DocumentEditorProps } from '@edtr-io/document-editor'
-import { faCog, Icon, styled } from '@edtr-io/ui'
+import { edtrClose, EdtrIcon, faCog, Icon, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 const Container = styled.div<{
@@ -66,6 +66,15 @@ const ToolbarContent = styled.div<{ expanded: boolean }>(({ expanded }) => {
   }
 })
 
+const Header = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between'
+})
+
+const H4 = styled.h4({
+  marginRight: '25px'
+})
+
 export function createDefaultDocumentEditor(
   _config: DefaultDocumentEditorConfig = {}
 ): React.ComponentType<DocumentEditorProps> {
@@ -76,8 +85,37 @@ export function createDefaultDocumentEditor(
     renderToolbar,
     settingsRef,
     hasSettings,
-    PluginToolbarOverlayButton
+    PluginToolbar
   }: DocumentEditorProps) {
+    const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
+    const BorderlessOverlayButton = styled(OverlayButton)({
+      border: 'none !important',
+      padding: '0 !important',
+      minWidth: '0 !important'
+    })
+
+    const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
+      return renderSettings
+        ? (children, { close }) => {
+            return (
+              <React.Fragment>
+                <Header>
+                  <H4>Erweiterte Einstellungen</H4>
+                  <BorderlessOverlayButton
+                    onClick={() => {
+                      close()
+                    }}
+                    label="Schließen"
+                  >
+                    <EdtrIcon icon={edtrClose} />
+                  </BorderlessOverlayButton>
+                </Header>
+                {renderSettings(children, { close })}
+              </React.Fragment>
+            )
+          }
+        : undefined
+    }, [renderSettings])
     const expanded = focused && (showSettings() || showToolbar())
     const toolbar = (
       <React.Fragment>
@@ -85,7 +123,7 @@ export function createDefaultDocumentEditor(
           <PluginToolbarOverlayButton
             label="Einstellungen"
             icon={<Icon icon={faCog} size="lg" />}
-            renderContent={renderSettings}
+            renderContent={renderSettingsContent}
             contentRef={settingsRef}
           />
         ) : null}
