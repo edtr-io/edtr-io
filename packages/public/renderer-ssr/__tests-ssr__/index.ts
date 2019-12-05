@@ -202,7 +202,6 @@ describe('Renderer SSR', () => {
     }
 
     const { html } = render({ state, plugins })
-    console.log(html)
     expect(html).toContain('This will be rendered')
     expect(html).toContain('<img')
   })
