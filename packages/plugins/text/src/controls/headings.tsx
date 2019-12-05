@@ -3,11 +3,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
-import {
-  createIsHeading,
-  createSetHeading,
-  HeadingLevel
-} from '../plugins/headings'
+import { HeadingLevel } from '../model'
+import { createIsHeading, createSetHeading } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
 import { Button } from '../toolbar/button'
 

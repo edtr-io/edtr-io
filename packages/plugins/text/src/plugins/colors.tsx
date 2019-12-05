@@ -1,8 +1,9 @@
 import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor, Mark } from 'slate'
+import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
+import { colorMark } from '../model'
 import {
   createTextPluginTheme,
   getTrimmedSelectionRange,
@@ -10,8 +11,6 @@ import {
   MarkRendererProps,
   TextPlugin
 } from '..'
-
-export const colorMark = '@splish-me/color'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<
@@ -92,40 +91,13 @@ class DefaultEditorComponent extends React.Component<
   }
 }
 
-class DefaultRendererComponent extends React.Component<
-  MarkRendererProps & { colorIndex: number; name: string }
-> {
-  public render() {
-    const { children, colorIndex, name } = this.props
-    return (
-      <Color colorIndex={colorIndex} name={name}>
-        {children}
-      </Color>
-    )
-  }
-}
-
 export const createColorPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent
+  EditorComponent = DefaultEditorComponent
 }: ColorPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
   // TODO: deserialize
   return {
-    serialize(obj, children) {
-      const name = pluginClosure.current ? pluginClosure.current.name : ''
-      const mark = obj as Mark
-      if (mark.object === 'mark') {
-        const colorIndex = mark.data.get('colorIndex')
-        return (
-          <RenderComponent mark={mark} colorIndex={colorIndex} name={name}>
-            {children}
-          </RenderComponent>
-        )
-      }
-    },
-
     renderMark(props, _editor, next) {
       const name = pluginClosure.current ? pluginClosure.current.name : ''
       const { mark } = props

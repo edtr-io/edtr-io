@@ -2,6 +2,7 @@ import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { orderedListNode, unorderedListNode } from '../model'
 import {
   createBlockquote,
   isBlockquote,
@@ -11,12 +12,7 @@ import { getColorIndex } from '../plugins/colors'
 import { getHeadingLevel } from '../plugins/headings'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
 import { isLink, unwrapLink, wrapLink } from '../plugins/link'
-import {
-  isList,
-  orderedListNode,
-  toggleList,
-  unorderedListNode
-} from '../plugins/list'
+import { isList, toggleList } from '../plugins/list'
 import {
   isEmphasized,
   isStrong,

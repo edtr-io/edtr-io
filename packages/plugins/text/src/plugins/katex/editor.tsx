@@ -1,19 +1,23 @@
 import { PreferenceContext, setDefaultPreference } from '@edtr-io/core'
-import { styled } from '@edtr-io/editor-ui'
 import { EditorTextarea } from '@edtr-io/renderer-ui'
-import { faQuestionCircle, Icon } from '@edtr-io/ui'
+import { faQuestionCircle, Icon, styled } from '@edtr-io/ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 import Modal from 'react-modal'
 
-import { katexBlockNode, katexInlineNode } from '.'
 import { NodeEditorProps } from '../..'
 import { isTouchDevice } from '../../controls'
+import {
+  katexBlockNode,
+  katexInlineNode,
+  orderedListNode,
+  unorderedListNode
+} from '../../model'
 import { Button } from '../../toolbar/button'
 import { Dropdown, Option } from '../../toolbar/dropdown'
 import { HoveringOverlay } from '../hovering-overlay'
 import { InlineCheckbox } from '../inline-checkbox'
-import { isList, orderedListNode, unorderedListNode } from '../list'
+import { isList } from '../list'
 import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

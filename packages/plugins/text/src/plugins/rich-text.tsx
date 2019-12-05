@@ -1,7 +1,8 @@
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
-import { Editor, Mark } from 'slate'
+import { Editor } from 'slate'
 
+import { strongMark, emphasizeMark } from '../model'
 import {
   getTrimmedSelectionRange,
   MarkEditorProps,
@@ -10,9 +11,8 @@ import {
   trimSelection
 } from '..'
 
-export const strongMark = '@splish-me/strong'
-export const emphasizeMark = '@splish-me/em'
-export const codeMark = 'code'
+// in use?
+const codeMark = 'code'
 
 export interface RichTextPluginOptions {
   EditorComponent?: React.ComponentType<MarkEditorProps>
@@ -74,57 +74,10 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
   }
 }
 
-class DefaultRendererComponent extends React.Component<MarkRendererProps> {
-  public render() {
-    const { mark, children } = this.props
-
-    switch (mark.type) {
-      case strongMark:
-        return <strong>{children}</strong>
-      case emphasizeMark:
-        return <em>{children}</em>
-      case codeMark:
-        return <code>{children}</code>
-      default:
-        return null
-    }
-  }
-}
-
 export const createRichTextPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent
+  EditorComponent = DefaultEditorComponent
 }: RichTextPluginOptions = {}) => (): TextPlugin => {
   return {
-    deserialize(el, next) {
-      switch (el.tagName.toLowerCase()) {
-        case 'strong':
-        case 'b':
-          return {
-            object: 'mark',
-            type: strongMark,
-            nodes: next(el.childNodes)
-          }
-        case 'em':
-        case 'i':
-          return {
-            object: 'mark',
-            type: emphasizeMark,
-            nodes: next(el.childNodes)
-          }
-
-        case 'code':
-        case 'q':
-          return {
-            object: 'mark',
-            type: codeMark,
-            nodes: next(el.childNodes)
-          }
-        default:
-          return
-      }
-    },
-
     onKeyDown(event, editor, next) {
       const e = (event as unknown) as KeyboardEvent
       if (isHotkey('mod+b')(e)) {
@@ -139,17 +92,6 @@ export const createRichTextPlugin = ({
       }
 
       return next()
-    },
-
-    serialize(obj, children) {
-      const mark = obj as Mark
-
-      if (
-        mark.object === 'mark' &&
-        [strongMark, emphasizeMark, codeMark].includes(mark.type)
-      ) {
-        return <RenderComponent mark={mark}>{children}</RenderComponent>
-      }
     },
 
     renderMark(props, _editor, next) {

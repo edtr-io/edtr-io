@@ -2,8 +2,9 @@ import { styled } from '@edtr-io/editor-ui'
 import { Icon, faExternalLinkAlt } from '@edtr-io/ui'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
-import { Data, Editor, Inline } from 'slate'
+import { Editor, Inline } from 'slate'
 
+import { linkNode } from '../model'
 import { InlineInput } from './inline-input'
 import { InlineSettings } from './inline-settings'
 import {
@@ -13,8 +14,6 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-
-export const linkNode = '@splish-me/a'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
@@ -175,22 +174,8 @@ const DefaultControlsComponent: React.FunctionComponent<
   )
 }
 
-class DefaultRendererComponent extends React.Component<InlineRendererProps> {
-  public render() {
-    const { children, node } = this.props
-    const { data } = node
-
-    if (!data) {
-      return null
-    }
-
-    return <a href={data.href}>{children}</a>
-  }
-}
-
 export const createLinkPlugin = ({
   EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent,
   ControlsComponent = DefaultControlsComponent
 }: LinkPluginOptions = {}) => (): TextPlugin => {
   return {
@@ -202,29 +187,6 @@ export const createLinkPlugin = ({
       }
 
       return next()
-    },
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() === 'a') {
-        // @ts-ignore FIXME
-        const attr = el.attrs.find(({ name }) => name === 'href')
-
-        return {
-          object: 'inline',
-          type: linkNode,
-          nodes: next(el.childNodes),
-          data: Data.create({
-            href: attr ? attr.value : ''
-          })
-        }
-      }
-    },
-
-    serialize(obj, children) {
-      const block = obj as Inline
-
-      if (block.object === 'inline' && block.type === linkNode) {
-        return <RenderComponent node={obj}>{children}</RenderComponent>
-      }
     },
 
     renderInline(props, _editor, next) {
