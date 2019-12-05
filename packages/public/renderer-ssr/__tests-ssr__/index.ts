@@ -283,6 +283,27 @@ describe('Renderer SSR', () => {
     expect(html).toContain('<strong')
   })
 
+  test('Text plugin with colors', () => {
+    const state: Document<typeof textState> = {
+      plugin: 'text',
+      state: createTextState([
+        Text.create({
+          text: 'This is colored',
+          marks: Mark.createSet([
+            { type: '@splish-me/color', data: { colorIndex: 1 } }
+          ])
+        })
+      ])
+    }
+
+    const { html } = render({
+      state,
+      plugins
+    })
+
+    expect(html).toContain('This is colored')
+  })
+
   test('Video plugin', () => {
     const state: Document<typeof videoState> = {
       plugin: 'video',
