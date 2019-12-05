@@ -2,6 +2,7 @@ import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor } from 'slate'
 
+import { strongMark, emphasizeMark } from '../model'
 import {
   getTrimmedSelectionRange,
   MarkEditorProps,
@@ -9,7 +10,6 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-import { strongMark, emphasizeMark } from '../model'
 
 // in use?
 const codeMark = 'code'
@@ -73,23 +73,6 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
     }
   }
 }
-
-// class DefaultRendererComponent extends React.Component<MarkRendererProps> {
-//   public render() {
-//     const { mark, children } = this.props
-
-//     switch (mark.type) {
-//       case strongMark:
-//         return <strong>{children}</strong>
-//       case emphasizeMark:
-//         return <em>{children}</em>
-//       case codeMark:
-//         return <code>{children}</code>
-//       default:
-//         return null
-//     }
-//   }
-// }
 
 export const createRichTextPlugin = ({
   EditorComponent = DefaultEditorComponent

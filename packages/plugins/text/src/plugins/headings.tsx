@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { Editor } from 'slate'
 
-import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 import { HeadingLevel, createHeadingNode } from '../model'
+import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
 
 export interface HeadingsPluginOptions {
   EditorComponent?: React.ComponentType<
@@ -45,16 +45,6 @@ class DefaultEditorComponent extends React.Component<
     )
   }
 }
-
-// class DefaultRenderComponent extends React.Component<
-//   BlockRendererProps & { level: HeadingLevel }
-// > {
-//   public render() {
-//     const { children, level } = this.props
-
-//     return <Heading level={level}>{children}</Heading>
-//   }
-// }
 
 export const createIsHeading = (level: HeadingLevel) => {
   return (editor: Editor) => {

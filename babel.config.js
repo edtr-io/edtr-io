@@ -38,8 +38,6 @@ module.exports = function(api) {
                   '@edtr-io/plugin-spoiler': '@edtr-io/plugin-spoiler/src',
                   '@edtr-io/plugin-table': '@edtr-io/plugin-table/src',
                   '@edtr-io/plugin-text': '@edtr-io/plugin-text/src',
-                  '@edtr-io/plugin-text-state':
-                    '@edtr-io/plugin-text-state/src',
                   '@edtr-io/plugin-video': '@edtr-io/plugin-video/src',
 
                   // Private

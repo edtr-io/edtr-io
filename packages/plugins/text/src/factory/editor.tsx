@@ -12,13 +12,9 @@ import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { textState } from '.'
+import { slateSchema, katexBlockNode, htmlToSlateValue } from '../model'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
-import {
-  slateSchema,
-  katexBlockNode,
-  htmlToSlateValue
-} from '../model'
 
 export const createTextEditor = (
   options: TextPluginOptions

@@ -4,6 +4,7 @@ import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Inline } from 'slate'
 
+import { linkNode } from '../model'
 import { InlineInput } from './inline-input'
 import { InlineSettings } from './inline-settings'
 import {
@@ -13,7 +14,6 @@ import {
   TextPlugin,
   trimSelection
 } from '..'
-import { linkNode } from '../model'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
@@ -173,19 +173,6 @@ const DefaultControlsComponent: React.FunctionComponent<
     </React.Fragment>
   )
 }
-
-// class DefaultRendererComponent extends React.Component<InlineRendererProps> {
-//   public render() {
-//     const { children, node } = this.props
-//     const { data } = node
-
-//     if (!data) {
-//       return null
-//     }
-
-//     return <a href={data.href}>{children}</a>
-//   }
-// }
 
 export const createLinkPlugin = ({
   EditorComponent = DefaultEditorComponent,
