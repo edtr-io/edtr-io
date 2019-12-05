@@ -45,10 +45,10 @@ export function object<Ds extends Record<string, StateType>>(
               R.set(R.lensProp(key), dispatcher(oldObj[key], helpers), oldObj)
           }
           onChange({
-            immediateState: wrapUpdater(stateHandler.immediateState),
+            immediate: wrapUpdater(stateHandler.immediate),
             resolver: (resolve, reject, next) => {
               if (!stateHandler.resolver) {
-                resolve(wrapUpdater(stateHandler.immediateState))
+                resolve(wrapUpdater(stateHandler.immediate))
               } else {
                 stateHandler.resolver(
                   innerUpdater => {

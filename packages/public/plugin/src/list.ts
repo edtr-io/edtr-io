@@ -40,7 +40,7 @@ export function list<S, T = S, U = unknown>(
       return Object.assign(items, {
         insert(index?: number, options?: S) {
           onChange({
-            immediateState: (items, helpers) => {
+            immediate: (items, helpers) => {
               const wrappedSubState = wrap(
                 options
                   ? type.deserialize(options, helpers)
@@ -55,10 +55,10 @@ export function list<S, T = S, U = unknown>(
           })
         },
         remove(index: number) {
-          onChange({ immediateState: items => R.remove(index, 1, items) })
+          onChange({ immediate: items => R.remove(index, 1, items) })
         },
         move(from: number, to: number) {
-          onChange({ immediateState: items => R.move(from, to, items) })
+          onChange({ immediate: items => R.move(from, to, items) })
         }
       })
 
@@ -78,10 +78,10 @@ export function list<S, T = S, U = unknown>(
             }
           }
           onChange({
-            immediateState: wrapUpdater(stateUpdater.immediateState),
+            immediate: wrapUpdater(stateUpdater.immediate),
             resolver: (resolve, reject, next) => {
               if (!stateUpdater.resolver) {
-                resolve(wrapUpdater(stateUpdater.immediateState))
+                resolve(wrapUpdater(stateUpdater.immediate))
               } else {
                 stateUpdater.resolver(
                   innerUpdater => resolve(wrapUpdater(innerUpdater)),

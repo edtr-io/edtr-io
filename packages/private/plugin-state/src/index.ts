@@ -63,24 +63,43 @@ export interface StateType<S = any, T = S, R = unknown> {
   getFocusableChildren(state: T): FocusableChild[]
 }
 
-export type Updater<T> = (
-  previousState: T,
-  helpers: StoreDeserializeHelpers
-) => T
-
 /**
- * A state updater will get called with the current state and helpers and should return the new state
+ * An updater will get called with the current state and helpers and should return the new state
  *
  * @param previousState - current state at the time the change is applied
  * @param helpers - helpers (e.g. to insert an document in the store)
  * @returns new state
  */
-export interface StateUpdater<T> {
-  immediateState: Updater<T>
+export type Updater<T> = (
+  previousState: T,
+  helpers: StoreDeserializeHelpers
+) => T
+
+
+/**
+ * Describes an update to the state of a plugin and optionally asynchronous changes.
+ *
+ * @param immediate - [[Updater]] to set the immediate state
+ * @param resolver - Callback to change the value asynchronously. The callback receives three functions (resolve, reject, next) as params.
+ * These can be called to apply further state updates. Once resolve or reject is called this handling is finished.
+ */
+export type StateUpdater<T> = AsyncResolver<Updater<T>>
+
+/**
+ * Describes an async process
+ *
+ * @param immediate - immediate value
+ * @param resolver - Callback to change the value asynchronously. The callback receives three functions (resolve, reject, next) as params.
+ * These can be called to apply further values. Once resolve or reject is called this handling is finished.
+ *
+ * @typeparam T - type of the immediate and async values
+ */
+export interface AsyncResolver<T> {
+  immediate: T
   resolver?: (
-    resolve: (updater: Updater<T>) => void,
-    reject: (updater: Updater<T>) => void,
-    next: (updater: Updater<T>) => void
+    resolve: (value: T) => void,
+    reject: (value: T) => void,
+    next: (value: T) => void
   ) => void
 }
 

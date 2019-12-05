@@ -46,7 +46,7 @@ export function* historySaga() {
 }
 
 function* tempCommitSaga(action: TempCommitAction) {
-  const actions = action.payload.initialActions as ReversibleAction[]
+  const actions = action.payload.immediate as ReversibleAction[]
   yield all(actions.map(action => put(action.action)))
   yield put(
     pureCommit({

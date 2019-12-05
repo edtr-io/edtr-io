@@ -2,6 +2,8 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { AsyncResolver } from '@edtr-io/internal__plugin-state'
+
 import { Reversible } from '../actions'
 import { createAction, createActionWithoutPayload } from '../helpers'
 import { ActionFromActionCreator } from '../types'
@@ -28,14 +30,7 @@ export type PureCommitAction = ActionFromActionCreator<typeof pureCommit>
 
 export const tempCommit = createAction<
   'TempCommitAction',
-  {
-    resolver: (
-      resolve: (actions: Reversible[]) => void,
-      reject: (actions: Reversible[]) => void,
-      next: (actions: Reversible[]) => void
-    ) => void
-    initialActions: Reversible[]
-  }
+  AsyncResolver<Reversible[]>
 >('TempCommitAction')
 export type TempCommitAction = ActionFromActionCreator<typeof tempCommit>
 

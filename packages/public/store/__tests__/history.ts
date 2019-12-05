@@ -251,7 +251,7 @@ describe('History', () => {
             ])
           }, 300)
         },
-        initialActions: [
+        immediate: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
@@ -311,7 +311,7 @@ describe('History', () => {
 
           firstAsyncUpdate()
         },
-        initialActions: [
+        immediate: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
@@ -366,7 +366,7 @@ describe('History', () => {
             ])
           }, 300)
         },
-        initialActions: [
+        immediate: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)

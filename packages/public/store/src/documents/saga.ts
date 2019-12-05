@@ -81,7 +81,7 @@ function* changeSaga(action: ChangeAction) {
     handleRecursiveInserts,
     action.scope,
     (helpers: StoreDeserializeHelpers) => {
-      return stateHandler.immediateState(document.state, helpers)
+      return stateHandler.immediate(document.state, helpers)
     }
   )
 
@@ -106,7 +106,7 @@ function* changeSaga(action: ChangeAction) {
 
     yield put(
       tempCommit({
-        initialActions: actions,
+        immediate: actions,
         resolver: (resolve, reject, next) => {
           if (!stateHandler.resolver) {
             resolve(actions)

@@ -117,7 +117,7 @@ describe('object', () => {
 
     let store = initial
     const onChange = (updater: StateUpdater<typeof initial>) => {
-      store = updater.immediateState(store, helpers)
+      store = updater.immediate(store, helpers)
     }
 
     const objValue = state.init(initial, onChange)
