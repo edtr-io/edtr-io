@@ -42,7 +42,6 @@ export function object<Ds extends Record<string, StateType>>(
             dispatcher: Updater<StateTypeReturnType<typeof type>>
           ): Updater<StateTypesValueType<Ds>> {
             return (oldObj, helpers) => {
-              console.log(oldObj)
               return R.set(
                 R.lensProp(key),
                 dispatcher(oldObj[key], helpers),
@@ -57,15 +56,9 @@ export function object<Ds extends Record<string, StateType>>(
                 resolve(wrapUpdater(stateHandler.immediate))
               } else {
                 stateHandler.resolver(
-                  innerUpdater => {
-                    resolve(wrapUpdater(innerUpdater))
-                  },
-                  innerUpdater => {
-                    reject(wrapUpdater(innerUpdater))
-                  },
-                  innerUpdater => {
-                    next(wrapUpdater(innerUpdater))
-                  }
+                  innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                  innerUpdater => reject(wrapUpdater(innerUpdater)),
+                  innerUpdater => next(wrapUpdater(innerUpdater))
                 )
               }
             }

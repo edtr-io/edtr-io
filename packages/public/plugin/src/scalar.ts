@@ -33,7 +33,7 @@ export function scalar<S>(initialState: S) {
 
 export function asyncScalar<T, Temp>(
   initial: T,
-  isTemporary: (field: T | Temp) => field is Temp
+  isTemporaryValue: (field: T | Temp) => boolean
 ): StateType<
   T,
   T | Temp,
@@ -45,6 +45,11 @@ export function asyncScalar<T, Temp>(
     ): void
   }
 > {
+  // warp boolean to typeguard
+  function isTemporary(field: T | Temp): field is Temp {
+    return isTemporaryValue(field)
+  }
+
   return {
     init(state, onChange) {
       return {
@@ -66,7 +71,6 @@ export function asyncScalar<T, Temp>(
               ? {
                   resolver: (resolve, reject, next) => {
                     if (!async.resolver) return
-                    console.log('async scalar resolver')
 
                     async.resolver(
                       wrapResolverParam(resolve),

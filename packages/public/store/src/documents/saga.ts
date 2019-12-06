@@ -157,12 +157,10 @@ function* changeSaga(action: ChangeAction) {
     while (true) {
       const payload: ChannelAction = yield take(chan)
 
-      console.log('channel action', payload)
       const currentDocument: ReturnTypeFromSelector<
         typeof getDocument
       > = yield select(scopeSelector(getDocument, action.scope), id)
       if (!currentDocument) continue
-      console.log(currentDocument)
 
       const updater =
         payload.resolve || payload.next || payload.reject || (s => s)

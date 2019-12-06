@@ -69,36 +69,25 @@ export function list<S, T = S, U = unknown>(
               oldItems: WrappedValue[],
               helpers: StoreDeserializeHelpers
             ) => {
-              console.log(oldItems)
               const index = R.findIndex(R.propEq('id', id), oldItems)
               const result = R.update(
                 index,
                 { value: updater(oldItems[index].value, helpers), id: id },
                 oldItems
               )
-              console.log('result: ', result)
               return result
             }
           }
           onChange({
             immediate: wrapUpdater(stateUpdater.immediate),
             resolver: (resolve, reject, next) => {
-              console.log('list resolver', stateUpdater.resolver)
               if (!stateUpdater.resolver) {
                 resolve(wrapUpdater(stateUpdater.immediate))
               } else {
                 stateUpdater.resolver(
-                  innerUpdater => {
-                    console.log('resolve list'),
-                      resolve(wrapUpdater(innerUpdater))
-                  },
-                  innerUpdater => {
-                    console.log('reject list'),
-                      reject(wrapUpdater(innerUpdater))
-                  },
-                  innerUpdater => {
-                    console.log('next list'), next(wrapUpdater(innerUpdater))
-                  }
+                  innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                  innerUpdater => reject(wrapUpdater(innerUpdater)),
+                  innerUpdater => next(wrapUpdater(innerUpdater))
                 )
               }
             }
