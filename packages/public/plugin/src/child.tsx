@@ -61,9 +61,11 @@ export function child<K extends string, S = unknown>(
         id,
         render: memoizedRender(pluginProps || {}, id),
         replace: (plugin, state) => {
-          onChange((_id, helpers) => {
-            helpers.createDocument({ id, plugin, state })
-            return id
+          onChange({
+            immediate: (_id, helpers) => {
+              helpers.createDocument({ id, plugin, state })
+              return id
+            }
           })
         }
       }

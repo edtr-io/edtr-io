@@ -1,4 +1,4 @@
-import { boolean, child, number, object, StatefulPlugin } from '@edtr-io/plugin'
+import { boolean, child, number, object, Plugin } from '@edtr-io/plugin'
 import { createIcon, faPhotoVideo } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -18,7 +18,7 @@ export type MultimediaExplanationState = ReturnType<
 
 export const createMultimediaExplanationPlugin = (
   multimediaPlugins: PluginRegistry
-): StatefulPlugin<MultimediaExplanationState> => {
+): Plugin<MultimediaExplanationState> => {
   return {
     Component: createMultimediaExplanationEditor(multimediaPlugins),
     state: multimediaExplanationState(multimediaPlugins),
