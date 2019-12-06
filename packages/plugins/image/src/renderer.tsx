@@ -88,8 +88,6 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
   }
 }
 
-export type ImageRendererProps = PluginEditorProps<
-  typeof imageState
-> & {
+export type ImageRendererProps = PluginEditorProps<typeof imageState> & {
   disableMouseEvents?: boolean
 }

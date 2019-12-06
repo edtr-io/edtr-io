@@ -48,9 +48,7 @@ const VideoIframe = styled.iframe({
   border: 'none'
 })
 
-export type VideoRendererProps = PluginEditorProps<
-  typeof videoState
-> & {
+export type VideoRendererProps = PluginEditorProps<typeof videoState> & {
   disableCursorEvents?: boolean
 }
 

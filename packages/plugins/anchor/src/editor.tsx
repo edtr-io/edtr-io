@@ -7,9 +7,7 @@ import { anchorState } from '.'
 import { AnchorRenderer } from './renderer'
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
-export const AnchorEditor = (
-  props: PluginEditorProps<typeof anchorState>
-) => {
+export const AnchorEditor = (props: PluginEditorProps<typeof anchorState>) => {
   const { editable, focused, state } = props
   return (
     <React.Fragment>

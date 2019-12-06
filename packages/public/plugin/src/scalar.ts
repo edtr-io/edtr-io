@@ -31,31 +31,18 @@ export function scalar<S>(initialState: S) {
   })
 }
 
-interface Temporary<T> {
-  tmp: T
-}
-
-function isTemporary<T>(field: unknown | Temporary<T>): field is Temporary<T> {
-  return typeof (field as Temporary<T>).tmp !== 'undefined'
-}
-
-export function asyncScalar<S, T, Temp>(
-  initial: AsyncResolver<T | Temporary<Temp>>,
-  serializer: Serializer<S, T | Temporary<Temp>>
+export function asyncScalar<T, Temp>(
+  initial: T,
+  isTemporary: (field: T | Temp) => field is Temp
 ): StateType<
-  S,
-  T | Temporary<Temp>,
+  T,
+  T | Temp,
   {
-    value: T | Temporary<Temp>
-    get(): T | Temporary<Temp>
+    value: T | Temp
+    get(): T | Temp
     set(
-      async: AsyncResolver<
-        | T
-        | Temporary<Temp>
-        | ((previousValue: T | Temporary<Temp>) => T | Temporary<Temp>)
-      >
+      async: AsyncResolver<T | Temp | ((previousValue: T | Temp) => T | Temp)>
     ): void
-    isTemporary(): boolean
   }
 > {
   return {
@@ -69,9 +56,7 @@ export function asyncScalar<S, T, Temp>(
           onChange({
             immediate: previousState => {
               if (typeof async.immediate === 'function') {
-                const f = async.immediate as ((
-                  previous: T | Temporary<Temp>
-                ) => T | Temporary<Temp>)
+                const f = async.immediate as ((previous: T | Temp) => T | Temp)
                 return f(previousState)
               } else {
                 return async.immediate
@@ -81,6 +66,7 @@ export function asyncScalar<S, T, Temp>(
               ? {
                   resolver: (resolve, reject, next) => {
                     if (!async.resolver) return
+                    console.log('async scalar resolver')
 
                     async.resolver(
                       wrapResolverParam(resolve),
@@ -91,24 +77,14 @@ export function asyncScalar<S, T, Temp>(
                 }
               : {})
           })
-        },
-        isTemporary() {
-          return isTemporary(state)
         }
       }
       function wrapResolverParam(
-        callback: (updater: Updater<T | Temporary<Temp>>) => void
-      ): (
-        updater:
-          | T
-          | Temporary<Temp>
-          | ((previousValue: T | Temporary<Temp>) => T | Temporary<Temp>)
-      ) => void {
+        callback: (updater: Updater<T | Temp>) => void
+      ): (updater: T | Temp | ((previousValue: T | Temp) => T | Temp)) => void {
         return update => {
           if (typeof update === 'function') {
-            const f = update as ((
-              previous: T | Temporary<Temp>
-            ) => T | Temporary<Temp>)
+            const f = update as ((previous: T | Temp) => T | Temp)
             return callback(f)
           }
 
@@ -117,12 +93,20 @@ export function asyncScalar<S, T, Temp>(
       }
     },
     createInitialState() {
-      return initial.immediate
+      return initial
     },
     getFocusableChildren() {
       return []
     },
-    ...serializer
+    deserialize(serialized) {
+      return serialized
+    },
+    serialize(deserialized) {
+      if (isTemporary(deserialized)) {
+        return initial
+      }
+      return deserialized
+    }
   }
 }
 

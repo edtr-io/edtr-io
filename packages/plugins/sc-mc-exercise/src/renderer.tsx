@@ -88,8 +88,6 @@ interface ScMcExerciseRendererState {
   mode: Mode
 }
 
-export type ScMcRendererProps = PluginEditorProps<
-  typeof scMcExerciseState
-> & {
+export type ScMcRendererProps = PluginEditorProps<typeof scMcExerciseState> & {
   isEmpty: (id: string) => boolean
 }

@@ -154,8 +154,6 @@ export function GeogebraRenderer({
   }
 }
 
-export type GeogebraRendererProps = PluginEditorProps<
-  typeof geogebraState
-> & {
+export type GeogebraRendererProps = PluginEditorProps<typeof geogebraState> & {
   disableCursorEvents?: boolean
 }

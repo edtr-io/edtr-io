@@ -50,9 +50,7 @@ export const FileRenderer: React.FunctionComponent<{
   )
 }
 
-export function FilesRenderer(
-  props: PluginEditorProps<typeof fileState>
-) {
+export function FilesRenderer(props: PluginEditorProps<typeof fileState>) {
   return (
     <React.Fragment>
       {props.state.map((file, i) => {

@@ -31,7 +31,7 @@ In a plugin embedding youtube videos the following `onPaste` function could be u
 ```typescript
 import { string, Plugin } from '@edtr-io/plugin'
 import * as React from 'react'
-import { YoutubeEditorComponent } from './editor' 
+import { YoutubeEditorComponent } from './editor'
 
 const youtubeState = string()
 const youtubePlugin: Plugin<typeof youtubeState> = {

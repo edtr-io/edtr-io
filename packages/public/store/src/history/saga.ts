@@ -65,12 +65,14 @@ function* tempCommitSaga(action: TempCommitAction) {
       })
     }
   }
-  action.payload.resolver(
-    createPutToChannel('resolve'),
-    createPutToChannel('reject'),
-    createPutToChannel('next')
-  )
-  yield call(resolveSaga, chan)
+  if (action.payload.resolver) {
+    action.payload.resolver(
+      createPutToChannel('resolve'),
+      createPutToChannel('reject'),
+      createPutToChannel('next')
+    )
+    yield call(resolveSaga, chan)
+  }
 }
 
 interface ChannelAction {

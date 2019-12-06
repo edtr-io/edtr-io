@@ -141,7 +141,6 @@ A `state` created with `object` exposes:
 Syntax highlighting example using `react-syntax-highlighter`
 
 ```typescript
-
 import { object, string, boolean, Plugin } from '@edtr-io/plugin'
 import * as React from 'react'
 import SyntaxHighlight from 'react-syntax-highlighter'
@@ -157,9 +156,7 @@ const highlighterPlugin: Plugin<typeof highlighterState> = {
       <div>
         <SyntaxHighlight
           language="javascript"
-          showLineNumbers={
-            state.showLineNumbers.value
-          }
+          showLineNumbers={state.showLineNumbers.value}
         >
           {state.text.value}
         </SyntaxHighlight>
@@ -210,19 +207,25 @@ const rowsPlugin: Plugin<typeof highlighterState> = {
   Component: ({ state }) => {
     return (
       <div>
-        {state.map(
-          (item, index) => {
-            return (
-              <div>
-                {item.render()}
-                <button onClick={() => state.insert(index + 1)}>Add</button>
-                <button onClick={() => state.remove(index)}>Remove</button>
-                { index > 0 ? <button onClick={() => state.move(index, index-1)}>Move up</button> : null }
-                { index + 1 < state.length ? <button onClick={() => state.move(index, index+1)}>Move down</button> : null}
-              </div>
-            )
-          }
-        )}
+        {state.map((item, index) => {
+          return (
+            <div>
+              {item.render()}
+              <button onClick={() => state.insert(index + 1)}>Add</button>
+              <button onClick={() => state.remove(index)}>Remove</button>
+              {index > 0 ? (
+                <button onClick={() => state.move(index, index - 1)}>
+                  Move up
+                </button>
+              ) : null}
+              {index + 1 < state.length ? (
+                <button onClick={() => state.move(index, index + 1)}>
+                  Move down
+                </button>
+              ) : null}
+            </div>
+          )
+        })}
       </div>
     )
   },

@@ -157,6 +157,13 @@ function* changeSaga(action: ChangeAction) {
     while (true) {
       const payload: ChannelAction = yield take(chan)
 
+      console.log('channel action', payload)
+      const currentDocument: ReturnTypeFromSelector<
+        typeof getDocument
+      > = yield select(scopeSelector(getDocument, action.scope), id)
+      if (!currentDocument) continue
+      console.log(currentDocument)
+
       const updater =
         payload.resolve || payload.next || payload.reject || (s => s)
 
@@ -167,7 +174,7 @@ function* changeSaga(action: ChangeAction) {
         handleRecursiveInserts,
         action.scope,
         (helpers: StoreDeserializeHelpers) => {
-          return updater(document.state, helpers)
+          return updater(currentDocument.state, helpers)
         }
       )
       payload.callback(resolveActions, pureResolveState)

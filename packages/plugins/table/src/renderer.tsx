@@ -25,9 +25,7 @@ const TableContainer = styled.div({
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export function createTableRenderer(config: TablePluginConfig) {
-  return function TableRenderer(
-    props: PluginEditorProps<typeof tableState>
-  ) {
+  return function TableRenderer(props: PluginEditorProps<typeof tableState>) {
     const { editable, state } = props
 
     const renderedMarkdown = config.renderMarkdown(state.value)

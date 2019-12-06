@@ -75,7 +75,6 @@ export type Updater<T> = (
   helpers: StoreDeserializeHelpers
 ) => T
 
-
 /**
  * Describes an update to the state of a plugin and optionally asynchronous changes.
  *

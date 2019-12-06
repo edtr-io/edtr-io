@@ -41,8 +41,14 @@ export function object<Ds extends Record<string, StateType>>(
           function wrapUpdater(
             dispatcher: Updater<StateTypeReturnType<typeof type>>
           ): Updater<StateTypesValueType<Ds>> {
-            return (oldObj, helpers) =>
-              R.set(R.lensProp(key), dispatcher(oldObj[key], helpers), oldObj)
+            return (oldObj, helpers) => {
+              console.log(oldObj)
+              return R.set(
+                R.lensProp(key),
+                dispatcher(oldObj[key], helpers),
+                oldObj
+              )
+            }
           }
           onChange({
             immediate: wrapUpdater(stateHandler.immediate),

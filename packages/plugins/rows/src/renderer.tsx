@@ -8,9 +8,7 @@ const Row = styled.div({
   marginBottom: '25px'
 })
 
-export function RowsRenderer(
-  props: PluginEditorProps<typeof rowsState>
-) {
+export function RowsRenderer(props: PluginEditorProps<typeof rowsState>) {
   return (
     <React.Fragment>
       {props.state.map(row => {

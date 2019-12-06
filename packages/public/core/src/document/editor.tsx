@@ -2,10 +2,7 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import {
-  Plugin,
-  PluginEditorProps
-} from '@edtr-io/internal__plugin'
+import { Plugin, PluginEditorProps } from '@edtr-io/internal__plugin'
 import { StateType, StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
   change,

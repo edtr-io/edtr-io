@@ -5,9 +5,7 @@ import { SerloInjectionEditor } from './editor'
 
 export const serloInjectionState = string()
 
-export const serloInjectionPlugin: Plugin<
-  typeof serloInjectionState
-> = {
+export const serloInjectionPlugin: Plugin<typeof serloInjectionState> = {
   Component: SerloInjectionEditor,
   state: serloInjectionState,
   title: 'Serlo Inhalt',

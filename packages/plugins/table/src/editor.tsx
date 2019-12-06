@@ -12,9 +12,7 @@ const Form = styled.form({
 
 export const createTableEditor = (config: TablePluginConfig) => {
   const TableRenderer = createTableRenderer(config)
-  return function TableEditor(
-    props: PluginEditorProps<typeof tableState>
-  ) {
+  return function TableEditor(props: PluginEditorProps<typeof tableState>) {
     const { focused, state } = props
     return (
       <div>

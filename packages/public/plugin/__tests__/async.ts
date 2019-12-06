@@ -1,5 +1,5 @@
-import { asyncScalar } from '@edtr-io/plugin'
-import { wait } from '@edtr-io/store/__helpers__'
+// import { asyncScalar } from '@edtr-io/plugin'
+// import { wait } from '@edtr-io/store/__helpers__'
 
 describe('async', () => {
   test('temporary initial state', () => {
