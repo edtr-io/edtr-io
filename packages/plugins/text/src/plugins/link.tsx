@@ -146,6 +146,12 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
                 editor.focus()
               }
             }}
+            onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+              const value = event.target.value
+              if(/^([_\-a-zA-Z0-9.]+\.(com|de|org))/.test(value)){
+                setValue(`https://${value}`)
+              }
+            }}
             //@ts-ignore FIXME
             ref={(ref: InlineInput | null) => {
               if (!ref) return
