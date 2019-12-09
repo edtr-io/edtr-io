@@ -3,6 +3,7 @@ import { createIcon, faCode } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { createHighlightEditor } from './editor'
+import { HighlightRenderer, HighlightRendererProps } from './renderer'
 
 export const highlightState = object({
   text: string(''),
@@ -10,12 +11,13 @@ export const highlightState = object({
   lineNumbers: boolean(false)
 })
 
-import { HighlightRenderer, HighlightRendererProps } from './renderer'
+export const highlightPlugin: StatefulPlugin<
+  typeof highlightState
+> = createHighlightPlugin({ renderer: HighlightRenderer })
 
-export const highlightPlugin : StatefulPlugin<typeof highlightState> =
-  createHighlightPlugin({ renderer: HighlightRenderer })
-
-export function createHighlightPlugin(config: HighlightPluginConfig) : StatefulPlugin<typeof highlightState> {
+export function createHighlightPlugin(
+  config: HighlightPluginConfig
+): StatefulPlugin<typeof highlightState> {
   return {
     Component: createHighlightEditor(config),
     state: highlightState,

@@ -13,14 +13,13 @@ export function HighlightRenderer(props: HighlightRendererProps) {
         overflow: 'auto'
       }}
     >
-      {props.code ||
-      'Klicke hier und füg deinen Quellcode ein...'}
+      {props.code || 'Klicke hier und füg deinen Quellcode ein...'}
     </SyntaxHighlighter>
   )
 }
 
 export interface HighlightRendererProps {
-  code: string,
-  language: string,
+  code: string
+  language: string
   lineNumbers: boolean
 }
