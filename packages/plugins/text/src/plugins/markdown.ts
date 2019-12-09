@@ -1,9 +1,10 @@
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
+import { unorderedListNode, orderedListNode } from '../model'
 import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'
-import { toggleList, unorderedListNode, isList, orderedListNode } from './list'
+import { toggleList, isList } from './list'
 import { TextPlugin } from '..'
 
 const handleMarkdown = (

@@ -27,6 +27,7 @@
     "@edtr-io/plugin-image": "^0.12.0",
     "@edtr-io/plugin-important-statement": "^0.12.0",
     "@edtr-io/plugin-input-exercise": "^0.12.0",
+    "@edtr-io/plugin-multimedia-explanation": "^0.12.0",
     "@edtr-io/plugin-rows": "^0.12.0",
     "@edtr-io/plugin-sc-mc-exercise": "^0.12.0",
     "@edtr-io/plugin-serlo-injection": "^0.12.0",

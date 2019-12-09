@@ -9,32 +9,16 @@ import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
-import { Editor, EventHook } from 'slate-react'
+import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { textState } from '.'
-import { katexBlockNode, katexInlineNode } from '../plugins/katex'
-import { linkNode } from '../plugins/link'
+import { slateSchema, katexBlockNode, htmlToSlateValue } from '../model'
 import { TextPluginOptions } from './types'
 import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
 
 export const createTextEditor = (
   options: TextPluginOptions
 ): React.ComponentType<SlateEditorProps> => {
-  const schema = {
-    inlines: {
-      [katexInlineNode]: {
-        isVoid: true
-      },
-      [linkNode]: {
-        text: /.+/
-      }
-    },
-    blocks: {
-      [katexBlockNode]: {
-        isVoid: true
-      }
-    }
-  }
   return function SlateEditor(props: SlateEditorProps) {
     const dispatch = useScopedDispatch()
     const focusNext = React.useCallback(() => {
@@ -192,7 +176,7 @@ export const createTextEditor = (
           plugins={slatePlugins.current}
           readOnly={!props.focused}
           value={rawState}
-          schema={schema}
+          schema={slateSchema}
         />
       ),
       [
@@ -250,6 +234,16 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
           return
         }
       }
+    }
+
+    const transfer = getEventTransfer(e)
+    if (transfer.type === 'html') {
+      // @ts-ignore: outdated slate types
+      const html = transfer.html as string
+      const { document } = htmlToSlateValue(html)
+      editor.insertFragment(document)
+      e.preventDefault()
+      return
     }
 
     next()

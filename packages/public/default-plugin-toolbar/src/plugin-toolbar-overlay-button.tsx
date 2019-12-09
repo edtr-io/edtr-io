@@ -53,6 +53,8 @@ function WrappedModal({
         if (ref && contentRef.current && !appended.current) {
           appended.current = true
           ref.appendChild(contentRef.current)
+        } else if (!props.isOpen) {
+          appended.current = false
         }
       }}
     />

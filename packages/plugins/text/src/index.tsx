@@ -7,7 +7,7 @@ import {
   MarkJSON,
   Range as CoreRange
 } from 'slate'
-import { Rule } from 'slate-html-serializer'
+import { Rule } from 'slate-html-serializer' // TODO: Remove this reference
 import {
   EditorProps,
   Plugin,
@@ -144,4 +144,4 @@ export function getTrimmedSelectionRange(editor: Editor) {
   return CoreRange.create(selection)
 }
 
-export { defaultNode, isValueEmpty, textState } from './factory'
+export { isValueEmpty, textState } from './factory'

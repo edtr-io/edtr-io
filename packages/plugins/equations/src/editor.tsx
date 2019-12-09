@@ -1,4 +1,5 @@
 import {
+  HotKeys,
   useScopedDispatch,
   useScopedSelector,
   useScopedStore
@@ -9,7 +10,6 @@ import { Icon, faPlus, faTimes, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { HotKeys } from 'react-hotkeys'
 
 import { equationsState } from '.'
 import { EquationsRenderer } from './renderer'

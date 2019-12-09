@@ -1,7 +1,9 @@
 import { ThemeProps, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor, Mark } from 'slate'
+import { Editor } from 'slate'
 
+import { SlatePluginClosure } from '../factory/types'
+import { colorMark } from '../model'
 import {
   createTextPluginTheme,
   getTrimmedSelectionRange,
@@ -10,14 +12,12 @@ import {
   TextPlugin
 } from '..'
 
-export const colorMark = '@splish-me/color'
-
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<
-    MarkEditorProps & { colorIndex: number }
+    MarkEditorProps & { colorIndex: number; name: string }
   >
   RenderComponent?: React.ComponentType<
-    MarkRendererProps & { colorIndex: number }
+    MarkRendererProps & { colorIndex: number; name: string }
   >
 }
 
@@ -68,59 +68,44 @@ export const getColorIndex = (editor: Editor) => {
   }
 }
 
-const Color = styled.span((props: ThemeProps & { colorIndex: number }) => {
-  const theme = createTextPluginTheme(name, props.theme)
-  const colors = theme.plugins.colors.colors
-  return {
-    color: colors[props.colorIndex % colors.length]
+const Color = styled.span(
+  (props: ThemeProps & { name: string; colorIndex: number }) => {
+    const theme = createTextPluginTheme(props.name, props.theme)
+    const colors = theme.plugins.colors.colors
+    return {
+      color: colors[props.colorIndex % colors.length]
+    }
   }
-})
+)
 
 class DefaultEditorComponent extends React.Component<
-  MarkEditorProps & { colorIndex: number }
+  MarkEditorProps & { colorIndex: number; name: string }
 > {
   public render() {
-    const { attributes, children, colorIndex } = this.props
+    const { attributes, children, colorIndex, name } = this.props
     return (
-      <Color colorIndex={colorIndex} {...attributes}>
+      <Color colorIndex={colorIndex} name={name} {...attributes}>
         {children}
       </Color>
     )
   }
 }
 
-class DefaultRendererComponent extends React.Component<
-  MarkRendererProps & { colorIndex: number }
-> {
-  public render() {
-    const { children, colorIndex } = this.props
-    return <Color colorIndex={colorIndex}>{children}</Color>
-  }
-}
-
 export const createColorPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  RenderComponent = DefaultRendererComponent
-}: ColorPluginOptions = {}) => (): TextPlugin => {
+  EditorComponent = DefaultEditorComponent
+}: ColorPluginOptions = {}) => (
+  pluginClosure: SlatePluginClosure
+): TextPlugin => {
   // TODO: deserialize
   return {
-    serialize(obj, children) {
-      const mark = obj as Mark
-      if (mark.object === 'mark') {
-        const colorIndex = mark.data.get('colorIndex')
-        return (
-          <RenderComponent mark={mark} colorIndex={colorIndex}>
-            {children}
-          </RenderComponent>
-        )
-      }
-    },
-
     renderMark(props, _editor, next) {
+      const name = pluginClosure.current ? pluginClosure.current.name : ''
       const { mark } = props
       if (mark.object === 'mark' && mark.type === colorMark) {
         const colorIndex = mark.data.get('colorIndex')
-        return <EditorComponent colorIndex={colorIndex} {...props} />
+        return (
+          <EditorComponent colorIndex={colorIndex} {...props} name={name} />
+        )
       }
       return next()
     }

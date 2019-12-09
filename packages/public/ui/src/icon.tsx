@@ -65,6 +65,7 @@ export { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
 export {
   faLevelDownAlt
 } from '@fortawesome/free-solid-svg-icons/faLevelDownAlt'
+export { faPhotoVideo } from '@fortawesome/free-solid-svg-icons/faPhotoVideo'
 export { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
 export { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
 export { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
@@ -103,6 +104,7 @@ export { faDotCircle } from '@fortawesome/free-solid-svg-icons/faDotCircle'
 export { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare'
 export { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
 export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
+export { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom'
 export {
   faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'

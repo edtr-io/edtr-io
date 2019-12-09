@@ -2,9 +2,9 @@
  * @module @edtr-io/renderer-ui
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { IgnoreKeys } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { IgnoreKeys } from 'react-hotkeys'
 import TextareaAutosize, {
   TextareaAutosizeProps
 } from 'react-textarea-autosize'

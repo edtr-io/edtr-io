@@ -9,6 +9,7 @@ import { hintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin } from '@edtr-io/plugin-image'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
@@ -28,21 +29,36 @@ const nestedState = object({
 
 const statefulState = number(0)
 
+const imagePlugin = createImagePlugin({
+  upload: () => Promise.resolve('foo'),
+  validate: () => {
+    return { valid: true }
+  }
+})
 export const plugins = {
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
   hint: hintPlugin,
-  image: createImagePlugin({
-    upload: () => Promise.resolve('foo'),
-    validate: () => {
-      return { valid: true }
-    }
-  }),
+  image: imagePlugin,
   important: importantStatementPlugin,
   injection: serloInjectionPlugin,
   inputExercise: inputExercisePlugin,
+  multimediaExplanation: createMultimediaExplanationPlugin([
+    {
+      ...imagePlugin,
+      name: 'image'
+    },
+    {
+      ...videoPlugin,
+      name: 'video'
+    },
+    {
+      ...geogebraPlugin,
+      name: 'geogebra'
+    }
+  ]),
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   solution: solutionPlugin,

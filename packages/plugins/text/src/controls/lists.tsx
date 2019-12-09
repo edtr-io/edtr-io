@@ -2,12 +2,8 @@ import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
-import {
-  isList,
-  orderedListNode,
-  toggleList,
-  unorderedListNode
-} from '../plugins/list'
+import { orderedListNode, unorderedListNode } from '../model'
+import { isList, toggleList } from '../plugins/list'
 import { Button } from '../toolbar/button'
 
 export const ListControls: React.FunctionComponent<SubControlProps> = props => {
