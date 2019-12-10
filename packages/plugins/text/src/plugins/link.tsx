@@ -148,7 +148,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
             }}
             onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
               const value = event.target.value
-              if(/^([_\-a-zA-Z0-9.]+\.(com|de|org))/.test(value)){
+              if(/^([_\-a-zA-Z0-9\.]+\.[\w]{2,})/.test(value)){
                 setValue(`https://${value}`)
               }
             }}
