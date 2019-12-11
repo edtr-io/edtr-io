@@ -1,26 +1,20 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { StatefulPluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
 import {
   styled,
   Icon,
   faTimes,
   faLevelDownAlt,
-  faLevelUpAlt
+  faLevelUpAlt,
+  faEllipsisV
 } from '@edtr-io/ui'
-import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { solutionStepsState } from '.'
 import { SolutionStepsRenderer } from './renderer'
-
-export const BigFlex = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap'
-})
 
 const Buttoncontainer = styled.div({
   display: 'flex',
@@ -28,7 +22,15 @@ const Buttoncontainer = styled.div({
   marginTop: '5px',
   width: '100%'
 })
-const Container = styled.div<{ type: string; isHalf: boolean }>(
+
+const Container = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  position: 'relative'
+})
+
+const Content = styled.div<{ type: string; isHalf: boolean }>(
   ({ type, isHalf }: { type: string; isHalf: boolean }) => {
     return {
       marginTop: '10px',
@@ -45,16 +47,33 @@ const RemoveControls = styled.div({
   top: '0',
   transform: 'translate(50%, -5px)',
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  alignItems: 'center'
 })
-const RemoveButton = styled.button({
+const ControlButton = styled.button({
   borderRadius: '50%',
+  border: '1px solid black',
   outline: 'none',
   background: 'white',
   zIndex: 20,
   '&:hover': {
     border: '3px solid #007ec1',
     color: '#007ec1'
+  }
+})
+
+const DragHandler = styled.div(props => {
+  return {
+    borderRadius: '50%',
+    width: '26px',
+    border: '1px solid black',
+    textAlign: 'center',
+    background: 'white',
+    zIndex: 20,
+    '&:hover': {
+      border: '3px solid #007ec1',
+      color: '#007ec1'
+    }
   }
 })
 
@@ -99,6 +118,79 @@ export function SolutionStepsEditor(
   const introductionFocused = useScopedSelector(
     isFocused(state.introduction.id)
   )
+  const findPairs = () => {
+    interface Element {
+      content: typeof solutionSteps[0]
+      solutionStepIndex: number
+    }
+    const pairedList: {
+      val1: Element
+      val2?: Element
+    }[] = []
+    solutionSteps.forEach((solutionStep, index) => {
+      if (!solutionStep.isHalf.value) {
+        pairedList.push({
+          val1: { content: solutionStep, solutionStepIndex: index }
+        })
+      } else if (solutionStep.type.value === 'step') {
+        pairedList.push({
+          val1: { content: solutionStep, solutionStepIndex: index },
+          val2: {
+            content: solutionSteps[index + 1],
+            solutionStepIndex: index + 1
+          }
+        })
+      }
+    })
+    return pairedList
+  }
+
+  const renderControls = (
+    content: typeof solutionSteps[0],
+    index: number,
+    provided: any
+  ) => (
+    <RemoveControls>
+      <ControlButton
+        onClick={() => {
+          solutionSteps.remove(index)
+          //remove explanation that belongs to step
+          if (content.isHalf.value) {
+            solutionSteps.remove(index)
+          }
+        }}
+      >
+        <Icon icon={faTimes} />
+      </ControlButton>
+
+      <DragHandler
+        className="row"
+        ref={provided.innerRef}
+        {...provided.dragHandleProps}
+      >
+        <Icon icon={faEllipsisV} />
+      </DragHandler>
+      {content.isHalf.value ||
+      (index > 0 &&
+        content.type.value === 'explanation' &&
+        solutionSteps[index - 1].type.value === 'step') ? (
+        <ControlButton
+          onClick={() => {
+            if (content.isHalf.value) {
+              content.isHalf.set(false)
+              solutionSteps[index + 1].isHalf.set(false)
+            } else {
+              content.isHalf.set(true)
+              solutionSteps[index - 1].isHalf.set(true)
+            }
+          }}
+        >
+          <Icon icon={content.isHalf.value ? faLevelDownAlt : faLevelUpAlt} />
+        </ControlButton>
+      ) : null}
+    </RemoveControls>
+  )
+
   return editable && (props.focused || focusedDescendant) ? (
     <DragDropContext
       onDragEnd={result => {
@@ -106,7 +198,49 @@ export function SolutionStepsEditor(
         if (!destination) {
           return
         }
-        state.solutionSteps.move(source.index, destination.index)
+        const sortedArray = findPairs()
+        const sourceVal1 = sortedArray[source.index].val1
+        const sourceVal2 = sortedArray[source.index].val2
+        const destinationVal1 = sortedArray[destination.index].val1
+        const destinationVal2 = sortedArray[destination.index].val2
+
+        const movingUpwards = destination.index < source.index
+        if (movingUpwards) {
+          if (sourceVal2) {
+            //move right source before left, so destination index is correct for both movements
+            state.solutionSteps.move(
+              sourceVal2.solutionStepIndex,
+              destinationVal1.solutionStepIndex
+            )
+            state.solutionSteps.move(
+              // index of sourceVal1 actually changed, so we need to adapt here
+              sourceVal1.solutionStepIndex + 1,
+              destinationVal1.solutionStepIndex
+            )
+          } else {
+            state.solutionSteps.move(
+              sourceVal1.solutionStepIndex,
+              destinationVal1.solutionStepIndex
+            )
+          }
+        } else {
+          const destinationIndex = destinationVal2
+            ? destinationVal2.solutionStepIndex
+            : destinationVal1.solutionStepIndex
+
+          //move left source before right, so destination index is correct for both movements
+          state.solutionSteps.move(
+            sourceVal1.solutionStepIndex,
+            destinationIndex
+          )
+          if (sourceVal2) {
+            state.solutionSteps.move(
+              // index of sourceVal2 actually changed, so we need to adapt here
+              sourceVal2.solutionStepIndex - 1,
+              destinationIndex
+            )
+          }
+        }
       }}
     >
       {state.introduction.render()}
@@ -114,76 +248,46 @@ export function SolutionStepsEditor(
       <Droppable droppableId="default" direction="vertical">
         {(provided: any) => {
           return (
-            <BigFlex ref={provided.innerRef} {...provided.droppableProps}>
-              {solutionSteps.map((solutionStep, index) => {
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {findPairs().map((row, index) => {
+                const solutionStepLeft = row.val1.content
+                const solutionStepRight = row.val2
+                  ? row.val2.content
+                  : undefined
                 return (
                   <Draggable
                     key={index}
-                    draggableId={solutionStep.content.id}
+                    draggableId={solutionStepLeft.content.id}
                     index={index}
                   >
                     {(provided: any) => {
                       return (
-                        <React.Fragment key={solutionStep.content.id}>
-                          <Container
-                            className="row"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            type={solutionStep.type.value}
-                            isHalf={solutionStep.isHalf.value}
-                          >
-                            <RemoveControls>
-                              {solutionStep.type.value === 'explanation' ||
-                              !solutionStep.isHalf.value ? (
-                                <RemoveButton
-                                  onClick={() => {
-                                    solutionSteps.remove(index)
-                                    if (
-                                      solutionStep.type.value ===
-                                        'explanation' &&
-                                      solutionStep.isHalf.value
-                                    ) {
-                                      solutionSteps.remove(index - 1)
-                                    }
-                                  }}
-                                >
-                                  <Icon icon={faTimes} />
-                                </RemoveButton>
-                              ) : null}
-                              {index > 0 &&
-                              solutionStep.type.value === 'explanation' &&
-                              solutionSteps[index - 1].type.value === 'step' ? (
-                                <RemoveButton
-                                  onClick={() => {
-                                    solutionStep.isHalf.set(
-                                      !solutionStep.isHalf.value
-                                    )
-                                    solutionSteps[index - 1].isHalf.set(
-                                      !solutionSteps[index].isHalf.value
-                                    )
-                                  }}
-                                >
-                                  <Icon
-                                    icon={
-                                      solutionStep.isHalf.value
-                                        ? faLevelDownAlt
-                                        : faLevelUpAlt
-                                    }
-                                  />
-                                </RemoveButton>
-                              ) : null}
-                            </RemoveControls>
-                            {solutionStep.content.render()}
+                        <React.Fragment key={solutionStepLeft.content.id}>
+                          <Container {...provided.draggableProps}>
+                            <Content
+                              type={solutionStepLeft.type.value}
+                              isHalf={solutionStepLeft.isHalf.value}
+                            >
+                              {solutionStepLeft.content.render()}
+                            </Content>
+                            {solutionStepRight ? (
+                              <Content
+                                type={solutionStepRight.type.value}
+                                isHalf={solutionStepRight.isHalf.value}
+                              >
+                                {solutionStepRight.content.render()}
+                              </Content>
+                            ) : null}
+                            {renderControls(
+                              solutionStepLeft,
+                              row.val1.solutionStepIndex,
+                              provided
+                            )}
                           </Container>
-                          {index < solutionSteps.length - 1 &&
-                          !(
-                            solutionStep.type.value === 'step' &&
-                            solutionStep.isHalf.value
-                          ) ? (
+                          {index < solutionSteps.length - 1 ? (
                             <AddButtons
                               {...props}
-                              id={solutionStep.content.id}
+                              id={solutionStepLeft.content.id}
                               index={index}
                             />
                           ) : null}
@@ -196,7 +300,7 @@ export function SolutionStepsEditor(
               {solutionSteps.length > 0 ? (
                 <AddButtons {...props} index={solutionSteps.length} id="" />
               ) : null}
-            </BigFlex>
+            </div>
           )
         }}
       </Droppable>

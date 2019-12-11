@@ -86,6 +86,7 @@ export { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp'
 export { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
 export { faToolbox } from '@fortawesome/free-solid-svg-icons/faToolbox'
 export { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+export { faEllipsisV } from '@fortawesome/free-solid-svg-icons/faEllipsisV'
 export { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 export {
   faCloudUploadAlt

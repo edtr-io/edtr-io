@@ -3,7 +3,12 @@ import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
 import { solutionStepsState } from '.'
-import { BigFlex } from './editor'
+
+const BigFlex = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap'
+})
 
 const Container = styled.div<{ isHalf: boolean }>(
   ({ isHalf }: { isHalf: boolean }) => {
