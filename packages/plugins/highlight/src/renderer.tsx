@@ -1,19 +1,25 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
-import SyntaxHighlight from 'react-syntax-highlighter'
+import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+// eslint-disable-next-line import/no-internal-modules
+import style from 'react-syntax-highlighter/dist/esm/styles/prism/coy'
 
-import { highlightState } from '.'
-
-export function HighlightRenderer({
-  state
-}: StatefulPluginEditorProps<typeof highlightState>) {
+export function HighlightRenderer(props: HighlightRendererProps) {
   return (
-    <SyntaxHighlight
-      language={state.language.value}
-      showLineNumbers={state.lineNumbers.value}
+    <SyntaxHighlighter
+      language={props.language}
+      showLineNumbers={props.lineNumbers}
+      style={style}
+      customStyle={{
+        overflow: 'auto'
+      }}
     >
-      {state.text.value ||
-        'Switch into edit mode then paste your sourcecode here...'}
-    </SyntaxHighlight>
+      {props.code || 'Klicke hier und füg deinen Quellcode ein...'}
+    </SyntaxHighlighter>
   )
+}
+
+export interface HighlightRendererProps {
+  code: string
+  language: string
+  lineNumbers: boolean
 }
