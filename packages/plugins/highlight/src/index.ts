@@ -11,13 +11,13 @@ export const highlightState = object({
   lineNumbers: boolean(false)
 })
 
-export const highlightPlugin: Plugin<typeof highlightState> = {
+export const highlightPlugin: Plugin<
   typeof highlightState
 > = createHighlightPlugin({ renderer: HighlightRenderer })
 
 export function createHighlightPlugin(
   config: HighlightPluginConfig
-): StatefulPlugin<typeof highlightState> {
+): Plugin<typeof highlightState> {
   return {
     Component: createHighlightEditor(config),
     state: highlightState,
