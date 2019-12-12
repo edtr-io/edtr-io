@@ -1,4 +1,4 @@
-import { useScopedSelector } from '@edtr-io/core'
+import { PluginToolbarOverlayButton, useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
@@ -8,10 +8,16 @@ import {
   faTimes,
   faLevelDownAlt,
   faLevelUpAlt,
-  faEllipsisV
+  faEllipsisV,
+  faQuestionCircle
 } from '@edtr-io/ui'
 import * as React from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from 'react-beautiful-dnd'
 
 import { solutionStepsState } from '.'
 import { SolutionStepsRenderer } from './renderer'
@@ -97,9 +103,17 @@ function AddButtons(
     <React.Fragment>
       {hasFocusedChild || props.id === '' ? (
         <Buttoncontainer>
-          <AddButton onClick={insertStep}>Lösungsbestandteil</AddButton>
-          <AddButton onClick={insertExplanation}>
-            Erklärungsbestandteil
+          <AddButton
+            title="Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss"
+            onClick={insertStep}
+          >
+            Lösungsbestandteil
+          </AddButton>
+          <AddButton
+            title="Eine zusätzliche Erklärung, die den Lernenden beim Verstehen der Lösung helfen soll"
+            onClick={insertExplanation}
+          >
+            zusätzliche Erklärung
           </AddButton>
         </Buttoncontainer>
       ) : null}
@@ -116,6 +130,10 @@ export function SolutionStepsEditor(
   const introductionFocused = useScopedSelector(
     isFocused(state.introduction.id)
   )
+  const contentRef = React.useRef<HTMLDivElement>(
+    window.document.createElement('div')
+  )
+
   const findPairs = () => {
     interface Element {
       content: typeof solutionSteps[0]
@@ -189,60 +207,76 @@ export function SolutionStepsEditor(
     </RemoveControls>
   )
 
+  const dragContent = (result: DropResult) => {
+    const { source, destination } = result
+    if (!destination) {
+      return
+    }
+    const sortedArray = findPairs()
+    const sourceVal1 = sortedArray[source.index].val1
+    const sourceVal2 = sortedArray[source.index].val2
+    const destinationVal1 = sortedArray[destination.index].val1
+    const destinationVal2 = sortedArray[destination.index].val2
+
+    const movingUpwards = destination.index < source.index
+    if (movingUpwards) {
+      if (sourceVal2) {
+        //move right source before left, so destination index is correct for both movements
+        state.solutionSteps.move(
+          sourceVal2.solutionStepIndex,
+          destinationVal1.solutionStepIndex
+        )
+        state.solutionSteps.move(
+          // index of sourceVal1 actually changed, so we need to adapt here
+          sourceVal1.solutionStepIndex + 1,
+          destinationVal1.solutionStepIndex
+        )
+      } else {
+        state.solutionSteps.move(
+          sourceVal1.solutionStepIndex,
+          destinationVal1.solutionStepIndex
+        )
+      }
+    } else {
+      const destinationIndex = destinationVal2
+        ? destinationVal2.solutionStepIndex
+        : destinationVal1.solutionStepIndex
+
+      //move left source before right, so destination index is correct for both movements
+      state.solutionSteps.move(sourceVal1.solutionStepIndex, destinationIndex)
+      if (sourceVal2) {
+        state.solutionSteps.move(
+          // index of sourceVal2 actually changed, so we need to adapt here
+          sourceVal2.solutionStepIndex - 1,
+          destinationIndex
+        )
+      }
+    }
+  }
+
   return editable && (props.focused || focusedDescendant) ? (
-    <DragDropContext
-      onDragEnd={result => {
-        const { source, destination } = result
-        if (!destination) {
-          return
-        }
-        const sortedArray = findPairs()
-        const sourceVal1 = sortedArray[source.index].val1
-        const sourceVal2 = sortedArray[source.index].val2
-        const destinationVal1 = sortedArray[destination.index].val1
-        const destinationVal2 = sortedArray[destination.index].val2
+    <DragDropContext onDragEnd={result => dragContent(result)}>
+      <React.Fragment>
+        <PluginToolbarOverlayButton
+          icon={<Icon icon={faQuestionCircle} />}
+          label="Tausche das Multimedia Element"
+          renderContent={() => {
+            return (
+              <p>
+                Formuliere einen einführenden Satz, in dem das Thema bzw. die
+                wichtigste Methode genannt wird. Verlinke auf einen Artikel zum
+                Thema bzw. zur wichtigsten Methode.
+              </p>
+            )
+          }}
+          contentRef={contentRef}
+        />
+        {state.introduction.render()}
+        {introductionFocused ? (
+          <AddButtons {...props} index={-1} id="" />
+        ) : null}
+      </React.Fragment>
 
-        const movingUpwards = destination.index < source.index
-        if (movingUpwards) {
-          if (sourceVal2) {
-            //move right source before left, so destination index is correct for both movements
-            state.solutionSteps.move(
-              sourceVal2.solutionStepIndex,
-              destinationVal1.solutionStepIndex
-            )
-            state.solutionSteps.move(
-              // index of sourceVal1 actually changed, so we need to adapt here
-              sourceVal1.solutionStepIndex + 1,
-              destinationVal1.solutionStepIndex
-            )
-          } else {
-            state.solutionSteps.move(
-              sourceVal1.solutionStepIndex,
-              destinationVal1.solutionStepIndex
-            )
-          }
-        } else {
-          const destinationIndex = destinationVal2
-            ? destinationVal2.solutionStepIndex
-            : destinationVal1.solutionStepIndex
-
-          //move left source before right, so destination index is correct for both movements
-          state.solutionSteps.move(
-            sourceVal1.solutionStepIndex,
-            destinationIndex
-          )
-          if (sourceVal2) {
-            state.solutionSteps.move(
-              // index of sourceVal2 actually changed, so we need to adapt here
-              sourceVal2.solutionStepIndex - 1,
-              destinationIndex
-            )
-          }
-        }
-      }}
-    >
-      {state.introduction.render()}
-      {introductionFocused ? <AddButtons {...props} index={-1} id="" /> : null}
       <Droppable droppableId="default" direction="vertical">
         {(provided: any) => {
           return (

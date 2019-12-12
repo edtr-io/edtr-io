@@ -14,9 +14,13 @@ export const AddButtonComponent = styled.button({
   '&:hover': { border: '3px solid #007ec1', color: '#007ec1' }
 })
 
-export function AddButton(props: { onClick: () => void; children: string }) {
+export function AddButton(props: {
+  onClick: () => void
+  children: string
+  title?: string
+}) {
   return (
-    <AddButtonComponent onMouseDown={props.onClick}>
+    <AddButtonComponent title={props.title} onMouseDown={props.onClick}>
       <Icon icon={faPlus} /> {props.children}
     </AddButtonComponent>
   )
