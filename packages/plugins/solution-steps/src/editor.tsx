@@ -1,6 +1,6 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
+import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { hasFocusedDescendant, isFocused } from '@edtr-io/store'
 import {
   styled,
@@ -62,18 +62,16 @@ const ControlButton = styled.button({
   }
 })
 
-const DragHandler = styled.div(props => {
-  return {
-    borderRadius: '50%',
-    width: '26px',
-    border: '1px solid black',
-    textAlign: 'center',
-    background: 'white',
-    zIndex: 20,
-    '&:hover': {
-      border: '3px solid #007ec1',
-      color: '#007ec1'
-    }
+const DragHandler = styled.div({
+  borderRadius: '50%',
+  width: '26px',
+  border: '1px solid black',
+  textAlign: 'center',
+  background: 'white',
+  zIndex: 20,
+  '&:hover': {
+    border: '3px solid #007ec1',
+    color: '#007ec1'
   }
 })
 
