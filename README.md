@@ -70,9 +70,9 @@ Feel free to write your own plugin to extend edtr.io for your use case!
 
 ### Status
 
-[![Build status](https://img.shields.io/circleci/project/github/edtr-io/edtr-io/master.svg)](https://circleci.com/gh/edtr-io/edtr-io/tree/master) [![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/edtr-io/projects/1)
+[![Build status](https://img.shields.io/github/workflow/status/edtr-io/edtr-io/JavaScript/master.svg)](https://github.com/edtr-io/edtr-io/actions?query=branch%3Amaster) [![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/edtr-io/projects/1)
 
-Edtr.io is currently in active developement. Our working prototype is in use and being tested since June on serlo.org.
+Edtr.io is currently in active development. Our working prototype is in use and being tested since June on serlo.org.
 Watch this space, there will be a public demo soon.
 
 ### Local Developement
