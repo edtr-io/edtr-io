@@ -1,90 +1,57 @@
 import { Editor } from 'slate'
-import { Text, createEditor } from 'slate'
+
 import { SlatePluginClosure } from '../factory/types'
-import { linkNode, unorderedListNode, orderedListNode } from '../model'
-import { createBlockquote } from './blockquote'
-import { createSetHeading } from './headings'
-import { toggleList, isList } from './list'
+import { linkNode } from '../model'
 import { TextPlugin } from '..'
-import { match } from 'minimatch'
 
-
-const onSpace = (
-  event: KeyboardEvent,
-  editor: Editor,
-  next: Function,
-  name: string
-) => {
-  
+const onSpecialKey = (event: KeyboardEvent, editor: Editor, next: Function) => {
   const { value } = editor
   const { selection } = value
   if (selection.isExpanded) return next()
 
-  const { focusBlock } = value
+  const { focusText } = value
   const { start } = selection
 
-  const chars = focusBlock.text.slice(0, start.offset)
-  console.log(chars)
-
-
-  const matches = /((http:\/\/|https:\/\/)?[_\-a-zA-Z0-9.]+\.(com|de))$/.exec(chars)
-  if (matches && matches.length !== 0){
-    console.log('match url')
-    for(const [node, path] of focusBlock.texts()){
-      
-      if(Text.isText(node)){
-        console.log('text', Text.isText(node))
-        const { key, text } = node
-        const parts = text.split(matches[1])
-        let offset = 0
-        console.log(text)
-        console.log(parts)
-
-        parts.forEach(( part, i ) => {
-          if(i !== 0 ){
-            const select = editor.select({
-              anchor: { path, key, offset: offset - matches[1].length },
-              focus: { path, key, offset }
-            })
-            
-            select.wrapInline({
-              type: linkNode,
-              data: {
-                href: matches[1]
-              }
-            }).moveToEnd()
-            .focus()
-          }
-          offset = offset + part.length + matches[1].length
-        })
-      }
-    }
+  const slice = focusText.text.slice(0, start.offset)
+  const matches = /((http:\/\/|https:\/\/)?[_\-a-z0-9.]+\.(com|de|org)(:[0-9])?[/\w?%-_]*)$/g.exec(
+    slice
+  )
+  if (matches && matches.length !== 0) {
+    const positionOfURL = slice.length - matches[0].length
+    if (
+      slice.length !== matches[0].length &&
+      slice.slice(positionOfURL - 1, positionOfURL) !== ' '
+    )
+      return next()
+    let href = matches[0]
+    if (!matches[1].includes('http')) href = `https://${href}`
+    editor
+      .moveFocusBackward(matches[0].length)
+      .wrapInline({
+        type: linkNode,
+        data: {
+          href
+        }
+      })
+      .moveToEnd()
+      .focus()
   }
 
   next()
 }
 
-export const autoLink = (
-  pluginClosure: SlatePluginClosure
-): TextPlugin => {
+export const autoLink = (pluginClosure: SlatePluginClosure): TextPlugin => {
   return {
-    decorateNode(node, editor, next){
-      //console.log('decoration')
-      //console.log(node)
-
-      console.log('decoration', node.text)
-
-
-    },
     onKeyDown(event, editor, next) {
       if (!pluginClosure.current) {
         return next()
       }
       const e = (event as unknown) as KeyboardEvent
-      const name = pluginClosure.current.name
       switch (e.key) {
+        case ']':
+        case ')':
         case ' ':
-          return onSpace(e, editor, next, name)
+          return onSpecialKey(e, editor, next)
         default:
           return next()
       }
