@@ -2,8 +2,8 @@ import {
   child,
   number,
   object,
-  StateUpdater,
-  StoreDeserializeHelpers
+  StoreDeserializeHelpers,
+  StateUpdater
 } from '../src'
 
 describe('object', () => {
@@ -110,17 +110,17 @@ describe('object', () => {
       foo: child(),
       counter: number()
     })
-    const initial = {
+    const initialState = {
       foo: 'foo',
       counter: 5
     }
 
-    let store = initial
-    const onChange = (updater: StateUpdater<typeof initial>) => {
-      store = updater.immediate(store, helpers)
+    let store = initialState
+    const onChange = (initial: StateUpdater<typeof initialState>) => {
+      store = initial(store, helpers)
     }
 
-    const objValue = state.init(initial, onChange)
+    const objValue = state.init(initialState, onChange)
     objValue.counter.set(value => value + 1)
     expect(store).toEqual({
       foo: 'foo',
@@ -133,11 +133,11 @@ describe('object', () => {
       foo: child(),
       counter: number()
     })
-    const initial = {
+    const initialState = {
       foo: 'foo',
       counter: 5
     }
 
-    expect(state.getFocusableChildren(initial)).toEqual([{ id: 'foo' }])
+    expect(state.getFocusableChildren(initialState)).toEqual([{ id: 'foo' }])
   })
 })

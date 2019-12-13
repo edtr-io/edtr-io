@@ -1,4 +1,4 @@
-import { asyncScalar, StateUpdater } from '@edtr-io/plugin'
+import { asyncScalar, StateExecutor, StateUpdater } from '../src'
 
 const deserializeHelpers = {
   createDocument: () => {}
@@ -37,10 +37,13 @@ describe('asyncScalar', () => {
     const state = asyncScalar<number, TempState>(initial, isTempState)
 
     let store: number | TempState = initial
-    const onChange = (updater: StateUpdater<number | TempState>) => {
-      store = updater.immediate(store, deserializeHelpers)
-      if (updater.resolver) {
-        updater.resolver(
+    const onChange = (
+      initial: StateUpdater<number | TempState>,
+      executor?: StateExecutor<StateUpdater<number | TempState>>
+    ) => {
+      store = initial(store, deserializeHelpers)
+      if (executor) {
+        executor(
           resolveUpdater => {
             store = resolveUpdater(store, deserializeHelpers)
           },
@@ -55,19 +58,16 @@ describe('asyncScalar', () => {
     }
     const scalarValue = state.init(initial, onChange)
 
-    scalarValue.set({
-      immediate: { tmp: 1 },
-      resolver: (resolve, reject, next) => {
+    scalarValue.set({ tmp: 1 }, (resolve, reject, next) => {
+      setTimeout(() => {
+        next({ tmp: 2 })
         setTimeout(() => {
-          next({ tmp: 2 })
+          next({ tmp: 3 })
           setTimeout(() => {
-            next({ tmp: 3 })
-            setTimeout(() => {
-              resolve(3)
-            }, 100)
+            resolve(3)
           }, 100)
         }, 100)
-      }
+      }, 100)
     })
     expect(store).toEqual({ tmp: 1 })
     await wait(400)

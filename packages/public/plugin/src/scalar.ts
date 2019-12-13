@@ -3,9 +3,9 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  AsyncResolver,
+  StateExecutor,
   StateType,
-  Updater
+  StateUpdater
 } from '@edtr-io/internal__plugin-state'
 
 export function boolean(initialValue?: boolean) {
@@ -41,7 +41,10 @@ export function asyncScalar<T, Temp>(
     value: T | Temp
     get(): T | Temp
     set(
-      async: AsyncResolver<T | Temp | ((previousValue: T | Temp) => T | Temp)>
+      initial: T | Temp | ((previousValue: T | Temp) => T | Temp),
+      executor?: StateExecutor<
+        T | Temp | ((previousValue: T | Temp) => T | Temp)
+      >
     ): void
   }
 > {
@@ -57,34 +60,35 @@ export function asyncScalar<T, Temp>(
         get() {
           return state
         },
-        set(async) {
-          onChange({
-            immediate: previousState => {
-              if (typeof async.immediate === 'function') {
-                const f = async.immediate as ((previous: T | Temp) => T | Temp)
+        set(initial, executor) {
+          onChange(
+            previousState => {
+              if (typeof initial === 'function') {
+                const f = initial as ((previous: T | Temp) => T | Temp)
                 return f(previousState)
-              } else {
-                return async.immediate
               }
+              return initial
             },
-            ...(async.resolver
-              ? {
-                  resolver: (resolve, reject, next) => {
-                    if (!async.resolver) return
+            executor
+              ? (
+                  resolve: (updater: StateUpdater<T | Temp>) => void,
+                  reject: (updater: StateUpdater<T | Temp>) => void,
+                  next: (updater: StateUpdater<T | Temp>) => void
+                ) => {
+                  if (!executor) return
 
-                    async.resolver(
-                      wrapResolverParam(resolve),
-                      wrapResolverParam(reject),
-                      wrapResolverParam(next)
-                    )
-                  }
+                  executor(
+                    wrapResolverParam(resolve),
+                    wrapResolverParam(reject),
+                    wrapResolverParam(next)
+                  )
                 }
-              : {})
-          })
+              : undefined
+          )
         }
       }
       function wrapResolverParam(
-        callback: (updater: Updater<T | Temp>) => void
+        callback: (updater: StateUpdater<T | Temp>) => void
       ): (updater: T | Temp | ((previousValue: T | Temp) => T | Temp)) => void {
         return update => {
           if (typeof update === 'function') {
@@ -139,14 +143,12 @@ export function serializedScalar<S, T>(
           return state
         }
         public set(param: T | ((previousValue: T) => T)) {
-          onChange({
-            immediate: previousValue => {
-              if (typeof param === 'function') {
-                const updater = param as ((currentValue: T) => T)
-                return updater(previousValue)
-              }
-              return param
+          onChange(previousValue => {
+            if (typeof param === 'function') {
+              const updater = param as ((currentValue: T) => T)
+              return updater(previousValue)
             }
+            return param
           })
         }
       }

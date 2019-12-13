@@ -4,14 +4,14 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
-  Updater
+  StateUpdater
 } from '@edtr-io/internal__plugin-state'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
 
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
-import { commit, tempCommit } from '../history/actions'
+import { commit, temporaryCommit } from '../history/actions'
 import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -80,7 +80,7 @@ function* changeSaga(action: ChangeAction) {
     handleRecursiveInserts,
     action.scope,
     (helpers: StoreDeserializeHelpers) => {
-      return stateHandler.immediate(document.state, helpers)
+      return stateHandler.initial(document.state, helpers)
     }
   )
 
@@ -96,7 +96,7 @@ function* changeSaga(action: ChangeAction) {
 
   actions.push(createChange(document.state, state))
 
-  if (!stateHandler.resolver) {
+  if (!stateHandler.executor) {
     yield put(commit(actions)(action.scope))
   } else {
     // async change, handle with stateHandler.resolver
@@ -104,15 +104,15 @@ function* changeSaga(action: ChangeAction) {
     const chan: Channel<ChannelAction> = yield call(channel)
 
     yield put(
-      tempCommit({
-        immediate: actions,
-        resolver: (resolve, reject, next) => {
-          if (!stateHandler.resolver) {
+      temporaryCommit({
+        initial: actions,
+        executor: (resolve, reject, next) => {
+          if (!stateHandler.executor) {
             resolve(actions)
             return
           }
 
-          stateHandler.resolver(
+          stateHandler.executor(
             function stateResolve(updater) {
               chan.put({
                 resolve: updater,
@@ -184,9 +184,9 @@ function* changeSaga(action: ChangeAction) {
 }
 
 interface ChannelAction {
-  resolve?: Updater<unknown>
-  next?: Updater<unknown>
-  reject?: Updater<unknown>
+  resolve?: StateUpdater<unknown>
+  next?: StateUpdater<unknown>
+  reject?: StateUpdater<unknown>
   scope: string
   callback: (actions: ReversibleAction[], pureState: unknown) => void
 }

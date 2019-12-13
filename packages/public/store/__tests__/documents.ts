@@ -121,7 +121,7 @@ describe('Documents', () => {
       store.dispatch(
         S.change({
           id: '1',
-          state: { immediate: () => 1 }
+          state: { initial: () => 1 }
         })
       )
       await waitUntil(() =>

@@ -10,7 +10,7 @@ import {
   StateTypeReturnType,
   FocusableChild,
   StateUpdater,
-  Updater
+  StateExecutor
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
@@ -36,31 +36,31 @@ export function object<Ds extends Record<string, StateType>>(
         return type.init(state[key], innerOnChange, pluginProps)
 
         function innerOnChange(
-          stateHandler: StateUpdater<StateTypeReturnType<typeof type>>
+          initial: StateUpdater<StateTypeReturnType<typeof type>>,
+          executor?: StateExecutor<
+            StateUpdater<StateTypeReturnType<typeof type>>
+          >
         ): void {
           function wrapUpdater(
-            dispatcher: Updater<StateTypeReturnType<typeof type>>
-          ): Updater<StateTypesValueType<Ds>> {
+            initial: StateUpdater<StateTypeReturnType<typeof type>>
+          ): StateUpdater<StateTypesValueType<Ds>> {
             return (oldObj, helpers) => {
               return R.set(
                 R.lensProp(key),
-                dispatcher(oldObj[key], helpers),
+                initial(oldObj[key], helpers),
                 oldObj
               )
             }
           }
-          onChange({
-            immediate: wrapUpdater(stateHandler.immediate),
-            resolver: (resolve, reject, next) => {
-              if (!stateHandler.resolver) {
-                resolve(wrapUpdater(stateHandler.immediate))
-              } else {
-                stateHandler.resolver(
-                  innerUpdater => resolve(wrapUpdater(innerUpdater)),
-                  innerUpdater => reject(wrapUpdater(innerUpdater)),
-                  innerUpdater => next(wrapUpdater(innerUpdater))
-                )
-              }
+          onChange(wrapUpdater(initial), (resolve, reject, next) => {
+            if (!executor) {
+              resolve(wrapUpdater(initial))
+            } else {
+              executor(
+                innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                innerUpdater => reject(wrapUpdater(innerUpdater)),
+                innerUpdater => next(wrapUpdater(innerUpdater))
+              )
             }
           })
         }

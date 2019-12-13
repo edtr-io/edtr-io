@@ -30,43 +30,38 @@ export function upload<T>(
         set(
           value: FileState<T> | ((currentValue: FileState<T>) => FileState<T>)
         ) {
-          s.set({
-            immediate: value
-          })
+          s.set(value)
         },
         isPending: isTempFile(s.value) && !!s.value.pending,
         upload(file: File, handler: UploadHandler<T>): Promise<T> {
           const uploaded = handler(file)
-          s.set({
-            immediate: defaultState,
-            resolver: (resolve, reject, next) => {
-              const read = readFile(file)
-              let uploadFinished = false
+          s.set(defaultState, (resolve, reject, next) => {
+            const read = readFile(file)
+            let uploadFinished = false
 
-              read.then((loaded: LoadedFile) => {
-                if (!uploadFinished) {
-                  next(() => {
-                    return { uploadHandled: true, loaded }
-                  })
-                }
+            read.then((loaded: LoadedFile) => {
+              if (!uploadFinished) {
+                next(() => {
+                  return { uploadHandled: true, loaded }
+                })
+              }
+            })
+
+            uploaded
+              .then(uploaded => {
+                uploadFinished = true
+                return uploaded
               })
-
-              uploaded
-                .then(uploaded => {
-                  uploadFinished = true
+              .then(uploaded => {
+                resolve(() => {
                   return uploaded
                 })
-                .then(uploaded => {
-                  resolve(() => {
-                    return uploaded
-                  })
+              })
+              .catch(() => {
+                reject(() => {
+                  return { uploadHandled: true, failed: file }
                 })
-                .catch(() => {
-                  reject(() => {
-                    return { uploadHandled: true, failed: file }
-                  })
-                })
-            }
+              })
           })
 
           return uploaded

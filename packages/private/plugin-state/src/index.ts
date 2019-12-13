@@ -19,12 +19,15 @@ export interface StateType<S = any, T = S, R = unknown> {
    * Initializes the public API for usage in plugin components
    *
    * @param state - current state
-   * @param onChange - callback to set the state, accepts a [[StateUpdater]]
+   * @param onChange - callback to set the state, accepts a [[StateUpdater]] and an optional [[StateExecutor]]
    * @param pluginProps - additional props that should be passed down to the component. Only used by [[child]]
    */
   init(
     state: T,
-    onChange: (change: StateUpdater<T>) => void,
+    onChange: (
+      initial: StateUpdater<T>,
+      executor?: StateExecutor<StateUpdater<T>>
+    ) => void,
     pluginProps?: PluginProps
   ): R
 
@@ -70,37 +73,25 @@ export interface StateType<S = any, T = S, R = unknown> {
  * @param helpers - helpers (e.g. to insert an document in the store)
  * @returns new state
  */
-export type Updater<T> = (
+export type StateUpdater<T> = (
   previousState: T,
   helpers: StoreDeserializeHelpers
 ) => T
 
 /**
- * Describes an update to the state of a plugin and optionally asynchronous changes.
+ * Describes an asynchronous state update
  *
- * @param immediate - [[Updater]] to set the immediate state
- * @param resolver - Callback to change the value asynchronously. The callback receives three functions (resolve, reject, next) as params.
- * These can be called to apply further state updates. Once resolve or reject is called this handling is finished.
- */
-export type StateUpdater<T> = AsyncResolver<Updater<T>>
-
-/**
- * Describes an async process
- *
- * @param immediate - immediate value
- * @param resolver - Callback to change the value asynchronously. The callback receives three functions (resolve, reject, next) as params.
- * These can be called to apply further values. Once resolve or reject is called this handling is finished.
+ * @param resolve - Callback to set the state after the asynchronous process has been completed successfully. Should only be called at most once.
+ * @param reject - Callback to set the state after the asynchronous process has been completed unsuccessfully. Should only be called at most once.
+ * @param next - Callback to update the state while it is still pending
  *
  * @typeparam T - type of the immediate and async values
  */
-export interface AsyncResolver<T> {
-  immediate: T
-  resolver?: (
-    resolve: (value: T) => void,
-    reject: (value: T) => void,
-    next: (value: T) => void
-  ) => void
-}
+export type StateExecutor<T> = (
+  resolve: (value: T) => void,
+  reject: (value: T) => void,
+  next: (value: T) => void
+) => void
 
 /**
  * Describes a child document

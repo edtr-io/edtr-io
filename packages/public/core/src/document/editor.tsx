@@ -3,7 +3,11 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Plugin, PluginEditorProps } from '@edtr-io/internal__plugin'
-import { StateType, StateUpdater } from '@edtr-io/internal__plugin-state'
+import {
+  StateType,
+  StateUpdater,
+  StateExecutor
+} from '@edtr-io/internal__plugin-state'
 import {
   change,
   DocumentState,
@@ -226,11 +230,17 @@ function getPluginEditorProps<S extends StateType>({
   dispatch: ReturnType<typeof useScopedDispatch>
   pluginProps: DocumentProps['pluginProps']
 }): Omit<PluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
-  const onChange = (updater: StateUpdater<unknown>) => {
+  const onChange = (
+    initial: StateUpdater<unknown>,
+    executor?: StateExecutor<StateUpdater<unknown>>
+  ) => {
     dispatch(
       change({
         id,
-        state: updater
+        state: {
+          initial,
+          executor
+        }
       })
     )
   }

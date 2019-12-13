@@ -10,7 +10,7 @@ import {
   pureRedo,
   pureReset,
   pureUndo,
-  tempCommit
+  temporaryCommit
 } from '../src/history/actions'
 import { getHistory, getRedoStack, getUndoStack } from '../src/history/reducer'
 
@@ -47,7 +47,7 @@ describe('History', () => {
   })
 
   test('Changes will be committed to the history', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     expect(S.hasPendingChanges()(store.getState())).toEqual(true)
     const undoStack = getUndoStack()(store.getState())
     expect(undoStack).toHaveLength(1)
@@ -56,24 +56,24 @@ describe('History', () => {
   })
 
   test('Commits will be added to the redo stack after reverting', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await undo()
     expect(getUndoStack()(store.getState())).toHaveLength(0)
     expect(getRedoStack()(store.getState())).toHaveLength(1)
   })
 
   test('Redo stack will be purged after a commit', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await undo()
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     expect(getUndoStack()(store.getState())).toHaveLength(1)
     expect(getRedoStack()(store.getState())).toHaveLength(0)
   })
 
   test('Undo reverts the last committed actions', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await undo()
     expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
@@ -82,8 +82,8 @@ describe('History', () => {
   })
 
   test('Redo replays the last reverted commit', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await undo()
     await redo()
     expect(S.getDocument('root')(store.getState())).toEqual({
@@ -93,11 +93,11 @@ describe('History', () => {
   })
 
   test('Undo keeps order of previous commits', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 3 } })
+    await change({ id: 'root', state: { initial: () => 3 } })
     await undo()
     expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
@@ -111,11 +111,11 @@ describe('History', () => {
   })
 
   test('Redo keeps order of remaining commits', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 3 } })
+    await change({ id: 'root', state: { initial: () => 3 } })
     await undo()
     await undo()
     await undo()
@@ -132,10 +132,10 @@ describe('History', () => {
   })
 
   test('Undo keeps order of actions in previous commits', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 3 } })
+    await change({ id: 'root', state: { initial: () => 3 } })
     await undo()
     expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
@@ -144,10 +144,10 @@ describe('History', () => {
   })
 
   test('Redo keeps order of actions in remaining commits', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
-    await change({ id: 'root', state: { immediate: () => 3 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 3 } })
     await undo()
     await undo()
     await redo()
@@ -159,22 +159,22 @@ describe('History', () => {
   })
 
   test('Changes in a small time frame will be combined into a single commit', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     expect(getUndoStack()(store.getState())).toHaveLength(1)
   })
 
   test('Changes in a longer time frame will not be combined', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     expect(getUndoStack()(store.getState())).toHaveLength(2)
   })
 
   test('Undo after redo', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await wait(1000)
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     await undo()
     await redo()
     await undo()
@@ -185,7 +185,7 @@ describe('History', () => {
   })
 
   test('Reset after one change', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
     await reset()
     expect(S.getDocument('root')(store.getState())).toEqual({
       plugin: 'stateful',
@@ -194,8 +194,8 @@ describe('History', () => {
   })
 
   test('Reset after two changes', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     // undoStack: [[1, 2]]
     await reset()
     expect(S.getDocument('root')(store.getState())).toEqual({
@@ -205,8 +205,8 @@ describe('History', () => {
   })
 
   test('Reset after persist and undo', async () => {
-    await change({ id: 'root', state: { immediate: () => 1 } })
-    await change({ id: 'root', state: { immediate: () => 2 } })
+    await change({ id: 'root', state: { initial: () => 1 } })
+    await change({ id: 'root', state: { initial: () => 2 } })
     store.dispatch(S.persist())
     await undo()
     await reset()
@@ -240,8 +240,8 @@ describe('History', () => {
 
   test('Async change', async () => {
     store.dispatch(
-      tempCommit({
-        resolver: (resolve, _reject, _next) => {
+      temporaryCommit({
+        executor: (resolve, _reject, _next) => {
           setTimeout(() => {
             resolve([
               {
@@ -251,7 +251,7 @@ describe('History', () => {
             ])
           }, 300)
         },
-        immediate: [
+        initial: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
@@ -274,8 +274,8 @@ describe('History', () => {
 
   test('Async change with continue', async () => {
     store.dispatch(
-      tempCommit({
-        resolver: (resolve, _reject, next) => {
+      temporaryCommit({
+        executor: (resolve, _reject, next) => {
           function firstAsyncUpdate() {
             setTimeout(() => {
               next([
@@ -311,7 +311,7 @@ describe('History', () => {
 
           firstAsyncUpdate()
         },
-        immediate: [
+        initial: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
@@ -355,8 +355,8 @@ describe('History', () => {
 
   test('Async change with reject', async () => {
     store.dispatch(
-      tempCommit({
-        resolver: (_resolve, reject, _next) => {
+      temporaryCommit({
+        executor: (_resolve, reject, _next) => {
           setTimeout(() => {
             reject([
               {
@@ -366,7 +366,7 @@ describe('History', () => {
             ])
           }, 300)
         },
-        immediate: [
+        initial: [
           {
             action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
             reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)

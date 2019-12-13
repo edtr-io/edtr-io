@@ -185,7 +185,7 @@ export function RowRenderer({
           dispatch(
             change({
               id: previousFocusId,
-              state: { immediate: () => merged }
+              state: { initial: () => merged }
             })
           )
           rows.remove(index)

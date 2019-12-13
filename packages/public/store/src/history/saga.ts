@@ -30,23 +30,23 @@ import {
   UndoAction,
   RedoAction,
   ResetAction,
-  tempCommit,
-  TempCommitAction
+  temporaryCommit,
+  TemporaryCommitAction
 } from './actions'
 import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
 export function* historySaga() {
   yield all([
     call(commitSaga),
-    takeEvery(tempCommit.type, tempCommitSaga),
+    takeEvery(temporaryCommit.type, temporaryCommitSaga),
     takeEvery(undo.type, undoSaga),
     takeEvery(redo.type, redoSaga),
     takeEvery(reset.type, resetSaga)
   ])
 }
 
-function* tempCommitSaga(action: TempCommitAction) {
-  const actions = action.payload.immediate as ReversibleAction[]
+function* temporaryCommitSaga(action: TemporaryCommitAction) {
+  const actions = action.payload.initial as ReversibleAction[]
   yield all(actions.map(action => put(action.action)))
   yield put(
     pureCommit({
@@ -65,8 +65,8 @@ function* tempCommitSaga(action: TempCommitAction) {
       })
     }
   }
-  if (action.payload.resolver) {
-    action.payload.resolver(
+  if (action.payload.executor) {
+    action.payload.executor(
       createPutToChannel('resolve'),
       createPutToChannel('reject'),
       createPutToChannel('next')

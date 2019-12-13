@@ -80,12 +80,12 @@ describe('serialized scalar', () => {
 
   test('return type, value setter', () => {
     const state = serializedScalar({ value: 0 }, serializer)
-    const initial = { value: 0 }
-    let store = initial
-    const onChange = (updater: StateUpdater<T>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = { value: 0 }
+    let store = initialState
+    const onChange = (initial: StateUpdater<T>) => {
+      store = initial(store, deserializeHelpers)
     }
-    const scalarValue = state.init(initial, onChange)
+    const scalarValue = state.init(initialState, onChange)
 
     scalarValue.value = { value: 1 }
     expect(store).toEqual({ value: 1 })
@@ -93,12 +93,12 @@ describe('serialized scalar', () => {
 
   test('return type, set (value)', () => {
     const state = serializedScalar({ value: 0 }, serializer)
-    const initial = { value: 0 }
-    let store = initial
-    const onChange = (updater: StateUpdater<T>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = { value: 0 }
+    let store = initialState
+    const onChange = (initial: StateUpdater<T>) => {
+      store = initial(store, deserializeHelpers)
     }
-    const scalarValue = state.init(initial, onChange)
+    const scalarValue = state.init(initialState, onChange)
 
     scalarValue.set({ value: 1 })
     expect(store).toEqual({ value: 1 })
@@ -106,12 +106,12 @@ describe('serialized scalar', () => {
 
   test('return type, set (updater)', () => {
     const state = serializedScalar({ value: 0 }, serializer)
-    const initial = { value: 0 }
-    let store = initial
-    const onChange = (updater: StateUpdater<T>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = { value: 0 }
+    let store = initialState
+    const onChange = (initial: StateUpdater<T>) => {
+      store = initial(store, deserializeHelpers)
     }
-    const scalarValue = state.init(initial, onChange)
+    const scalarValue = state.init(initialState, onChange)
 
     scalarValue.set(({ value }) => {
       return { value: value + 1 }
@@ -150,39 +150,39 @@ describe('boolean', () => {
   })
 
   test('return type, value setter', () => {
-    const initial = false
-    const state = boolean(initial)
-    let store = initial
-    const onChange = (updater: StateUpdater<boolean>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = false
+    const state = boolean(initialState)
+    let store = initialState
+    const onChange = (initial: StateUpdater<boolean>) => {
+      store = initial(store, deserializeHelpers)
     }
-    const booleanValue = state.init(initial, onChange)
+    const booleanValue = state.init(initialState, onChange)
     booleanValue.value = true
     expect(store).toEqual(true)
   })
 
   test('return type, value set (value)', () => {
-    const initial = false
-    const state = boolean(initial)
-    let store = initial
-    const onChange = (updater: StateUpdater<boolean>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = false
+    const state = boolean(initialState)
+    let store = initialState
+    const onChange = (initial: StateUpdater<boolean>) => {
+      store = initial(store, deserializeHelpers)
     }
 
-    const booleanValue = state.init(initial, onChange)
+    const booleanValue = state.init(initialState, onChange)
     booleanValue.set(true)
     expect(store).toEqual(true)
   })
 
   test('return type, value set (updater)', () => {
-    const initial = false
-    const state = boolean(initial)
-    let store = initial
-    const onChange = (updater: StateUpdater<boolean>) => {
-      store = updater.immediate(store, deserializeHelpers)
+    const initialState = false
+    const state = boolean(initialState)
+    let store = initialState
+    const onChange = (initial: StateUpdater<boolean>) => {
+      store = initial(store, deserializeHelpers)
     }
 
-    const booleanValue = state.init(initial, onChange)
+    const booleanValue = state.init(initialState, onChange)
     booleanValue.set(value => !value)
     expect(store).toEqual(true)
   })
