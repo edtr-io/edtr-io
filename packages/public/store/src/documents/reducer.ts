@@ -2,11 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import {
-  isStatefulPlugin,
-  isStatelessPlugin,
-  Plugin
-} from '@edtr-io/internal__plugin'
+import { Plugin } from '@edtr-io/internal__plugin'
 import { StoreSerializeHelpers } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
@@ -16,10 +12,10 @@ import { DocumentState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
-  remove,
   RemoveAction,
   pureChange,
-  PureChangeAction
+  PureChangeAction,
+  pureRemove
 } from './actions'
 
 export const documentsReducer = createSubReducer(
@@ -35,11 +31,11 @@ export const documentsReducer = createSubReducer(
         ...documentState,
         [id]: {
           plugin: type,
-          state: isStatefulPlugin(plugin) ? pluginState : undefined
+          state: pluginState
         }
       }
     },
-    [remove.type](documentState, action: RemoveAction) {
+    [pureRemove.type](documentState, action: RemoveAction) {
       return R.omit([action.payload], documentState)
     },
     [pureChange.type](documentState, action: PureChangeAction) {
@@ -74,9 +70,7 @@ export const serializeDocument = createSelector((state, id: string | null) => {
   }
   return {
     plugin: doc.plugin,
-    ...(isStatelessPlugin(plugin)
-      ? {}
-      : { state: plugin.state.serialize(doc.state, serializeHelpers) })
+    state: plugin.state.serialize(doc.state, serializeHelpers)
   }
 })
 
@@ -91,7 +85,7 @@ export function isDocumentEmpty(
   doc: DocumentState | null,
   plugin: Plugin | null
 ) {
-  if (!doc || !plugin || isStatelessPlugin(plugin)) return false
+  if (!doc || !plugin) return false
 
   if (typeof plugin.isEmpty === 'function') {
     return plugin.isEmpty(doc.state)

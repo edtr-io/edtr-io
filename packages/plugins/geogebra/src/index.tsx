@@ -1,4 +1,4 @@
-import { StatefulPlugin, string } from '@edtr-io/plugin'
+import { Plugin, string } from '@edtr-io/plugin'
 import { createIcon, faCubes } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -6,7 +6,7 @@ import { GeogebraEditor } from './editor'
 import { GeogebraRenderer } from './renderer'
 
 export const geogebraState = string()
-export const geogebraPlugin: StatefulPlugin<typeof geogebraState> = {
+export const geogebraPlugin: Plugin<typeof geogebraState> = {
   //eslint-disable-next-line react/display-name
   Component: props =>
     props.editable ? (

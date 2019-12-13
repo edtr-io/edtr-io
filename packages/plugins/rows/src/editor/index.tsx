@@ -1,5 +1,5 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { StatefulPluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
+import { PluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
 import * as React from 'react'
 
@@ -50,7 +50,7 @@ function RowEditor({
 }
 
 export function RowsEditor(
-  props: StatefulPluginEditorProps<typeof rowsState> & {
+  props: PluginEditorProps<typeof rowsState> & {
     plugins?: PluginRegistry
   }
 ) {

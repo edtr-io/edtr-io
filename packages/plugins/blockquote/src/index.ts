@@ -1,11 +1,11 @@
-import { child, StatefulPlugin } from '@edtr-io/plugin'
+import { child, Plugin } from '@edtr-io/plugin'
 import { createIcon, faQuoteRight } from '@edtr-io/ui'
 
 import { BlockquoteRenderer } from './renderer'
 
 export const blockquoteState = child()
 
-export const blockquotePlugin: StatefulPlugin<typeof blockquoteState> = {
+export const blockquotePlugin: Plugin<typeof blockquoteState> = {
   Component: BlockquoteRenderer,
   state: blockquoteState,
   title: 'Zitat',

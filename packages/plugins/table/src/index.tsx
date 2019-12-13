@@ -1,4 +1,4 @@
-import { StatefulPlugin, string } from '@edtr-io/plugin'
+import { Plugin, string } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
@@ -8,7 +8,7 @@ export const tableState = string()
 
 export function createTablePlugin(
   config: TablePluginConfig
-): StatefulPlugin<typeof tableState> {
+): Plugin<typeof tableState> {
   return {
     Component: createTableEditor(config),
     state: tableState,

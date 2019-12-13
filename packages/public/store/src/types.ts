@@ -5,7 +5,7 @@
 import { Plugin } from '@edtr-io/internal__plugin'
 import { Store as ReduxStore } from 'redux'
 
-import { Action } from './actions'
+import { Action, Reversible } from './actions'
 
 /**
  * Store state
@@ -34,8 +34,8 @@ export interface HistoryState {
   initialState?: {
     documents: ScopedState['documents']
   }
-  undoStack: unknown[][]
-  redoStack: unknown[][]
+  undoStack: Reversible[][]
+  redoStack: Reversible[][]
   pendingChanges: number
 }
 

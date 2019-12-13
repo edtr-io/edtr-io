@@ -7,31 +7,35 @@ Plugins use a common API for their state, which provides helper functions to the
 - `child` - represents an other plugin or sub document
 - `object` - composes other StateTypes to an object
 - `list` - represents a collection of an other StateType
+- `upload`
 
 ## Usage
 
-### `StateType.scalar`
+### `scalar`
 
 The `scalar` type handles single values of a consistent type. For standard types `string`, `boolean` and `number` the respective StateTypes can bes used and are functionally equivalent.
 
 #### API
 
-A `state` created with `StateType.scalar` exposes:
+A `state` created with `scalar` exposes:
 
-- `state()` - getter for the current stored value
+- `state.get()` - getter for the current stored value
 - `state.value` - the current stored value
 - `state.set(newValue: T | (currentValue: T) => T)` - function expecting a new value or an update function
 
 #### Example
 
 ```typescript
-const counterState = StateType.scalar(0) // equivalent to StateType.number(0)
+import { scalar, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
 
-const counterPlugin: StatefulPlugin<typeof counterState> = {
+const counterState = scalar(0) // equivalent to number(0)
+
+const counterPlugin: Plugin<typeof counterState> = {
   Component: ({ state }) => {
     return (
       <div>
-        {state.value /* equivalent to state() */}
+        {state.value}
         <button
           onClick={() => {
             state.set(value => value + 1)
@@ -46,30 +50,33 @@ const counterPlugin: StatefulPlugin<typeof counterState> = {
 }
 ```
 
-### `StateType.serializedScalar`
+### `serializedScalar`
 
-The `serializedScalar` adds a serializer logic around `StateType.scalar` and uses the same API. The plugin always receives the deserialized value, but a serialized value will be exported by the editor on serialization.
+The `serializedScalar` adds a serializer logic around `scalar` and uses the same API. The plugin always receives the deserialized value, but a serialized value will be exported by the editor on serialization.
 
 #### API
 
-See `StateType.scalar`
+See `scalar`
 
 #### Example
 
 ```typescript
+import { serializedScalar, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
+
 const serializer = {
   deserialize: JSON.parse,
   serialize: JSON.stringify
 }
-const jsonState = StateType.serializedScalar({ foo: 'bar' }, serializer)
+const jsonState = serializedScalar({ foo: 'bar' }, serializer)
 
-const jsonPlugin: StatefulPlugin<typeof jsonState> = {
+const jsonPlugin: Plugin<typeof jsonState> = {
   Component: ({ state }) => {
     return (
       <div>
         <input
           type="text"
-          value={state.value.foo /* equivalent to state().foo */}
+          value={state.value.foo}
           onChange={e =>
             state.set({
               foo: e.target.value
@@ -83,24 +90,27 @@ const jsonPlugin: StatefulPlugin<typeof jsonState> = {
 }
 ```
 
-### `StateType.child`
+### `child`
 
 The `child` type is used for including another plugin or whole sub document. Handling the state and actions of the sub document is done by the editor core automatically.
 
 #### API
 
-A `state` created with `StateType.child` exposes:
+A `state` created with `child` exposes:
 
-- `state()` - getter for the plugin id
+- `state.get()` - getter for the plugin id
 - `state.id` - the plugin id
 - `state.render()` - helper rendering the child in a `<Document>` component
 
 #### Example
 
 ```typescript
-const spoilerState = StateType.child()
+import { child, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
 
-const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
+const spoilerState = child()
+
+const spoilerPlugin: Plugin<typeof spoilerState> = {
   Component: ({ state }) => {
     const [hidden, setHidden] = React.useState(true)
     return (
@@ -116,15 +126,14 @@ const spoilerPlugin: StatefulPlugin<typeof spoilerState> = {
 }
 ```
 
-### `StateType.object`
+### `object`
 
 With the `object` type you can compose other StateTypes to an object.
 
 #### API
 
-A `state` created with `StateType.object` exposes:
+A `state` created with `object` exposes:
 
-- `state()` - getter for the object of the states
 - all the properties directly on `state`
 
 #### Example
@@ -132,23 +141,24 @@ A `state` created with `StateType.object` exposes:
 Syntax highlighting example using `react-syntax-highlighter`
 
 ```typescript
-const highlighterState = StateType.object({
-  text: StateType.string(`console.log('Hello World')`),
-  showLineNumbers: StateType.boolean(true)
+import { object, string, boolean, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
+import SyntaxHighlight from 'react-syntax-highlighter'
+
+const highlighterState = object({
+  text: string(`console.log('Hello World')`),
+  showLineNumbers: boolean(true)
 })
 
-const highlighterPlugin: StatefulPlugin<typeof highlighterState> = {
+const highlighterPlugin: Plugin<typeof highlighterState> = {
   Component: ({ state }) => {
     return (
       <div>
         <SyntaxHighlight
           language="javascript"
-          showLineNumbers={
-            state.showLineNumbers
-              .value /* equivalent to state().showLineNumbers() */
-          }
+          showLineNumbers={state.showLineNumbers.value}
         >
-          {state.text.value /* equivalent to state().text() */}
+          {state.text.value}
         </SyntaxHighlight>
         <hr />
         <textarea
@@ -172,43 +182,65 @@ const highlighterPlugin: StatefulPlugin<typeof highlighterState> = {
 }
 ```
 
-### `StateType.list`
+### `list`
 
 With the `list` type you can handle a collection of other StateTypes
 
 #### API
 
-A `state` created with `StateType.list` exposes:
+A `state` created with `list` exposes:
 
-- `state()` - getter for the items state collection
-- `state.items` - the items state collection
+- `state` - the items as array
 - `state.insert(index?: number, initialItemState?: S)` - helper function for inserting a new item at the specified index (default: append as last item). Optionally pass an initial state for the item.
 - `state.remove(index: number)` - helper function for removing an item
+- `state.move(from: number, to: number)` - helper function for moving an item in the list to an other position
 
 #### Example
 
 ```typescript
-const rowsState = StateType.list(StateType.child(), 1)
+import { list, child, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
 
-const rowsPlugin: StatefulPlugin<typeof highlighterState> = {
+const rowsState = list(child(), 1)
+
+const rowsPlugin: Plugin<typeof highlighterState> = {
   Component: ({ state }) => {
     return (
       <div>
-        {state.items.map(
-          /* equivalent to state().map */
-          (item, index) => {
-            return (
-              <div>
-                {item.render()}
-                <button onClick={() => state.insert(index + 1)}>Add</button>
-                <button onClick={() => state.remove(index)}>Remove</button>
-              </div>
-            )
-          }
-        )}
+        {state.map((item, index) => {
+          return (
+            <div>
+              {item.render()}
+              <button onClick={() => state.insert(index + 1)}>Add</button>
+              <button onClick={() => state.remove(index)}>Remove</button>
+              {index > 0 ? (
+                <button onClick={() => state.move(index, index - 1)}>
+                  Move up
+                </button>
+              ) : null}
+              {index + 1 < state.length ? (
+                <button onClick={() => state.move(index, index + 1)}>
+                  Move down
+                </button>
+              ) : null}
+            </div>
+          )
+        })}
       </div>
     )
   },
   state: rowsState
 }
 ```
+
+### `upload`
+
+With `upload` type you can handle asynchronous uploads of files, resolving to a url at the end
+
+#### API
+
+A `state` created with `upload` exposes:
+
+- `state.value` - the current value, either `string` or a pending file upload
+- `state.set` - set the value to a url
+- `state.upload` - upload a file

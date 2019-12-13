@@ -1,4 +1,4 @@
-import { StateTypeReturnType, StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { StateTypeReturnType, PluginEditorProps } from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -14,7 +14,7 @@ enum Phase {
 }
 
 export class EquationsRenderer extends React.Component<
-  StatefulPluginEditorProps<typeof equationsState>,
+  PluginEditorProps<typeof equationsState>,
   EquationsRendererState
 > {
   public state: EquationsState = {

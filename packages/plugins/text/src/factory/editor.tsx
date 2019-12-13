@@ -1,5 +1,5 @@
 import { useScopedDispatch, useScopedSelector } from '@edtr-io/core'
-import { StatefulPluginEditorProps, Plugin } from '@edtr-io/plugin'
+import { PluginEditorProps, Plugin } from '@edtr-io/plugin'
 import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
@@ -526,7 +526,7 @@ function createDocumentFromNodes(nodes: Node[]) {
   }
 }
 
-export type SlateEditorProps = StatefulPluginEditorProps<typeof textState> &
+export type SlateEditorProps = PluginEditorProps<typeof textState> &
   SlateEditorAdditionalProps
 
 export interface SlateEditorAdditionalProps {
