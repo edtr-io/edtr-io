@@ -1,5 +1,5 @@
 import { EditorInput } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
 import * as React from 'react'
@@ -11,7 +11,7 @@ export function SpoilerEditor({
   editable,
   name,
   defaultFocusRef
-}: StatefulPluginEditorProps<typeof spoilerState>) {
+}: PluginEditorProps<typeof spoilerState>) {
   const theme = usePluginTheme<SpoilerTheme>(name, () => {
     return {
       color: '#f5f5f5'

@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -88,8 +88,6 @@ interface ScMcExerciseRendererState {
   mode: Mode
 }
 
-export type ScMcRendererProps = StatefulPluginEditorProps<
-  typeof scMcExerciseState
-> & {
+export type ScMcRendererProps = PluginEditorProps<typeof scMcExerciseState> & {
   isEmpty: (id: string) => boolean
 }

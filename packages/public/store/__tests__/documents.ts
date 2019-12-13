@@ -27,20 +27,6 @@ describe('Documents', () => {
       expect(doc.plugin).toEqual('text')
     })
 
-    test('Stateless Plugin', async () => {
-      store.dispatch(
-        S.insert({
-          id: '1',
-          plugin: 'stateless'
-        })
-      )
-      await waitUntil(() =>
-        R.any(action => action.type === pureInsert.type, store.getActions())
-      )
-      expect(S.getDocument('1')(store.getState())).toEqual({
-        plugin: 'stateless'
-      })
-    })
     test('Stateful plugin w/ state', async () => {
       store.dispatch(
         S.insert({
@@ -64,7 +50,8 @@ describe('Documents', () => {
       store.dispatch(
         S.insert({
           id: '1',
-          plugin: 'stateless'
+          plugin: 'stateful',
+          state: { counter: 0 }
         })
       )
       await waitUntil(() =>
@@ -77,13 +64,15 @@ describe('Documents', () => {
       store.dispatch(
         S.insert({
           id: '1',
-          plugin: 'stateless'
+          plugin: 'stateful',
+          state: { counter: 0 }
         })
       )
       store.dispatch(
         S.insert({
           id: '2',
-          plugin: 'stateless'
+          plugin: 'stateful',
+          state: { counter: 0 }
         })
       )
       await waitUntil(
@@ -96,7 +85,8 @@ describe('Documents', () => {
       store.dispatch(S.remove('1'))
       expect(getDocuments()(store.getState())).toEqual({
         2: {
-          plugin: 'stateless'
+          plugin: 'stateful',
+          state: { counter: 0 }
         }
       })
     })
@@ -104,7 +94,8 @@ describe('Documents', () => {
       store.dispatch(
         S.insert({
           id: '1',
-          plugin: 'stateless'
+          plugin: 'stateful',
+          state: { counter: 0 }
         })
       )
       await waitUntil(() =>
@@ -130,7 +121,7 @@ describe('Documents', () => {
       store.dispatch(
         S.change({
           id: '1',
-          state: () => 1
+          state: { initial: () => 1 }
         })
       )
       await waitUntil(() =>

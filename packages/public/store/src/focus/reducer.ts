@@ -2,7 +2,6 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { isStatefulPlugin } from '@edtr-io/internal__plugin'
 import * as R from 'ramda'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
@@ -70,15 +69,12 @@ export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
     const plugin = getPlugin(document.plugin)(state)
     if (!plugin) return null
 
-    let children
-    if (isStatefulPlugin(plugin)) {
-      children = plugin.state
-        .getFocusableChildren(document.state)
-        .map(child => {
-          const subtree = getFocusTree(child.id)(state)
-          return subtree || child
-        })
-    }
+    const children = plugin.state
+      .getFocusableChildren(document.state)
+      .map(child => {
+        const subtree = getFocusTree(child.id)(state)
+        return subtree || child
+      })
 
     return {
       id: root,

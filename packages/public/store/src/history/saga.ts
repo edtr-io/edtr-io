@@ -3,6 +3,7 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
+import { channel, Channel } from 'redux-saga'
 import {
   all,
   call,
@@ -14,7 +15,7 @@ import {
   takeEvery
 } from 'redux-saga/effects'
 
-import { Action, setPartialState } from '../actions'
+import { Reversible, ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -28,22 +29,99 @@ import {
   pureReset,
   UndoAction,
   RedoAction,
-  ResetAction
+  ResetAction,
+  temporaryCommit,
+  TemporaryCommitAction
 } from './actions'
-import {
-  getInitialState,
-  getPendingChanges,
-  getRedoStack,
-  getUndoStack
-} from './reducer'
+import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
 export function* historySaga() {
   yield all([
     call(commitSaga),
+    takeEvery(temporaryCommit.type, temporaryCommitSaga),
     takeEvery(undo.type, undoSaga),
     takeEvery(redo.type, redoSaga),
     takeEvery(reset.type, resetSaga)
   ])
+}
+
+function* temporaryCommitSaga(action: TemporaryCommitAction) {
+  const actions = action.payload.initial as ReversibleAction[]
+  yield all(actions.map(action => put(action.action)))
+  yield put(
+    pureCommit({
+      combine: false,
+      actions
+    })(action.scope)
+  )
+  const chan: Channel<ChannelAction> = yield call(channel)
+
+  function createPutToChannel(type: 'resolve' | 'reject' | 'next') {
+    return function(finalActions: Reversible[]) {
+      chan.put({
+        [type]: finalActions,
+        scope: action.scope,
+        tempActions: actions
+      })
+    }
+  }
+  if (action.payload.executor) {
+    action.payload.executor(
+      createPutToChannel('resolve'),
+      createPutToChannel('reject'),
+      createPutToChannel('next')
+    )
+    yield call(resolveSaga, chan)
+  }
+}
+
+interface ChannelAction {
+  resolve?: ReversibleAction[]
+  next?: ReversibleAction[]
+  reject?: ReversibleAction[]
+  scope: string
+  tempActions: ReversibleAction[]
+}
+
+function* resolveSaga(chan: Channel<ChannelAction>) {
+  while (true) {
+    const payload: ChannelAction = yield take(chan)
+    const finalActions = payload.resolve || payload.next || payload.reject || []
+    const tempActions = payload.tempActions
+
+    const stack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
+      scopeSelector(getUndoStack, payload.scope)
+    )
+
+    const replays = R.takeWhile(replay => replay !== tempActions, stack)
+    // revert all actions until the temporary actions
+    yield all(
+      replays.map(replay => {
+        return all(replay.map(a => put(a.reverse)))
+      })
+    )
+    // then revert the temporary action
+    yield all(tempActions.map(a => put(a.reverse)))
+
+    //apply final actions and all reverted actions
+    yield all(finalActions.map(a => put(a.action)))
+
+    yield all(
+      replays.map(replay => {
+        return all(replay.map(a => put(a.action)))
+      })
+    )
+
+    // replace in history
+    replaceInArray(tempActions, finalActions)
+    if (payload.resolve || payload.reject) {
+      break
+    }
+  }
+}
+
+function replaceInArray<T>(arr: T[], arr2: T[]) {
+  arr.splice(0, arr.length, ...arr2)
 }
 
 function* commitSaga() {
@@ -68,8 +146,12 @@ function* commitSaga() {
   }
 }
 
-function* executeCommit(actions: Action[], combine: boolean, scope: string) {
-  yield all(actions.map(action => put(action)))
+function* executeCommit(
+  actions: ReversibleAction[],
+  combine: boolean,
+  scope: string
+) {
+  yield all(actions.map(action => put(action.action)))
   yield put(
     pureCommit({
       combine,
@@ -82,19 +164,10 @@ function* undoSaga(action: UndoAction) {
   const undoStack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
     scopeSelector(getUndoStack, action.scope)
   )
-  const replay = R.tail(undoStack)
-
-  // Revert state to last computed state
-  const { documents, focus } = yield select(
-    scopeSelector(getInitialState, action.scope)
-  )
-  yield put(setPartialState({ documents, focus })(action.scope))
-
-  // Replay all except last commit
+  const toUndo = R.head(undoStack)
+  if (!toUndo) return
   yield all(
-    R.reverse(replay).map(actions => {
-      return all(actions.map(action => put(action)))
-    })
+    R.reverse(toUndo).map(reversibleAction => put(reversibleAction.reverse))
   )
   yield put(pureUndo()(action.scope))
 }
@@ -105,7 +178,7 @@ function* redoSaga(action: RedoAction) {
   )
   const replay = R.head(redoStack)
   if (!replay) return
-  yield all(replay.map(action => put(action)))
+  yield all(replay.map(reversibleAction => put(reversibleAction.action)))
   yield put(pureRedo()(action.scope))
 }
 

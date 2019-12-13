@@ -2,6 +2,9 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { StateExecutor } from '@edtr-io/internal__plugin-state'
+
+import { Reversible } from '../actions'
 import { createAction, createActionWithoutPayload } from '../helpers'
 import { ActionFromActionCreator } from '../types'
 
@@ -13,17 +16,28 @@ export type ResetAction = ActionFromActionCreator<typeof reset>
 export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
 export type PureResetAction = ActionFromActionCreator<typeof pureReset>
 
-// Accepts an array of `Action`s as payload. This would lead to a reference cycle, though
-export const commit = createAction<'Commit', unknown[]>('Commit')
+// Actually accepts an array of `ReversibleAction`s as payload. This would lead to a reference cycle, though
+export const commit = createAction<'Commit', Reversible[]>('Commit')
 export type CommitAction = ActionFromActionCreator<typeof commit>
 export const pureCommit = createAction<
   'PureCommit',
   {
     combine: boolean
-    actions: unknown[]
+    actions: Reversible[]
   }
 >('PureCommit')
 export type PureCommitAction = ActionFromActionCreator<typeof pureCommit>
+
+export const temporaryCommit = createAction<
+  'TemporaryCommit',
+  {
+    initial: Reversible[]
+    executor?: StateExecutor<Reversible[]>
+  }
+>('TemporaryCommit')
+export type TemporaryCommitAction = ActionFromActionCreator<
+  typeof temporaryCommit
+>
 
 export const undo = createActionWithoutPayload<'Undo'>('Undo')
 export type UndoAction = ActionFromActionCreator<typeof undo>
@@ -45,3 +59,4 @@ export type HistoryAction =
   | PureUndoAction
   | RedoAction
   | PureRedoAction
+  | TemporaryCommitAction

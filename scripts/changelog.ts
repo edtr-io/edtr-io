@@ -475,7 +475,7 @@ const state = string()
         '**core**. Moved all store exports (e.g. `createStore`) to the new package `@edtr-io/store`'
       ],
       added: [
-        '**plugin**. Published new package `@edtr-io/plugin` intended to be used by plugin authors. It exposes `Plugin`, `StatefulPluginEditorProps`, `StatelessPluginEditorProps`, `StatefulPlugin`, `StatelessPlugin` and (flatly) everything that was previously exported as `StateType`.',
+        '**plugin**. Published new package `@edtr-io/plugin` intended to be used by plugin authors. It exposes `Plugin`, `PluginEditorProps`, `StatelessPluginEditorProps`, `StatefulPlugin`, `StatelessPlugin` and (flatly) everything that was previously exported as `StateType`.',
         '**store**. Published new package `@edtr-io/store`. It (flatly) exposes actions and selectors, and all previous store exports that are mostly for special use cases.'
       ],
       changed: [
@@ -528,7 +528,7 @@ useScopedSelector(state => {
       breakingChanges: [
         '**plugin**. Refactored `StateType` API. This should only affect you if you defined custom state types.',
         '**plugin**. Consistently renamed `StateDescriptor*` types to `StateType*`',
-        '**plugin**. `StatelessPluginEditorProps` and `StatefulPluginEditorProps` no longer accept the type param `Props`. Replace `StatelessPluginEditorProps<Props>` with `StatelessPluginEditorProps & Props`.',
+        '**plugin**. `StatelessPluginEditorProps` and `PluginEditorProps` no longer accept the type param `Props`. Replace `StatelessPluginEditorProps<Props>` with `StatelessPluginEditorProps & Props`.',
         '**plugin**. `StatelessPlugin` may no longer define `getFocusableChildren`. This is handled by state types instead.',
         '**plugin**. The return type of the built-in `child` state type is no longer callable. Replace `state()` with `state.get()` or `state.id` to retrieve the `id`.',
         "**plugin**. The return type of the built-in `list` state type is no longer callable and doesn't expose `items` anymore. Instead, the return types behaves like an array itself. Replace `state()` resp. `state.items` with `state`.",

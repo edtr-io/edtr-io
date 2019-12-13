@@ -1,6 +1,6 @@
 import { useScopedStore } from '@edtr-io/core'
 import { styled } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
 import { isEmpty } from '@edtr-io/store'
 import { ThemeProps } from '@edtr-io/ui'
@@ -75,7 +75,7 @@ function matchesInput(field: { type: string; value: string }, input: string) {
 }
 
 export function InputExerciseRenderer(
-  props: StatefulPluginEditorProps<typeof inputExerciseState>
+  props: PluginEditorProps<typeof inputExerciseState>
 ) {
   const { state } = props
   const store = useScopedStore()

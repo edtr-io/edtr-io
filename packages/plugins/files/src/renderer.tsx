@@ -1,4 +1,4 @@
-import { isTempFile, StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { isTempFile, PluginEditorProps } from '@edtr-io/plugin'
 import {
   faFileArchive,
   faFileAudio,
@@ -50,9 +50,7 @@ export const FileRenderer: React.FunctionComponent<{
   )
 }
 
-export function FilesRenderer(
-  props: StatefulPluginEditorProps<typeof fileState>
-) {
+export function FilesRenderer(props: PluginEditorProps<typeof fileState>) {
   return (
     <React.Fragment>
       {props.state.map((file, i) => {

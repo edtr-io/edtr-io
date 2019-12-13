@@ -1,4 +1,10 @@
-import { child, list, StoreDeserializeHelpers, string } from '../src'
+import {
+  child,
+  list,
+  StoreDeserializeHelpers,
+  string,
+  StateUpdater
+} from '../src'
 
 describe('list', () => {
   interface T {
@@ -8,10 +14,8 @@ describe('list', () => {
 
   let helpers: StoreDeserializeHelpers & { createDocument: jest.Mock }
   let store: T[]
-  const onChange = (
-    updater: (oldItems: T[], helpers: StoreDeserializeHelpers) => T[]
-  ) => {
-    store = updater(store, helpers)
+  const onChange = (initial: StateUpdater<T[]>) => {
+    store = initial(store, helpers)
   }
 
   beforeEach(() => {

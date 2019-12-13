@@ -1,4 +1,4 @@
-import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
+import { child, object, Plugin, string } from '@edtr-io/plugin'
 import { createIcon, faCheckSquare } from '@edtr-io/ui'
 
 import { SolutionEditor } from './editor'
@@ -8,7 +8,7 @@ export const solutionState = object({
   content: child('rows')
 })
 
-export const solutionPlugin: StatefulPlugin<typeof solutionState> = {
+export const solutionPlugin: Plugin<typeof solutionState> = {
   Component: SolutionEditor,
   state: solutionState,
   icon: createIcon(faCheckSquare),

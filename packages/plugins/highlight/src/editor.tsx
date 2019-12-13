@@ -3,8 +3,8 @@ import {
   EditorInput,
   PrimarySettings
 } from '@edtr-io/editor-ui'
-import { StatefulPlugin, StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { faCode, styled, createIcon } from '@edtr-io/ui'
+import { PluginEditorProps } from '@edtr-io/plugin'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { highlightState } from '.'
@@ -30,9 +30,7 @@ const CheckboxContainer = styled.div({
 })
 
 export const createHighlightEditor = (config: HighlightPluginConfig) =>
-  function HighlightEditor(
-    props: StatefulPluginEditorProps<typeof highlightState>
-  ) {
+  function HighlightEditor(props: PluginEditorProps<typeof highlightState>) {
     const Renderer = config.renderer
 
     const { state, focused, editable } = props
@@ -96,19 +94,6 @@ export const createHighlightEditor = (config: HighlightPluginConfig) =>
       />
     )
   }
-
-export function createHighlightPlugin(
-  config: HighlightPluginConfig
-): StatefulPlugin<typeof highlightState> {
-  return {
-    Component: createHighlightEditor(config),
-    state: highlightState,
-    title: 'Code',
-    description:
-      'Schreibe Code und lasse ihn je nach Programmiersprache highlighten.',
-    icon: createIcon(faCode)
-  }
-}
 
 export interface HighlightPluginConfig {
   renderer: React.ComponentType<HighlightRendererProps>

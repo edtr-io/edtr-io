@@ -4,7 +4,7 @@ import {
   list,
   migratable,
   object,
-  StatefulPlugin,
+  Plugin,
   StateTypeSerializedType,
   string
 } from '@edtr-io/plugin'
@@ -69,7 +69,7 @@ export const inputExerciseState = migratable(stateV0)
     }
   })
 
-export const inputExercisePlugin: StatefulPlugin<typeof inputExerciseState> = {
+export const inputExercisePlugin: Plugin<typeof inputExerciseState> = {
   Component: InputExerciseEditor,
   state: inputExerciseState,
   title: 'Eingabefeld',
