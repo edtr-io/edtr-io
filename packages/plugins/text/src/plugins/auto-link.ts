@@ -51,6 +51,7 @@ export const autoLink = (pluginClosure: SlatePluginClosure): TextPlugin => {
         case ']':
         case ')':
         case ' ':
+        case 'Enter':
           return onSpecialKey(e, editor, next)
         default:
           return next()
