@@ -3,7 +3,9 @@ import {
   number,
   object,
   StoreDeserializeHelpers,
-  StateUpdater, list, StateExecutor
+  StateUpdater,
+  list,
+  StateExecutor
 } from '../src'
 
 describe('object', () => {
@@ -130,7 +132,7 @@ describe('object', () => {
 
   test('innerOnChange correctly dispatches changes', () => {
     const state = object({
-      foo: list(child(),0)
+      foo: list(child(), 0)
     })
     const initialState = state.createInitialState(helpers)
     expect(helpers.createDocument).not.toHaveBeenCalled()

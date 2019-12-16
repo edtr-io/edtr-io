@@ -3,7 +3,8 @@ import {
   list,
   StoreDeserializeHelpers,
   string,
-  StateUpdater, object, StateExecutor
+  StateUpdater,
+  StateExecutor
 } from '../src'
 
 describe('list', () => {
@@ -209,10 +210,8 @@ describe('list', () => {
     ])
   })
 
-
-
   test('inner change correctly dispatches changes', () => {
-    const state = list(list(child(),0),1)
+    const state = list(list(child(), 0), 1)
     const initialState = state.createInitialState(helpers)
     expect(helpers.createDocument).not.toHaveBeenCalled()
 
