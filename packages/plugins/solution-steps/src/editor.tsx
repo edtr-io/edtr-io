@@ -7,25 +7,26 @@ import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { solutionStepsState } from '.'
-import { SolutionStepsRenderer } from './renderer'
 import {
-  strategyHelptext,
-  introductionHelptext,
+  strategyGuideline,
+  introductionGuideline,
   addStrategyLabel,
-  solutionStepHelptext,
-  explanationHelptext
+  solutionStepGuideline,
+  explanationGuideline,
+  addAdditionalsLabel,
+  additionalsGuideline
 } from './guideline-texts'
-
 import { useHasFocusSelector } from './has-focus-selector'
+import { AddButtonsComponent } from './helper/add-buttons'
+import { dragContent } from './helper/drag-content'
+import { findPairs } from './helper/find-pairs'
 import {
   Controls,
   ControlButton,
   Container,
   Content
 } from './helper/styled-elements'
-import { AddButtonsComponent } from './helper/add-buttons'
-import { findPairs } from './helper/find-pairs'
-import { dragContent } from './helper/drag-content'
+import { SolutionStepsRenderer } from './renderer'
 import { renderControls } from './helper/render-controls'
 
 export const explanation = 'explanation'
@@ -40,12 +41,13 @@ export function SolutionStepsEditor(
     isFocused(state.introduction.id)
   )
   const strategyFocused = useHasFocusSelector(state.strategy.id)
+  const additionalsFocused = useHasFocusSelector(state.additionals.id)
 
   //replace props.focused|| ... with selector
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        <Guideline guideline={introductionHelptext}>
+        <Guideline guideline={introductionGuideline}>
           {state.introduction.render()}
         </Guideline>
         {introductionFocused && !state.hasStrategy.value ? (
@@ -61,8 +63,10 @@ export function SolutionStepsEditor(
       </React.Fragment>
       {state.hasStrategy.value ? (
         <div style={{ position: 'relative' }}>
-          <Guideline guideline={strategyHelptext}>
-            {state.strategy.render()}
+          <Guideline guideline={strategyGuideline}>
+            <Content type={explanation} isHalf={false}>
+              {state.strategy.render()}
+            </Content>
           </Guideline>
           <Controls>
             <ControlButton
@@ -108,14 +112,14 @@ export function SolutionStepsEditor(
                                 guideline={
                                   solutionStepRight ? (
                                     <React.Fragment>
-                                      {solutionStepHelptext}
-                                      {explanationHelptext}
+                                      {solutionStepGuideline}
+                                      {explanationGuideline}
                                     </React.Fragment>
                                   ) : solutionStepLeft.type.value ===
                                     explanation ? (
-                                    explanationHelptext
+                                    explanationGuideline
                                   ) : (
-                                    solutionStepHelptext
+                                    solutionStepGuideline
                                   )
                                 }
                               >
@@ -136,25 +140,46 @@ export function SolutionStepsEditor(
                               provided
                             )}
                           </Container>
-                          {index < pairedArray.length - 1 ? (
-                            <AddButtonsComponent
-                              {...props}
-                              id={solutionStepLeft.content.id}
-                              index={index}
-                            />
-                          ) : null}
+                          <AddButtonsComponent
+                            {...props}
+                            id={solutionStepLeft.content.id}
+                            index={index}
+                          />
                         </React.Fragment>
                       )
                     }}
                   </Draggable>
                 )
               })}
-              {solutionSteps.length > 0 ? (
-                <AddButtonsComponent
-                  {...props}
-                  index={solutionSteps.length}
-                  id=""
-                />
+              {solutionSteps.length === 0 ||
+              state.hasAdditionals.value ? null : (
+                <AddButton
+                  title={addAdditionalsLabel}
+                  onClick={() => {
+                    state.hasAdditionals.set(true)
+                  }}
+                >
+                  Ergänzung
+                </AddButton>
+              )}
+              {state.hasAdditionals.value ? (
+                <div style={{ position: 'relative' }}>
+                  <Guideline guideline={additionalsGuideline}>
+                    <Content type={explanation} isHalf={false}>
+                      {state.additionals.render()}
+                    </Content>
+                  </Guideline>
+                  <Controls>
+                    <ControlButton
+                      onClick={() => {
+                        state.hasAdditionals.set(false)
+                        state.additionals.replace('rows')
+                      }}
+                    >
+                      <Icon icon={faTimes} />
+                    </ControlButton>
+                  </Controls>
+                </div>
               ) : null}
             </div>
           )

@@ -1,12 +1,12 @@
+import { useScopedSelector } from '@edtr-io/core'
+import { AddButton } from '@edtr-io/editor-ui'
+import { hasFocusedDescendant } from '@edtr-io/store'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { solutionStepsState } from '..'
-import { useScopedSelector } from '@edtr-io/core'
-import { hasFocusedDescendant } from '@edtr-io/store'
 import { explanation } from '../editor'
-import * as React from 'react'
-import { Buttoncontainer } from './styled-elements'
-import { AddButton } from '@edtr-io/editor-ui'
 import { addStepLabel, addExplanationLabel } from '../guideline-texts'
+import { Buttoncontainer } from './styled-elements'
+import * as React from 'react'
 
 export function AddButtonsComponent(
   props: StatefulPluginEditorProps<typeof solutionStepsState> & {

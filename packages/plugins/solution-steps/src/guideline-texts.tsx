@@ -1,12 +1,14 @@
 import * as React from 'react'
+import { faLevelUpAlt, Icon } from '@edtr-io/ui'
 
 export const addStepLabel =
   'Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss'
 export const addExplanationLabel =
   'Eine zusätzliche Erklärung, die den Lernenden beim Verstehen der Lösung helfen soll'
 export const addStrategyLabel = 'Erkläre dein Vorgehen'
+export const addAdditionalsLabel = 'Ergänze weitere Inhalte zur Lösung'
 
-export const introductionHelptext: React.ReactNode = (
+export const introductionGuideline: React.ReactNode = (
   <div>
     <h1>Wichtiges Wissen zur Aufgabe</h1>
     <ul>
@@ -19,7 +21,7 @@ export const introductionHelptext: React.ReactNode = (
   </div>
 )
 
-export const strategyHelptext: React.ReactNode = (
+export const strategyGuideline: React.ReactNode = (
   <div>
     <h1>Lösungsstrategie</h1>
     <p>
@@ -49,6 +51,87 @@ export const strategyHelptext: React.ReactNode = (
   </div>
 )
 
-export const solutionStepHelptext = <div>Hi</div>
+export const solutionStepGuideline = (
+  <div>
+    <h1>Lösungsschritt</h1>
+    <p>
+      Lösungsschritte <b>untergliedern</b> die Aufgabenlösung in kleine
+      Sinnabschnitte. Vermittle dein <b>gedankliches Vorgehen</b> bzw. wichtige{' '}
+      <b>Lösungsmethoden</b>.
+    </p>
+    <ul>
+      <li>
+        <b>Kleinschrittig:</b>
+        <p>
+          Formuliere die Lösung in kleinen sowie passenden Lösungsschritten.
+        </p>
+      </li>
+      <li>
+        <b>Nachvollziehbar:</b>
+        <p>
+          Formuliere die Lösung entsprechend dem Niveau der Lernenden (achte auf
+          Sprache und Formeln).
+        </p>
+      </li>
+      <li>
+        <b>Prozessorientiert: </b>
+        <p>
+          Formuliere den Weg von der Ausgangssituation zu dem Zielzustand
+          schrittweise.
+        </p>
+      </li>
+    </ul>
+    <p>
+      <b>Beachte: </b>Verwende die richtigen Bausteine, zum Beispiel das
+      Gleichungsplugin für Rechnungen.
+    </p>
+  </div>
+)
 
-export const explanationHelptext = <div> Hi </div>
+export const explanationGuideline = (
+  <div>
+    <h1>Erklärung eines Schrittes</h1>
+    <p>
+      Die Erklärung des Schrittes stellt eine <b>detaillierte Erläuterung </b>
+      des Lösungsschrittes dar. Dabei kannst du u.a.:
+    </p>
+    <ul>
+      <li>
+        <p>
+          den <b>Grund</b> für dein gedankliches Vorgehen erläutern
+        </p>
+      </li>
+      <li>
+        <p>
+          die <b>Funktion</b> des Schrittes erläutern
+        </p>
+      </li>
+    </ul>
+    <h1>Zweispaltigkeit</h1>
+    <p>
+      Damit die Lernenden einen guten Lesefluss haben, kannst du vor allem kurze
+      Erklärungen mit dem <Icon icon={faLevelUpAlt} />
+      -Symbol neben den vorherigen Lösungsschritt holen. Bitte mache dies nur,
+      wenn es keine zu langen Erklärungen sind.
+    </p>
+  </div>
+)
+
+export const additionalsGuideline = (
+  <div>
+    <h1>Ergänzungen</h1>
+    <p>
+      Gelegentlich sind nach der Lösung (nach dem letzen Schritt!) der Aufgabe
+      noch Ergänzungen sinnvoll.
+    </p>
+    <p> Dabei könnte es sich um Folgendes handeln:</p>
+    <ul>
+      <li>
+        Weitere Antwortmöglichkeiten, deren vollständige Ausformulierung sich
+        nicht lohnt. Alternative Lösungsstrategien.
+      </li>
+      <li>Zusatzinformationen.</li>
+      <li>Anregungen und Links zum Weiterlernen.</li>
+    </ul>
+  </div>
+)

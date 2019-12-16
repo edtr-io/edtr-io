@@ -4,7 +4,6 @@ import { explanation } from '../editor'
 export const Buttoncontainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
-  marginTop: '5px',
   width: '100%'
 })
 
