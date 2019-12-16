@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { Plugin } from '@edtr-io/internal__plugin'
+import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/internal__plugin'
 import { StoreSerializeHelpers } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
@@ -83,7 +83,7 @@ export const isEmpty = createSelector((state, id: string) => {
 
 export function isDocumentEmpty(
   doc: DocumentState | null,
-  plugin: Plugin | null
+  plugin: EditorPlugin | DeprecatedPlugin | null
 ) {
   if (!doc || !plugin) return false
 

@@ -2,7 +2,7 @@ import { EditorButton } from '@edtr-io/editor-ui'
 import {
   isTempFile,
   usePendingFilesUploader,
-  PluginEditorProps,
+  DeprecatedPluginEditorProps,
   UploadHandler
 } from '@edtr-io/plugin'
 import { Icon, faRedoAlt, styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
@@ -34,7 +34,7 @@ export const Center = styled.div({
 
 export function createFilesEditor(
   uploadHandler: UploadHandler<UploadedFile>
-): React.FunctionComponent<PluginEditorProps<typeof fileState>> {
+): React.FunctionComponent<DeprecatedPluginEditorProps<typeof fileState>> {
   return function FilesEditor(props) {
     const { focused, state } = props
 

@@ -20,11 +20,11 @@ import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
 const nestedArrayState = object({
-  children: list(child('stateful'), 1)
+  children: list(child({ plugin: 'stateful' }), 1)
 })
 
 const nestedState = object({
-  child: child('stateful')
+  child: child({ plugin: 'stateful' })
 })
 
 const statefulState = number(0)

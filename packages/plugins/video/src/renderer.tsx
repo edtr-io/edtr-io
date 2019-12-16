@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { Icon, styled, faFilm } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -48,7 +48,9 @@ const VideoIframe = styled.iframe({
   border: 'none'
 })
 
-export type VideoRendererProps = PluginEditorProps<typeof videoState> & {
+export type VideoRendererProps = DeprecatedPluginEditorProps<
+  typeof videoState
+> & {
   disableCursorEvents?: boolean
 }
 

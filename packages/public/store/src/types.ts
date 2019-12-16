@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { Plugin } from '@edtr-io/internal__plugin'
+import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/internal__plugin'
 import { Store as ReduxStore } from 'redux'
 
 import { Action, Reversible } from './actions'
@@ -16,7 +16,7 @@ export type Store = ReduxStore<State, Action>
 export interface ScopedState {
   plugins: {
     defaultPlugin: string
-    plugins: Record<string, Plugin>
+    plugins: Record<string, EditorPlugin | DeprecatedPlugin>
   }
   documents: Record<string, DocumentState>
   focus: string | null

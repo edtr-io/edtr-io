@@ -1,14 +1,14 @@
-import { child, object, Plugin, string } from '@edtr-io/plugin'
+import { child, object, DeprecatedPlugin, string } from '@edtr-io/plugin'
 import { createIcon, faCaretSquareDown } from '@edtr-io/ui'
 
 import { SpoilerEditor } from './editor'
 
 export const spoilerState = object({
   title: string(''),
-  content: child('rows')
+  content: child({ plugin: 'rows' })
 })
 
-export const spoilerPlugin: Plugin<typeof spoilerState> = {
+export const spoilerPlugin: DeprecatedPlugin<typeof spoilerState> = {
   Component: SpoilerEditor,
   state: spoilerState,
   icon: createIcon(faCaretSquareDown),

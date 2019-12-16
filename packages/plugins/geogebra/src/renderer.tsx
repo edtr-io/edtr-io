@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import axios from 'axios'
 import { debounce } from 'lodash'
@@ -154,6 +154,8 @@ export function GeogebraRenderer({
   }
 }
 
-export type GeogebraRendererProps = PluginEditorProps<typeof geogebraState> & {
+export type GeogebraRendererProps = DeprecatedPluginEditorProps<
+  typeof geogebraState
+> & {
   disableCursorEvents?: boolean
 }

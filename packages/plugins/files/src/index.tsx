@@ -1,4 +1,4 @@
-import { list, Plugin, upload } from '@edtr-io/plugin'
+import { list, DeprecatedPlugin, upload } from '@edtr-io/plugin'
 import { createIcon, faFileAlt } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -16,7 +16,7 @@ export const fileState = list(
 
 export function createFilePlugin(
   config: UploadFileConfig
-): Plugin<typeof fileState> {
+): DeprecatedPlugin<typeof fileState> {
   const FilesEditor = createFilesEditor(config.upload)
   return {
     //eslint-disable-next-line react/display-name

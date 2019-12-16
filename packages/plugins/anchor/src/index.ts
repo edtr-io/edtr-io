@@ -1,11 +1,11 @@
-import { Plugin, string } from '@edtr-io/plugin'
+import { DeprecatedPlugin, string } from '@edtr-io/plugin'
 import { createIcon, faAnchor } from '@edtr-io/ui'
 
 import { AnchorEditor } from './editor'
 
 export const anchorState = string()
 
-export const anchorPlugin: Plugin<typeof anchorState> = {
+export const anchorPlugin: DeprecatedPlugin<typeof anchorState> = {
   Component: AnchorEditor,
   state: anchorState,
   title: 'Anker',

@@ -1,13 +1,13 @@
 import { OverlayInput } from '@edtr-io/core'
 import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
 import { videoState } from '.'
 import { VideoRenderer } from './renderer'
 
 export const VideoEditor = (
-  props: PluginEditorProps<typeof videoState> & {
+  props: DeprecatedPluginEditorProps<typeof videoState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) => {

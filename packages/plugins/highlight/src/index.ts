@@ -1,4 +1,4 @@
-import { boolean, object, Plugin, string } from '@edtr-io/plugin'
+import { boolean, object, DeprecatedPlugin, string } from '@edtr-io/plugin'
 import { createIcon, faCode } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -11,13 +11,13 @@ export const highlightState = object({
   lineNumbers: boolean(false)
 })
 
-export const highlightPlugin: Plugin<
+export const highlightPlugin: DeprecatedPlugin<
   typeof highlightState
 > = createHighlightPlugin({ renderer: HighlightRenderer })
 
 export function createHighlightPlugin(
   config: HighlightPluginConfig
-): Plugin<typeof highlightState> {
+): DeprecatedPlugin<typeof highlightState> {
   return {
     Component: createHighlightEditor(config),
     state: highlightState,

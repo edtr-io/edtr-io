@@ -1,14 +1,14 @@
-import { child, object, Plugin, string } from '@edtr-io/plugin'
+import { child, object, DeprecatedPlugin, string } from '@edtr-io/plugin'
 import { createIcon, faLightbulb } from '@edtr-io/ui'
 
 import { HintEditor } from './editor'
 
 export const hintState = object({
   title: string(''),
-  content: child('rows')
+  content: child({ plugin: 'rows' })
 })
 
-export const hintPlugin: Plugin<typeof hintState> = {
+export const hintPlugin: DeprecatedPlugin<typeof hintState> = {
   Component: HintEditor,
   state: hintState,
   title: 'Hinweis',

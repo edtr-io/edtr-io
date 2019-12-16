@@ -70,6 +70,7 @@ export class ErrorBoundary extends React.Component<{ undo: () => void }> {
 export interface DocumentProps {
   id: string
   pluginProps?: {
+    config?: {}
     insert?: DocumentEditorProps['insert']
     remove?: DocumentEditorProps['remove']
     renderSettings?: DocumentEditorProps['renderSettings']

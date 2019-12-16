@@ -4,7 +4,7 @@ import {
   useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
 import { Icon, faPlus, faTimes, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -53,7 +53,7 @@ const AddButtonWrapper = styled.div({
 })
 
 export function EquationsEditor(
-  props: PluginEditorProps<typeof equationsState>
+  props: DeprecatedPluginEditorProps<typeof equationsState>
 ) {
   const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())

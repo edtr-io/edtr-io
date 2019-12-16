@@ -5,7 +5,7 @@ import {
   PreviewOverlay,
   styled
 } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -30,7 +30,7 @@ const PlaceholderWrapper = styled.div({
 })
 
 export const SerloInjectionEditor = (
-  props: PluginEditorProps<typeof serloInjectionState> & {
+  props: DeprecatedPluginEditorProps<typeof serloInjectionState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) => {

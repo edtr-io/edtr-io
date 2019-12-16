@@ -1,10 +1,10 @@
-import { child, Plugin } from '@edtr-io/plugin'
+import { child, DeprecatedPlugin } from '@edtr-io/plugin'
 
 import { ImportantStatementRenderer } from './renderer'
 
 export const importantStatementState = child()
 
-export const importantStatementPlugin: Plugin<
+export const importantStatementPlugin: DeprecatedPlugin<
   typeof importantStatementState
 > = {
   Component: ImportantStatementRenderer,

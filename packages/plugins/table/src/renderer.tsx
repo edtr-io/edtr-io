@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { Icon, faTable, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -25,7 +25,9 @@ const TableContainer = styled.div({
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export function createTableRenderer(config: TablePluginConfig) {
-  return function TableRenderer(props: PluginEditorProps<typeof tableState>) {
+  return function TableRenderer(
+    props: DeprecatedPluginEditorProps<typeof tableState>
+  ) {
     const { editable, state } = props
 
     const renderedMarkdown = config.renderMarkdown(state.value)

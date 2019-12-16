@@ -2,15 +2,10 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { Plugin, PluginEditorProps } from '@edtr-io/internal__plugin'
-import {
-  StateType,
-  StateUpdater,
-  StateExecutor
-} from '@edtr-io/internal__plugin-state'
+import { EditorPlugin } from '@edtr-io/internal__plugin'
+import { StateUpdater, StateExecutor } from '@edtr-io/internal__plugin-state'
 import {
   change,
-  DocumentState,
   focus,
   focusNext,
   focusPrevious,
@@ -19,7 +14,8 @@ import {
   isDocumentEmpty,
   isFocused
 } from '@edtr-io/store'
-import { styled } from '@edtr-io/ui'
+import { styled, useTheme } from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys, IgnoreKeys } from 'react-hotkeys'
@@ -115,6 +111,8 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     [settingsRef]
   )
 
+  const theme = useTheme()
+
   return React.useMemo(() => {
     if (!document) return null
     if (!plugin) {
@@ -122,6 +120,33 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       console.log('Plugin does not exist')
       return null
     }
+
+    const pluginWithConfig = plugin as EditorPlugin
+    const defaultConfig =
+      typeof pluginWithConfig.config === 'function'
+        ? pluginWithConfig.config(theme)
+        : pluginWithConfig.config
+    const overrideConfig = (pluginProps && pluginProps.config) || {}
+    const config = R.mergeDeepRight(defaultConfig, overrideConfig)
+
+    const onChange = (
+      initial: StateUpdater<unknown>,
+      executor?: StateExecutor<StateUpdater<unknown>>
+    ) => {
+      dispatch(
+        change({
+          id,
+          state: {
+            initial,
+            executor
+          }
+        })
+      )
+    }
+    const state = plugin.state.init(document.state, onChange, {
+      ...pluginProps,
+      name: document.plugin
+    })
 
     return (
       <HotKeys
@@ -184,16 +209,16 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             settingsRef={settingsRef}
             PluginToolbar={PluginToolbar}
           >
+            {/* This should be fine as soon as we remove DeprecatedPlugin */}
             <plugin.Component
+              {...pluginProps}
               renderIntoSettings={renderIntoSettings}
-              {...getPluginEditorProps({
-                id,
-                document,
-                dispatch,
-                focused,
-                plugin,
-                pluginProps
-              })}
+              id={id}
+              editable
+              focused={focused}
+              name={document.plugin}
+              config={config}
+              state={state}
               defaultFocusRef={defaultFocusRef}
             />
           </DocumentEditor>
@@ -211,49 +236,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     renderIntoSettings,
     id,
     dispatch,
-    handleKeyDown
+    handleKeyDown,
+    theme
   ])
-}
-
-function getPluginEditorProps<S extends StateType>({
-  id,
-  document,
-  focused,
-  plugin,
-  dispatch,
-  pluginProps
-}: {
-  id: string
-  document: DocumentState
-  focused: boolean
-  plugin: Plugin
-  dispatch: ReturnType<typeof useScopedDispatch>
-  pluginProps: DocumentProps['pluginProps']
-}): Omit<PluginEditorProps, 'defaultFocusRef' | 'renderIntoSettings'> {
-  const onChange = (
-    initial: StateUpdater<unknown>,
-    executor?: StateExecutor<StateUpdater<unknown>>
-  ) => {
-    dispatch(
-      change({
-        id,
-        state: {
-          initial,
-          executor
-        }
-      })
-    )
-  }
-  const state = plugin.state.init(document.state, onChange, {
-    ...pluginProps,
-    name: document.plugin
-  })
-  return {
-    ...pluginProps,
-    id,
-    editable: true,
-    focused,
-    name: document.plugin,
-    state
-  }
 }

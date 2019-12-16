@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -88,6 +88,8 @@ interface ScMcExerciseRendererState {
   mode: Mode
 }
 
-export type ScMcRendererProps = PluginEditorProps<typeof scMcExerciseState> & {
+export type ScMcRendererProps = DeprecatedPluginEditorProps<
+  typeof scMcExerciseState
+> & {
   isEmpty: (id: string) => boolean
 }

@@ -1,4 +1,7 @@
-import { StateTypeReturnType, PluginEditorProps } from '@edtr-io/plugin'
+import {
+  StateTypeReturnType,
+  DeprecatedPluginEditorProps
+} from '@edtr-io/plugin'
 import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -13,7 +16,7 @@ enum Phase {
 }
 
 export class ScMcAnswersRenderer extends React.Component<
-  PluginEditorProps<typeof scMcExerciseState> & {
+  DeprecatedPluginEditorProps<typeof scMcExerciseState> & {
     showAnswer: (
       answer: StateTypeReturnType<typeof AnswerProps>,
       index: number,

@@ -1,14 +1,14 @@
-import { child, object, Plugin, string } from '@edtr-io/plugin'
+import { child, object, DeprecatedPlugin, string } from '@edtr-io/plugin'
 import { createIcon, faCheckSquare } from '@edtr-io/ui'
 
 import { SolutionEditor } from './editor'
 
 export const solutionState = object({
   title: string(''),
-  content: child('rows')
+  content: child({ plugin: 'rows' })
 })
 
-export const solutionPlugin: Plugin<typeof solutionState> = {
+export const solutionPlugin: DeprecatedPlugin<typeof solutionState> = {
   Component: SolutionEditor,
   state: solutionState,
   icon: createIcon(faCheckSquare),

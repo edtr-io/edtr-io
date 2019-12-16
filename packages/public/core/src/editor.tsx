@@ -4,7 +4,7 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor'
 import { createDefaultPluginToolbar } from '@edtr-io/default-plugin-toolbar'
-import { Plugin } from '@edtr-io/internal__plugin'
+import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   initRoot,
   undo,
@@ -267,7 +267,7 @@ export function InnerDocument<K extends string = string>({
 export interface EditorProps<K extends string = string> {
   omitDragDropContext?: boolean
   children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
-  plugins: Record<K, Plugin>
+  plugins: Record<K, EditorPlugin | DeprecatedPlugin>
   defaultPlugin: K
   initialState?: {
     plugin: string

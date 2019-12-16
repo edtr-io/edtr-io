@@ -1,6 +1,6 @@
 import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
 import { Resizable } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import {
   hasFocusedDescendant,
   isFocused,
@@ -66,7 +66,7 @@ export function createMultimediaExplanationEditor(
   multimediaPlugins: PluginRegistry
 ) {
   return function MultimediaExplanationEditor(
-    props: PluginEditorProps<MultimediaExplanationState>
+    props: DeprecatedPluginEditorProps<MultimediaExplanationState>
   ) {
     function handleIllustratingChange(e: React.ChangeEvent<HTMLSelectElement>) {
       props.state.illustrating.set(e.target.value === 'illustrating')

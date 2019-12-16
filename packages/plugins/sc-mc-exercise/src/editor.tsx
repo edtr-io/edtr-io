@@ -4,7 +4,7 @@ import {
   InteractiveAnswer,
   AddButton
 } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -13,7 +13,7 @@ import { scMcExerciseState } from '.'
 import { ScMcExerciseRenderer } from './renderer'
 
 export function ScMcExerciseEditor(
-  props: PluginEditorProps<typeof scMcExerciseState> & {
+  props: DeprecatedPluginEditorProps<typeof scMcExerciseState> & {
     renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
   }
 ) {

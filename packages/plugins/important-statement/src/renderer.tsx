@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
@@ -10,7 +10,7 @@ const Box = styled.div({
 })
 
 export function ImportantStatementRenderer(
-  props: PluginEditorProps<typeof importantStatementState>
+  props: DeprecatedPluginEditorProps<typeof importantStatementState>
 ) {
   return <Box>{props.state.render()}</Box>
 }

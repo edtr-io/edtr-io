@@ -3,7 +3,7 @@ import {
   EditorInput,
   PrimarySettings
 } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -30,7 +30,9 @@ const CheckboxContainer = styled.div({
 })
 
 export const createHighlightEditor = (config: HighlightPluginConfig) =>
-  function HighlightEditor(props: PluginEditorProps<typeof highlightState>) {
+  function HighlightEditor(
+    props: DeprecatedPluginEditorProps<typeof highlightState>
+  ) {
     const Renderer = config.renderer
 
     const { state, focused, editable } = props

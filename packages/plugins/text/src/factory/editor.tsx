@@ -1,5 +1,5 @@
 import { useScopedDispatch, useScopedSelector } from '@edtr-io/core'
-import { PluginEditorProps, Plugin } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps, DeprecatedPlugin } from '@edtr-io/plugin'
 import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
@@ -526,7 +526,7 @@ function createDocumentFromNodes(nodes: Node[]) {
   }
 }
 
-export type SlateEditorProps = PluginEditorProps<typeof textState> &
+export type SlateEditorProps = DeprecatedPluginEditorProps<typeof textState> &
   SlateEditorAdditionalProps
 
 export interface SlateEditorAdditionalProps {
@@ -543,5 +543,5 @@ interface SlateClosure extends SlateEditorAdditionalProps {
   focusPrevious: () => void
   focusNext: () => void
   availabePlugins: PluginRegistry
-  plugins: Record<string, Plugin>
+  plugins: Record<string, DeprecatedPlugin>
 }

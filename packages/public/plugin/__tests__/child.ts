@@ -1,4 +1,9 @@
-import { child, StoreDeserializeHelpers } from '../src'
+import { SubDocument } from '@edtr-io/core'
+import { render } from '@testing-library/react'
+
+import { child, PluginProps, StoreDeserializeHelpers } from '../src'
+
+jest.mock('@edtr-io/core/document')
 
 describe('Child', () => {
   let helpers: StoreDeserializeHelpers<string, number>
@@ -24,7 +29,7 @@ describe('Child', () => {
   })
 
   test('given plugin, initial state', () => {
-    const state = child('counter')
+    const state = child({ plugin: 'counter' })
 
     // Store
     const id = state.createInitialState(helpers)
@@ -39,7 +44,7 @@ describe('Child', () => {
   })
 
   test('given plugin, given state', () => {
-    const state = child('counter', 3)
+    const state = child({ plugin: 'counter', initialState: 3 })
 
     // Store
     const id = state.createInitialState(helpers)
@@ -107,5 +112,63 @@ describe('Child', () => {
   test('get focusable children', () => {
     const state = child()
     expect(state.getFocusableChildren('foo')).toEqual([{ id: 'foo' }])
+  })
+
+  test('plugin config', () => {
+    const state = child()
+    const id = 'foo'
+    const childValue = state.init(id, () => {})
+    let pluginProps: PluginProps = {}
+    // @ts-ignore
+    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
+      pluginProps = props.pluginProps
+      return null
+    })
+    // @ts-ignore
+    render(childValue.render())
+    expect(pluginProps.config).toEqual({})
+  })
+
+  test('plugin config, overridden in child', () => {
+    const state = child({ config: { foo: 'bar' } })
+    const id = 'foo'
+    const childValue = state.init(id, () => {})
+    let pluginProps: PluginProps = {}
+    // @ts-ignore
+    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
+      pluginProps = props.pluginProps
+      return null
+    })
+    // @ts-ignore
+    render(childValue.render())
+    expect(pluginProps.config).toEqual({ foo: 'bar' })
+  })
+
+  test('plugin config, overridden in render', () => {
+    const state = child()
+    const childValue = state.init('foo', () => {})
+    let pluginProps: PluginProps = {}
+    // @ts-ignore
+    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
+      pluginProps = props.pluginProps
+      return null
+    })
+    // @ts-ignore
+    render(childValue.render({ config: { foo: 'bar' } }))
+    expect(pluginProps.config).toEqual({ foo: 'bar' })
+  })
+
+  test('plugin config, overridden in both child and render', () => {
+    const state = child({ config: { foo: 'foo' } })
+    const childValue = state.init('foo', () => {})
+    let pluginProps: PluginProps = {}
+    // @ts-ignore
+    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
+      pluginProps = props.pluginProps
+      return null
+    })
+    // @ts-ignore
+    render(childValue.render({ config: { foo: 'bar' } }))
+    expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
 })

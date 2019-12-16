@@ -1,4 +1,4 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
+import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { EditorTextarea } from '@edtr-io/renderer-ui'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
@@ -12,7 +12,9 @@ const Form = styled.form({
 
 export const createTableEditor = (config: TablePluginConfig) => {
   const TableRenderer = createTableRenderer(config)
-  return function TableEditor(props: PluginEditorProps<typeof tableState>) {
+  return function TableEditor(
+    props: DeprecatedPluginEditorProps<typeof tableState>
+  ) {
     const { focused, state } = props
     return (
       <div>

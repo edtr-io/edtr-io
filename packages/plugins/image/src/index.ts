@@ -2,7 +2,7 @@ import {
   isTempFile,
   number,
   object,
-  Plugin,
+  DeprecatedPlugin,
   string,
   upload,
   UploadHandler,
@@ -22,7 +22,7 @@ export const imageState = object({
 })
 export const createImagePlugin = (
   config: ImagePluginConfig
-): Plugin<typeof imageState> => {
+): DeprecatedPlugin<typeof imageState> => {
   return {
     Component: createImageEditor(config),
     state: imageState,

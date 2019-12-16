@@ -1,4 +1,9 @@
-import { child, list, Plugin, PluginEditorProps } from '@edtr-io/plugin'
+import {
+  child,
+  list,
+  DeprecatedPlugin,
+  DeprecatedPluginEditorProps
+} from '@edtr-io/plugin'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -9,7 +14,9 @@ export const rowState = child()
 export const rowsState = list(rowState, 1)
 
 function createRowsComponent(plugins?: PluginRegistry) {
-  return function RowsComponent(props: PluginEditorProps<typeof rowsState>) {
+  return function RowsComponent(
+    props: DeprecatedPluginEditorProps<typeof rowsState>
+  ) {
     return props.editable ? (
       <RowsEditor {...props} plugins={plugins} />
     ) : (
@@ -20,7 +27,7 @@ function createRowsComponent(plugins?: PluginRegistry) {
 
 export function createRowsPlugin(
   plugins?: PluginRegistry
-): Plugin<typeof rowsState> {
+): DeprecatedPlugin<typeof rowsState> {
   return {
     Component: createRowsComponent(plugins),
     state: rowsState

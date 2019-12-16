@@ -1,4 +1,4 @@
-import { isTempFile, PluginEditorProps } from '@edtr-io/plugin'
+import { isTempFile, DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -88,6 +88,8 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
   }
 }
 
-export type ImageRendererProps = PluginEditorProps<typeof imageState> & {
+export type ImageRendererProps = DeprecatedPluginEditorProps<
+  typeof imageState
+> & {
   disableMouseEvents?: boolean
 }

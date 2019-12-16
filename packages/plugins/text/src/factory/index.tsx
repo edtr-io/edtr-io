@@ -1,4 +1,4 @@
-import { scalar, Plugin } from '@edtr-io/plugin'
+import { scalar, DeprecatedPlugin } from '@edtr-io/plugin'
 import { createIcon, faParagraph } from '@edtr-io/ui'
 import { Value, ValueJSON } from 'slate'
 
@@ -10,7 +10,7 @@ export const textState = scalar<ValueJSON>(emptyDocument)
 
 export const createTextPlugin = (
   options: TextPluginOptions
-): Plugin<typeof textState, SlateEditorAdditionalProps> => {
+): DeprecatedPlugin<typeof textState, SlateEditorAdditionalProps> => {
   return {
     Component: createTextEditor(options),
     state: textState,

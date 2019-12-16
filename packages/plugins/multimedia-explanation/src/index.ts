@@ -1,4 +1,10 @@
-import { boolean, child, number, object, Plugin } from '@edtr-io/plugin'
+import {
+  boolean,
+  child,
+  number,
+  object,
+  DeprecatedPlugin
+} from '@edtr-io/plugin'
 import { createIcon, faPhotoVideo } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -6,8 +12,8 @@ import { createMultimediaExplanationEditor } from './editor'
 
 export const multimediaExplanationState = (multimediaPlugins: PluginRegistry) =>
   object({
-    explanation: child('rows'),
-    multimedia: child(multimediaPlugins[0].name),
+    explanation: child({ plugin: 'rows' }),
+    multimedia: child({ plugin: multimediaPlugins[0].name }),
     illustrating: boolean(true),
     width: number(50) //percent
   })
@@ -18,7 +24,7 @@ export type MultimediaExplanationState = ReturnType<
 
 export const createMultimediaExplanationPlugin = (
   multimediaPlugins: PluginRegistry
-): Plugin<MultimediaExplanationState> => {
+): DeprecatedPlugin<MultimediaExplanationState> => {
   return {
     Component: createMultimediaExplanationEditor(multimediaPlugins),
     state: multimediaExplanationState(multimediaPlugins),

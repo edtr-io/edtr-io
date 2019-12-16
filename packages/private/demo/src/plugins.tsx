@@ -1,4 +1,4 @@
-import { Plugin } from '@edtr-io/plugin'
+import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/plugin'
 import { anchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { equationsPlugin } from '@edtr-io/plugin-equations'
@@ -34,7 +34,7 @@ const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
   })
 }
 
-export const plugins: Record<string, Plugin> = {
+export const plugins: Record<string, EditorPlugin | DeprecatedPlugin> = {
   // Must be placed before files for onPaste
   image: imagePlugin,
   anchor: anchorPlugin,
