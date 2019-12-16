@@ -3,7 +3,7 @@ import {
   list,
   StoreDeserializeHelpers,
   string,
-  StateUpdater
+  StateUpdater, object, StateExecutor
 } from '../src'
 
 describe('list', () => {
@@ -207,5 +207,38 @@ describe('list', () => {
         value: 'bar'
       }
     ])
+  })
+
+
+
+  test('inner change correctly dispatches changes', () => {
+    const state = list(list(child(),0),1)
+    const initialState = state.createInitialState(helpers)
+    expect(helpers.createDocument).not.toHaveBeenCalled()
+
+    let store = initialState
+    const onChange = (
+      initial: StateUpdater<typeof initialState>,
+      executor?: StateExecutor<StateUpdater<typeof initialState>>
+    ) => {
+      store = initial(store, helpers)
+      if (executor) {
+        executor(
+          resolveUpdater => {
+            store = resolveUpdater(store, helpers)
+          },
+          rejectUpdater => {
+            store = rejectUpdater(store, helpers)
+          },
+          nextUpdater => {
+            store = nextUpdater(store, helpers)
+          }
+        )
+      }
+    }
+
+    const listValue = state.init(initialState, onChange)
+    listValue[0].insert()
+    expect(helpers.createDocument).toHaveBeenCalledTimes(1)
   })
 })
