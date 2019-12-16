@@ -4,7 +4,7 @@ import { Controls, ControlButton, DragHandler } from './styled-elements'
 import * as React from 'react'
 import {
   Icon,
-  faTimes,
+  faTrashAlt,
   faEllipsisV,
   faLevelDownAlt,
   faLevelUpAlt
@@ -29,7 +29,7 @@ export const renderControls = (
           }
         }}
       >
-        <Icon icon={faTimes} size={'xs'} />
+        <Icon icon={faTrashAlt} size={'xs'} />
       </ControlButton>
 
       <DragHandler

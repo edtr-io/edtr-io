@@ -39,6 +39,9 @@ export function Icon(props: FontAwesomeIconProps) {
   return <FontAwesomeIcon {...allowedProps} />
 }
 
+export { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
+export { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
+export { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 export {
   faFileDownload
 } from '@fortawesome/free-solid-svg-icons/faFileDownload'
@@ -54,7 +57,6 @@ export { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo'
 export {
   faFilePowerpoint
 } from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'
-
 export { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 export { faCut } from '@fortawesome/free-solid-svg-icons/faCut'
 export { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
@@ -70,7 +72,9 @@ export { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
 export { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
 export { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
 export { faPencilAlt } from '@fortawesome/free-solid-svg-icons/faPencilAlt'
+export { faPencilRuler } from '@fortawesome/free-solid-svg-icons/faPencilRuler'
 export { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+export { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus'
 export { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner'
 export { faTable } from '@fortawesome/free-solid-svg-icons/faTable'
 export { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'

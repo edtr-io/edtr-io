@@ -25,10 +25,11 @@ export function SolutionStepsRenderer(
   props: StatefulPluginEditorProps<typeof solutionStepsState>
 ) {
   const { state } = props
-  const { introduction, solutionSteps } = state
+  const { introduction, strategy, solutionSteps, additionals } = state
   return (
     <React.Fragment>
       {introduction.render()}
+      {strategy.render()}
       <BigFlex>
         {solutionSteps.map(solutionStep => {
           return (
@@ -40,6 +41,7 @@ export function SolutionStepsRenderer(
           )
         })}
       </BigFlex>
+      {additionals.render()}
     </React.Fragment>
   )
 }

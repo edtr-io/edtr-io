@@ -2,7 +2,7 @@ import { useScopedSelector } from '@edtr-io/core'
 import { AddButton, Guideline } from '@edtr-io/editor-ui'
 import { StatefulPluginEditorProps } from '@edtr-io/plugin'
 import { isFocused } from '@edtr-io/store'
-import { Icon, faTimes } from '@edtr-io/ui'
+import { Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -16,15 +16,16 @@ import {
   addAdditionalsLabel,
   additionalsGuideline
 } from './guideline-texts'
-import { useHasFocusSelector } from './has-focus-selector'
 import { AddButtonsComponent } from './helper/add-buttons'
 import { dragContent } from './helper/drag-content'
 import { findPairs } from './helper/find-pairs'
+import { useHasFocusSelector } from './helper/has-focus-selector'
 import {
   Controls,
   ControlButton,
   Container,
-  Content
+  Content,
+  SolutionPluginTypes
 } from './helper/styled-elements'
 import { SolutionStepsRenderer } from './renderer'
 import { renderControls } from './helper/render-controls'
@@ -47,7 +48,9 @@ export function SolutionStepsEditor(
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
         <Guideline guideline={introductionGuideline}>
-          {state.introduction.render()}
+          <Content type={SolutionPluginTypes.introduction}>
+            {state.introduction.render()}
+          </Content>
         </Guideline>
         {!state.hasStrategy.value ? (
           <AddButton
@@ -63,7 +66,7 @@ export function SolutionStepsEditor(
       {state.hasStrategy.value ? (
         <div style={{ position: 'relative' }}>
           <Guideline guideline={strategyGuideline}>
-            <Content type={explanation} isHalf={false}>
+            <Content type={SolutionPluginTypes.strategy}>
               {state.strategy.render()}
             </Content>
           </Guideline>
@@ -74,12 +77,12 @@ export function SolutionStepsEditor(
                 state.strategy.replace('rows')
               }}
             >
-              <Icon icon={faTimes} />
+              <Icon icon={faTrashAlt} />
             </ControlButton>
           </Controls>
         </div>
       ) : null}
-      {introductionFocused || strategyFocused || solutionSteps.length ? (
+      {introductionFocused || strategyFocused ? (
         <AddButtonsComponent {...props} index={-1} id="" />
       ) : null}
 
@@ -108,7 +111,11 @@ export function SolutionStepsEditor(
                         <React.Fragment key={solutionStepLeft.content.id}>
                           <Container {...provided.draggableProps}>
                             <Content
-                              type={solutionStepLeft.type.value}
+                              type={
+                                solutionStepLeft.type.value === explanation
+                                  ? SolutionPluginTypes.explanation
+                                  : SolutionPluginTypes.step
+                              }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
                               <Guideline
@@ -131,7 +138,11 @@ export function SolutionStepsEditor(
                             </Content>
                             {solutionStepRight ? (
                               <Content
-                                type={solutionStepRight.type.value}
+                                type={
+                                  solutionStepRight.type.value === explanation
+                                    ? SolutionPluginTypes.explanation
+                                    : SolutionPluginTypes.step
+                                }
                                 isHalf={solutionStepRight.isHalf.value}
                               >
                                 {solutionStepRight.content.render()}
@@ -171,7 +182,7 @@ export function SolutionStepsEditor(
               {state.hasAdditionals.value ? (
                 <div style={{ position: 'relative' }}>
                   <Guideline guideline={additionalsGuideline}>
-                    <Content type={explanation} isHalf={false}>
+                    <Content type={SolutionPluginTypes.additionals}>
                       {state.additionals.render()}
                     </Content>
                   </Guideline>
@@ -182,7 +193,7 @@ export function SolutionStepsEditor(
                         state.additionals.replace('rows')
                       }}
                     >
-                      <Icon icon={faTimes} />
+                      <Icon icon={faTrashAlt} />
                     </ControlButton>
                   </Controls>
                 </div>
