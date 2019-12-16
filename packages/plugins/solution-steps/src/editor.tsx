@@ -49,7 +49,7 @@ export function SolutionStepsEditor(
         <Guideline guideline={introductionGuideline}>
           {state.introduction.render()}
         </Guideline>
-        {introductionFocused && !state.hasStrategy.value ? (
+        {!state.hasStrategy.value ? (
           <AddButton
             title={addStrategyLabel}
             onClick={() => {
@@ -79,7 +79,7 @@ export function SolutionStepsEditor(
           </Controls>
         </div>
       ) : null}
-      {introductionFocused || strategyFocused ? (
+      {introductionFocused || strategyFocused || solutionSteps.length ? (
         <AddButtonsComponent {...props} index={-1} id="" />
       ) : null}
 
@@ -158,8 +158,7 @@ export function SolutionStepsEditor(
                   </Draggable>
                 )
               })}
-              {solutionSteps.length === 0 ||
-              state.hasAdditionals.value ? null : (
+              {state.hasAdditionals.value ? null : (
                 <AddButton
                   title={addAdditionalsLabel}
                   onClick={() => {
