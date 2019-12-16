@@ -41,7 +41,6 @@ export function SolutionStepsEditor(
     isFocused(state.introduction.id)
   )
   const strategyFocused = useHasFocusSelector(state.strategy.id)
-  const additionalsFocused = useHasFocusSelector(state.additionals.id)
 
   //replace props.focused|| ... with selector
   return editable && pluginFocused ? (
@@ -94,6 +93,10 @@ export function SolutionStepsEditor(
                 const solutionStepRight = row.val2
                   ? row.val2.content
                   : undefined
+                const solutionStepIndexLeft = row.val1.solutionStepIndex
+                const solutionStepIndexRight = row.val2
+                  ? row.val2.solutionStepIndex
+                  : -1
                 return (
                   <Draggable
                     key={index}
@@ -143,7 +146,11 @@ export function SolutionStepsEditor(
                           <AddButtonsComponent
                             {...props}
                             id={solutionStepLeft.content.id}
-                            index={index}
+                            index={
+                              solutionStepRight
+                                ? solutionStepIndexRight
+                                : solutionStepIndexLeft
+                            }
                           />
                         </React.Fragment>
                       )
