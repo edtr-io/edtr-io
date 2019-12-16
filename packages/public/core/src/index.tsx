@@ -15,6 +15,10 @@ export {
   useScopedSelector,
   useScopedStore
 } from './store'
-export { PreferenceContext, setDefaultPreference } from './contexts'
+export {
+  PreferenceContext,
+  setDefaultPreference,
+  DocumentEditorContext
+} from './contexts'
 export * from './plugin-toolbar'
 export { HotKeys, IgnoreKeys, GlobalHotKeys } from 'react-hotkeys'
