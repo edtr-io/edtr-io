@@ -3,7 +3,7 @@
 import { child, list, number, object } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin } from '@edtr-io/plugin-image'
@@ -38,7 +38,7 @@ const imagePlugin = createImagePlugin({
 export const plugins = {
   anchor: createAnchorPlugin(),
   blockquote: createBlockquotePlugin(),
-  geogebra: geogebraPlugin,
+  geogebra: createGeogebraPlugin(),
   highlight: highlightPlugin,
   hint: hintPlugin,
   image: imagePlugin,
@@ -55,7 +55,6 @@ export const plugins = {
       name: 'video'
     },
     {
-      ...geogebraPlugin,
       name: 'geogebra'
     }
   ]),

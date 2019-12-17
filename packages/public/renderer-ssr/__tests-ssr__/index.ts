@@ -2,7 +2,7 @@ import { plugins } from '@edtr-io/internal__fixtures'
 import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
 import { AnchorState } from '@edtr-io/plugin-anchor'
 import { BlockquoteState } from '@edtr-io/plugin-blockquote'
-import { geogebraState } from '@edtr-io/plugin-geogebra'
+import { GeogebraState } from '@edtr-io/plugin-geogebra'
 import { highlightState } from '@edtr-io/plugin-highlight'
 import { hintState } from '@edtr-io/plugin-hint'
 import { imageState } from '@edtr-io/plugin-image'
@@ -51,7 +51,7 @@ describe('Renderer SSR', () => {
   })
 
   test('GeoGebra plugin', () => {
-    const state: Document<typeof geogebraState> = {
+    const state: Document<GeogebraState> = {
       plugin: 'geogebra',
       state: 'foo'
     }

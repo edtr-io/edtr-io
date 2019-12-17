@@ -7,7 +7,7 @@ import {
   parseFileType,
   UploadedFile
 } from '@edtr-io/plugin-files'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
+import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
@@ -45,7 +45,7 @@ export const plugins: Record<
   blockquote: createBlockquotePlugin(),
   equations: createEquationsPlugin(),
   files: createFilesPlugin({ upload: mockUploadFileHandler }),
-  geogebra: geogebraPlugin,
+  geogebra: createGeogebraPlugin(),
   highlight: highlightPlugin,
   hint: hintPlugin,
   inputExercise: inputExercisePlugin,
@@ -60,7 +60,6 @@ export const plugins: Record<
       name: 'video'
     },
     {
-      ...geogebraPlugin,
       name: 'geogebra'
     }
   ]),
