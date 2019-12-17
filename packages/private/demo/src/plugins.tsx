@@ -1,6 +1,6 @@
 import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { equationsPlugin } from '@edtr-io/plugin-equations'
 import {
   createFilePlugin,
@@ -38,7 +38,7 @@ export const plugins: Record<string, EditorPlugin | DeprecatedPlugin> = {
   // Must be placed before files for onPaste
   image: imagePlugin,
   anchor: createAnchorPlugin(),
-  blockquote: blockquotePlugin,
+  blockquote: createBlockquotePlugin(),
   equations: equationsPlugin,
   files: createFilePlugin({ upload: mockUploadFileHandler }),
   geogebra: geogebraPlugin,

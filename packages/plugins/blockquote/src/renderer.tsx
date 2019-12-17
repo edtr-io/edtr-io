@@ -1,10 +1,10 @@
-import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
+import { EditorPluginProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { blockquoteState } from '.'
+import { BlockquotePluginState } from '.'
 
 export function BlockquoteRenderer(
-  props: DeprecatedPluginEditorProps<typeof blockquoteState>
+  props: EditorPluginProps<BlockquotePluginState>
 ) {
   return <blockquote>{props.state.render()}</blockquote>
 }

@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { child, list, number, object } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
@@ -37,7 +37,7 @@ const imagePlugin = createImagePlugin({
 })
 export const plugins = {
   anchor: createAnchorPlugin(),
-  blockquote: blockquotePlugin,
+  blockquote: createBlockquotePlugin(),
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
   hint: hintPlugin,

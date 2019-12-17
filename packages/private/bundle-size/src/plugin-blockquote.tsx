@@ -1,1 +1,1 @@
-export { blockquotePlugin } from '@edtr-io/plugin-blockquote'
+export { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'

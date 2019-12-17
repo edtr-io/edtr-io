@@ -1,7 +1,7 @@
 import { plugins } from '@edtr-io/internal__fixtures'
 import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
 import { anchorState } from '@edtr-io/plugin-anchor'
-import { blockquoteState } from '@edtr-io/plugin-blockquote'
+import { BlockquotePluginState } from '@edtr-io/plugin-blockquote'
 import { geogebraState } from '@edtr-io/plugin-geogebra'
 import { highlightState } from '@edtr-io/plugin-highlight'
 import { hintState } from '@edtr-io/plugin-hint'
@@ -36,7 +36,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Blockquote plugin', () => {
-    const state: Document<typeof blockquoteState> = {
+    const state: Document<BlockquotePluginState> = {
       plugin: 'blockquote',
       state: {
         plugin: 'anchor',

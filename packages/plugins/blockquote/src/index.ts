@@ -1,14 +1,17 @@
-import { child, DeprecatedPlugin } from '@edtr-io/plugin'
-import { createIcon, faQuoteRight } from '@edtr-io/ui'
+import { child, EditorPlugin } from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
 
-export const blockquoteState = child()
+export type BlockquotePluginState = ReturnType<typeof child>
 
-export const blockquotePlugin: DeprecatedPlugin<typeof blockquoteState> = {
-  Component: BlockquoteRenderer,
-  state: blockquoteState,
-  title: 'Zitat',
-  description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
-  icon: createIcon(faQuoteRight)
+export function createBlockquotePlugin({
+  content = []
+}: { content?: Parameters<typeof child> } = {}): EditorPlugin<
+  BlockquotePluginState
+> {
+  return {
+    Component: BlockquoteRenderer,
+    config: {},
+    state: child(...content)
+  }
 }
