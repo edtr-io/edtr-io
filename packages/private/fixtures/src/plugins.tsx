@@ -15,7 +15,7 @@ import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin } from '@edtr-io/plugin-image'
 import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
-import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
@@ -55,7 +55,7 @@ export const plugins: Record<
   image: imagePlugin,
   importantStatement: createImportantStatementPlugin(),
   injection: serloInjectionPlugin,
-  inputExercise: inputExercisePlugin,
+  inputExercise: createInputExercisePlugin(),
   multimediaExplanation: createMultimediaExplanationPlugin([
     {
       ...imagePlugin,

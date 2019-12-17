@@ -7,7 +7,7 @@ import { HighlightState } from '@edtr-io/plugin-highlight'
 import { HintState } from '@edtr-io/plugin-hint'
 import { ImageState } from '@edtr-io/plugin-image'
 import { ImportantStatementState } from '@edtr-io/plugin-important-statement'
-import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
+import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsState } from '@edtr-io/plugin-rows'
 import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
@@ -144,7 +144,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Input exercise plugin', () => {
-    const state: Document<typeof inputExerciseState> = {
+    const state: Document<InputExerciseState> = {
       plugin: 'inputExercise',
       state: {
         __version__: 1,

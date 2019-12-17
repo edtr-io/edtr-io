@@ -11,7 +11,7 @@ import {
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
-import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
@@ -43,7 +43,7 @@ export const plugins: Record<
   geogebra: createGeogebraPlugin(),
   highlight: createHighlightPlugin(),
   hint: createHintPlugin(),
-  inputExercise: inputExercisePlugin,
+  inputExercise: createInputExercisePlugin(),
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   solution: solutionPlugin,

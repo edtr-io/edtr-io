@@ -1,1 +1,1 @@
-export { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
+export { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
