@@ -1,14 +1,13 @@
-import { DeprecatedPlugin, string } from '@edtr-io/plugin'
-import { createIcon, faAnchor } from '@edtr-io/ui'
+import { EditorPlugin, string } from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
 
 export const anchorState = string()
 
-export const anchorPlugin: DeprecatedPlugin<typeof anchorState> = {
-  Component: AnchorEditor,
-  state: anchorState,
-  title: 'Anker',
-  description: 'Füge eine Sprungmarke innerhalb deines Inhalts hinzu.',
-  icon: createIcon(faAnchor)
+export function createAnchorPlugin(): EditorPlugin<typeof anchorState> {
+  return {
+    Component: AnchorEditor,
+    config: {},
+    state: anchorState
+  }
 }

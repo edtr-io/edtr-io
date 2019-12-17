@@ -1,7 +1,7 @@
 // Declaring these as devDependencies would lead to a dependency cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
 /* eslint-disable import/no-extraneous-dependencies */
 import { child, list, number, object } from '@edtr-io/plugin'
-import { anchorPlugin } from '@edtr-io/plugin-anchor'
+import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { highlightPlugin } from '@edtr-io/plugin-highlight'
@@ -36,7 +36,7 @@ const imagePlugin = createImagePlugin({
   }
 })
 export const plugins = {
-  anchor: anchorPlugin,
+  anchor: createAnchorPlugin(),
   blockquote: blockquotePlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,

@@ -24,7 +24,7 @@ export interface EditorPlugin<
   /**
    * React component that will be used to render the plugin. It accepts [[PluginEditorProps]] and `Props`.
    */
-  Component: React.ComponentType<DeprecatedPluginEditorProps<S>>
+  Component: React.ComponentType<EditorPluginProps<S>>
 
   /**
    * Plugin configuration
