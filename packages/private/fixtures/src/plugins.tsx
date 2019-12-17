@@ -56,19 +56,22 @@ export const plugins: Record<
   importantStatement: createImportantStatementPlugin(),
   injection: serloInjectionPlugin,
   inputExercise: createInputExercisePlugin(),
-  multimediaExplanation: createMultimediaExplanationPlugin([
-    {
-      ...imagePlugin,
-      name: 'image'
-    },
-    {
-      ...videoPlugin,
-      name: 'video'
-    },
-    {
-      name: 'geogebra'
-    }
-  ]),
+  multimediaExplanation: createMultimediaExplanationPlugin({
+    plugins: [
+      {
+        name: 'image',
+        title: 'Image'
+      },
+      {
+        name: 'video',
+        title: 'Video'
+      },
+      {
+        name: 'geogebra',
+        title: 'GeoGebra'
+      }
+    ]
+  }),
   rows: rowsPlugin,
   scMcExercise: scMcExercisePlugin,
   solution: solutionPlugin,

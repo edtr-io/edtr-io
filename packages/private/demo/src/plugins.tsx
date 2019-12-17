@@ -50,19 +50,22 @@ export const plugins: Record<
   hint: createHintPlugin(),
   importantStatement: createImportantStatementPlugin(),
   inputExercise: createInputExercisePlugin(),
-  multimediaExplanation: createMultimediaExplanationPlugin([
-    {
-      ...imagePlugin,
-      name: 'image'
-    },
-    {
-      ...videoPlugin,
-      name: 'video'
-    },
-    {
-      name: 'geogebra'
-    }
-  ]),
+  multimediaExplanation: createMultimediaExplanationPlugin({
+    plugins: [
+      {
+        name: 'image',
+        title: 'Image'
+      },
+      {
+        name: 'video',
+        title: 'Video'
+      },
+      {
+        name: 'geogebra',
+        title: 'GeoGebra'
+      }
+    ]
+  }),
   rows: rowsPlugin,
   customRows: createRowsPlugin([
     {
