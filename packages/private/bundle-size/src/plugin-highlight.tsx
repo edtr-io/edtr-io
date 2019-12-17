@@ -1,1 +1,1 @@
-export { highlightPlugin } from '@edtr-io/plugin-highlight'
+export { createHighlightPlugin } from '@edtr-io/plugin-highlight'

@@ -3,7 +3,7 @@ import { StateType, StateTypeSerializedType } from '@edtr-io/plugin'
 import { AnchorState } from '@edtr-io/plugin-anchor'
 import { BlockquoteState } from '@edtr-io/plugin-blockquote'
 import { GeogebraState } from '@edtr-io/plugin-geogebra'
-import { highlightState } from '@edtr-io/plugin-highlight'
+import { HighlightState } from '@edtr-io/plugin-highlight'
 import { hintState } from '@edtr-io/plugin-hint'
 import { imageState } from '@edtr-io/plugin-image'
 import { importantStatementState } from '@edtr-io/plugin-important-statement'
@@ -63,7 +63,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Highlight plugin', () => {
-    const state: Document<typeof highlightState> = {
+    const state: Document<HighlightState> = {
       plugin: 'highlight',
       state: {
         text: 'const el = <div />',

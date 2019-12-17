@@ -9,7 +9,7 @@ import {
   UploadedFile
 } from '@edtr-io/plugin-files'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
-import { highlightPlugin } from '@edtr-io/plugin-highlight'
+import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { hintPlugin } from '@edtr-io/plugin-hint'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -41,7 +41,7 @@ export const plugins: Record<
   equations: createEquationsPlugin(),
   files: createFilesPlugin({ upload: mockUploadFileHandler }),
   geogebra: createGeogebraPlugin(),
-  highlight: highlightPlugin,
+  highlight: createHighlightPlugin(),
   hint: hintPlugin,
   inputExercise: inputExercisePlugin,
   rows: rowsPlugin,
