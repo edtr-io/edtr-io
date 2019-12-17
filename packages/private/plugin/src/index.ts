@@ -59,25 +59,6 @@ export interface EditorPlugin<
    * @returns `true` if the plugin is empty
    */
   isEmpty?(state: StateTypeValueType<S>): boolean
-
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  title?: string
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  icon?: React.ComponentType
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  description?: string
 }
 
 /**
