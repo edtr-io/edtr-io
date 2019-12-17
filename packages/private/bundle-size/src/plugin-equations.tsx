@@ -1,1 +1,1 @@
-export { equationsPlugin } from '@edtr-io/plugin-equations'
+export { createEquationsPlugin } from '@edtr-io/plugin-equations'

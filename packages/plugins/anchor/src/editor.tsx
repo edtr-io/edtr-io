@@ -1,14 +1,13 @@
 import { EditorInput } from '@edtr-io/editor-ui'
-import { EditorPluginProps } from '@edtr-io/plugin'
 import { Icon, faLink, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { anchorState } from '.'
+import { AnchorProps } from '.'
 import { AnchorRenderer } from './renderer'
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
-export const AnchorEditor = (props: EditorPluginProps<typeof anchorState>) => {
+export const AnchorEditor = (props: AnchorProps) => {
   const { editable, focused, state } = props
   return (
     <React.Fragment>

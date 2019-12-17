@@ -1,7 +1,7 @@
 import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
-import { equationsPlugin } from '@edtr-io/plugin-equations'
+import { createEquationsPlugin } from '@edtr-io/plugin-equations'
 import {
   createFilePlugin,
   parseFileType,
@@ -39,7 +39,7 @@ export const plugins: Record<string, EditorPlugin | DeprecatedPlugin> = {
   image: imagePlugin,
   anchor: createAnchorPlugin(),
   blockquote: createBlockquotePlugin(),
-  equations: equationsPlugin,
+  equations: createEquationsPlugin(),
   files: createFilePlugin({ upload: mockUploadFileHandler }),
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,

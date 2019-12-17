@@ -1,10 +1,12 @@
-import { EditorPlugin, string } from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
 
-export const anchorState = string()
+const anchorState = string()
+export type AnchorState = typeof anchorState
+export type AnchorProps = EditorPluginProps<AnchorState>
 
-export function createAnchorPlugin(): EditorPlugin<typeof anchorState> {
+export function createAnchorPlugin(): EditorPlugin<AnchorState> {
   return {
     Component: AnchorEditor,
     config: {},

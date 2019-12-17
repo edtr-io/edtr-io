@@ -1,11 +1,8 @@
-import {
-  StateTypeReturnType,
-  DeprecatedPluginEditorProps
-} from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { StepProps, equationsState } from '.'
+import { EquationsProps, EquationsState } from '.'
 
 enum Phase {
   noJS = 0,
@@ -17,10 +14,10 @@ enum Phase {
 }
 
 export class EquationsRenderer extends React.Component<
-  DeprecatedPluginEditorProps<typeof equationsState>,
+  EquationsProps,
   EquationsRendererState
 > {
-  public state: EquationsState = {
+  public state: EquationsRendererState = {
     phase: Phase.noJS,
     widthLeftSingle: [],
     widthLeftDouble: [],
@@ -71,7 +68,7 @@ export class EquationsRenderer extends React.Component<
 
   private renderHidden = () => {
     interface StepFit {
-      step: StateTypeReturnType<typeof StepProps>
+      step: StateTypeReturnType<EquationsState>['steps'][0]
       fits: boolean
     }
     const { state } = this.props

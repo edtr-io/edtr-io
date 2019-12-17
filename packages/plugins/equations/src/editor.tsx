@@ -4,14 +4,13 @@ import {
   useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
-import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { focusNext, focusPrevious, getFocused, isEmpty } from '@edtr-io/store'
 import { Icon, faPlus, faTimes, styled } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { equationsState } from '.'
+import { EquationsProps } from '.'
 import { EquationsRenderer } from './renderer'
 
 const DraggableContainer = styled.div({
@@ -52,9 +51,7 @@ const AddButtonWrapper = styled.div({
   textAlign: 'center'
 })
 
-export function EquationsEditor(
-  props: DeprecatedPluginEditorProps<typeof equationsState>
-) {
+export function EquationsEditor(props: EquationsProps) {
   const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())
   const dispatch = useScopedDispatch()

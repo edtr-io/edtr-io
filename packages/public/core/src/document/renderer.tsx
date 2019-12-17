@@ -2,14 +2,14 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import { EditorPlugin } from '@edtr-io/internal__plugin'
 import { getDocument, getPlugin } from '@edtr-io/store'
 import { useTheme } from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { DocumentProps } from '.'
 import { useScopedSelector } from '../store'
-import { EditorPlugin } from '@edtr-io/internal__plugin'
-import * as R from 'ramda'
 
 export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
   const document = useScopedSelector(getDocument(id))
