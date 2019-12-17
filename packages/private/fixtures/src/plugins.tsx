@@ -14,7 +14,7 @@ import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
 import { createImagePlugin } from '@edtr-io/plugin-image'
-import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
+import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsPlugin } from '@edtr-io/plugin-rows'
@@ -53,7 +53,7 @@ export const plugins: Record<
   highlight: createHighlightPlugin(),
   hint: createHintPlugin(),
   image: imagePlugin,
-  important: importantStatementPlugin,
+  importantStatement: createImportantStatementPlugin(),
   injection: serloInjectionPlugin,
   inputExercise: inputExercisePlugin,
   multimediaExplanation: createMultimediaExplanationPlugin([

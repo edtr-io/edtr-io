@@ -6,7 +6,7 @@ import { GeogebraState } from '@edtr-io/plugin-geogebra'
 import { HighlightState } from '@edtr-io/plugin-highlight'
 import { HintState } from '@edtr-io/plugin-hint'
 import { ImageState } from '@edtr-io/plugin-image'
-import { importantStatementState } from '@edtr-io/plugin-important-statement'
+import { ImportantStatementState } from '@edtr-io/plugin-important-statement'
 import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
 import { rowsState } from '@edtr-io/plugin-rows'
@@ -117,7 +117,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Important statement plugin', () => {
-    const state: Document<typeof importantStatementState> = {
+    const state: Document<ImportantStatementState> = {
       plugin: 'important',
       state: {
         plugin: 'anchor',
