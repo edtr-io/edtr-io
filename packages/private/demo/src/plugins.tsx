@@ -3,7 +3,7 @@ import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createEquationsPlugin } from '@edtr-io/plugin-equations'
 import {
-  createFilePlugin,
+  createFilesPlugin,
   parseFileType,
   UploadedFile
 } from '@edtr-io/plugin-files'
@@ -34,13 +34,17 @@ const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
   })
 }
 
-export const plugins: Record<string, EditorPlugin | DeprecatedPlugin> = {
+export const plugins: Record<
+  string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  EditorPlugin<any, any> | DeprecatedPlugin
+> = {
   // Must be placed before files for onPaste
   image: imagePlugin,
   anchor: createAnchorPlugin(),
   blockquote: createBlockquotePlugin(),
   equations: createEquationsPlugin(),
-  files: createFilePlugin({ upload: mockUploadFileHandler }),
+  files: createFilesPlugin({ upload: mockUploadFileHandler }),
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
   hint: hintPlugin,
