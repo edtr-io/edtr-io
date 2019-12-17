@@ -2,17 +2,17 @@ import {
   isTempFile,
   number,
   object,
-  DeprecatedPlugin,
   string,
   upload,
   UploadHandler,
-  UploadValidator
+  UploadValidator,
+  EditorPluginProps,
+  EditorPlugin
 } from '@edtr-io/plugin'
-import { createIcon, faImages } from '@edtr-io/ui'
 
-import { createImageEditor } from './editor'
+import { ImageEditor } from './editor'
 
-export const imageState = object({
+const imageState = object({
   src: upload(''),
   href: string(''),
   target: string(''),
@@ -20,16 +20,21 @@ export const imageState = object({
   description: string(''),
   maxWidth: number(0)
 })
+export type ImageState = typeof imageState
+export interface ImageConfig {
+  upload: UploadHandler<string>
+  validate: UploadValidator
+  secondInput?: 'description' | 'link'
+}
+export type ImageProps = EditorPluginProps<ImageState, ImageConfig>
+
 export const createImagePlugin = (
-  config: ImagePluginConfig
-): DeprecatedPlugin<typeof imageState> => {
+  config: ImageConfig
+): EditorPlugin<ImageState, ImageConfig> => {
   return {
-    Component: createImageEditor(config),
+    Component: ImageEditor,
+    config,
     state: imageState,
-    title: 'Bild',
-    description:
-      'Lade Bilder hoch oder verwende Bilder, die bereits online sind.',
-    icon: createIcon(faImages),
     onPaste: (clipboardData: DataTransfer) => {
       const value = clipboardData.getData('text')
 
@@ -92,5 +97,3 @@ export interface ImagePluginConfig {
   validate: UploadValidator
   secondInput?: SecondInputType
 }
-
-export { Upload } from './upload'

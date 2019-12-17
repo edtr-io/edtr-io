@@ -5,11 +5,7 @@ import {
   OverlayTextarea
 } from '@edtr-io/core'
 import { EditorButton, EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
-import {
-  isTempFile,
-  usePendingFileUploader,
-  DeprecatedPluginEditorProps
-} from '@edtr-io/plugin'
+import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
 import {
   EditorThemeProps,
   Icon,
@@ -19,13 +15,9 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ImagePluginConfig, imageState } from '.'
+import { ImagePluginConfig, ImageProps } from '.'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
-
-type ImageProps = DeprecatedPluginEditorProps<typeof imageState> & {
-  renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-}
 
 const ImgPlaceholderWrapper = styled.div({
   position: 'relative',
@@ -51,48 +43,45 @@ const Failed = styled.div<EditorThemeProps>(props => {
     color: props.theme.editor.danger.background
   }
 })
-export function createImageEditor(
-  config: ImagePluginConfig
-): React.FunctionComponent<ImageProps> {
-  return function ImageEditor(props) {
-    const { editable, focused, state } = props
 
-    usePendingFileUploader(state.src, config.upload)
+export function ImageEditor(props: ImageProps) {
+  const { config, editable, focused, state } = props
 
-    const imageComponent =
-      state.src.value === '' ||
-      (isTempFile(state.src.value) && !state.src.value.loaded) ? (
-        <ImgPlaceholderWrapper>
-          <Icon icon={faImages} size="5x" />
-          {isTempFile(state.src.value) && state.src.value.failed ? (
-            <Failed>Hochladen fehlgeschlagen</Failed>
-          ) : null}
-        </ImgPlaceholderWrapper>
-      ) : (
-        <ImageRenderer {...props} disableMouseEvents={editable} />
-      )
-    if (!editable) {
-      return imageComponent
-    }
+  usePendingFileUploader(state.src, config.upload)
 
-    return (
-      <React.Fragment>
-        {imageComponent}
-        {focused ? (
-          <React.Fragment>
-            <PrimarySettings>
-              <PrimaryControls {...props} config={config} />
-            </PrimarySettings>
-            {props.renderIntoSettings(
-              <React.Fragment>
-                <Controls {...props} config={config} />
-              </React.Fragment>
-            )}
-          </React.Fragment>
+  const imageComponent =
+    state.src.value === '' ||
+    (isTempFile(state.src.value) && !state.src.value.loaded) ? (
+      <ImgPlaceholderWrapper>
+        <Icon icon={faImages} size="5x" />
+        {isTempFile(state.src.value) && state.src.value.failed ? (
+          <Failed>Hochladen fehlgeschlagen</Failed>
         ) : null}
-      </React.Fragment>
+      </ImgPlaceholderWrapper>
+    ) : (
+      <ImageRenderer {...props} disableMouseEvents={editable} />
     )
+  if (!editable) {
+    return imageComponent
   }
+
+  return (
+    <React.Fragment>
+      {imageComponent}
+      {focused ? (
+        <React.Fragment>
+          <PrimarySettings>
+            <PrimaryControls {...props} config={config} />
+          </PrimarySettings>
+          {props.renderIntoSettings(
+            <React.Fragment>
+              <Controls {...props} config={config} />
+            </React.Fragment>
+          )}
+        </React.Fragment>
+      ) : null}
+    </React.Fragment>
+  )
 }
 
 function PrimaryControls(

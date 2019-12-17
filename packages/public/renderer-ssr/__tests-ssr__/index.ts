@@ -5,7 +5,7 @@ import { BlockquoteState } from '@edtr-io/plugin-blockquote'
 import { GeogebraState } from '@edtr-io/plugin-geogebra'
 import { HighlightState } from '@edtr-io/plugin-highlight'
 import { HintState } from '@edtr-io/plugin-hint'
-import { imageState } from '@edtr-io/plugin-image'
+import { ImageState } from '@edtr-io/plugin-image'
 import { importantStatementState } from '@edtr-io/plugin-important-statement'
 import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
@@ -98,7 +98,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Image plugin', () => {
-    const state: Document<typeof imageState> = {
+    const state: Document<ImageState> = {
       plugin: 'image',
       state: {
         src: 'foo',
