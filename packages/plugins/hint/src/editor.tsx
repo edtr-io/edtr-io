@@ -1,9 +1,8 @@
-import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { hintState } from '.'
+import { HintProps } from '.'
 
 const hintTheme = {
   rendererUi: {
@@ -14,10 +13,7 @@ const hintTheme = {
   }
 }
 
-export function HintEditor({
-  state,
-  editable
-}: DeprecatedPluginEditorProps<typeof hintState>) {
+export function HintEditor({ state, editable }: HintProps) {
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>

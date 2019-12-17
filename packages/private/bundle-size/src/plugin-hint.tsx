@@ -1,1 +1,1 @@
-export { hintPlugin } from '@edtr-io/plugin-hint'
+export { createHintPlugin } from '@edtr-io/plugin-hint'

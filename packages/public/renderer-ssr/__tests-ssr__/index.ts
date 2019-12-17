@@ -4,7 +4,7 @@ import { AnchorState } from '@edtr-io/plugin-anchor'
 import { BlockquoteState } from '@edtr-io/plugin-blockquote'
 import { GeogebraState } from '@edtr-io/plugin-geogebra'
 import { HighlightState } from '@edtr-io/plugin-highlight'
-import { hintState } from '@edtr-io/plugin-hint'
+import { HintState } from '@edtr-io/plugin-hint'
 import { imageState } from '@edtr-io/plugin-image'
 import { importantStatementState } from '@edtr-io/plugin-important-statement'
 import { inputExerciseState } from '@edtr-io/plugin-input-exercise'
@@ -79,7 +79,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Hint plugin', () => {
-    const state: Document<typeof hintState> = {
+    const state: Document<HintState> = {
       plugin: 'hint',
       state: {
         title: '',
