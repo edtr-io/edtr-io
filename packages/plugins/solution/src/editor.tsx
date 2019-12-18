@@ -1,9 +1,8 @@
-import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { solutionState } from '.'
+import { SolutionProps } from '.'
 
 const solutionTheme = {
   rendererUi: {
@@ -14,10 +13,7 @@ const solutionTheme = {
   }
 }
 
-export function SolutionEditor({
-  state,
-  editable
-}: DeprecatedPluginEditorProps<typeof solutionState>) {
+export function SolutionEditor({ state, editable }: SolutionProps) {
   const renderTitle = React.useCallback((collapsed: boolean) => {
     return (
       <React.Fragment>

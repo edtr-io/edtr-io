@@ -1,18 +1,24 @@
-import { child, object, DeprecatedPlugin, string } from '@edtr-io/plugin'
-import { createIcon, faCheckSquare } from '@edtr-io/ui'
+import {
+  child,
+  object,
+  string,
+  EditorPlugin,
+  EditorPluginProps
+} from '@edtr-io/plugin'
 
 import { SolutionEditor } from './editor'
 
-export const solutionState = object({
+const solutionState = object({
   title: string(''),
   content: child({ plugin: 'rows' })
 })
+export type SolutionState = typeof solutionState
+export type SolutionProps = EditorPluginProps<SolutionState>
 
-export const solutionPlugin: DeprecatedPlugin<typeof solutionState> = {
-  Component: SolutionEditor,
-  state: solutionState,
-  icon: createIcon(faCheckSquare),
-  title: 'Lösung',
-  description:
-    'Gestalte in dieser ausklappbaren Box eine ausführliche Lösung zu deinen Aufgaben.'
+export function createSolutionPlugin(): EditorPlugin<SolutionState> {
+  return {
+    Component: SolutionEditor,
+    config: {},
+    state: solutionState
+  }
 }

@@ -12,7 +12,7 @@ import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanati
 import { RowsState } from '@edtr-io/plugin-rows'
 import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
-import { solutionState } from '@edtr-io/plugin-solution'
+import { SolutionState } from '@edtr-io/plugin-solution'
 import { spoilerState } from '@edtr-io/plugin-spoiler'
 import { tableState } from '@edtr-io/plugin-table'
 import { textState } from '@edtr-io/plugin-text'
@@ -252,7 +252,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Solution plugin', () => {
-    const state: Document<typeof solutionState> = {
+    const state: Document<SolutionState> = {
       plugin: 'solution',
       state: {
         title: '',
