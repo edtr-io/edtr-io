@@ -118,7 +118,7 @@ describe('Renderer SSR', () => {
 
   test('Important statement plugin', () => {
     const state: Document<ImportantStatementState> = {
-      plugin: 'important',
+      plugin: 'importantStatement',
       state: {
         plugin: 'anchor',
         state: 'foo'
