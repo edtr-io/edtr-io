@@ -16,7 +16,7 @@ import { createRowsPlugin } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { textPlugin } from '@edtr-io/plugin-text'
+import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
@@ -48,6 +48,6 @@ export const plugins: Record<
   scMcExercise: createScMcExercisePlugin(),
   solution: createSolutionPlugin(),
   spoiler: createSpoilerPlugin(),
-  text: textPlugin,
+  text: createTextPlugin({ registry: [] }),
   video: createVideoPlugin()
 }

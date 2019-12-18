@@ -23,7 +23,7 @@ import { createSerloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
-import { textPlugin } from '@edtr-io/plugin-text'
+import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 const nestedArrayState = object({
@@ -77,7 +77,7 @@ export const plugins: Record<
   solution: createSolutionPlugin(),
   spoiler: createSpoilerPlugin(),
   table: createTablePlugin(),
-  text: textPlugin,
+  text: createTextPlugin({ registry: [] }),
   video: createVideoPlugin(),
 
   stateful: {

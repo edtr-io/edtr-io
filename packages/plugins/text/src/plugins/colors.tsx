@@ -3,10 +3,10 @@ import * as React from 'react'
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
+import { getTrimmedSelectionRange } from '../helpers'
 import { colorMark } from '../model'
 import {
   createTextPluginTheme,
-  getTrimmedSelectionRange,
   MarkEditorProps,
   MarkRendererProps,
   TextPlugin

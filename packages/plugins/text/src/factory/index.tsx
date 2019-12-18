@@ -1,22 +1,19 @@
-import { scalar, DeprecatedPlugin } from '@edtr-io/plugin'
-import { createIcon, faParagraph } from '@edtr-io/ui'
+import { scalar, EditorPlugin } from '@edtr-io/plugin'
 import { Value, ValueJSON } from 'slate'
 
 import { emptyDocument, defaultNode } from '../model'
-import { createTextEditor, SlateEditorAdditionalProps } from './editor'
-import { TextPluginOptions } from './types'
+import { TextEditor } from './editor'
+import { TextConfig, TextState } from '..'
 
 export const textState = scalar<ValueJSON>(emptyDocument)
 
 export const createTextPlugin = (
-  options: TextPluginOptions
-): DeprecatedPlugin<typeof textState, SlateEditorAdditionalProps> => {
+  config: TextConfig
+): EditorPlugin<TextState, TextConfig> => {
   return {
-    Component: createTextEditor(options),
+    Component: TextEditor,
+    config,
     state: textState,
-    icon: createIcon(faParagraph),
-    title: 'Text',
-    description: 'Schreibe Text und Matheformeln und formatiere sie.',
     onKeyDown() {
       return false
     },

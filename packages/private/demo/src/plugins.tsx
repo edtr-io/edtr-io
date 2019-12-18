@@ -19,7 +19,7 @@ import { createSerloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
-import { createTextPlugin, textPlugin } from '@edtr-io/plugin-text'
+import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 import { imagePlugin, readFile } from './plugin-image'
@@ -72,16 +72,6 @@ export const plugins: Record<
   solution: createSolutionPlugin(),
   spoiler: createSpoilerPlugin(),
   table: createTablePlugin(),
-  text: textPlugin,
-  customText: createTextPlugin([
-    {
-      ...textPlugin,
-      name: 'text'
-    },
-    {
-      ...imagePlugin,
-      name: 'image'
-    }
-  ]),
+  text: createTextPlugin({ registry: [] }),
   video: createVideoPlugin()
 }

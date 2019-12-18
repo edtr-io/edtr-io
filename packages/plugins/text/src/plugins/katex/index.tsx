@@ -7,10 +7,10 @@ import {
   NodeRendererProps,
   NodeEditorProps,
   TextPlugin,
-  NodeControlsProps,
-  trimSelection
+  NodeControlsProps
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
+import { trimSelection } from '../../helpers'
 import { katexBlockNode, katexInlineNode } from '../../model'
 import { DefaultEditorComponent } from './editor'
 

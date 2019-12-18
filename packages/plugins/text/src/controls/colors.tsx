@@ -8,17 +8,14 @@ import {
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { trimSelection } from '../helpers'
 import {
   createIsColor,
   createToggleColor,
   removeColor
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
-import {
-  createTextPluginTheme,
-  textPluginThemeFactory,
-  trimSelection
-} from '..'
+import { createTextPluginTheme, textPluginThemeFactory } from '..'
 
 export const ColorControls: React.FunctionComponent<
   SubControlProps

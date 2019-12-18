@@ -1,5 +1,8 @@
-import { DeprecatedPlugin } from '@edtr-io/plugin'
-import { DocumentState } from '@edtr-io/store'
+import {
+  DocumentState,
+  getPlugins,
+  ReturnTypeFromSelector
+} from '@edtr-io/store'
 import * as React from 'react'
 
 import { SlateEditorAdditionalProps } from './editor'
@@ -16,5 +19,5 @@ export type SlatePluginClosure = React.RefObject<{
   parent?: SlateEditorAdditionalProps
   replace?: (options?: DocumentState) => void
   availablePlugins: PluginRegistry
-  plugins: Record<string, DeprecatedPlugin>
+  plugins: ReturnTypeFromSelector<typeof getPlugins>
 }>

@@ -15,7 +15,7 @@ import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { SolutionState } from '@edtr-io/plugin-solution'
 import { SpoilerState } from '@edtr-io/plugin-spoiler'
 import { TableState } from '@edtr-io/plugin-table'
-import { textState } from '@edtr-io/plugin-text'
+import { TextState } from '@edtr-io/plugin-text'
 import { VideoState } from '@edtr-io/plugin-video'
 import { Mark, Text } from 'slate'
 
@@ -301,7 +301,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Text plugin', () => {
-    const state: Document<typeof textState> = {
+    const state: Document<TextState> = {
       plugin: 'text',
       state: createTextState([
         Text.create({ text: 'This will be rendered' }),
@@ -321,7 +321,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Text plugin with colors', () => {
-    const state: Document<typeof textState> = {
+    const state: Document<TextState> = {
       plugin: 'text',
       state: createTextState([
         Text.create({
@@ -366,9 +366,7 @@ interface Document<D extends StateType> {
   state: StateTypeSerializedType<D>
 }
 
-function createTextState(
-  texts: Text[]
-): StateTypeSerializedType<typeof textState> {
+function createTextState(texts: Text[]): StateTypeSerializedType<TextState> {
   return {
     object: 'value',
     document: {

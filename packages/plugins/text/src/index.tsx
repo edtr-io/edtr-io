@@ -1,12 +1,7 @@
+import { EditorPluginProps, scalar } from '@edtr-io/plugin'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
-import {
-  BlockJSON,
-  Editor,
-  InlineJSON,
-  MarkJSON,
-  Range as CoreRange
-} from 'slate'
+import { BlockJSON, Editor, InlineJSON, MarkJSON, ValueJSON } from 'slate'
 import { Rule } from 'slate-html-serializer' // TODO: Remove this reference
 import {
   EditorProps,
@@ -18,7 +13,9 @@ import {
 
 import { createUiPlugin, Controls } from './controls'
 import { createTextPlugin as textPluginFactory } from './factory'
+import { emptyDocument } from './model'
 import { plugins } from './plugins'
+import { SlatePluginClosure } from './factory/types'
 
 export type MarkEditorProps = RenderMarkProps
 
@@ -46,16 +43,6 @@ export type TextPlugin = Plugin &
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
-
-export function createTextPlugin(registry?: PluginRegistry) {
-  return textPluginFactory({
-    registry,
-    plugins: [...plugins, createUiPlugin({ Component: Controls })],
-    placeholder: 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.'
-  })
-}
-
-export const textPlugin = createTextPlugin()
 
 export type PluginRegistry = {
   name: string
@@ -110,38 +97,31 @@ export const createTextPluginTheme = createPluginTheme<TextTheme>(
   textPluginThemeFactory
 )
 
-export function trimSelection(editor: Editor) {
-  // Trimm selection before applying transformation
-  const selection = document.getSelection()
-  if (selection) {
-    let str = selection.toString()
-    while (str.startsWith(' ')) {
-      editor.moveStartForward(1)
-      str = str.substring(1)
-    }
-    while (str.endsWith(' ')) {
-      editor.moveEndBackward(1)
-      str = str.substring(0, str.length - 1)
-    }
-  }
-}
+export { isValueEmpty } from './factory'
 
-export function getTrimmedSelectionRange(editor: Editor) {
-  // get trimmed selection, without changing editor (e.g. for checking active marks)
-  const native = document.getSelection()
-  let selection = editor.value.selection.toRange()
-  if (native) {
-    let str = native.toString()
-    while (str.startsWith(' ')) {
-      selection = selection.moveStartForward(1)
-      str = str.substring(1)
-    }
-    while (str.endsWith(' ')) {
-      selection = selection.moveEndBackward(1)
-      str = str.substring(0, str.length - 1)
-    }
-  }
-  return CoreRange.create(selection)
+const textState = scalar<ValueJSON>(emptyDocument)
+export type TextState = typeof textState
+export interface TextConfig {
+  placeholder: string
+  plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
+  registry: {
+    name: string
+    title?: string
+    description?: string
+  }[]
 }
+export type TextProps = EditorPluginProps<TextState, TextConfig>
 
-export { isValueEmpty, textState } from './factory'
+export function createTextPlugin({
+  placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
+  registry
+}: {
+  placeholder?: TextConfig['placeholder']
+  registry: TextConfig['registry']
+}) {
+  return textPluginFactory({
+    registry,
+    plugins: [...plugins, createUiPlugin({ Component: Controls })],
+    placeholder
+  })
+}

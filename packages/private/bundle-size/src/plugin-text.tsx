@@ -1,1 +1,1 @@
-export { textPlugin } from '@edtr-io/plugin-text'
+export { createTextPlugin } from '@edtr-io/plugin-text'
