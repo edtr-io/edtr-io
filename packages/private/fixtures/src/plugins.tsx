@@ -21,7 +21,7 @@ import { createRowsPlugin } from '@edtr-io/plugin-rows'
 import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { createSerloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { createSolutionPlugin } from '@edtr-io/plugin-solution'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
+import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { tablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
@@ -75,7 +75,7 @@ export const plugins: Record<
   rows: createRowsPlugin({ plugins: [] }),
   scMcExercise: createScMcExercisePlugin(),
   solution: createSolutionPlugin(),
-  spoiler: spoilerPlugin,
+  spoiler: createSpoilerPlugin(),
   table: tablePlugin,
   text: textPlugin,
   video: videoPlugin,

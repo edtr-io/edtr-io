@@ -13,7 +13,7 @@ import { RowsState } from '@edtr-io/plugin-rows'
 import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { SolutionState } from '@edtr-io/plugin-solution'
-import { spoilerState } from '@edtr-io/plugin-spoiler'
+import { SpoilerState } from '@edtr-io/plugin-spoiler'
 import { tableState } from '@edtr-io/plugin-table'
 import { textState } from '@edtr-io/plugin-text'
 import { videoState } from '@edtr-io/plugin-video'
@@ -271,7 +271,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Spoiler plugin', () => {
-    const state: Document<typeof spoilerState> = {
+    const state: Document<SpoilerState> = {
       plugin: 'spoiler',
       state: {
         title: 'foo',
