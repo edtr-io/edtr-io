@@ -1,16 +1,17 @@
-import { DeprecatedPlugin, string } from '@edtr-io/plugin'
-import { createIcon, faNewspaper } from '@edtr-io/ui'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 
 import { SerloInjectionEditor } from './editor'
 
-export const serloInjectionState = string()
+const serloInjectionState = string()
+export type SerloInjectionState = typeof serloInjectionState
+export type SerloInjectionProps = EditorPluginProps<SerloInjectionState>
 
-export const serloInjectionPlugin: DeprecatedPlugin<
-  typeof serloInjectionState
-> = {
-  Component: SerloInjectionEditor,
-  state: serloInjectionState,
-  title: 'Serlo Inhalt',
-  description: 'Binde einen Inhalt von serlo.org via ID ein',
-  icon: createIcon(faNewspaper)
+export function createSerloInjectionPlugin(): EditorPlugin<
+  SerloInjectionState
+> {
+  return {
+    Component: SerloInjectionEditor,
+    config: {},
+    state: serloInjectionState
+  }
 }

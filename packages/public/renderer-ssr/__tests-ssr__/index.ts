@@ -11,7 +11,7 @@ import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
 import { RowsState } from '@edtr-io/plugin-rows'
 import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
-import { serloInjectionState } from '@edtr-io/plugin-serlo-injection'
+import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { solutionState } from '@edtr-io/plugin-solution'
 import { spoilerState } from '@edtr-io/plugin-spoiler'
 import { tableState } from '@edtr-io/plugin-table'
@@ -132,7 +132,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Serlo injection plugin', () => {
-    const state: Document<typeof serloInjectionState> = {
+    const state: Document<SerloInjectionState> = {
       plugin: 'injection',
       state: '1337'
     }
