@@ -10,7 +10,7 @@ import { ImportantStatementState } from '@edtr-io/plugin-important-statement'
 import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
 import { RowsState } from '@edtr-io/plugin-rows'
-import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
+import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { solutionState } from '@edtr-io/plugin-solution'
 import { spoilerState } from '@edtr-io/plugin-spoiler'
@@ -224,7 +224,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Sc-Mc exercise plugin', () => {
-    const state: Document<typeof scMcExerciseState> = {
+    const state: Document<ScMcExerciseState> = {
       plugin: 'scMcExercise',
       state: {
         isSingleChoice: true,

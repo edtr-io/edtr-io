@@ -3,7 +3,7 @@ import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { AnswerProps } from '.'
+import { ScMcExerciseState } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
@@ -65,7 +65,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
   private showAnswer = (
-    answer: StateTypeReturnType<typeof AnswerProps>,
+    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0],
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -90,7 +90,7 @@ export class ScMcRendererInteractive extends React.Component<
     answer,
     button
   }: {
-    answer: StateTypeReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0]
     button: Button
   }): React.ReactNode {
     if (!button.showFeedback) {
@@ -223,7 +223,7 @@ export type ScMcRendererInteractiveProps = ScMcRendererProps & {
   }) => string | undefined
   nextButtonStateAfterSubmit: (params: {
     button: Button
-    answer: StateTypeReturnType<typeof AnswerProps>
+    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0]
     mistakes: number
     missingSolutions: number
   }) => Button

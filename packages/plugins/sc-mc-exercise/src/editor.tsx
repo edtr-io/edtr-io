@@ -1,22 +1,17 @@
 import { useScopedSelector } from '@edtr-io/core'
 import {
-  PreviewOverlay,
+  AddButton,
   InteractiveAnswer,
-  AddButton
+  PreviewOverlay
 } from '@edtr-io/editor-ui'
-import { DeprecatedPluginEditorProps } from '@edtr-io/plugin'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { scMcExerciseState } from '.'
+import { ScMcExerciseProps } from '.'
 import { ScMcExerciseRenderer } from './renderer'
 
-export function ScMcExerciseEditor(
-  props: DeprecatedPluginEditorProps<typeof scMcExerciseState> & {
-    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  }
-) {
+export function ScMcExerciseEditor(props: ScMcExerciseProps) {
   const focusedElement = useScopedSelector(getFocused())
   const isEmpty = useScopedSelector(state => (id: string) =>
     isEmptySelector(id)(state)
@@ -67,19 +62,6 @@ export function ScMcExerciseEditor(
     return <ScMcExerciseRenderer {...props} isEmpty={isEmpty} />
   }
 
-  const Controls = (
-    <React.Fragment>
-      Wähle den Aufgabentyp:
-      <select
-        value={state.isSingleChoice.value ? 'Single Choice' : 'Multiple Choice'}
-        onChange={handleSCMCChange}
-      >
-        <option value="Multiple Choice">Multiple Choice</option>
-        <option value="Single Choice">Single Choice</option>
-      </select>
-    </React.Fragment>
-  )
-
   return (
     <React.Fragment>
       <PreviewOverlay
@@ -114,17 +96,24 @@ export function ScMcExerciseEditor(
                 )
               })}
               <AddButton onClick={addButton}>Antwort hinzufügen...</AddButton>
-              {!props.renderIntoExtendedSettings ? (
-                <React.Fragment>
-                  <hr />
-                  {Controls}
-                </React.Fragment>
-              ) : null}
             </React.Fragment>
           ) : null}
-          {props.renderIntoExtendedSettings
-            ? props.renderIntoExtendedSettings(Controls)
-            : null}
+          {props.renderIntoSettings(
+            <React.Fragment>
+              Wähle den Aufgabentyp:
+              <select
+                value={
+                  state.isSingleChoice.value
+                    ? 'Single Choice'
+                    : 'Multiple Choice'
+                }
+                onChange={handleSCMCChange}
+              >
+                <option value="Multiple Choice">Multiple Choice</option>
+                <option value="Single Choice">Single Choice</option>
+              </select>
+            </React.Fragment>
+          )}
         </div>
       ) : null}
     </React.Fragment>

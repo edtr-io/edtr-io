@@ -13,7 +13,7 @@ import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
 import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createRowsPlugin } from '@edtr-io/plugin-rows'
-import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
+import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
 import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { textPlugin } from '@edtr-io/plugin-text'
@@ -45,7 +45,7 @@ export const plugins: Record<
   hint: createHintPlugin(),
   inputExercise: createInputExercisePlugin(),
   rows: createRowsPlugin({ plugins: [] }),
-  scMcExercise: scMcExercisePlugin,
+  scMcExercise: createScMcExercisePlugin(),
   solution: solutionPlugin,
   spoiler: spoilerPlugin,
   text: textPlugin,
