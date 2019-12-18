@@ -14,7 +14,7 @@ import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { SolutionState } from '@edtr-io/plugin-solution'
 import { SpoilerState } from '@edtr-io/plugin-spoiler'
-import { tableState } from '@edtr-io/plugin-table'
+import { TableState } from '@edtr-io/plugin-table'
 import { textState } from '@edtr-io/plugin-text'
 import { videoState } from '@edtr-io/plugin-video'
 import { Mark, Text } from 'slate'
@@ -289,7 +289,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Table plugin', () => {
-    const state: Document<typeof tableState> = {
+    const state: Document<TableState> = {
       plugin: 'table',
       state: '| foo |\n|-|'
     }

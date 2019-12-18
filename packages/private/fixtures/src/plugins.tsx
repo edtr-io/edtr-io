@@ -22,7 +22,7 @@ import { createScMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { createSerloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { tablePlugin } from '@edtr-io/plugin-table'
+import { createTablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
 import { videoPlugin } from '@edtr-io/plugin-video'
 
@@ -76,7 +76,7 @@ export const plugins: Record<
   scMcExercise: createScMcExercisePlugin(),
   solution: createSolutionPlugin(),
   spoiler: createSpoilerPlugin(),
-  table: tablePlugin,
+  table: createTablePlugin(),
   text: textPlugin,
   video: videoPlugin,
 
