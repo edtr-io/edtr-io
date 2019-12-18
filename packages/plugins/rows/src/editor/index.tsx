@@ -7,24 +7,24 @@ import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { RowsProps, RowsState } from '..'
+import { RowsConfig, RowsProps, RowsState } from '..'
 
 function RowEditor({
+  config,
   insert,
   openMenu,
   moveRow,
   index,
   row,
-  rows,
-  name
+  rows
 }: {
+  config: RowsConfig
   insert(index: number, options?: { plugin: string; state?: unknown }): void
   openMenu(index: number): void
   moveRow(from: number, to: number): void
   index: number
   rows: StateTypeReturnType<RowsState>
   row: StateTypeReturnType<RowsState>[0]
-  name: string
 }) {
   const focused = useScopedSelector(isFocused(row.id))
   const plugins = useScopedSelector(getPlugins())
@@ -40,7 +40,7 @@ function RowEditor({
         plugins={plugins}
       />
       <Separator
-        name={name}
+        config={config}
         focused={focused}
         onClick={() => {
           openMenu(index + 1)
@@ -74,7 +74,7 @@ export function RowsEditor(props: RowsProps) {
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
       <Separator
-        name={props.name}
+        config={props.config}
         isFirst
         focused={props.state.length == 0}
         onClick={() => {
@@ -84,6 +84,7 @@ export function RowsEditor(props: RowsProps) {
       {props.state.map((row, index) => {
         return (
           <RowEditor
+            config={props.config}
             key={row.id}
             insert={(index, options) => {
               props.state.insert(index, options)
@@ -97,7 +98,6 @@ export function RowsEditor(props: RowsProps) {
             index={index}
             rows={props.state}
             row={row}
-            name={props.name}
           />
         )
       })}
@@ -106,7 +106,7 @@ export function RowsEditor(props: RowsProps) {
           menu={menu}
           setMenu={setMenu}
           name={props.name}
-          registry={props.config.plugins}
+          config={props.config}
         />
       ) : null}
     </div>

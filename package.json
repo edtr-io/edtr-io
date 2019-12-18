@@ -19,7 +19,7 @@
     "format": "npm-run-all -c format:*",
     "format:eslint": "yarn _eslint --config .eslint-ci.config.js --fix",
     "format:prettier": "yarn _prettier --write",
-    "lint": "npm-run-all lint:*",
+    "lint": "npm-run-all lint:tsc lint:prettier lint:eslint",
     "lint:eslint": "yarn _eslint",
     "lint:prettier": "yarn _prettier --check",
     "lint:tsc": "tsc --noEmit",
