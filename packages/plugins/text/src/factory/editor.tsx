@@ -90,6 +90,7 @@ export function TextEditor(props: SlateEditorProps) {
 
   const pluginClosure = React.useRef({
     name: props.name,
+    config: props.config,
     parent: props.parent,
     replace: props.replace,
     availablePlugins: availablePlugins,
@@ -97,6 +98,7 @@ export function TextEditor(props: SlateEditorProps) {
   })
   pluginClosure.current = {
     name: props.name,
+    config: props.config,
     parent: props.parent,
     replace: props.replace,
     availablePlugins: availablePlugins,

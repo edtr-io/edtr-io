@@ -25,7 +25,6 @@ export interface Theme {
   editorUi: DeepPartial<EditorUiTheme>
   renderer: RendererTheme
   rendererUi: DeepPartial<RendererUiTheme>
-  plugins: Record<string, unknown>
 }
 
 export type CustomTheme = DeepPartial<Theme>
@@ -35,8 +34,7 @@ const defaultTheme: Theme = {
   editor: defaultEditorTheme,
   editorUi: {},
   renderer: defaultRendererTheme,
-  rendererUi: {},
-  plugins: {}
+  rendererUi: {}
 }
 
 export function RootThemeProvider(
@@ -63,33 +61,6 @@ export function ThemeProvider(props: StyledThemeProviderProps<CustomTheme>) {
   }, [props.theme, defaultTheme])
   return <StyledThemeProvider {...props} theme={theme} />
 }
-
-export function createPluginTheme<T extends object>(
-  createDefaultTheme: PluginThemeFactory<T>
-) {
-  return (pluginName: string, theme: Theme): T => {
-    return (R.mergeDeepRight(
-      createDefaultTheme(theme),
-      (theme.plugins[pluginName] as DeepPartial<T>) || {}
-    ) as unknown) as T
-  }
-}
-export function usePluginTheme<T extends object>(
-  pluginName: string,
-  createDefaultTheme: PluginThemeFactory<T>
-) {
-  const theme = useTheme()
-  return React.useMemo(
-    () => createPluginTheme(createDefaultTheme)(pluginName, theme),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [theme]
-  )
-}
-
-export type PluginThemeFactory<T> = (theme: {
-  editor: EditorTheme
-  renderer: RendererTheme
-}) => T
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

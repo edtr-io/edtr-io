@@ -19,7 +19,7 @@ export const HeadingControls: React.FunctionComponent<
         return (
           <Button
             key={index}
-            name={props.name}
+            config={props.config}
             active={active}
             onClick={() => {
               active
@@ -36,7 +36,7 @@ export const HeadingControls: React.FunctionComponent<
         )
       }, 3)}
       <Button
-        name={props.name}
+        config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >

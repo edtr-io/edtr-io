@@ -1,28 +1,6 @@
-import { scalar, EditorPlugin } from '@edtr-io/plugin'
-import { Value, ValueJSON } from 'slate'
+import { Value } from 'slate'
 
-import { emptyDocument, defaultNode } from '../model'
-import { TextEditor } from './editor'
-import { TextConfig, TextState } from '..'
-
-export const textState = scalar<ValueJSON>(emptyDocument)
-
-export const createTextPlugin = (
-  config: TextConfig
-): EditorPlugin<TextState, TextConfig> => {
-  return {
-    Component: TextEditor,
-    config,
-    state: textState,
-    onKeyDown() {
-      return false
-    },
-    isEmpty: state => {
-      const value = Value.fromJSON(state)
-      return isValueEmpty(value)
-    }
-  }
-}
+import { defaultNode } from '../model'
 
 export function isValueEmpty(value: Value) {
   // check if there is no content and only one node

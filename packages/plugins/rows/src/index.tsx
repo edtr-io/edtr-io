@@ -1,4 +1,4 @@
-import { child, list, EditorPluginProps, EditorPlugin } from '@edtr-io/plugin'
+import { child, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -7,30 +7,6 @@ import { RowsEditor } from './editor'
 const rowState = child()
 const rowsState = list(rowState, 1)
 export type RowsState = typeof rowsState
-interface RowsTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
-  lightBackgroundColor: string
-
-  menu: {
-    highlightColor: string
-    primary: {
-      backgroundColor: string
-      color: string
-    }
-    secondary: {
-      backgroundColor: string
-      color: string
-    }
-    dropzone: {
-      highlightColor: string
-      backgroundColor: string
-      color: string
-      highlightBackgroundColor: string
-    }
-  }
-}
 export interface RowsConfig {
   plugins: {
     name: string
@@ -38,7 +14,30 @@ export interface RowsConfig {
     icon?: React.ComponentType
     description?: string
   }[]
-  theme: RowsTheme
+  theme: {
+    backgroundColor: string
+    color: string
+    highlightColor: string
+    lightBackgroundColor: string
+
+    menu: {
+      highlightColor: string
+      primary: {
+        backgroundColor: string
+        color: string
+      }
+      secondary: {
+        backgroundColor: string
+        color: string
+      }
+      dropzone: {
+        highlightColor: string
+        backgroundColor: string
+        color: string
+        highlightBackgroundColor: string
+      }
+    }
+  }
 }
 export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
 

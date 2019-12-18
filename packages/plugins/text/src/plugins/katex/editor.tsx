@@ -5,7 +5,7 @@ import { canUseDOM } from 'exenv'
 import * as React from 'react'
 import Modal from 'react-modal'
 
-import { NodeEditorProps } from '../..'
+import { NodeEditorProps, TextConfig } from '../..'
 import { isTouchDevice } from '../../controls'
 import {
   katexBlockNode,
@@ -102,7 +102,7 @@ const preferenceKey = 'katex:usevisualmath'
 setDefaultPreference(preferenceKey, true)
 
 export const DefaultEditorComponent: React.FunctionComponent<
-  (NodeEditorProps) & { name: string }
+  (NodeEditorProps) & { name: string; config: TextConfig }
 > = props => {
   const [helpOpen, setHelpOpen] = React.useState(false)
   const { attributes, editor, readOnly, name, node } = props
@@ -264,6 +264,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
               >
                 <Dropdown
                   name={name}
+                  config={props.config}
                   value={useVisualMath ? 'visual' : 'latex'}
                   onChange={e => {
                     if (hasError) setError(false)
@@ -273,10 +274,18 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     )
                   }}
                 >
-                  <Option active={useVisualMath} value="visual" name={name}>
+                  <Option
+                    config={props.config}
+                    active={useVisualMath}
+                    value="visual"
+                  >
                     visual
                   </Option>
-                  <Option active={!useVisualMath} value="latex" name={name}>
+                  <Option
+                    config={props.config}
+                    active={!useVisualMath}
+                    value="latex"
+                  >
                     latex
                   </Option>
                 </Dropdown>
@@ -290,6 +299,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
                 ) : null}
                 {useVisualMath && (
                   <Button
+                    config={props.config}
                     name={name}
                     onMouseDown={() => {
                       setHelpOpen(true)

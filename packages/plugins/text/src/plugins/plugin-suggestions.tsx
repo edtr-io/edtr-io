@@ -108,6 +108,9 @@ function SuggestionsBox({
     }
   }, [options.length, selected])
 
+  if (!pluginClosure.current) return null
+  const config = pluginClosure.current.config
+
   return (
     <HotKeys
       keyMap={{
@@ -153,6 +156,7 @@ function SuggestionsBox({
             options={options}
             currentValue={text.substr(1)}
             selected={selected}
+            config={config}
             name={pluginClosure.current ? pluginClosure.current.name : ''}
           />
         </HoveringOverlay>

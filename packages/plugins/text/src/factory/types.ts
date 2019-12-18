@@ -6,18 +6,13 @@ import {
 import * as React from 'react'
 
 import { SlateEditorAdditionalProps } from './editor'
-import { TextPlugin, PluginRegistry } from '..'
-
-export interface TextPluginOptions {
-  plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
-  registry?: PluginRegistry
-  placeholder?: string
-}
+import { TextConfig } from '..'
 
 export type SlatePluginClosure = React.RefObject<{
+  config: TextConfig
   name: string
   parent?: SlateEditorAdditionalProps
   replace?: (options?: DocumentState) => void
-  availablePlugins: PluginRegistry
+  availablePlugins: TextConfig['registry']
   plugins: ReturnTypeFromSelector<typeof getPlugins>
 }>
