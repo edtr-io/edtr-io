@@ -3,7 +3,9 @@ import {
   number,
   object,
   StoreDeserializeHelpers,
-  StateUpdater
+  StateUpdater,
+  list,
+  StateExecutor
 } from '../src'
 
 describe('object', () => {
@@ -126,6 +128,40 @@ describe('object', () => {
       foo: 'foo',
       counter: 6
     })
+  })
+
+  test('innerOnChange correctly dispatches changes', () => {
+    const state = object({
+      foo: list(child(), 0)
+    })
+    const initialState = state.createInitialState(helpers)
+    expect(helpers.createDocument).not.toHaveBeenCalled()
+
+    let store = initialState
+    const onChange = (
+      initial: StateUpdater<typeof initialState>,
+      executor?: StateExecutor<StateUpdater<typeof initialState>>
+    ) => {
+      store = initial(store, helpers)
+      if (executor) {
+        executor(
+          resolveUpdater => {
+            store = resolveUpdater(store, helpers)
+          },
+          rejectUpdater => {
+            store = rejectUpdater(store, helpers)
+          },
+          nextUpdater => {
+            store = nextUpdater(store, helpers)
+          }
+        )
+      }
+    }
+
+    const objValue = state.init(initialState, onChange)
+    objValue.foo.insert()
+    expect(store.foo.length).toEqual(1)
+    expect(helpers.createDocument).toHaveBeenCalledTimes(1)
   })
 
   test('get focusable children', () => {
