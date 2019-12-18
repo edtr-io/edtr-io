@@ -24,7 +24,7 @@ import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { textPlugin } from '@edtr-io/plugin-text'
-import { videoPlugin } from '@edtr-io/plugin-video'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 const nestedArrayState = object({
   children: list(child({ plugin: 'stateful' }), 1)
@@ -78,7 +78,7 @@ export const plugins: Record<
   spoiler: createSpoilerPlugin(),
   table: createTablePlugin(),
   text: textPlugin,
-  video: videoPlugin,
+  video: createVideoPlugin(),
 
   stateful: {
     Component: () => null,

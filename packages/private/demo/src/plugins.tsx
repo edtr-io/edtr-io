@@ -20,7 +20,7 @@ import { createSolutionPlugin } from '@edtr-io/plugin-solution'
 import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { createTextPlugin, textPlugin } from '@edtr-io/plugin-text'
-import { videoPlugin } from '@edtr-io/plugin-video'
+import { createVideoPlugin } from '@edtr-io/plugin-video'
 
 import { imagePlugin, readFile } from './plugin-image'
 
@@ -83,5 +83,5 @@ export const plugins: Record<
       name: 'image'
     }
   ]),
-  video: videoPlugin
+  video: createVideoPlugin()
 }

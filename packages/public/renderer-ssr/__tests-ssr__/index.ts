@@ -16,7 +16,7 @@ import { SolutionState } from '@edtr-io/plugin-solution'
 import { SpoilerState } from '@edtr-io/plugin-spoiler'
 import { TableState } from '@edtr-io/plugin-table'
 import { textState } from '@edtr-io/plugin-text'
-import { videoState } from '@edtr-io/plugin-video'
+import { VideoState } from '@edtr-io/plugin-video'
 import { Mark, Text } from 'slate'
 
 import { render } from '../src'
@@ -342,7 +342,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Video plugin', () => {
-    const state: Document<typeof videoState> = {
+    const state: Document<VideoState> = {
       plugin: 'video',
       state: {
         __version__: 1,
