@@ -2,8 +2,7 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { EditorPlugin } from '@edtr-io/internal__plugin'
-import { StateUpdater, StateExecutor } from '@edtr-io/internal__plugin-state'
+import { StateExecutor, StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
   change,
   focus,
@@ -121,11 +120,8 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       return null
     }
 
-    const pluginWithConfig = plugin as EditorPlugin
     const defaultConfig =
-      typeof pluginWithConfig.config === 'function'
-        ? pluginWithConfig.config(theme)
-        : pluginWithConfig.config
+      typeof plugin.config === 'function' ? plugin.config(theme) : plugin.config
     const overrideConfig = (pluginProps && pluginProps.config) || {}
     const config = R.mergeDeepRight(defaultConfig, overrideConfig)
 

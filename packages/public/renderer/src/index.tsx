@@ -3,7 +3,7 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Provider, ScopeContext, SubDocument } from '@edtr-io/core'
-import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import { initRoot, createStore, StoreEnhancerFactory } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
@@ -43,7 +43,7 @@ export function Renderer<K extends string = string>({
 }
 
 export interface RendererProps<K extends string = string> {
-  plugins: Record<K, EditorPlugin | DeprecatedPlugin>
+  plugins: Record<K, EditorPlugin>
   state: {
     plugin: K
     state?: unknown

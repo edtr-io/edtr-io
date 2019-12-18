@@ -4,10 +4,10 @@ import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Inline } from 'slate'
 
+import { trimSelection } from '../helpers'
 import { linkNode } from '../model'
 import { InlineInput } from './inline-input'
 import { InlineSettings } from './inline-settings'
-import { trimSelection } from '../helpers'
 import {
   NodeControlsProps,
   InlineEditorProps,

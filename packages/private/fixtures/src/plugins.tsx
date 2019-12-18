@@ -1,13 +1,6 @@
 // Declaring these as devDependencies would lead to a dependency cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
 /* eslint-disable import/no-extraneous-dependencies */
-import {
-  child,
-  DeprecatedPlugin,
-  EditorPlugin,
-  list,
-  number,
-  object
-} from '@edtr-io/plugin'
+import { child, EditorPlugin, list, number, object } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
@@ -45,7 +38,7 @@ const imagePlugin = createImagePlugin({
 export const plugins: Record<
   string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  DeprecatedPlugin | EditorPlugin<any, any>
+  EditorPlugin<any, any>
 > = {
   anchor: createAnchorPlugin(),
   blockquote: createBlockquotePlugin(),
@@ -81,14 +74,17 @@ export const plugins: Record<
   video: createVideoPlugin(),
 
   stateful: {
+    config: {},
     Component: () => null,
     state: statefulState
   },
   nested: {
+    config: {},
     Component: () => null,
     state: nestedState
   },
   nestedArray: {
+    config: {},
     Component: () => null,
     state: nestedArrayState
   }

@@ -2,7 +2,6 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { EditorPlugin } from '@edtr-io/internal__plugin'
 import { getDocument, getPlugin } from '@edtr-io/store'
 import { useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -26,11 +25,8 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
     return null
   }
 
-  const pluginWithConfig = plugin as EditorPlugin
   const defaultConfig =
-    typeof pluginWithConfig.config === 'function'
-      ? pluginWithConfig.config(theme)
-      : pluginWithConfig.config
+    typeof plugin.config === 'function' ? plugin.config(theme) : plugin.config
   const overrideConfig = (pluginProps && pluginProps.config) || {}
   const config = R.mergeDeepRight(defaultConfig, overrideConfig)
 

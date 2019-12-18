@@ -1,5 +1,5 @@
 import { imagePlugin, readFile } from '@edtr-io/internal__demo/src/plugin-image'
-import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/plugin'
+import { EditorPlugin } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
 import { createEquationsPlugin } from '@edtr-io/plugin-equations'
@@ -32,7 +32,7 @@ const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
 export const plugins: Record<
   string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  EditorPlugin<any, any> | DeprecatedPlugin
+  EditorPlugin<any, any>
 > = {
   // Must be placed before files for onPaste
   image: imagePlugin,

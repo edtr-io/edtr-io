@@ -13,9 +13,9 @@ import {
 
 import { createUiPlugin, Controls } from './controls'
 import { createTextPlugin as textPluginFactory } from './factory'
+import { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
 import { plugins } from './plugins'
-import { SlatePluginClosure } from './factory/types'
 
 export type MarkEditorProps = RenderMarkProps
 

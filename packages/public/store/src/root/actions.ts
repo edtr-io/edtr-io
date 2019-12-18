@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { DeprecatedPlugin, EditorPlugin } from '@edtr-io/internal__plugin'
+import { EditorPlugin } from '@edtr-io/internal__plugin'
 
 import { createAction, createActionWithoutPayload } from '../helpers'
 import { ActionFromActionCreator } from '../types'
@@ -14,7 +14,7 @@ export const initRoot = createAction<
       plugin?: string
       state?: unknown
     }
-    plugins: Record<string, EditorPlugin | DeprecatedPlugin>
+    plugins: Record<string, EditorPlugin>
     defaultPlugin: string
   }
 >('InitRoot')
