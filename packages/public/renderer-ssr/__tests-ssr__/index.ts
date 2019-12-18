@@ -9,7 +9,7 @@ import { ImageState } from '@edtr-io/plugin-image'
 import { ImportantStatementState } from '@edtr-io/plugin-important-statement'
 import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
 import { MultimediaExplanationState } from '@edtr-io/plugin-multimedia-explanation'
-import { rowsState } from '@edtr-io/plugin-rows'
+import { RowsState } from '@edtr-io/plugin-rows'
 import { scMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionState } from '@edtr-io/plugin-serlo-injection'
 import { solutionState } from '@edtr-io/plugin-solution'
@@ -207,7 +207,7 @@ describe('Renderer SSR', () => {
   })
 
   test('Rows plugin', () => {
-    const state: Document<typeof rowsState> = {
+    const state: Document<RowsState> = {
       plugin: 'rows',
       state: [
         {

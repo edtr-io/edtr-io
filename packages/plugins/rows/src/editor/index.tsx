@@ -1,15 +1,13 @@
 import { useScopedSelector } from '@edtr-io/core'
-import {
-  DeprecatedPluginEditorProps,
-  StateTypeReturnType
-} from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
 import * as React from 'react'
 
+import { RowsProps, RowsState } from '..'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { rowsState, rowState, PluginRegistry } from '..'
+import { RowsRenderer } from '../renderer'
 
 function RowEditor({
   insert,
@@ -24,8 +22,8 @@ function RowEditor({
   openMenu(index: number): void
   moveRow(from: number, to: number): void
   index: number
-  rows: StateTypeReturnType<typeof rowsState>
-  row: StateTypeReturnType<typeof rowState>
+  rows: StateTypeReturnType<RowsState>
+  row: StateTypeReturnType<RowsState>[0]
   name: string
 }) {
   const focused = useScopedSelector(isFocused(row.id))
@@ -52,11 +50,7 @@ function RowEditor({
   )
 }
 
-export function RowsEditor(
-  props: DeprecatedPluginEditorProps<typeof rowsState> & {
-    plugins?: PluginRegistry
-  }
-) {
+export function RowsEditor(props: RowsProps) {
   const [menu, setMenu] = React.useState<
     | {
         index: number
@@ -74,6 +68,8 @@ export function RowsEditor(
       }
     })
   }
+
+  if (!props.editable) return <RowsRenderer {...props} />
 
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
@@ -110,7 +106,7 @@ export function RowsEditor(
           menu={menu}
           setMenu={setMenu}
           name={props.name}
-          registry={props.plugins}
+          registry={props.config.plugins}
         />
       ) : null}
     </div>

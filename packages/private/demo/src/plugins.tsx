@@ -13,7 +13,7 @@ import { createHintPlugin } from '@edtr-io/plugin-hint'
 import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
-import { createRowsPlugin, rowsPlugin } from '@edtr-io/plugin-rows'
+import { createRowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
@@ -66,17 +66,7 @@ export const plugins: Record<
       }
     ]
   }),
-  rows: rowsPlugin,
-  customRows: createRowsPlugin([
-    {
-      ...textPlugin,
-      name: 'text'
-    },
-    {
-      ...imagePlugin,
-      name: 'image'
-    }
-  ]),
+  rows: createRowsPlugin({ plugins: [] }),
   scMcExercise: scMcExercisePlugin,
   serloInjection: serloInjectionPlugin,
   solution: solutionPlugin,

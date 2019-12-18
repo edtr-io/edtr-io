@@ -17,7 +17,7 @@ import { createImagePlugin } from '@edtr-io/plugin-image'
 import { createImportantStatementPlugin } from '@edtr-io/plugin-important-statement'
 import { createInputExercisePlugin } from '@edtr-io/plugin-input-exercise'
 import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
-import { rowsPlugin } from '@edtr-io/plugin-rows'
+import { createRowsPlugin } from '@edtr-io/plugin-rows'
 import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
 import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
 import { solutionPlugin } from '@edtr-io/plugin-solution'
@@ -72,7 +72,7 @@ export const plugins: Record<
       }
     ]
   }),
-  rows: rowsPlugin,
+  rows: createRowsPlugin({ plugins: [] }),
   scMcExercise: scMcExercisePlugin,
   solution: solutionPlugin,
   spoiler: spoilerPlugin,

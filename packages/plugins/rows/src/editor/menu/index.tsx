@@ -1,9 +1,7 @@
-import { useScopedSelector } from '@edtr-io/core'
-import { getPlugins } from '@edtr-io/store'
 import { styled, EdtrIcon, edtrRowsControls, ThemeProps } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRowPluginTheme, PluginRegistry } from '../..'
+import { createRowPluginTheme, RowsConfig } from '../..'
 import { Plugin } from './plugin'
 import { Search } from './search'
 
@@ -53,11 +51,10 @@ interface MenuProps {
   }
   setMenu: (newMenu?: MenuProps['menu']) => void
   name: string
-  registry?: PluginRegistry
+  registry: RowsConfig['plugins']
 }
 
 export function Menu({ menu, setMenu, name, registry }: MenuProps) {
-  const plugins = useScopedSelector(getPlugins())
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -74,20 +71,16 @@ export function Menu({ menu, setMenu, name, registry }: MenuProps) {
     }
   }, [close])
 
-  const mappedPlugins = getAvailablePlugins()
-    .filter(({ name: pluginKey }) => {
-      const plugin = plugins[pluginKey]
+  const mappedPlugins = registry
+    .filter(({ name: pluginKey, title, description }) => {
       if (pluginKey === name || pluginKey === 'rows') return false
       if (!search.length) return true
 
-      if (
-        plugin.title &&
-        plugin.title.toLowerCase().includes(search.toLowerCase())
-      )
+      if (title && title.toLowerCase().includes(search.toLowerCase()))
         return true
       if (
-        plugin.description &&
-        plugin.description.toLowerCase().includes(search.toLowerCase())
+        description &&
+        description.toLowerCase().includes(search.toLowerCase())
       )
         return true
       return pluginKey.toLowerCase().includes(search.toLowerCase())
@@ -110,12 +103,4 @@ export function Menu({ menu, setMenu, name, registry }: MenuProps) {
       </CloseButtonContainer>
     </Wrapper>
   )
-
-  function getAvailablePlugins(): PluginRegistry {
-    return registry
-      ? registry
-      : Object.keys(plugins).map(name => {
-          return { ...plugins[name], name }
-        })
-  }
 }

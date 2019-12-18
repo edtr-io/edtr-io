@@ -1,47 +1,31 @@
-import {
-  child,
-  list,
-  DeprecatedPlugin,
-  DeprecatedPluginEditorProps
-} from '@edtr-io/plugin'
+import { child, list, EditorPluginProps, EditorPlugin } from '@edtr-io/plugin'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
-import { RowsRenderer } from './renderer'
 
-export const rowState = child()
-export const rowsState = list(rowState, 1)
-
-function createRowsComponent(plugins?: PluginRegistry) {
-  return function RowsComponent(
-    props: DeprecatedPluginEditorProps<typeof rowsState>
-  ) {
-    return props.editable ? (
-      <RowsEditor {...props} plugins={plugins} />
-    ) : (
-      <RowsRenderer {...props} />
-    )
-  }
+const rowState = child()
+const rowsState = list(rowState, 1)
+export type RowsState = typeof rowsState
+export interface RowsConfig {
+  plugins: {
+    name: string
+    title?: string
+    icon?: React.ComponentType
+    description?: string
+  }[]
 }
+export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
 
 export function createRowsPlugin(
-  plugins?: PluginRegistry
-): DeprecatedPlugin<typeof rowsState> {
+  config: RowsConfig
+): EditorPlugin<RowsState, RowsConfig> {
   return {
-    Component: createRowsComponent(plugins),
+    Component: RowsEditor,
+    config,
     state: rowsState
   }
 }
-
-export const rowsPlugin = createRowsPlugin()
-
-export type PluginRegistry = {
-  name: string
-  title?: string
-  icon?: React.ComponentType
-  description?: string
-}[]
 
 export interface RowTheme {
   backgroundColor: string
