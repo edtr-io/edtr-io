@@ -1,15 +1,22 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { AddButton } from '@edtr-io/editor-ui'
+import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { solutionStepsState } from '..'
 import { explanation } from '../editor'
 import { addStepLabel, addExplanationLabel } from '../guideline-texts'
 import { Buttoncontainer } from './styled-elements'
 import * as React from 'react'
 
+const OrStatement = styled.div({
+  color: 'lightgrey',
+  display: 'flex',
+  alignItems: 'center',
+  textAlign: 'center'
+})
+
 export function AddButtonsComponent(
-  props: StatefulPluginEditorProps<typeof solutionStepsState> & {
+  props: PluginEditorProps<typeof solutionStepsState> & {
     id: string
     index: number
   }
@@ -33,6 +40,7 @@ export function AddButtonsComponent(
           <AddButton title={addStepLabel} onClick={insertStep}>
             Lösungsbestandteil
           </AddButton>
+          <OrStatement> oder </OrStatement>
           <AddButton title={addExplanationLabel} onClick={insertExplanation}>
             zusätzliche Erklärung
           </AddButton>
