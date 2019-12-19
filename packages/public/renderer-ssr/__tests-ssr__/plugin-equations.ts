@@ -1,39 +1,14 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { EquationsState } from '@edtr-io/plugin-equations'
-import { Text } from 'slate'
+import { name, states } from '@edtr-io/plugin-equations/__fixtures__'
 
-import { createTextState } from '../__helpers__'
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Equations plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<EquationsState>
-  } = {
-    plugin: 'equations',
-    state: {
-      steps: [
-        {
-          left: {
-            plugin: 'text',
-            state: createTextState([Text.create({ text: 'left' })])
-          },
-          right: {
-            plugin: 'text',
-            state: createTextState([Text.create({ text: 'right' })])
-          },
-          transform: {
-            plugin: 'text',
-            state: createTextState([Text.create({ text: 'transform' })])
-          }
-        }
-      ]
-    }
+addTests({
+  name: 'Equations',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('left')
+    expect(html).toContain('right')
+    expect(html).toContain('transform')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('left')
 })

@@ -1,27 +1,13 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { HintState } from '@edtr-io/plugin-hint'
+import { name, states } from '@edtr-io/plugin-hint/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Hint plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<HintState>
-  } = {
-    plugin: 'hint',
-    state: {
-      title: '',
-      content: {
-        plugin: 'rows',
-        state: []
-      }
-    }
+addTests({
+  name: 'Hint',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('Tipp')
+    expect(html).toContain('anzeigen')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('Tipp')
-  expect(html).toContain('anzeigen')
 })

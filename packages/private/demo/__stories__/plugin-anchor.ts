@@ -1,9 +1,9 @@
-import { states } from '@edtr-io/plugin-anchor/__fixtures__'
+import { name, states } from '@edtr-io/plugin-anchor/__fixtures__'
 
 import { addPluginStories } from '../src'
 
 addPluginStories({
   name: 'Anchor',
-  plugin: 'anchor',
+  plugin: name,
   states: states
 })

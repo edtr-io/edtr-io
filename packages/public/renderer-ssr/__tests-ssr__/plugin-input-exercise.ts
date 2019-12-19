@@ -1,37 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { InputExerciseState } from '@edtr-io/plugin-input-exercise'
-import { Text } from 'slate'
+import { name, states } from '@edtr-io/plugin-input-exercise/__fixtures__'
 
-import { createTextState } from '../__helpers__'
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Input exercise plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<InputExerciseState>
-  } = {
-    plugin: 'inputExercise',
-    state: {
-      __version__: 1,
-      value: {
-        type: 'Text',
-        answers: [
-          {
-            value: 'Apfel',
-            isCorrect: true,
-            feedback: {
-              plugin: 'text',
-              state: createTextState([Text.create({ text: 'feedback' })])
-            }
-          }
-        ]
-      }
-    }
+addTests({
+  name: 'Input Exercise',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('<input')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<input')
 })

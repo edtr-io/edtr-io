@@ -4,7 +4,61 @@ import { Mark, Text } from 'slate'
 import { TextState, createTextPlugin } from '../src'
 
 export const name = 'text'
-export const plugin = createTextPlugin({ registry: [] })
+export const plugin = createTextPlugin({
+  registry: [
+    {
+      name: 'anchor'
+    },
+    {
+      name: 'blockquote'
+    },
+    {
+      name: 'equations'
+    },
+    {
+      name: 'files'
+    },
+    {
+      name: 'geogebra'
+    },
+    {
+      name: 'highlight'
+    },
+    {
+      name: 'hint'
+    },
+    {
+      name: 'image'
+    },
+    {
+      name: 'importantStatement'
+    },
+    {
+      name: 'inputExercise'
+    },
+    {
+      name: 'multimediaExplanation'
+    },
+    {
+      name: 'scMcExercise'
+    },
+    {
+      name: 'serloInjection'
+    },
+    {
+      name: 'solution'
+    },
+    {
+      name: 'spoiler'
+    },
+    {
+      name: 'table'
+    },
+    {
+      name: 'video'
+    }
+  ]
+})
 
 export const states: Record<string, StateTypeSerializedType<TextState>> = {
   simple: createTextState(Text.create({ text: 'Hello world' })),

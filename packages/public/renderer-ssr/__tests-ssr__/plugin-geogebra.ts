@@ -1,20 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { GeogebraState } from '@edtr-io/plugin-geogebra'
+import { name, states } from '@edtr-io/plugin-geogebra/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('GeoGebra plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<GeogebraState>
-  } = {
-    plugin: 'geogebra',
-    state: 'foo'
+addTests({
+  name: 'GeoGebra',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('geogebra')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('geogebra')
 })

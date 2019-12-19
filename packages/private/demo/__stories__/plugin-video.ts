@@ -1,18 +1,9 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-video/__fixtures__'
 
-addStory('Plugins/Video/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'video'
-      }
-    ]
-  }
-})
+import { addPluginStories } from '../src'
 
-addStory('Plugins/Video/Prefilled', {
-  state: JSON.parse(
-    '{"plugin":"rows","state":[{"plugin":"video","state":{"__version__":1,"value":{"src":"https://www.youtube.com/watch?v=SCJ7nzKwnYo","alt":"Regenwürmer als Haustiere"}}}]}'
-  )
+addPluginStories({
+  name: 'Video',
+  plugin: name,
+  states: states
 })

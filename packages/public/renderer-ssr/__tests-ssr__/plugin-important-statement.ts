@@ -1,23 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { ImportantStatementState } from '@edtr-io/plugin-important-statement'
+import { name, states } from '@edtr-io/plugin-important-statement/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Important statement plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<ImportantStatementState>
-  } = {
-    plugin: 'importantStatement',
-    state: {
-      plugin: 'anchor',
-      state: 'foo'
-    }
+addTests({
+  name: 'Important Statement',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('important statement')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('foo')
 })

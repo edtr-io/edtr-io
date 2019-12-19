@@ -1,26 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { SpoilerState } from '@edtr-io/plugin-spoiler'
+import { name, states } from '@edtr-io/plugin-spoiler/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Spoiler plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<SpoilerState>
-  } = {
-    plugin: 'spoiler',
-    state: {
-      title: 'foo',
-      content: {
-        plugin: 'rows',
-        state: []
-      }
-    }
+addTests({
+  name: 'Spoiler',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('a spoiler')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('foo')
 })

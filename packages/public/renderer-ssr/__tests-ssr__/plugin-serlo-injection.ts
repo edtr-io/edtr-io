@@ -1,20 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { SerloInjectionState } from '@edtr-io/plugin-serlo-injection'
+import { name, states } from '@edtr-io/plugin-serlo-injection/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Serlo injection plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<SerloInjectionState>
-  } = {
-    plugin: 'serloInjection',
-    state: '1337'
+addTests({
+  name: 'Serlo Injection',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('<iframe')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<iframe')
 })

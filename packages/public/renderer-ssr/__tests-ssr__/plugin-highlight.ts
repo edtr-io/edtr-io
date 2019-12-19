@@ -1,24 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { HighlightState } from '@edtr-io/plugin-highlight'
+import { name, states } from '@edtr-io/plugin-highlight/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Highlight plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<HighlightState>
-  } = {
-    plugin: 'highlight',
-    state: {
-      text: 'const el = <div />',
-      language: 'javascript',
-      lineNumbers: true
-    }
+addTests({
+  name: 'Highlight',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('console.log')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('const')
 })

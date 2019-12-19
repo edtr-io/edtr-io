@@ -1,20 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { TableState } from '@edtr-io/plugin-table'
+import { name, states } from '@edtr-io/plugin-table/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Table plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<TableState>
-  } = {
-    plugin: 'table',
-    state: '| foo |\n|-|'
+addTests({
+  name: 'Table',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('<table')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<table')
 })

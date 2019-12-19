@@ -1,26 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { FilesState, FileType } from '@edtr-io/plugin-files'
+import { name, states } from '@edtr-io/plugin-files/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Image plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<FilesState>
-  } = {
-    plugin: 'files',
-    state: [
-      {
-        type: FileType.Image,
-        name: 'foo',
-        location: 'bar'
-      }
-    ]
+addTests({
+  name: 'Files',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('<svg')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<svg')
 })

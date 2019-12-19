@@ -1,9 +1,10 @@
 import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
+import { StateTypeSerializedType } from '@edtr-io/plugin'
 import { TextState } from '@edtr-io/plugin-text'
-import { render } from '@edtr-io/renderer-ssr'
 import * as R from 'ramda'
 import { Text } from 'slate'
+
+import { render } from '../src'
 
 export function createTextState(
   texts: Text[]

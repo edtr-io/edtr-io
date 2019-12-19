@@ -1,19 +1,9 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-rows/__fixtures__'
 
-addStory('Plugins/Rows/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'text'
-      }
-    ]
-  }
-})
+import { addPluginStories } from '../src'
 
-addStory('Plugins/Rows/Empty', {
-  state: {
-    plugin: 'rows',
-    state: []
-  }
+addPluginStories({
+  name: 'Rows',
+  plugin: name,
+  states: states
 })

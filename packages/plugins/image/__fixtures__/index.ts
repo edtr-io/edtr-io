@@ -1,5 +1,12 @@
-import { LoadedFile, UploadValidator } from '@edtr-io/plugin'
-import { createImagePlugin } from '@edtr-io/plugin-image'
+import {
+  LoadedFile,
+  StateTypeSerializedType,
+  UploadValidator
+} from '@edtr-io/plugin'
+
+import { ImageState, createImagePlugin } from '../src'
+
+export const name = 'image'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
 const ALLOWED_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg']
@@ -12,7 +19,7 @@ enum FileErrorCode {
   UPLOAD_FAILED
 }
 
-export interface FileError {
+interface FileError {
   errorCode: FileErrorCode
   message: string
 }
@@ -68,7 +75,7 @@ export const validateFile: UploadValidator<FileError[]> = file => {
   }
 }
 
-export function mockUploadImageHandler(file: File): Promise<string> {
+function mockUploadImageHandler(file: File): Promise<string> {
   const validation = validateFile(file)
   if (!validation.valid) {
     onError(validation.errors)
@@ -80,7 +87,7 @@ export function mockUploadImageHandler(file: File): Promise<string> {
   })
 }
 
-export function readFile(file: File): Promise<LoadedFile> {
+function readFile(file: File): Promise<LoadedFile> {
   return new Promise(resolve => {
     const reader = new FileReader()
 
@@ -95,9 +102,20 @@ export function readFile(file: File): Promise<LoadedFile> {
     reader.readAsDataURL(file)
   })
 }
-
-export const imagePlugin = createImagePlugin({
+export const plugin = createImagePlugin({
   upload: mockUploadImageHandler,
   validate: validateFile,
   secondInput: 'description'
 })
+
+export const states: Record<string, StateTypeSerializedType<ImageState>> = {
+  simple: {
+    src:
+      'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+    href: '',
+    target: '',
+    rel: '',
+    description: 'Edtr.io Logo',
+    maxWidth: 0
+  }
+}

@@ -1,13 +1,9 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-serlo-injection/__fixtures__'
 
-addStory('Plugins/Serlo Injection/Prefilled', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'serloInjection',
-        state: '54210'
-      }
-    ]
-  }
+import { addPluginStories } from '../src'
+
+addPluginStories({
+  name: 'Serlo Injection',
+  plugin: name,
+  states: states
 })

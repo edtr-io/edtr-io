@@ -1,38 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { ScMcExerciseState } from '@edtr-io/plugin-sc-mc-exercise'
-import { Text } from 'slate'
+import { name, states } from '@edtr-io/plugin-sc-mc-exercise/__fixtures__'
 
-import { createTextState } from '../__helpers__'
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Sc-Mc exercise plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<ScMcExerciseState>
-  } = {
-    plugin: 'scMcExercise',
-    state: {
-      isSingleChoice: true,
-      answers: [
-        {
-          id: {
-            plugin: 'text',
-            state: createTextState([Text.create({ text: 'option a' })])
-          },
-          isCorrect: true,
-          feedback: {
-            plugin: 'text',
-            state: createTextState([Text.create({ text: 'feedback' })])
-          },
-          hasFeedback: true
-        }
-      ]
-    }
+addTests({
+  name: 'Sc Mc Exercise',
+  plugin: name,
+  states,
+  assert(state, html) {
+    expect(html).toContain('correct')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('option a')
 })
