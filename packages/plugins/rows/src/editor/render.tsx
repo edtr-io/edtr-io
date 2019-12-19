@@ -231,9 +231,9 @@ export function RowRenderer({
                     rows.insert(index, document)
                     close()
                   }}
-                  label="Kopieren"
+                  label="Duplizieren"
                 >
-                  <Icon icon={faCopy} /> Kopieren
+                  <Icon icon={faCopy} /> Duplizieren
                 </BorderlessOverlayButton>
                 <BorderlessOverlayButton
                   onClick={() => {
