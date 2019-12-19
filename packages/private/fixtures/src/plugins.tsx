@@ -18,6 +18,8 @@ import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
+import { createEquationsPlugin } from '@edtr-io/plugin-equations'
+import { createFilesPlugin, FileType } from '@edtr-io/plugin-files'
 
 const nestedArrayState = object({
   children: list(child({ plugin: 'stateful' }), 1)
@@ -29,6 +31,10 @@ const nestedState = object({
 
 const statefulState = number(0)
 
+const filesPlugin = createFilesPlugin({
+  upload: () =>
+    Promise.resolve({ type: FileType.Image, name: 'foo', location: 'bar' })
+})
 const imagePlugin = createImagePlugin({
   upload: () => Promise.resolve('foo'),
   validate: () => {
@@ -42,12 +48,13 @@ export const plugins: Record<
 > = {
   anchor: createAnchorPlugin(),
   blockquote: createBlockquotePlugin(),
+  equations: createEquationsPlugin(),
+  files: filesPlugin,
   geogebra: createGeogebraPlugin(),
   highlight: createHighlightPlugin(),
   hint: createHintPlugin(),
   image: imagePlugin,
   importantStatement: createImportantStatementPlugin(),
-  injection: createSerloInjectionPlugin(),
   inputExercise: createInputExercisePlugin(),
   multimediaExplanation: createMultimediaExplanationPlugin({
     plugins: [
@@ -67,6 +74,7 @@ export const plugins: Record<
   }),
   rows: createRowsPlugin({ plugins: [] }),
   scMcExercise: createScMcExercisePlugin(),
+  serloInjection: createSerloInjectionPlugin(),
   solution: createSolutionPlugin(),
   spoiler: createSpoilerPlugin(),
   table: createTablePlugin(),

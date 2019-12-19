@@ -133,7 +133,7 @@ describe('Renderer SSR', () => {
 
   test('Serlo injection plugin', () => {
     const state: Document<SerloInjectionState> = {
-      plugin: 'injection',
+      plugin: 'serloInjection',
       state: '1337'
     }
     const { html } = render({
