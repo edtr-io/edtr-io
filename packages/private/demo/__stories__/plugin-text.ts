@@ -1,14 +1,11 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-text/__fixtures__'
 
-addStory('Plugins/Text/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'text'
-      }
-    ]
-  }
+import { addPluginStories, addStory } from '../src'
+
+addPluginStories({
+  name: 'Text',
+  plugin: name,
+  states: states
 })
 
 addStory('Plugins/Text/Short Prefilled', {

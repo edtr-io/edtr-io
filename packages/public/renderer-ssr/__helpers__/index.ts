@@ -34,16 +34,38 @@ export function addTests<S>({
   name: string
   plugin: string
   states: Record<string, S>
-  assert(state: S, html: string): void
+  assert?(state: S, html: string): void
 }) {
   test.each(R.toPairs(states))(`${name} plugin (%s)`, (_, state) => {
-    const { html } = render({
-      state: {
-        plugin,
-        state
-      },
-      plugins
+    addTest({
+      plugin,
+      state,
+      assert(html) {
+        if (typeof assert === 'function') {
+          assert(state, html)
+        }
+      }
     })
-    assert(state, html)
   })
+}
+
+export function addTest<S>({
+  plugin,
+  state,
+  assert
+}: {
+  plugin: string
+  state: S
+  assert?(html: string): void
+}) {
+  const { html } = render({
+    state: {
+      plugin,
+      state
+    },
+    plugins
+  })
+  if (typeof assert === 'function') {
+    assert(html)
+  }
 }

@@ -1,54 +1,30 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { TextState } from '@edtr-io/plugin-text'
-import { Mark, Text } from 'slate'
+import { name, states } from '@edtr-io/plugin-text/__fixtures__'
 
-import { createTextState } from '../__helpers__'
-import { render } from '../src'
+import { addTest, addTests } from '../__helpers__'
 
-test('Text plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<TextState>
-  } = {
-    plugin: 'text',
-    state: createTextState([
-      Text.create({ text: 'This will be rendered' }),
-      Text.create({
-        text: 'bold',
-        marks: Mark.createSet(['@splish-me/strong'])
-      })
-    ])
-  }
-  const { html } = render({
-    state,
-    plugins
+test('Text plugin (w/ bold)', () => {
+  addTest({
+    plugin: name,
+    state: states.bold,
+    assert(html) {
+      expect(html).toContain('bold')
+      expect(html).toContain('<strong')
+    }
   })
-
-  expect(html).toContain('This will be rendered')
-  expect(html).toContain('<strong')
 })
 
-test('Text plugin with colors', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<TextState>
-  } = {
-    plugin: 'text',
-    state: createTextState([
-      Text.create({
-        text: 'This is colored',
-        marks: Mark.createSet([
-          { type: '@splish-me/color', data: { colorIndex: 1 } }
-        ])
-      })
-    ])
-  }
-
-  const { html } = render({
-    state,
-    plugins
+test('Text plugin (w/ color)', () => {
+  addTest({
+    plugin: name,
+    state: states.color,
+    assert(html) {
+      expect(html).toContain('color')
+    }
   })
+})
 
-  expect(html).toContain('This is colored')
+addTests({
+  name: 'Text',
+  plugin: name,
+  states
 })

@@ -1,23 +1,12 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { BlockquoteState } from '@edtr-io/plugin-blockquote'
+import { name, states } from '@edtr-io/plugin-blockquote/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Blockquote plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<BlockquoteState>
-  } = {
-    plugin: 'blockquote',
-    state: {
-      plugin: 'anchor',
-      state: 'foo'
-    }
+addTests({
+  name: 'Blockquote',
+  plugin: name,
+  states,
+  assert(_state, html) {
+    expect(html).toContain('<blockquote')
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<blockquote')
 })
