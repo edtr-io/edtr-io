@@ -81,17 +81,18 @@ export function list<S, T = S, U = unknown>(
               return result
             }
           }
-          onChange(wrapUpdater(initial), (resolve, reject, next) => {
-            if (!executor) {
-              resolve(wrapUpdater(initial))
-            } else {
-              executor(
-                innerUpdater => resolve(wrapUpdater(innerUpdater)),
-                innerUpdater => reject(wrapUpdater(innerUpdater)),
-                innerUpdater => next(wrapUpdater(innerUpdater))
-              )
-            }
-          })
+          onChange(
+            wrapUpdater(initial),
+            executor
+              ? (resolve, reject, next) => {
+                  executor(
+                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                    innerUpdater => reject(wrapUpdater(innerUpdater)),
+                    innerUpdater => next(wrapUpdater(innerUpdater))
+                  )
+                }
+              : undefined
+          )
         }
       }
     },

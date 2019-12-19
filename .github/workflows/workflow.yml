@@ -27,7 +27,7 @@ jobs:
       - run: yarn
       - run: yarn build --concurrency 2
         if: github.ref == 'refs/heads/master'
-      - run: yarn build --concurrency 2 --since master
+      - run: yarn build --concurrency 2 --since master --include-dependencies --include-dependents
         if: github.ref != 'refs/heads/master'
   lint:
     runs-on: ubuntu-latest

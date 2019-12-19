@@ -52,17 +52,18 @@ export function object<Ds extends Record<string, StateType>>(
               )
             }
           }
-          onChange(wrapUpdater(initial), (resolve, reject, next) => {
-            if (!executor) {
-              resolve(wrapUpdater(initial))
-            } else {
-              executor(
-                innerUpdater => resolve(wrapUpdater(innerUpdater)),
-                innerUpdater => reject(wrapUpdater(innerUpdater)),
-                innerUpdater => next(wrapUpdater(innerUpdater))
-              )
-            }
-          })
+          onChange(
+            wrapUpdater(initial),
+            executor
+              ? (resolve, reject, next) => {
+                  executor(
+                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                    innerUpdater => reject(wrapUpdater(innerUpdater)),
+                    innerUpdater => next(wrapUpdater(innerUpdater))
+                  )
+                }
+              : undefined
+          )
         }
       }, types) as U
     },
