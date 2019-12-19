@@ -1,4 +1,4 @@
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
+import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
@@ -22,7 +22,7 @@ const Container = styled.div<{ isHalf: boolean }>(
 )
 
 export function SolutionStepsRenderer(
-  props: StatefulPluginEditorProps<typeof solutionStepsState>
+  props: PluginEditorProps<typeof solutionStepsState>
 ) {
   const { state } = props
   const { introduction, strategy, solutionSteps, additionals } = state

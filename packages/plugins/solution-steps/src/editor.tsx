@@ -1,7 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { AddButton, Guideline } from '@edtr-io/editor-ui'
-import { StatefulPluginEditorProps } from '@edtr-io/plugin'
-import { isFocused } from '@edtr-io/store'
+import { AddButton, Guideline, GuidelineButton } from '@edtr-io/editor-ui'
+import { PluginEditorProps } from '@edtr-io/plugin'
+import { isFocused, getFocused } from '@edtr-io/store'
 import { Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
@@ -33,7 +33,7 @@ import { renderControls } from './helper/render-controls'
 export const explanation = 'explanation'
 
 export function SolutionStepsEditor(
-  props: StatefulPluginEditorProps<typeof solutionStepsState>
+  props: PluginEditorProps<typeof solutionStepsState>
 ) {
   const { state, editable } = props
   const { solutionSteps } = state
@@ -43,7 +43,6 @@ export function SolutionStepsEditor(
   )
   const strategyFocused = useHasFocusSelector(state.strategy.id)
 
-  //replace props.focused|| ... with selector
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
@@ -70,6 +69,7 @@ export function SolutionStepsEditor(
               {state.strategy.render()}
             </Content>
           </Guideline>
+
           <Controls>
             <ControlButton
               onClick={() => {
@@ -157,6 +157,11 @@ export function SolutionStepsEditor(
                           <AddButtonsComponent
                             {...props}
                             id={solutionStepLeft.content.id}
+                            optionalID={
+                              solutionStepRight
+                                ? solutionStepRight.content.id
+                                : undefined
+                            }
                             index={
                               solutionStepRight
                                 ? solutionStepIndexRight

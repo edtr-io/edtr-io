@@ -19,9 +19,13 @@ export function AddButtonsComponent(
   props: PluginEditorProps<typeof solutionStepsState> & {
     id: string
     index: number
+    optionalID?: string
   }
 ) {
-  const hasFocusedChild = useScopedSelector(hasFocusedDescendant(props.id))
+  const leftHasFocusedChild = useScopedSelector(hasFocusedDescendant(props.id))
+  const rightHasFocusedChild = useScopedSelector(
+    hasFocusedDescendant(props.optionalID || '')
+  )
 
   const insertStep = () => {
     props.state.solutionSteps.insert(props.index + 1)
@@ -35,7 +39,10 @@ export function AddButtonsComponent(
   }
   return (
     <React.Fragment>
-      {hasFocusedChild || props.id === '' ? (
+      {leftHasFocusedChild ||
+      rightHasFocusedChild ||
+      props.optionalID === '' ||
+      props.id === '' ? (
         <Buttoncontainer>
           <AddButton title={addStepLabel} onClick={insertStep}>
             Lösungsbestandteil

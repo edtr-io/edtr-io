@@ -1,11 +1,4 @@
-import {
-  child,
-  object,
-  list,
-  StatefulPlugin,
-  string,
-  boolean
-} from '@edtr-io/plugin'
+import { child, object, list, Plugin, string, boolean } from '@edtr-io/plugin'
 import { createIcon, faCheckSquare } from '@edtr-io/ui'
 
 import { SolutionStepsEditor } from './editor'
@@ -25,7 +18,7 @@ export const solutionStepsState = object({
   hasAdditionals: boolean()
 })
 
-export const solutionStepsPlugin: StatefulPlugin<typeof solutionStepsState> = {
+export const solutionStepsPlugin: Plugin<typeof solutionStepsState> = {
   Component: SolutionStepsEditor,
   state: solutionStepsState,
   icon: createIcon(faCheckSquare),

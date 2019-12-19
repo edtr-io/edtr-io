@@ -14,7 +14,7 @@ const StyledGuidelineButton = styled(PluginToolbarOverlayButton)({
   top: '-25px'
 })
 
-function GuidelineButton(props: { overlayContent: React.ReactNode }) {
+export function GuidelineButton(props: { overlayContent: React.ReactNode }) {
   const contentRef = React.useRef<HTMLDivElement>(
     window.document.createElement('div')
   )
