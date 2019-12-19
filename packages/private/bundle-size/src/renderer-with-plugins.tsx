@@ -3,6 +3,6 @@ import * as React from 'react'
 
 import { plugins } from './shared/plugins'
 
-export function Renderer(props: RendererProps) {
+export function Renderer(props: Omit<RendererProps, 'plugins'>) {
   return <Core plugins={plugins} {...props} />
 }
