@@ -1,4 +1,11 @@
-import { child, list, StoreDeserializeHelpers, string } from '../src'
+import {
+  child,
+  list,
+  StoreDeserializeHelpers,
+  string,
+  StateUpdater,
+  StateExecutor
+} from '../src'
 
 describe('list', () => {
   interface T {
@@ -8,10 +15,8 @@ describe('list', () => {
 
   let helpers: StoreDeserializeHelpers & { createDocument: jest.Mock }
   let store: T[]
-  const onChange = (
-    updater: (oldItems: T[], helpers: StoreDeserializeHelpers) => T[]
-  ) => {
-    store = updater(store, helpers)
+  const onChange = (initial: StateUpdater<T[]>) => {
+    store = initial(store, helpers)
   }
 
   beforeEach(() => {
@@ -203,5 +208,36 @@ describe('list', () => {
         value: 'bar'
       }
     ])
+  })
+
+  test('inner change correctly dispatches changes', () => {
+    const state = list(list(child(), 0), 1)
+    const initialState = state.createInitialState(helpers)
+    expect(helpers.createDocument).not.toHaveBeenCalled()
+
+    let store = initialState
+    const onChange = (
+      initial: StateUpdater<typeof initialState>,
+      executor?: StateExecutor<StateUpdater<typeof initialState>>
+    ) => {
+      store = initial(store, helpers)
+      if (executor) {
+        executor(
+          resolveUpdater => {
+            store = resolveUpdater(store, helpers)
+          },
+          rejectUpdater => {
+            store = rejectUpdater(store, helpers)
+          },
+          nextUpdater => {
+            store = nextUpdater(store, helpers)
+          }
+        )
+      }
+    }
+
+    const listValue = state.init(initialState, onChange)
+    listValue[0].insert()
+    expect(helpers.createDocument).toHaveBeenCalledTimes(1)
   })
 })

@@ -185,7 +185,7 @@ export function RowRenderer({
           dispatch(
             change({
               id: previousFocusId,
-              state: () => merged
+              state: { initial: () => merged }
             })
           )
           rows.remove(index)
@@ -299,7 +299,7 @@ function createFakeDataTransfer(files: File[], text?: string) {
   class FakeDataTransfer extends DataTransfer {
     public dropEffect = 'all'
     public effectAllowed = 'all'
-    public readonly files = (files as unknown) as FileList
+    public files = (files as unknown) as FileList
     public readonly types = ['Files']
     public getData(type: string) {
       if (type.toLowerCase().startsWith('text')) {

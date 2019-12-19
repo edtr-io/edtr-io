@@ -1,9 +1,4 @@
-import {
-  child,
-  list,
-  StatefulPlugin,
-  StatefulPluginEditorProps
-} from '@edtr-io/plugin'
+import { child, list, Plugin, PluginEditorProps } from '@edtr-io/plugin'
 import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -14,9 +9,7 @@ export const rowState = child()
 export const rowsState = list(rowState, 1)
 
 function createRowsComponent(plugins?: PluginRegistry) {
-  return function RowsComponent(
-    props: StatefulPluginEditorProps<typeof rowsState>
-  ) {
+  return function RowsComponent(props: PluginEditorProps<typeof rowsState>) {
     return props.editable ? (
       <RowsEditor {...props} plugins={plugins} />
     ) : (
@@ -27,7 +20,7 @@ function createRowsComponent(plugins?: PluginRegistry) {
 
 export function createRowsPlugin(
   plugins?: PluginRegistry
-): StatefulPlugin<typeof rowsState> {
+): Plugin<typeof rowsState> {
   return {
     Component: createRowsComponent(plugins),
     state: rowsState

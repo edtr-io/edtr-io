@@ -3,13 +3,14 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  StoreDeserializeHelpers,
   StateType,
   StateTypesSerializedType,
   StateTypesValueType,
   StateTypesReturnType,
   StateTypeReturnType,
-  FocusableChild
+  FocusableChild,
+  StateUpdater,
+  StateExecutor
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
@@ -35,13 +36,33 @@ export function object<Ds extends Record<string, StateType>>(
         return type.init(state[key], innerOnChange, pluginProps)
 
         function innerOnChange(
-          updater: (
-            oldValue: StateTypeReturnType<typeof type>,
-            helpers: StoreDeserializeHelpers
-          ) => StateTypeReturnType<typeof type>
+          initial: StateUpdater<StateTypeReturnType<typeof type>>,
+          executor?: StateExecutor<
+            StateUpdater<StateTypeReturnType<typeof type>>
+          >
         ): void {
-          onChange((oldObj, helpers) =>
-            R.set(R.lensProp(key), updater(oldObj[key], helpers), oldObj)
+          function wrapUpdater(
+            initial: StateUpdater<StateTypeReturnType<typeof type>>
+          ): StateUpdater<StateTypesValueType<Ds>> {
+            return (oldObj, helpers) => {
+              return R.set(
+                R.lensProp(key),
+                initial(oldObj[key], helpers),
+                oldObj
+              )
+            }
+          }
+          onChange(
+            wrapUpdater(initial),
+            executor
+              ? (resolve, reject, next) => {
+                  executor(
+                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                    innerUpdater => reject(wrapUpdater(innerUpdater)),
+                    innerUpdater => next(wrapUpdater(innerUpdater))
+                  )
+                }
+              : undefined
           )
         }
       }, types) as U

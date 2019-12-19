@@ -29,8 +29,12 @@ The plugin should return void if it doesn't handle the pasted data or a object i
 In a plugin embedding youtube videos the following `onPaste` function could be used
 
 ```typescript
-const youtubeState = StateType.string()
-const youtubePlugin: StatefulPlugin<typeof youtubeState> = {
+import { string, Plugin } from '@edtr-io/plugin'
+import * as React from 'react'
+import { YoutubeEditorComponent } from './editor'
+
+const youtubeState = string()
+const youtubePlugin: Plugin<typeof youtubeState> = {
   Component: YoutubeEditorComponent, // some React component displaying the youtube video
   state: youtubeState,
   onPaste(clipboardData: DataTransfer) {

@@ -1,4 +1,12 @@
-import { child, number, object, StoreDeserializeHelpers } from '../src'
+import {
+  child,
+  number,
+  object,
+  StoreDeserializeHelpers,
+  StateUpdater,
+  list,
+  StateExecutor
+} from '../src'
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
@@ -104,22 +112,17 @@ describe('object', () => {
       foo: child(),
       counter: number()
     })
-    const initial = {
+    const initialState = {
       foo: 'foo',
       counter: 5
     }
 
-    let store = initial
-    const onChange = (
-      updater: (
-        oldValue: typeof initial,
-        helpers: StoreDeserializeHelpers
-      ) => typeof initial
-    ) => {
-      store = updater(store, helpers)
+    let store = initialState
+    const onChange = (initial: StateUpdater<typeof initialState>) => {
+      store = initial(store, helpers)
     }
 
-    const objValue = state.init(initial, onChange)
+    const objValue = state.init(initialState, onChange)
     objValue.counter.set(value => value + 1)
     expect(store).toEqual({
       foo: 'foo',
@@ -127,16 +130,50 @@ describe('object', () => {
     })
   })
 
+  test('innerOnChange correctly dispatches changes', () => {
+    const state = object({
+      foo: list(child(), 0)
+    })
+    const initialState = state.createInitialState(helpers)
+    expect(helpers.createDocument).not.toHaveBeenCalled()
+
+    let store = initialState
+    const onChange = (
+      initial: StateUpdater<typeof initialState>,
+      executor?: StateExecutor<StateUpdater<typeof initialState>>
+    ) => {
+      store = initial(store, helpers)
+      if (executor) {
+        executor(
+          resolveUpdater => {
+            store = resolveUpdater(store, helpers)
+          },
+          rejectUpdater => {
+            store = rejectUpdater(store, helpers)
+          },
+          nextUpdater => {
+            store = nextUpdater(store, helpers)
+          }
+        )
+      }
+    }
+
+    const objValue = state.init(initialState, onChange)
+    objValue.foo.insert()
+    expect(store.foo.length).toEqual(1)
+    expect(helpers.createDocument).toHaveBeenCalledTimes(1)
+  })
+
   test('get focusable children', () => {
     const state = object({
       foo: child(),
       counter: number()
     })
-    const initial = {
+    const initialState = {
       foo: 'foo',
       counter: 5
     }
 
-    expect(state.getFocusableChildren(initial)).toEqual([{ id: 'foo' }])
+    expect(state.getFocusableChildren(initialState)).toEqual([{ id: 'foo' }])
   })
 })

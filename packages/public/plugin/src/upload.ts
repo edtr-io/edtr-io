@@ -5,7 +5,7 @@
 import { StateType } from '@edtr-io/internal__plugin-state'
 import * as React from 'react'
 
-import { serializedScalar } from './scalar'
+import { asyncScalar } from './scalar'
 
 export interface UploadStateReturnType<T> {
   get(): FileState<T>
@@ -20,50 +20,53 @@ export interface UploadStateReturnType<T> {
 export function upload<T>(
   defaultState: T
 ): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
-  const state = serializedScalar<FileState<T>, FileState<T>>(defaultState, {
-    deserialize(serialized) {
-      return serialized
-    },
-    serialize(deserialized) {
-      if (isTempFile(deserialized)) {
-        return defaultState
-      }
-      return deserialized
-    }
-  })
+  const state = asyncScalar<T, TempFile>(defaultState, isTempFile)
   return {
     ...state,
     init(...args) {
       const s = state.init(...args)
-      return Object.assign(s, {
+      return {
+        ...s,
+        set(
+          value: FileState<T> | ((currentValue: FileState<T>) => FileState<T>)
+        ) {
+          s.set(value)
+        },
         isPending: isTempFile(s.value) && !!s.value.pending,
         upload(file: File, handler: UploadHandler<T>): Promise<T> {
-          const read = readFile(file)
-          let uploadFinished = false
-
           const uploaded = handler(file)
-            .then(uploaded => {
-              uploadFinished = true
-              return uploaded
-            })
-            .then(uploaded => {
-              s.value = uploaded
-              return uploaded
-            })
-            .catch(reason => {
-              s.value = { failed: file }
-              return Promise.reject(reason)
+          s.set(defaultState, (resolve, reject, next) => {
+            const read = readFile(file)
+            let uploadFinished = false
+
+            read.then((loaded: LoadedFile) => {
+              if (!uploadFinished) {
+                next(() => {
+                  return { uploadHandled: true, loaded }
+                })
+              }
             })
 
-          read.then((loaded: LoadedFile) => {
-            if (!uploadFinished) {
-              s.value = { loaded }
-            }
+            uploaded
+              .then(uploaded => {
+                uploadFinished = true
+                return uploaded
+              })
+              .then(uploaded => {
+                resolve(() => {
+                  return uploaded
+                })
+              })
+              .catch(() => {
+                reject(() => {
+                  return { uploadHandled: true, failed: file }
+                })
+              })
           })
 
           return uploaded
         }
-      })
+      }
     }
   }
 }
@@ -92,36 +95,28 @@ export function usePendingFilesUploader<T>(
   files: UploadStateReturnType<T>[],
   uploadHandler: UploadHandler<T>
 ) {
-  const [uploading, setUploading] = React.useState([] as boolean[])
+  const [uploading, setUploading] = React.useState(0)
   React.useEffect(() => {
-    files.forEach((fileState, i) => {
-      if (
-        isTempFile(fileState.value) &&
-        fileState.value.pending &&
-        !uploading[i]
-      ) {
-        setUploading(currentUploading => {
-          return {
-            ...currentUploading,
-            [i]: true
-          }
-        })
+    // everything uploaded already
+    if (uploading >= files.length) return
+    const fileState = files[uploading]
 
-        fileState
-          .upload(fileState.value.pending, uploadHandler)
-          .catch(onDone)
-          .then(onDone)
-      }
+    if (
+      isTempFile(fileState.value) &&
+      fileState.value.pending &&
+      !fileState.value.uploadHandled
+    ) {
+      fileState.value.uploadHandled = true
 
-      function onDone() {
-        setUploading(currentUploading => {
-          return {
-            ...currentUploading,
-            [i]: false
-          }
-        })
-      }
-    })
+      fileState
+        .upload(fileState.value.pending, uploadHandler)
+        .catch(onDone)
+        .then(onDone)
+    }
+
+    function onDone() {
+      setUploading(currentUploading => currentUploading + 1)
+    }
   }, [files, uploadHandler, uploading])
 }
 export type UploadHandler<T> = (file: File) => Promise<T>
@@ -131,6 +126,7 @@ export type UploadValidator<E = unknown> = (
 ) => { valid: true } | { valid: false; errors: E }
 
 export interface TempFile {
+  uploadHandled?: boolean
   pending?: File
   failed?: File
   loaded?: LoadedFile

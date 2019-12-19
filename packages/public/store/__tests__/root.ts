@@ -25,16 +25,6 @@ describe('Root', () => {
   })
 
   describe('Init Root', () => {
-    test('Stateless Plugin', async () => {
-      store.dispatch(initRoot({ plugin: 'stateless' }))
-      await waitUntil(() =>
-        R.any(action => action.type === persist.type, store.getActions())
-      )
-      expect(S.serializeRootDocument()(store.getState())).toEqual({
-        plugin: 'stateless'
-      })
-    })
-
     test('Stateful Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
       await waitUntil(() =>

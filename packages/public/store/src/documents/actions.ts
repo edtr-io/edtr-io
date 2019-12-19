@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { StoreDeserializeHelpers } from '@edtr-io/internal__plugin-state'
+import { StateExecutor, StateUpdater } from '@edtr-io/internal__plugin-state'
 
 import { createAction } from '../helpers'
 import { ActionFromActionCreator, DocumentState } from '../types'
@@ -27,11 +27,17 @@ export type PureInsertAction = ActionFromActionCreator<typeof pureInsert>
 export const remove = createAction<'Remove', string>('Remove')
 export type RemoveAction = ActionFromActionCreator<typeof remove>
 
+export const pureRemove = createAction<'PureRemove', string>('PureRemove')
+export type PureRemoveAction = ActionFromActionCreator<typeof pureRemove>
+
 export const change = createAction<
   'Change',
   {
     id: string
-    state: (value: unknown, helpers: StoreDeserializeHelpers) => unknown
+    state: {
+      initial: StateUpdater<unknown>
+      executor?: StateExecutor<StateUpdater<unknown>>
+    }
   }
 >('Change')
 export type ChangeAction = ActionFromActionCreator<typeof change>
@@ -45,5 +51,6 @@ export type DocumentsAction =
   | InsertAction
   | PureInsertAction
   | RemoveAction
-  | PureChangeAction
+  | PureRemoveAction
   | ChangeAction
+  | PureChangeAction

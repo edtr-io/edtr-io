@@ -4,7 +4,9 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
-  StateType
+  StateType,
+  StateUpdater,
+  StateExecutor
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 import { generate } from 'shortid'
@@ -51,9 +53,7 @@ export function list<S, T = S, U = unknown>(
           })
         },
         remove(index: number) {
-          onChange(items => {
-            return R.remove(index, 1, items)
-          })
+          onChange(items => R.remove(index, 1, items))
         },
         move(from: number, to: number) {
           onChange(items => R.move(from, to, items))
@@ -62,17 +62,36 @@ export function list<S, T = S, U = unknown>(
 
       function createOnChange(id: string) {
         return (
-          updater: (oldValue: T, helpers: StoreDeserializeHelpers) => T
+          initial: StateUpdater<T>,
+          executor?: StateExecutor<StateUpdater<T>>
         ) => {
-          onChange(
-            (oldItems: WrappedValue[], helpers: StoreDeserializeHelpers) => {
+          function wrapUpdater(
+            initial: StateUpdater<T>
+          ): StateUpdater<WrappedValue[]> {
+            return (
+              oldItems: WrappedValue[],
+              helpers: StoreDeserializeHelpers
+            ) => {
               const index = R.findIndex(R.propEq('id', id), oldItems)
-              return R.update(
+              const result = R.update(
                 index,
-                { value: updater(oldItems[index].value, helpers), id: id },
+                { value: initial(oldItems[index].value, helpers), id: id },
                 oldItems
               )
+              return result
             }
+          }
+          onChange(
+            wrapUpdater(initial),
+            executor
+              ? (resolve, reject, next) => {
+                  executor(
+                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
+                    innerUpdater => reject(wrapUpdater(innerUpdater)),
+                    innerUpdater => next(wrapUpdater(innerUpdater))
+                  )
+                }
+              : undefined
           )
         }
       }

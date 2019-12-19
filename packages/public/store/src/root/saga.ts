@@ -4,7 +4,7 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
-import { Action, setPartialState } from '../actions'
+import { ReversibleAction, setPartialState } from '../actions'
 import { handleRecursiveInserts } from '../documents/saga'
 import { persist } from '../history/actions'
 import { InitRootAction, initRoot, pureInitRoot } from './actions'
@@ -23,13 +23,13 @@ function* initRootSaga(action: InitRootAction) {
     })(action.scope)
   )
   yield put(pureInitRoot()(action.scope))
-  const [actions]: [Action[], unknown] = yield call(
+  const [actions]: [ReversibleAction[], unknown] = yield call(
     handleRecursiveInserts,
     action.scope,
     () => {},
     [{ id: 'root', ...(action.payload.initialState || {}) }]
   )
 
-  yield all(actions.map(action => put(action)))
+  yield all(actions.map(reversible => put(reversible.action)))
   yield put(persist()(action.scope))
 }

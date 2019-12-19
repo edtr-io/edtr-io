@@ -1,4 +1,4 @@
-import { StatefulPlugin, string, boolean, object } from '@edtr-io/plugin'
+import { boolean, object, Plugin, string } from '@edtr-io/plugin'
 import { createIcon, faCode } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -11,13 +11,13 @@ export const highlightState = object({
   lineNumbers: boolean(false)
 })
 
-export const highlightPlugin: StatefulPlugin<
+export const highlightPlugin: Plugin<
   typeof highlightState
 > = createHighlightPlugin({ renderer: HighlightRenderer })
 
 export function createHighlightPlugin(
   config: HighlightPluginConfig
-): StatefulPlugin<typeof highlightState> {
+): Plugin<typeof highlightState> {
   return {
     Component: createHighlightEditor(config),
     state: highlightState,

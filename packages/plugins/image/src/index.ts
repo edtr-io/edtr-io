@@ -2,7 +2,7 @@ import {
   isTempFile,
   number,
   object,
-  StatefulPlugin,
+  Plugin,
   string,
   upload,
   UploadHandler,
@@ -22,7 +22,7 @@ export const imageState = object({
 })
 export const createImagePlugin = (
   config: ImagePluginConfig
-): StatefulPlugin<typeof imageState> => {
+): Plugin<typeof imageState> => {
   return {
     Component: createImageEditor(config),
     state: imageState,

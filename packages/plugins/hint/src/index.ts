@@ -1,4 +1,4 @@
-import { child, object, StatefulPlugin, string } from '@edtr-io/plugin'
+import { child, object, Plugin, string } from '@edtr-io/plugin'
 import { createIcon, faLightbulb } from '@edtr-io/ui'
 
 import { HintEditor } from './editor'
@@ -8,7 +8,7 @@ export const hintState = object({
   content: child('rows')
 })
 
-export const hintPlugin: StatefulPlugin<typeof hintState> = {
+export const hintPlugin: Plugin<typeof hintState> = {
   Component: HintEditor,
   state: hintState,
   title: 'Hinweis',
