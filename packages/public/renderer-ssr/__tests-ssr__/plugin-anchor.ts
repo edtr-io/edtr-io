@@ -1,21 +1,13 @@
-import { plugins } from '@edtr-io/internal__fixtures'
-import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state'
-import { AnchorState } from '@edtr-io/plugin-anchor'
+import { states } from '@edtr-io/plugin-anchor/__fixtures__'
 
-import { render } from '../src'
+import { addTests } from '../__helpers__'
 
-test('Anchor plugin', () => {
-  const state: {
-    plugin: string
-    state: StateTypeSerializedType<AnchorState>
-  } = {
-    plugin: 'anchor',
-    state: 'foo'
+addTests({
+  name: 'Anchor',
+  plugin: 'anchor',
+  states,
+  assert(state, html) {
+    expect(html).toContain('<a')
+    expect(html).toContain(`id="${state}"`)
   }
-  const { html } = render({
-    state,
-    plugins
-  })
-  expect(html).toContain('<a')
-  expect(html).toContain('id="foo"')
 })
