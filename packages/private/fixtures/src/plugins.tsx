@@ -3,6 +3,8 @@
 import { child, EditorPlugin, list, number, object } from '@edtr-io/plugin'
 import { createAnchorPlugin } from '@edtr-io/plugin-anchor'
 import { createBlockquotePlugin } from '@edtr-io/plugin-blockquote'
+import { createEquationsPlugin } from '@edtr-io/plugin-equations'
+import { createFilesPlugin, FileType } from '@edtr-io/plugin-files'
 import { createGeogebraPlugin } from '@edtr-io/plugin-geogebra'
 import { createHighlightPlugin } from '@edtr-io/plugin-highlight'
 import { createHintPlugin } from '@edtr-io/plugin-hint'
@@ -18,8 +20,6 @@ import { createSpoilerPlugin } from '@edtr-io/plugin-spoiler'
 import { createTablePlugin } from '@edtr-io/plugin-table'
 import { createTextPlugin } from '@edtr-io/plugin-text'
 import { createVideoPlugin } from '@edtr-io/plugin-video'
-import { createEquationsPlugin } from '@edtr-io/plugin-equations'
-import { createFilesPlugin, FileType } from '@edtr-io/plugin-files'
 
 const nestedArrayState = object({
   children: list(child({ plugin: 'stateful' }), 1)
