@@ -15,7 +15,6 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
       .filter(plugin => {
         if (!search.length) return true
         const value = plugin.title || plugin.name
-        console.log(search, value)
         return value.toLowerCase().startsWith(search.toLowerCase())
       })
       .map(plugin => [plugin.title || plugin.name, plugin.name])

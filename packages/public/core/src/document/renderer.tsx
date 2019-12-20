@@ -32,7 +32,6 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
 
   const pluginState = plugin.state.init(document.state, () => {})
 
-  // This should be fine as soon as we remove DeprecatedPlugin
   return (
     <plugin.Component
       {...pluginProps}

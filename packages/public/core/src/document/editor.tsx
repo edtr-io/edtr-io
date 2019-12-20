@@ -205,7 +205,6 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             settingsRef={settingsRef}
             PluginToolbar={PluginToolbar}
           >
-            {/* This should be fine as soon as we remove DeprecatedPlugin */}
             <plugin.Component
               {...pluginProps}
               renderIntoSettings={renderIntoSettings}
