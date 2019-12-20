@@ -8,9 +8,10 @@ import {
   NodeEditorProps,
   TextPlugin,
   NodeControlsProps,
-  trimSelection
+  TextConfig
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
+import { trimSelection } from '../../helpers'
 import { katexBlockNode, katexInlineNode } from '../../model'
 import { DefaultEditorComponent } from './editor'
 
@@ -65,7 +66,9 @@ export const removeKatex = (editor: Editor) => {
 }
 
 export interface KatexPluginOptions {
-  EditorComponent?: React.ComponentType<NodeEditorProps & { name: string }>
+  EditorComponent?: React.ComponentType<
+    NodeEditorProps & { name: string; config: TextConfig }
+  >
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
@@ -77,7 +80,11 @@ export const createKatexPlugin = ({
 ): TextPlugin => {
   function renderEditorComponent(props: NodeEditorProps) {
     const name = pluginClosure.current ? pluginClosure.current.name : ''
-    return <EditorComponent {...props} name={name} />
+    const config = pluginClosure.current
+      ? pluginClosure.current.config
+      : undefined
+    if (!config) return null
+    return <EditorComponent config={config} {...props} name={name} />
   }
   return {
     onKeyDown(event, editor, next) {

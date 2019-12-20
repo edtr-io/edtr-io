@@ -1,28 +1,9 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-table/__fixtures__'
 
-addStory('Plugins/Table/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'table'
-      }
-    ]
-  }
-})
+import { addPluginStories } from '../src'
 
-addStory('Plugins/Table/Prefilled', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'table',
-        state: `| col1 | col2 |
-          | ------ | ----------- |
-          | ex1 | longer text than the rest |
-          | some more lines | |
-          | empty second |`
-      }
-    ]
-  }
+addPluginStories({
+  name: 'Table',
+  plugin: name,
+  states: states
 })

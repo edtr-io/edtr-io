@@ -62,17 +62,16 @@ interface Theme {
   }
   editorUi: DeepPartial<EditorUiTheme>
   rendererUi: DeepPartial<RendererUiTheme>
-  plugins: Record<string, unknown>
 }
 ```
 
 ## Example
 
-```typescript
+```typescript jsx
 import * as React from 'react'
 import { CustomTheme, ThemeProvider } from '@edtr-io/ui'
 
-const Themed: React.FunctionComponent = () => {
+function Themed() {
   const theme: CustomTheme = {
     // Override shared theme for editor ui elements
     editor: {

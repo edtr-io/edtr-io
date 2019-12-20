@@ -1,14 +1,19 @@
-import { child, Plugin } from '@edtr-io/plugin'
-import { createIcon, faQuoteRight } from '@edtr-io/ui'
+import { child, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
 
-export const blockquoteState = child()
-
-export const blockquotePlugin: Plugin<typeof blockquoteState> = {
-  Component: BlockquoteRenderer,
-  state: blockquoteState,
-  title: 'Zitat',
-  description: 'Erzeuge eingerückten Text, zum Beispiel für Zitate.',
-  icon: createIcon(faQuoteRight)
+export function createBlockquotePlugin({
+  content = []
+}: { content?: Parameters<typeof child> } = {}): EditorPlugin<BlockquoteState> {
+  return {
+    Component: BlockquoteRenderer,
+    config: {},
+    state: createBlockquotePluginState(content)
+  }
 }
+
+function createBlockquotePluginState(content: Parameters<typeof child>) {
+  return child(...content)
+}
+export type BlockquoteState = ReturnType<typeof child>
+export type BlockquoteProps = EditorPluginProps<BlockquoteState>

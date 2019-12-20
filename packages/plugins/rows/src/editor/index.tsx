@@ -1,29 +1,30 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { PluginEditorProps, StateTypeReturnType } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
 import * as React from 'react'
 
+import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { rowsState, rowState, PluginRegistry } from '..'
+import { RowsConfig, RowsProps, RowsState } from '..'
 
 function RowEditor({
+  config,
   insert,
   openMenu,
   moveRow,
   index,
   row,
-  rows,
-  name
+  rows
 }: {
+  config: RowsConfig
   insert(index: number, options?: { plugin: string; state?: unknown }): void
   openMenu(index: number): void
   moveRow(from: number, to: number): void
   index: number
-  rows: StateTypeReturnType<typeof rowsState>
-  row: StateTypeReturnType<typeof rowState>
-  name: string
+  rows: StateTypeReturnType<RowsState>
+  row: StateTypeReturnType<RowsState>[0]
 }) {
   const focused = useScopedSelector(isFocused(row.id))
   const plugins = useScopedSelector(getPlugins())
@@ -39,7 +40,7 @@ function RowEditor({
         plugins={plugins}
       />
       <Separator
-        name={name}
+        config={config}
         focused={focused}
         onClick={() => {
           openMenu(index + 1)
@@ -49,11 +50,7 @@ function RowEditor({
   )
 }
 
-export function RowsEditor(
-  props: PluginEditorProps<typeof rowsState> & {
-    plugins?: PluginRegistry
-  }
-) {
+export function RowsEditor(props: RowsProps) {
   const [menu, setMenu] = React.useState<
     | {
         index: number
@@ -72,10 +69,12 @@ export function RowsEditor(
     })
   }
 
+  if (!props.editable) return <RowsRenderer {...props} />
+
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
       <Separator
-        name={props.name}
+        config={props.config}
         isFirst
         focused={props.state.length == 0}
         onClick={() => {
@@ -85,6 +84,7 @@ export function RowsEditor(
       {props.state.map((row, index) => {
         return (
           <RowEditor
+            config={props.config}
             key={row.id}
             insert={(index, options) => {
               props.state.insert(index, options)
@@ -98,7 +98,6 @@ export function RowsEditor(
             index={index}
             rows={props.state}
             row={row}
-            name={props.name}
           />
         )
       })}
@@ -107,7 +106,7 @@ export function RowsEditor(
           menu={menu}
           setMenu={setMenu}
           name={props.name}
-          registry={props.plugins}
+          config={props.config}
         />
       ) : null}
     </div>

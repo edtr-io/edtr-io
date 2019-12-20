@@ -1,28 +1,28 @@
-import { Plugin, string } from '@edtr-io/plugin'
+import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import { createTableEditor } from './editor'
+import { TableEditor } from './editor'
 
-export const tableState = string()
+const tableState = string()
+export type TableState = typeof tableState
+export interface TableConfig {
+  MarkdownRenderer: React.ComponentType<{ markdown: string }>
+}
+export type TableProps = EditorPluginProps<TableState, TableConfig>
 
 export function createTablePlugin(
-  config: TablePluginConfig
-): Plugin<typeof tableState> {
+  config: TableConfig = {
+    MarkdownRenderer: DefaultMarkdownRenderer
+  }
+): EditorPlugin<TableState, TableConfig> {
   return {
-    Component: createTableEditor(config),
-    state: tableState,
-    title: 'Tabelle',
-    description: 'Erstelle eine Tabelle mit Markdown.'
+    Component: TableEditor,
+    config,
+    state: tableState
   }
 }
 
-export const tablePlugin = createTablePlugin({
-  renderMarkdown: function RenderMarkdown(markdown) {
-    return <ReactMarkdown source={markdown} />
-  }
-})
-
-export interface TablePluginConfig {
-  renderMarkdown: (markdown: string) => string | React.ReactNode
+function DefaultMarkdownRenderer({ markdown }: { markdown: string }) {
+  return <ReactMarkdown source={markdown} />
 }

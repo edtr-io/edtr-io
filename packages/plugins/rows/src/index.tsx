@@ -1,92 +1,94 @@
-import { child, list, Plugin, PluginEditorProps } from '@edtr-io/plugin'
-import { createPluginTheme, PluginThemeFactory } from '@edtr-io/ui'
+import { child, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
-import { RowsRenderer } from './renderer'
 
-export const rowState = child()
-export const rowsState = list(rowState, 1)
-
-function createRowsComponent(plugins?: PluginRegistry) {
-  return function RowsComponent(props: PluginEditorProps<typeof rowsState>) {
-    return props.editable ? (
-      <RowsEditor {...props} plugins={plugins} />
-    ) : (
-      <RowsRenderer {...props} />
-    )
-  }
-}
-
-export function createRowsPlugin(
-  plugins?: PluginRegistry
-): Plugin<typeof rowsState> {
-  return {
-    Component: createRowsComponent(plugins),
-    state: rowsState
-  }
-}
-
-export const rowsPlugin = createRowsPlugin()
-
-export type PluginRegistry = {
-  name: string
-  title?: string
-  icon?: React.ComponentType
-  description?: string
-}[]
-
-export interface RowTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
-  lightBackgroundColor: string
-
-  menu: {
+const rowState = child()
+const rowsState = list(rowState, 1)
+export type RowsState = typeof rowsState
+export interface RowsConfig {
+  plugins: {
+    name: string
+    title?: string
+    icon?: React.ComponentType
+    description?: string
+  }[]
+  theme: {
+    backgroundColor: string
+    color: string
     highlightColor: string
-    primary: {
-      backgroundColor: string
-      color: string
-    }
-    secondary: {
-      backgroundColor: string
-      color: string
-    }
-    dropzone: {
-      highlightColor: string
-      backgroundColor: string
-      color: string
-      highlightBackgroundColor: string
-    }
-  }
-}
+    lightBackgroundColor: string
 
-export const rowsPluginThemeFactory: PluginThemeFactory<RowTheme> = theme => {
-  return {
-    color: theme.editor.secondary.color, // rgb(51,51,51) #333333
-    backgroundColor: theme.editor.primary.color, // #fff
-    highlightColor: theme.editor.primary.background, // rgb(70, 155, 255) #469bff
-    lightBackgroundColor: 'rgb(182,182,182)',
     menu: {
-      highlightColor: theme.editor.primary.background, // rgb(70, 155, 255) #469bff
+      highlightColor: string
       primary: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        color: theme.editor.backgroundColor // rgb(51,51,51,0.95) #333333??
-      },
+        backgroundColor: string
+        color: string
+      }
       secondary: {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        color: '#999999'
-      },
+        backgroundColor: string
+        color: string
+      }
       dropzone: {
-        backgroundColor: 'rgb(73, 73, 73)',
-        color: '#dbdbdb',
-        highlightColor: theme.editor.primary.background,
-        highlightBackgroundColor: 'rgb(60,60,60)'
+        highlightColor: string
+        backgroundColor: string
+        color: string
+        highlightBackgroundColor: string
       }
     }
   }
 }
+export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
 
-export const createRowPluginTheme = createPluginTheme<RowTheme>(
-  rowsPluginThemeFactory
-)
+export function createRowsPlugin({
+  plugins,
+  theme = {}
+}: {
+  plugins: RowsConfig['plugins']
+  theme?: DeepPartial<RowsConfig['theme']>
+}): EditorPlugin<RowsState, RowsConfig> {
+  return {
+    Component: RowsEditor,
+    config: ({ editor }) => {
+      return {
+        plugins,
+        theme: R.mergeDeepRight(
+          {
+            color: editor.secondary.color,
+            backgroundColor: editor.primary.color,
+            highlightColor: editor.primary.background,
+            lightBackgroundColor: 'rgb(182,182,182)',
+            menu: {
+              highlightColor: editor.primary.background,
+              primary: {
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                color: editor.backgroundColor
+              },
+              secondary: {
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                color: '#999999'
+              },
+              dropzone: {
+                backgroundColor: 'rgb(73, 73, 73)',
+                color: '#dbdbdb',
+                highlightColor: editor.primary.background,
+                highlightBackgroundColor: 'rgb(60,60,60)'
+              }
+            }
+          },
+          theme
+        )
+      }
+    },
+    state: rowsState
+  }
+}
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
+    : DeepPartial<T[P]>
+}

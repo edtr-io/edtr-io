@@ -10,7 +10,7 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
   return (
     <React.Fragment>
       <Button
-        name={props.name}
+        config={props.config}
         active={isList(orderedListNode)(props.editor)}
         onClick={() => {
           toggleList(orderedListNode)(props.editor).focus()
@@ -21,7 +21,7 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
         <EdtrIcon icon={edtrTextControls.listNumbered} />
       </Button>
       <Button
-        name={props.name}
+        config={props.config}
         active={isList(unorderedListNode)(props.editor)}
         onClick={() => {
           toggleList(unorderedListNode)(props.editor).focus()
@@ -35,7 +35,7 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
         <EdtrIcon icon={edtrTextControls.listBullets} />
       </Button>
       <Button
-        name={props.name}
+        config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >

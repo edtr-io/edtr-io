@@ -1,19 +1,17 @@
-import { StateTypeReturnType, PluginEditorProps } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { AnswerProps, scMcExerciseState } from '.'
+import { ScMcExerciseProps, ScMcExerciseState } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 
-export class ScMcRendererSolution extends React.Component<
-  PluginEditorProps<typeof scMcExerciseState>
-> {
+export class ScMcRendererSolution extends React.Component<ScMcExerciseProps> {
   public render() {
     return <ScMcAnswersRenderer {...this.props} showAnswer={this.showAnswer} />
   }
 
   private showAnswer = (
-    answer: StateTypeReturnType<typeof AnswerProps>,
+    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0],
     index: number,
     centered: boolean
   ): React.ReactNode => {

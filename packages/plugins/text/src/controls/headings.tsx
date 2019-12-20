@@ -8,9 +8,7 @@ import { createIsHeading, createSetHeading } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
 import { Button } from '../toolbar/button'
 
-export const HeadingControls: React.FunctionComponent<
-  SubControlProps
-> = props => {
+export const HeadingControls: React.FunctionComponent<SubControlProps> = props => {
   return (
     <React.Fragment>
       {R.times(index => {
@@ -19,7 +17,7 @@ export const HeadingControls: React.FunctionComponent<
         return (
           <Button
             key={index}
-            name={props.name}
+            config={props.config}
             active={active}
             onClick={() => {
               active
@@ -36,7 +34,7 @@ export const HeadingControls: React.FunctionComponent<
         )
       }, 3)}
       <Button
-        name={props.name}
+        config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >

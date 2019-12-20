@@ -35,11 +35,13 @@
     "@edtr-io/renderer": "^0.12.0",
     "@edtr-io/store": "^0.12.0",
     "@edtr-io/store-devtools": "^0.12.0",
-    "katex": "^0.10.0",
+    "katex": "^0.11.0",
+    "lodash": "^4.0.0",
+    "lodash-es": "^4.0.0",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
-    "react-dnd": "^9.0.0",
-    "react-dnd-html5-backend": "^9.0.0",
+    "react-dnd": "^10.0.0",
+    "react-dnd-html5-backend": "^10.0.0",
     "react-dom": "^16.8.0",
     "styled-components": "^4.0.0"
   },
@@ -47,13 +49,12 @@
     "@storybook/addon-actions": "^5.0.0",
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/react": "^5.0.0",
+    "@types/lodash": "^4.0.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
-    "@types/storybook__addon-actions": "^3.0.0",
-    "@types/storybook__react": "^4.0.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-module-resolver": "^3.0.0"
+    "babel-plugin-module-resolver": "^4.0.0"
   },
   "private": true
 }

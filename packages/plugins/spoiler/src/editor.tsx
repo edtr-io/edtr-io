@@ -1,23 +1,17 @@
 import { EditorInput } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
-import { ThemeProvider, usePluginTheme } from '@edtr-io/ui'
+import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { spoilerState, SpoilerTheme } from '.'
+import { SpoilerProps } from '.'
 
 export function SpoilerEditor({
+  config,
   state,
   editable,
-  name,
   defaultFocusRef
-}: PluginEditorProps<typeof spoilerState>) {
-  const theme = usePluginTheme<SpoilerTheme>(name, () => {
-    return {
-      color: '#f5f5f5'
-    }
-  })
-
+}: SpoilerProps) {
+  const { theme } = config
   const spoilerTheme = React.useMemo(() => {
     return {
       rendererUi: {

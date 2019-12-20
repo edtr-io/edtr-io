@@ -1,8 +1,8 @@
-import { isTempFile, PluginEditorProps } from '@edtr-io/plugin'
+import { isTempFile } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { imageState } from '.'
+import { ImageProps } from '.'
 
 const ImgWrapper = styled.div<{ maxWidth: number }>(props => {
   return {
@@ -88,6 +88,6 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
   }
 }
 
-export type ImageRendererProps = PluginEditorProps<typeof imageState> & {
+export type ImageRendererProps = ImageProps & {
   disableMouseEvents?: boolean
 }

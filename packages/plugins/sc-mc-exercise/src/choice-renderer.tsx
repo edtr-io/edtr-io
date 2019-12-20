@@ -1,9 +1,8 @@
 import { CheckElement } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { scMcExerciseState } from '.'
+import { ScMcExerciseProps } from '.'
 
 const CheckboxContainer = styled.div({
   //width: '5%',
@@ -13,7 +12,7 @@ const CheckboxContainer = styled.div({
   fontWeight: 'bold'
 })
 export class ScMcExerciseChoiceRenderer extends React.Component<
-  PluginEditorProps<typeof scMcExerciseState> & ChoiceRendererProps
+  ScMcExerciseProps & ChoiceRendererProps
 > {
   public render() {
     const {

@@ -12,14 +12,17 @@ import {
 
 const createDispatchHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => () => (action: Action) => void = require('react-redux').createDispatchHook
+) => // eslint-disable-next-line import/no-commonjs
+() => (action: Action) => void = require('react-redux').createDispatchHook
 const createSelectorHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => <T>(selector: (state: State) => T) => T = require('react-redux')
+) => // eslint-disable-next-line import/no-commonjs
+<T>(selector: (state: State) => T) => T = require('react-redux')
   .createSelectorHook
 const createStoreHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => () => Store = require('react-redux').createStoreHook
+) => // eslint-disable-next-line import/no-commonjs
+() => Store = require('react-redux').createStoreHook
 
 export const ScopeContext = React.createContext<{
   scope: string
