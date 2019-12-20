@@ -1,3 +1,4 @@
+import { autoLink } from './auto-link'
 import { createColorPlugin } from './colors'
 import { createHeadingsPlugin } from './headings'
 import { createKatexPlugin } from './katex'
@@ -18,5 +19,6 @@ export const plugins: TextConfig['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownShortcuts
+  markdownShortcuts,
+  autoLink
 ]
