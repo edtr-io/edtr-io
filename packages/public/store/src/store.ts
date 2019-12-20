@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { Plugin } from '@edtr-io/internal__plugin'
+import { EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   applyMiddleware,
   createStore as createReduxStore,
@@ -52,7 +52,7 @@ export interface StoreOptions<K extends string> {
   instances: Record<
     string,
     {
-      plugins: Record<K, Plugin>
+      plugins: Record<K, EditorPlugin>
       defaultPlugin: K
     }
   >

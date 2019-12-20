@@ -184,9 +184,9 @@ function* redoSaga(action: RedoAction) {
 
 function* resetSaga(action: ResetAction) {
   while (true) {
-    const pendingChanges: ReturnTypeFromSelector<
-      typeof getPendingChanges
-    > = yield select(scopeSelector(getPendingChanges, action.scope))
+    const pendingChanges: ReturnTypeFromSelector<typeof getPendingChanges> = yield select(
+      scopeSelector(getPendingChanges, action.scope)
+    )
     if (pendingChanges === 0) break
     else if (pendingChanges < 0) {
       yield call(redoSaga, redo()(action.scope))

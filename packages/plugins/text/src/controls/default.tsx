@@ -22,14 +22,12 @@ import {
 import { Button } from '../toolbar/button'
 import { ColoredTextIcon } from './colors'
 
-export const DefaultControls: React.FunctionComponent<
-  SubControlProps
-> = props => {
-  const { editor, name, pluginClosure } = props
+export function DefaultControls(props: SubControlProps) {
+  const { editor, config, pluginClosure } = props
   return (
     <React.Fragment>
       <Button
-        name={name}
+        config={config}
         active={isStrong(editor)}
         onClick={() => {
           toggleStrong(editor).focus()
@@ -40,7 +38,7 @@ export const DefaultControls: React.FunctionComponent<
         <EdtrIcon icon={edtrTextControls.bold} />
       </Button>
       <Button
-        name={name}
+        config={config}
         active={isEmphasized(editor)}
         onClick={() => {
           toggleEmphasize(editor).focus()
@@ -51,7 +49,7 @@ export const DefaultControls: React.FunctionComponent<
         <EdtrIcon icon={edtrTextControls.italic} />
       </Button>
       <Button
-        name={name}
+        config={config}
         active={isLink(editor)}
         onClick={() => {
           isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
@@ -62,7 +60,7 @@ export const DefaultControls: React.FunctionComponent<
         <EdtrIcon icon={edtrTextControls.link} />
       </Button>
       <Button
-        name={name}
+        config={config}
         active={!!getHeadingLevel(props.editor)}
         onClick={() => {
           props.switchControls(VisibleControls.Headings)
@@ -72,14 +70,14 @@ export const DefaultControls: React.FunctionComponent<
         <EdtrIcon icon={edtrTextControls.text} />
       </Button>
       <Button
-        name={name}
+        config={config}
         onClick={() => props.switchControls(VisibleControls.Colors)}
         title="Textfarben"
       >
-        <ColoredTextIcon index={getColorIndex(editor)} />
+        <ColoredTextIcon config={props.config} index={getColorIndex(editor)} />
       </Button>
       <Button
-        name={name}
+        config={config}
         onClick={() => {
           if (
             !isList(unorderedListNode)(editor) &&
@@ -101,7 +99,7 @@ export const DefaultControls: React.FunctionComponent<
         />
       </Button>
       <Button
-        name={name}
+        config={config}
         active={isBlockquote(editor, pluginClosure)}
         onClick={() => {
           if (isBlockquote(editor, pluginClosure)) {
@@ -117,7 +115,7 @@ export const DefaultControls: React.FunctionComponent<
         <EdtrIcon icon={edtrTextControls.quote} />
       </Button>
       <Button
-        name={name}
+        config={config}
         active={isKatex(editor)}
         onClick={() => {
           isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)

@@ -1,10 +1,9 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import * as React from 'react'
 
-import { geogebraState } from '.'
+import { GeogebraProps } from '.'
 
 interface ApiData {
   width: number
@@ -154,6 +153,6 @@ export function GeogebraRenderer({
   }
 }
 
-export type GeogebraRendererProps = PluginEditorProps<typeof geogebraState> & {
+export type GeogebraRendererProps = GeogebraProps & {
   disableCursorEvents?: boolean
 }

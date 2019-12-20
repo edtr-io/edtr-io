@@ -21,3 +21,5 @@ export function render<K extends string = string>(props: RendererProps<K>) {
     html
   }
 }
+
+export { RendererProps }

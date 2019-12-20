@@ -40,28 +40,6 @@ addStory('Theming', {
       expandableBox: {
         toggleColor: 'red'
       }
-    },
-    plugins: {
-      spoiler: {
-        color: 'red'
-      },
-      rows: {
-        backgroundColor: 'red',
-        color: 'green',
-        highlightColor: 'purple',
-        lightBackgroundColor: 'pink',
-        menu: {
-          highlightColor: 'purple',
-          primary: {
-            backgroundColor: 'red',
-            color: 'green'
-          },
-          secondary: {
-            backgroundColor: 'pink',
-            color: 'lightgreen'
-          }
-        }
-      }
     }
   }
 })

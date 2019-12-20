@@ -9,7 +9,7 @@ import { ColorControls } from './colors'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
 import { ListControls } from './lists'
-import { TextPlugin } from '..'
+import { TextConfig, TextPlugin } from '..'
 
 export enum VisibleControls {
   All,
@@ -19,6 +19,7 @@ export enum VisibleControls {
 }
 
 export interface ControlProps {
+  config: TextConfig
   editor: Editor
   name: string
   pluginClosure: SlatePluginClosure
@@ -28,19 +29,23 @@ export interface ControlProps {
 export interface SubControlProps extends ControlProps {
   switchControls: (control: VisibleControls) => void
   onChange: (editor: Editor) => Editor
+  config: TextConfig
 }
 
 export interface UiPluginOptions {
   Component: React.ComponentType<Partial<EditorProps> & ControlProps>
 }
 
-const ControlsSwitch: React.FunctionComponent<
-  {
-    visibleControls: VisibleControls
-    setVisibleControls: (controls: VisibleControls) => void
-    onChange: (editor: Editor) => Editor
-  } & ControlProps
-> = ({ visibleControls, setVisibleControls, onChange, ...props }) => {
+function ControlsSwitch({
+  visibleControls,
+  setVisibleControls,
+  onChange,
+  ...props
+}: {
+  visibleControls: VisibleControls
+  setVisibleControls: (controls: VisibleControls) => void
+  onChange: (editor: Editor) => Editor
+} & ControlProps) {
   switch (visibleControls) {
     case VisibleControls.All:
       return (
@@ -93,7 +98,7 @@ const TimeoutBottomToolbar = styled(BottomToolbar)<{
 })
 
 let debounceTimeout: number
-export const Controls: React.FunctionComponent<ControlProps> = props => {
+export function Controls(props: ControlProps) {
   const selectionCollapsed = props.editor.value.selection.isCollapsed
   const [visibleControls, setVisibleControls] = React.useState(
     VisibleControls.All
@@ -196,6 +201,10 @@ export const createUiPlugin = (options: UiPluginOptions) => (
         editor.blur()
       }
       const name = pluginClosure.current ? pluginClosure.current.name : ''
+      const config = pluginClosure.current
+        ? pluginClosure.current.config
+        : undefined
+      if (!config) return null
       const children = next()
       return (
         <React.Fragment>
@@ -204,6 +213,7 @@ export const createUiPlugin = (options: UiPluginOptions) => (
               editor={editor}
               {...props}
               name={name}
+              config={config}
               pluginClosure={pluginClosure}
             />
           ) : null}

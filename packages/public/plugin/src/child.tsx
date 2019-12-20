@@ -8,6 +8,7 @@ import {
   StateType,
   PluginProps
 } from '@edtr-io/internal__plugin-state'
+import * as R from 'ramda'
 import * as React from 'react'
 import { generate } from 'shortid'
 
@@ -26,23 +27,31 @@ function PluginPropsDocument({
   return <SubDocument pluginProps={pluginProps} id={id} />
 }
 
-const memoizedRender = (parentProps: PluginProps, id: string) => {
-  return function Child(props?: PluginProps) {
+const memoizedRender = (parentProps: PluginProps, config: {}, id: string) => {
+  return function Child(props: PluginProps = {}) {
     return (
       <PluginPropsDocument
         key={id}
         id={id}
-        props={props}
+        props={{
+          ...props,
+          config: R.mergeDeepRight(config, props.config || {})
+        }}
         parentProps={parentProps}
       />
     )
   }
 }
 
-export function child<K extends string, S = unknown>(
-  plugin?: K,
-  state?: S
-): StateType<
+export function child<K extends string, S = unknown>({
+  plugin,
+  initialState,
+  config
+}: {
+  plugin?: K
+  initialState?: S
+  config?: {}
+} = {}): StateType<
   { plugin: K; state?: S },
   string,
   {
@@ -59,7 +68,7 @@ export function child<K extends string, S = unknown>(
           return id
         },
         id,
-        render: memoizedRender(pluginProps || {}, id),
+        render: memoizedRender(pluginProps || {}, config || {}, id),
         replace: (plugin, state) => {
           onChange((_id, helpers) => {
             helpers.createDocument({ id, plugin, state })
@@ -70,7 +79,7 @@ export function child<K extends string, S = unknown>(
     },
     createInitialState({ createDocument }) {
       const id = generate()
-      createDocument({ id, plugin, state })
+      createDocument({ id, plugin, state: initialState })
       return id
     },
     deserialize(serialized, { createDocument }) {

@@ -1,6 +1,9 @@
 name: JavaScript
 on:
-  - push
+  push:
+    branches:
+      - master
+  pull_request: {}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,8 +13,6 @@ jobs:
           - 10.x
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch origin master:master
-        if: github.ref != 'refs/heads/master'
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -26,9 +27,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn
       - run: yarn build --concurrency 2
-        if: github.ref == 'refs/heads/master'
-      - run: yarn build --concurrency 2 --since master --include-dependencies --include-dependents
-        if: github.ref != 'refs/heads/master'
   lint:
     runs-on: ubuntu-latest
     strategy:

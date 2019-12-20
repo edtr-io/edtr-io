@@ -13,23 +13,17 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
     const search = editor.value.document.text.replace('/', '')
     const pluginsStartingWithSearchString = plugins
       .filter(plugin => {
-        if (plugin.name === name || plugin.name === 'rows') return false
         if (!search.length) return true
-
-        return (
-          plugin.title &&
-          plugin.title.toLowerCase().startsWith(search.toLowerCase())
-        )
+        const value = plugin.title || plugin.name
+        return value.toLowerCase().startsWith(search.toLowerCase())
       })
       .map(plugin => [plugin.title || plugin.name, plugin.name])
     const otherPluginsContainingSearchString = plugins
       .filter(plugin => {
-        if (plugin.name === name || plugin.name === 'rows') return false
-
+        const value = plugin.title || plugin.name
         return (
-          plugin.title &&
-          plugin.title.toLowerCase().includes(search.toLowerCase()) &&
-          !plugin.title.toLowerCase().startsWith(search.toLowerCase())
+          value.toLowerCase().includes(search.toLowerCase()) &&
+          !value.toLowerCase().startsWith(search.toLowerCase())
         )
       })
       .map(plugin => [plugin.title || plugin.name, plugin.name])
@@ -108,6 +102,9 @@ function SuggestionsBox({
     }
   }, [options.length, selected])
 
+  if (!pluginClosure.current) return null
+  const config = pluginClosure.current.config
+
   return (
     <HotKeys
       keyMap={{
@@ -153,6 +150,7 @@ function SuggestionsBox({
             options={options}
             currentValue={text.substr(1)}
             selected={selected}
+            config={config}
             name={pluginClosure.current ? pluginClosure.current.name : ''}
           />
         </HoveringOverlay>

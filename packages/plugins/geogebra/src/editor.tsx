@@ -1,14 +1,13 @@
 import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
 import * as React from 'react'
 
-import { geogebraState } from '.'
+import { GeogebraProps } from '.'
 import { GeogebraRenderer } from './renderer'
 
-export const GeogebraEditor = (
-  props: PluginEditorProps<typeof geogebraState>
-) => {
+export function GeogebraEditor(props: GeogebraProps) {
   const { focused, editable, state } = props
+
+  if (!editable) return <GeogebraRenderer {...props} />
 
   return (
     <React.Fragment>

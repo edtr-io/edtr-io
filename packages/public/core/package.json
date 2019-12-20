@@ -34,15 +34,15 @@
   "devDependencies": {
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",
-    "react-dnd": "^9.0.0",
-    "react-dnd-html5-backend": "^9.0.0",
+    "react-dnd": "^10.0.0",
+    "react-dnd-html5-backend": "^10.0.0",
     "react-dom": "^16.8.0",
     "react-test-renderer": "^16.8.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
-    "react-dnd": "^9.0.0",
-    "react-dnd-html5-backend": "^9.0.0",
+    "react-dnd": "^10.0.0",
+    "react-dnd-html5-backend": "^10.0.0",
     "react-dom": "^16.8.0"
   },
   "publishConfig": {

@@ -4,6 +4,7 @@ import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Editor, Inline } from 'slate'
 
+import { trimSelection } from '../helpers'
 import { linkNode } from '../model'
 import { InlineInput } from './inline-input'
 import { InlineSettings } from './inline-settings'
@@ -11,8 +12,7 @@ import {
   NodeControlsProps,
   InlineEditorProps,
   InlineRendererProps,
-  TextPlugin,
-  trimSelection
+  TextPlugin
 } from '..'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
@@ -59,9 +59,7 @@ export interface LinkPluginOptions {
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
-const DefaultEditorComponent: React.FunctionComponent<
-  InlineEditorProps
-> = props => {
+const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props => {
   const { attributes, children, node, isSelected } = props
   const href = node.data.get('href')
 
@@ -82,9 +80,7 @@ const DefaultEditorComponent: React.FunctionComponent<
   )
 }
 
-const DefaultControlsComponent: React.FunctionComponent<
-  NodeControlsProps
-> = props => {
+const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = props => {
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
@@ -138,16 +134,22 @@ const DefaultControlsComponent: React.FunctionComponent<
           <InlineInput
             value={value}
             placeholder="Hier Link einfügen"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const newValue = e.target.value
+            onChange={event => {
+              const newValue = event.target.value
               setValue(newValue)
               handleHrefChange(newValue, inline, editor)
             }}
-            onKeyDown={(event: React.KeyboardEvent) => {
-              if (((event as unknown) as React.KeyboardEvent).key === 'Enter') {
+            onKeyDown={event => {
+              if (event.key === 'Enter') {
                 event.preventDefault()
                 handleHrefChange(value, inline, editor)
                 editor.focus()
+              }
+            }}
+            onBlur={event => {
+              const value = event.target.value
+              if (new RegExp('^([_\\-a-zA-Z0-9.]+\\.[\\w]{2,})').test(value)) {
+                setValue(`https://${value}`)
               }
             }}
             //@ts-ignore FIXME

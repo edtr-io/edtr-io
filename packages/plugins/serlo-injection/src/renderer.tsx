@@ -1,5 +1,5 @@
 import { styled } from '@edtr-io/ui'
-//@ts-ignore
+// @ts-ignore
 import IframeResizer from 'iframe-resizer-react'
 import * as React from 'react'
 

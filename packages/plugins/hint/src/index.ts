@@ -1,17 +1,24 @@
-import { child, object, Plugin, string } from '@edtr-io/plugin'
-import { createIcon, faLightbulb } from '@edtr-io/ui'
+import {
+  child,
+  object,
+  string,
+  EditorPlugin,
+  EditorPluginProps
+} from '@edtr-io/plugin'
 
 import { HintEditor } from './editor'
 
-export const hintState = object({
+const hintState = object({
   title: string(''),
-  content: child('rows')
+  content: child({ plugin: 'rows' })
 })
+export type HintState = typeof hintState
+export type HintProps = EditorPluginProps<HintState>
 
-export const hintPlugin: Plugin<typeof hintState> = {
-  Component: HintEditor,
-  state: hintState,
-  title: 'Hinweis',
-  description: 'Gib zusätzliche Tipps zur Aufgabe in dieser ausklappbaren Box.',
-  icon: createIcon(faLightbulb)
+export function createHintPlugin(): EditorPlugin<HintState> {
+  return {
+    Component: HintEditor,
+    config: {},
+    state: hintState
+  }
 }

@@ -2,7 +2,7 @@
  * @module @edtr-io/store
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { Plugin } from '@edtr-io/internal__plugin'
+import { EditorPlugin } from '@edtr-io/internal__plugin'
 
 import { createSelector, createSubReducer } from '../helpers'
 
@@ -17,7 +17,7 @@ export const getDefaultPlugin = createSelector(
 )
 export const getPlugins = createSelector(state => state.plugins.plugins)
 export const getPlugin = createSelector(
-  (state, type: string): Plugin | null => {
+  (state, type: string): EditorPlugin | null => {
     const plugins = getPlugins()(state)
     return plugins[type] || null
   }

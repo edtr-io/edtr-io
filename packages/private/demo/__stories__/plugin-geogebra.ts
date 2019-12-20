@@ -1,24 +1,9 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-geogebra/__fixtures__'
 
-addStory('Plugins/GeoGebra/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'geogebra'
-      }
-    ]
-  }
-})
+import { addPluginStories } from '../src'
 
-addStory('Plugins/GeoGebra/Prefilled', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'geogebra',
-        state: 'https://www.geogebra.org/m/Hfpaq7jQ'
-      }
-    ]
-  }
+addPluginStories({
+  name: 'GeoGebra',
+  plugin: name,
+  states: states
 })

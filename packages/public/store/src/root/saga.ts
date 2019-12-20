@@ -23,12 +23,12 @@ function* initRootSaga(action: InitRootAction) {
     })(action.scope)
   )
   yield put(pureInitRoot()(action.scope))
-  const [actions]: [ReversibleAction[], unknown] = yield call(
-    handleRecursiveInserts,
-    action.scope,
-    () => {},
-    [{ id: 'root', ...(action.payload.initialState || {}) }]
-  )
+  const [actions]: [
+    ReversibleAction[],
+    unknown
+  ] = yield call(handleRecursiveInserts, action.scope, () => {}, [
+    { id: 'root', ...(action.payload.initialState || {}) }
+  ])
 
   yield all(actions.map(reversible => put(reversible.action)))
   yield put(persist()(action.scope))
