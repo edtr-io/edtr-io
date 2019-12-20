@@ -134,19 +134,19 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
           <InlineInput
             value={value}
             placeholder="Hier Link einfügen"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const newValue = e.target.value
+            onChange={event => {
+              const newValue = event.target.value
               setValue(newValue)
               handleHrefChange(newValue, inline, editor)
             }}
-            onKeyDown={(event: React.KeyboardEvent) => {
-              if (((event as unknown) as React.KeyboardEvent).key === 'Enter') {
+            onKeyDown={event => {
+              if (event.key === 'Enter') {
                 event.preventDefault()
                 handleHrefChange(value, inline, editor)
                 editor.focus()
               }
             }}
-            onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+            onBlur={event => {
               const value = event.target.value
               if (new RegExp('^([_\\-a-zA-Z0-9.]+\\.[\\w]{2,})').test(value)) {
                 setValue(`https://${value}`)
