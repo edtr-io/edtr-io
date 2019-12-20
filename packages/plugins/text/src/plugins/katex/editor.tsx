@@ -101,9 +101,10 @@ const preferenceKey = 'katex:usevisualmath'
 
 setDefaultPreference(preferenceKey, true)
 
-export const DefaultEditorComponent: React.FunctionComponent<
-  (NodeEditorProps) & { name: string; config: TextConfig }
-> = props => {
+export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
+  name: string
+  config: TextConfig
+}> = props => {
   const [helpOpen, setHelpOpen] = React.useState(false)
   const { attributes, editor, readOnly, name, node } = props
 

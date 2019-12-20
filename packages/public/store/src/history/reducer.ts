@@ -48,7 +48,7 @@ export const historyReducer = createSubReducer(
 
       function calculateNewUndoStack() {
         if (combine && undoStack.length > 0) {
-          const previousActions = R.head(undoStack)
+          const previousActions = undoStack[0]
           actionsToCommit = [...previousActions, ...actionsToCommit]
           return [actionsToCommit, ...R.tail(undoStack)]
         }

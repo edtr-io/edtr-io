@@ -83,9 +83,11 @@ export class EquationsRenderer extends React.Component<
         ) <= 20 ||
         R.max(
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          R.reduce<number, number>(R.max, 0, this.state.widthLeftSingle.filter(
-            Boolean
-          ) as number[]),
+          R.reduce<number, number>(
+            R.max,
+            0,
+            this.state.widthLeftSingle.filter(Boolean) as number[]
+          ),
           this.state.widthLeftDouble[index] || 0
         ) +
           R.max(
@@ -402,16 +404,6 @@ export class EquationsRenderer extends React.Component<
 }
 
 export interface EquationsRendererState {
-  phase: Phase
-  widthLeftSingle: (number | undefined)[]
-  widthLeftDouble: (number | undefined)[]
-  widthRightSingle: (number | undefined)[]
-  widthRightDouble: (number | undefined)[]
-  widthTrans: (number | undefined)[]
-  containerWidth: number | undefined
-}
-
-export interface EquationsState {
   phase: Phase
   widthLeftSingle: (number | undefined)[]
   widthLeftDouble: (number | undefined)[]

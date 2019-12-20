@@ -8,9 +8,7 @@ import { createIsHeading, createSetHeading } from '../plugins/headings'
 import { setParagraph } from '../plugins/paragraph'
 import { Button } from '../toolbar/button'
 
-export const HeadingControls: React.FunctionComponent<
-  SubControlProps
-> = props => {
+export const HeadingControls: React.FunctionComponent<SubControlProps> = props => {
   return (
     <React.Fragment>
       {R.times(index => {

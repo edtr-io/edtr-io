@@ -59,9 +59,7 @@ export interface LinkPluginOptions {
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
-const DefaultEditorComponent: React.FunctionComponent<
-  InlineEditorProps
-> = props => {
+const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props => {
   const { attributes, children, node, isSelected } = props
   const href = node.data.get('href')
 
@@ -82,9 +80,7 @@ const DefaultEditorComponent: React.FunctionComponent<
   )
 }
 
-const DefaultControlsComponent: React.FunctionComponent<
-  NodeControlsProps
-> = props => {
+const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = props => {
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
