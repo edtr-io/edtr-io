@@ -8,7 +8,6 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {
     "build": "build-storybook --output-dir dist",
-    "predeploy": "yarn build",
     "deploy": "ts-node scripts/deploy",
     "start": "start-storybook --port 9001 --config-dir .storybook --quiet"
   },
