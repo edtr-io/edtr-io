@@ -24,3 +24,9 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn
       - run: yarn build-demo
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY }}
+      - run: gsutil -m cp -r packages/private/demo/dist/** gs://storybook.edtr.io/$GITHUB_SHA
+      - run: echo $GITHUB_REF
