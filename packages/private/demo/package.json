@@ -8,6 +8,8 @@
   "repository": "edtr-io/edtr-io",
   "scripts": {
     "build": "build-storybook --output-dir dist",
+    "predeploy": "yarn build",
+    "deploy": "ts-node scripts/deploy",
     "start": "start-storybook --port 9001 --config-dir .storybook --quiet"
   },
   "dependencies": {
@@ -53,8 +55,10 @@
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
+    "@types/request": "^2.0.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-module-resolver": "^4.0.0"
+    "babel-plugin-module-resolver": "^4.0.0",
+    "request": "^2.0.0"
   },
   "private": true
 }

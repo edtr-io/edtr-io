@@ -13,6 +13,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.0'
+          service_account_key: ${{ secrets.GCP_KEY }}
       - name: Get yarn cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -23,10 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn
-      - run: yarn build-demo
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '274.0.0'
-          service_account_key: ${{ secrets.GCP_KEY }}
-      - run: gsutil -m cp -r packages/private/demo/dist/** gs://storybook.edtr.io/$GITHUB_SHA
-      - run: echo $GITHUB_REF
+      - run: yarn deploy-demo
+        env:
+          CF_TOKEN: ${{ secrets.CF_TOKEN }}
