@@ -56,7 +56,7 @@ module.exports = {
         devDependencies: [
           'packages/*/*/{__helpers__,__stories__,__tests__,__tests-ssr__}/**/*',
           'packages/private/bundle-size/webpack.config.js',
-          'packages/private/demo/src/**/*',
+          'packages/private/demo/{scripts,src}/**/*',
           'scripts/**/*'
         ],
         optionalDependencies: false
