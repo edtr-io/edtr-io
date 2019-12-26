@@ -31,3 +31,5 @@ jobs:
       - run: yarn deploy-demo
         env:
           CF_TOKEN: ${{ secrets.CF_TOKEN }}
+          COMMIT: ${{ github.sha }}
+          REF: ${{ github.head_ref }}

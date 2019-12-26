@@ -8,11 +8,11 @@ exec()
 async function exec() {
   const secret = process.env['CF_TOKEN']
   if (!secret) return
-  const commit = process.env['GITHUB_SHA']
+  const commit = process.env['COMMIT']
   if (!commit) return
-  const rawRef = process.env['GITHUB_REF']
+  const rawRef = process.env['REF']
   if (!rawRef) return
-  const ref = encodeURIComponent(rawRef.replace('refs/heads/', ''))
+  const ref = encodeURIComponent(rawRef)
   upload(commit)
 
   const previousCommit = await new Promise<string | null>((resolve, reject) => {
