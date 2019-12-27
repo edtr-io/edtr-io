@@ -1,14 +1,37 @@
-import { EditorPlugin, EditorPluginProps, scalar } from '@edtr-io/plugin'
-import { Node } from 'slate'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  serializedScalar
+} from '@edtr-io/plugin'
+import { Node, Range } from 'slate'
 
 import { TextEditor } from './editor'
 
-const textState = scalar<Node[]>([
+const textState = serializedScalar<
+  Node[],
+  { value: Node[]; selection: Range | null }
+>(
   {
-    type: 'paragraph',
-    children: [{ text: '' }]
+    value: [
+      {
+        type: 'paragraph',
+        children: [{ text: '' }]
+      }
+    ],
+    selection: null
+  },
+  {
+    deserialize(value) {
+      return {
+        value,
+        selection: null
+      }
+    },
+    serialize({ value }) {
+      return value
+    }
   }
-])
+)
 export type TextState = typeof textState
 export type TextProps = EditorPluginProps<TextState>
 
