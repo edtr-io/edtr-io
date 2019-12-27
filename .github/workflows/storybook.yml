@@ -19,6 +19,8 @@ jobs:
           service_account_key: ${{ secrets.GCP_KEY }}
       - run: yarn
       - run: yarn build-demo
+        env:
+          TITLE: ${{ github.head_ref }}
       - run: yarn deploy-demo
         env:
           CF_TOKEN: ${{ secrets.CF_TOKEN }}
