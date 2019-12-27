@@ -1,9 +1,5 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  createTextState,
-  name as textPlugin,
-    Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { ScMcExerciseState, createScMcExercisePlugin } from '../src'
 
@@ -21,24 +17,44 @@ export const states: Record<
         isCorrect: true,
         id: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'correct' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'correct' }]
+            }
+          ]
         },
         hasFeedback: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'correct feedback' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'correct feedback' }]
+            }
+          ]
         }
       },
       {
         isCorrect: false,
         id: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'wrong' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'wrong' }]
+            }
+          ]
         },
         hasFeedback: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'wrong feedback' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'wrong feedback' }]
+            }
+          ]
         }
       }
     ]
@@ -50,19 +66,34 @@ export const states: Record<
         isCorrect: true,
         id: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'first correct' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'first correct' }]
+            }
+          ]
         },
         hasFeedback: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'correct feedback' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'correct feedback' }]
+            }
+          ]
         }
       },
       {
         isCorrect: true,
         id: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'second correct' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'second correct' }]
+            }
+          ]
         },
         hasFeedback: false,
         feedback: {
@@ -73,12 +104,22 @@ export const states: Record<
         isCorrect: false,
         id: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'wrong' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'wrong' }]
+            }
+          ]
         },
         hasFeedback: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'wrong feedback' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'wrong feedback' }]
+            }
+          ]
         }
       }
     ]

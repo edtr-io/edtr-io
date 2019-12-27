@@ -1,9 +1,5 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  createTextState,
-  name as textPlugin,
-    Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { ImportantStatementState, createImportantStatementPlugin } from '../src'
 
@@ -16,8 +12,11 @@ export const states: Record<
 > = {
   simple: {
     plugin: textPlugin,
-    state: createTextState(
-      Text.create({ text: 'This is an important statement' })
-    )
+    state: [
+      {
+        type: 'paragraph',
+        children: [{ text: 'This is an important statement' }]
+      }
+    ]
   }
 }

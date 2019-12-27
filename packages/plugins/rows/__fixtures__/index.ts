@@ -18,11 +18,7 @@ import {
   faPhotoVideo,
   faQuoteRight
 } from '@edtr-io/ui'
-import {
-  name as textPlugin,
-  createTextState,
-    Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { RowsState, createRowsPlugin } from '../src'
 
@@ -123,7 +119,12 @@ export const plugin = createRowsPlugin({
 export const states: Record<string, StateTypeSerializedType<RowsState>> = {
   simple: createRowsState({
     plugin: textPlugin,
-    state: createTextState(Text.create({ text: 'Hello world' }))
+    state: [
+      {
+        type: 'paragraph',
+        children: [{ text: 'Hello world' }]
+      }
+    ]
   })
 }
 

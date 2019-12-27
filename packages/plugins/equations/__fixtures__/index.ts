@@ -1,9 +1,5 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  createTextState,
-  name as textPlugin,
-    Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { EquationsState, createEquationsPlugin } from '../src'
 
@@ -16,15 +12,30 @@ export const states: Record<string, StateTypeSerializedType<EquationsState>> = {
       {
         left: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'left' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'left' }]
+            }
+          ]
         },
         right: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'right' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'right' }]
+            }
+          ]
         },
         transform: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'transform' }))
+          state: [
+            {
+              type: 'paragraph',
+              children: [{ text: 'transform' }]
+            }
+          ]
         }
       }
     ]
