@@ -77,12 +77,10 @@ export class EquationsRenderer extends React.Component<
       const fit =
         this.state.phase < Phase.maxWidthTotal ||
         R.max(
-          // eslint-disable-next-line @typescript-eslint/unbound-method
           R.reduce(R.max, 0, this.state.widthLeftSingle.filter(Boolean)),
           this.state.widthLeftDouble[index] || 0
         ) <= 20 ||
         R.max(
-          // eslint-disable-next-line @typescript-eslint/unbound-method
           R.reduce<number, number>(
             R.max,
             0,
@@ -92,7 +90,6 @@ export class EquationsRenderer extends React.Component<
         ) +
           R.max(
             R.reduce<number, number>(
-              // eslint-disable-next-line @typescript-eslint/unbound-method
               R.max,
               0,
               this.state.widthRightSingle.filter(Boolean) as number[]
@@ -211,7 +208,6 @@ export class EquationsRenderer extends React.Component<
                       ? 'auto'
                       : Math.ceil(
                           R.reduce<number, number>(
-                            // eslint-disable-next-line @typescript-eslint/unbound-method
                             R.max,
                             0,
                             this.state.widthLeftSingle.filter(
@@ -276,7 +272,6 @@ export class EquationsRenderer extends React.Component<
                         : Math.ceil(
                             row.fits
                               ? R.reduce<number, number>(
-                                  // eslint-disable-next-line @typescript-eslint/unbound-method
                                   R.max,
                                   0,
                                   this.state.widthRightSingle.filter(

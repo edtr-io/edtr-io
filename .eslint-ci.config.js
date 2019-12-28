@@ -5,5 +5,8 @@ module.exports = {
   ],
   parserOptions: {
     project: ['tsconfig.json', 'tsconfig.eslint.json']
+  },
+  rules: {
+    '@typescript-eslint/unbound-method': 'off'
   }
 }

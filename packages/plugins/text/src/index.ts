@@ -6,7 +6,8 @@ import {
 import { Node, Range } from 'slate'
 
 import { TextEditor } from './editor'
-import { defaultMarks, Mark } from './marks'
+import { defaultPlugins } from './plugins'
+import { TextEditorPlugin } from './types'
 
 const textState = serializedScalar<
   Node[],
@@ -35,20 +36,19 @@ const textState = serializedScalar<
 )
 export type TextState = typeof textState
 export interface TextConfig {
-  marks: { [key: string]: Mark }
+  plugins: TextEditorPlugin[]
 }
 export type TextProps = EditorPluginProps<TextState, TextConfig>
 
-// TODO:
 export function createTextPlugin({
-  marks = defaultMarks
+  plugins = defaultPlugins
 }: {
-  marks?: TextConfig['marks']
+  plugins?: TextConfig['plugins']
 }): EditorPlugin<TextState, TextConfig> {
   return {
     Component: TextEditor,
     config: {
-      marks
+      plugins
     },
     state: textState
   }

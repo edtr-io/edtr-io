@@ -103,7 +103,6 @@ describe('object', () => {
     expect(objectValue.foo.id).toBeDefined()
     expect(typeof objectValue.foo.render).toEqual('function')
     expect(objectValue.counter.value).toEqual(initial.counter)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(typeof objectValue.counter.set).toEqual('function')
   })
 
