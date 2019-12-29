@@ -1,11 +1,14 @@
-import { Editor, Range, Text, Transforms } from 'slate'
+import { Editor as SlateEditor, Range, Text, Transforms } from 'slate'
+import { useSlate } from 'slate-react'
+
+import { Editor } from './types'
 
 export function isCollapsed(editor: Editor) {
   return editor.selection && Range.isCollapsed(editor.selection)
 }
 
 export function isMarkActive(editor: Editor, mark: string) {
-  const [match] = Editor.nodes(editor, {
+  const [match] = SlateEditor.nodes(editor, {
     match(node) {
       return node[mark]
     }
@@ -26,4 +29,8 @@ export function toggleMark(editor: Editor, mark: string) {
       split: true
     }
   )
+}
+
+export function useEditor(): Editor {
+  return useSlate() as Editor
 }

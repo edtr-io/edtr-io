@@ -4,10 +4,6 @@ import * as React from 'react'
 import { toggleMark } from '../helpers'
 import { Editor, TextEditorPlugin } from '../types'
 
-function EmMark({ children }: { children: React.ReactNode }) {
-  return <em>{children}</em>
-}
-
 export function createEmMarkPlugin({
   type = 'em',
   Component = EmMark,
@@ -18,7 +14,7 @@ export function createEmMarkPlugin({
   hotkey?: string | ReadonlyArray<string>
 } = {}): TextEditorPlugin {
   return function(editor: Editor) {
-    const { onKeyDown, renderLeaf } = editor
+    const { controls, onKeyDown, renderLeaf } = editor
     editor.onKeyDown = event => {
       if (!isHotkey(hotkey, event)) return onKeyDown(event)
       toggleMark(editor, type)
@@ -28,6 +24,19 @@ export function createEmMarkPlugin({
       const Wrapper = props.leaf[type] ? Component : React.Fragment
       return renderLeaf({ ...props, children: <Wrapper>{children}</Wrapper> })
     }
+    editor.controls = [
+      ...controls,
+      {
+        title: 'Em',
+        onClick() {
+          toggleMark(editor, type)
+        }
+      }
+    ]
     return editor
   }
+}
+
+function EmMark({ children }: { children: React.ReactNode }) {
+  return <em>{children}</em>
 }

@@ -1,10 +1,12 @@
 import { TextEditorPlugin } from '../types'
 import { createEmMarkPlugin } from './em-mark'
-import { createParagraphElement } from './paragraph-element'
+import { createHoveringToolbarPlugin } from './hovering-toolbar'
+import { createParagraphElementPlugin } from './paragraph-element'
 import { createStrongMarkPlugin } from './strong-mark'
 
 export const defaultPlugins: TextEditorPlugin[] = [
   createEmMarkPlugin(),
-  createParagraphElement(),
-  createStrongMarkPlugin()
+  createParagraphElementPlugin(),
+  createStrongMarkPlugin(),
+  createHoveringToolbarPlugin()
 ]

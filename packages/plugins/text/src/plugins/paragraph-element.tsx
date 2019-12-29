@@ -3,11 +3,7 @@ import { RenderElementProps } from 'slate-react'
 
 import { Editor, TextEditorPlugin } from '../types'
 
-function ParagraphElement({ attributes, children }: RenderElementProps) {
-  return <p {...attributes}>{children}</p>
-}
-
-export function createParagraphElement({
+export function createParagraphElementPlugin({
   type = 'paragraph',
   Component = ParagraphElement
 }: {
@@ -23,4 +19,8 @@ export function createParagraphElement({
     }
     return editor
   }
+}
+
+function ParagraphElement({ attributes, children }: RenderElementProps) {
+  return <p {...attributes}>{children}</p>
 }

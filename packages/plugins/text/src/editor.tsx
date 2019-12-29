@@ -33,15 +33,20 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
         })
       }}
     >
-      <Editable
-        placeholder={editable ? placeholder : undefined}
-        readOnly={!focused}
-        renderElement={editor.renderElement}
-        renderLeaf={editor.renderLeaf}
-        onKeyDown={event => {
-          editor.onKeyDown((event as unknown) as KeyboardEvent)
-        }}
-      />
+      {editor.renderEditable({
+        children: (
+          <Editable
+            placeholder={editable ? placeholder : undefined}
+            readOnly={!focused}
+            renderElement={editor.renderElement}
+            renderLeaf={editor.renderLeaf}
+            onKeyDown={event => {
+              editor.onKeyDown((event as unknown) as KeyboardEvent)
+            }}
+          />
+        ),
+        editable
+      })}
     </Slate>
   )
 }
@@ -55,14 +60,18 @@ function createEditor(plugins: TextConfig['plugins']): Editor {
 
   function withEdtr<T extends ReactEditor>(editor: T): T & Editor {
     const e = editor as T & Editor
+    e.controls = []
     e.onKeyDown = () => {}
-    // eslint-disable-next-line react/display-name
-    e.renderLeaf = ({ attributes, children }) => {
-      return <span {...attributes}>{children}</span>
+    e.renderEditable = ({ children }) => {
+      return children
     }
     // eslint-disable-next-line react/display-name
     e.renderElement = ({ attributes, children }) => {
       return <div {...attributes}>{children}</div>
+    }
+    // eslint-disable-next-line react/display-name
+    e.renderLeaf = ({ attributes, children }) => {
+      return <span {...attributes}>{children}</span>
     }
     return e
   }
