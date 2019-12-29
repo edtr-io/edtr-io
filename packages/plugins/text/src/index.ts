@@ -36,18 +36,22 @@ const textState = serializedScalar<
 )
 export type TextState = typeof textState
 export interface TextConfig {
+  placeholder: string
   plugins: TextEditorPlugin[]
 }
 export type TextProps = EditorPluginProps<TextState, TextConfig>
 
 export function createTextPlugin({
+  placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
   plugins = defaultPlugins
 }: {
+  placeholder?: TextConfig['placeholder']
   plugins?: TextConfig['plugins']
 }): EditorPlugin<TextState, TextConfig> {
   return {
     Component: TextEditor,
     config: {
+      placeholder,
       plugins
     },
     state: textState

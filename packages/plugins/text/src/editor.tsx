@@ -5,9 +5,9 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { TextConfig, TextProps } from '.'
 import { Editor } from './types'
 
-export function TextEditor({ config, editable, state }: TextProps) {
+export function TextEditor({ config, editable, focused, state }: TextProps) {
   const { value, selection } = state.get()
-  const { plugins } = config
+  const { placeholder, plugins } = config
   const persistedValue = React.useRef(value)
 
   const editor = React.useMemo(() => {
@@ -34,7 +34,8 @@ export function TextEditor({ config, editable, state }: TextProps) {
       }}
     >
       <Editable
-        readOnly={!editable}
+        placeholder={editable ? placeholder : undefined}
+        readOnly={!focused}
         renderElement={editor.renderElement}
         renderLeaf={editor.renderLeaf}
         onKeyDown={event => {
