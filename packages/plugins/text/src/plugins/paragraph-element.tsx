@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RenderElementProps } from 'slate-react'
 
-import { Editor, TextEditorPlugin } from '../types'
+import { TextEditorPlugin } from '../types'
 
 export function createParagraphElementPlugin({
   type = 'paragraph',
@@ -10,7 +10,7 @@ export function createParagraphElementPlugin({
   type?: string
   Component?: React.ComponentType<RenderElementProps>
 } = {}): TextEditorPlugin {
-  return function(editor: Editor) {
+  return function(editor) {
     const { renderElement } = editor
     // eslint-disable-next-line react/display-name
     editor.renderElement = props => {

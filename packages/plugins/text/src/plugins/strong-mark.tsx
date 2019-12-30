@@ -1,8 +1,8 @@
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 
-import { isMarkActive, toggleMark } from '../helpers'
-import { Editor, TextEditorControl, TextEditorPlugin } from '../types'
+import { TextEditorPlugin } from '../types'
+import { createMarkPlugin } from './mark'
 
 export function createStrongMarkPlugin({
   control,
@@ -10,39 +10,48 @@ export function createStrongMarkPlugin({
   Component = StrongMark,
   hotkey = 'mod+b'
 }: {
-  control?: Pick<TextEditorControl, 'icon' | 'title'>
+  control?: {
+    title: string
+    icon: React.ReactNode
+  }
   type?: string
   Component?: React.ComponentType<{ children: React.ReactNode }>
   hotkey?: string | ReadonlyArray<string>
 } = {}): TextEditorPlugin {
-  return (editor: Editor) => {
-    const { controls, onKeyDown, renderLeaf } = editor
-    editor.onKeyDown = event => {
-      if (!isHotkey(hotkey, event)) return onKeyDown(event)
-      toggleMark(editor, type)
-    }
-    // eslint-disable-next-line react/display-name
-    editor.renderLeaf = ({ children, ...props }) => {
-      const Wrapper = props.leaf[type] ? Component : React.Fragment
-      return renderLeaf({ ...props, children: <Wrapper>{children}</Wrapper> })
-    }
-    if (control) {
-      editor.controls = [
-        ...controls,
-        {
-          ...control,
-          isActive() {
-            return isMarkActive(editor, type)
-          },
-          onClick() {
-            toggleMark(editor, type)
+  return createMarkPlugin<true>(
+    {
+      Component: function StrongMark({ children }) {
+        return <Component>{children}</Component>
+      },
+      type
+    },
+    (editor, { isActive, toggle }) => {
+      const { controls, onKeyDown } = editor
+      editor.onKeyDown = event => {
+        if (!isHotkey(hotkey, event)) return onKeyDown(event)
+        toggle(true)
+      }
+      if (control) {
+        editor.controls = [
+          ...controls,
+          {
+            title: control.title,
+            renderIcon() {
+              return control.icon
+            },
+            isActive() {
+              return isActive()
+            },
+            onClick() {
+              toggle(true)
+            }
           }
-        }
-      ]
-    }
+        ]
+      }
 
-    return editor
-  }
+      return editor
+    }
+  )
 }
 
 function StrongMark({ children }: { children: React.ReactNode }) {

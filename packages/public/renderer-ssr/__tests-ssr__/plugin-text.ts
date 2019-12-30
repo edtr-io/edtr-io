@@ -13,18 +13,15 @@ test('Text plugin (w/ strong)', () => {
   })
 })
 
-test.todo(
-  'Text plugin (w/ color)'
-  //() => {
-  // addTest({
-  //   plugin: name,
-  //   state: states.color,
-  //   assert(html) {
-  //     expect(html).toContain('color')
-  //   }
-  // })
-  //}
-)
+test('Text plugin (w/ color)', () => {
+  addTest({
+    plugin: name,
+    state: states.color,
+    assert(html) {
+      expect(html).toContain('color')
+    }
+  })
+})
 
 addTests({
   name: 'Text',

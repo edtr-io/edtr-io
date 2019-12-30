@@ -13,11 +13,25 @@ export interface Editor extends ReactEditor {
   renderLeaf(props: RenderLeafProps): JSX.Element
 }
 
-export interface TextEditorControl {
-  icon: React.ReactNode
+export type TextEditorControl = ControlButton | NestedControlButton
+
+export interface ControlButton {
   title: string
   isActive(): boolean
   onClick(): void
+  renderIcon(): React.ReactNode
+}
+
+export interface NestedControlButton {
+  title: string
+  children: ControlButton[]
+  renderIcon(): React.ReactNode
+}
+
+export function isNestedControlButton(
+  control: TextEditorControl
+): control is NestedControlButton {
+  return (control as NestedControlButton).children !== undefined
 }
 
 export type TextEditorPlugin = (editor: Editor) => Editor

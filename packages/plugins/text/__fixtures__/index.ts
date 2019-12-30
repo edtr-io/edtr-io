@@ -71,13 +71,11 @@ export const states: Record<string, StateTypeSerializedType<TextState>> = {
       type: 'paragraph',
       children: [{ strong: true, text: 'bold' }]
     }
+  ],
+  color: [
+    {
+      type: 'paragraph',
+      children: [{ color: 1, text: 'color' }]
+    }
   ]
-  // color: createTextState(
-  //   Text.create({
-  //     text: 'color',
-  //     marks: Mark.createSet([
-  //       { type: '@splish-me/color', data: { colorIndex: 1 } }
-  //     ])
-  //   })
-  // )
 }

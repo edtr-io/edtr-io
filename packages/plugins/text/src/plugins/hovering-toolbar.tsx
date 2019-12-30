@@ -1,11 +1,15 @@
-import { styled, useEditorTheme } from '@edtr-io/ui'
+import { edtrClose, EdtrIcon, styled, useEditorTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 import { Range, Editor as SlateEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import { useEditor } from '../helpers'
-import { Editor, TextEditorPlugin } from '../types'
+import {
+  ControlButton,
+  isNestedControlButton,
+  TextEditorPlugin
+} from '../types'
 
 const Button = styled.button<{
   active?: boolean
@@ -34,10 +38,12 @@ const Button = styled.button<{
 
 export function createHoveringToolbarPlugin(
   config: {
+    closeSubMenuIcon?: HoveringToolbarConfig['closeSubMenuIcon']
+    closeSubMenuTitle?: HoveringToolbarConfig['closeSubMenuTitle']
     theme?: DeepPartial<HoveringToolbarConfig['theme']>
   } = {}
 ): TextEditorPlugin {
-  return function(editor: Editor) {
+  return function(editor) {
     const { renderEditable } = editor
     // eslint-disable-next-line react/display-name
     editor.renderEditable = props => {
@@ -55,6 +61,8 @@ export function createHoveringToolbarPlugin(
 }
 
 export interface HoveringToolbarConfig {
+  closeSubMenuIcon: React.ReactNode
+  closeSubMenuTitle: string
   theme: {
     backgroundColor: string
     color: string
@@ -111,11 +119,19 @@ const initialPosition = isTouchDevice()
   : HoverPosition.above
 
 function HoveringToolbar(props: {
-  config: { theme?: DeepPartial<HoveringToolbarConfig['theme']> }
+  config: {
+    closeSubMenuIcon?: HoveringToolbarConfig['closeSubMenuIcon']
+    closeSubMenuTitle?: HoveringToolbarConfig['closeSubMenuTitle']
+    theme?: DeepPartial<HoveringToolbarConfig['theme']>
+  }
 }) {
   const editor = useEditor()
   const editorTheme = useEditorTheme()
   const config: HoveringToolbarConfig = {
+    closeSubMenuIcon: props.config.closeSubMenuIcon || (
+      <EdtrIcon icon={edtrClose} />
+    ),
+    closeSubMenuTitle: props.config.closeSubMenuTitle || 'Untermenü schließen',
     theme: R.mergeDeepRight(
       {
         backgroundColor: 'transparent',
@@ -132,6 +148,7 @@ function HoveringToolbar(props: {
   const menu = React.useRef<HTMLDivElement>(null)
   const triangle = React.useRef<HTMLDivElement>(null)
   const [position, setPosition] = React.useState(initialPosition)
+  const [subMenu, setSubMenu] = React.useState<number>()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
@@ -203,35 +220,85 @@ function HoveringToolbar(props: {
         <OverlayTriangle positionAbove={false} ref={triangle} />
       ) : null}
       <InlineOverlayContentWrapper>
-        {editor.controls.map(({ icon, title, isActive, onClick }, index) => {
-          return (
-            <Button
-              key={index}
-              active={isActive()}
-              config={config}
-              title={title}
-              onMouseDown={event => {
-                event.preventDefault()
-                onClick()
-              }}
-            >
-              {icon}
-            </Button>
-          )
-        })}
+        {renderChildren()}
       </InlineOverlayContentWrapper>
       {position === HoverPosition.above ? (
         <OverlayTriangle positionAbove ref={triangle} />
       ) : null}
     </InlineOverlayWrapper>
   )
+
+  function renderChildren() {
+    if (typeof subMenu === 'number') {
+      const activeControl = editor.controls[subMenu]
+      if (!isNestedControlButton(activeControl)) return null
+      return (
+        <React.Fragment>
+          {activeControl.children.map((control, key) => {
+            return renderControlButton(control, key)
+          })}
+          {renderControlButton({
+            isActive() {
+              return false
+            },
+            renderIcon() {
+              return config.closeSubMenuIcon
+            },
+            onClick() {
+              setSubMenu(undefined)
+            },
+            title: config.closeSubMenuTitle
+          })}
+        </React.Fragment>
+      )
+    }
+
+    return editor.controls.map((control, index) => {
+      if (isNestedControlButton(control)) {
+        const { title, renderIcon } = control
+        return (
+          <Button
+            key={index}
+            config={config}
+            title={title}
+            onMouseDown={event => {
+              event.preventDefault()
+              setSubMenu(index)
+            }}
+          >
+            {renderIcon()}
+          </Button>
+        )
+      }
+      return renderControlButton(control, index)
+    })
+
+    function renderControlButton(control: ControlButton, key?: number) {
+      const { title, isActive, onClick, renderIcon } = control
+      return (
+        <Button
+          key={key}
+          active={isActive()}
+          config={config}
+          title={title}
+          onMouseDown={event => {
+            event.preventDefault()
+            onClick()
+          }}
+        >
+          {renderIcon()}
+        </Button>
+      )
+    }
+  }
 }
 
 function isTouchDevice() {
   return (
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
+    typeof window !== 'undefined' &&
+    ('ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0)
   )
 }
 
