@@ -1,4 +1,5 @@
-import { styled } from '@edtr-io/ui'
+import { styled, useEditorTheme } from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
 import { Range, Editor as SlateEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
@@ -6,60 +7,62 @@ import { ReactEditor } from 'slate-react'
 import { useEditor } from '../helpers'
 import { Editor, TextEditorPlugin } from '../types'
 
-const Button = styled.button((props: { active?: boolean }) => {
+const Button = styled.button<{
+  active?: boolean
+  config: HoveringToolbarConfig
+}>(({ active, config }) => {
+  const { theme } = config
   return {
-    // TODO:
-    // backgroundColor: props.active
-    //   ? theme.active.backgroundColor
-    //   : theme.backgroundColor,
+    backgroundColor: active
+      ? theme.active.backgroundColor
+      : theme.backgroundColor,
     cursor: 'pointer',
-    boxShadow: props.active ? 'inset 0 1px 3px 0 rgba(0,0,0,0.50)' : undefined,
-    // TODO:
-    // color: props.active ? theme.active.color : theme.color,
+    boxShadow: active ? 'inset 0 1px 3px 0 rgba(0,0,0,0.50)' : undefined,
+    color: active ? theme.active.color : theme.color,
     outline: 'none',
     height: '25px',
     border: 'none',
     borderRadius: '4px',
     margin: '5px',
     padding: '0px',
-    width: '25px'
-    // TODO:
-    // '&:hover': {
-    //   color: theme.hoverColor
-    // }
+    width: '25px',
+    '&:hover': {
+      color: theme.hoverColor
+    }
   }
 })
 
-export function createHoveringToolbarPlugin(): TextEditorPlugin {
+export function createHoveringToolbarPlugin(
+  config: {
+    theme?: DeepPartial<HoveringToolbarConfig['theme']>
+  } = {}
+): TextEditorPlugin {
   return function(editor: Editor) {
     const { renderEditable } = editor
     // eslint-disable-next-line react/display-name
     editor.renderEditable = props => {
       return (
         <React.Fragment>
-          {props.editable ? (
-            <HoveringToolbar>
-              {editor.controls.map(({ title, onClick }, index) => {
-                return (
-                  <Button
-                    key={index}
-                    title={title}
-                    onMouseDown={event => {
-                      event.preventDefault()
-                      onClick()
-                    }}
-                  >
-                    {title}
-                  </Button>
-                )
-              })}
-            </HoveringToolbar>
+          {props.editable && editor.controls.length > 0 ? (
+            <HoveringToolbar config={config} />
           ) : null}
           {renderEditable(props)}
         </React.Fragment>
       )
     }
     return editor
+  }
+}
+
+export interface HoveringToolbarConfig {
+  theme: {
+    backgroundColor: string
+    color: string
+    hoverColor: string
+    active: {
+      backgroundColor: string
+      color: string
+    }
   }
 }
 
@@ -107,8 +110,25 @@ const initialPosition = isTouchDevice()
   ? HoverPosition.below
   : HoverPosition.above
 
-function HoveringToolbar({ children }: React.PropsWithChildren<{}>) {
+function HoveringToolbar(props: {
+  config: { theme?: DeepPartial<HoveringToolbarConfig['theme']> }
+}) {
   const editor = useEditor()
+  const editorTheme = useEditorTheme()
+  const config: HoveringToolbarConfig = {
+    theme: R.mergeDeepRight(
+      {
+        backgroundColor: 'transparent',
+        color: editorTheme.editor.color,
+        hoverColor: editorTheme.editor.primary.background,
+        active: {
+          backgroundColor: '#b6b6b6',
+          color: editorTheme.editor.backgroundColor
+        }
+      },
+      props.config.theme || {}
+    )
+  }
   const menu = React.useRef<HTMLDivElement>(null)
   const triangle = React.useRef<HTMLDivElement>(null)
   const [position, setPosition] = React.useState(initialPosition)
@@ -182,7 +202,24 @@ function HoveringToolbar({ children }: React.PropsWithChildren<{}>) {
       {position === HoverPosition.below ? (
         <OverlayTriangle positionAbove={false} ref={triangle} />
       ) : null}
-      <InlineOverlayContentWrapper>{children}</InlineOverlayContentWrapper>
+      <InlineOverlayContentWrapper>
+        {editor.controls.map(({ icon, title, isActive, onClick }, index) => {
+          return (
+            <Button
+              key={index}
+              active={isActive()}
+              config={config}
+              title={title}
+              onMouseDown={event => {
+                event.preventDefault()
+                onClick()
+              }}
+            >
+              {icon}
+            </Button>
+          )
+        })}
+      </InlineOverlayContentWrapper>
       {position === HoverPosition.above ? (
         <OverlayTriangle positionAbove ref={triangle} />
       ) : null}
@@ -196,4 +233,12 @@ function isTouchDevice() {
     navigator.maxTouchPoints > 0 ||
     navigator.msMaxTouchPoints > 0
   )
+}
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
+    : DeepPartial<T[P]>
 }
