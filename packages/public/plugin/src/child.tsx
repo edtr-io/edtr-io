@@ -12,37 +12,6 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { generate } from 'shortid'
 
-function PluginPropsDocument({
-  id,
-  props,
-  parentProps
-}: {
-  id: string
-  props?: PluginProps
-  parentProps: PluginProps
-}) {
-  const pluginProps = React.useMemo((): PluginProps => {
-    return { ...props, parent: parentProps }
-  }, [props, parentProps])
-  return <SubDocument pluginProps={pluginProps} id={id} />
-}
-
-const memoizedRender = (parentProps: PluginProps, config: {}, id: string) => {
-  return function Child(props: PluginProps = {}) {
-    return (
-      <PluginPropsDocument
-        key={id}
-        id={id}
-        props={{
-          ...props,
-          config: R.mergeDeepRight(config, props.config || {})
-        }}
-        parentProps={parentProps}
-      />
-    )
-  }
-}
-
 export function child<K extends string, S = unknown>({
   plugin,
   initialState,
@@ -68,7 +37,16 @@ export function child<K extends string, S = unknown>({
           return id
         },
         id,
-        render: memoizedRender(pluginProps || {}, config || {}, id),
+        render: function Child(props: PluginProps = {}) {
+          const childPluginProps = React.useMemo((): PluginProps => {
+            return {
+              ...props,
+              config: R.mergeDeepRight(config || {}, props.config || {}),
+              parent: pluginProps || {}
+            }
+          }, [props, pluginProps])
+          return <SubDocument pluginProps={childPluginProps} id={id} />
+        },
         replace: (plugin, state) => {
           onChange((_id, helpers) => {
             helpers.createDocument({ id, plugin, state })
