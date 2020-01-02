@@ -30,6 +30,7 @@
       "@edtr-io/plugin-table": ["plugins/table/src"],
       "@edtr-io/plugin-text": ["plugins/text/src"],
       "@edtr-io/plugin-video": ["plugins/video/src"],
+      "@edtr-io/plugin-wrapper": ["plugins/wrapper/src"],
 
       // Private
       "@edtr-io/internal__bundle-size": ["private/bundle-size/src"],

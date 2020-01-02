@@ -9,7 +9,6 @@ import {
 } from '@edtr-io/plugin'
 
 import { SolutionStepsEditor, explanation } from './editor'
-import { useScopedStore } from '@edtr-io/core'
 
 function createSolutionStepState(
   introduction: Parameters<typeof child>,

@@ -38,3 +38,6 @@ dist/
 # API documentation
 api/
 website/
+
+
+.vscode

@@ -24,7 +24,10 @@ export const states: Record<
       state: createTextState(Text.create({ text: 'introduction' }))
     },
     hasStrategy: true,
-    strategy: { plugin: rowsPlugin, state: createRowsState() },
+    strategy: {
+      plugin: rowsPlugin,
+      state: createRowsState({ plugin: textPlugin, state: {} })
+    },
     solutionSteps: [
       {
         type: 'step',
@@ -36,6 +39,9 @@ export const states: Record<
       }
     ],
     hasAdditionals: true,
-    additionals: { plugin: rowsPlugin, state: createRowsState() }
+    additionals: {
+      plugin: rowsPlugin,
+      state: createRowsState({ plugin: textPlugin, state: {} })
+    }
   }
 }
