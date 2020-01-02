@@ -113,10 +113,13 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     [settingsRef]
   )
 
-  const renderIntoToolbar = React.useCallback((children: React.ReactNode) => {
-    if (!toolbarRef.current) return null
-    return createPortal(children, toolbarRef.current)
-  }, [toolbarRef])
+  const renderIntoToolbar = React.useCallback(
+    (children: React.ReactNode) => {
+      if (!toolbarRef.current) return null
+      return createPortal(children, toolbarRef.current)
+    },
+    [toolbarRef]
+  )
 
   const theme = useTheme()
 
@@ -233,15 +236,16 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   }, [
     document,
     plugin,
+    theme,
+    pluginProps,
     handleFocus,
     hasSettings,
     focused,
-    pluginProps,
     PluginToolbar,
     renderIntoSettings,
+    renderIntoToolbar,
     id,
     dispatch,
-    handleKeyDown,
-    theme
+    handleKeyDown
   ])
 }
