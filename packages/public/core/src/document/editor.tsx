@@ -40,6 +40,9 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   const settingsRef = React.useRef<HTMLDivElement>(
     window.document.createElement('div')
   )
+  const toolbarRef = React.useRef<HTMLDivElement>(
+    window.document.createElement('div')
+  )
   const DocumentEditor = React.useContext(DocumentEditorContext)
   const PluginToolbar = React.useContext(PluginToolbarContext)
   const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
@@ -109,6 +112,11 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     },
     [settingsRef]
   )
+
+  const renderIntoToolbar = React.useCallback((children: React.ReactNode) => {
+    if (!toolbarRef.current) return null
+    return createPortal(children, toolbarRef.current)
+  }, [toolbarRef])
 
   const theme = useTheme()
 
@@ -203,11 +211,13 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             renderSettings={pluginProps && pluginProps.renderSettings}
             renderToolbar={pluginProps && pluginProps.renderToolbar}
             settingsRef={settingsRef}
+            toolbarRef={toolbarRef}
             PluginToolbar={PluginToolbar}
           >
             <plugin.Component
               {...pluginProps}
               renderIntoSettings={renderIntoSettings}
+              renderIntoToolbar={renderIntoToolbar}
               id={id}
               editable
               focused={focused}

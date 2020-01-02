@@ -84,6 +84,7 @@ export function createDefaultDocumentEditor(
     renderSettings,
     renderToolbar,
     settingsRef,
+    toolbarRef,
     hasSettings,
     PluginToolbar
   }: DocumentEditorProps) {
@@ -117,6 +118,8 @@ export function createDefaultDocumentEditor(
         : undefined
     }, [renderSettings])
     const expanded = focused && (showSettings() || showToolbar())
+
+    const appended = React.useRef(false)
     const toolbar = (
       <React.Fragment>
         {showSettings() ? (
@@ -127,6 +130,17 @@ export function createDefaultDocumentEditor(
             contentRef={settingsRef}
           />
         ) : null}
+        <div
+          className='asdf'
+          ref={ref => {
+            // The ref `appended` ensures that we only append the content once so that we don't lose focus on every render
+            if (ref && toolbarRef.current && !appended.current) {
+              appended.current = true
+                ref.appendChild(toolbarRef.current)
+            } else if (!showSettings()) {
+              appended.current = false
+            }
+          }}/>
       </React.Fragment>
     )
 
