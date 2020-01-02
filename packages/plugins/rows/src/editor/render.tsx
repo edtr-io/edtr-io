@@ -31,7 +31,7 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { rowsState, rowState } from '..'
+import { RowsState } from '..'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
@@ -73,8 +73,8 @@ export function RowRenderer({
 }: {
   insert(index: number, options?: { plugin: string; state?: unknown }): void
   moveRow(from: number, to: number): void
-  row: StateTypeReturnType<typeof rowState>
-  rows: StateTypeReturnType<typeof rowsState>
+  row: StateTypeReturnType<RowsState>[0]
+  rows: StateTypeReturnType<RowsState>
   index: number
   plugins: ReturnTypeFromSelector<typeof getPlugins>
 }) {
@@ -231,9 +231,9 @@ export function RowRenderer({
                     rows.insert(index, document)
                     close()
                   }}
-                  label="Kopieren"
+                  label="Duplizieren"
                 >
-                  <Icon icon={faCopy} /> Kopieren
+                  <Icon icon={faCopy} /> Duplizieren
                 </BorderlessOverlayButton>
                 <BorderlessOverlayButton
                   onClick={() => {

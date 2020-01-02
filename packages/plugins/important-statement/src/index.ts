@@ -1,13 +1,17 @@
-import { child, Plugin } from '@edtr-io/plugin'
+import { child, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 
 import { ImportantStatementRenderer } from './renderer'
 
-export const importantStatementState = child()
+const importantStatementState = child()
+export type ImportantStatementState = typeof importantStatementState
+export type ImportantStatementProps = EditorPluginProps<ImportantStatementState>
 
-export const importantStatementPlugin: Plugin<
-  typeof importantStatementState
-> = {
-  Component: ImportantStatementRenderer,
-  state: importantStatementState,
-  title: 'Merksatz'
+export function createImportantStatementPlugin(): EditorPlugin<
+  ImportantStatementState
+> {
+  return {
+    Component: ImportantStatementRenderer,
+    config: {},
+    state: importantStatementState
+  }
 }

@@ -1,9 +1,9 @@
 import { useScopedDispatch, useScopedSelector } from '@edtr-io/core'
-import { PluginEditorProps, Plugin } from '@edtr-io/plugin'
 import {
   focusNext as focusNextActionCreator,
   focusPrevious as focusPreviousActionCreator,
-  getPlugins
+  getPlugins,
+  ReturnTypeFromSelector
 } from '@edtr-io/store'
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
@@ -11,185 +11,177 @@ import * as React from 'react'
 import { Editor as CoreEditor, Value, ValueJSON, Operation, Node } from 'slate'
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
-import { textState } from '.'
 import { slateSchema, katexBlockNode, htmlToSlateValue } from '../model'
-import { TextPluginOptions } from './types'
-import { isValueEmpty, TextPlugin, PluginRegistry } from '..'
+import { isValueEmpty, TextPlugin, TextProps, TextConfig } from '..'
 
-export const createTextEditor = (
-  options: TextPluginOptions
-): React.ComponentType<SlateEditorProps> => {
-  return function SlateEditor(props: SlateEditorProps) {
-    const dispatch = useScopedDispatch()
-    const focusNext = React.useCallback(() => {
-      dispatch(focusNextActionCreator())
-    }, [dispatch])
-    const focusPrevious = React.useCallback(() => {
-      dispatch(focusPreviousActionCreator())
-    }, [dispatch])
-    const plugins = useScopedSelector(getPlugins())
-    const editor = React.useRef<CoreEditor>()
-    const availablePlugins: PluginRegistry = options.registry
-      ? options.registry
-      : Object.keys(plugins).map(name => {
-          return { ...plugins[name], name }
-        })
+export function TextEditor(props: SlateEditorProps) {
+  const dispatch = useScopedDispatch()
+  const focusNext = React.useCallback(() => {
+    dispatch(focusNextActionCreator())
+  }, [dispatch])
+  const focusPrevious = React.useCallback(() => {
+    dispatch(focusPreviousActionCreator())
+  }, [dispatch])
+  const plugins = useScopedSelector(getPlugins())
+  const editor = React.useRef<CoreEditor>()
+  const availablePlugins = props.config.registry
 
-    const [rawState, setRawState] = React.useState(() => {
-      // slate.js changed format with version 0.46
-      // old format is still supported, but new states will be in new format
-      return Value.fromJSON(props.state.value)
-    })
+  const [rawState, setRawState] = React.useState(() => {
+    // slate.js changed format with version 0.46
+    // old format is still supported, but new states will be in new format
+    return Value.fromJSON(props.state.value)
+  })
 
-    const thisState = React.useRef(props.state)
-    const lastValue = React.useRef(props.state.value)
+  const thisState = React.useRef(props.state)
+  const lastValue = React.useRef(props.state.value)
 
-    React.useEffect(() => {
-      thisState.current = props.state
-      if (lastValue.current !== props.state.value) {
-        setRawState(Value.fromJSON(props.state.value))
-        lastValue.current = props.state.value
-        setTimeout(() => {
-          if (!editor.current) return
-          if (props.focused) {
-            editor.current.focus()
-          }
-        })
-      }
-    }, [lastValue, props.focused, props.state.value, props.state])
-
-    // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
-    const slateClosure = React.useRef<SlateClosure>({
-      name: props.name,
-      availabePlugins: availablePlugins,
-      plugins: plugins,
-      insert: props.insert,
-      replace: props.replace,
-      remove: props.remove,
-      parent: props.parent,
-      focusPrevious: focusPrevious,
-      focusNext: focusNext,
-      mergeWithNext: props.mergeWithNext,
-      mergeWithPrevious: props.mergeWithPrevious
-    })
-    slateClosure.current = {
-      name: props.name,
-      availabePlugins: availablePlugins,
-      plugins: plugins,
-      insert: props.insert,
-      replace: props.replace,
-      remove: props.remove,
-      parent: props.parent,
-      focusPrevious: focusPrevious,
-      focusNext: focusNext,
-      mergeWithNext: props.mergeWithNext,
-      mergeWithPrevious: props.mergeWithPrevious
-    }
-    React.useEffect(() => {
-      if (!editor.current) return
-      if (props.focused) {
-        setTimeout(() => {
-          if (!editor.current) return
+  React.useEffect(() => {
+    thisState.current = props.state
+    if (lastValue.current !== props.state.value) {
+      setRawState(Value.fromJSON(props.state.value))
+      lastValue.current = props.state.value
+      setTimeout(() => {
+        if (!editor.current) return
+        if (props.focused) {
           editor.current.focus()
-        })
-      } else {
-        editor.current.blur()
-      }
-    }, [props.focused])
-
-    const pluginClosure = React.useRef({
-      name: props.name,
-      parent: props.parent,
-      replace: props.replace,
-      availablePlugins: availablePlugins,
-      plugins: plugins
-    })
-    pluginClosure.current = {
-      name: props.name,
-      parent: props.parent,
-      replace: props.replace,
-      availablePlugins: availablePlugins,
-      plugins: plugins
-    }
-    const slatePlugins = React.useRef<TextPlugin[]>()
-    if (slatePlugins.current === undefined) {
-      slatePlugins.current = [
-        ...options.plugins.map(slatePluginFactory =>
-          slatePluginFactory(pluginClosure)
-        ),
-        newSlateOnEnter(slateClosure),
-        focusNextDocumentOnArrowDown(slateClosure)
-      ]
-    }
-
-    const onPaste = React.useMemo(() => {
-      return createOnPaste(slateClosure)
-    }, [slateClosure])
-    const onKeyDown = React.useMemo(() => {
-      return createOnKeyDown(slateClosure)
-    }, [slateClosure])
-    const onClick = React.useCallback<EventHook>(
-      (e, editor, next): CoreEditor | void => {
-        if (e.target) {
-          // @ts-ignore FIXME: outdated slatejs types
-          const node = editor.findNode(e.target as Element)
-          if (!node) {
-            return editor
-          }
         }
-        next()
-      },
-      []
-    )
+      })
+    }
+  }, [lastValue, props.focused, props.state.value, props.state])
 
-    const onChange = React.useCallback(
-      (change: { operations: Immutable.List<Operation>; value: Value }) => {
-        const nextValue = change.value.toJSON()
-        setRawState(change.value)
-        const withoutSelections = change.operations.filter(
-          operation =>
-            typeof operation !== 'undefined' &&
-            operation.type !== 'set_selection'
-        )
-        if (!withoutSelections.isEmpty()) {
-          lastValue.current = nextValue
-          if (thisState.current) thisState.current.set(nextValue)
-        }
-      },
-      [thisState]
-    )
-
-    return React.useMemo(
-      () => (
-        <Editor
-          ref={slate => {
-            const slateReact = (slate as unknown) as CoreEditor | null
-            if (slateReact && !editor.current) {
-              editor.current = slateReact
-            }
-          }}
-          onPaste={onPaste}
-          onKeyDown={onKeyDown}
-          onClick={onClick}
-          onChange={onChange}
-          placeholder={props.editable ? options.placeholder : ''}
-          plugins={slatePlugins.current}
-          readOnly={!props.focused}
-          value={rawState}
-          schema={slateSchema}
-        />
-      ),
-      [
-        onPaste,
-        onKeyDown,
-        onClick,
-        onChange,
-        props.editable,
-        props.focused,
-        rawState
-      ]
-    )
+  // PLEASE DONT FIX THIS! Closure needed because on* isn't recreated so doesnt use current props
+  const slateClosure = React.useRef<SlateClosure>({
+    name: props.name,
+    availablePlugins,
+    plugins: plugins,
+    insert: props.insert,
+    replace: props.replace,
+    remove: props.remove,
+    parent: props.parent,
+    focusPrevious: focusPrevious,
+    focusNext: focusNext,
+    mergeWithNext: props.mergeWithNext,
+    mergeWithPrevious: props.mergeWithPrevious
+  })
+  slateClosure.current = {
+    name: props.name,
+    availablePlugins: availablePlugins,
+    plugins: plugins,
+    insert: props.insert,
+    replace: props.replace,
+    remove: props.remove,
+    parent: props.parent,
+    focusPrevious: focusPrevious,
+    focusNext: focusNext,
+    mergeWithNext: props.mergeWithNext,
+    mergeWithPrevious: props.mergeWithPrevious
   }
+  React.useEffect(() => {
+    if (!editor.current) return
+    if (props.focused) {
+      setTimeout(() => {
+        if (!editor.current) return
+        editor.current.focus()
+      })
+    } else {
+      editor.current.blur()
+    }
+  }, [props.focused])
+
+  const pluginClosure = React.useRef({
+    name: props.name,
+    config: props.config,
+    parent: props.parent,
+    replace: props.replace,
+    availablePlugins: availablePlugins,
+    plugins: plugins
+  })
+  pluginClosure.current = {
+    name: props.name,
+    config: props.config,
+    parent: props.parent,
+    replace: props.replace,
+    availablePlugins: availablePlugins,
+    plugins: plugins
+  }
+  const slatePlugins = React.useRef<TextPlugin[]>()
+  if (slatePlugins.current === undefined) {
+    slatePlugins.current = [
+      ...props.config.plugins.map(slatePluginFactory =>
+        slatePluginFactory(pluginClosure)
+      ),
+      newSlateOnEnter(slateClosure),
+      focusNextDocumentOnArrowDown(slateClosure)
+    ]
+  }
+
+  const onPaste = React.useMemo(() => {
+    return createOnPaste(slateClosure)
+  }, [slateClosure])
+  const onKeyDown = React.useMemo(() => {
+    return createOnKeyDown(slateClosure)
+  }, [slateClosure])
+  const onClick = React.useCallback<EventHook>(
+    (e, editor, next): CoreEditor | void => {
+      if (e.target) {
+        // @ts-ignore FIXME: outdated slatejs types
+        const node = editor.findNode(e.target as Element)
+        if (!node) {
+          return editor
+        }
+      }
+      next()
+    },
+    []
+  )
+
+  const onChange = React.useCallback(
+    (change: { operations: Immutable.List<Operation>; value: Value }) => {
+      const nextValue = change.value.toJSON()
+      setRawState(change.value)
+      const withoutSelections = change.operations.filter(
+        operation =>
+          typeof operation !== 'undefined' && operation.type !== 'set_selection'
+      )
+      if (!withoutSelections.isEmpty()) {
+        lastValue.current = nextValue
+        if (thisState.current) thisState.current.set(nextValue)
+      }
+    },
+    [thisState]
+  )
+
+  return React.useMemo(
+    () => (
+      <Editor
+        ref={slate => {
+          const slateReact = (slate as unknown) as CoreEditor | null
+          if (slateReact && !editor.current) {
+            editor.current = slateReact
+          }
+        }}
+        onPaste={onPaste}
+        onKeyDown={onKeyDown}
+        onClick={onClick}
+        onChange={onChange}
+        placeholder={props.editable ? props.config.placeholder : ''}
+        plugins={slatePlugins.current}
+        readOnly={!props.focused}
+        value={rawState}
+        schema={slateSchema}
+      />
+    ),
+    [
+      onPaste,
+      onKeyDown,
+      onClick,
+      onChange,
+      props.editable,
+      props.config.placeholder,
+      props.focused,
+      rawState
+    ]
+  )
 }
 
 // PLEASE DONT FIX THIS! Closure needed because onPaste isn't recreated so doesnt use props
@@ -526,8 +518,7 @@ function createDocumentFromNodes(nodes: Node[]) {
   }
 }
 
-export type SlateEditorProps = PluginEditorProps<typeof textState> &
-  SlateEditorAdditionalProps
+export type SlateEditorProps = TextProps & SlateEditorAdditionalProps
 
 export interface SlateEditorAdditionalProps {
   name: string
@@ -542,6 +533,6 @@ export interface SlateEditorAdditionalProps {
 interface SlateClosure extends SlateEditorAdditionalProps {
   focusPrevious: () => void
   focusNext: () => void
-  availabePlugins: PluginRegistry
-  plugins: Record<string, Plugin>
+  availablePlugins: TextConfig['registry']
+  plugins: ReturnTypeFromSelector<typeof getPlugins>
 }

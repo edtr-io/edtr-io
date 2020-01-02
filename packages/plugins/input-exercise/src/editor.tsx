@@ -1,16 +1,15 @@
-import { useScopedSelector, OverlayInput, OverlaySelect } from '@edtr-io/core'
+import { OverlayInput, OverlaySelect, useScopedSelector } from '@edtr-io/core'
 import {
-  InteractiveAnswer,
   AddButton,
-  styled,
-  PreviewOverlay
+  InteractiveAnswer,
+  PreviewOverlay,
+  styled
 } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { inputExerciseState } from '.'
+import { InputExerciseProps } from '.'
 import { InputExerciseRenderer } from './renderer'
 
 const types = [
@@ -33,11 +32,7 @@ const AnswerTextfield = styled.input({
   outline: 'none',
   width: '100%'
 })
-export function InputExerciseEditor(
-  props: PluginEditorProps<typeof inputExerciseState> & {
-    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  }
-) {
+export function InputExerciseEditor(props: InputExerciseProps) {
   function translateDataType(type: string) {
     for (let i = 0; i < types.length; i++) {
       if (type === types[i].type) return types[i].name
@@ -59,27 +54,6 @@ export function InputExerciseEditor(
       focusedElement,
       props.state.answers.map(answer => answer.feedback.id)
     )
-  const Controls = (
-    <React.Fragment>
-      <OverlayInput
-        label="Einheit (optional)"
-        value={state.unit.value}
-        onChange={e => {
-          state.unit.set(e.target.value)
-        }}
-      />
-      <OverlaySelect
-        label="Wähle den Antworttyp"
-        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-          state.type.set(translateDataName(event.target.value))
-        }}
-        value={translateDataType(state.type.value)}
-        options={R.map(type => {
-          return type.name
-        }, types)}
-      />
-    </React.Fragment>
-  )
   const [previewActive, setPreviewActive] = React.useState(false)
   return (
     <React.Fragment>
@@ -120,17 +94,29 @@ export function InputExerciseEditor(
               <AddButton onClick={() => state.answers.insert()}>
                 Antwort hinzufügen...
               </AddButton>
-              {!props.renderIntoExtendedSettings ? (
-                <React.Fragment>
-                  <hr />
-                  {Controls}
-                </React.Fragment>
-              ) : null}
             </React.Fragment>
           ) : null}
-          {props.renderIntoExtendedSettings
-            ? props.renderIntoExtendedSettings(Controls)
-            : null}
+          {props.renderIntoSettings(
+            <React.Fragment>
+              <OverlayInput
+                label="Einheit (optional)"
+                value={state.unit.value}
+                onChange={e => {
+                  state.unit.set(e.target.value)
+                }}
+              />
+              <OverlaySelect
+                label="Wähle den Antworttyp"
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                  state.type.set(translateDataName(event.target.value))
+                }}
+                value={translateDataType(state.type.value)}
+                options={R.map(type => {
+                  return type.name
+                }, types)}
+              />
+            </React.Fragment>
+          )}
         </React.Fragment>
       ) : (
         <InputExerciseRenderer {...props} />

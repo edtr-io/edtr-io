@@ -1,77 +1,43 @@
-import { Plugin } from '@edtr-io/plugin'
-import { anchorPlugin } from '@edtr-io/plugin-anchor'
-import { blockquotePlugin } from '@edtr-io/plugin-blockquote'
-import { equationsPlugin } from '@edtr-io/plugin-equations'
-import {
-  createFilePlugin,
-  parseFileType,
-  UploadedFile
-} from '@edtr-io/plugin-files'
-import { geogebraPlugin } from '@edtr-io/plugin-geogebra'
-import { highlightPlugin } from '@edtr-io/plugin-highlight'
-import { hintPlugin } from '@edtr-io/plugin-hint'
-import { importantStatementPlugin } from '@edtr-io/plugin-important-statement'
-import { inputExercisePlugin } from '@edtr-io/plugin-input-exercise'
-import { createMultimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation'
-import { createRowsPlugin, rowsPlugin } from '@edtr-io/plugin-rows'
-import { scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise'
-import { serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection'
-import { solutionPlugin } from '@edtr-io/plugin-solution'
+import { EditorPlugin } from '@edtr-io/plugin'
+import { plugin as anchorPlugin } from '@edtr-io/plugin-anchor/__fixtures__'
+import { plugin as blockquotePlugin } from '@edtr-io/plugin-blockquote/__fixtures__'
+import { plugin as equationsPlugin } from '@edtr-io/plugin-equations/__fixtures__'
+import { plugin as filesPlugin } from '@edtr-io/plugin-files/__fixtures__'
+import { plugin as geogebraPlugin } from '@edtr-io/plugin-geogebra/__fixtures__'
+import { plugin as highlightPlugin } from '@edtr-io/plugin-highlight/__fixtures__'
+import { plugin as hintPlugin } from '@edtr-io/plugin-hint/__fixtures__'
+import { plugin as imagePlugin } from '@edtr-io/plugin-image/__fixtures__'
+import { plugin as importantStatementPlugin } from '@edtr-io/plugin-important-statement/__fixtures__'
+import { plugin as inputExercisePlugin } from '@edtr-io/plugin-input-exercise/__fixtures__'
+import { plugin as multimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation/__fixtures__'
+import { plugin as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
+import { plugin as scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise/__fixtures__'
+import { plugin as serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection/__fixtures__'
+import { plugin as solutionPlugin } from '@edtr-io/plugin-solution/__fixtures__'
 import { solutionStepsPlugin } from '@edtr-io/plugin-solution-steps'
-import { spoilerPlugin } from '@edtr-io/plugin-spoiler'
-import { tablePlugin } from '@edtr-io/plugin-table'
-import { createTextPlugin, textPlugin } from '@edtr-io/plugin-text'
-import { videoPlugin } from '@edtr-io/plugin-video'
+import { plugin as spoilerPlugin } from '@edtr-io/plugin-spoiler/__fixtures__'
+import { plugin as tablePlugin } from '@edtr-io/plugin-table/__fixtures__'
+import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
+import { plugin as videoPlugin } from '@edtr-io/plugin-video/__fixtures__'
 
-import { imagePlugin, readFile } from './plugin-image'
-
-const mockUploadFileHandler = (file: File): Promise<UploadedFile> => {
-  return readFile(file).then(loaded => {
-    return {
-      location: loaded.dataUrl,
-      name: loaded.file.name,
-      type: parseFileType(loaded.file.name)
-    }
-  })
-}
-
-export const plugins: Record<string, Plugin> = {
+export const plugins: Record<
+  string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  EditorPlugin<any, any>
+> = {
   // Must be placed before files for onPaste
   image: imagePlugin,
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
   equations: equationsPlugin,
-  files: createFilePlugin({ upload: mockUploadFileHandler }),
+  files: filesPlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
   hint: hintPlugin,
-  inputExercise: inputExercisePlugin,
   importantStatement: importantStatementPlugin,
-  multimediaExplanation: createMultimediaExplanationPlugin([
-    {
-      ...imagePlugin,
-      name: 'image'
-    },
-    {
-      ...videoPlugin,
-      name: 'video'
-    },
-    {
-      ...geogebraPlugin,
-      name: 'geogebra'
-    }
-  ]),
+  inputExercise: inputExercisePlugin,
+  multimediaExplanation: multimediaExplanationPlugin,
   rows: rowsPlugin,
-  customRows: createRowsPlugin([
-    {
-      ...textPlugin,
-      name: 'text'
-    },
-    {
-      ...imagePlugin,
-      name: 'image'
-    }
-  ]),
   scMcExercise: scMcExercisePlugin,
   serloInjection: serloInjectionPlugin,
   solution: solutionPlugin,
@@ -79,15 +45,5 @@ export const plugins: Record<string, Plugin> = {
   spoiler: spoilerPlugin,
   table: tablePlugin,
   text: textPlugin,
-  customText: createTextPlugin([
-    {
-      ...textPlugin,
-      name: 'text'
-    },
-    {
-      ...imagePlugin,
-      name: 'image'
-    }
-  ]),
   video: videoPlugin
 }

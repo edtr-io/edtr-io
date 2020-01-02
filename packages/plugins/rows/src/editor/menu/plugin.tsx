@@ -1,30 +1,28 @@
-import { styled, EdtrIcon, edtrRowsControls, ThemeProps } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { createRowPluginTheme } from '../..'
+import { RowsConfig } from '../..'
 
-const StyledPlugin = styled.div<ThemeProps & { name: string }>(
-  ({ name, ...props }) => {
-    const theme = createRowPluginTheme(name, props.theme)
-    return {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      margin: '15px',
-      width: '175px',
-      borderRadius: '5px',
-      padding: '15px',
-      cursor: 'pointer',
-      transition: '250ms all ease-in-out',
-      color: theme.menu.primary.color,
+const StyledPlugin = styled.div<{ config: RowsConfig }>(({ config }) => {
+  const { theme } = config
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    margin: '15px',
+    width: '175px',
+    borderRadius: '5px',
+    padding: '15px',
+    cursor: 'pointer',
+    transition: '250ms all ease-in-out',
+    color: theme.menu.primary.color,
 
-      '&:hover': {
-        backgroundColor: theme.menu.secondary.backgroundColor
-      }
+    '&:hover': {
+      backgroundColor: theme.menu.secondary.backgroundColor
     }
   }
-)
+})
 
 const DefaultIcon = styled(EdtrIcon)({
   height: '100%',
@@ -50,10 +48,10 @@ const Description = styled.p({
 })
 
 export const Plugin = ({
+  config,
   plugin,
   pluginName,
-  onClick,
-  name
+  onClick
 }: {
   plugin: {
     name: string
@@ -62,11 +60,11 @@ export const Plugin = ({
     description?: string
   }
   pluginName: string
+  config: RowsConfig
   onClick: () => void
-  name: string
 }) => {
   return (
-    <StyledPlugin onClick={onClick} name={name}>
+    <StyledPlugin config={config} onClick={onClick}>
       <IconWrapper>
         {plugin.icon ? (
           <plugin.icon />

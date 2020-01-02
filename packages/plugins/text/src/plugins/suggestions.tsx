@@ -1,37 +1,21 @@
-import { styled, createPluginTheme, ThemeProps } from '@edtr-io/ui'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-const createSuggestionsTheme = createPluginTheme<SuggestionTheme>(theme => {
-  return {
-    background: {
-      default: 'transparent',
-      highlight: theme.editor.primary.background
-    },
+import { TextConfig } from '..'
 
-    text: {
-      default: theme.editor.color,
-      highlight: theme.editor.danger.background
-    }
-  }
-})
-
-const Suggestion = styled.div<{ active: boolean; name: string }>(
-  ({
-    active,
-    name,
-    ...props
-  }: { active: boolean; name: string } & ThemeProps) => {
-    const theme = createSuggestionsTheme(name, props.theme)
+const Suggestion = styled.div<{ active: boolean; config: TextConfig }>(
+  ({ active, config }) => {
+    const { theme } = config
     return {
       height: '32px',
       padding: '4px 8px',
       cursor: 'pointer',
       backgroundColor: active
-        ? theme.background.highlight
-        : theme.background.default,
+        ? theme.suggestions.background.highlight
+        : theme.suggestions.background.default,
       borderRadius: '4px',
       '&:hover': {
-        background: theme.background.highlight
+        background: theme.suggestions.background.highlight
       }
     }
   }
@@ -41,15 +25,13 @@ const Container = styled.div({
   padding: '10px'
 })
 
-const StyledText = styled.span<{ highlight: boolean; name: string }>(
-  ({
-    highlight,
-    name,
-    ...props
-  }: { highlight: boolean; name: string } & ThemeProps) => {
-    const theme = createSuggestionsTheme(name, props.theme)
+const StyledText = styled.span<{ highlight: boolean; config: TextConfig }>(
+  ({ highlight, config }) => {
+    const { theme } = config
     return {
-      color: highlight ? theme.text.highlight : theme.text.default
+      color: highlight
+        ? theme.suggestions.text.highlight
+        : theme.suggestions.text.default
     }
   }
 )
@@ -80,14 +62,14 @@ export class Suggestions extends React.Component<SuggestionProps> {
                   key={index}
                   active={index === this.props.selected}
                   onMouseDown={() => this.props.onSelect(option[1])}
-                  name={this.props.name}
+                  config={this.props.config}
                 >
                   {fragments.map((f, index) => {
                     return (
                       <StyledText
                         key={index}
                         highlight={f.highlight}
-                        name={this.props.name}
+                        config={this.props.config}
                       >
                         {f.text}
                       </StyledText>
@@ -105,13 +87,8 @@ export class Suggestions extends React.Component<SuggestionProps> {
   }
 }
 
-interface SuggestionTheme {
-  background: { default: string; highlight: string }
-
-  text: { default: string; highlight: string }
-}
-
 export interface SuggestionProps {
+  config: TextConfig
   onSelect: Function
   options: string[][]
   selected?: number

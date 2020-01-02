@@ -1,4 +1,4 @@
-import { TextPluginOptions } from '../factory/types'
+import { autoLink } from './auto-link'
 import { createColorPlugin } from './colors'
 import { createHeadingsPlugin } from './headings'
 import { createKatexPlugin } from './katex'
@@ -8,8 +8,9 @@ import { markdownShortcuts } from './markdown'
 import { createParagraphPlugin } from './paragraph'
 import { pluginSuggestions } from './plugin-suggestions'
 import { createRichTextPlugin } from './rich-text'
+import { TextConfig } from '..'
 
-export const plugins: TextPluginOptions['plugins'] = [
+export const plugins: TextConfig['plugins'] = [
   pluginSuggestions,
   createParagraphPlugin(),
   createRichTextPlugin(),
@@ -18,5 +19,6 @@ export const plugins: TextPluginOptions['plugins'] = [
   createHeadingsPlugin(),
   createListPlugin(),
   createColorPlugin(),
-  markdownShortcuts
+  markdownShortcuts,
+  autoLink
 ]

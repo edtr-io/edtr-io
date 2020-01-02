@@ -1,8 +1,8 @@
-import { StateTypeReturnType, PluginEditorProps } from '@edtr-io/plugin'
+import { StateTypeReturnType } from '@edtr-io/plugin'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { StepProps, equationsState } from '.'
+import { EquationsProps, EquationsState } from '.'
 
 enum Phase {
   noJS = 0,
@@ -14,10 +14,10 @@ enum Phase {
 }
 
 export class EquationsRenderer extends React.Component<
-  PluginEditorProps<typeof equationsState>,
+  EquationsProps,
   EquationsRendererState
 > {
-  public state: EquationsState = {
+  public state: EquationsRendererState = {
     phase: Phase.noJS,
     widthLeftSingle: [],
     widthLeftDouble: [],
@@ -68,7 +68,7 @@ export class EquationsRenderer extends React.Component<
 
   private renderHidden = () => {
     interface StepFit {
-      step: StateTypeReturnType<typeof StepProps>
+      step: StateTypeReturnType<EquationsState>['steps'][0]
       fits: boolean
     }
     const { state } = this.props
@@ -83,9 +83,11 @@ export class EquationsRenderer extends React.Component<
         ) <= 20 ||
         R.max(
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          R.reduce<number, number>(R.max, 0, this.state.widthLeftSingle.filter(
-            Boolean
-          ) as number[]),
+          R.reduce<number, number>(
+            R.max,
+            0,
+            this.state.widthLeftSingle.filter(Boolean) as number[]
+          ),
           this.state.widthLeftDouble[index] || 0
         ) +
           R.max(
@@ -402,16 +404,6 @@ export class EquationsRenderer extends React.Component<
 }
 
 export interface EquationsRendererState {
-  phase: Phase
-  widthLeftSingle: (number | undefined)[]
-  widthLeftDouble: (number | undefined)[]
-  widthRightSingle: (number | undefined)[]
-  widthRightDouble: (number | undefined)[]
-  widthTrans: (number | undefined)[]
-  containerWidth: number | undefined
-}
-
-export interface EquationsState {
   phase: Phase
   widthLeftSingle: (number | undefined)[]
   widthLeftDouble: (number | undefined)[]

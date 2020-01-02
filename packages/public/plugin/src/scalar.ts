@@ -64,7 +64,7 @@ export function asyncScalar<T, Temp>(
           onChange(
             previousState => {
               if (typeof initial === 'function') {
-                const f = initial as ((previous: T | Temp) => T | Temp)
+                const f = initial as (previous: T | Temp) => T | Temp
                 return f(previousState)
               }
               return initial
@@ -92,7 +92,7 @@ export function asyncScalar<T, Temp>(
       ): (updater: T | Temp | ((previousValue: T | Temp) => T | Temp)) => void {
         return update => {
           if (typeof update === 'function') {
-            const f = update as ((previous: T | Temp) => T | Temp)
+            const f = update as (previous: T | Temp) => T | Temp
             return callback(f)
           }
 
@@ -145,7 +145,7 @@ export function serializedScalar<S, T>(
         public set(param: T | ((previousValue: T) => T)) {
           onChange(previousValue => {
             if (typeof param === 'function') {
-              const updater = param as ((currentValue: T) => T)
+              const updater = param as (currentValue: T) => T
               return updater(previousValue)
             }
             return param

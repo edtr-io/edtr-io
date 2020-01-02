@@ -14,9 +14,7 @@ export function* clipboardSaga() {
 }
 
 function* copySaga(action: CopyAction) {
-  const document: ReturnTypeFromSelector<
-    typeof serializeDocument
-  > = yield select(
+  const document: ReturnTypeFromSelector<typeof serializeDocument> = yield select(
     scopeSelector(serializeDocument, action.scope),
     action.payload
   )

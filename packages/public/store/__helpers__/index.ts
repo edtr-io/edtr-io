@@ -19,10 +19,7 @@ export function setupStore() {
       }
     },
     createEnhancer: defaultEnhancer => {
-      return compose(
-        defaultEnhancer,
-        applyMiddleware(testMiddleware)
-      )
+      return compose(defaultEnhancer, applyMiddleware(testMiddleware))
     }
   }).store
 

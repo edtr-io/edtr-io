@@ -1,14 +1,11 @@
-import { addStory } from '../src'
+import { name, states } from '@edtr-io/plugin-equations/__fixtures__'
 
-addStory('Plugins/Equations/Initial State', {
-  state: {
-    plugin: 'rows',
-    state: [
-      {
-        plugin: 'equations'
-      }
-    ]
-  }
+import { addStory, addPluginStories } from '../src'
+
+addPluginStories({
+  name: 'Equations',
+  plugin: name,
+  states: states
 })
 
 addStory('Plugins/Equations/Prefilled', {

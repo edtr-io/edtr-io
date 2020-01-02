@@ -73,7 +73,13 @@ module.exports = function(api) {
                   '@edtr-io/renderer-ui': '@edtr-io/renderer-ui/src',
                   '@edtr-io/store': '@edtr-io/store/src',
                   '@edtr-io/store-devtools': '@edtr-io/store-devtools/src',
-                  '@edtr-io/ui': '@edtr-io/ui/src'
+                  '@edtr-io/ui': '@edtr-io/ui/src',
+                  '^@edtr-io/([^/]+)(.*)': ([_, packageName, filePath]) => {
+                    const base = `@edtr-io/${packageName}`
+                    if (filePath.startsWith('/__fixtures__'))
+                      return `${base}${filePath}`
+                    return `${base}/src${filePath}`
+                  }
                 },
                 loglevel: 'silent'
               }

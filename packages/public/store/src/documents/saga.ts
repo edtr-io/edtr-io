@@ -59,12 +59,10 @@ function* removeSaga(action: RemoveAction) {
 
 function* insertSaga(action: InsertAction) {
   const initialState = action.payload
-  const [actions]: [ReversibleAction[], unknown] = yield call(
-    handleRecursiveInserts,
-    action.scope,
-    () => {},
-    [initialState]
-  )
+  const [actions]: [
+    ReversibleAction[],
+    unknown
+  ] = yield call(handleRecursiveInserts, action.scope, () => {}, [initialState])
   yield put(commit(actions)(action.scope))
 }
 
@@ -157,9 +155,10 @@ function* changeSaga(action: ChangeAction) {
     while (true) {
       const payload: ChannelAction = yield take(chan)
 
-      const currentDocument: ReturnTypeFromSelector<
-        typeof getDocument
-      > = yield select(scopeSelector(getDocument, action.scope), id)
+      const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+        scopeSelector(getDocument, action.scope),
+        id
+      )
       if (!currentDocument) continue
 
       const updater =
@@ -211,9 +210,10 @@ export function* handleRecursiveInserts(
   while (pendingDocs.length > 0) {
     const doc = pendingDocs.pop()
     if (!doc) return
-    const plugin: ReturnTypeFromSelector<
-      typeof getPluginOrDefault
-    > = yield select(scopeSelector(getPluginOrDefault, scope), doc.plugin)
+    const plugin: ReturnTypeFromSelector<typeof getPluginOrDefault> = yield select(
+      scopeSelector(getPluginOrDefault, scope),
+      doc.plugin
+    )
     if (!plugin) return
 
     let pluginState: unknown
@@ -223,9 +223,10 @@ export function* handleRecursiveInserts(
       pluginState = plugin.state.deserialize(doc.state, helpers)
     }
 
-    const pluginType: ReturnTypeFromSelector<
-      typeof getPluginTypeOrDefault
-    > = yield select(scopeSelector(getPluginTypeOrDefault, scope), doc.plugin)
+    const pluginType: ReturnTypeFromSelector<typeof getPluginTypeOrDefault> = yield select(
+      scopeSelector(getPluginTypeOrDefault, scope),
+      doc.plugin
+    )
     // we could, but don't need to reverse inserts.
     actions.push({
       action: pureInsert({

@@ -1,23 +1,18 @@
-import { ThemeProps, styled } from '@edtr-io/ui'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor } from 'slate'
 
 import { SlatePluginClosure } from '../factory/types'
+import { getTrimmedSelectionRange } from '../helpers'
 import { colorMark } from '../model'
-import {
-  createTextPluginTheme,
-  getTrimmedSelectionRange,
-  MarkEditorProps,
-  MarkRendererProps,
-  TextPlugin
-} from '..'
+import { MarkEditorProps, MarkRendererProps, TextConfig, TextPlugin } from '..'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<
-    MarkEditorProps & { colorIndex: number; name: string }
+    MarkEditorProps & { colorIndex: number; config: TextConfig }
   >
   RenderComponent?: React.ComponentType<
-    MarkRendererProps & { colorIndex: number; name: string }
+    MarkRendererProps & { colorIndex: number; config: TextConfig }
   >
 }
 
@@ -68,23 +63,23 @@ export const getColorIndex = (editor: Editor) => {
   }
 }
 
-const Color = styled.span(
-  (props: ThemeProps & { name: string; colorIndex: number }) => {
-    const theme = createTextPluginTheme(props.name, props.theme)
+const Color = styled.span<{ config: TextConfig; colorIndex: number }>(
+  ({ config, colorIndex }) => {
+    const { theme } = config
     const colors = theme.plugins.colors.colors
     return {
-      color: colors[props.colorIndex % colors.length]
+      color: colors[colorIndex % colors.length]
     }
   }
 )
 
 class DefaultEditorComponent extends React.Component<
-  MarkEditorProps & { colorIndex: number; name: string }
+  MarkEditorProps & { config: TextConfig; colorIndex: number }
 > {
   public render() {
-    const { attributes, children, colorIndex, name } = this.props
+    const { config, attributes, children, colorIndex } = this.props
     return (
-      <Color colorIndex={colorIndex} name={name} {...attributes}>
+      <Color config={config} colorIndex={colorIndex} {...attributes}>
         {children}
       </Color>
     )
@@ -99,12 +94,15 @@ export const createColorPlugin = ({
   // TODO: deserialize
   return {
     renderMark(props, _editor, next) {
-      const name = pluginClosure.current ? pluginClosure.current.name : ''
+      const config = pluginClosure.current
+        ? pluginClosure.current.config
+        : undefined
       const { mark } = props
+      if (!config) return null
       if (mark.object === 'mark' && mark.type === colorMark) {
         const colorIndex = mark.data.get('colorIndex')
         return (
-          <EditorComponent colorIndex={colorIndex} {...props} name={name} />
+          <EditorComponent config={config} colorIndex={colorIndex} {...props} />
         )
       }
       return next()

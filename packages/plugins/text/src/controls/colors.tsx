@@ -1,35 +1,24 @@
-import {
-  styled,
-  ThemeProps,
-  usePluginTheme,
-  EdtrIcon,
-  edtrTextControls
-} from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrTextControls } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { trimSelection } from '../helpers'
 import {
   createIsColor,
   createToggleColor,
   removeColor
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
-import {
-  createTextPluginTheme,
-  textPluginThemeFactory,
-  trimSelection
-} from '..'
+import { TextConfig } from '..'
 
-export const ColorControls: React.FunctionComponent<
-  SubControlProps
-> = props => {
-  const theme = usePluginTheme(props.name, textPluginThemeFactory)
+export function ColorControls(props: SubControlProps) {
+  const { theme } = props.config
   const { colors, defaultColor } = theme.plugins.colors
   return (
     <React.Fragment>
       <Button
         active={!createIsColor()(props.editor)}
-        name={props.name}
+        config={props.config}
         onClick={() => {
           removeColor(props.editor)
             .moveToEnd()
@@ -44,9 +33,9 @@ export const ColorControls: React.FunctionComponent<
 
       {colors.map((color, index) => (
         <Button
+          config={props.config}
           key={index}
           active={createIsColor(index)(props.editor)}
-          name={props.name}
           onClick={() => {
             trimSelection(props.editor)
             createToggleColor(index)(props.editor)
@@ -61,7 +50,7 @@ export const ColorControls: React.FunctionComponent<
         </Button>
       ))}
       <Button
-        name={props.name}
+        config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >
@@ -95,31 +84,27 @@ const FlexContainer = styled.span({
   flexDirection: 'column'
 })
 
-const Line = styled.span<{ index?: number }>(
-  (props: ThemeProps & { index?: number }) => {
-    const theme = createTextPluginTheme(name, props.theme)
-    const { colors, defaultColor } = theme.plugins.colors
-    return {
-      border: `2px solid ${
-        props.index === undefined
-          ? defaultColor
-          : colors[props.index % colors.length]
-      }`,
-      borderRadius: '4px',
-      bottom: '0',
-      width: '80%',
-      position: 'absolute'
-    }
+const Line = styled.span<{ index?: number; config: TextConfig }>(props => {
+  const { theme } = props.config
+  const { colors, defaultColor } = theme.plugins.colors
+  return {
+    border: `2px solid ${
+      props.index === undefined
+        ? defaultColor
+        : colors[props.index % colors.length]
+    }`,
+    borderRadius: '4px',
+    bottom: '0',
+    width: '80%',
+    position: 'absolute'
   }
-)
-export const ColoredTextIcon: React.FunctionComponent<{
-  index?: number
-}> = props => {
+})
+export function ColoredTextIcon(props: { index?: number; config: TextConfig }) {
   return (
     <ColoredText>
       <FlexContainer>
         <EdtrIcon icon={edtrTextControls.colorText} />
-        <Line index={props.index} />
+        <Line config={props.config} index={props.index} />
       </FlexContainer>
     </ColoredText>
   )

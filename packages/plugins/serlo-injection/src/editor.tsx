@@ -5,11 +5,10 @@ import {
   PreviewOverlay,
   styled
 } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { serloInjectionState } from '.'
+import { SerloInjectionProps } from '.'
 import { SerloInjectionRenderer } from './renderer'
 
 const createURL = (id: string) => {
@@ -29,11 +28,7 @@ const PlaceholderWrapper = styled.div({
   textAlign: 'center'
 })
 
-export const SerloInjectionEditor = (
-  props: PluginEditorProps<typeof serloInjectionState> & {
-    renderIntoExtendedSettings?: (children: React.ReactNode) => React.ReactNode
-  }
-) => {
+export const SerloInjectionEditor = (props: SerloInjectionProps) => {
   const [cache, setCache] = React.useState(props.state.value)
   const [preview, setPreview] = React.useState(false)
 
@@ -84,20 +79,18 @@ export const SerloInjectionEditor = (
           />
         </PrimarySettings>
       ) : null}
-      {props.renderIntoExtendedSettings
-        ? props.renderIntoExtendedSettings(
-            <React.Fragment>
-              <OverlayInput
-                label="Serlo ID:"
-                placeholder="123456"
-                value={props.state.value}
-                onChange={e => {
-                  props.state.set(e.target.value)
-                }}
-              />
-            </React.Fragment>
-          )
-        : null}
+      {props.renderIntoSettings(
+        <React.Fragment>
+          <OverlayInput
+            label="Serlo ID:"
+            placeholder="123456"
+            value={props.state.value}
+            onChange={e => {
+              props.state.set(e.target.value)
+            }}
+          />
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 }

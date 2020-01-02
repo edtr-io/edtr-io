@@ -8,19 +8,28 @@ import {
   StateTypeSerializedType,
   StateTypeValueType
 } from '@edtr-io/internal__plugin-state'
+import { Theme } from '@edtr-io/ui'
 import * as React from 'react'
 
 /**
- * An Edtr.io plugin with state
+ * An Edtr.io plugin
  *
  * @typeparam S - [[StateType]] of the plugin
- * @typeparam Props - additional props that the plugin component accepts
+ * @typeparam Config - configuration that the plugin component accepts
  */
-export interface Plugin<S extends StateType = StateType, Props = {}> {
+export interface EditorPlugin<
+  S extends StateType = StateType,
+  Config extends {} = {}
+> {
   /**
    * React component that will be used to render the plugin. It accepts [[PluginEditorProps]] and `Props`.
    */
-  Component: React.ComponentType<PluginEditorProps<S> & Props>
+  Component: React.ComponentType<EditorPluginProps<S, Config>>
+
+  /**
+   * Plugin configuration
+   */
+  config: Config | ((theme: Theme) => Config)
 
   /**
    * [[StateType]] of the plugin
@@ -50,33 +59,23 @@ export interface Plugin<S extends StateType = StateType, Props = {}> {
    * @returns `true` if the plugin is empty
    */
   isEmpty?(state: StateTypeValueType<S>): boolean
-
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  title?: string
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  icon?: React.ComponentType
-  /**
-   * Deprecated plugin meta data
-   *
-   * @deprecated
-   */
-  description?: string
 }
 
 /**
- * Props for the component of a [[Plugin]]
+ * Props for the component of an [[EditorPlugin]]
  *
  * @typeparam S - [[StateType]] of the plugin
+ * @typeparam Config - configuration that the plugin component accepts
  */
-export interface PluginEditorProps<S extends StateType = StateType> {
+export interface EditorPluginProps<
+  S extends StateType = StateType,
+  Config extends {} = {}
+> {
+  /**
+   * Plugin configuration
+   */
+  config: Config
+
   /**
    * Current state of the document
    *
@@ -118,4 +117,3 @@ export interface PluginEditorProps<S extends StateType = StateType> {
    */
   renderIntoSettings(children: React.ReactNode): React.ReactNode
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */

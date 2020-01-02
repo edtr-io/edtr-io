@@ -2,14 +2,9 @@ import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor } from 'slate'
 
+import { getTrimmedSelectionRange, trimSelection } from '../helpers'
 import { strongMark, emphasizeMark } from '../model'
-import {
-  getTrimmedSelectionRange,
-  MarkEditorProps,
-  MarkRendererProps,
-  TextPlugin,
-  trimSelection
-} from '..'
+import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
 
 // in use?
 const codeMark = 'code'

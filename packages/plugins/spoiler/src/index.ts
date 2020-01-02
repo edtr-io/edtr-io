@@ -1,22 +1,40 @@
-import { child, object, Plugin, string } from '@edtr-io/plugin'
-import { createIcon, faCaretSquareDown } from '@edtr-io/ui'
+import {
+  child,
+  object,
+  string,
+  EditorPluginProps,
+  EditorPlugin
+} from '@edtr-io/plugin'
 
 import { SpoilerEditor } from './editor'
 
-export const spoilerState = object({
+const spoilerState = object({
   title: string(''),
-  content: child('rows')
+  content: child({ plugin: 'rows' })
 })
-
-export const spoilerPlugin: Plugin<typeof spoilerState> = {
-  Component: SpoilerEditor,
-  state: spoilerState,
-  icon: createIcon(faCaretSquareDown),
-  title: 'Spoiler',
-  description:
-    'In diese ausklappbaren Box kannst du zum Beispiel Exkurse hinzufügen.'
+export type SpoilerState = typeof spoilerState
+export interface SpoilerConfig {
+  theme: {
+    color: string
+  }
 }
+export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>
 
-export interface SpoilerTheme {
-  color: string
+export function createSpoilerPlugin({
+  theme = {}
+}: {
+  theme?: Partial<SpoilerConfig['theme']>
+} = {}): EditorPlugin<SpoilerState, SpoilerConfig> {
+  return {
+    Component: SpoilerEditor,
+    config: () => {
+      return {
+        theme: {
+          color: '#f5f5f5',
+          ...theme
+        }
+      }
+    },
+    state: spoilerState
+  }
 }

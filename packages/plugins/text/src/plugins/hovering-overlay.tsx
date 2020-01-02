@@ -76,8 +76,8 @@ export function HoveringOverlay(props: {
       parentRect.left + parentRect.width + 5 < rect.left + rect.width
     ) {
       if (!props.allowSelectionOverflow) {
-        menu.style.top = null
-        menu.style.left = null
+        menu.style.top = ''
+        menu.style.left = ''
         return
       }
     }
