@@ -10,18 +10,33 @@ import {
   faLevelUpAlt
 } from '@edtr-io/ui'
 import { explanation } from '../editor'
+import { getFocusPath } from '@edtr-io/store'
+import { useScopedSelector } from '@edtr-io/core'
 
-export const renderControls = (
-  state: StateTypeReturnType<SolutionStepsState>,
-  index: number,
+export const RenderControls = ({
+  state,
+  index,
+  provided,
+  ids
+}: {
+  state: StateTypeReturnType<SolutionStepsState>
+  index: number
   provided: any
-) => {
+  ids: { leftId: string; rightId: string | null }
+}) => {
+  const focusPath = useScopedSelector(getFocusPath())
+  const show =
+    (focusPath &&
+      (focusPath.includes(ids.leftId) ||
+        (ids.rightId && focusPath.includes(ids.rightId)))) ||
+    false
+
   const { solutionSteps } = state
   const currentElement = solutionSteps[index]
   return (
-    <Controls>
+    <Controls show={show}>
       <ControlButton
-        onClick={() => {
+        onMouseDown={() => {
           solutionSteps.remove(index)
           //remove explanation that belongs to step
           if (currentElement.isHalf.value) {
@@ -44,7 +59,7 @@ export const renderControls = (
         currentElement.type.value === explanation &&
         solutionSteps[index - 1].type.value !== explanation) ? (
         <ControlButton
-          onClick={() => {
+          onMouseDown={() => {
             if (currentElement.isHalf.value) {
               currentElement.isHalf.set(false)
               solutionSteps[index + 1].isHalf.set(false)

@@ -27,7 +27,11 @@ export function AddButtonsComponent(
   )
 
   const insertStep = () => {
-    props.state.solutionSteps.insert(props.index + 1)
+    props.state.solutionSteps.insert(props.index + 1, {
+      type: 'step',
+      content: { plugin: 'rows' },
+      isHalf: false
+    })
   }
   const insertExplanation = () => {
     props.state.solutionSteps.insert(props.index + 1, {

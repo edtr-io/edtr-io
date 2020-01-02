@@ -80,14 +80,17 @@ export function Content(
   )
 }
 
-export const Controls = styled.div({
-  right: '0',
-  position: 'absolute',
-  top: '0',
-  transform: 'translate(50%, -5px)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center'
+export const Controls = styled.div<{ show?: boolean }>(({ show }) => {
+  return {
+    right: '0',
+    position: 'absolute',
+    top: '0',
+    transform: 'translate(50%, -5px)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    visibility: show ? 'visible' : 'hidden'
+  }
 })
 
 export const ControlButton = styled.button({

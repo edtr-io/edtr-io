@@ -1,6 +1,10 @@
-import { useScopedSelector, EditorContext } from '@edtr-io/core'
+import {
+  useScopedSelector,
+  EditorContext,
+  useScopedDispatch
+} from '@edtr-io/core'
 import { AddButton, Guideline } from '@edtr-io/editor-ui'
-import { isFocused } from '@edtr-io/store'
+import { isFocused, getFocused, focus, getFocusPath } from '@edtr-io/store'
 import { Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
@@ -27,24 +31,17 @@ import {
   SolutionPluginTypes
 } from './helper/styled-elements'
 import { SolutionStepsRenderer } from './renderer'
-import { renderControls } from './helper/render-controls'
+import { RenderControls } from './helper/render-controls'
 
 export const explanation = 'explanation'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
-  const store = React.useContext(EditorContext)
-  console.log('STore:', store)
   const { state, editable } = props
   const { solutionSteps } = state
-  console.log(props)
-  console.log(state.introduction.id)
-  console.log(state.strategy.id)
+  const focused = useScopedSelector(getFocused())
+  const focusPath = useScopedSelector(getFocusPath())
+  console.log(focused)
   const pluginFocused = useHasFocusSelector(props.id)
-  const introductionFocused = useScopedSelector(
-    isFocused(state.introduction.id)
-  )
-
-  const strategyFocused = useHasFocusSelector(state.strategy.id)
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
@@ -71,10 +68,11 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               {state.strategy.render()}
             </Content>
           </Guideline>
-
-          <Controls>
+          <Controls
+            show={(focusPath && focusPath.includes(state.strategy.id)) || false}
+          >
             <ControlButton
-              onClick={() => {
+              onMouseDown={() => {
                 state.hasStrategy.set(false)
                 state.strategy.replace('rows')
               }}
@@ -84,9 +82,8 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
           </Controls>
         </div>
       ) : null}
-      {introductionFocused || strategyFocused ? (
-        <AddButtonsComponent {...props} index={-1} id="" />
-      ) : null}
+
+      <AddButtonsComponent {...props} index={-1} id="" />
 
       <Droppable droppableId="default" direction="vertical">
         {(provided: any) => {
@@ -150,11 +147,17 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                                 {solutionStepRight.content.render()}
                               </Content>
                             ) : null}
-                            {renderControls(
-                              state,
-                              row.val1.solutionStepIndex,
-                              provided
-                            )}
+                            <RenderControls
+                              state={state}
+                              index={row.val1.solutionStepIndex}
+                              provided={provided}
+                              ids={{
+                                leftId: solutionStepLeft.content.id,
+                                rightId: solutionStepRight
+                                  ? solutionStepRight.content.id
+                                  : ''
+                              }}
+                            />
                           </Container>
                           <AddButtonsComponent
                             {...props}

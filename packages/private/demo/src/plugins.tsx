@@ -19,7 +19,6 @@ import { plugin as spoilerPlugin } from '@edtr-io/plugin-spoiler/__fixtures__'
 import { plugin as tablePlugin } from '@edtr-io/plugin-table/__fixtures__'
 import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { plugin as videoPlugin } from '@edtr-io/plugin-video/__fixtures__'
-import { plugin as wrapperPlugin } from '@edtr-io/plugin-wrapper/__fixtures__'
 
 export const plugins: Record<
   string,
@@ -46,6 +45,5 @@ export const plugins: Record<
   spoiler: spoilerPlugin,
   table: tablePlugin,
   text: textPlugin,
-  video: videoPlugin,
-  wrapper: wrapperPlugin
+  video: videoPlugin
 }

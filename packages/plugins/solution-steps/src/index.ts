@@ -16,7 +16,6 @@ function createSolutionStepState(
   solutionStep: Parameters<typeof child>,
   additionals: Parameters<typeof child>
 ) {
-  //How do I change the solutionStepState depending on the type?
   const solutionStepState = object({
     type: string('step'),
     isHalf: boolean(),
