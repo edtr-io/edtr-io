@@ -1,9 +1,9 @@
-import { solutionStep } from '..'
+import { SolutionStepsState } from '..'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import { explanation } from '../editor'
 
 export const findPairs = (
-  solutionSteps: StateTypeReturnType<typeof solutionStep>[]
+  solutionSteps: StateTypeReturnType<SolutionStepsState>['solutionSteps']
 ) => {
   type Element = {
     content: typeof solutionSteps[0]

@@ -1,5 +1,5 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { solutionStepsState } from '..'
+import { SolutionStepsState } from '..'
 import { Controls, ControlButton, DragHandler } from './styled-elements'
 import * as React from 'react'
 import {
@@ -12,7 +12,7 @@ import {
 import { explanation } from '../editor'
 
 export const renderControls = (
-  state: StateTypeReturnType<typeof solutionStepsState>,
+  state: StateTypeReturnType<SolutionStepsState>,
   index: number,
   provided: any
 ) => {

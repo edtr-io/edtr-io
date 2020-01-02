@@ -21,7 +21,7 @@ import {
 import {
   name as textPlugin,
   createTextState,
-    Text
+  Text
 } from '@edtr-io/plugin-text/__fixtures__'
 
 import { RowsState, createRowsPlugin } from '../src'
@@ -96,6 +96,11 @@ export const plugin = createRowsPlugin({
     {
       name: 'solution',
       title: 'Solution',
+      icon: createIcon(faCheckSquare)
+    },
+    {
+      name: 'solutionSteps',
+      title: 'Solution Steps',
       icon: createIcon(faCheckSquare)
     },
     {

@@ -45,9 +45,6 @@ export { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
 export {
   faFileDownload
 } from '@fortawesome/free-solid-svg-icons/faFileDownload'
-export {
-  faFileDownload
-} from '@fortawesome/free-solid-svg-icons/faFileDownload'
 export { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive'
 export { faFileAudio } from '@fortawesome/free-solid-svg-icons/faFileAudio'
 export { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
@@ -57,9 +54,6 @@ export { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf'
 export { faSmile } from '@fortawesome/free-solid-svg-icons/faSmile'
 export { faFileWord } from '@fortawesome/free-solid-svg-icons/faFileWord'
 export { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo'
-export {
-  faFilePowerpoint
-} from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'
 export {
   faFilePowerpoint
 } from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'

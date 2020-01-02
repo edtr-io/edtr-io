@@ -2,7 +2,6 @@ import { styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import {
   Icon,
-  faTrashAlt,
   faBookOpen,
   faChessRook,
   faCommentDots,

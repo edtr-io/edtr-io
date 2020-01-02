@@ -1,12 +1,11 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
-import { PluginEditorProps } from '@edtr-io/plugin'
-import { solutionStepsState } from '..'
-import { explanation } from '../editor'
+import { SolutionStepsProps } from '..'
 import { addStepLabel, addExplanationLabel } from '../guideline-texts'
 import { Buttoncontainer } from './styled-elements'
 import * as React from 'react'
+import { explanation } from '../editor'
 
 const OrStatement = styled.div({
   color: 'lightgrey',
@@ -16,7 +15,7 @@ const OrStatement = styled.div({
 })
 
 export function AddButtonsComponent(
-  props: PluginEditorProps<typeof solutionStepsState> & {
+  props: SolutionStepsProps & {
     id: string
     index: number
     optionalID?: string

@@ -1,12 +1,11 @@
-import { useScopedSelector } from '@edtr-io/core'
-import { AddButton, Guideline, GuidelineButton } from '@edtr-io/editor-ui'
-import { PluginEditorProps } from '@edtr-io/plugin'
-import { isFocused, getFocused } from '@edtr-io/store'
+import { useScopedSelector, EditorContext } from '@edtr-io/core'
+import { AddButton, Guideline } from '@edtr-io/editor-ui'
+import { isFocused } from '@edtr-io/store'
 import { Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { solutionStepsState } from '.'
+import { SolutionStepsProps } from '.'
 import {
   strategyGuideline,
   introductionGuideline,
@@ -32,17 +31,20 @@ import { renderControls } from './helper/render-controls'
 
 export const explanation = 'explanation'
 
-export function SolutionStepsEditor(
-  props: PluginEditorProps<typeof solutionStepsState>
-) {
+export function SolutionStepsEditor(props: SolutionStepsProps) {
+  const store = React.useContext(EditorContext)
+  console.log('STore:', store)
   const { state, editable } = props
   const { solutionSteps } = state
+  console.log(props)
+  console.log(state.introduction.id)
+  console.log(state.strategy.id)
   const pluginFocused = useHasFocusSelector(props.id)
   const introductionFocused = useScopedSelector(
     isFocused(state.introduction.id)
   )
-  const strategyFocused = useHasFocusSelector(state.strategy.id)
 
+  const strategyFocused = useHasFocusSelector(state.strategy.id)
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>

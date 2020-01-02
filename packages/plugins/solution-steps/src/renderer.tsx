@@ -1,8 +1,7 @@
-import { PluginEditorProps } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/renderer-ui'
 import * as React from 'react'
 
-import { solutionStepsState } from '.'
+import { SolutionStepsProps } from '.'
 
 const BigFlex = styled.div({
   display: 'flex',
@@ -21,9 +20,7 @@ const Container = styled.div<{ isHalf: boolean }>(
   }
 )
 
-export function SolutionStepsRenderer(
-  props: PluginEditorProps<typeof solutionStepsState>
-) {
+export function SolutionStepsRenderer(props: SolutionStepsProps) {
   const { state } = props
   const { introduction, strategy, solutionSteps, additionals } = state
   return (
