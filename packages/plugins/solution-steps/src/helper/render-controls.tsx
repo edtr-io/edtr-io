@@ -7,7 +7,8 @@ import {
   faTrashAlt,
   faEllipsisV,
   faLevelDownAlt,
-  faLevelUpAlt
+  faLevelUpAlt,
+  faQuestionCircle
 } from '@edtr-io/ui'
 import { explanation } from '../editor'
 import { getFocusPath } from '@edtr-io/store'
@@ -16,11 +17,13 @@ import { useScopedSelector } from '@edtr-io/core'
 export const RenderControls = ({
   state,
   index,
+  showHelp,
   provided,
   ids
 }: {
   state: StateTypeReturnType<SolutionStepsState>
   index: number
+  showHelp: (show: boolean) => void
   provided: any
   ids: { leftId: string; rightId: string | null }
 }) => {
@@ -45,6 +48,13 @@ export const RenderControls = ({
         }}
       >
         <Icon icon={faTrashAlt} size={'xs'} />
+      </ControlButton>
+      <ControlButton
+        onMouseDown={() => {
+          showHelp(true)
+        }}
+      >
+        <Icon icon={faQuestionCircle} />
       </ControlButton>
 
       <DragHandler

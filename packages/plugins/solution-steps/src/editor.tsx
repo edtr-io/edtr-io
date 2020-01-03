@@ -1,11 +1,7 @@
-import {
-  useScopedSelector,
-  EditorContext,
-  useScopedDispatch
-} from '@edtr-io/core'
+import { useScopedSelector } from '@edtr-io/core'
 import { AddButton, Guideline } from '@edtr-io/editor-ui'
-import { isFocused, getFocused, focus, getFocusPath } from '@edtr-io/store'
-import { Icon, faTrashAlt } from '@edtr-io/ui'
+import { getFocusPath } from '@edtr-io/store'
+import { Icon, faTrashAlt, faQuestionCircle } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -32,24 +28,45 @@ import {
 } from './helper/styled-elements'
 import { SolutionStepsRenderer } from './renderer'
 import { RenderControls } from './helper/render-controls'
+import { Overlay } from './helper/overlay'
 
 export const explanation = 'explanation'
 
 export function SolutionStepsEditor(props: SolutionStepsProps) {
   const { state, editable } = props
   const { solutionSteps } = state
-  const focused = useScopedSelector(getFocused())
   const focusPath = useScopedSelector(getFocusPath())
-  console.log(focused)
   const pluginFocused = useHasFocusSelector(props.id)
+
+  const [introductionHelpVisible, setIntroductionHelp] = React.useState(false)
+  const [strategyHelpVisible, setStrategyHelp] = React.useState(false)
+  const [stepHelpVisible, setStepHelp] = React.useState(false)
+  const [additionalsHelpVisible, setAdditionalsHelp] = React.useState(false)
+
   return editable && pluginFocused ? (
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
-        <Guideline guideline={introductionGuideline}>
-          <Content type={SolutionPluginTypes.introduction}>
-            {state.introduction.render()}
-          </Content>
-        </Guideline>
+        <Content type={SolutionPluginTypes.introduction}>
+          {state.introduction.render()}
+        </Content>
+        <Controls
+          show={
+            (focusPath && focusPath.includes(state.introduction.id)) || false
+          }
+        >
+          <ControlButton
+            onMouseDown={() => {
+              setIntroductionHelp(true)
+            }}
+          >
+            <Icon icon={faQuestionCircle} />
+          </ControlButton>
+        </Controls>
+        <Overlay
+          content={introductionGuideline}
+          open={introductionHelpVisible}
+          setOpen={setIntroductionHelp}
+        />
         {!state.hasStrategy.value ? (
           <AddButton
             title={addStrategyLabel}
@@ -63,11 +80,9 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
       </React.Fragment>
       {state.hasStrategy.value ? (
         <div style={{ position: 'relative' }}>
-          <Guideline guideline={strategyGuideline}>
-            <Content type={SolutionPluginTypes.strategy}>
-              {state.strategy.render()}
-            </Content>
-          </Guideline>
+          <Content type={SolutionPluginTypes.strategy}>
+            {state.strategy.render()}
+          </Content>
           <Controls
             show={(focusPath && focusPath.includes(state.strategy.id)) || false}
           >
@@ -79,7 +94,19 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
             >
               <Icon icon={faTrashAlt} />
             </ControlButton>
+            <ControlButton
+              onMouseDown={() => {
+                setStrategyHelp(true)
+              }}
+            >
+              <Icon icon={faQuestionCircle} />
+            </ControlButton>
           </Controls>
+          <Overlay
+            content={strategyGuideline}
+            open={strategyHelpVisible}
+            setOpen={setStrategyHelp}
+          />
         </div>
       ) : null}
 
@@ -117,23 +144,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               }
                               isHalf={solutionStepLeft.isHalf.value}
                             >
-                              <Guideline
-                                guideline={
-                                  solutionStepRight ? (
-                                    <React.Fragment>
-                                      {solutionStepGuideline}
-                                      {explanationGuideline}
-                                    </React.Fragment>
-                                  ) : solutionStepLeft.type.value ===
-                                    explanation ? (
-                                    explanationGuideline
-                                  ) : (
-                                    solutionStepGuideline
-                                  )
-                                }
-                              >
-                                {solutionStepLeft.content.render()}
-                              </Guideline>
+                              {solutionStepLeft.content.render()}
                             </Content>
                             {solutionStepRight ? (
                               <Content
@@ -151,6 +162,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                               state={state}
                               index={row.val1.solutionStepIndex}
                               provided={provided}
+                              showHelp={setStepHelp}
                               ids={{
                                 leftId: solutionStepLeft.content.id,
                                 rightId: solutionStepRight
@@ -158,6 +170,23 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                                   : ''
                               }}
                             />
+                            <Overlay
+                              open={stepHelpVisible}
+                              setOpen={setStepHelp}
+                              content={
+                                solutionStepRight ? (
+                                  <React.Fragment>
+                                    {solutionStepGuideline}
+                                    {explanationGuideline}
+                                  </React.Fragment>
+                                ) : solutionStepLeft.type.value ===
+                                  explanation ? (
+                                  explanationGuideline
+                                ) : (
+                                  solutionStepGuideline
+                                )
+                              }
+                            ></Overlay>
                           </Container>
                           <AddButtonsComponent
                             {...props}
@@ -191,11 +220,9 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               )}
               {state.hasAdditionals.value ? (
                 <div style={{ position: 'relative' }}>
-                  <Guideline guideline={additionalsGuideline}>
-                    <Content type={SolutionPluginTypes.additionals}>
-                      {state.additionals.render()}
-                    </Content>
-                  </Guideline>
+                  <Content type={SolutionPluginTypes.additionals}>
+                    {state.additionals.render()}
+                  </Content>
                   <Controls>
                     <ControlButton
                       onClick={() => {
@@ -206,6 +233,11 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                       <Icon icon={faTrashAlt} />
                     </ControlButton>
                   </Controls>
+                  <Overlay
+                    content={additionalsGuideline}
+                    open={additionalsHelpVisible}
+                    setOpen={setAdditionalsHelp}
+                  />
                 </div>
               ) : null}
             </div>

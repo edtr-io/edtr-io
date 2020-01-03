@@ -3,6 +3,7 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
@@ -83,37 +84,37 @@ export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
   }
 )
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
+
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
  *
  * @param id - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  */
-export const getFocusPath: Selector<
-  string[] | null,
-  [string?]
-> = createSelector(
-  (
-    state: ScopedState,
-    leaf: string | null = getFocused()(state)
-  ): string[] | null => {
-    if (!leaf) return null
-    const root = getFocusTree()(state)
-    if (!root) return null
+export const getFocusPath = (leaf: string | null = null) => {
+  return createDeepEqualSelector(
+    (state: ScopedState): string[] | null => {
+      leaf = getFocused()(state)
+      if (!leaf) return null
+      const root = getFocusTree()(state)
+      if (!root) return null
 
-    let current = leaf
-    let path: string[] = [leaf]
+      let current = leaf
+      let path: string[] = [leaf]
 
-    while (current !== root.id) {
-      const parent = findParent(root, current)
-      if (!parent) return null
-      current = parent.id
-      path = [current, ...path]
-    }
+      while (current !== root.id) {
+        const parent = findParent(root, current)
+        if (!parent) return null
+        current = parent.id
+        path = [current, ...path]
+      }
 
-    return path
-  }
-)
+      return path
+    },
+    s => s
+  )
+}
 
 function handleFocus(
   focusState: ScopedState['focus'],
