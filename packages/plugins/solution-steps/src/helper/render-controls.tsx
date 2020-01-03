@@ -1,7 +1,6 @@
+import { useScopedSelector } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { SolutionStepsState } from '..'
-import { Controls, ControlButton, DragHandler } from './styled-elements'
-import * as React from 'react'
+import { getFocusPath } from '@edtr-io/store'
 import {
   Icon,
   faTrashAlt,
@@ -10,9 +9,11 @@ import {
   faLevelUpAlt,
   faQuestion
 } from '@edtr-io/ui'
+import * as React from 'react'
+
 import { explanation } from '../editor'
-import { getFocusPath } from '@edtr-io/store'
-import { useScopedSelector } from '@edtr-io/core'
+import { Controls, ControlButton, DragHandler } from './styled-elements'
+import { SolutionStepsState } from '..'
 
 export const RenderControls = ({
   state,
@@ -47,7 +48,7 @@ export const RenderControls = ({
           }
         }}
       >
-        <Icon icon={faTrashAlt} size={'xs'} />
+        <Icon icon={faTrashAlt} size="xs" />
       </ControlButton>
       <ControlButton
         onMouseDown={() => {
@@ -62,7 +63,7 @@ export const RenderControls = ({
         ref={provided.innerRef}
         {...provided.dragHandleProps}
       >
-        <Icon icon={faEllipsisV} size={'xs'} />
+        <Icon icon={faEllipsisV} size="xs" />
       </DragHandler>
       {currentElement.isHalf.value ||
       (index > 0 &&
@@ -81,7 +82,7 @@ export const RenderControls = ({
         >
           <Icon
             icon={currentElement.isHalf.value ? faLevelDownAlt : faLevelUpAlt}
-            size={'xs'}
+            size="xs"
           />
         </ControlButton>
       ) : null}

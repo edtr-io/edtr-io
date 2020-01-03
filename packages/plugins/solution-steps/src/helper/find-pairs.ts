@@ -1,18 +1,20 @@
-import { SolutionStepsState } from '..'
 import { StateTypeReturnType } from '@edtr-io/plugin'
+
 import { explanation } from '../editor'
+import { SolutionStepsState } from '..'
 
 export const findPairs = (
   solutionSteps: StateTypeReturnType<SolutionStepsState>['solutionSteps']
 ) => {
-  type Element = {
-    content: typeof solutionSteps[0]
-    solutionStepIndex: number
-  }
-
   const pairedList: {
-    val1: Element
-    val2?: Element
+    val1: {
+      content: typeof solutionSteps[0]
+      solutionStepIndex: number
+    }
+    val2?: {
+      content: typeof solutionSteps[0]
+      solutionStepIndex: number
+    }
   }[] = []
   solutionSteps.forEach((solutionStep, index) => {
     if (!solutionStep.isHalf.value) {

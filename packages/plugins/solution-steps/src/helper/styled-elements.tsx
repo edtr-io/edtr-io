@@ -1,5 +1,4 @@
 import { styled } from '@edtr-io/editor-ui'
-import * as React from 'react'
 import {
   Icon,
   faBookOpen,
@@ -8,6 +7,7 @@ import {
   faPencilRuler,
   faSearchPlus
 } from '@edtr-io/ui'
+import * as React from 'react'
 
 export const Buttoncontainer = styled.div({
   display: 'flex',

@@ -95,7 +95,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
 export const getFocusPath = (defaultLeaf: string | null = null) => {
   return createDeepEqualSelector(
     (state: ScopedState): string[] | null => {
-      const leaf = !!defaultLeaf ? defaultLeaf : getFocused()(state)
+      const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
       if (!leaf) return null
       const root = getFocusTree()(state)
       if (!root) return null

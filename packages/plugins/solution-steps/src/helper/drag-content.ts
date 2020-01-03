@@ -1,6 +1,7 @@
-import { findPairs } from './find-pairs'
-import { DropResult } from 'react-beautiful-dnd'
 import { StateTypeReturnType } from '@edtr-io/plugin'
+import { DropResult } from 'react-beautiful-dnd'
+
+import { findPairs } from './find-pairs'
 import { SolutionStepsState } from '..'
 
 export const dragContent = (

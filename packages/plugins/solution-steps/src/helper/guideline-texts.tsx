@@ -1,5 +1,6 @@
-import * as React from 'react'
 import { faLevelUpAlt, Icon } from '@edtr-io/ui'
+import * as React from 'react'
+
 import {
   BackgroundSymbol,
   getIcon,

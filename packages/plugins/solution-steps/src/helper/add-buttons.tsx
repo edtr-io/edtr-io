@@ -1,10 +1,11 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
-import { SolutionStepsProps } from '..'
-import { Buttoncontainer } from './styled-elements'
 import * as React from 'react'
+
 import { explanation } from '../editor'
+import { Buttoncontainer } from './styled-elements'
+import { SolutionStepsProps } from '..'
 
 const OrStatement = styled.div({
   color: 'lightgrey',

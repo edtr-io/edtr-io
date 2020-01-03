@@ -5,7 +5,6 @@
 export * from './bottom-toolbar'
 export * from './editor-button'
 export * from './editor-checkbox'
-export * from './guideline-components'
 export * from './interactive-answer-component'
 export * from './editor-input'
 export * from './on-click-outside'

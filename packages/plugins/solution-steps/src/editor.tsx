@@ -1,25 +1,25 @@
 import { useScopedSelector } from '@edtr-io/core'
-import { AddButton, Guideline } from '@edtr-io/editor-ui'
+import { AddButton } from '@edtr-io/editor-ui'
 import { getFocusPath } from '@edtr-io/store'
 import { Icon, faTrashAlt, faQuestion } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { SolutionStepsProps } from '.'
-import { AddButtonsComponent } from './helper/add-buttons'
-import { dragContent } from './helper/drag-content'
-import { findPairs } from './helper/find-pairs'
-import { useHasFocusSelector } from './helper/has-focus-selector'
 import {
+  AddButtonsComponent,
+  dragContent,
+  findPairs,
+  useHasFocusSelector,
   Controls,
   ControlButton,
   Container,
   Content,
-  SolutionPluginTypes
-} from './helper/styled-elements'
+  SolutionPluginTypes,
+  RenderControls,
+  Overlay
+} from './helper'
 import { SolutionStepsRenderer } from './renderer'
-import { RenderControls } from './helper/render-controls'
-import { Overlay } from './helper/overlay'
 
 export const explanation = 'explanation'
 

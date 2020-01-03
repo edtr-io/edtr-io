@@ -7,11 +7,11 @@ import {
   EditorPluginProps,
   EditorPlugin
 } from '@edtr-io/plugin'
+import { name as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { SolutionStepsEditor } from './editor'
 import * as Guidelines from './helper/guideline-texts'
-import { name as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
-import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 function createSolutionStepState(
   introduction: Parameters<typeof child>,
@@ -36,7 +36,7 @@ function createSolutionStepState(
 
 export type SolutionStepsState = ReturnType<typeof createSolutionStepState>
 export type SolutionStepsProps = EditorPluginProps<SolutionStepsState, Config>
-type Component = {
+interface Component {
   options: Parameters<typeof child>
   guideline: React.ReactNode
   placeholder: string
