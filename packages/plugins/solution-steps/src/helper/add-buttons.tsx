@@ -2,7 +2,6 @@ import { useScopedSelector } from '@edtr-io/core'
 import { AddButton, styled } from '@edtr-io/editor-ui'
 import { hasFocusedDescendant } from '@edtr-io/store'
 import { SolutionStepsProps } from '..'
-import { addStepLabel, addExplanationLabel } from '../guideline-texts'
 import { Buttoncontainer } from './styled-elements'
 import * as React from 'react'
 import { explanation } from '../editor'
@@ -47,11 +46,14 @@ export function AddButtonsComponent(
       props.optionalID === '' ||
       props.id === '' ? (
         <Buttoncontainer>
-          <AddButton title={addStepLabel} onClick={insertStep}>
+          <AddButton title={props.config.step.placeholder} onClick={insertStep}>
             Lösungsbestandteil
           </AddButton>
           <OrStatement> oder </OrStatement>
-          <AddButton title={addExplanationLabel} onClick={insertExplanation}>
+          <AddButton
+            title={props.config.explanation.placeholder}
+            onClick={insertExplanation}
+          >
             zusätzliche Erklärung
           </AddButton>
         </Buttoncontainer>

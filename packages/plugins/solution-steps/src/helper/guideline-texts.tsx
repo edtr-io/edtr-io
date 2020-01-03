@@ -1,13 +1,20 @@
 import * as React from 'react'
 import { faLevelUpAlt, Icon } from '@edtr-io/ui'
+import {
+  BackgroundSymbol,
+  getIcon,
+  SolutionPluginTypes
+} from './styled-elements'
 
-export const addStepLabel =
+export const stepLabel =
   'Ein Bestandteil der Lösung, der zur Lösung der Aufgabe aufgeschrieben werden muss'
-export const addExplanationLabel =
+export const explanationLabel =
   'Eine zusätzliche Erklärung, die den Lernenden beim Verstehen der Lösung helfen soll'
-export const addStrategyLabel = 'Erkläre dein Vorgehen'
-export const addAdditionalsLabel = 'Ergänze weitere Inhalte zur Lösung'
-
+export const strategyLabel = 'Erkläre dein Vorgehen'
+export const additionalsLabel = 'Ergänze weitere Inhalte zur Lösung'
+export const introductionLabel =
+  'Ein einführender Satz, in dem das Thema bzw die wichtigste Methode genannt wird'
+//TODO: refactor Backgroundsymbol -> hand down via config?
 export const introductionGuideline: React.ReactNode = (
   <div>
     <h1>Wichtiges Wissen zur Aufgabe</h1>
@@ -18,6 +25,9 @@ export const introductionGuideline: React.ReactNode = (
       </li>
       <li>Verlinke auf einen Artikel zum Thema bzw. zur wichtigsten Methode</li>
     </ul>
+    <BackgroundSymbol>
+      {getIcon(SolutionPluginTypes.introduction, '8x')}
+    </BackgroundSymbol>
   </div>
 )
 
@@ -48,10 +58,13 @@ export const strategyGuideline: React.ReactNode = (
         </p>
       </li>
     </ul>
+    <BackgroundSymbol>
+      {getIcon(SolutionPluginTypes.strategy, '8x')}
+    </BackgroundSymbol>
   </div>
 )
 
-export const solutionStepGuideline = (
+export const stepGuideline = (
   <div>
     <h1>Lösungsschritt</h1>
     <p>
@@ -85,6 +98,9 @@ export const solutionStepGuideline = (
       <b>Beachte: </b>Verwende die richtigen Bausteine, zum Beispiel das
       Gleichungsplugin für Rechnungen.
     </p>
+    <BackgroundSymbol>
+      {getIcon(SolutionPluginTypes.step, '8x')}
+    </BackgroundSymbol>
   </div>
 )
 
@@ -114,6 +130,9 @@ export const explanationGuideline = (
       -Symbol neben den vorherigen Lösungsschritt holen. Bitte mache dies nur,
       wenn es keine zu langen Erklärungen sind.
     </p>
+    <BackgroundSymbol>
+      {getIcon(SolutionPluginTypes.explanation, '8x')}
+    </BackgroundSymbol>
   </div>
 )
 
@@ -133,5 +152,8 @@ export const additionalsGuideline = (
       <li>Zusatzinformationen.</li>
       <li>Anregungen und Links zum Weiterlernen.</li>
     </ul>
+    <BackgroundSymbol>
+      {getIcon(SolutionPluginTypes.additionals, '8x')}
+    </BackgroundSymbol>
   </div>
 )

@@ -34,7 +34,7 @@ export const ContentComponent = styled.div<{ isHalf?: boolean }>(
   }
 )
 
-const BackgroundSymbol = styled.div({
+export const BackgroundSymbol = styled.div({
   position: 'absolute',
   top: '0',
   right: '0',
@@ -50,18 +50,18 @@ export enum SolutionPluginTypes {
   additionals
 }
 
-function getIcon(type: SolutionPluginTypes) {
+export function getIcon(type: SolutionPluginTypes, size: any) {
   switch (type) {
     case SolutionPluginTypes.introduction:
-      return <Icon icon={faBookOpen} size={'3x'} />
+      return <Icon icon={faBookOpen} size={size} />
     case SolutionPluginTypes.strategy:
-      return <Icon icon={faChessRook} size={'3x'} />
+      return <Icon icon={faChessRook} size={size} />
     case SolutionPluginTypes.explanation:
-      return <Icon icon={faCommentDots} size={'3x'} />
+      return <Icon icon={faCommentDots} size={size} />
     case SolutionPluginTypes.step:
-      return <Icon icon={faPencilRuler} size={'3x'} />
+      return <Icon icon={faPencilRuler} size={size} />
     case SolutionPluginTypes.additionals:
-      return <Icon icon={faSearchPlus} size={'3x'} />
+      return <Icon icon={faSearchPlus} size={size} />
   }
 }
 export function Content(
@@ -74,7 +74,7 @@ export function Content(
     <React.Fragment>
       <ContentComponent isHalf={props.isHalf}>
         {props.children}
-        <BackgroundSymbol>{getIcon(props.type)}</BackgroundSymbol>
+        <BackgroundSymbol>{getIcon(props.type, '3x')}</BackgroundSymbol>
       </ContentComponent>
     </React.Fragment>
   )

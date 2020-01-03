@@ -92,10 +92,10 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
  * @param id - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  */
-export const getFocusPath = (leaf: string | null = null) => {
+export const getFocusPath = (defaultLeaf: string | null = null) => {
   return createDeepEqualSelector(
     (state: ScopedState): string[] | null => {
-      leaf = getFocused()(state)
+      const leaf = !!defaultLeaf ? defaultLeaf : getFocused()(state)
       if (!leaf) return null
       const root = getFocusTree()(state)
       if (!root) return null

@@ -96,9 +96,7 @@ export { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 export {
   faCloudUploadAlt
 } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt'
-export {
-  faQuestionCircle
-} from '@fortawesome/free-solid-svg-icons/faQuestionCircle'
+export { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 export { faAnchor } from '@fortawesome/free-solid-svg-icons/faAnchor'
 export { faQuoteRight } from '@fortawesome/free-solid-svg-icons/faQuoteRight'
 export { faEquals } from '@fortawesome/free-solid-svg-icons/faEquals'

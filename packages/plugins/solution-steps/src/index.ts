@@ -8,7 +8,10 @@ import {
   EditorPlugin
 } from '@edtr-io/plugin'
 
-import { SolutionStepsEditor, explanation } from './editor'
+import { SolutionStepsEditor } from './editor'
+import * as Guidelines from './helper/guideline-texts'
+import { name as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 function createSolutionStepState(
   introduction: Parameters<typeof child>,
@@ -31,43 +34,68 @@ function createSolutionStepState(
   })
 }
 
-// export const solutionStep = object({
-//   type: string('step'),
-//   isHalf: boolean(),
-//   content: child('rows')
-// })
-
-// export const solutionStepsState = object({
-//   introduction: child('text'),
-//   strategy: child('rows'),
-//   hasStrategy: boolean(),
-//   solutionSteps: list(solutionStep),
-//   additionals: child('rows'),
-//   hasAdditionals: boolean()
-// })
-
 export type SolutionStepsState = ReturnType<typeof createSolutionStepState>
-export type SolutionStepsProps = EditorPluginProps<SolutionStepsState>
+export type SolutionStepsProps = EditorPluginProps<SolutionStepsState, Config>
+type Component = {
+  options: Parameters<typeof child>
+  guideline: React.ReactNode
+  placeholder: string
+}
+export interface Config {
+  introduction: Component
+  strategy: Component
+  step: Component
+  explanation: Component
+  additionals: Component
+}
 
 export function createSolutionStepsPlugin({
-  introduction = [],
-  strategy = [],
-  solutionStep = [],
-  additionals = []
+  introduction = {
+    options: [{ plugin: textPlugin }],
+    guideline: Guidelines.introductionGuideline,
+    placeholder: Guidelines.introductionLabel
+  },
+  strategy = {
+    options: [{ plugin: rowsPlugin }],
+    guideline: Guidelines.strategyGuideline,
+    placeholder: Guidelines.strategyLabel
+  },
+  step = {
+    options: [{ plugin: rowsPlugin }],
+    guideline: Guidelines.stepGuideline,
+    placeholder: Guidelines.stepLabel
+  },
+  explanation = {
+    options: [{ plugin: rowsPlugin }],
+    guideline: Guidelines.explanationGuideline,
+    placeholder: Guidelines.explanationLabel
+  },
+  additionals = {
+    options: [{ plugin: rowsPlugin }],
+    guideline: Guidelines.additionalsGuideline,
+    placeholder: Guidelines.additionalsLabel
+  }
 }: {
-  introduction?: Parameters<typeof child>
-  strategy?: Parameters<typeof child>
-  solutionStep?: Parameters<typeof child>
-  additionals?: Parameters<typeof child>
-} = {}): EditorPlugin<SolutionStepsState> {
+  introduction?: Component
+  strategy?: Component
+  step?: Component
+  explanation?: Component
+  additionals?: Component
+} = {}): EditorPlugin<SolutionStepsState, Config> {
   return {
     Component: SolutionStepsEditor,
     state: createSolutionStepState(
+      introduction.options,
+      strategy.options,
+      step.options,
+      additionals.options
+    ),
+    config: {
       introduction,
       strategy,
-      solutionStep,
+      step,
+      explanation,
       additionals
-    ),
-    config: {}
+    }
   }
 }

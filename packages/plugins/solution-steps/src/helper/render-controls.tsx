@@ -8,7 +8,7 @@ import {
   faEllipsisV,
   faLevelDownAlt,
   faLevelUpAlt,
-  faQuestionCircle
+  faQuestion
 } from '@edtr-io/ui'
 import { explanation } from '../editor'
 import { getFocusPath } from '@edtr-io/store'
@@ -54,7 +54,7 @@ export const RenderControls = ({
           showHelp(true)
         }}
       >
-        <Icon icon={faQuestionCircle} />
+        <Icon icon={faQuestion} />
       </ControlButton>
 
       <DragHandler
