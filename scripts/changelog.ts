@@ -669,6 +669,17 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**plugin-text**. Correctly render colored text on server',
         '**core**. Improved undo/redo behavior for asynchronous changes (e.g. file uploads)'
       ]
+    },
+    {
+      tagName: 'v0.13.1',
+      name: '0.13.1',
+      date: '2019-01-04',
+      added: [
+        'Plugins receive new prop `renderIntoToolbar` to render toolbar buttons'
+      ],
+      fixed: [
+        '**store**. `serializeDocument` no longer returns a new object in every call'
+      ]
     }
   ])
 
