@@ -1,7 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { AddButton } from '@edtr-io/editor-ui'
 import { getFocusPath } from '@edtr-io/store'
-import { Icon, faTrashAlt, faQuestion } from '@edtr-io/ui'
+import { Icon, faTrashAlt, faQuestion, ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -38,7 +38,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
     <DragDropContext onDragEnd={result => dragContent(result, state)}>
       <React.Fragment>
         {/* TODO: refactor Content-Container -> hand icon down via config? */}
-        <Content type={SolutionPluginTypes.introduction}>
+        <Content type={SolutionPluginTypes.introduction} boxfree>
           {state.introduction.render({
             config: { placeholder: config.introduction.placeholder }
           })}
@@ -68,7 +68,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
               state.hasStrategy.set(true)
             }}
           >
-            Lösungsstrategie
+            Lösungsstrategie (optional)
           </AddButton>
         ) : null}
       </React.Fragment>
@@ -209,7 +209,7 @@ export function SolutionStepsEditor(props: SolutionStepsProps) {
                     state.hasAdditionals.set(true)
                   }}
                 >
-                  Ergänzung
+                  Ergänzung (optional)
                 </AddButton>
               )}
               {state.hasAdditionals.value ? (

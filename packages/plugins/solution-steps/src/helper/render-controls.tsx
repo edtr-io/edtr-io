@@ -4,10 +4,11 @@ import { getFocusPath } from '@edtr-io/store'
 import {
   Icon,
   faTrashAlt,
-  faEllipsisV,
   faLevelDownAlt,
   faLevelUpAlt,
-  faQuestion
+  faQuestion,
+  EdtrIcon,
+  edtrDragHandle
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -63,7 +64,7 @@ export const RenderControls = ({
         ref={provided.innerRef}
         {...provided.dragHandleProps}
       >
-        <Icon icon={faEllipsisV} size="xs" />
+        <EdtrIcon icon={edtrDragHandle} />
       </DragHandler>
       {currentElement.isHalf.value ||
       (index > 0 &&
