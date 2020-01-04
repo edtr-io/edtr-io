@@ -86,6 +86,7 @@ export function createDefaultDocumentEditor(
     settingsRef,
     toolbarRef,
     hasSettings,
+    hasToolbar,
     PluginToolbar
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
@@ -168,7 +169,7 @@ export function createDefaultDocumentEditor(
     }
 
     function showToolbar(): boolean {
-      return renderToolbar !== undefined
+      return hasToolbar || renderToolbar !== undefined
     }
   }
 }

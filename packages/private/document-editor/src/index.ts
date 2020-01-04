@@ -26,6 +26,11 @@ export interface DocumentEditorProps {
   hasSettings: boolean
 
   /**
+   * `true` if the document has rendered any toolbar buttons
+   */
+  hasToolbar: boolean
+
+  /**
    * Render prop to override rendering of settings
    *
    * @param children - the rendered settings
