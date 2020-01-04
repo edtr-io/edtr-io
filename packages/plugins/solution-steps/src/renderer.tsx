@@ -9,24 +9,31 @@ const BigFlex = styled.div({
   flexWrap: 'wrap'
 })
 
-const Container = styled.div<{ isHalf: boolean }>(
-  ({ isHalf }: { isHalf: boolean }) => {
-    return {
-      width: isHalf ? '50%' : '100%',
-      '@media (max-width: 650px)': {
-        width: '100%'
-      }
+const Container = styled.div(({ isHalf }: { isHalf?: boolean }) => {
+  return {
+    padding: '0 20px',
+    width: isHalf ? '50%' : '100%',
+    '@media (max-width: 650px)': {
+      width: '100%'
     }
   }
-)
+})
 
 export function SolutionStepsRenderer(props: SolutionStepsProps) {
   const { state } = props
-  const { introduction, strategy, solutionSteps, additionals } = state
+  const {
+    introduction,
+    strategy,
+    hasStrategy,
+    solutionSteps,
+    additionals,
+    hasAdditionals
+  } = state
+
   return (
     <React.Fragment>
-      {introduction.render()}
-      {strategy.render()}
+      <Container>{introduction.render()} </Container>
+      {hasStrategy.value ? <Container>{strategy.render()}</Container> : null}
       <BigFlex>
         {solutionSteps.map(solutionStep => {
           return (
@@ -38,7 +45,9 @@ export function SolutionStepsRenderer(props: SolutionStepsProps) {
           )
         })}
       </BigFlex>
-      {additionals.render()}
+      {hasAdditionals.value ? (
+        <Container>{additionals.render()}</Container>
+      ) : null}
     </React.Fragment>
   )
 }

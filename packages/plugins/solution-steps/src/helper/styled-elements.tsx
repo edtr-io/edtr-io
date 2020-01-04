@@ -29,7 +29,7 @@ export const ContentComponent = styled.div<{
   return {
     marginTop: '10px',
     boxShadow: boxfree ? undefined : '0 1px 3px 0 rgba(0,0,0,0.2)',
-    padding: '20px 20px 10px 10px',
+    padding: '10px',
     width: isHalf ? '50%' : '100%',
     position: 'relative'
   }
