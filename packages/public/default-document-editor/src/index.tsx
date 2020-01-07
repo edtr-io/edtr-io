@@ -119,7 +119,7 @@ export function createDefaultDocumentEditor(
             )
           }
         : undefined
-    }, [renderSettings, showSettings()])
+    }, [renderSettings, showSettings])
     const expanded = focused && (showSettings() || showToolbar())
 
     const appended = React.useRef(false)
