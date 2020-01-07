@@ -42,9 +42,7 @@ export function Icon(props: FontAwesomeIconProps) {
 export { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
 export { faChessRook } from '@fortawesome/free-solid-svg-icons/faChessRook'
 export { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots'
-export {
-  faFileDownload
-} from '@fortawesome/free-solid-svg-icons/faFileDownload'
+export { faFileDownload } from '@fortawesome/free-solid-svg-icons/faFileDownload'
 export { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive'
 export { faFileAudio } from '@fortawesome/free-solid-svg-icons/faFileAudio'
 export { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
@@ -54,9 +52,7 @@ export { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf'
 export { faSmile } from '@fortawesome/free-solid-svg-icons/faSmile'
 export { faFileWord } from '@fortawesome/free-solid-svg-icons/faFileWord'
 export { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo'
-export {
-  faFilePowerpoint
-} from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'
+export { faFilePowerpoint } from '@fortawesome/free-solid-svg-icons/faFilePowerpoint'
 
 export { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 export { faCut } from '@fortawesome/free-solid-svg-icons/faCut'
@@ -65,9 +61,7 @@ export { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 export { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt'
 export { faImages } from '@fortawesome/free-solid-svg-icons/faImages'
 export { faLevelUpAlt } from '@fortawesome/free-solid-svg-icons/faLevelUpAlt'
-export {
-  faLevelDownAlt
-} from '@fortawesome/free-solid-svg-icons/faLevelDownAlt'
+export { faLevelDownAlt } from '@fortawesome/free-solid-svg-icons/faLevelDownAlt'
 export { faPhotoVideo } from '@fortawesome/free-solid-svg-icons/faPhotoVideo'
 export { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
 export { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
@@ -81,24 +75,16 @@ export { faTable } from '@fortawesome/free-solid-svg-icons/faTable'
 export { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 export { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt'
 export { faFilm } from '@fortawesome/free-solid-svg-icons/faFilm'
-export {
-  faCaretSquareUp
-} from '@fortawesome/free-solid-svg-icons/faCaretSquareUp'
-export {
-  faCaretSquareDown
-} from '@fortawesome/free-solid-svg-icons/faCaretSquareDown'
+export { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp'
+export { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons/faCaretSquareDown'
 export { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp'
 export { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
 export { faToolbox } from '@fortawesome/free-solid-svg-icons/faToolbox'
 export { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 export { faEllipsisV } from '@fortawesome/free-solid-svg-icons/faEllipsisV'
 export { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
-export {
-  faCloudUploadAlt
-} from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt'
-export {
-  faQuestionCircle
-} from '@fortawesome/free-solid-svg-icons/faQuestionCircle'
+export { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt'
+export { faQuestionCircle } from '@fortawesome/free-solid-svg-icons/faQuestionCircle'
 export { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 export { faAnchor } from '@fortawesome/free-solid-svg-icons/faAnchor'
 export { faQuoteRight } from '@fortawesome/free-solid-svg-icons/faQuoteRight'
@@ -112,9 +98,7 @@ export { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare'
 export { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
 export { faRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
 export { faRandom } from '@fortawesome/free-solid-svg-icons/faRandom'
-export {
-  faExternalLinkAlt
-} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'
+export { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt'
 export { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper'
 
 export function createIcon(i: IconDefinition): React.FunctionComponent {
