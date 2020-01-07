@@ -5,13 +5,13 @@ import {
   EditorPlugin,
   EditorPluginProps
 } from '@edtr-io/plugin'
-import { name as solutionStepsPlugin } from '@edtr-io/plugin-solution-steps/__fixtures__'
+import { name as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
 
 import { SolutionEditor } from './editor'
 
 const solutionState = object({
   title: string(''),
-  content: child({ plugin: solutionStepsPlugin })
+  content: child({ plugin: rowsPlugin })
 })
 
 export type SolutionState = typeof solutionState

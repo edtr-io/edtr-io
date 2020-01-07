@@ -13,7 +13,6 @@ import { plugin as multimediaExplanationPlugin } from '@edtr-io/plugin-multimedi
 import { plugin as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
 import { plugin as scMcExercisePlugin } from '@edtr-io/plugin-sc-mc-exercise/__fixtures__'
 import { plugin as serloInjectionPlugin } from '@edtr-io/plugin-serlo-injection/__fixtures__'
-import { plugin as solutionStepsPlugin } from '@edtr-io/plugin-solution-steps/__fixtures__'
 import { plugin as solutionPlugin } from '@edtr-io/plugin-solution/__fixtures__'
 import { plugin as spoilerPlugin } from '@edtr-io/plugin-spoiler/__fixtures__'
 import { plugin as tablePlugin } from '@edtr-io/plugin-table/__fixtures__'
@@ -41,7 +40,6 @@ export const plugins: Record<
   scMcExercise: scMcExercisePlugin,
   serloInjection: serloInjectionPlugin,
   solution: solutionPlugin,
-  solutionSteps: solutionStepsPlugin,
   spoiler: spoilerPlugin,
   table: tablePlugin,
   text: textPlugin,
