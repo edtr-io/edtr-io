@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,9 +12,9 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.13.1",
-    "@edtr-io/plugin": "^0.13.1",
-    "@edtr-io/store": "^0.13.1",
+    "@edtr-io/editor-ui": "^0.13.2",
+    "@edtr-io/plugin": "^0.13.2",
+    "@edtr-io/store": "^0.13.2",
     "@edtr-io/ui": "^0.13.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
@@ -22,7 +22,7 @@
     "ramda": "^0.26.1"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.13.1",
+    "@edtr-io/core": "^0.13.2",
     "react": "^16.8.0",
     "react-dnd": "^10.0.0",
     "react-dnd-html5-backend": "^10.0.0",
