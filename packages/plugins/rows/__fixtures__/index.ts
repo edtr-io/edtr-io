@@ -99,11 +99,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faCheckSquare)
     },
     {
-      name: 'solutionSteps',
-      title: 'Solution Steps',
-      icon: createIcon(faCheckSquare)
-    },
-    {
       name: 'spoiler',
       title: 'Spoiler',
       icon: createIcon(faCaretSquareDown)
