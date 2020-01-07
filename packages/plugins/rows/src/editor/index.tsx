@@ -13,7 +13,6 @@ function RowEditor({
   config,
   insert,
   openMenu,
-  moveRow,
   index,
   row,
   rows
@@ -21,7 +20,6 @@ function RowEditor({
   config: RowsConfig
   insert(index: number, options?: { plugin: string; state?: unknown }): void
   openMenu(index: number): void
-  moveRow(from: number, to: number): void
   index: number
   rows: StateTypeReturnType<RowsState>
   row: StateTypeReturnType<RowsState>[0]
@@ -33,7 +31,6 @@ function RowEditor({
     <div key={row.id} style={{ position: 'relative' }}>
       <RowRenderer
         insert={insert}
-        moveRow={moveRow}
         row={row}
         rows={rows}
         index={index}
@@ -91,9 +88,6 @@ export function RowsEditor(props: RowsProps) {
             }}
             openMenu={() => {
               openMenu(index + 1)
-            }}
-            moveRow={(from, to) => {
-              props.state.move(from, to)
             }}
             index={index}
             rows={props.state}

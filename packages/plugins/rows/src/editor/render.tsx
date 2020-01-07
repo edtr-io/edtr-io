@@ -1,18 +1,21 @@
 import {
   OverlayButton,
   PluginToolbarButton,
+  SubDocument,
   useScopedDispatch,
   useScopedStore
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
   change,
+  DocumentState,
   findNextNode,
   findPreviousNode,
   getDocument,
   getFocusTree,
   getPlugins,
-  ReturnTypeFromSelector
+  ReturnTypeFromSelector,
+  serializeDocument
 } from '@edtr-io/store'
 import {
   edtrDragHandle,
@@ -36,7 +39,7 @@ import { RowsState } from '..'
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
   id: string
-  index: number
+  serialized: DocumentState
 }
 
 const DragToolbarButton = styled(PluginToolbarButton)({
@@ -63,16 +66,18 @@ const BorderlessOverlayButton = styled(OverlayButton)({
   minWidth: '0 !important'
 })
 
+const GrayOut = styled.div({
+  opacity: 0.3
+})
+
 export function RowRenderer({
   insert,
-  moveRow,
   row,
   rows,
   index,
   plugins
 }: {
   insert(index: number, options?: { plugin: string; state?: unknown }): void
-  moveRow(from: number, to: number): void
   row: StateTypeReturnType<RowsState>[0]
   rows: StateTypeReturnType<RowsState>
   index: number
@@ -84,41 +89,53 @@ export function RowRenderer({
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [collectedDragProps, drag, dragPreview] = useDrag({
-    item: { id: row.id, index, type: 'row' },
+    item: { id: row.id, type: 'row', serialized: { plugin: '', state: '' } },
+    begin() {
+      const serialized = serializeDocument(row.id)(store.getState())
+      return { id: row.id, type: 'row', serialized }
+    },
+    end(_item, monitor) {
+      if (!monitor.didDrop()) return
+      rows.remove(index)
+    },
     collect(monitor) {
       return {
         isDragging: !!monitor.isDragging()
       }
     }
   })
-  const drop = useDrop({
+  const [collectedDropProps, drop] = useDrop({
     accept: ['row', NativeTypes.FILE, NativeTypes.URL],
-    hover(item: RowDragObject, monitor) {
-      if (!container.current) return
-      monitor.getItem().boundingRect = container.current.getBoundingClientRect()
-
-      if (item.type !== 'row') return
-      const dragIndex = item.index
-      const hoverIndex = index
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) return
-
-      const draggingAbove = isDraggingAbove(monitor)
-      if (dragIndex < hoverIndex && draggingAbove) return
-      if (dragIndex > hoverIndex && !draggingAbove) return
-      moveRow(dragIndex, hoverIndex)
-
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
-      item.index = hoverIndex
+    collect(monitor) {
+      return {
+        isDragging:
+          monitor.getItemType() === 'row' &&
+          monitor.canDrop() &&
+          monitor.isOver({ shallow: true }),
+        isDraggingAbove:
+          monitor.getItemType() === 'row' &&
+          monitor.canDrop() &&
+          monitor.isOver({ shallow: true }) &&
+          isDraggingAbove(monitor),
+        id:
+          monitor.getItemType() === 'row'
+            ? (monitor.getItem().id as string)
+            : null
+      }
     },
     drop(item: RowDragObject, monitor) {
       const type = monitor.getItemType()
-      if (type !== NativeTypes.FILE && type !== NativeTypes.URL) return
       // handled in nested drop zone
       if (monitor.didDrop()) return
+
+      if (type !== NativeTypes.FILE && type !== NativeTypes.URL) {
+        if (item.id === row.id) return
+
+        const draggingAbove = isDraggingAbove(monitor)
+        insert(draggingAbove ? index : index + 1, item.serialized)
+        return
+      }
+
       const dropIndex = index
 
       let transfer: DataTransfer
@@ -149,7 +166,7 @@ export function RowRenderer({
         }
       }
     }
-  })[1]
+  })
 
   const pluginProps = React.useMemo(() => {
     return {
@@ -275,23 +292,41 @@ export function RowRenderer({
   dragPreview(drop(container))
 
   return (
-    <div ref={container}>
-      <div>{row.render(pluginProps)}</div>
+    <div ref={container} >
+      {collectedDropProps.isDragging &&
+      collectedDropProps.isDraggingAbove &&
+      collectedDropProps.id &&
+      collectedDropProps.id !== row.id ? (
+        <SubDocument id={collectedDropProps.id} />
+      ) : null}
+      {collectedDragProps.isDragging ? (
+        <GrayOut>{row.render(pluginProps)}</GrayOut>
+      ) : (
+        <div>{row.render(pluginProps)}</div>
+      )}
+      {collectedDropProps.isDragging &&
+      !collectedDropProps.isDraggingAbove &&
+      collectedDropProps.id &&
+      collectedDropProps.id !== row.id ? (
+        <SubDocument id={collectedDropProps.id} />
+      ) : null}
     </div>
   )
-}
 
-function isDraggingAbove(monitor: DropTargetMonitor) {
-  // get bounding Rect set in hover
-  const domBoundingRect = monitor.getItem().boundingRect
+  function isDraggingAbove(monitor: DropTargetMonitor) {
+    if (!container.current) {
+      return false
+    }
+    const domBoundingRect = container.current.getBoundingClientRect()
 
-  const domMiddleY = (domBoundingRect.bottom - domBoundingRect.top) / 2
-  const dropClientOffset = monitor.getClientOffset()
-  const dragClientY = dropClientOffset
-    ? dropClientOffset.y - domBoundingRect.top
-    : 0
+    const domMiddleY = (domBoundingRect.bottom - domBoundingRect.top) / 2
+    const dropClientOffset = monitor.getClientOffset()
+    const dragClientY = dropClientOffset
+      ? dropClientOffset.y - domBoundingRect.top
+      : 0
 
-  return dragClientY < domMiddleY
+    return dragClientY < domMiddleY
+  }
 }
 
 // Needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
