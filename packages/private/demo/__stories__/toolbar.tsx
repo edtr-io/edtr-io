@@ -1,6 +1,5 @@
 import { PluginToolbarButton } from '@edtr-io/core'
-import { EditorPlugin } from '@edtr-io/internal__plugin'
-import { number } from '@edtr-io/plugin'
+import { EditorPlugin, number } from '@edtr-io/plugin'
 import { styled } from '@edtr-io/ui'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
