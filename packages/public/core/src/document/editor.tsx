@@ -29,6 +29,7 @@ const StyledDocument = styled.div({
 
 export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   const [hasSettings, setHasSettings] = React.useState(false)
+  const [hasToolbar, setHasToolbar] = React.useState(false)
   const document = useScopedSelector(getDocument(id))
   const focused = useScopedSelector(isFocused(id))
   const plugin = useScopedSelector(
@@ -115,6 +116,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
 
   const renderIntoToolbar = React.useCallback(
     (children: React.ReactNode) => {
+      setHasToolbar(true)
       if (!toolbarRef.current) return null
       return createPortal(children, toolbarRef.current)
     },
@@ -210,6 +212,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
         >
           <DocumentEditor
             hasSettings={hasSettings}
+            hasToolbar={hasToolbar}
             focused={focused}
             renderSettings={pluginProps && pluginProps.renderSettings}
             renderToolbar={pluginProps && pluginProps.renderToolbar}
@@ -240,6 +243,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     pluginProps,
     handleFocus,
     hasSettings,
+    hasToolbar,
     focused,
     PluginToolbar,
     renderIntoSettings,

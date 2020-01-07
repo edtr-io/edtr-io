@@ -86,6 +86,7 @@ export function createDefaultDocumentEditor(
     settingsRef,
     toolbarRef,
     hasSettings,
+    hasToolbar,
     PluginToolbar
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
@@ -96,7 +97,7 @@ export function createDefaultDocumentEditor(
     })
 
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
-      return renderSettings
+      return showSettings()
         ? (children, { close }) => {
             return (
               <React.Fragment>
@@ -111,12 +112,14 @@ export function createDefaultDocumentEditor(
                     <EdtrIcon icon={edtrClose} />
                   </BorderlessOverlayButton>
                 </Header>
-                {renderSettings(children, { close })}
+                {renderSettings
+                  ? renderSettings(children, { close })
+                  : children}
               </React.Fragment>
             )
           }
         : undefined
-    }, [renderSettings])
+    }, [renderSettings, showSettings])
     const expanded = focused && (showSettings() || showToolbar())
 
     const appended = React.useRef(false)
@@ -168,7 +171,7 @@ export function createDefaultDocumentEditor(
     }
 
     function showToolbar(): boolean {
-      return renderToolbar !== undefined
+      return hasToolbar || renderToolbar !== undefined
     }
   }
 }

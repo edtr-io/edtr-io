@@ -36,6 +36,7 @@
     "@edtr-io/renderer": "^0.13.1",
     "@edtr-io/store": "^0.13.1",
     "@edtr-io/store-devtools": "^0.13.0",
+    "@edtr-io/ui": "^0.13.0",
     "katex": "^0.11.0",
     "lodash": "^4.0.0",
     "lodash-es": "^4.0.0",
