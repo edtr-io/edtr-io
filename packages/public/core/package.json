@@ -1,0 +1,52 @@
+{
+  "name": "@edtr-io/core",
+  "version": "0.13.2",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "@edtr-io/default-document-editor": "^0.13.2",
+    "@edtr-io/default-plugin-toolbar": "^0.13.1",
+    "@edtr-io/internal__document-editor": "^0.13.2",
+    "@edtr-io/internal__plugin": "^0.13.2",
+    "@edtr-io/internal__plugin-state": "^0.13.2",
+    "@edtr-io/internal__plugin-toolbar": "^0.13.0",
+    "@edtr-io/store": "^0.13.2",
+    "@edtr-io/ui": "^0.13.0",
+    "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "@types/react-redux": "^7.1.1",
+    "@types/shortid": "^0.0.29",
+    "ramda": "^0.26.1",
+    "react-hotkeys": "^2.0.0",
+    "react-redux": "^7.1.1",
+    "shortid": "^2.0.0"
+  },
+  "devDependencies": {
+    "@edtr-io/internal__fixtures": "^0.13.0",
+    "@types/react-test-renderer": "^16.8.0",
+    "react": "^16.8.0",
+    "react-dnd": "^10.0.0",
+    "react-dnd-html5-backend": "^10.0.0",
+    "react-dom": "^16.8.0",
+    "react-test-renderer": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dnd": "^10.0.0",
+    "react-dnd-html5-backend": "^10.0.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

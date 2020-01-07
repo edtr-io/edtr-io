@@ -1,0 +1,27 @@
+{
+  "name": "@edtr-io/store-devtools",
+  "version": "0.13.0",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@types/remote-redux-devtools": "^0.5.0",
+    "remote-redux-devtools": "^0.5.0"
+  },
+  "devDependencies": {
+    "redux": "^4.0.0"
+  },
+  "peerDependencies": {
+    "redux": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

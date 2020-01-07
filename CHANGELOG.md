@@ -2,6 +2,167 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.2](https://github.com/edtr-io/edtr-io/compare/v0.13.1..v0.13.2) - January 7, 2019
+
+### Fixed
+
+- **core**. Show toolbar if `renderIntoToolbar` was called
+
+## [0.13.1](https://github.com/edtr-io/edtr-io/compare/v0.13.0..v0.13.1) - January 4, 2019
+
+### Added
+
+- Plugins receive new prop `renderIntoToolbar` to render toolbar buttons
+
+### Fixed
+
+- **store**. `serializeDocument` no longer returns a new object in every call
+
+## [0.13.0](https://github.com/edtr-io/edtr-io/compare/v0.12.0..v0.13.0) - December 20, 2019
+
+### Breaking Changes
+
+- All core plugins now consistently export `createFooPlugin()`, `FooState` and `FooProps`. The factory
+  `createFooPlugin()` accepts a (sometimes optional) config depending on the plugin.
+- Plugins now receive their config via a new prop `config`. Furthermore, they need to specify their config in their definition.
+- Packages that are only intended for internal use are now consistently named `@edtr-io/internal__${name}`.
+  We don't consider these packages as part of the public API and therefore won't note their potential breaking
+  changes in the future. More specifically, this means that the following packages have been removed:
+
+  - `@edtr-io/abstract-plugin`,
+  - `@edtr-io/abstract-plugin-state`
+  - `@edtr-io/bundle-size`,
+  - `@edtr-io/demo`,
+  - `@edtr-io/fixtures`
+
+- Plugins no longer receive the prop `renderIntoExtendedSettings` (that was only passed down to direct children
+  of the rows plugin). Instead, please use the new prop `renderIntoSettings` that now all documents receive.
+- **core**, **plugin-rows**. We now have a peer dependency on `react-dnd@^10.0.0` and `react-dnd-html5-backend@^10.0.0` (both `^7.0.0` previously)
+- **core**. Removed `OverlayContext` and `OverlayContextValue`.
+- **editor-ui**. Moved `OverlayButton`, `OverlayCheckbox`, `OverlayInput`, `OverlaySelect`, `OverlayTextarea` into `@edtr-io/core`
+- **editor-ui**. Moved icons into `@edtr-io/ui`
+- **editor-ui**. Removed `SettingsOverlay`
+- **plugin** Removed `StatelessPlugin`, `StatefulPlugin`, `StatelessPluginProps`, `StatefulPluginProps`. Use `EditorPlugin` and `EditorPluginProps` instead
+- **ui**. Removed `OverlayTheme`
+- **ui**. Removed `plugins` from `CustomTheme`. Instead, all core plugins that allowed to customize their theme now accept the theme via their config.
+
+### Added
+
+- There are now more parts of the editor's UI configurable. More specifically, we moved the following components in the core:
+
+  - **Plugin Toolbar**.
+    The plugin toolbar is responsible for rendering the buttons that are shown on the left of focused documents by default.
+    Furthermore, it is responsible for rendering any overlays that the toolbar buttons might open (e.g. the plugin settings).
+    Plugins may override the toolbars of their children (e.g. the rows plugin adds a drag handler) and their settings (e.g.
+    the rows plugin adds a delete and copy button to the settings of its children).
+    You may override the looks of the plugin toolbar completely by passing your own implementation as the new optional prop
+    `PluginToolbar` to `Editor`. By default we use `@edtr-io/default-plugin-toolbar`.
+  - **Document Editor**.
+    The document editor is responsible for rendering the plugin toolbar and possible additional editor UI elements
+    that are application-specific.
+    You may override the default behavior completely by passing your own `DocumentEditor` to `Editor`. By default, we use
+    `@edtr-io/default-document-editor`
+
+- **core**. Added `PluginToolbarButton,`PluginToolbarOverlayButton`that are intended to be passed by plugins into`renderToolbar\`
+- **core**. Added selectors `getFocused`, `isFocused`
+- **plugin**. The change handler of state types allows to pass an optional second argument that allows state types to handle asynchronous state updates that should be committed only once
+- **ui**. Added `BottomToolbarTheme` to `EditorUiTheme`
+- **plugin-multimedia-explanation**. New plugin that allows to position multimedia content (e.g. images, video) beside the content
+- **plugin-text**. Deserialize pasted HTML into corresponding text state if possible
+- **plugin-text**. Automatically transform urls into links
+- **plugin-text**. Add protocol `https` to urls without protocol
+
+### Fixed
+
+- **editor-ui**. Position `PreviewOverlay` over content
+- **plugin-text**. Correctly render colored text on server
+- **core**. Improved undo/redo behavior for asynchronous changes (e.g. file uploads)
+
+## [0.12.0](https://github.com/edtr-io/edtr-io/compare/v0.11.3..v0.12.0) - October 14, 2019
+
+### Breaking Changes
+
+- **renderer-ui**. Removed `title` prop in `ExpandableBox`. Use the new `renderTitle` prop instead.
+
+### Added
+
+- **editor-ui**. Add new component `OverlaySelect`
+- **plugin**. Add prop `defaultFocusRef` for plugins that should be passed as `ref` to the input element that should be focused initially when the plugin gets focused
+- **plugin-video**. Add alt text
+
+### Changed
+
+- **plugin-input-exercise**. Add units to input exercises
+- **plugin-text**. Heading button opens sub menu even when the block is already a heading
+- **plugin-text**. Focus empty LaTeX textarea on mount initially
+- **renderer-ui**. Open `ExpandableBox` initially
+
+### Removed
+
+- **plugin-hint**. Remove title
+- **plugin-solution**. Remove title
+
+### Fixed
+
+- **core**. Hot keys handler considers the correct state for deleting empty plugins
+- **core**. Fix focus movement with arrow keys
+- **plugin-rows**. Make extended settings scrollable
+- **plugin-serlo-injection**. Automatically resize iframe when content or window height changes
+- **plugin-serlo-injection**. Reduce content jumps by lazily loading iframes
+
+## [0.11.3](https://github.com/edtr-io/edtr-io/compare/v0.11.2..v0.11.3) - September 27, 2019
+
+### Fixed
+
+- **plugin-input-exercise**. Use `migratable` in state for backwards compatibility with pre v0.11.2 state
+- **plugin-sc-mc-exercise**. Fixed server side rendering
+- **plugin-text**. Fixed server side rendering
+- **renderer-ssr**. Tests now test for correct results additionally to working server side rendering.
+
+## [0.11.2](https://github.com/edtr-io/edtr-io/compare/v0.11.1..v0.11.2) - September 26, 2019
+
+### Changed
+
+- **plugin-input-exercise**. Changed state and ui to be more consistent with `plugin-sc-mc-exercise`
+
+### Fixed
+
+- **core**. `onChange` callback prop of `Editor` is now working again
+- **plugin-text**. Updated slate types to newest version 0.47.1.
+- **plugin-text**. Fix suggestions for inserting plugins after typing `/`.
+
+## [0.11.1](https://github.com/edtr-io/edtr-io/compare/v0.11.0..v0.11.1) - September 18, 2019
+
+### Fixed
+
+- **core**. Documents no longer lose focus during editing
+
+## [0.11.0](https://github.com/edtr-io/edtr-io/compare/v0.10.3..v0.11.0) - September 16, 2019
+
+### Breaking Changes
+
+- **plugin**. Refactored `StateType` API. This should only affect you if you defined custom state types.
+- **plugin**. Consistently renamed `StateDescriptor*` types to `StateType*`
+- **plugin**. `StatelessPluginEditorProps` and `PluginEditorProps` no longer accept the type param `Props`. Replace `StatelessPluginEditorProps<Props>` with `StatelessPluginEditorProps & Props`.
+- **plugin**. `StatelessPlugin` may no longer define `getFocusableChildren`. This is handled by state types instead.
+- **plugin**. The return type of the built-in `child` state type is no longer callable. Replace `state()` with `state.get()` or `state.id` to retrieve the `id`.
+- **plugin**. The return type of the built-in `list` state type is no longer callable and doesn't expose `items` anymore. Instead, the return types behaves like an array itself. Replace `state()` resp. `state.items` with `state`.
+- **plugin**. The return type of the built-in `object` state type is no longer callable. Replace `state()` with `state`.
+- **plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) is no longer callable. Replace `state()` with `state.get()` or `state.value`.
+- **plugin**. The return type of the built-in `upload` state type is no longer callable. Replace `state()` with `state.get()` or `state.value`.
+
+### Added
+
+- **plugin**. The return type of the built-in scalar state types (i.e. `boolean`, `number`, `string`, `scalar`, `serializedScalar`) now allows to set the value. Instead of `state.set("foo")`, you may now also use `state.value = "foo"`.
+- **store**. Add new selector `hasFocusedChild` that checks whether the given document has any (direct) child that is focused
+- **store**. Add new selector `hasFocusedDescendant` that checks whether the given document has any descendant that is focused (i.e. also recursively checks children of children)
+
+## [0.10.3](https://github.com/edtr-io/edtr-io/compare/v0.10.2..v0.10.3) - September 13, 2019
+
+### Fixed
+
+- **plugin-text**. Various fixes (updated Slate)
+
 ## [0.10.2](https://github.com/edtr-io/edtr-io/compare/v0.10.1..v0.10.2) - September 11, 2019
 
 ### Fixed
@@ -58,7 +219,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- **plugin**. Published new package `@edtr-io/plugin` intended to be used by plugin authors. It exposes `Plugin`, `StatefulPluginEditorProps`, `StatelessPluginEditorProps`, `StatefulPlugin`, `StatelessPlugin` and (flatly) everything that was previously exported as `StateType`.
+- **plugin**. Published new package `@edtr-io/plugin` intended to be used by plugin authors. It exposes `Plugin`, `PluginEditorProps`, `StatelessPluginEditorProps`, `StatefulPlugin`, `StatelessPlugin` and (flatly) everything that was previously exported as `StateType`.
 - **store**. Published new package `@edtr-io/store`. It (flatly) exposes actions and selectors, and all previous store exports that are mostly for special use cases.
 
 ### Changed

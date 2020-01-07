@@ -1,8 +1,10 @@
 {
   "packages": [
-    "packages/*"
+    "packages/plugins/*",
+    "packages/private/*",
+    "packages/public/*"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "0.10.2"
+  "version": "0.13.2"
 }

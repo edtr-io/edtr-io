@@ -1,0 +1,55 @@
+{
+  "name": "@edtr-io/plugin-text",
+  "version": "0.13.2",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/plugin-text.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsdx build --tsconfig tsconfig.prod.json"
+  },
+  "dependencies": {
+    "@convertkit/slate-lists": "^0.2.5",
+    "@edtr-io/editor-ui": "^0.13.2",
+    "@edtr-io/plugin": "^0.13.2",
+    "@edtr-io/renderer-ui": "^0.13.2",
+    "@edtr-io/store": "^0.13.2",
+    "@edtr-io/ui": "^0.13.0",
+    "@types/exenv": "^1.0.0",
+    "@types/is-hotkey": "^0.1.0",
+    "@types/katex": "^0.11.0",
+    "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "@types/react-modal": "^3.0.0",
+    "@types/slate": "0.47.1",
+    "@types/slate-html-serializer": "0.6.3",
+    "@types/slate-react": "0.22.4",
+    "exenv": "^1.0.0",
+    "immutable": "^3.8.1",
+    "is-hotkey": "^0.1.0",
+    "katex": "^0.11.0",
+    "ramda": "^0.26.1",
+    "react-mathquill": "^0.1.0",
+    "react-modal": "^3.0.0",
+    "slate": "0.47.4",
+    "slate-html-serializer": "0.8.6",
+    "slate-react": "0.22.4"
+  },
+  "devDependencies": {
+    "@edtr-io/core": "^0.13.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "@edtr-io/core": "^0.13.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

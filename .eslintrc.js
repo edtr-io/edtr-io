@@ -9,12 +9,13 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'import', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'import', 'jsdoc', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -24,6 +25,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'warn',
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-extraneous-class': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-this-alias': 'warn',
@@ -52,9 +54,9 @@ module.exports = {
       'error',
       {
         devDependencies: [
-          'packages/*/{__stories__,__tests__,__tests-ssr__}/**/*',
-          'packages/bundle-size/webpack.config.js',
-          'packages/demo/src/**/*',
+          'packages/*/*/{__helpers__,__stories__,__tests__,__tests-ssr__}/**/*',
+          'packages/private/bundle-size/webpack.config.js',
+          'packages/private/demo/{scripts,src}/**/*',
           'scripts/**/*'
         ],
         optionalDependencies: false
@@ -91,6 +93,20 @@ module.exports = {
       }
     ],
 
+    // eslint-plugin-jsdoc
+    'jsdoc/check-indentation': 'warn',
+    'jsdoc/check-tag-names': [
+      'warn',
+      {
+        definedTags: ['category', 'typeparam']
+      }
+    ],
+    'jsdoc/check-types': 'off',
+    'jsdoc/require-hyphen-before-param-description': 'warn',
+    'jsdoc/require-jsdoc': 'off',
+    'jsdoc/require-param-type': 'off',
+    'jsdoc/require-returns-type': 'off',
+
     // eslint-plugin-react
     'react/jsx-boolean-value': 'error',
     'react/jsx-curly-brace-presence': 'error',
@@ -101,6 +117,12 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error'
   },
   settings: {
+    jsdoc: {
+      ignorePrivate: true,
+      tagNamePreference: {
+        hidden: 'ignore'
+      }
+    },
     react: {
       version: 'detect'
     }
