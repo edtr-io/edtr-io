@@ -43,6 +43,7 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
       focused={false}
       defaultFocusRef={focusRef}
       renderIntoSettings={() => null}
+      renderIntoToolbar={() => null}
     />
   )
 }

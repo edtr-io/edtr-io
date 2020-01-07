@@ -29,6 +29,7 @@ const StyledDocument = styled.div({
 
 export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   const [hasSettings, setHasSettings] = React.useState(false)
+  const [hasToolbar, setHasToolbar] = React.useState(false)
   const document = useScopedSelector(getDocument(id))
   const focused = useScopedSelector(isFocused(id))
   const plugin = useScopedSelector(
@@ -38,6 +39,9 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
 
   const container = React.useRef<HTMLDivElement>(null)
   const settingsRef = React.useRef<HTMLDivElement>(
+    window.document.createElement('div')
+  )
+  const toolbarRef = React.useRef<HTMLDivElement>(
     window.document.createElement('div')
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
@@ -108,6 +112,15 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       )
     },
     [settingsRef]
+  )
+
+  const renderIntoToolbar = React.useCallback(
+    (children: React.ReactNode) => {
+      setHasToolbar(true)
+      if (!toolbarRef.current) return null
+      return createPortal(children, toolbarRef.current)
+    },
+    [toolbarRef]
   )
 
   const theme = useTheme()
@@ -199,15 +212,18 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
         >
           <DocumentEditor
             hasSettings={hasSettings}
+            hasToolbar={hasToolbar}
             focused={focused}
             renderSettings={pluginProps && pluginProps.renderSettings}
             renderToolbar={pluginProps && pluginProps.renderToolbar}
             settingsRef={settingsRef}
+            toolbarRef={toolbarRef}
             PluginToolbar={PluginToolbar}
           >
             <plugin.Component
               {...pluginProps}
               renderIntoSettings={renderIntoSettings}
+              renderIntoToolbar={renderIntoToolbar}
               id={id}
               editable
               focused={focused}
@@ -223,15 +239,17 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   }, [
     document,
     plugin,
+    theme,
+    pluginProps,
     handleFocus,
     hasSettings,
+    hasToolbar,
     focused,
-    pluginProps,
     PluginToolbar,
     renderIntoSettings,
+    renderIntoToolbar,
     id,
     dispatch,
-    handleKeyDown,
-    theme
+    handleKeyDown
   ])
 }

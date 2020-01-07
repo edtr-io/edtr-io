@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.2](https://github.com/edtr-io/edtr-io/compare/v0.13.1..v0.13.2) - January 7, 2019
+
+### Fixed
+
+- **core**. Show toolbar if `renderIntoToolbar` was called
+
+## [0.13.1](https://github.com/edtr-io/edtr-io/compare/v0.13.0..v0.13.1) - January 4, 2019
+
+### Added
+
+- Plugins receive new prop `renderIntoToolbar` to render toolbar buttons
+
+### Fixed
+
+- **store**. `serializeDocument` no longer returns a new object in every call
+
 ## [0.13.0](https://github.com/edtr-io/edtr-io/compare/v0.12.0..v0.13.0) - December 20, 2019
 
 ### Breaking Changes

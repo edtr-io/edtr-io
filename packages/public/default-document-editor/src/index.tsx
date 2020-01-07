@@ -84,7 +84,9 @@ export function createDefaultDocumentEditor(
     renderSettings,
     renderToolbar,
     settingsRef,
+    toolbarRef,
     hasSettings,
+    hasToolbar,
     PluginToolbar
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
@@ -95,7 +97,7 @@ export function createDefaultDocumentEditor(
     })
 
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
-      return renderSettings
+      return showSettings()
         ? (children, { close }) => {
             return (
               <React.Fragment>
@@ -110,13 +112,17 @@ export function createDefaultDocumentEditor(
                     <EdtrIcon icon={edtrClose} />
                   </BorderlessOverlayButton>
                 </Header>
-                {renderSettings(children, { close })}
+                {renderSettings
+                  ? renderSettings(children, { close })
+                  : children}
               </React.Fragment>
             )
           }
         : undefined
-    }, [renderSettings])
+    }, [renderSettings, showSettings])
     const expanded = focused && (showSettings() || showToolbar())
+
+    const appended = React.useRef(false)
     const toolbar = (
       <React.Fragment>
         {showSettings() ? (
@@ -127,6 +133,17 @@ export function createDefaultDocumentEditor(
             contentRef={settingsRef}
           />
         ) : null}
+        <div
+          ref={ref => {
+            // The ref `appended` ensures that we only append the content once so that we don't lose focus on every render
+            if (ref && toolbarRef.current && !appended.current) {
+              appended.current = true
+              ref.appendChild(toolbarRef.current)
+            } else if (!showSettings()) {
+              appended.current = false
+            }
+          }}
+        />
       </React.Fragment>
     )
 
@@ -154,7 +171,7 @@ export function createDefaultDocumentEditor(
     }
 
     function showToolbar(): boolean {
-      return renderToolbar !== undefined
+      return hasToolbar || renderToolbar !== undefined
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/default-document-editor",
-  "version": "0.13.0",
+  "version": "0.13.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/document-editor": "^0.13.0",
+    "@edtr-io/document-editor": "^0.13.2",
     "@edtr-io/ui": "^0.13.0",
     "@types/react": "^16.8.0"
   },

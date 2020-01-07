@@ -5,10 +5,11 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 import { StoreSerializeHelpers } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { createSelector, createSubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
-import { DocumentState } from '../types'
+import { DocumentState, ScopedState } from '../types'
 import {
   pureInsert,
   PureInsertAction,
@@ -60,19 +61,25 @@ export const getDocument = createSelector((state, id: string | null) => {
   return getDocuments()(state)[id] || null
 })
 
-export const serializeDocument = createSelector((state, id: string | null) => {
-  const doc = getDocument(id)(state)
-  if (!doc) return null
-  const plugin = getPlugin(doc.plugin)(state)
-  if (!plugin) return null
-  const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => serializeDocument(id)(state)
-  }
-  return {
-    plugin: doc.plugin,
-    state: plugin.state.serialize(doc.state, serializeHelpers)
-  }
-})
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
+
+export const serializeDocument = (id: string | null) =>
+  createDeepEqualSelector(
+    (state: ScopedState) => {
+      const doc = getDocument(id)(state)
+      if (!doc) return null
+      const plugin = getPlugin(doc.plugin)(state)
+      if (!plugin) return null
+      const serializeHelpers: StoreSerializeHelpers = {
+        getDocument: (id: string) => serializeDocument(id)(state)
+      }
+      return {
+        plugin: doc.plugin,
+        state: plugin.state.serialize(doc.state, serializeHelpers)
+      }
+    },
+    s => s
+  )
 
 export const isEmpty = createSelector((state, id: string) => {
   const doc = getDocument(id)(state)

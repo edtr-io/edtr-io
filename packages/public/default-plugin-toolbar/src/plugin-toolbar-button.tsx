@@ -11,14 +11,16 @@ export function createPluginToolbarButton(_config: DefaultPluginToolbarConfig) {
     PluginToolbarButtonProps
   >(function PluginToolbarButton(props, ref) {
     return (
-      <Button
-        className={props.className}
-        title={props.label}
-        ref={ref}
-        onClick={props.onClick}
-      >
-        <StyledIconContainer>{props.icon}</StyledIconContainer>
-      </Button>
+      <div>
+        <Button
+          className={props.className}
+          title={props.label}
+          ref={ref}
+          onClick={props.onClick}
+        >
+          <StyledIconContainer>{props.icon}</StyledIconContainer>
+        </Button>
+      </div>
     )
   })
   return PluginToolbarButton

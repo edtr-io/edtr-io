@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store",
-  "version": "0.13.0",
+  "version": "0.13.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/internal__plugin": "^0.13.0",
-    "@edtr-io/internal__plugin-state": "^0.13.0",
+    "@edtr-io/internal__plugin": "^0.13.2",
+    "@edtr-io/internal__plugin-state": "^0.13.2",
     "@types/ramda": "^0.26.1",
     "ramda": "^0.26.1",
     "redux": "^4.0.0",

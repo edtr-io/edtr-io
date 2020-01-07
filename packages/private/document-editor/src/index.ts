@@ -16,9 +16,19 @@ export interface DocumentEditorProps {
   settingsRef: React.RefObject<HTMLDivElement>
 
   /**
+   * The rendered toolbar buttons
+   */
+  toolbarRef: React.RefObject<HTMLDivElement>
+
+  /**
    * `true` if the document has rendered any settings
    */
   hasSettings: boolean
+
+  /**
+   * `true` if the document has rendered any toolbar buttons
+   */
+  hasToolbar: boolean
 
   /**
    * Render prop to override rendering of settings
