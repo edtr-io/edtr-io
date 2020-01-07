@@ -680,6 +680,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: [
         '**store**. `serializeDocument` no longer returns a new object in every call'
       ]
+    },
+    {
+      tagName: 'v0.13.2',
+      name: '0.13.2',
+      date: '2019-01-07',
+      fixed: ['**core**. Show toolbar if `renderIntoToolbar` was called']
     }
   ])
 
