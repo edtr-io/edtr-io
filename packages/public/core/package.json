@@ -32,6 +32,7 @@
     "shortid": "^2.0.0"
   },
   "devDependencies": {
+    "@edtr-io/internal__fixtures": "^0.13.0",
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",
     "react-dnd": "^10.0.0",
