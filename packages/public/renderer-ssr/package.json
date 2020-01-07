@@ -18,6 +18,7 @@
     "@types/styled-components": "^4.0.0"
   },
   "devDependencies": {
+    "@edtr-io/internal__fixtures": "^0.13.0",
     "@edtr-io/plugin": "^0.13.1",
     "@edtr-io/plugin-anchor": "^0.13.1",
     "@edtr-io/plugin-blockquote": "^0.13.1",
