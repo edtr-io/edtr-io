@@ -40,6 +40,7 @@ interface RowDragObject extends DragObjectWithType {
   type: 'row'
   id: string
   serialized: DocumentState
+  onDrop(): void
 }
 
 const DragToolbarButton = styled(PluginToolbarButton)({
@@ -70,33 +71,49 @@ const GrayOut = styled.div({
   opacity: 0.3
 })
 
+const Inserted = styled.div({
+  border: '2px dashed #3c3',
+  borderRadius: '2px'
+})
+
 export function RowRenderer({
-  insert,
   row,
   rows,
   index,
-  plugins
+  plugins,
+  dropContainer
 }: {
-  insert(index: number, options?: { plugin: string; state?: unknown }): void
   row: StateTypeReturnType<RowsState>[0]
   rows: StateTypeReturnType<RowsState>
   index: number
   plugins: ReturnTypeFromSelector<typeof getPlugins>
+  dropContainer: React.RefObject<HTMLDivElement>
 }) {
   const container = React.useRef<HTMLDivElement>(null)
+  const [draggingAbove, setDraggingAbove] = React.useState(true)
   const dispatch = useScopedDispatch()
   const store = useScopedStore()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [collectedDragProps, drag, dragPreview] = useDrag({
-    item: { id: row.id, type: 'row', serialized: { plugin: '', state: '' } },
+    item: {
+      id: row.id,
+      type: 'row',
+      serialized: { plugin: '', state: '' },
+      onDrop() {
+        rows.remove(index)
+      }
+    },
     begin() {
       const serialized = serializeDocument(row.id)(store.getState())
-      return { id: row.id, type: 'row', serialized }
-    },
-    end(_item, monitor) {
-      if (!monitor.didDrop()) return
-      rows.remove(index)
+      return {
+        id: row.id,
+        type: 'row',
+        serialized,
+        onDrop() {
+          rows.remove(index)
+        }
+      }
     },
     collect(monitor) {
       return {
@@ -112,16 +129,23 @@ export function RowRenderer({
           monitor.getItemType() === 'row' &&
           monitor.canDrop() &&
           monitor.isOver({ shallow: true }),
-        isDraggingAbove:
-          monitor.getItemType() === 'row' &&
-          monitor.canDrop() &&
-          monitor.isOver({ shallow: true }) &&
-          isDraggingAbove(monitor),
         id:
           monitor.getItemType() === 'row'
             ? (monitor.getItem().id as string)
             : null
       }
+    },
+    hover(item: RowDragObject, monitor) {
+      if (
+        !(
+          monitor.getItemType() === 'row' &&
+          monitor.canDrop() &&
+          monitor.isOver({ shallow: true })
+        )
+      ) {
+        return
+      }
+      setDraggingAbove(isDraggingAbove(monitor))
     },
     drop(item: RowDragObject, monitor) {
       const type = monitor.getItemType()
@@ -132,7 +156,8 @@ export function RowRenderer({
         if (item.id === row.id) return
 
         const draggingAbove = isDraggingAbove(monitor)
-        insert(draggingAbove ? index : index + 1, item.serialized)
+        item.onDrop()
+        rows.insert(draggingAbove ? index : index + 1, item.serialized)
         return
       }
 
@@ -154,9 +179,9 @@ export function RowRenderer({
           const result = onPaste(transfer)
           if (result !== undefined) {
             if (isDraggingAbove(monitor)) {
-              insert(dropIndex, { plugin: key, state: result.state })
+              rows.insert(dropIndex, { plugin: key, state: result.state })
             } else {
-              insert(dropIndex + 1, {
+              rows.insert(dropIndex + 1, {
                 plugin: key,
                 state: result.state
               })
@@ -289,28 +314,29 @@ export function RowRenderer({
     }
   }, [drag, store, dispatch, index, row.id, rows])
 
-  dragPreview(drop(container))
+  dragPreview(drop(dropContainer))
+
+  const dropPreview =
+    collectedDropProps.isDragging &&
+    collectedDropProps.id !== null &&
+    collectedDropProps.id !== row.id ? (
+      <Inserted>
+        <SubDocument id={collectedDropProps.id} />
+      </Inserted>
+    ) : null
 
   return (
-    <div ref={container} >
-      {collectedDropProps.isDragging &&
-      collectedDropProps.isDraggingAbove &&
-      collectedDropProps.id &&
-      collectedDropProps.id !== row.id ? (
-        <SubDocument id={collectedDropProps.id} />
-      ) : null}
-      {collectedDragProps.isDragging ? (
-        <GrayOut>{row.render(pluginProps)}</GrayOut>
-      ) : (
-        <div>{row.render(pluginProps)}</div>
-      )}
-      {collectedDropProps.isDragging &&
-      !collectedDropProps.isDraggingAbove &&
-      collectedDropProps.id &&
-      collectedDropProps.id !== row.id ? (
-        <SubDocument id={collectedDropProps.id} />
-      ) : null}
-    </div>
+    <React.Fragment>
+      {draggingAbove ? dropPreview : null}
+      <div ref={container}>
+        {collectedDragProps.isDragging ? (
+          <GrayOut>{row.render(pluginProps)}</GrayOut>
+        ) : (
+          <div>{row.render(pluginProps)}</div>
+        )}
+      </div>
+      {!draggingAbove ? dropPreview : null}
+    </React.Fragment>
   )
 
   function isDraggingAbove(monitor: DropTargetMonitor) {

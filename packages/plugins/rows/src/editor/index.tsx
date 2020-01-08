@@ -11,14 +11,12 @@ import { RowsConfig, RowsProps, RowsState } from '..'
 
 function RowEditor({
   config,
-  insert,
   openMenu,
   index,
   row,
   rows
 }: {
   config: RowsConfig
-  insert(index: number, options?: { plugin: string; state?: unknown }): void
   openMenu(index: number): void
   index: number
   rows: StateTypeReturnType<RowsState>
@@ -26,15 +24,16 @@ function RowEditor({
 }) {
   const focused = useScopedSelector(isFocused(row.id))
   const plugins = useScopedSelector(getPlugins())
+  const dropContainer = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div key={row.id} style={{ position: 'relative' }}>
+    <div key={row.id} style={{ position: 'relative' }} ref={dropContainer}>
       <RowRenderer
-        insert={insert}
         row={row}
         rows={rows}
         index={index}
         plugins={plugins}
+        dropContainer={dropContainer}
       />
       <Separator
         config={config}
@@ -83,9 +82,6 @@ export function RowsEditor(props: RowsProps) {
           <RowEditor
             config={props.config}
             key={row.id}
-            insert={(index, options) => {
-              props.state.insert(index, options)
-            }}
             openMenu={() => {
               openMenu(index + 1)
             }}
