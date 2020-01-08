@@ -1,6 +1,6 @@
 import { styled } from '@edtr-io/editor-ui'
-import katex from 'katex'
 import { StateTypeReturnType } from '@edtr-io/plugin'
+import katex from 'katex'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -155,9 +155,11 @@ export class EquationsRenderer extends React.Component<
         ) <= 20 ||
         R.max(
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          R.reduce<number, number>(R.max, 0, this.state.widthLeftSingle.filter(
-            Boolean
-          ) as number[]),
+          R.reduce<number, number>(
+            R.max,
+            0,
+            this.state.widthLeftSingle.filter(Boolean) as number[]
+          ),
           this.state.widthLeftDouble[index] || 0
         ) +
           R.max(

@@ -17,8 +17,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { LayoutContainer, EquationsRenderer } from './renderer'
 import { EquationsProps } from '.'
+import { LayoutContainer, EquationsRenderer } from './renderer'
 
 const ButtonContainer = styled.div({
   display: 'flex',
@@ -61,25 +61,34 @@ const Header = styled.div({
   width: '33%'
 })
 
+const DropDown = styled.select({
+  height: '30px',
+  width: '35px',
+  marginLeft: '15px',
+  marginRight: '10px',
+  backgroundColor: 'lightgrey',
+  border: '1px solid lightgrey',
+  borderRadius: '5px'
+})
+
 export function EquationsEditor(props: EquationsProps) {
   const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())
   const dispatch = useScopedDispatch()
 
   const insertWithRightSymbol = () => {
+    const length = props.state.steps.length
+
     const symbol =
-      props.state.steps.length > 0
-        ? props.state.steps[props.state.steps.length - 1].symbol.value
-        : 'equals'
-    state.steps.insert(props.state.steps.length + 1, {
-      left: { plugin: 'text', state: {} },
-      right: { plugin: 'text', state: {} },
-      transform: { plugin: 'text', state: {} },
+      length > 0 ? props.state.steps[length - 1].symbol.value : 'equals'
+    props.state.steps.insert(length, {
+      left: { plugin: 'text', state: undefined },
+      right: { plugin: 'text', state: undefined },
+      transform: { plugin: 'text', state: undefined },
       symbol: symbol
     })
   }
   const addButton = () => {
-    const { state } = props
     insertWithRightSymbol()
   }
   const removeButton = (index: number) => () => {
@@ -195,7 +204,7 @@ export function EquationsEditor(props: EquationsProps) {
                                 flexDirection: 'row'
                               }}
                             >
-                              <select
+                              <DropDown
                                 onChange={(
                                   e: React.ChangeEvent<HTMLSelectElement>
                                 ) => {
@@ -209,7 +218,7 @@ export function EquationsEditor(props: EquationsProps) {
                                 <option value="greater-equal">&#8805;</option>
                                 <option value="lesser-equal">&#8804;</option>
                                 <option value="approx">&#8776;</option>
-                              </select>
+                              </DropDown>
                               <div style={{ flexGrow: 1 }}>
                                 {step.right.render({
                                   config: { placeholder: config.right.label }

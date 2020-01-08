@@ -7,16 +7,17 @@ import {
   string
 } from '@edtr-io/plugin'
 import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
-export { textPlugin }
 
 import { EquationsEditor } from './editor'
 import * as Guideline from './guideline-texts'
+
+export { textPlugin }
 
 interface Component {
   options: Parameters<typeof child>
   label: string
 }
-interface EquationsConfig {
+export interface EquationsConfig {
   left: Component
   right: Component
   transform: Component
