@@ -1,6 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsRenderer } from '../renderer'
@@ -8,6 +9,13 @@ import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
 import { RowsConfig, RowsProps, RowsState } from '..'
+
+const DropContainer = styled.div({
+  position: 'relative',
+  // increase dropZone
+  marginLeft: '-50px',
+  paddingLeft: '50px'
+})
 
 function RowEditor({
   config,
@@ -27,7 +35,7 @@ function RowEditor({
   const dropContainer = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div key={row.id} style={{ position: 'relative' }} ref={dropContainer}>
+    <DropContainer key={row.id} ref={dropContainer}>
       <RowRenderer
         row={row}
         rows={rows}
@@ -42,7 +50,7 @@ function RowEditor({
           openMenu(index + 1)
         }}
       />
-    </div>
+    </DropContainer>
   )
 }
 
