@@ -22,6 +22,9 @@ export function list<S, T = S, U = unknown>(
     value: T
   }[],
   U[] & {
+    set(
+      updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+    ): void
     insert(index?: number, options?: S): void
     remove(index: number): void
     move(from: number, to: number): void
@@ -39,6 +42,17 @@ export function list<S, T = S, U = unknown>(
       })
 
       return Object.assign(items, {
+        set(
+          updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+        ) {
+          onChange((wrappedItems, helpers) => {
+            const unwrapped = R.map(wrapped => wrapped.value, wrappedItems)
+            return R.map(
+              wrap,
+              updater(unwrapped, options => type.deserialize(options, helpers))
+            )
+          })
+        },
         insert(index?: number, options?: S) {
           onChange((items, helpers) => {
             const wrappedSubState = wrap(

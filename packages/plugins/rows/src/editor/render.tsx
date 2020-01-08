@@ -25,6 +25,7 @@ import {
   faCopy,
   faTrashAlt
 } from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
 import {
   DragObjectWithType,
@@ -100,9 +101,7 @@ export function RowRenderer({
       id: row.id,
       type: 'row',
       serialized: { plugin: '', state: '' },
-      onDrop() {
-        rows.remove(index)
-      }
+      onDrop() {}
     },
     begin() {
       const serialized = serializeDocument(row.id)(store.getState())
@@ -111,7 +110,10 @@ export function RowRenderer({
         type: 'row',
         serialized,
         onDrop() {
-          rows.remove(index)
+          rows.set(list => {
+            const i = R.findIndex(id => id === row.id, list)
+            return R.remove(i, 1, list)
+          })
         }
       }
     },
@@ -156,8 +158,11 @@ export function RowRenderer({
         if (item.id === row.id) return
 
         const draggingAbove = isDraggingAbove(monitor)
+        rows.set((list, deserializer) => {
+          const i = R.findIndex(id => id === row.id, list)
+          return R.insert(draggingAbove ? i : i + 1, deserializer(item.serialized), list)
+        })
         item.onDrop()
-        rows.insert(draggingAbove ? index : index + 1, item.serialized)
         return
       }
 
