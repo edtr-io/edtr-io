@@ -139,15 +139,12 @@ export function RowRenderer({
     },
     hover(item: RowDragObject, monitor) {
       if (
-        !(
-          monitor.getItemType() === 'row' &&
-          monitor.canDrop() &&
-          monitor.isOver({ shallow: true })
-        )
+        monitor.getItemType() === 'row' &&
+        monitor.canDrop() &&
+        monitor.isOver({ shallow: true })
       ) {
-        return
+        setDraggingAbove(isDraggingAbove(monitor))
       }
-      setDraggingAbove(isDraggingAbove(monitor))
     },
     drop(item: RowDragObject, monitor) {
       const type = monitor.getItemType()
@@ -160,7 +157,11 @@ export function RowRenderer({
         const draggingAbove = isDraggingAbove(monitor)
         rows.set((list, deserializer) => {
           const i = R.findIndex(id => id === row.id, list)
-          return R.insert(draggingAbove ? i : i + 1, deserializer(item.serialized), list)
+          return R.insert(
+            draggingAbove ? i : i + 1,
+            deserializer(item.serialized),
+            list
+          )
         })
         item.onDrop()
         return

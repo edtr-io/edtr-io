@@ -102,8 +102,9 @@ export function createDefaultDocumentEditor(): React.ComponentType<
       minWidth: '0 !important'
     })
 
+    const shouldShowSettings = showSettings()
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
-      return showSettings()
+      return shouldShowSettings
         ? (children, { close }) => {
             return (
               <React.Fragment>
@@ -125,7 +126,7 @@ export function createDefaultDocumentEditor(): React.ComponentType<
             )
           }
         : undefined
-    }, [renderSettings, showSettings])
+    }, [renderSettings, shouldShowSettings])
     const expanded = focused && (showSettings() || showToolbar())
 
     const appended = React.useRef(false)
