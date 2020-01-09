@@ -121,10 +121,11 @@ function HoveringToolbar({
 
     return editor.controls.map((control, index) => {
       if (isNestedControlButton(control)) {
-        const { title, renderIcon } = control
+        const { title, renderIcon, isActive } = control
         return (
           <Button
             key={index}
+            active={isActive()}
             config={config}
             title={title}
             onMouseDown={event => {

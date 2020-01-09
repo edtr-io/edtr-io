@@ -19,6 +19,7 @@ export type TextEditorPlugin = (editor: Editor) => Editor
 
 export interface Editor extends ReactEditor {
   controls: TextEditorControl[]
+  defaultNode: string | undefined
 
   onKeyDown(event: KeyboardEvent): void
   renderEditable(props: {
@@ -42,6 +43,7 @@ export interface NestedControlButton {
   title: string
   children: ControlButton[]
   renderIcon(): React.ReactNode
+  isActive(): boolean
 }
 
 export function isNestedControlButton(

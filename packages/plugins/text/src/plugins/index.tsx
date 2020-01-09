@@ -4,13 +4,15 @@ import {
   edtrItalic,
   styled,
   edtrColorText,
-  edtrLink
+  edtrLink,
+  edtrText
 } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { TextEditorPlugin } from '../types'
 import { createColorMarkPlugin } from './color-mark'
 import { createEmMarkPlugin } from './em-mark'
+import { createHeadingElementPlugin } from './heading-element'
 import { createHoveringToolbarPlugin } from './hovering-toolbar'
 import { createLinkElementPlugin } from './link-element'
 import { createParagraphElementPlugin } from './paragraph-element'
@@ -87,6 +89,28 @@ export const defaultPlugins: TextEditorPlugin[] = [
       title: 'Textfarben',
       colorTitle: 'Einfärben',
       resetColorTitle: 'Farbe zurücksetzen'
+    }
+  }),
+  createHeadingElementPlugin({
+    control: {
+      icon: <EdtrIcon icon={edtrText} />,
+      levels: {
+        1: {
+          title: 'Überschrift 1',
+          icon: 'H1'
+        },
+        2: {
+          title: 'Überschrift 2',
+          icon: 'H2'
+        },
+        3: {
+          title: 'Überschrift 3',
+          icon: 'H3'
+        }
+      },
+      title: 'Überschriften',
+      resetIcon: <EdtrIcon icon={edtrText} />,
+      resetTitle: 'Überschrift entfernen'
     }
   }),
   createParagraphElementPlugin(),

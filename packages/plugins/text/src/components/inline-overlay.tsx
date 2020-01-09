@@ -52,6 +52,7 @@ export function InlineOverlay({
 }: {
   children: React.ReactNode
   initialPosition: InlineOverlayPosition
+  allowSelectionOverflow?: boolean
   hidden?: boolean
 }) {
   const editor = useEditor()
@@ -60,7 +61,7 @@ export function InlineOverlay({
   const [position, setPosition] = React.useState(initialPosition)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!wrapper.current || !triangle.current) return
     const { selection } = editor
 

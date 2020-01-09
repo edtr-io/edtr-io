@@ -14,7 +14,7 @@ export function createMarkPlugin<T>(
   },
   createPlugin: (
     editor: Editor,
-    helpers: MarkPluginsHelpers<T>
+    helpers: MarkPluginHelpers<T>
   ) => Editor = editor => editor
 ) {
   return function(editor: Editor) {
@@ -86,7 +86,7 @@ export function createMarkPlugin<T>(
   }
 }
 
-export interface MarkPluginsHelpers<T> {
+export interface MarkPluginHelpers<T> {
   isActive(value?: T): boolean
   getValue(): T | undefined
   remove(): void

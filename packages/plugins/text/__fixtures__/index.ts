@@ -69,13 +69,46 @@ export const states: Record<string, StateTypeSerializedType<TextState>> = {
   strong: [
     {
       type: 'paragraph',
-      children: [{ strong: true, text: 'bold' }]
+      children: [{ strong: true, text: 'bold text' }]
+    }
+  ],
+  em: [
+    {
+      type: 'paragraph',
+      children: [{ em: true, text: 'emphasized text' }]
+    }
+  ],
+  link: [
+    {
+      type: 'paragraph',
+      children: [
+        {
+          type: 'a',
+          href: 'https://edtr.io',
+          children: [
+            {
+              text: 'Link to edtr.io'
+            }
+          ]
+        }
+      ]
     }
   ],
   color: [
     {
       type: 'paragraph',
       children: [{ color: 1, text: 'color' }]
+    }
+  ],
+  heading: [
+    {
+      type: 'h',
+      level: 1,
+      children: [
+        {
+          text: 'heading'
+        }
+      ]
     }
   ]
 }

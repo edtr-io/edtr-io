@@ -44,12 +44,15 @@ export function createColorMarkPlugin({
         editor.controls = [
           ...controls,
           {
+            title: control.title,
             renderIcon() {
               const value = getValue()
               const color = value ? getColor(value) : defaultColor
               return <control.Icon color={color} />
             },
-            title: control.title,
+            isActive() {
+              return false
+            },
             children: [
               {
                 title: control.resetColorTitle,
