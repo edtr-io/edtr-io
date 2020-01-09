@@ -6,9 +6,9 @@ import { EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   applyMiddleware,
   createStore as createReduxStore,
+  PreloadedState,
   Store,
-  StoreEnhancer,
-  PreloadedState
+  StoreEnhancer
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -37,6 +37,7 @@ export function createStore<K extends string>({
       },
       documents: {},
       focus: null,
+      clipboard: [],
       root: null,
       clipboard: [],
       history: {

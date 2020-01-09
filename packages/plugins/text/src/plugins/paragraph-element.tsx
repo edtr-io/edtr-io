@@ -5,7 +5,7 @@ import { TextEditorPlugin } from '../types'
 
 export function createParagraphElementPlugin({
   type = 'paragraph',
-  Component = ParagraphElement
+  Component = Paragraph
 }: {
   type?: string
   Component?: React.ComponentType<RenderElementProps>
@@ -21,6 +21,6 @@ export function createParagraphElementPlugin({
   }
 }
 
-function ParagraphElement({ attributes, children }: RenderElementProps) {
+function Paragraph({ attributes, children }: RenderElementProps) {
   return <p {...attributes}>{children}</p>
 }

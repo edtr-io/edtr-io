@@ -3,7 +3,8 @@ import {
   edtrBold,
   edtrItalic,
   styled,
-  edtrColorText
+  edtrColorText,
+  edtrLink
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -11,6 +12,7 @@ import { TextEditorPlugin } from '../types'
 import { createColorMarkPlugin } from './color-mark'
 import { createEmMarkPlugin } from './em-mark'
 import { createHoveringToolbarPlugin } from './hovering-toolbar'
+import { createLinkElementPlugin } from './link-element'
 import { createParagraphElementPlugin } from './paragraph-element'
 import { createStrongMarkPlugin } from './strong-mark'
 
@@ -70,6 +72,12 @@ export const defaultPlugins: TextEditorPlugin[] = [
     control: {
       icon: <EdtrIcon icon={edtrItalic} />,
       title: 'Kursiv (Strg + I)'
+    }
+  }),
+  createLinkElementPlugin({
+    control: {
+      icon: <EdtrIcon icon={edtrLink} />,
+      title: 'Link (Strg + K)'
     }
   }),
   createColorMarkPlugin({

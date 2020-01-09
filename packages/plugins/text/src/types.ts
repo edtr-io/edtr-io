@@ -1,6 +1,22 @@
 import React from 'react'
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react'
 
+export interface TextConfig {
+  placeholder: string
+  plugins: TextEditorPlugin[]
+  theme: {
+    backgroundColor: string
+    color: string
+    hoverColor: string
+    active: {
+      backgroundColor: string
+      color: string
+    }
+  }
+}
+
+export type TextEditorPlugin = (editor: Editor) => Editor
+
 export interface Editor extends ReactEditor {
   controls: TextEditorControl[]
 
@@ -33,5 +49,3 @@ export function isNestedControlButton(
 ): control is NestedControlButton {
   return (control as NestedControlButton).children !== undefined
 }
-
-export type TextEditorPlugin = (editor: Editor) => Editor

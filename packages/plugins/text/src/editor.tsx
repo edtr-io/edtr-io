@@ -3,10 +3,11 @@ import { createEditor as createSlateEditor, Transforms } from 'slate'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 
 import { TextConfig, TextProps } from '.'
+import { ConfigContext } from './helpers'
 import { Editor } from './types'
 
 export function TextEditor({ config, editable, focused, state }: TextProps) {
-  const { value, selection } = state.get()
+  const { value } = state.get()
   const { placeholder, plugins } = config
   const persistedValue = React.useRef(value)
 
@@ -15,39 +16,46 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
   }, [plugins])
 
   // Set selection from state if there was an undo/redo
-  if (persistedValue.current !== value && selection) {
-    Transforms.select(editor, selection)
+  if (persistedValue.current !== value) {
+    const selection = state.get().selection
+    if (selection) {
+      Transforms.select(editor, selection)
+    }
   }
 
   return (
-    <Slate
-      editor={editor}
-      value={value}
-      onChange={newValue => {
-        // Don't persist if there was no actual change
-        if (newValue === value) return
-        persistedValue.current = newValue
-        state.set({
-          value: newValue,
-          selection: editor.selection
-        })
-      }}
-    >
-      {editor.renderEditable({
-        children: (
-          <Editable
-            placeholder={editable ? placeholder : undefined}
-            readOnly={!focused}
-            renderElement={editor.renderElement}
-            renderLeaf={editor.renderLeaf}
-            onKeyDown={event => {
-              editor.onKeyDown((event as unknown) as KeyboardEvent)
-            }}
-          />
-        ),
-        editable
-      })}
-    </Slate>
+    <ConfigContext.Provider value={config}>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={newValue => {
+          // Don't persist if there was no actual change
+          if (newValue === value) return
+          persistedValue.current = newValue
+          state.set({
+            value: newValue,
+            // FIXME: this semantics is wrong!
+            // Instead: we should create the ReversibleAction ourselves and set the selection in undo!
+            selection: editor.selection
+          })
+        }}
+      >
+        {editor.renderEditable({
+          children: (
+            <Editable
+              placeholder={editable ? placeholder : undefined}
+              readOnly={!focused}
+              renderElement={editor.renderElement}
+              renderLeaf={editor.renderLeaf}
+              onKeyDown={event => {
+                editor.onKeyDown((event as unknown) as KeyboardEvent)
+              }}
+            />
+          ),
+          editable
+        })}
+      </Slate>
+    </ConfigContext.Provider>
   )
 }
 

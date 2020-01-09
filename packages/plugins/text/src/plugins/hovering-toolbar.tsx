@@ -1,19 +1,23 @@
-import { edtrClose, EdtrIcon, styled, useEditorTheme } from '@edtr-io/ui'
-import * as R from 'ramda'
+import { edtrClose, EdtrIcon, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Range, Editor as SlateEditor } from 'slate'
+import { Editor as SlateEditor, Range } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { useEditor } from '../helpers'
+import {
+  InlineOverlay,
+  InlineOverlayPosition
+} from '../components/inline-overlay'
+import { useConfig, useEditor } from '../helpers'
 import {
   ControlButton,
   isNestedControlButton,
+  TextConfig,
   TextEditorPlugin
 } from '../types'
 
 const Button = styled.button<{
   active?: boolean
-  config: HoveringToolbarConfig
+  config: TextConfig
 }>(({ active, config }) => {
   const { theme } = config
   return {
@@ -36,13 +40,13 @@ const Button = styled.button<{
   }
 })
 
-export function createHoveringToolbarPlugin(
-  config: {
-    closeSubMenuIcon?: HoveringToolbarConfig['closeSubMenuIcon']
-    closeSubMenuTitle?: HoveringToolbarConfig['closeSubMenuTitle']
-    theme?: DeepPartial<HoveringToolbarConfig['theme']>
-  } = {}
-): TextEditorPlugin {
+export function createHoveringToolbarPlugin({
+  closeSubMenuIcon = <EdtrIcon icon={edtrClose} />,
+  closeSubMenuTitle = 'Untermenü schließen'
+}: {
+  closeSubMenuIcon?: HoveringToolbarProps['closeSubMenuIcon']
+  closeSubMenuTitle?: HoveringToolbarProps['closeSubMenuTitle']
+} = {}): TextEditorPlugin {
   return function(editor) {
     const { renderEditable } = editor
     // eslint-disable-next-line react/display-name
@@ -50,7 +54,10 @@ export function createHoveringToolbarPlugin(
       return (
         <React.Fragment>
           {props.editable && editor.controls.length > 0 ? (
-            <HoveringToolbar config={config} />
+            <HoveringToolbar
+              closeSubMenuIcon={closeSubMenuIcon}
+              closeSubMenuTitle={closeSubMenuTitle}
+            />
           ) : null}
           {renderEditable(props)}
         </React.Fragment>
@@ -60,172 +67,31 @@ export function createHoveringToolbarPlugin(
   }
 }
 
-export interface HoveringToolbarConfig {
-  closeSubMenuIcon: React.ReactNode
-  closeSubMenuTitle: string
-  theme: {
-    backgroundColor: string
-    color: string
-    hoverColor: string
-    active: {
-      backgroundColor: string
-      color: string
-    }
-  }
-}
-
-enum HoverPosition {
-  above = 'above',
-  below = 'below'
-}
-
-const OverlayTriangle = styled.div<{ positionAbove: boolean }>(props => {
-  const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
-  return {
-    position: 'relative',
-    width: 0,
-    height: 0,
-    borderLeft: '5px solid transparent',
-    borderRight: '5px solid transparent',
-    [borderPosition]: '10px solid rgba(51,51,51,0.95)'
-  }
-})
-
-const InlineOverlayWrapper = styled.div({
-  position: 'absolute',
-  top: '-10000px',
-  left: '-10000px',
-  opacity: 0,
-  transition: 'opacity 0.5s',
-  zIndex: 95,
-  whiteSpace: 'nowrap'
-})
-
-const InlineOverlayContentWrapper = styled.div({
-  boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
-  backgroundColor: 'rgba(51,51,51,0.95)',
-  color: '#ffffff',
-  borderRadius: '4px',
-  '& a': {
-    color: '#ffffff',
-    '&:hover': {
-      color: 'rgb(70, 155, 255)'
-    }
-  }
-})
-
 const initialPosition = isTouchDevice()
-  ? HoverPosition.below
-  : HoverPosition.above
+  ? InlineOverlayPosition.below
+  : InlineOverlayPosition.above
 
-function HoveringToolbar(props: {
-  config: {
-    closeSubMenuIcon?: HoveringToolbarConfig['closeSubMenuIcon']
-    closeSubMenuTitle?: HoveringToolbarConfig['closeSubMenuTitle']
-    theme?: DeepPartial<HoveringToolbarConfig['theme']>
-  }
-}) {
+function HoveringToolbar({
+  closeSubMenuIcon,
+  closeSubMenuTitle
+}: HoveringToolbarProps) {
   const editor = useEditor()
-  const editorTheme = useEditorTheme()
-  const config: HoveringToolbarConfig = {
-    closeSubMenuIcon: props.config.closeSubMenuIcon || (
-      <EdtrIcon icon={edtrClose} />
-    ),
-    closeSubMenuTitle: props.config.closeSubMenuTitle || 'Untermenü schließen',
-    theme: R.mergeDeepRight(
-      {
-        backgroundColor: 'transparent',
-        color: editorTheme.editor.color,
-        hoverColor: editorTheme.editor.primary.background,
-        active: {
-          backgroundColor: '#b6b6b6',
-          color: editorTheme.editor.backgroundColor
-        }
-      },
-      props.config.theme || {}
-    )
-  }
-  const menu = React.useRef<HTMLDivElement>(null)
-  const triangle = React.useRef<HTMLDivElement>(null)
-  const [position, setPosition] = React.useState(initialPosition)
+  const config = useConfig()
   const [subMenu, setSubMenu] = React.useState<number>()
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
-    if (!menu.current || !triangle.current) return
-    const { selection } = editor
-    if (
-      !selection ||
-      !ReactEditor.isFocused(editor) ||
-      Range.isCollapsed(selection) ||
-      SlateEditor.string(editor, selection) === ''
-    ) {
-      menu.current.style.top = ''
-      menu.current.style.left = ''
-      return
-    }
-
-    const domSelection = window.getSelection()
-    if (!domSelection || domSelection.rangeCount === 0) return
-
-    const domRange = domSelection.getRangeAt(0)
-    const rect = domRange.getBoundingClientRect()
-
-    if (!rect || rect.height === 0) return
-
-    if (!menu.current.offsetParent) return
-    const parentRect = menu.current.offsetParent.getBoundingClientRect()
-
-    if (
-      parentRect.top - 5 > rect.top ||
-      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
-      parentRect.left - 5 > rect.left ||
-      parentRect.left + parentRect.width + 5 < rect.left + rect.width
-    ) {
-      menu.current.style.top = ''
-      menu.current.style.left = ''
-      return
-    }
-
-    menu.current.style.opacity = '1'
-    const aboveValue = rect.top - menu.current.offsetHeight - 6
-    setPosition(
-      initialPosition === HoverPosition.above && aboveValue >= 0
-        ? HoverPosition.above
-        : HoverPosition.below
-    )
-    menu.current.style.top = `${(position === HoverPosition.above
-      ? aboveValue
-      : rect.bottom + 6) - parentRect.top}px`
-    menu.current.style.left = `${Math.min(
-      Math.max(
-        rect.left -
-          parentRect.left -
-          menu.current.offsetWidth / 2 +
-          rect.width / 2,
-        0
-      ),
-      parentRect.width - menu.current.offsetWidth - 5
-    )}px`
-    triangle.current.style.left = `${rect.left -
-      menu.current.offsetLeft -
-      parentRect.left -
-      triangle.current.offsetWidth / 2 +
-      rect.width / 2}px`
-  })
+  const { selection } = editor
 
   return (
-    <InlineOverlayWrapper ref={menu}>
-      {position === HoverPosition.below ? (
-        <OverlayTriangle positionAbove={false} ref={triangle} />
-      ) : null}
-      <InlineOverlayContentWrapper>
-        {renderChildren()}
-      </InlineOverlayContentWrapper>
-      {position === HoverPosition.above ? (
-        <OverlayTriangle positionAbove ref={triangle} />
-      ) : null}
-    </InlineOverlayWrapper>
+    <InlineOverlay
+      initialPosition={initialPosition}
+      hidden={
+        !selection ||
+        !ReactEditor.isFocused(editor) ||
+        Range.isCollapsed(selection) ||
+        SlateEditor.string(editor, selection) === ''
+      }
+    >
+      {renderChildren()}
+    </InlineOverlay>
   )
 
   function renderChildren() {
@@ -242,12 +108,12 @@ function HoveringToolbar(props: {
               return false
             },
             renderIcon() {
-              return config.closeSubMenuIcon
+              return closeSubMenuIcon
             },
             onClick() {
               setSubMenu(undefined)
             },
-            title: config.closeSubMenuTitle
+            title: closeSubMenuTitle
           })}
         </React.Fragment>
       )
@@ -293,6 +159,11 @@ function HoveringToolbar(props: {
   }
 }
 
+interface HoveringToolbarProps {
+  closeSubMenuIcon: React.ReactNode
+  closeSubMenuTitle: string
+}
+
 function isTouchDevice() {
   return (
     typeof window !== 'undefined' &&
@@ -300,12 +171,4 @@ function isTouchDevice() {
       navigator.maxTouchPoints > 0 ||
       navigator.msMaxTouchPoints > 0)
   )
-}
-
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? DeepPartial<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepPartial<U>[]
-    : DeepPartial<T[P]>
 }
