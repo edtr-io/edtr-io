@@ -83,17 +83,6 @@ export function InlineOverlay({
     if (!wrapper.current.offsetParent) return
     const parentRect = wrapper.current.offsetParent.getBoundingClientRect()
 
-    if (
-      parentRect.top - 5 > rect.top ||
-      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
-      parentRect.left - 5 > rect.left ||
-      parentRect.left + parentRect.width + 5 < rect.left + rect.width
-    ) {
-      wrapper.current.style.top = ''
-      wrapper.current.style.left = ''
-      return
-    }
-
     wrapper.current.style.opacity = '1'
     const aboveValue = rect.top - wrapper.current.offsetHeight - 6
     setPosition(
