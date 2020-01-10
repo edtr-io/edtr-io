@@ -139,7 +139,11 @@ describe('object', () => {
     let store = initialState
     const onChange = (
       initial: StateUpdater<typeof initialState>,
-      executor?: StateExecutor<StateUpdater<typeof initialState>>
+      {
+        executor
+      }: {
+        executor?: StateExecutor<StateUpdater<typeof initialState>>
+      } = {}
     ) => {
       store = initial(store, helpers)
       if (executor) {

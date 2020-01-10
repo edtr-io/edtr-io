@@ -67,7 +67,7 @@ function* insertSaga(action: InsertAction) {
 }
 
 function* changeSaga(action: ChangeAction) {
-  const { id, state: stateHandler } = action.payload
+  const { id, state: stateHandler, reverse } = action.payload
   const document: ReturnTypeFromSelector<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
@@ -82,17 +82,22 @@ function* changeSaga(action: ChangeAction) {
     }
   )
 
-  function createChange(
-    previousState: unknown,
-    newState: unknown
-  ): ReversibleAction<PureChangeAction, PureChangeAction> {
+  const createChange = (
+    state: unknown
+  ): ReversibleAction<PureChangeAction, PureChangeAction> => {
     return {
-      action: pureChange({ id, state: newState })(action.scope),
-      reverse: pureChange({ id, state: previousState })(action.scope)
+      action: pureChange({ id, state })(action.scope),
+      reverse: pureChange({
+        id,
+        state:
+          typeof reverse === 'function'
+            ? reverse(document.state)
+            : document.state
+      })(action.scope)
     }
   }
 
-  actions.push(createChange(document.state, state))
+  actions.push(createChange(state))
 
   if (!stateHandler.executor) {
     yield put(commit(actions)(action.scope))
@@ -115,11 +120,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 resolve: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  resolve([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  resolve([...resolveActions, createChange(state)])
                 }
               })
             },
@@ -127,11 +129,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 reject: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  reject([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  reject([...resolveActions, createChange(state)])
                 }
               })
             },
@@ -139,11 +138,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 next: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  next([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  next([...resolveActions, createChange(state)])
                 }
               })
             }

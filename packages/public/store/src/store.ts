@@ -37,7 +37,6 @@ export function createStore<K extends string>({
       },
       documents: {},
       focus: null,
-      clipboard: [],
       root: null,
       clipboard: [],
       history: {

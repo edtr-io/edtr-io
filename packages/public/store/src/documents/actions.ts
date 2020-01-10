@@ -38,6 +38,7 @@ export const change = createAction<
       initial: StateUpdater<unknown>
       executor?: StateExecutor<StateUpdater<unknown>>
     }
+    reverse?: (previousState: unknown) => unknown
   }
 >('Change')
 export type ChangeAction = ActionFromActionCreator<typeof change>

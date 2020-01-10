@@ -37,10 +37,30 @@ export function object<Ds extends Record<string, StateType>>(
 
         function innerOnChange(
           initial: StateUpdater<StateTypeReturnType<typeof type>>,
-          executor?: StateExecutor<
-            StateUpdater<StateTypeReturnType<typeof type>>
-          >
+          {
+            executor,
+            reverse
+          }: {
+            executor?: StateExecutor<
+              StateUpdater<StateTypeReturnType<typeof type>>
+            >
+            reverse?: (
+              previousState: StateTypeReturnType<typeof type>
+            ) => StateTypeReturnType<typeof type>
+          } = {}
         ): void {
+          function wrapReverse(
+            reverse: (
+              previousState: StateTypeReturnType<typeof type>
+            ) => StateTypeReturnType<typeof type>
+          ): (
+            previousState: StateTypesValueType<Ds>
+          ) => StateTypesValueType<Ds> {
+            return oldObj => {
+              return R.set(R.lensProp(key), reverse(oldObj[key]), oldObj)
+            }
+          }
+
           function wrapUpdater(
             initial: StateUpdater<StateTypeReturnType<typeof type>>
           ): StateUpdater<StateTypesValueType<Ds>> {
@@ -52,9 +72,8 @@ export function object<Ds extends Record<string, StateType>>(
               )
             }
           }
-          onChange(
-            wrapUpdater(initial),
-            executor
+          onChange(wrapUpdater(initial), {
+            executor: executor
               ? (resolve, reject, next) => {
                   executor(
                     innerUpdater => resolve(wrapUpdater(innerUpdater)),
@@ -62,8 +81,9 @@ export function object<Ds extends Record<string, StateType>>(
                     innerUpdater => next(wrapUpdater(innerUpdater))
                   )
                 }
-              : undefined
-          )
+              : undefined,
+            reverse: reverse ? wrapReverse(reverse) : undefined
+          })
         }
       }, types) as U
     },

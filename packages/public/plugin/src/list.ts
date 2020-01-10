@@ -3,10 +3,10 @@
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
-  StoreDeserializeHelpers,
+  StateExecutor,
   StateType,
   StateUpdater,
-  StateExecutor
+  StoreDeserializeHelpers
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 import { generate } from 'shortid'
@@ -63,8 +63,27 @@ export function list<S, T = S, U = unknown>(
       function createOnChange(id: string) {
         return (
           initial: StateUpdater<T>,
-          executor?: StateExecutor<StateUpdater<T>>
+          {
+            executor,
+            reverse
+          }: {
+            executor?: StateExecutor<StateUpdater<T>>
+            reverse?: (previousState: T) => T
+          } = {}
         ) => {
+          function wrapReverse(
+            reverse: (previousState: T) => T
+          ): (previousState: WrappedValue[]) => WrappedValue[] {
+            return oldItems => {
+              const index = R.findIndex(R.propEq('id', id), oldItems)
+              return R.update(
+                index,
+                { value: reverse(oldItems[index].value), id: id },
+                oldItems
+              )
+            }
+          }
+
           function wrapUpdater(
             initial: StateUpdater<T>
           ): StateUpdater<WrappedValue[]> {
@@ -73,17 +92,15 @@ export function list<S, T = S, U = unknown>(
               helpers: StoreDeserializeHelpers
             ) => {
               const index = R.findIndex(R.propEq('id', id), oldItems)
-              const result = R.update(
+              return R.update(
                 index,
                 { value: initial(oldItems[index].value, helpers), id: id },
                 oldItems
               )
-              return result
             }
           }
-          onChange(
-            wrapUpdater(initial),
-            executor
+          onChange(wrapUpdater(initial), {
+            executor: executor
               ? (resolve, reject, next) => {
                   executor(
                     innerUpdater => resolve(wrapUpdater(innerUpdater)),
@@ -91,8 +108,9 @@ export function list<S, T = S, U = unknown>(
                     innerUpdater => next(wrapUpdater(innerUpdater))
                   )
                 }
-              : undefined
-          )
+              : undefined,
+            reverse: reverse ? wrapReverse(reverse) : undefined
+          })
         }
       }
     },

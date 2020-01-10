@@ -14,6 +14,7 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
   const editor = React.useMemo(() => {
     return createEditor({ defaultNode, plugins })
   }, [defaultNode, plugins])
+  const previousSelection = React.useRef(editor.selection)
 
   // Set selection from state if there was an undo/redo
   if (persistedValue.current !== value) {
@@ -30,14 +31,25 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
         value={value}
         onChange={newValue => {
           // Don't persist if there was no actual change
-          if (newValue === value) return
-          persistedValue.current = newValue
-          state.set({
-            value: newValue,
-            // FIXME: this semantics is wrong!
-            // Instead: we should create the ReversibleAction ourselves and set the selection in undo!
-            selection: editor.selection
-          })
+          if (newValue !== value) {
+            persistedValue.current = newValue
+            state.set(
+              {
+                value: newValue,
+                selection: editor.selection
+              },
+              ({ value }) => {
+                return {
+                  value,
+                  // When undoing this change, we want to jump back to the selection we had right before the change
+                  // Therefore, we always keep track of the previous selection and override the default reverse behavior
+                  selection: previousSelection.current
+                }
+              }
+            )
+          }
+
+          previousSelection.current = editor.selection
         }}
       >
         {editor.renderEditable({
