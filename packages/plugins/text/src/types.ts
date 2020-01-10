@@ -2,6 +2,7 @@ import React from 'react'
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react'
 
 export interface TextConfig {
+  defaultNode: string
   placeholder: string
   plugins: TextEditorPlugin[]
   theme: {
@@ -19,7 +20,7 @@ export type TextEditorPlugin = (editor: Editor) => Editor
 
 export interface Editor extends ReactEditor {
   controls: TextEditorControl[]
-  defaultNode: string | undefined
+  defaultNode: string
 
   onKeyDown(event: KeyboardEvent): void
   renderEditable(props: {

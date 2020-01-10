@@ -23,7 +23,7 @@ export const states: Record<
             plugin: textPlugin,
             state: [
               {
-                type: 'paragraph',
+                type: 'p',
                 children: [{ text: 'This is correct' }]
               }
             ]
@@ -45,7 +45,7 @@ export const states: Record<
             plugin: textPlugin,
             state: [
               {
-                type: 'paragraph',
+                type: 'p',
                 children: [{ text: 'This is correct' }]
               }
             ]
@@ -67,7 +67,7 @@ export const states: Record<
             plugin: textPlugin,
             state: [
               {
-                type: 'paragraph',
+                type: 'p',
                 children: [{ text: 'This is correct' }]
               }
             ]

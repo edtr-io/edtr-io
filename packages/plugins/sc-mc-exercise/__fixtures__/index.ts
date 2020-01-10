@@ -19,7 +19,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'correct' }]
             }
           ]
@@ -29,7 +29,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'correct feedback' }]
             }
           ]
@@ -41,7 +41,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'wrong' }]
             }
           ]
@@ -51,7 +51,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'wrong feedback' }]
             }
           ]
@@ -68,7 +68,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'first correct' }]
             }
           ]
@@ -78,7 +78,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'correct feedback' }]
             }
           ]
@@ -90,7 +90,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'second correct' }]
             }
           ]
@@ -106,7 +106,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'wrong' }]
             }
           ]
@@ -116,7 +116,7 @@ export const states: Record<
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'wrong feedback' }]
             }
           ]

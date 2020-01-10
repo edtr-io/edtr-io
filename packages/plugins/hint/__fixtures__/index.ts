@@ -19,7 +19,7 @@ export const states: Record<string, StateTypeSerializedType<HintState>> = {
         plugin: textPlugin,
         state: [
           {
-            type: 'paragraph',
+            type: 'p',
             children: [{ text: 'This is a hint' }]
           }
         ]

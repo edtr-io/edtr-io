@@ -121,7 +121,7 @@ export const states: Record<string, StateTypeSerializedType<RowsState>> = {
     plugin: textPlugin,
     state: [
       {
-        type: 'paragraph',
+        type: 'p',
         children: [{ text: 'Hello world' }]
       }
     ]

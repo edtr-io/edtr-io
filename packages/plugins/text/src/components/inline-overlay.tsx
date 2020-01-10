@@ -113,12 +113,24 @@ export function InlineOverlay({
   return (
     <Wrapper ref={wrapper}>
       {isAbove(position) ? null : (
-        <Triangle ref={triangle} position={position} />
+        <Triangle
+          ref={triangle}
+          position={position}
+          onMouseDown={preventBlur}
+        />
       )}
-      <Content>{children}</Content>
+      <Content onMouseDown={preventBlur}>{children}</Content>
       {isAbove(position) ? (
-        <Triangle ref={triangle} position={position} />
+        <Triangle
+          ref={triangle}
+          position={position}
+          onMouseDown={preventBlur}
+        />
       ) : null}
     </Wrapper>
   )
+
+  function preventBlur(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+    event.preventDefault()
+  }
 }

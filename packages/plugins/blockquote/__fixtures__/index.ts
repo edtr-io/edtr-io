@@ -14,7 +14,7 @@ export const states: Record<
     plugin: textPlugin,
     state: [
       {
-        type: 'paragraph',
+        type: 'p',
         children: [{ text: 'This is a blockquote' }]
       }
     ]

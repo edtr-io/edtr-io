@@ -8,12 +8,12 @@ import { Editor } from './types'
 
 export function TextEditor({ config, editable, focused, state }: TextProps) {
   const { value } = state.get()
-  const { placeholder, plugins } = config
+  const { defaultNode, placeholder, plugins } = config
   const persistedValue = React.useRef(value)
 
   const editor = React.useMemo(() => {
-    return createEditor(plugins)
-  }, [plugins])
+    return createEditor({ defaultNode, plugins })
+  }, [defaultNode, plugins])
 
   // Set selection from state if there was an undo/redo
   if (persistedValue.current !== value) {
@@ -59,11 +59,18 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
   )
 }
 
-function createEditor(plugins: TextConfig['plugins']): Editor {
+function createEditor({
+  defaultNode,
+  plugins
+}: {
+  defaultNode: TextConfig['defaultNode']
+  plugins: TextConfig['plugins']
+}): Editor {
   let editor = withEdtr(withReact(createSlateEditor()))
   plugins.forEach(withPlugin => {
     editor = withPlugin(editor)
   })
+  editor.defaultNode = defaultNode
   return editor
 
   function withEdtr<T extends ReactEditor>(editor: T): T & Editor {

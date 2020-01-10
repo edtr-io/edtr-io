@@ -17,7 +17,7 @@ const textState = serializedScalar<
   {
     value: [
       {
-        type: 'paragraph',
+        type: 'p',
         children: [{ text: '' }]
       }
     ],
@@ -40,10 +40,12 @@ export { TextConfig }
 export type TextProps = EditorPluginProps<TextState, TextConfig>
 
 export function createTextPlugin({
+  defaultNode = 'p',
   placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
   plugins = defaultPlugins,
   theme = {}
 }: {
+  defaultNode?: string
   placeholder?: TextConfig['placeholder']
   plugins?: TextConfig['plugins']
   theme?: DeepPartial<TextConfig['theme']>
@@ -52,6 +54,7 @@ export function createTextPlugin({
     Component: TextEditor,
     config: ({ editor }) => {
       return {
+        defaultNode,
         placeholder,
         plugins,
         theme: R.mergeDeepRight(

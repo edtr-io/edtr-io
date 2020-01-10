@@ -5,16 +5,13 @@ import { TextEditorPlugin } from '../types'
 import { createBlockElementPlugin } from './block-element'
 
 export function createParagraphElementPlugin({
-  type = 'paragraph',
+  type = 'p',
   Component = Paragraph
 }: {
   type?: string
   Component?: React.ComponentType<RenderElementProps>
 } = {}): TextEditorPlugin {
-  return createBlockElementPlugin({ type, Component }, editor => {
-    editor.defaultNode = type
-    return editor
-  })
+  return createBlockElementPlugin({ type, Component })
 }
 
 function Paragraph({ attributes, children }: RenderElementProps) {

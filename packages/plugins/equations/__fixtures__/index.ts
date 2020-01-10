@@ -14,7 +14,7 @@ export const states: Record<string, StateTypeSerializedType<EquationsState>> = {
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'left' }]
             }
           ]
@@ -23,7 +23,7 @@ export const states: Record<string, StateTypeSerializedType<EquationsState>> = {
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'right' }]
             }
           ]
@@ -32,7 +32,7 @@ export const states: Record<string, StateTypeSerializedType<EquationsState>> = {
           plugin: textPlugin,
           state: [
             {
-              type: 'paragraph',
+              type: 'p',
               children: [{ text: 'transform' }]
             }
           ]
