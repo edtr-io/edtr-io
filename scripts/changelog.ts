@@ -5,7 +5,14 @@ import * as util from 'util'
 
 const writeFile = util.promisify(fs.writeFile)
 
-exec().then(() => {})
+exec()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
 
 async function exec(): Promise<void> {
   const content = await generateChangelog([

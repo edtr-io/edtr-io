@@ -7,11 +7,19 @@ import * as util from 'util'
 import { invoke } from './api-extractor'
 
 exec()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
 
 async function exec() {
   bundle()
   invokeApiExtractor()
   await cleanTypes()
+  await generateEntries()
 
   function bundle() {
     spawnSync('yarn', ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'], {
@@ -47,5 +55,41 @@ async function exec() {
         await rm(file)
       }
     }
+  }
+
+  async function generateEntries() {
+    const readFile = util.promisify(fs.readFile)
+    const writeFile = util.promisify(fs.writeFile)
+    const mkDir = util.promisify(fs.mkdir)
+    const fsOptions = { encoding: 'utf-8' }
+
+    const packageJson = await readFile(
+      path.join(process.cwd(), 'package.json'),
+      { encoding: 'utf-8' }
+    )
+    const { main, module } = JSON.parse(packageJson)
+    await Promise.all(
+      ['beta', 'internal'].map(async release => {
+        const dir = path.join(process.cwd(), release)
+        try {
+          await mkDir(dir)
+        } catch (err) {
+          if (err.code !== 'EEXIST') throw err
+        }
+        await writeFile(
+          path.join(dir, 'package.json'),
+          JSON.stringify(
+            {
+              main: `../${main}`,
+              module: `../${module}`,
+              typings: `../api/${release}.d.ts`
+            },
+            null,
+            2
+          ),
+          fsOptions
+        )
+      })
+    )
   }
 }

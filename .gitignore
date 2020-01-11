@@ -30,7 +30,10 @@ node_modules/
 .yarn-integrity
 
 # Transpiled code
-dist/
+packages/*/*/api/
+packages/*/*/dist/
+packages/*/*/beta/
+packages/*/*/internal/
 
 # API Extractor
 .api-extractor

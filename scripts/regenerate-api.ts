@@ -6,10 +6,17 @@ import * as util from 'util'
 import { invoke } from './api-extractor'
 
 exec()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
 
 async function exec() {
   await clean()
-  emitDeclarations()
+  bundle()
   invokeApiExtractor()
 
   async function clean() {
@@ -18,8 +25,8 @@ async function exec() {
     await rm(dist)
   }
 
-  function emitDeclarations() {
-    spawnSync('yarn', ['tsc', '--project', 'src'], {
+  function bundle() {
+    spawnSync('yarn', ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'], {
       stdio: 'inherit'
     })
   }
