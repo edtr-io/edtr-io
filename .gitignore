@@ -32,9 +32,5 @@ node_modules/
 # Transpiled code
 dist/
 
-# Rollup cache
-.rts2_cache*
-
-# API documentation
-api/
-website/
+# API Extractor
+.api-extractor

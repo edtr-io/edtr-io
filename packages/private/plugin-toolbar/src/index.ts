@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+/** @public */
 export interface PluginToolbarButtonProps {
   className?: string
   icon: React.ReactNode
@@ -8,6 +9,7 @@ export interface PluginToolbarButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
+/** @public */
 export interface PluginToolbarOverlayButtonProps {
   className?: string
   renderContent?(
@@ -19,6 +21,7 @@ export interface PluginToolbarOverlayButtonProps {
   label: string
 }
 
+/** @public */
 export interface OverlayButtonProps {
   className?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
@@ -26,12 +29,14 @@ export interface OverlayButtonProps {
   label: string
 }
 
+/** @public */
 export interface OverlayCheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label: string
 }
 
+/** @public */
 export interface OverlayInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -40,6 +45,7 @@ export interface OverlayInputProps
   label: string
 }
 
+/** @public */
 export interface OverlaySelectProps
   extends React.DetailedHTMLProps<
     React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -50,6 +56,7 @@ export interface OverlaySelectProps
   width?: string
 }
 
+/** @public */
 export interface OverlayTextareaProps
   extends React.DetailedHTMLProps<
     React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -58,6 +65,7 @@ export interface OverlayTextareaProps
   label: string
 }
 
+/** @public */
 export interface PluginToolbar {
   OverlayButton: React.ComponentType<OverlayButtonProps>
   OverlayCheckbox: React.ComponentType<OverlayCheckboxProps>

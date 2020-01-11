@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "dist/index.d.ts",
+
+  "bundledPackages": [
+    "@edtr-io/internal__document-editor",
+    "@edtr-io/internal__plugin",
+    "@edtr-io/internal__plugin-state",
+    "@edtr-io/internal__plugin-toolbar"
+  ],
+
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>/api/",
+    "reportTempFolder": "<projectFolder>/.api-extractor/"
+  },
+
+  "docModel": {
+    "enabled": true,
+    "apiJsonFilePath": "<projectFolder>/.api-extractor/<unscopedPackageName>.api.json"
+  },
+
+  "tsdocMetadata": {
+    "enabled": true
+  },
+
+  "newlineKind": "lf",
+
+  "messages": {
+    "compilerMessageReporting": {
+      "default": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    },
+    "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    },
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    }
+  }
+}
