@@ -75,9 +75,15 @@ const H4 = styled.h4({
   marginRight: '25px'
 })
 
-export function createDefaultDocumentEditor(
-  _config: DefaultDocumentEditorConfig = {}
-): React.ComponentType<DocumentEditorProps> {
+/**
+ * Creates the default {@link @edtr-io/document-editor#DocumentEditor | document editor}
+ *
+ * @returns The default {@link @edtr-io/document-editor#DocumentEditor | document editor}
+ * @public
+ */
+export function createDefaultDocumentEditor(): React.ComponentType<
+  DocumentEditorProps
+> {
   return function DocumentEditor({
     focused,
     children,
@@ -175,6 +181,3 @@ export function createDefaultDocumentEditor(
     }
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface DefaultDocumentEditorConfig {}
