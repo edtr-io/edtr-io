@@ -10,9 +10,12 @@ import { Action, Reversible } from './actions'
 /**
  * Store state
  */
+/** @public */
 export type State = Record<string, ScopedState>
+/** @public */
 export type Store = ReduxStore<State, Action>
 
+/** @public */
 export interface ScopedState {
   plugins: {
     defaultPlugin: string
@@ -25,11 +28,13 @@ export interface ScopedState {
   history: HistoryState
 }
 
+/** @public */
 export interface DocumentState {
   plugin: string
   state?: unknown
 }
 
+/** @public */
 export interface HistoryState {
   initialState?: {
     documents: ScopedState['documents']
@@ -42,7 +47,8 @@ export interface HistoryState {
 /**
  * Action creators
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/** @public */
 export type ActionCreator<T = string, P = any> =
   | {
       (payload: P): (
@@ -64,6 +70,7 @@ export type ActionCreator<T = string, P = any> =
       type: T
     }
 
+/** @public */
 export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<
   ReturnType<T>
 >
@@ -71,12 +78,13 @@ export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<
 /**
  * Selectors
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/** @public */
 export type Selector<T = any, P extends any[] = []> = (
   ...args: P
 ) => (scopedState: ScopedState) => T
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/** @public */
 export type ReturnTypeFromSelector<T extends Selector<any, any>> = ReturnType<
   ReturnType<T>
 >
+/* eslint-enable @typescript-eslint/no-explicit-any */

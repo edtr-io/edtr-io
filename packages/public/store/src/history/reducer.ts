@@ -18,6 +18,7 @@ import {
   PureUndoAction
 } from './actions'
 
+/** @internal */
 export const historyReducer = createSubReducer(
   'history',
   {
@@ -81,23 +82,29 @@ export const historyReducer = createSubReducer(
   }
 )
 
+/** @public */
 export const getHistory = createSelector(state => state.history)
 
+/** @public */
 export const getInitialState = createSelector(
   state => getHistory()(state).initialState
 )
 
+/** @public */
 export const getPendingChanges = createSelector(
   state => getHistory()(state).pendingChanges
 )
 
+/** @public */
 export const hasPendingChanges = createSelector(
   state => getPendingChanges()(state) !== 0
 )
 
+/** @public */
 export const getUndoStack = createSelector(
   state => getHistory()(state).undoStack as ReversibleAction[][]
 )
+/** @public */
 export const getRedoStack = createSelector(
   state => getHistory()(state).redoStack as ReversibleAction[][]
 )

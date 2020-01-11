@@ -19,6 +19,7 @@ import {
   pureRemove
 } from './actions'
 
+/** @internal */
 export const documentsReducer = createSubReducer(
   'documents',
   {},
@@ -54,8 +55,10 @@ export const documentsReducer = createSubReducer(
   }
 )
 
+/** @public */
 export const getDocuments = createSelector(state => state.documents)
 
+/** @public */
 export const getDocument = createSelector((state, id: string | null) => {
   if (!id) return null
   return getDocuments()(state)[id] || null
@@ -63,6 +66,7 @@ export const getDocument = createSelector((state, id: string | null) => {
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
 
+/** @public */
 export const serializeDocument = (id: string | null) =>
   createDeepEqualSelector(
     (state: ScopedState) => {
@@ -81,6 +85,7 @@ export const serializeDocument = (id: string | null) =>
     s => s
   )
 
+/** @public */
 export const isEmpty = createSelector((state, id: string) => {
   const doc = getDocument(id)(state)
   if (!doc) return false
@@ -88,6 +93,7 @@ export const isEmpty = createSelector((state, id: string) => {
   return isDocumentEmpty(doc, plugin)
 })
 
+/** @public */
 export function isDocumentEmpty(
   doc: DocumentState | null,
   plugin: EditorPlugin | null

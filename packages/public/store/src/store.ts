@@ -18,6 +18,12 @@ import { serializeRootDocument } from './root/reducer'
 import { saga } from './saga'
 import { ReturnTypeFromSelector, State } from './types'
 
+/**
+ * Creates the Edtr.io store
+ *
+ * @returns The Edtr.io store
+ * @public
+ */
 export function createStore<K extends string>({
   instances,
   createEnhancer
@@ -57,6 +63,7 @@ export function createStore<K extends string>({
   return { store }
 }
 
+/** @public */
 export interface StoreOptions<K extends string> {
   instances: Record<
     string,
@@ -68,10 +75,12 @@ export interface StoreOptions<K extends string> {
   createEnhancer: StoreEnhancerFactory
 }
 
+/** @public */
 export type StoreEnhancerFactory = (
   defaultEnhancer: StoreEnhancer
 ) => StoreEnhancer<{}, {}>
 
+/** @public */
 export type ChangeListener = (payload: {
   changed: boolean
   getDocument: () => ReturnTypeFromSelector<typeof serializeRootDocument>

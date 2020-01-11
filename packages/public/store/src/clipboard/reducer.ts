@@ -7,6 +7,7 @@ import * as R from 'ramda'
 import { createSelector, createSubReducer } from '../helpers'
 import { pureCopy, PureCopyAction } from './actions'
 
+/** @internal */
 export const clipboardReducer = createSubReducer('clipboard', [], {
   [pureCopy.type](clipboardState, action: PureCopyAction) {
     const maxLength = 3
@@ -20,4 +21,5 @@ export const clipboardReducer = createSubReducer('clipboard', [], {
   }
 })
 
+/** @public */
 export const getClipboard = createSelector(state => state.clipboard)

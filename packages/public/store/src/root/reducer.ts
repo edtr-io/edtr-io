@@ -7,13 +7,16 @@ import { createSelector, createSubReducer } from '../helpers'
 import { ReturnTypeFromSelector } from '../types'
 import { pureInitRoot, PureInitRootAction } from './actions'
 
+/** @internal */
 export const rootReducer = createSubReducer('root', null, {
   [pureInitRoot.type](_rootState, _action: PureInitRootAction) {
     return 'root'
   }
 })
 
+/** @public */
 export const getRoot = createSelector(state => state.root)
+/** @public */
 export const serializeRootDocument = createSelector(
   (state): ReturnTypeFromSelector<typeof serializeDocument> => {
     const root = getRoot()(state)
