@@ -24,20 +24,30 @@ const createStoreHook: (
 ) => // eslint-disable-next-line import/no-commonjs
 () => Store = require('react-redux').createStoreHook
 
+/** @public */
 export const ScopeContext = React.createContext<{
   scope: string
   editable?: boolean
 }>({ scope: '' })
 
+/** @public */
 export const EditorContext = React.createContext<ReactReduxContextValue<State>>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   undefined as any
 )
 
+/** @public */
 export const ErrorContext = React.createContext<
   ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
 >(undefined)
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * Store Provider
+ *
+ * @param props - The {@link react-redux#ProviderProps}
+ * @public
+ */
 export function Provider(
   props: ProviderProps<Action> & { children: React.ReactNode }
 ) {
@@ -49,7 +59,16 @@ export function useScope(enforcedScope?: string) {
   return enforcedScope === undefined ? scope : enforcedScope
 }
 
+/** @public */
 export const useDispatch = createDispatchHook(EditorContext)
+
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * React Hook to dispatch an action in the current scope
+ *
+ * @param enforcedScope - If provided, used as the scope instead of the current scope
+ * @public
+ */
 export function useScopedDispatch(enforcedScope?: string) {
   const scope = useScope(enforcedScope)
   const dispatch = useDispatch()
@@ -62,7 +81,16 @@ function scopeDispatch(dispatch: (action: Action) => void, scope: string) {
   }
 }
 
+/** @public */
 export const useSelector = createSelectorHook(EditorContext)
+/**
+ * React Hook to get the value of an selector in the current scope
+ *
+ * @param scopedSelector - The selector
+ * @param enforcedScope - If provided, used as the scope instead of the current scope
+ * @returns The value of the selector in the current scope
+ * @public
+ */
 export function useScopedSelector<T>(
   scopedSelector: (state: ScopedState) => T,
   enforcedScope?: string
@@ -71,7 +99,15 @@ export function useScopedSelector<T>(
   return useSelector(state => scopedSelector(getScope(state, scope)))
 }
 
+/** @public */
 export const useStore = createStoreHook(EditorContext)
+/**
+ * React Hook to obtain a reference to the scoped store
+ *
+ * @param enforcedScope - If provided, used as the scope instead of the current scope
+ * @returns The scoped store
+ * @public
+ */
 export function useScopedStore(enforcedScope?: string) {
   const scope = useScope(enforcedScope)
   const store = useStore()

@@ -5,9 +5,7 @@
 import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
 import * as React from 'react'
 
-/**
- * @ignore
- */
+/** @public */
 export const DocumentEditorContext = React.createContext<
   React.ComponentType<DocumentEditorProps>
 >(

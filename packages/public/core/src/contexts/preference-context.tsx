@@ -8,11 +8,13 @@ import * as React from 'react'
 // Useful for settings across one editor instance
 // Basically a key-value store, no persistent yet
 
+/** @public */
 export interface Preference {
   getKey: (key: string) => unknown
   setKey: (key: string, val: unknown) => void
 }
 
+/** @public */
 export const PreferenceContext = React.createContext<Preference>({
   getKey: () => {},
   setKey: () => {}
@@ -20,6 +22,13 @@ export const PreferenceContext = React.createContext<Preference>({
 
 const store: { [key: string]: unknown } = {}
 
+/**
+ * Sets a preference
+ *
+ * @param key - The preference
+ * @param val - The value
+ * @public
+ */
 export function setDefaultPreference(key: string, val: unknown) {
   store[key] = val
 }
