@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "extends": "../../../api-extractor.json",
+  "mainEntryPointFilePath": "dist/index.d.ts",
+  "dtsRollup": {
+    "enabled": true,
+    "untrimmedFilePath": "",
+    "betaTrimmedFilePath": "",
+    "publicTrimmedFilePath": "dist/index.d.ts"
+  }
+}
