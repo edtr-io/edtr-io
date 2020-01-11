@@ -8,8 +8,8 @@
   "typings": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.0.0",

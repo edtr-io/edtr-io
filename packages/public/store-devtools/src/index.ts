@@ -6,7 +6,6 @@ import { composeWithDevTools } from 'remote-redux-devtools'
  *
  * @param defaultEnhancer - The previous {@link redux#StoreEnhancer}
  * @returns The {@link redux#StoreEnhancer} including Remote Redux DevTools
- *
  * @public
  */
 export function createStoreDevtoolsEnhancer(

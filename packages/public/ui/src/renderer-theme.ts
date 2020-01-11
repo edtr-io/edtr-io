@@ -9,6 +9,9 @@ import {
   ThemeProps as StyledThemeProps
 } from 'styled-components'
 
+import { DeepPartial } from './types'
+
+/** @public */
 export interface RendererTheme {
   backgroundColor: string
   color: string
@@ -38,6 +41,7 @@ export interface RendererTheme {
   }
 }
 
+/** @public */
 export const defaultRendererTheme: RendererTheme = {
   backgroundColor: '#ffffff',
   color: '#333333',
@@ -66,11 +70,15 @@ export const defaultRendererTheme: RendererTheme = {
     background: '#d9534f'
   }
 }
+
+/** @public */
 export interface ExpandableBoxTheme {
   containerBorderColor: string
   toggleBackgroundColor: string
   toggleColor: string
 }
+
+/** @public */
 export interface SubmitButtonTheme {
   backgroundColor: string
   hoverBackgroundColor: string
@@ -79,16 +87,24 @@ export interface SubmitButtonTheme {
   wrongBackgroundColor: string
 }
 
+/** @public */
 export interface RendererUiTheme {
   expandableBox: ExpandableBoxTheme
   submitButton: SubmitButtonTheme
 }
 
+/** @public */
 export type RendererThemeProps = StyledThemeProps<{
   renderer: RendererTheme
   rendererUi: RendererUiTheme
 }>
 
+/**
+ * React Hook for the renderer theming
+ *
+ * @returns An object containing the current {@link RendererTheme | renderer theme} and {@link RendererUiTheme | renderer UI theme}
+ * @public
+ */
 export function useRendererTheme(): {
   renderer: RendererTheme
   rendererUi: RendererUiTheme
@@ -96,8 +112,15 @@ export function useRendererTheme(): {
   return React.useContext(StyledThemeContext)
 }
 
+/**
+ * Creates a function that maps {@link RendererThemeProps} to the current theme of the specified renderer UI component
+ *
+ * @param createDefaultTheme - The {@link RendererUiThemeFactory | factory} for the default theme
+ * @returns A function that accepts an renderer UI component and {@link RendererThemeProps} and returns the current theme of the specified component
+ * @public
+ */
 export function createRendererUiTheme<T extends object>(
-  createDefaultTheme: (theme: RendererTheme) => T
+  createDefaultTheme: RendererUiThemeFactory<T>
 ) {
   return (
     key: keyof RendererUiTheme,
@@ -109,6 +132,15 @@ export function createRendererUiTheme<T extends object>(
     ) as unknown) as T
   }
 }
+
+/**
+ * React Hook for the theme of a renderer UI component
+ *
+ * @param key - The renderer UI component
+ * @param createDefaultTheme - The {@link RendererUiThemeFactory | factory} for the default theme
+ * @returns The current theme of the specified component
+ * @public
+ */
 export function useRendererUiTheme<T extends object>(
   key: keyof RendererUiTheme,
   createDefaultTheme: RendererUiThemeFactory<T>
@@ -117,12 +149,5 @@ export function useRendererUiTheme<T extends object>(
   return createRendererUiTheme(createDefaultTheme)(key, theme)
 }
 
+/** @public */
 export type RendererUiThemeFactory<T> = (theme: RendererTheme) => T
-
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? DeepPartial<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepPartial<U>[]
-    : DeepPartial<T[P]>
-}
