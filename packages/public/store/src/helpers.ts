@@ -60,6 +60,7 @@ export function scopeSelector<T, P extends any[]>(
   }
 }
 
+/** @internal */
 export type SubReducer<S = unknown> = (
   action: Action,
   state: ScopedState | undefined

@@ -6,7 +6,7 @@ import * as R from 'ramda'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
 import { ScopedState, Selector } from '../types'
@@ -19,20 +19,24 @@ import {
 } from './actions'
 
 /** @internal */
-export const focusReducer = createSubReducer('focus', null, {
-  [focus.type](_focusState, action: FocusDocumentAction) {
-    return action.payload
-  },
-  [focusNext.type](focusState, _action: FocusNextDocumentAction, state) {
-    return handleFocus(focusState, state, findNextNode)
-  },
-  [focusPrevious.type](focusState, _action: FocusNextDocumentAction, state) {
-    return handleFocus(focusState, state, findPreviousNode)
-  },
-  [pureInsert.type](_focusState, action: PureInsertAction, _state) {
-    return action.payload.id
+export const focusReducer: SubReducer<string | null> = createSubReducer(
+  'focus',
+  null,
+  {
+    [focus.type](_focusState, action: FocusDocumentAction) {
+      return action.payload
+    },
+    [focusNext.type](focusState, _action: FocusNextDocumentAction, state) {
+      return handleFocus(focusState, state, findNextNode)
+    },
+    [focusPrevious.type](focusState, _action: FocusNextDocumentAction, state) {
+      return handleFocus(focusState, state, findPreviousNode)
+    },
+    [pureInsert.type](_focusState, action: PureInsertAction, _state) {
+      return action.payload.id
+    }
   }
-})
+)
 
 /**
  * [[Selector]] that returns the id of the focused element (if there is any)

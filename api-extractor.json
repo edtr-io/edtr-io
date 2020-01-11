@@ -2,13 +2,6 @@
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "dist/index.d.ts",
 
-  "bundledPackages": [
-    "@edtr-io/internal__document-editor",
-    "@edtr-io/internal__plugin",
-    "@edtr-io/internal__plugin-state",
-    "@edtr-io/internal__plugin-toolbar"
-  ],
-
   "apiReport": {
     "enabled": true,
     "reportFolder": "<projectFolder>/api/",
@@ -37,6 +30,10 @@
       "default": {
         "logLevel": "warning",
         "addToApiReportFile": true
+      },
+      "ae-internal-missing-underscore": {
+        "logLevel": "none",
+        "addToApiReportFile": false
       }
     },
     "tsdocMessageReporting": {

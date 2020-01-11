@@ -68,7 +68,7 @@ export type ChangeListener = (payload: {
 export type ClipboardAction = CopyAction | PureCopyAction;
 
 // @internal (undocumented)
-export const clipboardReducer: import("../helpers").SubReducer<import("..").DocumentState[]>;
+export const clipboardReducer: SubReducer<DocumentState[]>;
 
 // @public (undocumented)
 export const commit: {
@@ -105,7 +105,7 @@ export function createStore<K extends string>({ instances, createEnhancer }: Sto
 export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction;
 
 // @internal (undocumented)
-export const documentsReducer: import("../helpers").SubReducer<Record<string, DocumentState>>;
+export const documentsReducer: SubReducer<Record<string, DocumentState>>;
 
 // @public (undocumented)
 export interface DocumentState {
@@ -165,19 +165,19 @@ export const focusPrevious: {
 export type FocusPreviousDocumentAction = ActionFromActionCreator<typeof focusPrevious>;
 
 // @internal (undocumented)
-export const focusReducer: import("../helpers").SubReducer<string | null>;
+export const focusReducer: SubReducer<string | null>;
 
 // @public (undocumented)
-export const getClipboard: import("../types").Selector<import("..").DocumentState[], []>;
+export const getClipboard: Selector<DocumentState[]>;
 
 // @public (undocumented)
-export const getDefaultPlugin: import("../types").Selector<string, []>;
+export const getDefaultPlugin: Selector<string>;
 
 // @public (undocumented)
-export const getDocument: import("../types").Selector<DocumentState | null, [string | null]>;
+export const getDocument: Selector<DocumentState | null, [string | null]>;
 
 // @public (undocumented)
-export const getDocuments: import("../types").Selector<Record<string, DocumentState>, []>;
+export const getDocuments: Selector<Record<string, DocumentState>>;
 
 // @public
 export const getFocused: Selector<string | null, []>;
@@ -189,39 +189,37 @@ export const getFocusPath: Selector<string[] | null, [string?]>;
 export const getFocusTree: Selector<Node | null, [string?]>;
 
 // @public (undocumented)
-export const getHistory: import("../types").Selector<import("../types").HistoryState, []>;
+export const getHistory: Selector<HistoryState>;
 
 // @public (undocumented)
-export const getInitialState: import("../types").Selector<{
-    documents: Record<string, import("..").DocumentState>;
-} | undefined, []>;
+export const getInitialState: Selector<HistoryState['initialState']>;
 
 // @public (undocumented)
-export const getPendingChanges: import("../types").Selector<number, []>;
+export const getPendingChanges: Selector<HistoryState['pendingChanges']>;
 
 // @public (undocumented)
-export const getPlugin: import("../types").Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [string]>;
+export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [string]>;
 
 // @public (undocumented)
-export const getPluginOrDefault: import("../types").Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [(string | undefined)?]>;
+export const getPluginOrDefault: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [(string | undefined)?]>;
 
 // @public (undocumented)
-export const getPlugins: import("../types").Selector<Record<string, EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}>>, []>;
+export const getPlugins: Selector<Record<string, EditorPlugin>>;
 
 // @public (undocumented)
-export const getPluginTypeOrDefault: import("../types").Selector<string, [(string | undefined)?]>;
+export const getPluginTypeOrDefault: Selector<string, [(string | undefined)?]>;
 
 // @public (undocumented)
-export const getRedoStack: import("../types").Selector<ReversibleAction<import("../actions").Action, import("../actions").Action>[][], []>;
+export const getRedoStack: Selector<ReversibleAction[][]>;
 
 // @public (undocumented)
-export const getRoot: import("../types").Selector<string | null, []>;
+export const getRoot: Selector<string | null>;
 
 // @public
 export function getScope(state: State, scope: string): ScopedState;
 
 // @public (undocumented)
-export const getUndoStack: import("../types").Selector<ReversibleAction<import("../actions").Action, import("../actions").Action>[][], []>;
+export const getUndoStack: Selector<ReversibleAction[][]>;
 
 // @public
 export const hasFocusedChild: Selector<boolean, [string]>;
@@ -230,13 +228,13 @@ export const hasFocusedChild: Selector<boolean, [string]>;
 export const hasFocusedDescendant: Selector<boolean, [string]>;
 
 // @public (undocumented)
-export const hasPendingChanges: import("../types").Selector<boolean, []>;
+export const hasPendingChanges: Selector<boolean>;
 
 // @public (undocumented)
 export type HistoryAction = PersistAction | ResetAction | PureResetAction | CommitAction | PureCommitAction | UndoAction | PureUndoAction | RedoAction | PureRedoAction | TemporaryCommitAction;
 
 // @internal (undocumented)
-export const historyReducer: import("../helpers").SubReducer<import("../types").HistoryState>;
+export const historyReducer: SubReducer<HistoryState>;
 
 // @public (undocumented)
 export interface HistoryState {
@@ -300,11 +298,11 @@ export const insert: {
 // @public (undocumented)
 export type InsertAction = ActionFromActionCreator<typeof insert>;
 
-// @public (undocumented)
+// @public
 export function isDocumentEmpty(doc: DocumentState | null, plugin: EditorPlugin | null): boolean;
 
 // @public (undocumented)
-export const isEmpty: import("../types").Selector<boolean, [string]>;
+export const isEmpty: Selector<boolean, [string]>;
 
 // @public
 export const isFocused: Selector<boolean, [string]>;
@@ -330,9 +328,9 @@ export const persist: {
 export type PersistAction = ActionFromActionCreator<typeof persist>;
 
 // @internal (undocumented)
-export const pluginsReducer: import("../helpers").SubReducer<{
+export const pluginsReducer: SubReducer<{
     defaultPlugin: string;
-    plugins: Record<string, EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}>>;
+    plugins: Record<string, EditorPlugin>;
 }>;
 
 // @public (undocumented)
@@ -519,7 +517,7 @@ export type ReversibleAction<A extends Action = Action, R extends Action = Actio
 export type RootAction = InitRootAction | PureInitRootAction;
 
 // @internal (undocumented)
-export const rootReducer: import("../helpers").SubReducer<string | null>;
+export const rootReducer: SubReducer<string | null>;
 
 // @public (undocumented)
 export interface ScopedState {
@@ -543,7 +541,7 @@ export interface ScopedState {
 // @public (undocumented)
 export type Selector<T = any, P extends any[] = []> = (...args: P) => (scopedState: ScopedState) => T;
 
-// @public (undocumented)
+// @public
 export const serializeDocument: (id: string | null) => import("reselect").OutputSelector<ScopedState, {
     plugin: string;
     state: any;
@@ -556,10 +554,10 @@ export const serializeDocument: (id: string | null) => import("reselect").Output
 } | null>;
 
 // @public (undocumented)
-export const serializeRootDocument: import("../types").Selector<{
+export const serializeRootDocument: Selector<{
     plugin: string;
     state: any;
-} | null, []>;
+} | null>;
 
 // @public (undocumented)
 export type SetPartialState = ActionFromActionCreator<typeof setPartialState>;
@@ -593,6 +591,9 @@ export interface StoreOptions<K extends string> {
         defaultPlugin: K;
     }>;
 }
+
+// @internal (undocumented)
+export type SubReducer<S = unknown> = (action: Action, state: ScopedState | undefined) => S;
 
 // @public (undocumented)
 export const temporaryCommit: {

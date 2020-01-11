@@ -9,6 +9,7 @@ export * from './focus'
 export * from './history'
 export * from './plugins'
 export * from './root'
+export { SubReducer } from './helpers'
 export { getScope } from './reducer'
 export {
   createStore,

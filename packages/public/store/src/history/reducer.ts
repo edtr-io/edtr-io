@@ -6,7 +6,8 @@ import * as R from 'ramda'
 
 import { ReversibleAction } from '../actions'
 import { getDocuments } from '../documents/reducer'
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import { HistoryState, Selector } from '../types'
 import {
   persist,
   PersistAction,
@@ -19,7 +20,7 @@ import {
 } from './actions'
 
 /** @internal */
-export const historyReducer = createSubReducer(
+export const historyReducer: SubReducer<HistoryState> = createSubReducer(
   'history',
   {
     undoStack: [],
@@ -83,28 +84,30 @@ export const historyReducer = createSubReducer(
 )
 
 /** @public */
-export const getHistory = createSelector(state => state.history)
+export const getHistory: Selector<HistoryState> = createSelector(
+  state => state.history
+)
 
 /** @public */
-export const getInitialState = createSelector(
+export const getInitialState: Selector<HistoryState['initialState']> = createSelector(
   state => getHistory()(state).initialState
 )
 
 /** @public */
-export const getPendingChanges = createSelector(
+export const getPendingChanges: Selector<HistoryState['pendingChanges']> = createSelector(
   state => getHistory()(state).pendingChanges
 )
 
 /** @public */
-export const hasPendingChanges = createSelector(
+export const hasPendingChanges: Selector<boolean> = createSelector(
   state => getPendingChanges()(state) !== 0
 )
 
 /** @public */
-export const getUndoStack = createSelector(
+export const getUndoStack: Selector<ReversibleAction[][]> = createSelector(
   state => getHistory()(state).undoStack as ReversibleAction[][]
 )
 /** @public */
-export const getRedoStack = createSelector(
+export const getRedoStack: Selector<ReversibleAction[][]> = createSelector(
   state => getHistory()(state).redoStack as ReversibleAction[][]
 )

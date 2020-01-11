@@ -16,12 +16,9 @@ export function invoke(options?: IExtractorInvokeOptions) {
     options
   )
 
-  if (extractorResult.succeeded) {
-    console.error(`API Extractor completed successfully`)
-  } else {
-    console.error(
+  if (!extractorResult.succeeded) {
+    throw new Error(
       `API Extractor completed with ${extractorResult.errorCount} errors and ${extractorResult.warningCount} warnings`
     )
-    process.exitCode = 1
   }
 }
