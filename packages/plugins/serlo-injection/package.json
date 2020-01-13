@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-serlo-injection",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,15 +13,15 @@
     "build": "tsdx build --tsconfig tsconfig.prod.json"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.13.2",
-    "@edtr-io/plugin": "^0.13.2",
+    "@edtr-io/editor-ui": "^0.13.3",
+    "@edtr-io/plugin": "^0.13.3",
     "@edtr-io/ui": "^0.13.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "iframe-resizer-react": "^1.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.13.2",
+    "@edtr-io/core": "^0.13.3",
     "react": "^16.8.0"
   },
   "peerDependencies": {
