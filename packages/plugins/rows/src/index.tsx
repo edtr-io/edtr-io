@@ -1,12 +1,16 @@
 import { child, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
 
 const rowState = child()
-const rowsState = list(rowState, 1)
+/** @public */
+export const rowsState = list(rowState, 1)
+/** @public */
 export type RowsState = typeof rowsState
+/** @public */
 export interface RowsConfig {
   plugins: {
     name: string
@@ -39,8 +43,10 @@ export interface RowsConfig {
     }
   }
 }
+/** @public */
 export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
 
+/** @public */
 export function createRowsPlugin({
   plugins,
   theme = {}
@@ -83,12 +89,4 @@ export function createRowsPlugin({
     },
     state: rowsState
   }
-}
-
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? DeepPartial<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepPartial<U>[]
-    : DeepPartial<T[P]>
 }
