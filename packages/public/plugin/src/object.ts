@@ -14,6 +14,7 @@ import {
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
+/** @public */
 export function object<Ds extends Record<string, StateType>>(
   types: Ds,
   getFocusableChildren: (

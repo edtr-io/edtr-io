@@ -27,6 +27,7 @@ function PluginPropsDocument({
   return <SubDocument pluginProps={pluginProps} id={id} />
 }
 
+/** @public */
 export function child<K extends string, S = unknown>({
   plugin,
   initialState,

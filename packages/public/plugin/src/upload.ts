@@ -7,6 +7,7 @@ import * as React from 'react'
 
 import { asyncScalar } from './scalar'
 
+/** @public */
 export interface UploadStateReturnType<T> {
   get(): FileState<T>
   value: FileState<T>
@@ -17,6 +18,7 @@ export interface UploadStateReturnType<T> {
   ): void
 }
 
+/** @public */
 export function upload<T>(
   defaultState: T
 ): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
@@ -85,12 +87,14 @@ function readFile(file: File): Promise<LoadedFile> {
   })
 }
 
+/** @public */
 export function usePendingFileUploader<T>(
   file: UploadStateReturnType<T>,
   uploadHandler: UploadHandler<T>
 ) {
   usePendingFilesUploader([file], uploadHandler)
 }
+/** @public */
 export function usePendingFilesUploader<T>(
   files: UploadStateReturnType<T>[],
   uploadHandler: UploadHandler<T>
@@ -119,25 +123,31 @@ export function usePendingFilesUploader<T>(
     }
   }, [files, uploadHandler, uploading])
 }
+/** @public */
 export type UploadHandler<T> = (file: File) => Promise<T>
 
+/** @public */
 export type UploadValidator<E = unknown> = (
   file: File
 ) => { valid: true } | { valid: false; errors: E }
 
+/** @public */
 export interface TempFile {
   uploadHandled?: boolean
   pending?: File
   failed?: File
   loaded?: LoadedFile
 }
+/** @public */
 export type FileState<T> = T | TempFile
 
+/** @public */
 export function isTempFile<T>(state: FileState<T>): state is TempFile {
   const file = state as TempFile
   return !!(file.pending || file.failed || file.loaded)
 }
 
+/** @public */
 export interface LoadedFile {
   file: File
   dataUrl: string

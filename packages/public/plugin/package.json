@@ -4,12 +4,12 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/core.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/plugin.esm.js",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@edtr-io/internal__plugin": "^0.13.4",

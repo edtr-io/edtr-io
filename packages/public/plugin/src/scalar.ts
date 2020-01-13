@@ -8,18 +8,22 @@ import {
   StateUpdater
 } from '@edtr-io/internal__plugin-state'
 
+/** @public */
 export function boolean(initialValue?: boolean) {
   return scalar<boolean>(initialValue || false)
 }
 
+/** @public */
 export function number(initialValue?: number) {
   return scalar<number>(initialValue || 0)
 }
 
+/** @public */
 export function string(initialValue?: string) {
   return scalar<string>(initialValue || '')
 }
 
+/** @public */
 export function scalar<S>(initialState: S) {
   return serializedScalar<S, S>(initialState, {
     deserialize(state) {
@@ -31,6 +35,7 @@ export function scalar<S>(initialState: S) {
   })
 }
 
+/** @public */
 export function asyncScalar<T, Temp>(
   initial: T,
   isTemporaryValue: (field: T | Temp) => boolean
@@ -118,6 +123,7 @@ export function asyncScalar<T, Temp>(
   }
 }
 
+/** @public */
 export function serializedScalar<S, T>(
   initialState: T,
   serializer: Serializer<S, T>
@@ -164,6 +170,7 @@ export function serializedScalar<S, T>(
   }
 }
 
+/** @public */
 export interface Serializer<S, T> {
   deserialize(serialized: S): T
   serialize(deserialized: T): S

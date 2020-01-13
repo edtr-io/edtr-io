@@ -11,6 +11,7 @@ import {
 import * as R from 'ramda'
 import { generate } from 'shortid'
 
+/** @public */
 export function list<S, T = S, U = unknown>(
   type: StateType<S, T, U>,
   initialCount = 0
