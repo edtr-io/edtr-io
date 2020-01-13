@@ -2,6 +2,7 @@ import { Value } from 'slate'
 
 import { defaultNode } from '../model'
 
+/** @public */
 export function isValueEmpty(value: Value) {
   // check if there is no content and only one node
   if (
