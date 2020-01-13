@@ -12,7 +12,8 @@ import {
 
 import { ImageEditor } from './editor'
 
-const imageState = object({
+/** @public */
+export const imageState = object({
   src: upload(''),
   href: string(''),
   target: string(''),
@@ -20,14 +21,18 @@ const imageState = object({
   description: string(''),
   maxWidth: number(0)
 })
+/** @public */
 export type ImageState = typeof imageState
+/** @public */
 export interface ImageConfig {
   upload: UploadHandler<string>
   validate: UploadValidator
   secondInput?: 'description' | 'link'
 }
+/** @public */
 export type ImageProps = EditorPluginProps<ImageState, ImageConfig>
 
+/** @public */
 export const createImagePlugin = (
   config: ImageConfig
 ): EditorPlugin<ImageState, ImageConfig> => {
@@ -88,12 +93,4 @@ function getFilesFromDataTransfer(clipboardData: DataTransfer) {
     files.push(item)
   }
   return files
-}
-
-export type SecondInputType = 'description' | 'link'
-
-export interface ImagePluginConfig {
-  upload: UploadHandler<string>
-  validate: UploadValidator
-  secondInput?: SecondInputType
 }
