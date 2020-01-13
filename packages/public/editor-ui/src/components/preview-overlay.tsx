@@ -42,6 +42,8 @@ const ActivateButton = styled.button({
   zIndex: 10,
   margin: 'auto'
 })
+
+/** @public */
 export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = props => {
   const [active, setActiveState] = React.useState(false)
   const { scope } = React.useContext(ScopeContext)
@@ -103,7 +105,8 @@ export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = prop
   )
 }
 
-interface PreviewOverlayProps {
+/** @public */
+export interface PreviewOverlayProps {
   focused: boolean
   editable?: boolean
   onChange?: (nextActive: boolean) => void

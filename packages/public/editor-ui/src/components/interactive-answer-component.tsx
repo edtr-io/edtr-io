@@ -1,7 +1,7 @@
 import { styled, Icon, faTimes, faPlus } from '@edtr-io/ui'
 import * as React from 'react'
 
-export const AddButtonComponent = styled.button({
+const AddButtonComponent = styled.button({
   marginLeft: 'calc(10% + 20px)',
   width: 'calc(90% - 20px)',
   borderRadius: '10px',
@@ -14,6 +14,7 @@ export const AddButtonComponent = styled.button({
   '&:hover': { border: '3px solid #007ec1', color: '#007ec1' }
 })
 
+/** @public */
 export function AddButton(props: { onClick: () => void; children: string }) {
   return (
     <AddButtonComponent onClick={props.onClick}>
@@ -125,7 +126,8 @@ const Tick = styled.div<{ checked: boolean }>(({ checked }) => {
   }
 })
 
-export class CheckElement extends React.Component<SCMCInputProps> {
+/** @public */
+export class CheckElement extends React.Component<CheckElementProps> {
   public render() {
     const { isRadio, isActive, handleChange } = this.props
     return (
@@ -142,6 +144,7 @@ export class CheckElement extends React.Component<SCMCInputProps> {
   }
 }
 
+/** @public */
 export function InteractiveAnswer(props: {
   isRadio?: boolean
   isActive?: boolean
@@ -180,7 +183,8 @@ export function InteractiveAnswer(props: {
   )
 }
 
-interface SCMCInputProps {
+/** @public */
+interface CheckElementProps {
   isRadio: boolean
   isActive: boolean
   handleChange: (event: React.MouseEvent) => void

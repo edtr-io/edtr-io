@@ -9,6 +9,7 @@ import {
   styled
 } from '@edtr-io/ui'
 
+/** @public */
 export const createEditorButtonTheme = createEditorUiTheme<ButtonTheme>(
   theme => {
     return {
@@ -22,6 +23,7 @@ export const createEditorButtonTheme = createEditorUiTheme<ButtonTheme>(
   }
 )
 
+/** @public */
 export const EditorButton = styled.button((props: EditorThemeProps) => {
   const theme = createEditorButtonTheme('button', props.theme)
 

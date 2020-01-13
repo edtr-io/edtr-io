@@ -10,6 +10,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export const createEditorInputTheme = createEditorUiTheme<InputTheme>(theme => {
   return {
     color: theme.backgroundColor,
@@ -50,7 +51,7 @@ const EditorInputInner = styled.input(
 
 const EditorInputRefForward: React.RefForwardingComponent<
   HTMLInputElement,
-  InputProps
+  EditorInputProps
 > = (props, ref) => {
   const { label, ...rest } = props
   return (
@@ -61,9 +62,11 @@ const EditorInputRefForward: React.RefForwardingComponent<
   )
 }
 
+/** @public */
 export const EditorInput = React.forwardRef(EditorInputRefForward)
 
-export interface InputProps
+/** @public */
+export interface EditorInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement

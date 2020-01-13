@@ -9,6 +9,7 @@ import {
   styled
 } from '@edtr-io/ui'
 
+/** @public */
 export const createBottomToolbarTheme = (
   themeProp: EditorThemeProps['theme']
 ) => {
@@ -22,7 +23,7 @@ export const createBottomToolbarTheme = (
   return themeCreator('bottomToolbar', themeProp)
 }
 
-// Toolbar at the bottom of the browser.
+/** @public */
 export const BottomToolbar = styled.div<EditorThemeProps>(props => {
   const theme = createBottomToolbarTheme(props.theme)
   return {
