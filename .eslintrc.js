@@ -69,6 +69,7 @@ module.exports = {
           'katex/dist/katex.css',
           'react-dom/server',
           'react-dom/test-utils',
+          'react-syntax-highlighter/dist/cjs/styles/*/*',
           'redux-saga/effects'
         ]
       }
