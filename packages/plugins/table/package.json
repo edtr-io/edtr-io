@@ -5,11 +5,11 @@
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
   "module": "dist/plugin-table.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@edtr-io/plugin": "^0.13.4",

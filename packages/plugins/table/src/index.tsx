@@ -4,13 +4,18 @@ import ReactMarkdown from 'react-markdown'
 
 import { TableEditor } from './editor'
 
-const tableState = string()
+/** @public */
+export const tableState = string()
+/** @public */
 export type TableState = typeof tableState
+/** @public */
 export interface TableConfig {
   MarkdownRenderer: React.ComponentType<{ markdown: string }>
 }
+/** @public */
 export type TableProps = EditorPluginProps<TableState, TableConfig>
 
+/** @public */
 export function createTablePlugin(
   config: TableConfig = {
     MarkdownRenderer: DefaultMarkdownRenderer
