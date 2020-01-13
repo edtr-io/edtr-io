@@ -8,6 +8,7 @@ import { initRoot, createStore, StoreEnhancerFactory } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export function Renderer<K extends string = string>({
   createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   theme = {},
@@ -42,6 +43,7 @@ export function Renderer<K extends string = string>({
   )
 }
 
+/** @public */
 export interface RendererProps<K extends string = string> {
   plugins: Record<K, EditorPlugin>
   state: {
