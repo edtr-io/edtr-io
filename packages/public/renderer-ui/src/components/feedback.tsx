@@ -5,6 +5,7 @@
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export class Feedback extends React.Component<FeedbackProps> {
   public render() {
     const { boxFree, children, isTrueAnswer, showOnLeft } = this.props
@@ -36,6 +37,7 @@ export class Feedback extends React.Component<FeedbackProps> {
   })
 }
 
+/** @public */
 export interface FeedbackProps {
   boxFree?: boolean
   isTrueAnswer?: boolean

@@ -13,6 +13,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export const createExpandableBoxTheme = createRendererUiTheme<
   ExpandableBoxTheme
 >(theme => {
@@ -79,6 +80,7 @@ const StyledIcon = styled(Icon)<{ collapsed: boolean } & RendererThemeProps>(
   }
 )
 
+/** @public */
 export function ExpandableBox({
   children,
   editable,

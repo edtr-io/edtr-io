@@ -61,4 +61,5 @@ const EditorTextareaRefForward: React.RefForwardingComponent<
   )
 }
 
+/** @public */
 export const EditorTextarea = React.forwardRef(EditorTextareaRefForward)
