@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { FileType, UploadProps } from './types'
 
+/** @public */
 export function parseFileType(name: string): FileType {
   const normalized = name.toLowerCase()
   if (/\.(zip|rar|tar|7z)$/.test(normalized)) {
