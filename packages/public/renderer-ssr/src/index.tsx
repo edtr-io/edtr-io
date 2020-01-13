@@ -7,6 +7,7 @@ import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
+/** @public */
 export function render<K extends string = string>(props: RendererProps<K>) {
   const sheet = new ServerStyleSheet()
 
