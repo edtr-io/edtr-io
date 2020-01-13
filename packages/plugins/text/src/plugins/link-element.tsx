@@ -215,10 +215,6 @@ export function createLinkElementPlugin({
   }
 }
 
-export interface LinkElement extends Element {
-  href: string
-}
-
 function Link({
   attributes,
   children,
@@ -229,4 +225,8 @@ function Link({
       {children}
     </a>
   )
+}
+
+export interface LinkElement extends Element {
+  href: string
 }

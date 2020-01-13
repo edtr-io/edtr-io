@@ -110,5 +110,14 @@ export const states: Record<string, StateTypeSerializedType<TextState>> = {
         }
       ]
     }
+  ],
+  math: [
+    {
+      type: 'math',
+      src: '\\sum_{i=1}^n x^i',
+      children: [{
+        text: ''
+      }]
+    }
   ]
 }

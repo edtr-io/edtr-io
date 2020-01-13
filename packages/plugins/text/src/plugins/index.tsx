@@ -5,7 +5,8 @@ import {
   styled,
   edtrColorText,
   edtrLink,
-  edtrText
+  edtrText,
+  edtrFormel
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -15,6 +16,7 @@ import { createEmMarkPlugin } from './em-mark'
 import { createHeadingElementPlugin } from './heading-element'
 import { createHoveringToolbarPlugin } from './hovering-toolbar'
 import { createLinkElementPlugin } from './link-element'
+import { createMathElementPlugin } from './math-element'
 import { createParagraphElementPlugin } from './paragraph-element'
 import { createStrongMarkPlugin } from './strong-mark'
 
@@ -111,6 +113,12 @@ export const defaultPlugins: TextEditorPlugin[] = [
       title: 'Überschriften',
       resetIcon: <EdtrIcon icon={edtrText} />,
       resetTitle: 'Überschrift entfernen'
+    }
+  }),
+  createMathElementPlugin({
+    control: {
+      title: 'Matheformel (Strg + M)',
+      icon: <EdtrIcon icon={edtrFormel} />
     }
   }),
   createParagraphElementPlugin(),
