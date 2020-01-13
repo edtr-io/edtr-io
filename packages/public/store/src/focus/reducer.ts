@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
@@ -84,21 +85,19 @@ export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
   }
 )
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
+
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
  *
- * @param id - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
+ * @param defaultLeaf - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  * @public
  */
-export const getFocusPath: Selector<
-  string[] | null,
-  [string?]
-> = createSelector(
-  (
-    state: ScopedState,
-    leaf: string | null = getFocused()(state)
-  ): string[] | null => {
+export const getFocusPath = (defaultLeaf: string | null = null) => {
+  return createDeepEqualSelector(
+    (state: ScopedState): string[] | null => {
+      const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
     if (!leaf) return null
     const root = getFocusTree()(state)
     if (!root) return null
@@ -114,8 +113,10 @@ export const getFocusPath: Selector<
     }
 
     return path
+    },
+    s => s
+  )
   }
-)
 
 function handleFocus(
   focusState: ScopedState['focus'],
@@ -224,8 +225,14 @@ export function findPreviousNode(root: Node, from: string): string | null {
   return findPreviousNode(root, parent.id)
 }
 
-// eslint-disable-next-line jsdoc/require-param, jsdoc/require-returns
-/** @internal */
+/**
+ * Finds the parent node of an id in the focus tree
+ *
+ * @param root - focus tree
+ * @param id - id of the current node
+ * @returns the `Node` of the parent, if the id exists in the focus tree. (`null` otherwise)
+ * @public
+ */
 export function findParent(root: Node, id: string): Node | null {
   if (root.id === id) {
     return root

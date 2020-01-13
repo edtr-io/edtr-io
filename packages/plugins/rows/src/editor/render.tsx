@@ -3,6 +3,7 @@ import {
   PluginToolbarButton,
   SubDocument,
   useScopedDispatch,
+  useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
@@ -10,8 +11,10 @@ import {
   change,
   DocumentState,
   findNextNode,
+  findParent,
   findPreviousNode,
   getDocument,
+  getFocusPath,
   getFocusTree,
   getPlugins,
   ReturnTypeFromSelector,
@@ -152,7 +155,7 @@ export function RowRenderer({
       if (monitor.didDrop()) return
 
       if (type !== NativeTypes.FILE && type !== NativeTypes.URL) {
-        if (item.id === row.id) return
+        if (!canDrop(item.id)) return
 
         const draggingAbove = isDraggingAbove(monitor)
         rows.set((list, deserializer) => {
@@ -321,11 +324,11 @@ export function RowRenderer({
   }, [drag, store, dispatch, index, row.id, rows])
 
   dragPreview(drop(dropContainer))
+  const focusPath = useScopedSelector(getFocusPath(row.id))
+  const focusTree = useScopedSelector(getFocusTree())
 
   const dropPreview =
-    collectedDropProps.isDragging &&
-    collectedDropProps.id !== null &&
-    collectedDropProps.id !== row.id ? (
+    canDrop(collectedDropProps.id) && collectedDropProps.id ? (
       <Inserted>
         <SubDocument id={collectedDropProps.id} />
       </Inserted>
@@ -358,6 +361,37 @@ export function RowRenderer({
       : 0
 
     return dragClientY < domMiddleY
+  }
+
+  function canDrop(draggedId: string | null) {
+    if (!collectedDropProps.isDragging || !draggedId) {
+      return false
+    }
+    if (!focusPath || focusPath.includes(draggedId)) {
+      // dropzone is child of dragged element or element itself
+      return false
+    }
+
+    if (!focusTree) return false
+    const parent = findParent(focusTree, draggedId)
+    if (!parent || !parent.children) return false
+
+    const dragIndex = R.findIndex(
+      node => node.id === draggedId,
+      parent.children
+    )
+    const dropZoneIndex = R.findIndex(
+      node => node.id === row.id,
+      parent.children
+    )
+    if (dragIndex === -1 || dropZoneIndex === -1) {
+      // different parent
+      return false
+    }
+    // check that its not the same position
+    return draggingAbove
+      ? dropZoneIndex - 1 !== dragIndex
+      : dropZoneIndex + 1 !== dragIndex
   }
 }
 
