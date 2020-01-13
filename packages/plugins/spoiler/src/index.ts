@@ -8,18 +8,23 @@ import {
 
 import { SpoilerEditor } from './editor'
 
-const spoilerState = object({
+/** @public */
+export const spoilerState = object({
   title: string(''),
   content: child({ plugin: 'rows' })
 })
+/** @public */
 export type SpoilerState = typeof spoilerState
+/** @public */
 export interface SpoilerConfig {
   theme: {
     color: string
   }
 }
+/** @public */
 export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>
 
+/** @public */
 export function createSpoilerPlugin({
   theme = {}
 }: {
