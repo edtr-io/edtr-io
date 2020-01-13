@@ -6,9 +6,9 @@ import { EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   applyMiddleware,
   createStore as createReduxStore,
-  DeepPartial,
   Store,
-  StoreEnhancer
+  StoreEnhancer,
+  PreloadedState
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -28,12 +28,21 @@ export function createStore<K extends string>({
   const defaultEnhancer = applyMiddleware(sagaMiddleware)
   const enhancer = createEnhancer(defaultEnhancer)
 
-  const initialStates: DeepPartial<State> = {}
+  const initialStates: PreloadedState<State> = {}
   for (const scope in instances) {
     initialStates[scope] = {
       plugins: {
         defaultPlugin: instances[scope].defaultPlugin,
         plugins: instances[scope].plugins
+      },
+      documents: {},
+      focus: null,
+      root: null,
+      clipboard: [],
+      history: {
+        undoStack: [],
+        redoStack: [],
+        pendingChanges: 0
       }
     }
   }
