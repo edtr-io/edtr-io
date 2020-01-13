@@ -2,6 +2,7 @@ import { child, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
 
+/** @public */
 export function createBlockquotePlugin({
   content = []
 }: { content?: Parameters<typeof child> } = {}): EditorPlugin<BlockquoteState> {
@@ -15,5 +16,7 @@ export function createBlockquotePlugin({
 function createBlockquotePluginState(content: Parameters<typeof child>) {
   return child(...content)
 }
+/** @public */
 export type BlockquoteState = ReturnType<typeof child>
+/** @public */
 export type BlockquoteProps = EditorPluginProps<BlockquoteState>
