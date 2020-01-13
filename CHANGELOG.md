@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.3](https://github.com/edtr-io/edtr-io/compare/v0.13.2..v0.13.3) - January 13, 2019
+
+### Fixed
+
+- **plugin-highlight**. Fix server-side rendering
+
 ## [0.13.2](https://github.com/edtr-io/edtr-io/compare/v0.13.1..v0.13.2) - January 7, 2019
 
 ### Fixed
@@ -55,11 +61,14 @@ All notable changes to this project will be documented in this file.
     Furthermore, it is responsible for rendering any overlays that the toolbar buttons might open (e.g. the plugin settings).
     Plugins may override the toolbars of their children (e.g. the rows plugin adds a drag handler) and their settings (e.g.
     the rows plugin adds a delete and copy button to the settings of its children).
+
     You may override the looks of the plugin toolbar completely by passing your own implementation as the new optional prop
     `PluginToolbar` to `Editor`. By default we use `@edtr-io/default-plugin-toolbar`.
+
   - **Document Editor**.
     The document editor is responsible for rendering the plugin toolbar and possible additional editor UI elements
     that are application-specific.
+
     You may override the default behavior completely by passing your own `DocumentEditor` to `Editor`. By default, we use
     `@edtr-io/default-document-editor`
 

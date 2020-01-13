@@ -618,10 +618,10 @@ Plugins now receive their config via a new prop \`config\`. Furthermore, they ne
 Packages that are only intended for internal use are now consistently named \`@edtr-io/internal__\${name}\`.
 We don't consider these packages as part of the public API and therefore won't note their potential breaking
 changes in the future. More specifically, this means that the following packages have been removed:
-- \`@edtr-io/abstract-plugin\`, 
+- \`@edtr-io/abstract-plugin\`,
 - \`@edtr-io/abstract-plugin-state\`
-- \`@edtr-io/bundle-size\`, 
-- \`@edtr-io/demo\`, 
+- \`@edtr-io/bundle-size\`,
+- \`@edtr-io/demo\`,
 - \`@edtr-io/fixtures\`
         `,
         `
@@ -645,13 +645,13 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     Furthermore, it is responsible for rendering any overlays that the toolbar buttons might open (e.g. the plugin settings).
     Plugins may override the toolbars of their children (e.g. the rows plugin adds a drag handler) and their settings (e.g.
     the rows plugin adds a delete and copy button to the settings of its children).
-    
+
     You may override the looks of the plugin toolbar completely by passing your own implementation as the new optional prop
     \`PluginToolbar\` to \`Editor\`. By default we use \`@edtr-io/default-plugin-toolbar\`.
 - **Document Editor**.
     The document editor is responsible for rendering the plugin toolbar and possible additional editor UI elements
     that are application-specific.
-    
+
     You may override the default behavior completely by passing your own \`DocumentEditor\` to \`Editor\`. By default, we use
     \`@edtr-io/default-document-editor\`
         `,
@@ -686,6 +686,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.13.2',
       date: '2019-01-07',
       fixed: ['**core**. Show toolbar if `renderIntoToolbar` was called']
+    },
+    {
+      tagName: 'v0.13.3',
+      name: '0.13.3',
+      date: '2019-01-13',
+      fixed: ['**plugin-highlight**. Fix server-side rendering']
     }
   ])
 
