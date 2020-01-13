@@ -21,12 +21,20 @@ export function AddButton(props: {
 // @public (undocumented)
 export const BottomToolbar: import("styled-components").StyledComponent<"div", any, EditorThemeProps, never>;
 
-// Warning: (ae-forgotten-export) The symbol "CheckElementProps" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class CheckElement extends React.Component<CheckElementProps> {
     // (undocumented)
     render(): JSX.Element;
+}
+
+// @public (undocumented)
+export interface CheckElementProps {
+    // (undocumented)
+    handleChange: (event: React.MouseEvent) => void;
+    // (undocumented)
+    isActive: boolean;
+    // (undocumented)
+    isRadio: boolean;
 }
 
 // @public (undocumented)

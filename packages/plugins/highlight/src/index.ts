@@ -25,7 +25,10 @@ export interface HighlightConfig {
 /** @public */
 export type HighlightProps = EditorPluginProps<HighlightState, HighlightConfig>
 
-/** @public */
+/**
+ * @param config - {@link HighlightConfig | Plugin configuration}
+ * @public
+ */
 export function createHighlightPlugin(
   config: HighlightConfig = {
     Renderer: HighlightRenderer
@@ -37,3 +40,5 @@ export function createHighlightPlugin(
     state: highlightState
   }
 }
+
+export { HighlightRendererProps }

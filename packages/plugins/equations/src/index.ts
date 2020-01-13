@@ -25,7 +25,12 @@ export function createEquationsPlugin({
   }
 }
 
-/** @public */
+/**
+ * @param left - Configuration for the left column
+ * @param right - Configuration for the right column
+ * @param transform - Configuration for the transform column
+ * @public
+ */
 export function createEquationsState(
   left: Parameters<typeof child>,
   right: Parameters<typeof child>,

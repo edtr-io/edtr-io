@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { StateType } from '@edtr-io/internal__plugin-state'
 import * as React from 'react'
 
@@ -18,7 +14,10 @@ export interface UploadStateReturnType<T> {
   ): void
 }
 
-/** @public */
+/**
+ * @param defaultState - The default state
+ * @public
+ */
 export function upload<T>(
   defaultState: T
 ): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
@@ -87,14 +86,22 @@ function readFile(file: File): Promise<LoadedFile> {
   })
 }
 
-/** @public */
+/**
+ * @param file - The {@link UploadStateReturnType | upload state type}
+ * @param uploadHandler - The {@link UploadHandler | upload handler}
+ * @public
+ */
 export function usePendingFileUploader<T>(
   file: UploadStateReturnType<T>,
   uploadHandler: UploadHandler<T>
 ) {
   usePendingFilesUploader([file], uploadHandler)
 }
-/** @public */
+/**
+ * @param files - The {@link UploadStateReturnType | upload state type}
+ * @param uploadHandler - The {@link UploadHandler | upload handler}
+ * @public
+ */
 export function usePendingFilesUploader<T>(
   files: UploadStateReturnType<T>[],
   uploadHandler: UploadHandler<T>
@@ -141,7 +148,10 @@ export interface TempFile {
 /** @public */
 export type FileState<T> = T | TempFile
 
-/** @public */
+/**
+ * @param state - The current {@link FileState | state}
+ * @public
+ */
 export function isTempFile<T>(state: FileState<T>): state is TempFile {
   const file = state as TempFile
   return !!(file.pending || file.failed || file.loaded)

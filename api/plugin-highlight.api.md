@@ -13,14 +13,22 @@ export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<Hi
 
 // @public (undocumented)
 export interface HighlightConfig {
-    // Warning: (ae-forgotten-export) The symbol "HighlightRendererProps" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     Renderer: React.ComponentType<HighlightRendererProps>;
 }
 
 // @public (undocumented)
 export type HighlightProps = EditorPluginProps<HighlightState, HighlightConfig>;
+
+// @public (undocumented)
+export interface HighlightRendererProps {
+    // (undocumented)
+    code: string;
+    // (undocumented)
+    language: string;
+    // (undocumented)
+    lineNumbers: boolean;
+}
 
 // @public (undocumented)
 export type HighlightState = typeof highlightState;

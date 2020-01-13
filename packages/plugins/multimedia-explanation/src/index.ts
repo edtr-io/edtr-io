@@ -9,7 +9,10 @@ import {
 
 import { MultimediaExplanationEditor } from './editor'
 
-/** @public */
+/**
+ * @param config - {@link MultimediaExplanationConfig | Plugin configuration}
+ * @public
+ */
 export const createMultimediaExplanationState = (
   config: MultimediaExplanationConfig
 ) =>
@@ -36,7 +39,10 @@ export type MultimediaExplanationProps = EditorPluginProps<
   MultimediaExplanationConfig
 >
 
-/** @public */
+/**
+ * @param config - {@link MultimediaExplanationConfig | Plugin configuration}
+ * @public
+ */
 export const createMultimediaExplanationPlugin = (
   config: MultimediaExplanationConfig
 ): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig> => {

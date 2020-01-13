@@ -9,7 +9,11 @@ import {
 
 import { ScMcExerciseEditor } from './editor'
 
-/** @public */
+/**
+ * @param content - Configuration for the content child
+ * @param feedback - Configuration for the feedback child
+ * @public
+ */
 export function createScMcExerciseState(
   content: Parameters<typeof child>,
   feedback: Parameters<typeof child>

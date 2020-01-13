@@ -61,7 +61,10 @@ const Floating = styled.div<{
   }
 })
 
-/** @public */
+/**
+ * @param props - Props
+ * @public
+ */
 export function Resizable(props: React.PropsWithChildren<ResizableProps>) {
   const stepWidth = Math.round(props.rowWidth / props.steps)
   const [widthInPercent, setWidthInPercent] = React.useState(

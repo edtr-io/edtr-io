@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { SubDocument } from '@edtr-io/core'
 import {
   StoreSerializeHelpers,

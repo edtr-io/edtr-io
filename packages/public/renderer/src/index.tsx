@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/renderer
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Provider, ScopeContext, SubDocument } from '@edtr-io/core'
 import { EditorPlugin } from '@edtr-io/plugin'
 import { initRoot, createStore, StoreEnhancerFactory } from '@edtr-io/store'

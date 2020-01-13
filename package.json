@@ -13,6 +13,7 @@
     "prebuild-demo": "yarn build",
     "build-demo": "lerna run --scope=@edtr-io/internal__demo build",
     "deploy-demo": "lerna run --scope=@edtr-io/internal__demo deploy",
+    "regenerate-api": "lerna run --stream regenerate-api",
     "format": "npm-run-all -c format:*",
     "format:eslint": "yarn _eslint --config .eslint-ci.config.js --fix",
     "format:prettier": "yarn _prettier --write",

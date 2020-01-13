@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/core
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor'
 import { createDefaultPluginToolbar } from '@edtr-io/default-plugin-toolbar'
 import { EditorPlugin } from '@edtr-io/internal__plugin'

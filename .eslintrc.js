@@ -99,7 +99,7 @@ module.exports = {
     'jsdoc/check-tag-names': [
       'warn',
       {
-        definedTags: ['category', 'typeparam']
+        definedTags: ['internal', 'typeParam']
       }
     ],
     'jsdoc/check-types': 'off',

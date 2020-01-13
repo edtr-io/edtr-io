@@ -32,7 +32,10 @@ export interface ImageConfig {
 /** @public */
 export type ImageProps = EditorPluginProps<ImageState, ImageConfig>
 
-/** @public */
+/**
+ * @param config - {@link ImageConfig | Plugin configuration}
+ * @public
+ */
 export const createImagePlugin = (
   config: ImageConfig
 ): EditorPlugin<ImageState, ImageConfig> => {

@@ -15,7 +15,10 @@ export interface TableConfig {
 /** @public */
 export type TableProps = EditorPluginProps<TableState, TableConfig>
 
-/** @public */
+/**
+ * @param config - {@link TableConfig | Plugin configuration}
+ * @public
+ */
 export function createTablePlugin(
   config: TableConfig = {
     MarkdownRenderer: DefaultMarkdownRenderer

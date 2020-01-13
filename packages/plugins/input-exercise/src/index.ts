@@ -12,7 +12,10 @@ import {
 
 import { InputExerciseEditor } from './editor'
 
-/** @public */
+/**
+ * @param feedback - Configuration for the feedback child
+ * @public
+ */
 export function createInputExerciseState(feedback: Parameters<typeof child>) {
   const stateV0 = object({
     type: string('Text'),

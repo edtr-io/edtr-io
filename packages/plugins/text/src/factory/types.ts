@@ -8,6 +8,7 @@ import * as React from 'react'
 import { SlateEditorAdditionalProps } from './editor'
 import { TextConfig } from '..'
 
+/** @public */
 export type SlatePluginClosure = React.RefObject<{
   config: TextConfig
   name: string

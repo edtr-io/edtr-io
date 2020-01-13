@@ -1,14 +1,13 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StateType,
   StoreDeserializeHelpers,
   StoreSerializeHelpers
 } from '@edtr-io/internal__plugin-state'
 
-/** @public */
+/**
+ * @param type - The initial {@link @edtr-io/internal__plugin-state#StateType | state type} to start the migration from
+ * @public
+ */
 export function migratable<S, T, R>(
   type: StateType<S, T, R>
 ): MigratableStateType<S, S, S, T, R> {

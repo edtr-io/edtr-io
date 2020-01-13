@@ -1,29 +1,37 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StateExecutor,
   StateType,
   StateUpdater
 } from '@edtr-io/internal__plugin-state'
 
-/** @public */
+/**
+ * @param initialValue - The initial value
+ * @public
+ */
 export function boolean(initialValue?: boolean) {
   return scalar<boolean>(initialValue || false)
 }
 
-/** @public */
+/**
+ * @param initialValue - The initial value
+ * @public
+ */
 export function number(initialValue?: number) {
   return scalar<number>(initialValue || 0)
 }
 
-/** @public */
+/**
+ * @param initialValue - The initial value
+ * @public
+ */
 export function string(initialValue?: string) {
   return scalar<string>(initialValue || '')
 }
 
-/** @public */
+/**
+ * @param initialState - The initial value
+ * @public
+ */
 export function scalar<S>(initialState: S) {
   return serializedScalar<S, S>(initialState, {
     deserialize(state) {
@@ -35,7 +43,11 @@ export function scalar<S>(initialState: S) {
   })
 }
 
-/** @public */
+/**
+ * @param initial - The initialValue
+ * @param isTemporaryValue - Checks whether the given value is temporary
+ * @public
+ */
 export function asyncScalar<T, Temp>(
   initial: T,
   isTemporaryValue: (field: T | Temp) => boolean
@@ -123,7 +135,11 @@ export function asyncScalar<T, Temp>(
   }
 }
 
-/** @public */
+/**
+ * @param initialState - The initial state
+ * @param serializer - The {@link Serializer | serializer}
+ * @public
+ */
 export function serializedScalar<S, T>(
   initialState: T,
   serializer: Serializer<S, T>

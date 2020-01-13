@@ -14,7 +14,10 @@ const AddButtonComponent = styled.button({
   '&:hover': { border: '3px solid #007ec1', color: '#007ec1' }
 })
 
-/** @public */
+/**
+ * @param props - Props
+ * @public
+ */
 export function AddButton(props: { onClick: () => void; children: string }) {
   return (
     <AddButtonComponent onClick={props.onClick}>
@@ -144,7 +147,10 @@ export class CheckElement extends React.Component<CheckElementProps> {
   }
 }
 
-/** @public */
+/**
+ * @param props - Props
+ * @public
+ */
 export function InteractiveAnswer(props: {
   isRadio?: boolean
   isActive?: boolean
@@ -184,7 +190,7 @@ export function InteractiveAnswer(props: {
 }
 
 /** @public */
-interface CheckElementProps {
+export interface CheckElementProps {
   isRadio: boolean
   isActive: boolean
   handleChange: (event: React.MouseEvent) => void

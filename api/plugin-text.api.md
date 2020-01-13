@@ -73,11 +73,19 @@ export type NodeEditorProps = BlockEditorProps | InlineEditorProps;
 export type NodeRendererProps = BlockRendererProps | InlineRendererProps;
 
 // @public (undocumented)
+export type SlatePluginClosure = React.RefObject<{
+    config: TextConfig;
+    name: string;
+    parent?: SlateEditorAdditionalProps;
+    replace?: (options?: DocumentState) => void;
+    availablePlugins: TextConfig['registry'];
+    plugins: ReturnTypeFromSelector<typeof getPlugins>;
+}>;
+
+// @public (undocumented)
 export interface TextConfig {
     // (undocumented)
     placeholder: string;
-    // Warning: (ae-forgotten-export) The symbol "SlatePluginClosure" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[];
     // (undocumented)
@@ -137,6 +145,10 @@ export const textState: import("@edtr-io/internal__plugin-state").StateType<Valu
     set(value: ValueJSON | ((currentValue: ValueJSON) => ValueJSON)): void;
 }>;
 
+
+// Warnings were encountered during analysis:
+//
+// dist/factory/types.d.ts:9:5 - (ae-forgotten-export) The symbol "SlateEditorAdditionalProps" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -62,8 +62,6 @@ export type TextPlugin = Plugin &
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
 
-export { isValueEmpty } from './factory'
-
 /** @public */
 export const textState = scalar<ValueJSON>(emptyDocument)
 /** @public */
@@ -172,3 +170,5 @@ export function createTextPlugin({
     }
   }
 }
+
+export { isValueEmpty, SlatePluginClosure }

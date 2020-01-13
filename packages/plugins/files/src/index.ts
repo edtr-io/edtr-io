@@ -17,7 +17,10 @@ export type FilesState = typeof filesState
 /** @public */
 export type FilesProps = EditorPluginProps<FilesState, FilesConfig>
 
-/** @public */
+/**
+ * @param config - {@link FilesConfig | Plugin configuration}
+ * @public
+ */
 export function createFilesPlugin(
   config: FilesConfig
 ): EditorPlugin<FilesState, FilesConfig> {
