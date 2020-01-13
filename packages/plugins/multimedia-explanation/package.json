@@ -4,12 +4,12 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/plugin-highlight.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/plugin-multimedia-explanation.esm.js",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@edtr-io/editor-ui": "^0.13.4",

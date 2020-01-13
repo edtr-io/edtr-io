@@ -9,7 +9,8 @@ import {
 
 import { MultimediaExplanationEditor } from './editor'
 
-const createMultimediaExplanationState = (
+/** @public */
+export const createMultimediaExplanationState = (
   config: MultimediaExplanationConfig
 ) =>
   object({
@@ -18,20 +19,24 @@ const createMultimediaExplanationState = (
     illustrating: boolean(true),
     width: number(50) // percent
   })
+/** @public */
 export type MultimediaExplanationState = ReturnType<
   typeof createMultimediaExplanationState
 >
+/** @public */
 export interface MultimediaExplanationConfig {
   plugins: {
     name: string
     title: string
   }[]
 }
+/** @public */
 export type MultimediaExplanationProps = EditorPluginProps<
   MultimediaExplanationState,
   MultimediaExplanationConfig
 >
 
+/** @public */
 export const createMultimediaExplanationPlugin = (
   config: MultimediaExplanationConfig
 ): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig> => {
