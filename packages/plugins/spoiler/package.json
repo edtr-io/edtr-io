@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-spoiler",
-  "version": "0.13.5-alpha.2",
+  "version": "0.13.5",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,15 +12,15 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^0.13.5-alpha.2",
-    "@edtr-io/plugin": "^0.13.5-alpha.2",
-    "@edtr-io/renderer-ui": "^0.13.5-alpha.2",
-    "@edtr-io/ui": "^0.13.5-alpha.2",
+    "@edtr-io/editor-ui": "^0.13.5",
+    "@edtr-io/plugin": "^0.13.5",
+    "@edtr-io/renderer-ui": "^0.13.5",
+    "@edtr-io/ui": "^0.13.5",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.13.5-alpha.2",
+    "@edtr-io/core": "^0.13.5",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
