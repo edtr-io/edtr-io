@@ -707,6 +707,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       added: [
         'Accept the newly released styled-components v5 additionally to v4 as peer dependency'
       ]
+    },
+    {
+      tagName: 'v0.13.5',
+      name: '0.13.5',
+      date: '2019-01-14',
+      fixed: [
+        'Various improvements & fixes in the TypeScript declaration files'
+      ]
     }
   ])
 

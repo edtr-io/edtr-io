@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.5](https://github.com/edtr-io/edtr-io/compare/v0.13.4..v0.13.5) - January 14, 2019
+
+### Fixed
+
+- Various improvements & fixes in the TypeScript declaration files
+
 ## [0.13.4](https://github.com/edtr-io/edtr-io/compare/v0.13.3..v0.13.4) - January 14, 2019
 
 ### Added
