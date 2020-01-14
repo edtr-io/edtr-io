@@ -30,7 +30,7 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "styled-components": "^4.0.0"
+    "styled-components": "^5.0.0"
   },
   "peerDependencies": {
     "@edtr-io/core": "^0.13.0",
@@ -39,7 +39,7 @@
     "@fortawesome/react-fontawesome": "^0.1.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "styled-components": "^4.0.0"
+    "styled-components": ">= 4"
   },
   "publishConfig": {
     "access": "public"
