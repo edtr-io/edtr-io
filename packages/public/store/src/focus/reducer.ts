@@ -15,6 +15,8 @@ import {
   focusPrevious
 } from './actions'
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
+
 /** @internal */
 export const focusReducer: SubReducer<string | null> = createSubReducer(
   'focus',
@@ -63,8 +65,12 @@ export const isFocused: Selector<boolean, [string]> = createSelector(
  * @returns the [[focus tree|Node]] if it exists (`null` otherwise)
  * @public
  */
-export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
-  (state: ScopedState, root: string | null = getRoot()(state)): Node | null => {
+export const getFocusTree: Selector<Node | null, [string?]> = (
+  id: string | null = null
+) => {
+  return createDeepEqualSelector(
+    (state: ScopedState): Node | null => {
+      const root = id ? id : getRoot()(state)
     if (!root) return null
     const document = getDocument(root)(state)
     if (!document) return null
@@ -82,10 +88,10 @@ export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
       id: root,
       children
     }
+    },
+    s => s
+  )
   }
-)
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
 
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id

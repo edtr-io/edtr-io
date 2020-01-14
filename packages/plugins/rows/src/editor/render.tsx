@@ -12,7 +12,7 @@ import {
   DocumentState,
   findNextNode,
   findParent,
-  findPreviousNode,
+  findPreviousNode, focus,
   getDocument,
   getFocusPath,
   getFocusTree,
@@ -107,6 +107,7 @@ export function RowRenderer({
       onDrop() {}
     },
     begin() {
+      dispatch(focus(''))
       const serialized = serializeDocument(row.id)(store.getState())
       return {
         id: row.id,

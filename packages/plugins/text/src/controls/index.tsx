@@ -97,7 +97,6 @@ const TimeoutBottomToolbar = styled(BottomToolbar)<{
   }
 })
 
-let debounceTimeout: number
 export function Controls(props: ControlProps) {
   const selectionCollapsed = props.editor.value.selection.isCollapsed
   const [visibleControls, setVisibleControls] = React.useState(
@@ -109,19 +108,13 @@ export function Controls(props: ControlProps) {
     setVisibleControls(VisibleControls.All)
     setBottomToolbarVisible(true)
   }
-  React.useEffect(() => {
-    debounceTimeout = setTimeout(showBottomToolbar, 2500)
-
-    return function cleanUp() {
-      clearTimeout(debounceTimeout)
-    }
-  }, [])
   const currentValue = JSON.stringify(props.editor.value.toJSON())
   const memoized = React.useRef({
     value: currentValue,
     selectionCollapsed
   })
   React.useEffect(() => {
+    let debounceTimeout = setTimeout(showBottomToolbar, 2500)
     const valueChanged = memoized.current.value !== currentValue
     if (
       valueChanged ||
@@ -139,6 +132,10 @@ export function Controls(props: ControlProps) {
         debounceTimeout = setTimeout(showBottomToolbar, timeout)
       }
       setBottomToolbarVisible(false)
+    }
+
+    return () => {
+      clearTimeout(debounceTimeout)
     }
   }, [currentValue, selectionCollapsed])
 
