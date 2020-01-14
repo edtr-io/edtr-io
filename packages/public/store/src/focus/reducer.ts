@@ -71,27 +71,27 @@ export const getFocusTree: Selector<Node | null, [string?]> = (
   return createDeepEqualSelector(
     (state: ScopedState): Node | null => {
       const root = id ? id : getRoot()(state)
-    if (!root) return null
-    const document = getDocument(root)(state)
-    if (!document) return null
-    const plugin = getPlugin(document.plugin)(state)
-    if (!plugin) return null
+      if (!root) return null
+      const document = getDocument(root)(state)
+      if (!document) return null
+      const plugin = getPlugin(document.plugin)(state)
+      if (!plugin) return null
 
-    const children = plugin.state
-      .getFocusableChildren(document.state)
-      .map(child => {
-        const subtree = getFocusTree(child.id)(state)
-        return subtree || child
-      })
+      const children = plugin.state
+        .getFocusableChildren(document.state)
+        .map(child => {
+          const subtree = getFocusTree(child.id)(state)
+          return subtree || child
+        })
 
-    return {
-      id: root,
-      children
-    }
+      return {
+        id: root,
+        children
+      }
     },
     s => s
   )
-  }
+}
 
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
@@ -104,25 +104,25 @@ export const getFocusPath = (defaultLeaf: string | null = null) => {
   return createDeepEqualSelector(
     (state: ScopedState): string[] | null => {
       const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
-    if (!leaf) return null
-    const root = getFocusTree()(state)
-    if (!root) return null
+      if (!leaf) return null
+      const root = getFocusTree()(state)
+      if (!root) return null
 
-    let current = leaf
-    let path: string[] = [leaf]
+      let current = leaf
+      let path: string[] = [leaf]
 
-    while (current !== root.id) {
-      const parent = findParent(root, current)
-      if (!parent) return null
-      current = parent.id
-      path = [current, ...path]
-    }
+      while (current !== root.id) {
+        const parent = findParent(root, current)
+        if (!parent) return null
+        current = parent.id
+        path = [current, ...path]
+      }
 
-    return path
+      return path
     },
     s => s
   )
-  }
+}
 
 function handleFocus(
   focusState: ScopedState['focus'],

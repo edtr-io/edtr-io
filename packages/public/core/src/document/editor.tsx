@@ -7,7 +7,9 @@ import {
   getDocument,
   getPlugin,
   isDocumentEmpty,
-  isFocused, redo, undo
+  isFocused,
+  redo,
+  undo
 } from '@edtr-io/store'
 import { styled, useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
