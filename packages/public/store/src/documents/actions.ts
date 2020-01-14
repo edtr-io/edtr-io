@@ -48,6 +48,24 @@ export const pureChange = createAction<
 >('PureChange')
 export type PureChangeAction = ActionFromActionCreator<typeof pureChange>
 
+export const replace = createAction<
+  'Replace',
+  {
+    id: string
+    document: (id: string) => DocumentState
+  }
+>('Replace')
+export type ReplaceAction = ActionFromActionCreator<typeof replace>
+export const pureReplace = createAction<
+  'PureReplace',
+  {
+    id: string
+    newId: string
+    document: DocumentState
+  }
+>('PureReplace')
+export type PureReplaceAction = ActionFromActionCreator<typeof pureReplace>
+
 export type DocumentsAction =
   | InsertAction
   | PureInsertAction
@@ -55,3 +73,5 @@ export type DocumentsAction =
   | PureRemoveAction
   | ChangeAction
   | PureChangeAction
+  | ReplaceAction
+  | PureReplaceAction
