@@ -692,6 +692,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.13.3',
       date: '2019-01-13',
       fixed: ['**plugin-highlight**. Fix server-side rendering']
+    },
+    {
+      tagName: 'v0.13.4',
+      name: '0.13.4',
+      date: '2019-01-14',
+      added: [
+        'Accept the newly released styled-components v5 additionally to v4 as peer dependency'
+      ]
     }
   ])
 

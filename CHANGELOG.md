@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.4](https://github.com/edtr-io/edtr-io/compare/v0.13.3..v0.13.4) - January 14, 2019
+
+### Added
+
+- Accept the newly released styled-components v5 additionally to v4 as peer dependency
+
 ## [0.13.3](https://github.com/edtr-io/edtr-io/compare/v0.13.2..v0.13.3) - January 13, 2019
 
 ### Fixed
