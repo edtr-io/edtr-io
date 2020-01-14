@@ -4,8 +4,9 @@
   "mainEntryPointFilePath": "dist/index.d.ts",
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "",
-    "betaTrimmedFilePath": "",
-    "publicTrimmedFilePath": "dist/index.d.ts"
+    "untrimmedFilePath": "api/internal.d.ts",
+    "betaTrimmedFilePath": "api/beta.d.ts",
+    "publicTrimmedFilePath": "api/public.d.ts",
+    "omitTrimmingComments": true
   }
 }
