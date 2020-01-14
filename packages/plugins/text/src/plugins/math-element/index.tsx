@@ -1,14 +1,16 @@
 import KaTeX from 'katex'
 import * as React from 'react'
-import { Editor as SlateEditor, Element, Range, Transforms } from 'slate'
+import { Editor as SlateEditor, Range, Transforms } from 'slate'
 import { RenderElementProps } from 'slate-react'
 
-import { TextEditorPlugin } from '../types'
+import { TextEditorPlugin } from '../../types'
+import { MathEditor } from './editor'
+import { MathElement } from './types'
 
 export function createMathElementPlugin({
   control,
   type = 'math',
-  Component = Math
+  Component = MathEditor
 }: {
   control?: {
     title: string
@@ -103,58 +105,7 @@ export function createMathElementPlugin({
             at: selection
           }
         )
-        Transforms.move(editor, {
-          distance: 1
-        })
       }
     }
   }
-}
-
-function Math({
-  attributes,
-  children,
-  element
-}: RenderElementProps & { element: MathElement }) {
-  console.log(element)
-  const { inline } = element
-  let { src } = element
-
-  // make empty formulas clickable
-  if (!src) {
-    src = '\\,'
-  }
-  // use displaystyle for block formulas
-  if (!inline) {
-    src = '\\displaystyle ' + src
-  }
-
-  const html = KaTeX.renderToString(src, {
-    displayMode: false,
-    throwOnError: false
-  })
-
-  if (inline) {
-    return (
-      <span {...attributes}>
-        <span dangerouslySetInnerHTML={{ __html: html }} />
-        {children}
-      </span>
-    )
-  } else {
-    return (
-      <span {...attributes}>
-        <span
-          style={{ display: 'block', margin: '1em 0', textAlign: 'center' }}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-        {children}
-      </span>
-    )
-  }
-}
-
-export interface MathElement extends Element {
-  src: string
-  inline: boolean
 }
