@@ -9,10 +9,10 @@ import {
   useSelected
 } from 'slate-react'
 
+import { useEditor } from '../../helpers'
 import { Math } from './renderer'
 import { MathElement } from './types'
 import { VisualEditor } from './visual-editor'
-import { useEditor } from '../../helpers'
 
 const preferenceKey = 'text:math:visual-editor'
 
@@ -51,8 +51,8 @@ export function MathEditor({
 
   const preferences = React.useContext(PreferenceContext)
   const [hasError, setError] = React.useState(false)
-  const visualEditor = false
-  // const visualEditor = preferences.getKey(preferenceKey) && !hasError
+  // FIXME:
+  const visualEditor = false && preferences.getKey(preferenceKey) && !hasError
 
   return renderChildren()
 

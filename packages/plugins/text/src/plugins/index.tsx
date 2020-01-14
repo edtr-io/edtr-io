@@ -6,11 +6,13 @@ import {
   edtrColorText,
   edtrLink,
   edtrText,
-  edtrFormel
+  edtrFormel,
+  edtrQuote
 } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { TextEditorPlugin } from '../types'
+import { createBlockquotePlugin } from './blockquote'
 import { createColorMarkPlugin } from './color-mark'
 import { createEmMarkPlugin } from './em-mark'
 import { createHeadingElementPlugin } from './heading-element'
@@ -119,6 +121,13 @@ export const defaultPlugins: TextEditorPlugin[] = [
     control: {
       title: 'Matheformel (Strg + M)',
       icon: <EdtrIcon icon={edtrFormel} />
+    }
+  }),
+  createBlockquotePlugin({
+    plugin: 'blockquote',
+    control: {
+      title: 'Zitat',
+      icon: <EdtrIcon icon={edtrQuote} />
     }
   }),
   createParagraphElementPlugin(),

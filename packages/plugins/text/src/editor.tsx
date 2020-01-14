@@ -1,3 +1,4 @@
+import { useScopedStore } from '@edtr-io/core'
 import * as React from 'react'
 import { createEditor as createSlateEditor, Transforms } from 'slate'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
@@ -7,13 +8,14 @@ import { ConfigContext } from './helpers'
 import { Editor } from './types'
 
 export function TextEditor({ config, editable, focused, state }: TextProps) {
+  const store = useScopedStore()
   const { value } = state.get()
   const { defaultNode, placeholder, plugins } = config
   const persistedValue = React.useRef(value)
 
   const editor = React.useMemo(() => {
-    return createEditor({ defaultNode, plugins })
-  }, [defaultNode, plugins])
+    return createEditor({ defaultNode, plugins, store })
+  }, [defaultNode, plugins, store])
   const previousSelection = React.useRef(editor.selection)
 
   // Set selection from state if there was an undo/redo
@@ -24,9 +26,13 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
     }
   }
 
+  // Workaround for https://github.com/ianstormtaylor/slate/issues/3321
+  const staleReadOnlyKey = focused ? '1' : '0'
+
   return (
     <ConfigContext.Provider value={config}>
       <Slate
+        key={staleReadOnlyKey}
         editor={editor}
         value={value}
         onChange={newValue => {
@@ -73,14 +79,16 @@ export function TextEditor({ config, editable, focused, state }: TextProps) {
 
 function createEditor({
   defaultNode,
-  plugins
+  plugins,
+  store
 }: {
   defaultNode: TextConfig['defaultNode']
   plugins: TextConfig['plugins']
+  store: ReturnType<typeof useScopedStore>
 }): Editor {
   let editor = withEdtr(withReact(createSlateEditor()))
   plugins.forEach(withPlugin => {
-    editor = withPlugin(editor)
+    editor = withPlugin(editor, store)
   })
   editor.defaultNode = defaultNode
   return editor

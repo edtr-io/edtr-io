@@ -1,3 +1,4 @@
+import { useScopedStore } from '@edtr-io/core'
 import React from 'react'
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react'
 
@@ -16,7 +17,10 @@ export interface TextConfig {
   }
 }
 
-export type TextEditorPlugin = (editor: Editor) => Editor
+export type TextEditorPlugin = (
+  editor: Editor,
+  store: ReturnType<typeof useScopedStore>
+) => Editor
 
 export interface Editor extends ReactEditor {
   controls: TextEditorControl[]

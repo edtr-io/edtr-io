@@ -1,4 +1,3 @@
-import KaTeX from 'katex'
 import * as React from 'react'
 import { Editor as SlateEditor, Range, Transforms } from 'slate'
 import { RenderElementProps } from 'slate-react'

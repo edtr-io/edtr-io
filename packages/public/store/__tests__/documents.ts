@@ -2,7 +2,12 @@ import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../__helpers__'
 import * as S from '../src'
-import { pureInsert, pureChange, pureReplace } from '../src/documents/actions'
+import {
+  pureInsert,
+  pureChange,
+  pureReplace,
+  PureReplaceAction
+} from '../src/documents/actions'
 import { getDocuments } from '../src/documents/reducer'
 
 let store: ReturnType<typeof setupStore>
@@ -160,6 +165,13 @@ describe('Documents', () => {
       await waitUntil(() =>
         R.any(action => action.type === pureReplace.type, store.getActions())
       )
+      const {
+        payload: { newId }
+      } = R.find(
+        action => action.type === pureReplace.type,
+        store.getActions()
+      ) as PureReplaceAction
+      console.log(newId)
       expect(S.serializeDocument('1')(store.getState())).toEqual({
         plugin: 'blockquote',
         state: {
@@ -167,6 +179,7 @@ describe('Documents', () => {
           state: 0
         }
       })
+      expect(S.getFocused()(store.getState())).toEqual(newId)
     })
   })
 })

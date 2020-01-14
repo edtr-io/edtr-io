@@ -4,7 +4,12 @@
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 
-import { pureInsert, PureInsertAction } from '../documents/actions'
+import {
+  pureInsert,
+  PureInsertAction,
+  pureReplace,
+  PureReplaceAction
+} from '../documents/actions'
 import { getDocument } from '../documents/reducer'
 import { createSelector, createSubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
@@ -33,6 +38,9 @@ export const focusReducer = createSubReducer('focus', null, {
   },
   [pureInsert.type](_focusState, action: PureInsertAction, _state) {
     return action.payload.id
+  },
+  [pureReplace.type](_focusState, action: PureReplaceAction, _state) {
+    return action.payload.newId
   }
 })
 

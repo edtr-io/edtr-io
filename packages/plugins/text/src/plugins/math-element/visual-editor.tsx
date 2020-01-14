@@ -1,9 +1,9 @@
 import { canUseDOM } from 'exenv'
-import { ReactEditor } from 'slate-react'
 import * as React from 'react'
+import { ReactEditor } from 'slate-react'
 
-import { MathElement } from './types'
 import { useEditor } from '../../helpers'
+import { MathElement } from './types'
 
 const MathQuill: React.ComponentType<MathquillProps> = canUseDOM
   ? require('react-mathquill').default
