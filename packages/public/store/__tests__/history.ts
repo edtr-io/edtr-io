@@ -3,7 +3,11 @@ import * as R from 'ramda'
 
 import { setupStore, TEST_SCOPE, wait, waitUntil } from '../__helpers__'
 import * as S from '../src'
-import { pureChange } from '../src/documents/actions'
+import {
+  pureChange,
+  PureChangeAction,
+  pureReplace
+} from '../src/documents/actions'
 import {
   commit,
   persist,
@@ -53,6 +57,17 @@ describe('History', () => {
     expect(undoStack).toHaveLength(1)
     expect(undoStack[0]).toHaveLength(1)
     expect(undoStack[0][0].action.type).toEqual(pureChange.type)
+  })
+
+  test('Changes with custom reverse state will be committed to the history', async () => {
+    await change({ id: 'root', state: { initial: () => 1 }, reverse: () => -1 })
+    expect(S.hasPendingChanges()(store.getState())).toEqual(true)
+    const undoStack = getUndoStack()(store.getState())
+    expect(undoStack).toHaveLength(1)
+    expect(undoStack[0]).toHaveLength(1)
+    expect((undoStack[0][0].reverse as PureChangeAction).payload.state).toEqual(
+      -1
+    )
   })
 
   test('Commits will be added to the redo stack after reverting', async () => {
@@ -238,6 +253,32 @@ describe('History', () => {
     })
   })
 
+  test('Undo replace', async () => {
+    await insert({ id: '1', plugin: 'stateful', state: 0 })
+    await wait(1000)
+    await replace({
+      id: '1',
+      document: id => {
+        return {
+          plugin: 'blockquote',
+          state: id
+        }
+      }
+    })
+    expect(S.serializeDocument('1')(store.getState())).toEqual({
+      plugin: 'blockquote',
+      state: {
+        plugin: 'stateful',
+        state: 0
+      }
+    })
+    await undo()
+    expect(S.serializeDocument('1')(store.getState())).toEqual({
+      plugin: 'stateful',
+      state: 0
+    })
+  })
+
   test('Async change', async () => {
     store.dispatch(
       temporaryCommit({
@@ -420,6 +461,13 @@ async function remove(...args: Parameters<typeof S.remove>) {
   store.dispatch(S.remove(...args))
   await waitUntil(() =>
     R.any(action => action.type === commit.type, store.getActions())
+  )
+}
+
+async function replace(...args: Parameters<typeof S.replace>) {
+  store.dispatch(S.replace(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === pureReplace.type, store.getActions())
   )
 }
 

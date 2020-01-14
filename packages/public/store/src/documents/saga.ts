@@ -8,6 +8,7 @@ import {
 } from '@edtr-io/internal__plugin-state'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
+import { generate } from 'shortid'
 
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
@@ -24,7 +25,11 @@ import {
   pureRemove,
   remove,
   RemoveAction,
-  PureChangeAction
+  PureChangeAction,
+  replace,
+  ReplaceAction,
+  PureReplaceAction,
+  pureReplace
 } from './actions'
 import { getDocument } from './reducer'
 
@@ -32,7 +37,8 @@ export function* documentsSaga() {
   yield all([
     takeEvery(insert.type, insertSaga),
     takeEvery(change.type, changeSaga),
-    takeEvery(remove.type, removeSaga)
+    takeEvery(remove.type, removeSaga),
+    takeEvery(replace.type, replaceSaga)
   ])
 }
 
@@ -67,7 +73,7 @@ function* insertSaga(action: InsertAction) {
 }
 
 function* changeSaga(action: ChangeAction) {
-  const { id, state: stateHandler } = action.payload
+  const { id, state: stateHandler, reverse } = action.payload
   const document: ReturnTypeFromSelector<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
@@ -82,17 +88,22 @@ function* changeSaga(action: ChangeAction) {
     }
   )
 
-  function createChange(
-    previousState: unknown,
-    newState: unknown
-  ): ReversibleAction<PureChangeAction, PureChangeAction> {
+  const createChange = (
+    state: unknown
+  ): ReversibleAction<PureChangeAction, PureChangeAction> => {
     return {
-      action: pureChange({ id, state: newState })(action.scope),
-      reverse: pureChange({ id, state: previousState })(action.scope)
+      action: pureChange({ id, state })(action.scope),
+      reverse: pureChange({
+        id,
+        state:
+          typeof reverse === 'function'
+            ? reverse(document.state)
+            : document.state
+      })(action.scope)
     }
   }
 
-  actions.push(createChange(document.state, state))
+  actions.push(createChange(state))
 
   if (!stateHandler.executor) {
     yield put(commit(actions)(action.scope))
@@ -115,11 +126,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 resolve: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  resolve([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  resolve([...resolveActions, createChange(state)])
                 }
               })
             },
@@ -127,11 +135,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 reject: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  reject([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  reject([...resolveActions, createChange(state)])
                 }
               })
             },
@@ -139,11 +144,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 next: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  next([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState)
-                  ])
+                callback: (resolveActions, state) => {
+                  next([...resolveActions, createChange(state)])
                 }
               })
             }
@@ -180,6 +182,32 @@ function* changeSaga(action: ChangeAction) {
       }
     }
   }
+}
+
+function* replaceSaga(action: ReplaceAction) {
+  const { id, document: documentHandler } = action.payload
+  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  const newId = generate()
+
+  // TODO: give previous doc new id
+  // TODO: pass new id to document handler
+  if (!currentDocument) return
+  const reversibleAction: ReversibleAction<
+    PureReplaceAction,
+    PureReplaceAction
+  > = {
+    action: pureReplace({ id, newId, document: documentHandler(newId) })(
+      action.scope
+    ),
+    // TODO: here, we should delete the document with newId
+    reverse: pureReplace({ id: newId, newId: id, document: currentDocument })(
+      action.scope
+    )
+  }
+  yield put(commit([reversibleAction])(action.scope))
 }
 
 interface ChannelAction {

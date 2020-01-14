@@ -2,8 +2,8 @@
  * @module @edtr-io/core
  */
 /** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-import { StateExecutor, StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
+  ChangeAction,
   change,
   focus,
   focusNext,
@@ -139,16 +139,20 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     const config = R.mergeDeepRight(defaultConfig, overrideConfig)
 
     const onChange = (
-      initial: StateUpdater<unknown>,
-      executor?: StateExecutor<StateUpdater<unknown>>
+      initial: ChangeAction['payload']['state']['initial'],
+      additional: {
+        executor?: ChangeAction['payload']['state']['executor']
+        reverse?: ChangeAction['payload']['reverse']
+      } = {}
     ) => {
       dispatch(
         change({
           id,
           state: {
             initial,
-            executor
-          }
+            executor: additional.executor
+          },
+          reverse: additional.reverse
         })
       )
     }

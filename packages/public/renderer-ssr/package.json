@@ -41,7 +41,6 @@
     "ramda": "^0.26.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "slate": "^0.47.4",
     "styled-components": "^4.0.0"
   },
   "peerDependencies": {

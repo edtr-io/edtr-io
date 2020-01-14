@@ -39,7 +39,11 @@ describe('asyncScalar', () => {
     let store: number | TempState = initial
     const onChange = (
       initial: StateUpdater<number | TempState>,
-      executor?: StateExecutor<StateUpdater<number | TempState>>
+      {
+        executor
+      }: {
+        executor?: StateExecutor<StateUpdater<number | TempState>>
+      } = {}
     ) => {
       store = initial(store, deserializeHelpers)
       if (executor) {

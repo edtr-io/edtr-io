@@ -2,7 +2,12 @@ import * as R from 'ramda'
 
 import { setupStore, waitUntil } from '../__helpers__'
 import * as S from '../src'
-import { pureInsert, pureChange } from '../src/documents/actions'
+import {
+  pureInsert,
+  pureChange,
+  pureReplace,
+  PureReplaceAction
+} from '../src/documents/actions'
 import { getDocuments } from '../src/documents/reducer'
 
 let store: ReturnType<typeof setupStore>
@@ -131,6 +136,50 @@ describe('Documents', () => {
         plugin: 'stateful',
         state: 1
       })
+    })
+  })
+
+  describe('Replace', () => {
+    test('Whole state', async () => {
+      store.dispatch(
+        S.insert({
+          id: '1',
+          plugin: 'stateful',
+          state: 0
+        })
+      )
+      await waitUntil(() =>
+        R.any(action => action.type === pureInsert.type, store.getActions())
+      )
+      store.dispatch(
+        S.replace({
+          id: '1',
+          document: id => {
+            return {
+              plugin: 'blockquote',
+              state: id
+            }
+          }
+        })
+      )
+      await waitUntil(() =>
+        R.any(action => action.type === pureReplace.type, store.getActions())
+      )
+      const {
+        payload: { newId }
+      } = R.find(
+        action => action.type === pureReplace.type,
+        store.getActions()
+      ) as PureReplaceAction
+      console.log(newId)
+      expect(S.serializeDocument('1')(store.getState())).toEqual({
+        plugin: 'blockquote',
+        state: {
+          plugin: 'stateful',
+          state: 0
+        }
+      })
+      expect(S.getFocused()(store.getState())).toEqual(newId)
     })
   })
 })

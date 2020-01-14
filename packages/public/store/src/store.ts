@@ -6,9 +6,9 @@ import { EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   applyMiddleware,
   createStore as createReduxStore,
+  PreloadedState,
   Store,
-  StoreEnhancer,
-  PreloadedState
+  StoreEnhancer
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 

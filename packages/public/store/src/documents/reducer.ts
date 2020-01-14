@@ -16,7 +16,9 @@ import {
   RemoveAction,
   pureChange,
   PureChangeAction,
-  pureRemove
+  pureRemove,
+  pureReplace,
+  PureReplaceAction
 } from './actions'
 
 export const documentsReducer = createSubReducer(
@@ -49,6 +51,16 @@ export const documentsReducer = createSubReducer(
           ...documentState[id],
           state: pluginState
         }
+      }
+    },
+    [pureReplace.type](documentState, action: PureReplaceAction) {
+      const { id, newId, document } = action.payload
+      if (!documentState[id]) return documentState
+
+      return {
+        ...documentState,
+        [newId]: documentState[id],
+        [id]: document
       }
     }
   }

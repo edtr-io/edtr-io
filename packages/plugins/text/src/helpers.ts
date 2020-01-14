@@ -1,35 +1,20 @@
-import { Editor, Range as CoreRange } from 'slate'
+import React from 'react'
+import { Range } from 'slate'
+import { useSlate } from 'slate-react'
 
-export function trimSelection(editor: Editor) {
-  // Trimm selection before applying transformation
-  const selection = document.getSelection()
-  if (selection) {
-    let str = selection.toString()
-    while (str.startsWith(' ')) {
-      editor.moveStartForward(1)
-      str = str.substring(1)
-    }
-    while (str.endsWith(' ')) {
-      editor.moveEndBackward(1)
-      str = str.substring(0, str.length - 1)
-    }
-  }
+import { Editor, TextConfig } from './types'
+
+export function isCollapsed(editor: Editor) {
+  return editor.selection && Range.isCollapsed(editor.selection)
 }
 
-export function getTrimmedSelectionRange(editor: Editor) {
-  // get trimmed selection, without changing editor (e.g. for checking active marks)
-  const native = document.getSelection()
-  let selection = editor.value.selection.toRange()
-  if (native) {
-    let str = native.toString()
-    while (str.startsWith(' ')) {
-      selection = selection.moveStartForward(1)
-      str = str.substring(1)
-    }
-    while (str.endsWith(' ')) {
-      selection = selection.moveEndBackward(1)
-      str = str.substring(0, str.length - 1)
-    }
-  }
-  return CoreRange.create(selection)
+export function useEditor(): Editor {
+  return useSlate() as Editor
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ConfigContext = React.createContext<TextConfig>(undefined as any)
+
+export function useConfig(): TextConfig {
+  return React.useContext(ConfigContext)
 }

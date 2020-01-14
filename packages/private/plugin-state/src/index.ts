@@ -26,7 +26,10 @@ export interface StateType<S = any, T = S, R = unknown> {
     state: T,
     onChange: (
       initial: StateUpdater<T>,
-      executor?: StateExecutor<StateUpdater<T>>
+      additional?: {
+        executor?: StateExecutor<StateUpdater<T>>
+        reverse?: (previousState: T) => T
+      }
     ) => void,
     pluginProps?: PluginProps
   ): R

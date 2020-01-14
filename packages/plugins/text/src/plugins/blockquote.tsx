@@ -1,33 +1,81 @@
-import { Editor } from 'slate'
+import { getDocument, getFocused, getFocusPath, replace } from '@edtr-io/store'
+import * as R from 'ramda'
+import * as React from 'react'
 
-import { SlatePluginClosure } from '../factory/types'
+import { TextEditorPlugin } from '../types'
 
-export const isBlockquote = (
-  editor: Editor,
-  pluginClosure: SlatePluginClosure
-) => {
-  return !!(
-    pluginClosure.current &&
-    pluginClosure.current.parent &&
-    pluginClosure.current.parent.name === 'blockquote'
-  )
-}
-
-export const createBlockquote = (editor: Editor, name: string) => {
-  editor.command('replaceWithPlugin', {
-    plugin: 'blockquote',
-    state: {
-      plugin: name,
-      state: editor.value.toJSON()
+export function createBlockquotePlugin({
+  plugin,
+  control
+}: {
+  plugin: string
+  control?: {
+    title: string
+    icon: React.ReactNode
+  }
+}): TextEditorPlugin {
+  return function(editor, store) {
+    const { controls } = editor
+    if (control) {
+      editor.controls = [
+        ...controls,
+        {
+          title: control.title,
+          renderIcon() {
+            return control.icon
+          },
+          isActive,
+          onClick() {
+            isActive() ? unwrap() : wrap()
+          }
+        }
+      ]
     }
-  })
-}
 
-export const removeBlockquote = (
-  editor: Editor,
-  pluginClosure: SlatePluginClosure
-) => {
-  if (pluginClosure.current && isBlockquote(editor, pluginClosure)) {
-    return editor.command('unwrapParent')
+    return editor
+
+    function isActive() {
+      return findNearest() !== undefined
+    }
+
+    function wrap() {
+      const id = getFocused()(store.getState())
+      if (!id) return
+      store.dispatch(
+        replace({
+          id,
+          document(id) {
+            return {
+              plugin,
+              state: id
+            }
+          }
+        })
+      )
+    }
+
+    function unwrap() {
+      const id = getFocused()(store.getState())
+      if (!id) return
+      const document = getDocument(id)(store.getState())
+      if (!document) return
+      const blockqouoteId = findNearest()
+      if (!id || !blockqouoteId) return
+      store.dispatch(
+        replace({
+          id: blockqouoteId,
+          document() {
+            return document
+          }
+        })
+      )
+    }
+
+    function findNearest() {
+      return R.findLast(id => {
+        const document = getDocument(id)(store.getState())
+        return document ? document.plugin === plugin : false
+      }, getFocusPath()(store.getState()) || [])
+    }
   }
 }
