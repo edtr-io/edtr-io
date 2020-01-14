@@ -384,9 +384,9 @@ export function RowRenderer({
       node => node.id === row.id,
       parent.children
     )
-    if (dragIndex === -1 || dropZoneIndex === -1) {
-      // different parent
-      return false
+    if (dropZoneIndex === -1) {
+      // different parent is fine
+      return true
     }
     // check that its not the same position
     return draggingAbove
