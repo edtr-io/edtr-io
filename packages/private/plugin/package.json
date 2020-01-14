@@ -1,19 +1,19 @@
 {
   "name": "@edtr-io/internal__plugin",
-  "version": "0.13.4",
+  "version": "0.13.5-alpha.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/core.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/internal__plugin.esm.js",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__plugin-state": "^0.13.2",
-    "@edtr-io/ui": "^0.13.4",
+    "@edtr-io/internal__plugin-state": "^0.13.5-alpha.2",
+    "@edtr-io/ui": "^0.13.5-alpha.2",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "ramda": "^0.26.1",

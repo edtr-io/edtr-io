@@ -15,7 +15,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ImagePluginConfig, ImageProps } from '.'
+import { ImageConfig, ImageProps } from '.'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
 
@@ -86,7 +86,7 @@ export function ImageEditor(props: ImageProps) {
 
 function PrimaryControls(
   props: ImageProps & {
-    config: ImagePluginConfig
+    config: ImageConfig
   }
 ) {
   const { src } = props.state
@@ -169,7 +169,7 @@ function PrimaryControls(
 
 function Controls<T = unknown>(
   props: ImageProps & {
-    config: ImagePluginConfig
+    config: ImageConfig
   }
 ) {
   const { state } = props

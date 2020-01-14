@@ -8,13 +8,17 @@ import {
 
 import { SolutionEditor } from './editor'
 
-const solutionState = object({
+/** @public */
+export const solutionState = object({
   title: string(''),
   content: child({ plugin: 'rows' })
 })
+/** @public */
 export type SolutionState = typeof solutionState
+/** @public */
 export type SolutionProps = EditorPluginProps<SolutionState>
 
+/** @public */
 export function createSolutionPlugin(): EditorPlugin<SolutionState> {
   return {
     Component: SolutionEditor,

@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StateType,
   StateTypeReturnType,
@@ -14,8 +10,7 @@ import * as React from 'react'
 /**
  * An Edtr.io plugin
  *
- * @typeparam S - [[StateType]] of the plugin
- * @typeparam Config - configuration that the plugin component accepts
+ * @public
  */
 export interface EditorPlugin<
   S extends StateType = StateType,
@@ -64,8 +59,7 @@ export interface EditorPlugin<
 /**
  * Props for the component of an [[EditorPlugin]]
  *
- * @typeparam S - [[StateType]] of the plugin
- * @typeparam Config - configuration that the plugin component accepts
+ * @public
  */
 export interface EditorPluginProps<
   S extends StateType = StateType,
@@ -77,9 +71,7 @@ export interface EditorPluginProps<
   config: Config
 
   /**
-   * Current state of the document
-   *
-   * @see [[StateTypeReturnType]]
+   * Current state of the document, see {@link @edtr-io/internal__plugin-state#StateTypeReturnType}
    */
   state: StateTypeReturnType<S>
 
@@ -89,9 +81,9 @@ export interface EditorPluginProps<
   id: string
 
   /**
-   * Name of the plugin as defined in the registry. Will be removed as soon as we found a better solution for that
+   * Name of the plugin as defined in the registry
    *
-   * @deprecated
+   * @deprecated Will be removed as soon as we found a better solution for that
    */
   name: string
 

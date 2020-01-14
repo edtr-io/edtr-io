@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Action } from './actions'
 import { State, ScopedState, Selector } from './types'
 
@@ -60,6 +56,7 @@ export function scopeSelector<T, P extends any[]>(
   }
 }
 
+/** @internal */
 export type SubReducer<S = unknown> = (
   action: Action,
   state: ScopedState | undefined

@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/editor-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   createEditorUiTheme,
   CheckboxTheme,
@@ -10,6 +6,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export const createEditorCheckboxTheme = createEditorUiTheme<CheckboxTheme>(
   theme => {
     return {
@@ -67,7 +64,8 @@ const CheckboxToggle = styled.div<{ value?: boolean }>(
   }
 )
 
-export class EditorCheckbox extends React.Component<CheckboxProps> {
+/** @public */
+export class EditorCheckbox extends React.Component<EditorCheckboxProps> {
   public render() {
     const { checked, onChange, label } = this.props
     return (
@@ -88,7 +86,8 @@ export class EditorCheckbox extends React.Component<CheckboxProps> {
   }
 }
 
-export interface CheckboxProps {
+/** @public */
+export interface EditorCheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label?: string

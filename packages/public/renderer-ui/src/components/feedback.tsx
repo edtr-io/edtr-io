@@ -1,10 +1,7 @@
-/**
- * @module @edtr-io/renderer-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export class Feedback extends React.Component<FeedbackProps> {
   public render() {
     const { boxFree, children, isTrueAnswer, showOnLeft } = this.props
@@ -36,6 +33,7 @@ export class Feedback extends React.Component<FeedbackProps> {
   })
 }
 
+/** @public */
 export interface FeedbackProps {
   boxFree?: boolean
   isTrueAnswer?: boolean

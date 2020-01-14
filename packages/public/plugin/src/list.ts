@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
   StateType,
@@ -11,6 +7,11 @@ import {
 import * as R from 'ramda'
 import { generate } from 'shortid'
 
+/**
+ * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} of the list items
+ * @param initialCount - The initial number of list items
+ * @public
+ */
 export function list<S, T = S, U = unknown>(
   type: StateType<S, T, U>,
   initialCount = 0

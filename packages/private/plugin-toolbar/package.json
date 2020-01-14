@@ -1,15 +1,15 @@
 {
   "name": "@edtr-io/internal__plugin-toolbar",
-  "version": "0.13.0",
+  "version": "0.13.5-alpha.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/core.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/internal__plugin-toolbar.esm.js",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@types/react": "^16.8.0"

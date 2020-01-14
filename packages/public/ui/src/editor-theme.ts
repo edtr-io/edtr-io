@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 import * as React from 'react'
 import {
@@ -9,6 +5,9 @@ import {
   ThemeContext as StyledThemeContext
 } from 'styled-components'
 
+import { DeepPartial } from './types'
+
+/** @public */
 export interface EditorTheme {
   backgroundColor: string
   color: string
@@ -38,6 +37,7 @@ export interface EditorTheme {
   }
 }
 
+/** @public */
 export const defaultEditorTheme: EditorTheme = {
   primary: {
     color: '#ffffff',
@@ -67,6 +67,7 @@ export const defaultEditorTheme: EditorTheme = {
   backgroundColor: 'rgba(51,51,51,0.95)'
 }
 
+/** @public */
 export interface ButtonTheme {
   backgroundColor: string
   color: string
@@ -76,24 +77,28 @@ export interface ButtonTheme {
   hoverBorderColor: string
 }
 
+/** @public */
 export interface CheckboxTheme {
   boxSelectedColor: string
   boxDeselectedColor: string
   color: string
 }
 
+/** @public */
 export interface InputTheme {
   backgroundColor: string
   color: string
   highlightColor: string
 }
 
+/** @public */
 export interface SelectTheme {
   backgroundColor: string
   color: string
   highlightColor: string
 }
 
+/** @public */
 export interface TextareaTheme {
   backgroundColor: string
   color: string
@@ -101,11 +106,13 @@ export interface TextareaTheme {
   highlightColor: string
 }
 
+/** @public */
 export interface BottomToolbarTheme {
   backgroundColor: string
   color: string
 }
 
+/** @public */
 export interface EditorUiTheme {
   button: ButtonTheme
   checkbox: CheckboxTheme
@@ -115,11 +122,18 @@ export interface EditorUiTheme {
   select: SelectTheme
 }
 
+/** @public */
 export type EditorThemeProps = StyledThemeProps<{
   editor: EditorTheme
   editorUi: EditorUiTheme
 }>
 
+/**
+ * React Hook for the editor theming
+ *
+ * @returns An object containing the current {@link EditorTheme | editor theme} and {@link EditorUiTheme | editor UI theme}
+ * @public
+ */
 export function useEditorTheme(): {
   editor: EditorTheme
   editorUi: EditorUiTheme
@@ -127,6 +141,13 @@ export function useEditorTheme(): {
   return React.useContext(StyledThemeContext)
 }
 
+/**
+ * Creates a function that maps {@link EditorThemeProps} to the current theme of the specified editor UI component
+ *
+ * @param createDefaultTheme - The {@link EditorUiThemeFactory | factory} for the default theme
+ * @returns A function that accepts an editor UI component and {@link EditorThemeProps} and returns the current theme of the specified component
+ * @public
+ */
 export function createEditorUiTheme<T extends object>(
   createDefaultTheme: EditorUiThemeFactory<T>
 ) {
@@ -140,6 +161,15 @@ export function createEditorUiTheme<T extends object>(
     ) as unknown) as T
   }
 }
+
+/**
+ * React Hook for the theme of an editor UI component
+ *
+ * @param key - The editor UI component
+ * @param createDefaultTheme - The {@link EditorUiThemeFactory | factory} for the default theme
+ * @returns The current theme of the specified component
+ * @public
+ */
 export function useEditorUiTheme<T extends object>(
   key: keyof EditorUiTheme,
   createDefaultTheme: EditorUiThemeFactory<T>
@@ -148,12 +178,5 @@ export function useEditorUiTheme<T extends object>(
   return createEditorUiTheme(createDefaultTheme)(key, theme)
 }
 
+/** @public */
 export type EditorUiThemeFactory<T extends object> = (theme: EditorTheme) => T
-
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? DeepPartial<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepPartial<U>[]
-    : DeepPartial<T[P]>
-}

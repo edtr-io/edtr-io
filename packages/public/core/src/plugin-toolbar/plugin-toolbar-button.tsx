@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { PluginToolbarContext } from '../contexts'
 
+/** @public */
 export const PluginToolbarButton = React.forwardRef<
   HTMLButtonElement,
   PluginToolbarButtonProps

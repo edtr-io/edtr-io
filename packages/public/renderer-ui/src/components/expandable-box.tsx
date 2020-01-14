@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/renderer-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   createRendererUiTheme,
   ExpandableBoxTheme,
@@ -13,6 +9,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export const createExpandableBoxTheme = createRendererUiTheme<
   ExpandableBoxTheme
 >(theme => {
@@ -79,6 +76,7 @@ const StyledIcon = styled(Icon)<{ collapsed: boolean } & RendererThemeProps>(
   }
 )
 
+/** @public */
 export function ExpandableBox({
   children,
   editable,

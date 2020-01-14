@@ -17,6 +17,7 @@ export function HighlightRenderer(props: HighlightRendererProps) {
   )
 }
 
+/** @public */
 export interface HighlightRendererProps {
   code: string
   language: string

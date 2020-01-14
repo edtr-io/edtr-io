@@ -1,15 +1,11 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 import { StoreSerializeHelpers } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
-import { DocumentState, ScopedState } from '../types'
+import { DocumentState, ScopedState, Selector } from '../types'
 import {
   pureInsert,
   PureInsertAction,
@@ -19,7 +15,11 @@ import {
   pureRemove
 } from './actions'
 
-export const documentsReducer = createSubReducer(
+/** @internal */
+export const documentsReducer: SubReducer<Record<
+  string,
+  DocumentState
+>> = createSubReducer(
   'documents',
   {},
   {
@@ -54,15 +54,30 @@ export const documentsReducer = createSubReducer(
   }
 )
 
-export const getDocuments = createSelector(state => state.documents)
+/** @public */
+export const getDocuments: Selector<Record<
+  string,
+  DocumentState
+>> = createSelector(state => state.documents)
 
-export const getDocument = createSelector((state, id: string | null) => {
+/** @public */
+export const getDocument: Selector<
+  DocumentState | null,
+  [string | null]
+> = createSelector((state, id) => {
   if (!id) return null
   return getDocuments()(state)[id] || null
 })
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
 
+/**
+ * Serializes the document with the given `id`
+ *
+ * @param id - The id of the document
+ * @returns The serialization
+ * @public
+ */
 export const serializeDocument = (id: string | null) =>
   createDeepEqualSelector(
     (state: ScopedState) => {
@@ -81,6 +96,7 @@ export const serializeDocument = (id: string | null) =>
     s => s
   )
 
+/** @public */
 export const isEmpty = createSelector((state, id: string) => {
   const doc = getDocument(id)(state)
   if (!doc) return false
@@ -88,6 +104,14 @@ export const isEmpty = createSelector((state, id: string) => {
   return isDocumentEmpty(doc, plugin)
 })
 
+/**
+ * Checks whether the given document is empty
+ *
+ * @param doc - The document
+ * @param plugin - The plugin
+ * @returns `True` if the specified document is empty
+ * @public
+ */
 export function isDocumentEmpty(
   doc: DocumentState | null,
   plugin: EditorPlugin | null

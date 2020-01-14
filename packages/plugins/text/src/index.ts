@@ -1,4 +1,5 @@
 import { EditorPlugin, EditorPluginProps, scalar } from '@edtr-io/plugin'
+import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
 import {
   BlockJSON,
@@ -24,26 +25,36 @@ import { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
 import { plugins } from './plugins'
 
+/** @public */
 export type MarkEditorProps = RenderMarkProps
 
+/** @public */
 export interface MarkRendererProps {
   mark: MarkJSON
 }
 
+/** @public */
 export type BlockEditorProps = RenderBlockProps
+/** @public */
 export type InlineEditorProps = RenderInlineProps
+/** @public */
 export type NodeEditorProps = BlockEditorProps | InlineEditorProps
+/** @public */
 export type NodeControlsProps = EditorProps & {
   editor: Editor
 }
+/** @public */
 export interface InlineRendererProps {
   node: InlineJSON
 }
+/** @public */
 export interface BlockRendererProps {
   node: BlockJSON
 }
+/** @public */
 export type NodeRendererProps = BlockRendererProps | InlineRendererProps
 
+/** @public */
 export type TextPlugin = Plugin &
   Rule & {
     // FIXME: This type should exist in slate somewhere...
@@ -51,10 +62,11 @@ export type TextPlugin = Plugin &
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
 
-export { isValueEmpty } from './factory'
-
-const textState = scalar<ValueJSON>(emptyDocument)
+/** @public */
+export const textState = scalar<ValueJSON>(emptyDocument)
+/** @public */
 export type TextState = typeof textState
+/** @public */
 export interface TextConfig {
   placeholder: string
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
@@ -92,8 +104,10 @@ export interface TextConfig {
     }
   }
 }
+/** @public */
 export type TextProps = EditorPluginProps<TextState, TextConfig>
 
+/** @public */
 export function createTextPlugin({
   placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
   registry,
@@ -157,10 +171,4 @@ export function createTextPlugin({
   }
 }
 
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? DeepPartial<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepPartial<U>[]
-    : DeepPartial<T[P]>
-}
+export { isValueEmpty, SlatePluginClosure }

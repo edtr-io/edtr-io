@@ -1,30 +1,35 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import { Selector } from '../types'
 
-export const pluginsReducer = createSubReducer(
-  'plugins',
-  { defaultPlugin: '', plugins: {} },
-  {}
-)
+/** @internal */
+export const pluginsReducer: SubReducer<{
+  defaultPlugin: string
+  plugins: Record<string, EditorPlugin>
+}> = createSubReducer('plugins', { defaultPlugin: '', plugins: {} }, {})
 
-export const getDefaultPlugin = createSelector(
+/** @public */
+export const getDefaultPlugin: Selector<string> = createSelector(
   state => state.plugins.defaultPlugin
 )
-export const getPlugins = createSelector(state => state.plugins.plugins)
+/** @public */
+export const getPlugins: Selector<Record<
+  string,
+  EditorPlugin
+>> = createSelector(state => state.plugins.plugins)
+/** @public */
 export const getPlugin = createSelector(
   (state, type: string): EditorPlugin | null => {
     const plugins = getPlugins()(state)
     return plugins[type] || null
   }
 )
+/** @public */
 export const getPluginTypeOrDefault = createSelector(
   (state, type: string = getDefaultPlugin()(state)) => type
 )
+/** @public */
 export const getPluginOrDefault = createSelector(
   (state, type: string = getDefaultPlugin()(state)) => getPlugin(type)(state)
 )

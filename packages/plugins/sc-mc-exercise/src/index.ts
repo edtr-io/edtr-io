@@ -3,12 +3,18 @@ import {
   child,
   list,
   object,
-  EditorPluginProps
+  EditorPluginProps,
+  EditorPlugin
 } from '@edtr-io/plugin'
 
 import { ScMcExerciseEditor } from './editor'
 
-function createScMcExerciseState(
+/**
+ * @param content - Configuration for the content child
+ * @param feedback - Configuration for the feedback child
+ * @public
+ */
+export function createScMcExerciseState(
   content: Parameters<typeof child>,
   feedback: Parameters<typeof child>
 ) {
@@ -24,16 +30,19 @@ function createScMcExerciseState(
     answers: list(answerState)
   })
 }
+/** @public */
 export type ScMcExerciseState = ReturnType<typeof createScMcExerciseState>
+/** @public */
 export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>
 
+/** @public */
 export function createScMcExercisePlugin({
   content = [],
   feedback = []
 }: {
   content?: Parameters<typeof child>
   feedback?: Parameters<typeof child>
-} = {}) {
+} = {}): EditorPlugin<ScMcExerciseState> {
   return {
     Component: ScMcExerciseEditor,
     config: {},

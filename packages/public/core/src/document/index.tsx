@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/core
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
 import { undo } from '@edtr-io/store'
 import * as React from 'react'
@@ -10,6 +6,13 @@ import { ScopeContext, ErrorContext, useScopedDispatch } from '../store'
 import { DocumentEditor } from './editor'
 import { DocumentRenderer } from './renderer'
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * Renders a document inside another document
+ *
+ * @param props - The {@link DocumentProps}
+ * @public
+ */
 export const SubDocument = (props: DocumentProps) => {
   const { editable } = React.useContext(ScopeContext)
   const dispatch = useScopedDispatch()
@@ -67,6 +70,7 @@ export class ErrorBoundary extends React.Component<{ undo: () => void }> {
   }
 }
 
+/** @public */
 export interface DocumentProps {
   id: string
   pluginProps?: {

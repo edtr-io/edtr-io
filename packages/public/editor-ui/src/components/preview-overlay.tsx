@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/editor-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { ScopeContext } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
@@ -42,6 +38,11 @@ const ActivateButton = styled.button({
   zIndex: 10,
   margin: 'auto'
 })
+
+/**
+ * @param props - Props
+ * @public
+ */
 export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = props => {
   const [active, setActiveState] = React.useState(false)
   const { scope } = React.useContext(ScopeContext)
@@ -103,7 +104,8 @@ export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = prop
   )
 }
 
-interface PreviewOverlayProps {
+/** @public */
+export interface PreviewOverlayProps {
   focused: boolean
   editable?: boolean
   onChange?: (nextActive: boolean) => void

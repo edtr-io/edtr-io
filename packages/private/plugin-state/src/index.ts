@@ -1,18 +1,11 @@
 import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
 
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Describes the states of a [[Plugin]]. Please note that a state type will be recreated in every render.
  *
- * @typeparam S - serialized state of the plugin (i.e. this type will be used in [[serializeDocument]](
- * @typeparam T - state of the plugin (equals `S` by default)
- * @typeparam R - public API for usage in plugin components
  * @example the built-in [[boolean]], [[number]], [[string]], [[scalar]] and [[serializedScalar]], [[list]], [[object]], and [[child]] state types
+ * @public
  */
 export interface StateType<S = any, T = S, R = unknown> {
   /**
@@ -72,6 +65,8 @@ export interface StateType<S = any, T = S, R = unknown> {
  * @param previousState - current state at the time the change is applied
  * @param helpers - helpers (e.g. to insert an document in the store)
  * @returns new state
+ *
+ * @public
  */
 export type StateUpdater<T> = (
   previousState: T,
@@ -84,8 +79,7 @@ export type StateUpdater<T> = (
  * @param resolve - Callback to set the state after the asynchronous process has been completed successfully. Should only be called at most once.
  * @param reject - Callback to set the state after the asynchronous process has been completed unsuccessfully. Should only be called at most once.
  * @param next - Callback to update the state while it is still pending
- *
- * @typeparam T - type of the immediate and async values
+ * @public
  */
 export type StateExecutor<T> = (
   resolve: (value: T) => void,
@@ -95,6 +89,8 @@ export type StateExecutor<T> = (
 
 /**
  * Describes a child document
+ *
+ * @public
  */
 export interface FocusableChild {
   /**
@@ -106,15 +102,13 @@ export interface FocusableChild {
 /**
  * Maps a [[StateType]] to the type of its serialized state
  *
- * @typeparam D - state type
+ * @public
  */
 export type StateTypeSerializedType<
   D extends StateType<any>
 > = D extends StateType<infer S, any, any> ? S : never
 
-/**
- * @ignore
- */
+/** @public */
 export type StateTypesSerializedType<
   Ds extends Record<string, StateType<any>>
 > = { [K in keyof Ds]: StateTypeSerializedType<Ds[K]> }
@@ -122,7 +116,7 @@ export type StateTypesSerializedType<
 /**
  * Maps a [[StateType]] to the type of its deserialized state
  *
- * @typeparam D - state type
+ * @public
  */
 export type StateTypeValueType<D extends StateType<any>> = D extends StateType<
   any,
@@ -132,9 +126,7 @@ export type StateTypeValueType<D extends StateType<any>> = D extends StateType<
   ? T
   : never
 
-/**
- * @ignore
- */
+/** @public */
 export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
   [K in keyof Ds]: StateTypeValueType<Ds[K]>
 }
@@ -142,7 +134,7 @@ export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
 /**
  * Maps a [[StateType]] to the type of its public API for usage in plugin components
  *
- * @typeparam D - state type
+ * @public
  */
 export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
   any,
@@ -152,9 +144,7 @@ export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
   ? R
   : never
 
-/**
- * @ignore
- */
+/** @public */
 export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
   [K in keyof Ds]: StateTypeReturnType<Ds[K]>
 }
@@ -163,8 +153,7 @@ export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
 /**
  * Helpers to be used by a [[StateType]] when working with a serialized state
  *
- * @typeparam K - name of the plugin for `createDocument`
- * @typeparam S - state of the plugin for `createDocument`
+ * @public
  */
 export interface StoreDeserializeHelpers<
   K extends string = string,
@@ -181,8 +170,7 @@ export interface StoreDeserializeHelpers<
 /**
  * Helpers to be used by a [[StateType]] when working with a deserialized state
  *
- * @typeparam K - name of the plugin for `getDocument`
- * @typeparam S - state of the plugin for `getDocument`
+ * @public
  */
 export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
   /**
@@ -194,6 +182,7 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
   getDocument(id: string): { plugin: K; state?: S } | null
 }
 
+/** @public */
 export interface PluginProps {
   config?: {}
   insert?: DocumentEditorProps['insert']
