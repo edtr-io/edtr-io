@@ -4,6 +4,7 @@ import {
 } from '@edtr-io/internal__plugin-state'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
+import generate from 'shortid'
 
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
@@ -20,16 +21,35 @@ import {
   pureRemove,
   remove,
   RemoveAction,
-  PureChangeAction
+  PureChangeAction,
+  wrap,
+  WrapAction,
+  pureWrap,
+  PureWrapAction,
+  unwrap,
+  UnwrapAction,
+  pureUnwrap,
+  PureUnwrapAction
 } from './actions'
 import { getDocument } from './reducer'
 
 export function* documentsSaga() {
   yield all([
     takeEvery(insert.type, insertSaga),
+    takeEvery(remove.type, removeSaga),
     takeEvery(change.type, changeSaga),
-    takeEvery(remove.type, removeSaga)
+    takeEvery(wrap.type, wrapSaga),
+    takeEvery(unwrap.type, unwrapSaga)
   ])
+}
+
+function* insertSaga(action: InsertAction) {
+  const initialState = action.payload
+  const [actions]: [
+    ReversibleAction[],
+    unknown
+  ] = yield call(handleRecursiveInserts, action.scope, () => {}, [initialState])
+  yield put(commit(actions)(action.scope))
 }
 
 function* removeSaga(action: RemoveAction) {
@@ -50,15 +70,6 @@ function* removeSaga(action: RemoveAction) {
       })(action.scope)
     }
   ]
-  yield put(commit(actions)(action.scope))
-}
-
-function* insertSaga(action: InsertAction) {
-  const initialState = action.payload
-  const [actions]: [
-    ReversibleAction[],
-    unknown
-  ] = yield call(handleRecursiveInserts, action.scope, () => {}, [initialState])
   yield put(commit(actions)(action.scope))
 }
 
@@ -176,6 +187,41 @@ function* changeSaga(action: ChangeAction) {
       }
     }
   }
+}
+
+function* wrapSaga(action: WrapAction) {
+  const { id, document: documentHandler } = action.payload
+  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  const newId = generate()
+  if (!currentDocument) return
+  const reversibleAction: ReversibleAction<PureWrapAction, PureUnwrapAction> = {
+    action: pureWrap({ id, newId, document: documentHandler(newId) })(
+      action.scope
+    ),
+    reverse: pureUnwrap({ id, oldId: newId })(action.scope)
+  }
+  yield put(commit([reversibleAction])(action.scope))
+}
+
+function* unwrapSaga(action: UnwrapAction) {
+  const { id, oldId } = action.payload
+  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  if (!currentDocument) return
+  const reversibleAction: ReversibleAction<PureUnwrapAction, PureWrapAction> = {
+    action: pureUnwrap({ id, oldId })(action.scope),
+    reverse: pureWrap({
+      id,
+      newId: oldId,
+      document: currentDocument
+    })(action.scope)
+  }
+  yield put(commit([reversibleAction])(action.scope))
 }
 
 interface ChannelAction {

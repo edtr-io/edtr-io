@@ -114,7 +114,7 @@ export function createStore<K extends string>({ instances, createEnhancer }: Sto
 };
 
 // @public (undocumented)
-export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction;
+export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction | WrapAction | PureWrapAction | UnwrapAction | PureUnwrapAction;
 
 // @internal (undocumented)
 export const documentsReducer: SubReducer<Record<string, DocumentState>>;
@@ -475,6 +475,46 @@ export const pureUndo: {
 export type PureUndoAction = ActionFromActionCreator<typeof pureUndo>;
 
 // @public (undocumented)
+export const pureUnwrap: {
+    (payload: {
+        id: string;
+        oldId: string;
+    }): (scope: string) => {
+        type: "PureUnwrap";
+        payload: {
+            id: string;
+            oldId: string;
+        };
+        scope: string;
+    };
+    type: "PureUnwrap";
+};
+
+// @public (undocumented)
+export type PureUnwrapAction = ActionFromActionCreator<typeof pureUnwrap>;
+
+// @public (undocumented)
+export const pureWrap: {
+    (payload: {
+        id: string;
+        newId: string;
+        document: DocumentState;
+    }): (scope: string) => {
+        type: "PureWrap";
+        payload: {
+            id: string;
+            newId: string;
+            document: DocumentState;
+        };
+        scope: string;
+    };
+    type: "PureWrap";
+};
+
+// @public (undocumented)
+export type PureWrapAction = ActionFromActionCreator<typeof pureWrap>;
+
+// @public (undocumented)
 export const redo: {
     (): (scope: string) => {
         type: "Redo";
@@ -631,6 +671,44 @@ export const undo: {
 
 // @public (undocumented)
 export type UndoAction = ActionFromActionCreator<typeof undo>;
+
+// @public (undocumented)
+export const unwrap: {
+    (payload: {
+        id: string;
+        oldId: string;
+    }): (scope: string) => {
+        type: "Unwrap";
+        payload: {
+            id: string;
+            oldId: string;
+        };
+        scope: string;
+    };
+    type: "Unwrap";
+};
+
+// @public (undocumented)
+export type UnwrapAction = ActionFromActionCreator<typeof unwrap>;
+
+// @public (undocumented)
+export const wrap: {
+    (payload: {
+        id: string;
+        document: (id: string) => DocumentState;
+    }): (scope: string) => {
+        type: "Wrap";
+        payload: {
+            id: string;
+            document: (id: string) => DocumentState;
+        };
+        scope: string;
+    };
+    type: "Wrap";
+};
+
+// @public (undocumented)
+export type WrapAction = ActionFromActionCreator<typeof wrap>;
 
 
 // (No @packageDocumentation comment for this package)
