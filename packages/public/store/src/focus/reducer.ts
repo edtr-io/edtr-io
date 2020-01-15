@@ -1,9 +1,14 @@
 import * as R from 'ramda'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
-import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import {
+  createDeepEqualSelector,
+  createDeterministicJsonStringifySelector,
+  createSelector,
+  createSubReducer,
+  SubReducer
+} from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
 import { ScopedState, Selector } from '../types'
@@ -16,8 +21,6 @@ import {
   FocusNextDocumentAction,
   focusPrevious
 } from './actions'
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
 
 /** @internal */
 export const focusReducer: SubReducer<string | null> = createSubReducer(
@@ -70,33 +73,29 @@ export const isFocused: Selector<boolean, [string]> = createSelector(
  * @returns the [[focus tree|Node]] if it exists (`null` otherwise)
  * @public
  */
-export const getFocusTree: Selector<Node | null, [string?]> = (
-  id: string | null = null
-) => {
-  return createDeepEqualSelector(
-    (state: ScopedState): Node | null => {
-      const root = id ? id : getRoot()(state)
-      if (!root) return null
-      const document = getDocument(root)(state)
-      if (!document) return null
-      const plugin = getPlugin(document.plugin)(state)
-      if (!plugin) return null
+export const getFocusTree: Selector<
+  Node | null,
+  [string?]
+> = createDeterministicJsonStringifySelector((state, id = undefined) => {
+  const root = id ? id : getRoot()(state)
+  if (!root) return null
+  const document = getDocument(root)(state)
+  if (!document) return null
+  const plugin = getPlugin(document.plugin)(state)
+  if (!plugin) return null
 
-      const children = plugin.state
-        .getFocusableChildren(document.state)
-        .map(child => {
-          const subtree = getFocusTree(child.id)(state)
-          return subtree || child
-        })
+  const children = plugin.state
+    .getFocusableChildren(document.state)
+    .map(child => {
+      const subtree = getFocusTree(child.id)(state)
+      return subtree || child
+    })
 
-      return {
-        id: root,
-        children
-      }
-    },
-    s => s
-  )
-}
+  return {
+    id: root,
+    children
+  }
+})
 
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
@@ -105,31 +104,27 @@ export const getFocusTree: Selector<Node | null, [string?]> = (
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  * @public
  */
-export const getFocusPath: Selector<string[] | null, [string?]> = (
-  defaultLeaf: string | null = null
-) => {
-  return createDeepEqualSelector(
-    (state: ScopedState): string[] | null => {
-      const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
-      if (!leaf) return null
-      const root = getFocusTree()(state)
-      if (!root) return null
+export const getFocusPath: Selector<
+  string[] | null,
+  [string?]
+> = createDeepEqualSelector((state, defaultLeaf = undefined) => {
+  const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
+  if (!leaf) return null
+  const root = getFocusTree()(state)
+  if (!root) return null
 
-      let current = leaf
-      let path: string[] = [leaf]
+  let current = leaf
+  let path: string[] = [leaf]
 
-      while (current !== root.id) {
-        const parent = findParent(root, current)
-        if (!parent) return null
-        current = parent.id
-        path = [current, ...path]
-      }
+  while (current !== root.id) {
+    const parent = findParent(root, current)
+    if (!parent) return null
+    current = parent.id
+    path = [current, ...path]
+  }
 
-      return path
-    },
-    s => s
-  )
-}
+  return path
+})
 
 function handleFocus(
   focusState: ScopedState['focus'],
