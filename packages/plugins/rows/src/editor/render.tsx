@@ -35,8 +35,8 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { RowsConfig, RowsState } from '..'
 import { useCanDrop } from './use-can-drop'
+import { RowsConfig, RowsState } from '..'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
