@@ -201,9 +201,13 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
               })
             }
           },
-          // TODO: remove me...
-          UNDO: () => dispatch(undo()),
-          REDO: () => dispatch(redo())
+          // TODO: workaround for https://github.com/edtr-io/edtr-io/issues/272
+          UNDO: () => {
+            dispatch(undo())
+          },
+          REDO: () => {
+            dispatch(redo())
+          }
         }}
         allowChanges
       >
