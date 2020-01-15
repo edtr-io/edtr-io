@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.6](https://github.com/edtr-io/edtr-io/compare/v0.13.5..v0.13.6) - January 15, 2019
+
+### Fixed
+
+- **plugin-rows**. Improve drag and drop, handle drag and drop between multiple documents correctly
+
 ## [0.13.5](https://github.com/edtr-io/edtr-io/compare/v0.13.4..v0.13.5) - January 14, 2019
 
 ### Fixed

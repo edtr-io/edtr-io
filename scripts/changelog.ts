@@ -715,6 +715,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: [
         'Various improvements & fixes in the TypeScript declaration files'
       ]
+    },
+    {
+      tagName: 'v0.13.6',
+      name: '0.13.6',
+      date: '2019-01-15',
+      fixed: [
+        '**plugin-rows**. Improve drag and drop, handle drag and drop between multiple documents correctly'
+      ]
     }
   ])
 
