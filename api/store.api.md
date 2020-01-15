@@ -118,7 +118,7 @@ export interface DocumentState {
 // @public
 export function findNextNode(root: Node, from: string): string | null;
 
-// @internal (undocumented)
+// @public
 export function findParent(root: Node, id: string): Node | null;
 
 // @public
