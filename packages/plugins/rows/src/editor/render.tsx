@@ -2,7 +2,6 @@ import {
   OverlayButton,
   PluginToolbarButton,
   useScopedDispatch,
-  useScopedSelector,
   useScopedStore
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
@@ -11,10 +10,8 @@ import {
   change,
   DocumentState,
   findNextNode,
-  findParent,
   findPreviousNode,
   getDocument,
-  getFocusPath,
   getFocusTree,
   getPlugins,
   ReturnTypeFromSelector,
@@ -39,6 +36,7 @@ import {
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { RowsConfig, RowsState } from '..'
+import { useCanDrop } from './use-can-drop'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
@@ -81,6 +79,8 @@ const Inserted = styled.hr<{ config: RowsConfig }>(({ config }) => {
   }
 })
 
+const validFileTypes = [NativeTypes.FILE, NativeTypes.URL]
+
 export function RowRenderer({
   config,
   row,
@@ -98,6 +98,7 @@ export function RowRenderer({
 }) {
   const container = React.useRef<HTMLDivElement>(null)
   const [draggingAbove, setDraggingAbove] = React.useState(true)
+  const canDrop = useCanDrop(row.id, draggingAbove)
   const dispatch = useScopedDispatch()
   const store = useScopedStore()
 
@@ -131,17 +132,26 @@ export function RowRenderer({
     }
   })
   const [collectedDropProps, drop] = useDrop({
-    accept: ['row', NativeTypes.FILE, NativeTypes.URL],
-    collect(monitor) {
+    accept: ['row', ...validFileTypes],
+    collect(monitor): { isDragging: boolean; isFile?: boolean; id?: string } {
+      const type = monitor.getItemType()
+      const isDragging = monitor.canDrop() && monitor.isOver({ shallow: true })
+      if (isFileType(type)) {
+        return {
+          isDragging,
+          isFile: true
+        }
+      }
+
+      if (type == 'row') {
+        return {
+          isDragging,
+          id: monitor.getItem().id as string
+        }
+      }
+
       return {
-        isDragging:
-          monitor.getItemType() === 'row' &&
-          monitor.canDrop() &&
-          monitor.isOver({ shallow: true }),
-        id:
-          monitor.getItemType() === 'row'
-            ? (monitor.getItem().id as string)
-            : null
+        isDragging: false
       }
     },
     hover(item: RowDragObject, monitor) {
@@ -158,7 +168,7 @@ export function RowRenderer({
       // handled in nested drop zone
       if (monitor.didDrop()) return
 
-      if (type !== NativeTypes.FILE && type !== NativeTypes.URL) {
+      if (!isFileType(type)) {
         if (!canDrop(item.id)) return
 
         const draggingAbove = isDraggingAbove(monitor)
@@ -177,13 +187,18 @@ export function RowRenderer({
       const dropIndex = index
 
       let transfer: DataTransfer
-      if (type === NativeTypes.FILE) {
-        const files: File[] = monitor.getItem().files
-        transfer = createFakeDataTransfer(files)
-      } else {
-        // NativeTypes.URL
-        const urls: string[] = monitor.getItem().urls
-        transfer = createFakeDataTransfer([], urls[0])
+
+      switch (type) {
+        case NativeTypes.FILE: {
+          const files: File[] = monitor.getItem().files
+          transfer = createFakeDataTransfer(files)
+          break
+        }
+        case NativeTypes.URL: {
+          const urls: string[] = monitor.getItem().urls
+          transfer = createFakeDataTransfer([], urls[0])
+          break
+        }
       }
 
       for (const key in plugins) {
@@ -328,11 +343,9 @@ export function RowRenderer({
   }, [drag, store, dispatch, index, row.id, rows])
 
   dragPreview(drop(dropContainer))
-  const focusPath = useScopedSelector(getFocusPath(row.id))
-  const focusTree = useScopedSelector(getFocusTree())
-
   const dropPreview =
-    canDrop(collectedDropProps.id) && collectedDropProps.id ? (
+    collectedDropProps.isDragging &&
+    (collectedDropProps.isFile || canDrop(collectedDropProps.id)) ? (
       <Inserted config={config} />
     ) : null
 
@@ -364,37 +377,6 @@ export function RowRenderer({
 
     return dragClientY < domMiddleY
   }
-
-  function canDrop(draggedId: string | null) {
-    if (!collectedDropProps.isDragging || !draggedId) {
-      return false
-    }
-    if (!focusPath || focusPath.includes(draggedId)) {
-      // dropzone is child of dragged element or element itself
-      return false
-    }
-
-    if (!focusTree) return false
-    const parent = findParent(focusTree, draggedId)
-    if (!parent || !parent.children) return false
-
-    const dragIndex = R.findIndex(
-      node => node.id === draggedId,
-      parent.children
-    )
-    const dropZoneIndex = R.findIndex(
-      node => node.id === row.id,
-      parent.children
-    )
-    if (dropZoneIndex === -1) {
-      // different parent is fine
-      return true
-    }
-    // check that its not the same position
-    return draggingAbove
-      ? dropZoneIndex - 1 !== dragIndex
-      : dropZoneIndex + 1 !== dragIndex
-  }
 }
 
 // Needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
@@ -412,4 +394,10 @@ function createFakeDataTransfer(files: File[], text?: string) {
     }
   }
   return new FakeDataTransfer()
+}
+
+function isFileType(
+  type: ReturnType<DropTargetMonitor['getItemType']>
+): type is typeof NativeTypes.FILE | typeof NativeTypes.URL {
+  return validFileTypes.includes(type as string)
 }
