@@ -37,6 +37,7 @@ function RowEditor({
   return (
     <DropContainer key={row.id} ref={dropContainer}>
       <RowRenderer
+        config={config}
         row={row}
         rows={rows}
         index={index}

@@ -1,7 +1,6 @@
 import {
   OverlayButton,
   PluginToolbarButton,
-  SubDocument,
   useScopedDispatch,
   useScopedSelector,
   useScopedStore
@@ -39,7 +38,7 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { RowsState } from '..'
+import { RowsConfig, RowsState } from '..'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
@@ -76,18 +75,21 @@ const GrayOut = styled.div({
   opacity: 0.3
 })
 
-const Inserted = styled.div({
-  border: '2px dashed #3c3',
-  borderRadius: '2px'
+const Inserted = styled.hr<{ config: RowsConfig }>(({ config }) => {
+  return {
+    border: `1px solid ${config.theme.highlightColor}`
+  }
 })
 
 export function RowRenderer({
+  config,
   row,
   rows,
   index,
   plugins,
   dropContainer
 }: {
+  config: RowsConfig
   row: StateTypeReturnType<RowsState>[0]
   rows: StateTypeReturnType<RowsState>
   index: number
@@ -331,9 +333,7 @@ export function RowRenderer({
 
   const dropPreview =
     canDrop(collectedDropProps.id) && collectedDropProps.id ? (
-      <Inserted>
-        <SubDocument id={collectedDropProps.id} />
-      </Inserted>
+      <Inserted config={config} />
     ) : null
 
   return (
