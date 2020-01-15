@@ -7,7 +7,9 @@ import {
   getDocument,
   getPlugin,
   isDocumentEmpty,
-  isFocused
+  isFocused,
+  redo,
+  undo
 } from '@edtr-io/store'
 import { styled, useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -159,7 +161,9 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
           FOCUS_PREVIOUS: 'up',
           FOCUS_NEXT: 'down',
           INSERT_TEXT: 'enter',
-          DELETE_EMPTY: ['backspace', 'del']
+          DELETE_EMPTY: ['backspace', 'del'],
+          UNDO: ['ctrl+z', 'command+z'],
+          REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
         }}
         handlers={{
           FOCUS_PREVIOUS: e => {
@@ -196,6 +200,13 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
                 }
               })
             }
+          },
+          // TODO: workaround for https://github.com/edtr-io/edtr-io/issues/272
+          UNDO: () => {
+            dispatch(undo())
+          },
+          REDO: () => {
+            dispatch(redo())
           }
         }}
         allowChanges

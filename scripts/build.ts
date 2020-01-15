@@ -16,10 +16,17 @@ exec()
   })
 
 async function exec() {
+  await clean()
   bundle()
   invokeApiExtractor()
   await cleanTypes()
   await generateEntries()
+
+  async function clean() {
+    const rm = util.promisify(rimraf)
+    await rm('dist')
+    await rm(path.join('node_modules', '.cache'))
+  }
 
   function bundle() {
     spawnSync('yarn', ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'], {

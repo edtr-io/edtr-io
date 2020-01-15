@@ -52,6 +52,7 @@ export function list<S, T = S, U = unknown>(type: StateType<S, T, U>, initialCou
     id: string;
     value: T;
 }[], U[] & {
+    set(updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]): void;
     insert(index?: number, options?: S): void;
     remove(index: number): void;
     move(from: number, to: number): void;

@@ -69,6 +69,10 @@ export const rowsState: import("@edtr-io/internal__plugin-state").StateType<{
     render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => React.ReactNode;
     replace: (plugin?: string | undefined, state?: unknown) => void;
 }[] & {
+    set(updater: (currentList: string[], deserialize: (serialized: {
+        plugin: string;
+        state?: unknown;
+    }) => string) => string[]): void;
     insert(index?: number | undefined, options?: {
         plugin: string;
         state?: unknown;

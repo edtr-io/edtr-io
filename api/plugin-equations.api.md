@@ -105,6 +105,119 @@ export function createEquationsState(left: Parameters<typeof child>, right: Para
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
     }>[] & {
+        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
             left: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
@@ -226,6 +339,119 @@ export function createEquationsState(left: Parameters<typeof child>, right: Para
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
     }>[] & {
+        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
             left: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
@@ -347,6 +573,119 @@ export function createEquationsState(left: Parameters<typeof child>, right: Para
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
     }>[] & {
+        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+            left: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            right: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+            transform: import("@edtr-io/internal__plugin-state").StateType<{
+                plugin: string;
+                state?: unknown;
+            }, string, {
+                get(): string;
+                id: string;
+                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
+                replace: (plugin?: string | undefined, state?: unknown) => void;
+            }>;
+        }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
             left: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;

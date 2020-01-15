@@ -34,6 +34,18 @@ export type ActionCreator<T = string, P = any> = {
 export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<ReturnType<T>>;
 
 // @public (undocumented)
+export const blur: {
+    (): (scope: string) => {
+        type: "Blur";
+        scope: string;
+    };
+    type: "Blur";
+};
+
+// @public (undocumented)
+export type BlurAction = ActionFromActionCreator<typeof blur>;
+
+// @public (undocumented)
 export const change: {
     (payload: {
         id: string;
@@ -118,7 +130,7 @@ export interface DocumentState {
 // @public
 export function findNextNode(root: Node, from: string): string | null;
 
-// @internal (undocumented)
+// @public
 export function findParent(root: Node, id: string): Node | null;
 
 // @public
@@ -135,7 +147,7 @@ export const focus: {
 };
 
 // @public (undocumented)
-export type FocusAction = FocusDocumentAction | FocusNextDocumentAction | FocusPreviousDocumentAction;
+export type FocusAction = BlurAction | FocusDocumentAction | FocusNextDocumentAction | FocusPreviousDocumentAction;
 
 // @public (undocumented)
 export type FocusDocumentAction = ActionFromActionCreator<typeof focus>;
@@ -146,7 +158,7 @@ export const focusNext: {
         type: "FocusNext";
         scope: string;
     };
-    type: "FocusNext"; /** @public */
+    type: "FocusNext";
 };
 
 // @public (undocumented)
@@ -158,7 +170,7 @@ export const focusPrevious: {
         type: "FocusPrevious";
         scope: string;
     };
-    type: "FocusPrevious"; /** @public */
+    type: "FocusPrevious";
 };
 
 // @public (undocumented)
@@ -542,16 +554,10 @@ export interface ScopedState {
 export type Selector<T = any, P extends any[] = []> = (...args: P) => (scopedState: ScopedState) => T;
 
 // @public
-export const serializeDocument: (id: string | null) => import("reselect").OutputSelector<ScopedState, {
+export const serializeDocument: Selector<{
     plugin: string;
     state: any;
-} | null, (res: {
-    plugin: string;
-    state: any;
-} | null) => {
-    plugin: string;
-    state: any;
-} | null>;
+} | null, [string | null]>;
 
 // @public (undocumented)
 export const serializeRootDocument: Selector<{

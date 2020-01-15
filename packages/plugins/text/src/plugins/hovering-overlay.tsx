@@ -68,19 +68,6 @@ export function HoveringOverlay(props: {
     // menu is set to display:none, shouldn't ever happen
     if (!menu.offsetParent) return
     const parentRect = menu.offsetParent.getBoundingClientRect()
-    // only show menu if selection is inside of parent
-    if (
-      parentRect.top - 5 > rect.top ||
-      parentRect.top + parentRect.height + 5 < rect.top + rect.height ||
-      parentRect.left - 5 > rect.left ||
-      parentRect.left + parentRect.width + 5 < rect.left + rect.width
-    ) {
-      if (!props.allowSelectionOverflow) {
-        menu.style.top = ''
-        menu.style.left = ''
-        return
-      }
-    }
     menu.style.opacity = '1'
     const aboveValue = rect.top - menu.offsetHeight - 6
     // if top becomes negative, place menu below

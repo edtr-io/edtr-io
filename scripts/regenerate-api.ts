@@ -20,9 +20,9 @@ async function exec() {
   invokeApiExtractor()
 
   async function clean() {
-    const dist = path.join('dist')
     const rm = util.promisify(rimraf)
-    await rm(dist)
+    await rm('dist')
+    await rm(path.join('node_modules', '.cache'))
   }
 
   function bundle() {

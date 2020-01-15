@@ -1,9 +1,13 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 import { StoreSerializeHelpers } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 
-import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import {
+  createDeepEqualSelector,
+  createSelector,
+  createSubReducer,
+  SubReducer
+} from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { DocumentState, ScopedState, Selector } from '../types'
 import {
@@ -69,8 +73,6 @@ export const getDocument: Selector<
   return getDocuments()(state)[id] || null
 })
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
-
 /**
  * Serializes the document with the given `id`
  *
@@ -78,23 +80,22 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
  * @returns The serialization
  * @public
  */
-export const serializeDocument = (id: string | null) =>
-  createDeepEqualSelector(
-    (state: ScopedState) => {
-      const doc = getDocument(id)(state)
-      if (!doc) return null
-      const plugin = getPlugin(doc.plugin)(state)
-      if (!plugin) return null
-      const serializeHelpers: StoreSerializeHelpers = {
-        getDocument: (id: string) => serializeDocument(id)(state)
-      }
-      return {
-        plugin: doc.plugin,
-        state: plugin.state.serialize(doc.state, serializeHelpers)
-      }
-    },
-    s => s
-  )
+export const serializeDocument: Selector<
+  { plugin: string; state: any } | null,
+  [string | null]
+> = createDeepEqualSelector((state: ScopedState, id) => {
+  const doc = getDocument(id)(state)
+  if (!doc) return null
+  const plugin = getPlugin(doc.plugin)(state)
+  if (!plugin) return null
+  const serializeHelpers: StoreSerializeHelpers = {
+    getDocument: (id: string) => serializeDocument(id)(state)
+  }
+  return {
+    plugin: doc.plugin,
+    state: plugin.state.serialize(doc.state, serializeHelpers)
+  }
+})
 
 /** @public */
 export const isEmpty = createSelector((state, id: string) => {
