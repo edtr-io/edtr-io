@@ -24,7 +24,8 @@ export function useCanDrop(id: string, draggingAbove: boolean) {
     const parent = findParent(focusTree, dragId)
 
     const dropIndex = getChildPosition(parent, id)
-    if (dropIndex === null) return true
+    const hasDifferentParent = dropIndex === null
+    if (hasDifferentParent) return false
     const dragIndex = getChildPosition(parent, dragId)
 
     return draggingAbove
