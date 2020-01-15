@@ -46,6 +46,7 @@ export const filesState: import("@edtr-io/internal__plugin-state").StateType<imp
     id: string;
     value: import("@edtr-io/plugin").FileState<UploadedFile>;
 }[], import("@edtr-io/plugin").UploadStateReturnType<UploadedFile>[] & {
+    set(updater: (currentList: import("@edtr-io/plugin").FileState<UploadedFile>[], deserialize: (serialized: import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>[]): void;
     insert(index?: number | undefined, options?: UploadedFile | import("@edtr-io/plugin").TempFile | undefined): void;
     remove(index: number): void;
     move(from: number, to: number): void;
