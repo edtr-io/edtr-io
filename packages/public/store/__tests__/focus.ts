@@ -23,6 +23,14 @@ beforeEach(() => {
 })
 
 describe('Focus', () => {
+  describe('Blur', () => {
+    test('Blurred after blurring', () => {
+      store.dispatch(S.focus('0'))
+      store.dispatch(S.blur())
+      expect(S.isFocused('0')(store.getState())).toEqual(false)
+    })
+  })
+
   describe('FocusDocument', () => {
     test('Blurred initially', () => {
       expect(S.isFocused('0')(store.getState())).toEqual(false)

@@ -8,12 +8,12 @@ import {
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
+  blur,
   change,
   DocumentState,
   findNextNode,
   findParent,
   findPreviousNode,
-  focus,
   getDocument,
   getFocusPath,
   getFocusTree,
@@ -108,7 +108,7 @@ export function RowRenderer({
       onDrop() {}
     },
     begin() {
-      dispatch(focus(''))
+      dispatch(blur())
       const serialized = serializeDocument(row.id)(store.getState())
       return {
         id: row.id,

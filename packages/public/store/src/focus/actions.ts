@@ -2,6 +2,11 @@ import { createAction, createActionWithoutPayload } from '../helpers'
 import { ActionFromActionCreator } from '../types'
 
 /** @public */
+export const blur = createActionWithoutPayload<'Blur'>('Blur')
+/** @public */
+export type BlurAction = ActionFromActionCreator<typeof blur>
+
+/** @public */
 export const focus = createAction<'Focus', string>('Focus')
 /** @public */
 export type FocusDocumentAction = ActionFromActionCreator<typeof focus>
@@ -22,6 +27,7 @@ export type FocusPreviousDocumentAction = ActionFromActionCreator<
 
 /** @public */
 export type FocusAction =
+  | BlurAction
   | FocusDocumentAction
   | FocusNextDocumentAction
   | FocusPreviousDocumentAction

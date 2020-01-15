@@ -8,6 +8,8 @@ import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
 import { ScopedState, Selector } from '../types'
 import {
+  blur,
+  BlurAction,
   focus,
   FocusDocumentAction,
   focusNext,
@@ -22,6 +24,9 @@ export const focusReducer: SubReducer<string | null> = createSubReducer(
   'focus',
   null,
   {
+    [blur.type](_focusState, _action: BlurAction) {
+      return null
+    },
     [focus.type](_focusState, action: FocusDocumentAction) {
       return action.payload
     },
@@ -100,7 +105,9 @@ export const getFocusTree: Selector<Node | null, [string?]> = (
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  * @public
  */
-export const getFocusPath: Selector<string[] | null, [string?]> = (defaultLeaf: string | null = null) => {
+export const getFocusPath: Selector<string[] | null, [string?]> = (
+  defaultLeaf: string | null = null
+) => {
   return createDeepEqualSelector(
     (state: ScopedState): string[] | null => {
       const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
