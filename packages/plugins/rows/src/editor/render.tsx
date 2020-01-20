@@ -6,7 +6,6 @@ import {
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
-  blur,
   change,
   DocumentState,
   findNextNode,
