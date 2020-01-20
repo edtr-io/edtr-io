@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-equations",
-  "version": "0.13.6",
+  "version": "0.13.7",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
