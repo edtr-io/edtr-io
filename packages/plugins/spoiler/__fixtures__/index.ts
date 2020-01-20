@@ -6,12 +6,12 @@ import {
 import {
   createTextState,
   name as textPlugin,
-    Text
+  Text
 } from '@edtr-io/plugin-text/__fixtures__'
 
 import { SpoilerState, createSpoilerPlugin } from '../src'
 
-export const name = 'solution'
+export const name = 'spoiler'
 export const plugin = createSpoilerPlugin()
 
 export const states: Record<string, StateTypeSerializedType<SpoilerState>> = {

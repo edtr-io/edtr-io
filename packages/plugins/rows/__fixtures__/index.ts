@@ -1,5 +1,10 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 import {
+  name as textPlugin,
+  createTextState,
+  Text
+} from '@edtr-io/plugin-text/__fixtures__'
+import {
   createIcon,
   faAnchor,
   faCaretSquareDown,
@@ -18,11 +23,6 @@ import {
   faPhotoVideo,
   faQuoteRight
 } from '@edtr-io/ui'
-import {
-  name as textPlugin,
-  createTextState,
-    Text
-} from '@edtr-io/plugin-text/__fixtures__'
 
 import { RowsState, createRowsPlugin } from '../src'
 

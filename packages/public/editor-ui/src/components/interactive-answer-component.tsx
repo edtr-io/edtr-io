@@ -2,8 +2,8 @@ import { styled, Icon, faTimes, faPlus } from '@edtr-io/ui'
 import * as React from 'react'
 
 const AddButtonComponent = styled.button({
-  marginLeft: 'calc(10% + 20px)',
-  width: 'calc(90% - 20px)',
+  margin: '5px 2% 5px 2%',
+  width: '96%',
   borderRadius: '10px',
   backgroundColor: 'white',
   textAlign: 'left',
@@ -18,9 +18,13 @@ const AddButtonComponent = styled.button({
  * @param props - Props
  * @public
  */
-export function AddButton(props: { onClick: () => void; children: string }) {
+export function AddButton(props: {
+  onClick: () => void
+  children: string
+  title?: string
+}) {
   return (
-    <AddButtonComponent onClick={props.onClick}>
+    <AddButtonComponent title={props.title} onMouseDown={props.onClick}>
       <Icon icon={faPlus} /> {props.children}
     </AddButtonComponent>
   )

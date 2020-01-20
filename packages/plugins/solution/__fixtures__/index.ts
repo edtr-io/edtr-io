@@ -6,7 +6,7 @@ import {
 import {
   createTextState,
   name as textPlugin,
-    Text
+  Text
 } from '@edtr-io/plugin-text/__fixtures__'
 
 import { SolutionState, createSolutionPlugin } from '../src'

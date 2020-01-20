@@ -16,6 +16,7 @@ import { styled } from '@edtr-io/ui';
 export function AddButton(props: {
     onClick: () => void;
     children: string;
+    title?: string;
 }): JSX.Element;
 
 // @public (undocumented)
