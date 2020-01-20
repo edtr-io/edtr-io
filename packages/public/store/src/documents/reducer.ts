@@ -20,7 +20,9 @@ import {
   pureWrap,
   PureWrapAction,
   pureUnwrap,
-  PureUnwrapAction
+  PureUnwrapAction,
+  pureReplace,
+  PureReplaceAction
 } from './actions'
 
 /** @internal */
@@ -59,9 +61,11 @@ export const documentsReducer: SubReducer<Record<
         }
       }
     },
-    [pureWrap.type](documentState, action: PureWrapAction) {
+    [pureWrap.type](documentState, action: PureWrapAction, state) {
       const { id, newId, document } = action.payload
       if (!documentState[id]) return documentState
+      const plugin = getPlugin(document.plugin)(state)
+      if (!plugin) return documentState
 
       return {
         ...documentState,
@@ -77,6 +81,19 @@ export const documentsReducer: SubReducer<Record<
         ...documentState,
         [id]: documentState[oldId]
       })
+    },
+    [pureReplace.type](documentState, action: PureReplaceAction, state) {
+      const { id, plugin: type, state: pluginState } = action.payload
+      const plugin = getPlugin(type)(state)
+      if (!plugin) return documentState
+
+      return {
+        ...documentState,
+        [id]: {
+          plugin: type,
+          state: pluginState
+        }
+      }
     }
   }
 )

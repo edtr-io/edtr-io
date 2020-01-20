@@ -451,6 +451,25 @@ test('Undo unwrap', async () => {
   })
 })
 
+test('Undo replace', async () => {
+  await insert({ id: '1', plugin: 'stateful', state: 0 })
+  await preventCombine()
+  await replace({
+    id: '1',
+    plugin: 'stateful',
+    state: 5
+  })
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 5
+  })
+  await undo()
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+})
+
 async function undo() {
   store.dispatch(S.undo())
   await waitUntil(() =>
@@ -497,6 +516,13 @@ async function unwrap(...args: Parameters<typeof S.unwrap>) {
   store.dispatch(S.unwrap(...args))
   await waitUntil(() =>
     R.any(action => action.type === S.pureUnwrap.type, store.getActions())
+  )
+}
+
+async function replace(...args: Parameters<typeof S.replace>) {
+  store.dispatch(S.replace(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureReplace.type, store.getActions())
   )
 }
 

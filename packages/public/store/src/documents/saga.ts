@@ -29,7 +29,11 @@ import {
   unwrap,
   UnwrapAction,
   pureUnwrap,
-  PureUnwrapAction
+  PureUnwrapAction,
+  replace,
+  ReplaceAction,
+  PureReplaceAction,
+  pureReplace
 } from './actions'
 import { getDocument } from './reducer'
 
@@ -39,7 +43,8 @@ export function* documentsSaga() {
     takeEvery(remove.type, removeSaga),
     takeEvery(change.type, changeSaga),
     takeEvery(wrap.type, wrapSaga),
-    takeEvery(unwrap.type, unwrapSaga)
+    takeEvery(unwrap.type, unwrapSaga),
+    takeEvery(replace.type, replaceSaga)
   ])
 }
 
@@ -219,6 +224,27 @@ function* unwrapSaga(action: UnwrapAction) {
       id,
       newId: oldId,
       document: currentDocument
+    })(action.scope)
+  }
+  yield put(commit([reversibleAction])(action.scope))
+}
+
+function* replaceSaga(action: ReplaceAction) {
+  const { id, plugin, state } = action.payload
+  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  if (!currentDocument) return
+  const reversibleAction: ReversibleAction<
+    PureReplaceAction,
+    PureReplaceAction
+  > = {
+    action: pureReplace({ id, plugin, state })(action.scope),
+    reverse: pureReplace({
+      id,
+      plugin: currentDocument.plugin,
+      state: currentDocument.state
     })(action.scope)
   }
   yield put(commit([reversibleAction])(action.scope))

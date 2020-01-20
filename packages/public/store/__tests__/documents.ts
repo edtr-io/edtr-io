@@ -199,3 +199,30 @@ test('Unwrap', async () => {
     state: 0
   })
 })
+
+test('Replace', async () => {
+  store.dispatch(
+    S.insert({
+      id: '1',
+      plugin: 'stateful',
+      state: 0
+    })
+  )
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureInsert.type, store.getActions())
+  )
+  store.dispatch(
+    S.replace({
+      id: '1',
+      plugin: 'stateful',
+      state: 5
+    })
+  )
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureReplace.type, store.getActions())
+  )
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 5
+  })
+})

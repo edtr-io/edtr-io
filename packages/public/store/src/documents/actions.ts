@@ -99,6 +99,29 @@ export const pureUnwrap = createAction<
 export type PureUnwrapAction = ActionFromActionCreator<typeof pureUnwrap>
 
 /** @public */
+export const replace = createAction<
+  'Replace',
+  {
+    id: string
+    plugin: string
+    state: unknown
+  }
+>('Replace')
+/** @public */
+export type ReplaceAction = ActionFromActionCreator<typeof replace>
+/** @public */
+export const pureReplace = createAction<
+  'PureReplace',
+  {
+    id: string
+    plugin: string
+    state: unknown
+  }
+>('PureReplace')
+/** @public */
+export type PureReplaceAction = ActionFromActionCreator<typeof pureReplace>
+
+/** @public */
 export type DocumentsAction =
   | InsertAction
   | PureInsertAction
@@ -110,3 +133,5 @@ export type DocumentsAction =
   | PureWrapAction
   | UnwrapAction
   | PureUnwrapAction
+  | ReplaceAction
+  | PureReplaceAction

@@ -114,7 +114,7 @@ export function createStore<K extends string>({ instances, createEnhancer }: Sto
 };
 
 // @public (undocumented)
-export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction | WrapAction | PureWrapAction | UnwrapAction | PureUnwrapAction;
+export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction | WrapAction | PureWrapAction | UnwrapAction | PureUnwrapAction | ReplaceAction | PureReplaceAction;
 
 // @internal (undocumented)
 export const documentsReducer: SubReducer<Record<string, DocumentState>>;
@@ -451,6 +451,27 @@ export const pureRemove: {
 export type PureRemoveAction = ActionFromActionCreator<typeof pureRemove>;
 
 // @public (undocumented)
+export const pureReplace: {
+    (payload: {
+        id: string;
+        plugin: string;
+        state: unknown;
+    }): (scope: string) => {
+        type: "PureReplace";
+        payload: {
+            id: string;
+            plugin: string;
+            state: unknown;
+        };
+        scope: string;
+    };
+    type: "PureReplace";
+};
+
+// @public (undocumented)
+export type PureReplaceAction = ActionFromActionCreator<typeof pureReplace>;
+
+// @public (undocumented)
 export const pureReset: {
     (): (scope: string) => {
         type: "PureReset";
@@ -538,6 +559,27 @@ export const remove: {
 
 // @public (undocumented)
 export type RemoveAction = ActionFromActionCreator<typeof remove>;
+
+// @public (undocumented)
+export const replace: {
+    (payload: {
+        id: string;
+        plugin: string;
+        state: unknown;
+    }): (scope: string) => {
+        type: "Replace";
+        payload: {
+            id: string;
+            plugin: string;
+            state: unknown;
+        };
+        scope: string;
+    };
+    type: "Replace";
+};
+
+// @public (undocumented)
+export type ReplaceAction = ActionFromActionCreator<typeof replace>;
 
 // @public (undocumented)
 export const reset: {
