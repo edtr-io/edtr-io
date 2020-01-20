@@ -723,6 +723,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: [
         '**plugin-rows**. Improve drag and drop, handle drag and drop between multiple documents correctly'
       ]
+    },
+    {
+      tagName: 'v0.13.7',
+      name: '0.13.7',
+      date: '2019-01-20',
+      fixed: [
+          '**plugin-rows**. Fix drag and drop in Chrome',
+      ]
     }
   ])
 
