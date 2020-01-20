@@ -102,7 +102,6 @@ export function RowRenderer({
   const dispatch = useScopedDispatch()
   const store = useScopedStore()
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [collectedDragProps, drag, dragPreview] = useDrag({
     item: {
       id: row.id,
@@ -111,7 +110,6 @@ export function RowRenderer({
       onDrop() {}
     },
     begin() {
-      dispatch(blur())
       const serialized = serializeDocument(row.id)(store.getState())
       return {
         id: row.id,
