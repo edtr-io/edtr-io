@@ -10,12 +10,16 @@ import { VideoEditor } from './editor'
 
 const stateV0 = string()
 const stateV1 = object({ src: string(), alt: string() })
-const videoState = migratable(stateV0).migrate(stateV1, src => {
+/** @public */
+export const videoState = migratable(stateV0).migrate(stateV1, src => {
   return { src, alt: '' }
 })
+/** @public */
 export type VideoState = typeof videoState
+/** @public */
 export type VideoProps = EditorPluginProps<VideoState>
 
+/** @public */
 export function createVideoPlugin(): EditorPlugin<VideoState> {
   return {
     Component: VideoEditor,

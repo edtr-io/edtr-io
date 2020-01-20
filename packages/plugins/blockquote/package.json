@@ -1,23 +1,23 @@
 {
   "name": "@edtr-io/plugin-blockquote",
-  "version": "0.13.2",
+  "version": "0.13.6",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
   "module": "dist/plugin-blockquote.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/plugin": "^0.13.2",
+    "@edtr-io/plugin": "^0.13.6",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.13.2",
+    "@edtr-io/core": "^0.13.6",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

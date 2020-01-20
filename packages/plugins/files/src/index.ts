@@ -4,16 +4,23 @@ import { FilesEditor } from './editor'
 import { onPaste } from './on-paste'
 import { FilesConfig, FileType, UploadedFile } from './types'
 
-const filesState = list(
+/** @public */
+export const filesState = list(
   upload<UploadedFile>({
     location: '',
     name: '',
     type: FileType.Other
   })
 )
+/** @public */
 export type FilesState = typeof filesState
+/** @public */
 export type FilesProps = EditorPluginProps<FilesState, FilesConfig>
 
+/**
+ * @param config - {@link FilesConfig | Plugin configuration}
+ * @public
+ */
 export function createFilesPlugin(
   config: FilesConfig
 ): EditorPlugin<FilesState, FilesConfig> {

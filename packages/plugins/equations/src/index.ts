@@ -8,6 +8,7 @@ import {
 
 import { EquationsEditor } from './editor'
 
+/** @public */
 export function createEquationsPlugin({
   left = [],
   right = [],
@@ -24,7 +25,13 @@ export function createEquationsPlugin({
   }
 }
 
-function createEquationsState(
+/**
+ * @param left - Configuration for the left column
+ * @param right - Configuration for the right column
+ * @param transform - Configuration for the transform column
+ * @public
+ */
+export function createEquationsState(
   left: Parameters<typeof child>,
   right: Parameters<typeof child>,
   transform: Parameters<typeof child>
@@ -39,5 +46,7 @@ function createEquationsState(
     steps: list(StepProps)
   })
 }
+/** @public */
 export type EquationsState = ReturnType<typeof createEquationsState>
+/** @public */
 export type EquationsProps = EditorPluginProps<EquationsState>

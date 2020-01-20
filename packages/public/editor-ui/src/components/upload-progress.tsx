@@ -1,10 +1,7 @@
-/**
- * @module @edtr-io/editor-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { Icon, faSpinner } from '@edtr-io/ui'
 import * as React from 'react'
 
+/** @public */
 export class UploadProgress extends React.Component<UploadProgressProps> {
   public render() {
     const { progress } = this.props
@@ -21,6 +18,7 @@ export class UploadProgress extends React.Component<UploadProgressProps> {
   }
 }
 
+/** @public */
 export interface UploadProgressProps {
   progress?: number
   complete?: boolean

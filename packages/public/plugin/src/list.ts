@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StoreDeserializeHelpers,
   StateType,
@@ -11,6 +7,11 @@ import {
 import * as R from 'ramda'
 import { generate } from 'shortid'
 
+/**
+ * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} of the list items
+ * @param initialCount - The initial number of list items
+ * @public
+ */
 export function list<S, T = S, U = unknown>(
   type: StateType<S, T, U>,
   initialCount = 0
@@ -21,6 +22,9 @@ export function list<S, T = S, U = unknown>(
     value: T
   }[],
   U[] & {
+    set(
+      updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+    ): void
     insert(index?: number, options?: S): void
     remove(index: number): void
     move(from: number, to: number): void
@@ -38,6 +42,17 @@ export function list<S, T = S, U = unknown>(
       })
 
       return Object.assign(items, {
+        set(
+          updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+        ) {
+          onChange((wrappedItems, helpers) => {
+            const unwrapped = R.map(wrapped => wrapped.value, wrappedItems)
+            return R.map(
+              wrap,
+              updater(unwrapped, options => type.deserialize(options, helpers))
+            )
+          })
+        },
         insert(index?: number, options?: S) {
           onChange((items, helpers) => {
             const wrappedSubState = wrap(

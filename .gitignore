@@ -30,11 +30,10 @@ node_modules/
 .yarn-integrity
 
 # Transpiled code
-dist/
+packages/*/*/api/
+packages/*/*/dist/
+packages/*/*/beta/
+packages/*/*/internal/
 
-# Rollup cache
-.rts2_cache*
-
-# API documentation
-api/
-website/
+# API Extractor
+.api-extractor

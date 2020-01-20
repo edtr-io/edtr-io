@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/editor-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   BottomToolbarTheme,
   createEditorUiTheme,
@@ -9,6 +5,10 @@ import {
   styled
 } from '@edtr-io/ui'
 
+/**
+ * @param themeProp - Styled theme prop
+ * @public
+ */
 export const createBottomToolbarTheme = (
   themeProp: EditorThemeProps['theme']
 ) => {
@@ -22,7 +22,7 @@ export const createBottomToolbarTheme = (
   return themeCreator('bottomToolbar', themeProp)
 }
 
-// Toolbar at the bottom of the browser.
+/** @public */
 export const BottomToolbar = styled.div<EditorThemeProps>(props => {
   const theme = createBottomToolbarTheme(props.theme)
   return {

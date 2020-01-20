@@ -2,7 +2,7 @@ import { StateTypeSerializedType } from '@edtr-io/plugin'
 import {
   createTextState,
   name as textPlugin,
-    Text
+  Text
 } from '@edtr-io/plugin-text/__fixtures__'
 
 import { ScMcExerciseState, createScMcExercisePlugin } from '../src'

@@ -1,23 +1,23 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "0.13.2",
+  "version": "0.13.6",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
   "module": "dist/plugin-text.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsdx build --tsconfig tsconfig.prod.json"
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
     "@convertkit/slate-lists": "^0.2.5",
-    "@edtr-io/editor-ui": "^0.13.2",
-    "@edtr-io/plugin": "^0.13.2",
-    "@edtr-io/renderer-ui": "^0.13.2",
-    "@edtr-io/store": "^0.13.2",
-    "@edtr-io/ui": "^0.13.0",
+    "@edtr-io/editor-ui": "^0.13.6",
+    "@edtr-io/plugin": "^0.13.6",
+    "@edtr-io/renderer-ui": "^0.13.6",
+    "@edtr-io/store": "^0.13.6",
+    "@edtr-io/ui": "^0.13.5",
     "@types/exenv": "^1.0.0",
     "@types/is-hotkey": "^0.1.0",
     "@types/katex": "^0.11.0",
@@ -40,7 +40,7 @@
     "slate-react": "0.22.4"
   },
   "devDependencies": {
-    "@edtr-io/core": "^0.13.2",
+    "@edtr-io/core": "^0.13.6",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

@@ -1,12 +1,9 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 
 import { ReversibleAction } from '../actions'
 import { getDocuments } from '../documents/reducer'
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import { HistoryState, Selector } from '../types'
 import {
   persist,
   PersistAction,
@@ -18,7 +15,8 @@ import {
   PureUndoAction
 } from './actions'
 
-export const historyReducer = createSubReducer(
+/** @internal */
+export const historyReducer: SubReducer<HistoryState> = createSubReducer(
   'history',
   {
     undoStack: [],
@@ -81,23 +79,31 @@ export const historyReducer = createSubReducer(
   }
 )
 
-export const getHistory = createSelector(state => state.history)
+/** @public */
+export const getHistory: Selector<HistoryState> = createSelector(
+  state => state.history
+)
 
-export const getInitialState = createSelector(
+/** @public */
+export const getInitialState: Selector<HistoryState['initialState']> = createSelector(
   state => getHistory()(state).initialState
 )
 
-export const getPendingChanges = createSelector(
+/** @public */
+export const getPendingChanges: Selector<HistoryState['pendingChanges']> = createSelector(
   state => getHistory()(state).pendingChanges
 )
 
-export const hasPendingChanges = createSelector(
+/** @public */
+export const hasPendingChanges: Selector<boolean> = createSelector(
   state => getPendingChanges()(state) !== 0
 )
 
-export const getUndoStack = createSelector(
+/** @public */
+export const getUndoStack: Selector<ReversibleAction[][]> = createSelector(
   state => getHistory()(state).undoStack as ReversibleAction[][]
 )
-export const getRedoStack = createSelector(
+/** @public */
+export const getRedoStack: Selector<ReversibleAction[][]> = createSelector(
   state => getHistory()(state).redoStack as ReversibleAction[][]
 )

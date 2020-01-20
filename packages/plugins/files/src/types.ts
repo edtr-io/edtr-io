@@ -1,19 +1,23 @@
 import { UploadHandler } from '@edtr-io/plugin'
 
+/** @public */
 export interface UploadedFile {
   location: string
   type: FileType
   name: string
 }
 
+/** @public */
 export interface FilesConfig {
   upload: UploadHandler<UploadedFile>
 }
 
+/** @public */
 export interface UploadProps {
   onFiles: (files: File[]) => void
 }
 
+/** @public */
 export interface FileUploadConfig<T> {
   url: string
   maxFileSize: number
@@ -22,17 +26,20 @@ export interface FileUploadConfig<T> {
   getStateFromResponse: (response: T) => UploadedFile
 }
 
+/** @public */
 export enum FileErrorCode {
   NO_FILE_SELECTED,
   FILE_TOO_BIG,
   UPLOAD_FAILED
 }
 
+/** @public */
 export interface FileError {
   errorCode: FileErrorCode
   message: string
 }
 
+/** @public */
 export enum FileType {
   Image = 'image',
   Archive = 'archive',

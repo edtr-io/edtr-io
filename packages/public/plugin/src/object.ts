@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/plugin
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import {
   StateType,
   StateTypesSerializedType,
@@ -14,6 +10,11 @@ import {
 } from '@edtr-io/internal__plugin-state'
 import * as R from 'ramda'
 
+/**
+ * @param types - The {@link @edtr-io/internal__plugin-state#StateType | state types} of the properties of the object
+ * @param getFocusableChildren - Allows to override the default order of focusable children
+ * @public
+ */
 export function object<Ds extends Record<string, StateType>>(
   types: Ds,
   getFocusableChildren: (

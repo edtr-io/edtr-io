@@ -1,23 +1,28 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 
-import { createSelector, createSubReducer } from '../helpers'
+import { createSelector, createSubReducer, SubReducer } from '../helpers'
+import { DocumentState, Selector } from '../types'
 import { pureCopy, PureCopyAction } from './actions'
 
-export const clipboardReducer = createSubReducer('clipboard', [], {
-  [pureCopy.type](clipboardState, action: PureCopyAction) {
-    const maxLength = 3
-    const appended = R.prepend(action.payload, clipboardState)
-    const nextClipboard =
-      appended.length > maxLength
-        ? R.remove(maxLength, appended.length - maxLength, appended)
-        : appended
+/** @internal */
+export const clipboardReducer: SubReducer<DocumentState[]> = createSubReducer(
+  'clipboard',
+  [],
+  {
+    [pureCopy.type](clipboardState, action: PureCopyAction) {
+      const maxLength = 3
+      const appended = R.prepend(action.payload, clipboardState)
+      const nextClipboard =
+        appended.length > maxLength
+          ? R.remove(maxLength, appended.length - maxLength, appended)
+          : appended
 
-    return nextClipboard
+      return nextClipboard
+    }
   }
-})
+)
 
-export const getClipboard = createSelector(state => state.clipboard)
+/** @public */
+export const getClipboard: Selector<DocumentState[]> = createSelector(
+  state => state.clipboard
+)

@@ -12,7 +12,11 @@ import {
 
 import { InputExerciseEditor } from './editor'
 
-function createInputExerciseState(feedback: Parameters<typeof child>) {
+/**
+ * @param feedback - Configuration for the feedback child
+ * @public
+ */
+export function createInputExerciseState(feedback: Parameters<typeof child>) {
   const stateV0 = object({
     type: string('Text'),
     correctAnswers: list(string('')),
@@ -69,15 +73,19 @@ function createInputExerciseState(feedback: Parameters<typeof child>) {
       }
     })
 }
+/** @public */
 export type InputExerciseState = ReturnType<typeof createInputExerciseState>
+/** @public */
 export interface InputExerciseConfig {
   theme: { borderColor: string; borderStyle: string }
 }
+/** @public */
 export type InputExerciseProps = EditorPluginProps<
   InputExerciseState,
   InputExerciseConfig
 >
 
+/** @public */
 export function createInputExercisePlugin({
   theme = {},
   feedback = []

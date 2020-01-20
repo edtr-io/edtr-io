@@ -1,6 +1,7 @@
 import { useScopedSelector } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import { getPlugins, isFocused } from '@edtr-io/store'
+import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsRenderer } from '../renderer'
@@ -9,35 +10,39 @@ import { RowRenderer } from './render'
 import { Separator } from './separator'
 import { RowsConfig, RowsProps, RowsState } from '..'
 
+const DropContainer = styled.div({
+  position: 'relative',
+  // increase dropZone
+  marginLeft: '-50px',
+  paddingLeft: '50px'
+})
+
 function RowEditor({
   config,
-  insert,
   openMenu,
-  moveRow,
   index,
   row,
   rows
 }: {
   config: RowsConfig
-  insert(index: number, options?: { plugin: string; state?: unknown }): void
   openMenu(index: number): void
-  moveRow(from: number, to: number): void
   index: number
   rows: StateTypeReturnType<RowsState>
   row: StateTypeReturnType<RowsState>[0]
 }) {
   const focused = useScopedSelector(isFocused(row.id))
   const plugins = useScopedSelector(getPlugins())
+  const dropContainer = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div key={row.id} style={{ position: 'relative' }}>
+    <DropContainer key={row.id} ref={dropContainer}>
       <RowRenderer
-        insert={insert}
-        moveRow={moveRow}
+        config={config}
         row={row}
         rows={rows}
         index={index}
         plugins={plugins}
+        dropContainer={dropContainer}
       />
       <Separator
         config={config}
@@ -46,7 +51,7 @@ function RowEditor({
           openMenu(index + 1)
         }}
       />
-    </div>
+    </DropContainer>
   )
 }
 
@@ -86,14 +91,8 @@ export function RowsEditor(props: RowsProps) {
           <RowEditor
             config={props.config}
             key={row.id}
-            insert={(index, options) => {
-              props.state.insert(index, options)
-            }}
             openMenu={() => {
               openMenu(index + 1)
-            }}
-            moveRow={(from, to) => {
-              props.state.move(from, to)
             }}
             index={index}
             rows={props.state}

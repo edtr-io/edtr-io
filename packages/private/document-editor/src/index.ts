@@ -3,6 +3,8 @@ import * as React from 'react'
 
 /**
  * Allows to override the default rendering behavior of the document editor
+ *
+ * @public
  */
 export interface DocumentEditorProps {
   /**

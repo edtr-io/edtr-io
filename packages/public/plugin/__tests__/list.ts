@@ -176,6 +176,26 @@ describe('list', () => {
     expect(store[0].id).toEqual('1')
   })
 
+  test('return type, set', () => {
+    store = [
+      {
+        id: '0',
+        value: 'foo'
+      },
+      {
+        id: '1',
+        value: 'bar'
+      }
+    ]
+    const state = list(child())
+    const listValue = state.init(store, onChange)
+    listValue.set(list => {
+      return [list[0]]
+    })
+    expect(store).toHaveLength(1)
+    expect(store[0].value).toEqual('foo')
+  })
+
   test('get focusable children', () => {
     const state = list(child())
     expect(state.getFocusableChildren([{ id: 'foo', value: 'bar' }])).toEqual([

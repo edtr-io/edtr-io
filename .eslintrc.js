@@ -69,6 +69,7 @@ module.exports = {
           'katex/dist/katex.css',
           'react-dom/server',
           'react-dom/test-utils',
+          'react-syntax-highlighter/dist/cjs/styles/*/*',
           'redux-saga/effects'
         ]
       }
@@ -98,7 +99,7 @@ module.exports = {
     'jsdoc/check-tag-names': [
       'warn',
       {
-        definedTags: ['category', 'typeparam']
+        definedTags: ['internal', 'typeParam']
       }
     ],
     'jsdoc/check-types': 'off',

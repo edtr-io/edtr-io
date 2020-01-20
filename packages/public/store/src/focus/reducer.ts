@@ -1,17 +1,20 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
-import { createSelector, createSubReducer } from '../helpers'
+import {
+  createDeepEqualSelector,
+  createDeterministicJsonStringifySelector,
+  createSelector,
+  createSubReducer,
+  SubReducer
+} from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
 import { ScopedState, Selector } from '../types'
 import {
+  blur,
+  BlurAction,
   focus,
   FocusDocumentAction,
   focusNext,
@@ -19,28 +22,34 @@ import {
   focusPrevious
 } from './actions'
 
-/**
- * @ignore
- **/
-export const focusReducer = createSubReducer('focus', null, {
-  [focus.type](_focusState, action: FocusDocumentAction) {
-    return action.payload
-  },
-  [focusNext.type](focusState, _action: FocusNextDocumentAction, state) {
-    return handleFocus(focusState, state, findNextNode)
-  },
-  [focusPrevious.type](focusState, _action: FocusNextDocumentAction, state) {
-    return handleFocus(focusState, state, findPreviousNode)
-  },
-  [pureInsert.type](_focusState, action: PureInsertAction, _state) {
-    return action.payload.id
+/** @internal */
+export const focusReducer: SubReducer<string | null> = createSubReducer(
+  'focus',
+  null,
+  {
+    [blur.type](_focusState, _action: BlurAction) {
+      return null
+    },
+    [focus.type](_focusState, action: FocusDocumentAction) {
+      return action.payload
+    },
+    [focusNext.type](focusState, _action: FocusNextDocumentAction, state) {
+      return handleFocus(focusState, state, findNextNode)
+    },
+    [focusPrevious.type](focusState, _action: FocusNextDocumentAction, state) {
+      return handleFocus(focusState, state, findPreviousNode)
+    },
+    [pureInsert.type](_focusState, action: PureInsertAction, _state) {
+      return action.payload.id
+    }
   }
-})
+)
 
 /**
  * [[Selector]] that returns the id of the focused element (if there is any)
  *
  * @returns id of the focused element (`null` if there is no focused element)
+ * @public
  */
 export const getFocused: Selector<string | null, []> = createSelector(
   state => state.focus
@@ -51,6 +60,7 @@ export const getFocused: Selector<string | null, []> = createSelector(
  *
  * @param id - id of the document to check
  * @returns `true` if the given document is focused
+ * @public
  */
 export const isFocused: Selector<boolean, [string]> = createSelector(
   (state, id: string) => getFocused()(state) === id
@@ -61,61 +71,60 @@ export const isFocused: Selector<boolean, [string]> = createSelector(
  *
  * @param id - optional id of the document that should be considered as the root of the focus tree. By default, we use the root document of the current scope
  * @returns the [[focus tree|Node]] if it exists (`null` otherwise)
+ * @public
  */
-export const getFocusTree: Selector<Node | null, [string?]> = createSelector(
-  (state: ScopedState, root: string | null = getRoot()(state)): Node | null => {
-    if (!root) return null
-    const document = getDocument(root)(state)
-    if (!document) return null
-    const plugin = getPlugin(document.plugin)(state)
-    if (!plugin) return null
+export const getFocusTree: Selector<
+  Node | null,
+  [string?]
+> = createDeterministicJsonStringifySelector((state, id = undefined) => {
+  const root = id ? id : getRoot()(state)
+  if (!root) return null
+  const document = getDocument(root)(state)
+  if (!document) return null
+  const plugin = getPlugin(document.plugin)(state)
+  if (!plugin) return null
 
-    const children = plugin.state
-      .getFocusableChildren(document.state)
-      .map(child => {
-        const subtree = getFocusTree(child.id)(state)
-        return subtree || child
-      })
+  const children = plugin.state
+    .getFocusableChildren(document.state)
+    .map(child => {
+      const subtree = getFocusTree(child.id)(state)
+      return subtree || child
+    })
 
-    return {
-      id: root,
-      children
-    }
+  return {
+    id: root,
+    children
   }
-)
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, R.equals)
+})
 
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
  *
- * @param defaultLeaf
- * @param id - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
+ * @param defaultLeaf - optional id of the document that should be considered as the leaf of the focus path. By default, we use the currently focused document of the current scope
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
+ * @public
  */
-export const getFocusPath = (defaultLeaf: string | null = null) => {
-  return createDeepEqualSelector(
-    (state: ScopedState): string[] | null => {
-      const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
-      if (!leaf) return null
-      const root = getFocusTree()(state)
-      if (!root) return null
+export const getFocusPath: Selector<
+  string[] | null,
+  [string?]
+> = createDeepEqualSelector((state, defaultLeaf = undefined) => {
+  const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
+  if (!leaf) return null
+  const root = getFocusTree()(state)
+  if (!root) return null
 
-      let current = leaf
-      let path: string[] = [leaf]
+  let current = leaf
+  let path: string[] = [leaf]
 
-      while (current !== root.id) {
-        const parent = findParent(root, current)
-        if (!parent) return null
-        current = parent.id
-        path = [current, ...path]
-      }
+  while (current !== root.id) {
+    const parent = findParent(root, current)
+    if (!parent) return null
+    current = parent.id
+    path = [current, ...path]
+  }
 
-      return path
-    },
-    s => s
-  )
-}
+  return path
+})
 
 function handleFocus(
   focusState: ScopedState['focus'],
@@ -136,6 +145,7 @@ function handleFocus(
  *
  * @param id - id of the document to check
  * @returns `true` if the given document has a focused child
+ * @public
  */
 export const hasFocusedChild: Selector<boolean, [string]> = createSelector(
   (state, id: string) => {
@@ -151,6 +161,7 @@ export const hasFocusedChild: Selector<boolean, [string]> = createSelector(
  *
  * @param id - id of the document to check
  * @returns `true` if the given document has a focused descendant
+ * @public
  */
 export const hasFocusedDescendant: Selector<boolean, [string]> = createSelector(
   (state, id: string): boolean => {
@@ -169,6 +180,7 @@ export const hasFocusedDescendant: Selector<boolean, [string]> = createSelector(
  * @param root - focus tree
  * @param from - id of the current document
  * @returns the id of the next document if it exists (`null` otherwise)
+ * @public
  */
 export function findNextNode(root: Node, from: string): string | null {
   const parent = findParent(root, from)
@@ -198,6 +210,7 @@ export function findNextNode(root: Node, from: string): string | null {
  * @param root - focus tree
  * @param from - id of the current document
  * @returns the id of the previous document if it exists (`null` otherwise)
+ * @public
  */
 export function findPreviousNode(root: Node, from: string): string | null {
   const parent = findParent(root, from)
@@ -221,9 +234,13 @@ export function findPreviousNode(root: Node, from: string): string | null {
 }
 
 /**
- * @ignore
- * @private
- **/
+ * Finds the parent node of an id in the focus tree
+ *
+ * @param root - focus tree
+ * @param id - id of the current node
+ * @returns the `Node` of the parent, if the id exists in the focus tree. (`null` otherwise)
+ * @public
+ */
 export function findParent(root: Node, id: string): Node | null {
   if (root.id === id) {
     return root
@@ -244,10 +261,7 @@ export function findParent(root: Node, id: string): Node | null {
   return null
 }
 
-/**
- * @ignore
- * @private
- **/
+/** @public */
 export interface Node {
   id: string
   children?: Node[]

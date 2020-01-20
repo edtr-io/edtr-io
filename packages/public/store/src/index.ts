@@ -1,18 +1,24 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
-export { Action } from './actions'
+export * from './actions'
 export * from './clipboard'
 export * from './documents'
 export * from './focus'
 export * from './history'
 export * from './plugins'
 export * from './root'
+export { SubReducer } from './helpers'
 export { getScope } from './reducer'
-export { createStore, ChangeListener, StoreEnhancerFactory } from './store'
 export {
+  createStore,
+  ChangeListener,
+  StoreEnhancerFactory,
+  StoreOptions
+} from './store'
+export {
+  ActionCreator,
+  ActionFromActionCreator,
   DocumentState,
+  HistoryState,
+  Selector,
   ReturnTypeFromSelector,
   State,
   Store,

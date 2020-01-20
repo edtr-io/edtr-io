@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/core
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor'
 import { createDefaultPluginToolbar } from '@edtr-io/default-plugin-toolbar'
 import { EditorPlugin } from '@edtr-io/internal__plugin'
@@ -54,6 +50,12 @@ const MAIN_SCOPE = 'main'
 let mountedProvider = false
 const mountedScopes: Record<string, boolean> = {}
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * Renders a single editor for an Edtr.io document
+ *
+ * @public
+ */
 export function Editor<K extends string = string>({
   createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   ...props
@@ -88,13 +90,24 @@ export function Editor<K extends string = string>({
   }
 }
 
-export const EditorProvider: React.FunctionComponent<{
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * Hydrates the required contexts
+ *
+ * @param createStoreEnhancer - Optional {@link @edtr-io/store#StoreEnhancerFactory | store enhancer factory}
+ * @param omitDragDropContext - If set to `true`, we omit the hydration of {@link react-dnd#DndProvider}
+ * @param children - The children
+ * @public
+ */
+export function EditorProvider({
+  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
+  omitDragDropContext,
+  children
+}: {
   omitDragDropContext?: boolean
   createStoreEnhancer?: StoreEnhancerFactory
-}> = ({
-  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
-  ...props
-}) => {
+  children: React.ReactNode
+}) {
   React.useEffect(() => {
     if (mountedProvider) {
       // eslint-disable-next-line no-console
@@ -115,11 +128,20 @@ export const EditorProvider: React.FunctionComponent<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const children = <Provider store={store}>{props.children}</Provider>
-  if (props.omitDragDropContext) return children
-  return <DndProvider backend={HTML5Backend}>{children}</DndProvider>
+  const child = <Provider store={store}>{children}</Provider>
+  if (omitDragDropContext) return child
+  return <DndProvider backend={HTML5Backend}>{child}</DndProvider>
 }
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * Renders an editor for an Edtr.io document
+ *
+ * @param scope - The scope of the document
+ * @param mirror - Should be set to `true` for all but one document of the same scope
+ * @param props - The {@link EditorProps | props} for the document
+ * @public
+ */
 export function Document<K extends string = string>({
   scope = MAIN_SCOPE,
   mirror,
@@ -264,6 +286,7 @@ export function InnerDocument<K extends string = string>({
   }
 }
 
+/** @public */
 export interface EditorProps<K extends string = string> {
   omitDragDropContext?: boolean
   children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)

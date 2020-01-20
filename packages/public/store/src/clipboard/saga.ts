@@ -1,7 +1,3 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { serializeDocument } from '../documents/reducer'

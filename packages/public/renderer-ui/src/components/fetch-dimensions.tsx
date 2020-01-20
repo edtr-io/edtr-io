@@ -1,10 +1,7 @@
-/**
- * @module @edtr-io/renderer-ui
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
 import * as R from 'ramda'
 import * as React from 'react'
 
+/** @public */
 export class FetchDimensions extends React.Component<
   FetchDimensionsProps,
   FetchDimensionsState
@@ -71,6 +68,7 @@ export class FetchDimensions extends React.Component<
   private done = false
 }
 
+/** @public */
 export interface FetchDimensionsProps {
   length: number
   render: (
@@ -79,6 +77,7 @@ export interface FetchDimensionsProps {
   onDone: (dimensions: Dimensions) => void
 }
 
+/** @public */
 export interface Dimensions {
   heights: number[]
   widths: number[]
@@ -87,7 +86,8 @@ export interface Dimensions {
   clientHeights: number[]
   clientWidths: number[]
 }
-interface FetchDimensionsState {
+/** @public */
+export interface FetchDimensionsState {
   heights: (number | null)[]
   widths: (number | null)[]
   scrollHeights: (number | null)[]

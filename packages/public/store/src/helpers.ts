@@ -1,7 +1,7 @@
-/**
- * @module @edtr-io/store
- */
-/** Comment needed because of https://github.com/christopherthielen/typedoc-plugin-external-module-name/issues/337 */
+import stringify from 'json-stringify-deterministic'
+import * as R from 'ramda'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
+
 import { Action } from './actions'
 import { State, ScopedState, Selector } from './types'
 
@@ -50,6 +50,44 @@ export function createSelector<T, P extends any[]>(
   return (...args: P) => (state: ScopedState) => f(state, ...args)
 }
 
+const createDeepEqualSelectorCreator = createSelectorCreator(
+  defaultMemoize,
+  R.equals
+)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createDeepEqualSelector<T, P extends any[]>(
+  f: (state: ScopedState, ...args: P) => T
+): Selector<T, P> {
+  return (...args: P) => {
+    return createDeepEqualSelectorCreator(
+      (state: ScopedState) => {
+        return f(state, ...args)
+      },
+      s => s
+    )
+  }
+}
+
+const createDeterministicJsonStringifySelectorCreator = createSelectorCreator(
+  defaultMemoize,
+  (a, b) => stringify(a) === stringify(b)
+)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createDeterministicJsonStringifySelector<T, P extends any[]>(
+  f: (state: ScopedState, ...args: P) => T
+): Selector<T, P> {
+  return (...args: P) => {
+    return createDeterministicJsonStringifySelectorCreator(
+      (state: ScopedState) => {
+        return f(state, ...args)
+      },
+      s => s
+    )
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function scopeSelector<T, P extends any[]>(
   selector: Selector<T, P>,
@@ -60,6 +98,7 @@ export function scopeSelector<T, P extends any[]>(
   }
 }
 
+/** @internal */
 export type SubReducer<S = unknown> = (
   action: Action,
   state: ScopedState | undefined
