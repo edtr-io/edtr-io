@@ -33,6 +33,19 @@ export type ActionCreator<T = string, P = any> = {
 // @public (undocumented)
 export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<ReturnType<T>>;
 
+// @internal (undocumented)
+export const applyActions: {
+    (payload: Action[]): (scope: string) => {
+        type: "ApplyActions";
+        payload: Action[];
+        scope: string;
+    };
+    type: "ApplyActions";
+};
+
+// @internal (undocumented)
+export type ApplyActionsAction = ActionFromActionCreator<typeof applyActions>;
+
 // @public (undocumented)
 export const blur: {
     (): (scope: string) => {

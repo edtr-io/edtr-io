@@ -11,7 +11,7 @@ import {
   takeEvery
 } from 'redux-saga/effects'
 
-import { Reversible, ReversibleAction } from '../actions'
+import { applyActions, Reversible, ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { ReturnTypeFromSelector } from '../types'
 import {
@@ -99,7 +99,7 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
     // then revert the temporary action
     yield all(tempActions.map(a => put(a.reverse)))
 
-    //apply final actions and all reverted actions
+    // apply final actions and all reverted actions
     yield all(finalActions.map(a => put(a.action)))
 
     yield all(
@@ -162,9 +162,11 @@ function* undoSaga(action: UndoAction) {
   )
   const toUndo = R.head(undoStack)
   if (!toUndo) return
-  yield all(
-    R.reverse(toUndo).map(reversibleAction => put(reversibleAction.reverse))
+
+  const actions = R.reverse(toUndo).map(
+    reversibleAction => reversibleAction.reverse
   )
+  yield put(applyActions(actions)(action.scope))
   yield put(pureUndo()(action.scope))
 }
 
@@ -174,7 +176,8 @@ function* redoSaga(action: RedoAction) {
   )
   const replay = R.head(redoStack)
   if (!replay) return
-  yield all(replay.map(reversibleAction => put(reversibleAction.action)))
+  const actions = replay.map(reversibleAction => reversibleAction.action)
+  yield put(applyActions(actions)(action.scope))
   yield put(pureRedo()(action.scope))
 }
 
