@@ -18,7 +18,7 @@ import {
   RenderMarkProps
 } from 'slate-react'
 
-import { createUiPlugin, Controls } from './controls'
+import { Controls, createUiPlugin } from './controls'
 import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import { SlatePluginClosure } from './factory/types'
@@ -165,8 +165,7 @@ export function createTextPlugin({
       return false
     },
     isEmpty: state => {
-      const value = Value.fromJSON(state)
-      return isValueEmpty(value)
+      return isValueEmpty(Value.fromJSON(state.value))
     }
   }
 }
