@@ -1,0 +1,27 @@
+{
+  "name": "@edtr-io/internal__dev-expression",
+  "version": "0.13.6",
+  "license": "MIT",
+  "author": "edtr.io Consortium",
+  "main": "dist/index.js",
+  "module": "dist/internal__dev-expression.esm.js",
+  "typings": "api/public.d.ts",
+  "repository": "edtr-io/edtr-io",
+  "scripts": {
+    "regenerate-api": "ts-node ../../../scripts/regenerate-api",
+    "build": "ts-node ../../../scripts/build"
+  },
+  "dependencies": {
+    "tiny-invariant": "^1.0.0",
+    "tiny-warning": "^1.0.0"
+  },
+  "devDependencies": {
+    "react": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

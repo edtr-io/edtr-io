@@ -1,6 +1,11 @@
 import * as R from 'ramda'
 
-import { Action, setPartialState } from './actions'
+import {
+  Action,
+  applyActions,
+  ApplyActionsAction,
+  setPartialState
+} from './actions'
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
 import { focusReducer } from './focus/reducer'
@@ -18,8 +23,19 @@ import { State, ScopedState } from './types'
  * @returns The new {@link State | state}
  * @internal
  */
-export function reducer(state: State | undefined, action: Action): State {
-  if (state && action.type === setPartialState.type) {
+export function reducer(
+  state: State = {},
+  action: Action | ApplyActionsAction
+): State {
+  if (action.scope === undefined) {
+    return R.map(State => scopedReducer(State, action as Action), state)
+  }
+
+  if (action.type === applyActions.type) {
+    return R.reduce(reducer, state, action.payload)
+  }
+
+  if (action.type === setPartialState.type) {
     return {
       ...state,
       [action.scope]: {
@@ -29,17 +45,9 @@ export function reducer(state: State | undefined, action: Action): State {
     }
   }
 
-  // Handle init action of redux
-  if (action.scope === undefined) {
-    return R.map(State => scopedReducer(State, action), state)
-  }
-
-  const instanceState = state && state[action.scope]
-  const reducedState = scopedReducer(instanceState, action)
-
   return {
     ...state,
-    [action.scope]: reducedState
+    [action.scope]: scopedReducer(state[action.scope], action)
   }
 }
 

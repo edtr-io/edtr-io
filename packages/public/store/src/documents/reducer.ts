@@ -13,10 +13,16 @@ import { DocumentState, ScopedState, Selector } from '../types'
 import {
   pureInsert,
   PureInsertAction,
-  RemoveAction,
   pureChange,
   PureChangeAction,
-  pureRemove
+  pureRemove,
+  PureRemoveAction,
+  pureWrap,
+  PureWrapAction,
+  pureUnwrap,
+  PureUnwrapAction,
+  pureReplace,
+  PureReplaceAction
 } from './actions'
 
 /** @internal */
@@ -40,7 +46,7 @@ export const documentsReducer: SubReducer<Record<
         }
       }
     },
-    [pureRemove.type](documentState, action: RemoveAction) {
+    [pureRemove.type](documentState, action: PureRemoveAction) {
       return R.omit([action.payload], documentState)
     },
     [pureChange.type](documentState, action: PureChangeAction) {
@@ -51,6 +57,40 @@ export const documentsReducer: SubReducer<Record<
         ...documentState,
         [id]: {
           ...documentState[id],
+          state: pluginState
+        }
+      }
+    },
+    [pureWrap.type](documentState, action: PureWrapAction, state) {
+      const { id, newId, document } = action.payload
+      if (!documentState[id]) return documentState
+      const plugin = getPlugin(document.plugin)(state)
+      if (!plugin) return documentState
+
+      return {
+        ...documentState,
+        [newId]: documentState[id],
+        [id]: document
+      }
+    },
+    [pureUnwrap.type](documentState, action: PureUnwrapAction) {
+      const { id, oldId } = action.payload
+      if (!documentState[oldId]) return documentState
+
+      return R.dissoc(oldId, {
+        ...documentState,
+        [id]: documentState[oldId]
+      })
+    },
+    [pureReplace.type](documentState, action: PureReplaceAction, state) {
+      const { id, plugin: type, state: pluginState } = action.payload
+      const plugin = getPlugin(type)(state)
+      if (!plugin) return documentState
+
+      return {
+        ...documentState,
+        [id]: {
+          plugin: type,
           state: pluginState
         }
       }

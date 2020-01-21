@@ -20,371 +20,453 @@ beforeEach(() => {
   store = setupStore()
 })
 
-describe('History', () => {
-  beforeEach(async () => {
-    store.dispatch(
-      S.initRoot({
-        initialState: { plugin: 'stateful', state: 0 },
-        plugins,
-        defaultPlugin: 'text'
-      })
-    )
-    await waitUntil(() =>
-      R.any(action => action.type === persist.type, store.getActions())
-    )
-  })
-
-  test('Initial state after initializing the root', () => {
-    const { initialState } = getHistory()(store.getState())
-    if (!initialState) throw new Error('Expected initial state')
-    expect(initialState.documents).toEqual({
-      root: {
-        plugin: 'stateful',
-        state: 0
-      }
+beforeEach(async () => {
+  store.dispatch(
+    S.initRoot({
+      initialState: { plugin: 'stateful', state: 0 },
+      plugins,
+      defaultPlugin: 'text'
     })
-    expect(S.hasPendingChanges()(store.getState())).toEqual(false)
-  })
+  )
+  await waitUntil(() =>
+    R.any(action => action.type === persist.type, store.getActions())
+  )
+})
 
-  test('Changes will be committed to the history', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    expect(S.hasPendingChanges()(store.getState())).toEqual(true)
-    const undoStack = getUndoStack()(store.getState())
-    expect(undoStack).toHaveLength(1)
-    expect(undoStack[0]).toHaveLength(1)
-    expect(undoStack[0][0].action.type).toEqual(pureChange.type)
-  })
-
-  test('Commits will be added to the redo stack after reverting', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await undo()
-    expect(getUndoStack()(store.getState())).toHaveLength(0)
-    expect(getRedoStack()(store.getState())).toHaveLength(1)
-  })
-
-  test('Redo stack will be purged after a commit', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await undo()
-    await change({ id: 'root', state: { initial: () => 2 } })
-    expect(getUndoStack()(store.getState())).toHaveLength(1)
-    expect(getRedoStack()(store.getState())).toHaveLength(0)
-  })
-
-  test('Undo reverts the last committed actions', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-  })
-
-  test('Redo replays the last reverted commit', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await undo()
-    await redo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-  })
-
-  test('Undo keeps order of previous commits', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 3 } })
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-  })
-
-  test('Redo keeps order of remaining commits', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 3 } })
-    await undo()
-    await undo()
-    await undo()
-    await redo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-    await redo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-  })
-
-  test('Undo keeps order of actions in previous commits', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 3 } })
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-  })
-
-  test('Redo keeps order of actions in remaining commits', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await change({ id: 'root', state: { initial: () => 3 } })
-    await undo()
-    await undo()
-    await redo()
-    await redo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 3
-    })
-  })
-
-  test('Changes in a small time frame will be combined into a single commit', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await change({ id: 'root', state: { initial: () => 2 } })
-    expect(getUndoStack()(store.getState())).toHaveLength(1)
-  })
-
-  test('Changes in a longer time frame will not be combined', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    expect(getUndoStack()(store.getState())).toHaveLength(2)
-  })
-
-  test('Undo after redo', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await wait(1000)
-    await change({ id: 'root', state: { initial: () => 2 } })
-    await undo()
-    await redo()
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-  })
-
-  test('Reset after one change', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await reset()
-    expect(S.getDocument('root')(store.getState())).toEqual({
+test('Initial state after initializing the root', () => {
+  const { initialState } = getHistory()(store.getState())
+  if (!initialState) throw new Error('Expected initial state')
+  expect(initialState.documents).toEqual({
+    root: {
       plugin: 'stateful',
       state: 0
-    })
+    }
   })
+  expect(S.hasPendingChanges()(store.getState())).toEqual(false)
+})
 
-  test('Reset after two changes', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await change({ id: 'root', state: { initial: () => 2 } })
-    // undoStack: [[1, 2]]
-    await reset()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 0
-    })
+test('Changes will be committed to the history', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  expect(S.hasPendingChanges()(store.getState())).toEqual(true)
+  const undoStack = getUndoStack()(store.getState())
+  expect(undoStack).toHaveLength(1)
+  expect(undoStack[0]).toHaveLength(1)
+  expect(undoStack[0][0].action.type).toEqual(pureChange.type)
+})
+
+test('Commits will be added to the redo stack after reverting', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await undo()
+  expect(getUndoStack()(store.getState())).toHaveLength(0)
+  expect(getRedoStack()(store.getState())).toHaveLength(1)
+})
+
+test('Redo stack will be purged after a commit', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await undo()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  expect(getUndoStack()(store.getState())).toHaveLength(1)
+  expect(getRedoStack()(store.getState())).toHaveLength(0)
+})
+
+test('Undo reverts the last committed actions', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
   })
+})
 
-  test('Reset after persist and undo', async () => {
-    await change({ id: 'root', state: { initial: () => 1 } })
-    await change({ id: 'root', state: { initial: () => 2 } })
-    store.dispatch(S.persist())
-    await undo()
-    await reset()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
+test('Redo replays the last reverted commit', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await undo()
+  await redo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
   })
+})
 
-  test('Undo insert', async () => {
-    await insert({ id: '1', plugin: 'stateful', state: 2 })
-    expect(S.getDocument('1')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-    await undo()
-    expect(S.getDocument('1')(store.getState())).toEqual(null)
+test('Undo keeps order of previous commits', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 3 } })
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
   })
-
-  test('Undo remove', async () => {
-    await insert({ id: '1', plugin: 'stateful', state: 2 })
-    await wait(1000)
-    await remove('1')
-    expect(S.getDocument('1')(store.getState())).toEqual(null)
-    await undo()
-    expect(S.getDocument('1')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
   })
+})
 
-  test('Async change', async () => {
-    store.dispatch(
-      temporaryCommit({
-        executor: (resolve, _reject, _next) => {
+test('Redo keeps order of remaining commits', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 3 } })
+  await undo()
+  await undo()
+  await undo()
+  await redo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
+  })
+  await redo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+})
+
+test('Undo keeps order of actions in previous commits', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 3 } })
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+})
+
+test('Redo keeps order of actions in remaining commits', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await change({ id: 'root', state: { initial: () => 3 } })
+  await undo()
+  await undo()
+  await redo()
+  await redo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 3
+  })
+})
+
+test('Changes in a small time frame will be combined into a single commit', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await change({ id: 'root', state: { initial: () => 2 } })
+  expect(getUndoStack()(store.getState())).toHaveLength(1)
+})
+
+test('Changes in a longer time frame will not be combined', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  expect(getUndoStack()(store.getState())).toHaveLength(2)
+})
+
+test('Undo after redo', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await preventCombine()
+  await change({ id: 'root', state: { initial: () => 2 } })
+  await undo()
+  await redo()
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
+  })
+})
+
+test('Reset after one change', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await reset()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+})
+
+test('Reset after two changes', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await change({ id: 'root', state: { initial: () => 2 } })
+  // undoStack: [[1, 2]]
+  await reset()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+})
+
+test('Reset after persist and undo', async () => {
+  await change({ id: 'root', state: { initial: () => 1 } })
+  await change({ id: 'root', state: { initial: () => 2 } })
+  store.dispatch(S.persist())
+  await undo()
+  await reset()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+})
+
+test('Undo insert', async () => {
+  await insert({ id: '1', plugin: 'stateful', state: 2 })
+  expect(S.getDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+  await undo()
+  expect(S.getDocument('1')(store.getState())).toEqual(null)
+})
+
+test('Undo remove', async () => {
+  await insert({ id: '1', plugin: 'stateful', state: 2 })
+  await preventCombine()
+  await remove('1')
+  expect(S.getDocument('1')(store.getState())).toEqual(null)
+  await undo()
+  expect(S.getDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+})
+
+test('Async change', async () => {
+  store.dispatch(
+    temporaryCommit({
+      executor: (resolve, _reject, _next) => {
+        setTimeout(() => {
+          resolve([
+            {
+              action: pureChange({ id: 'root', state: 2 })(TEST_SCOPE),
+              reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+            }
+          ])
+        }, 300)
+      },
+      initial: [
+        {
+          action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+          reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+        }
+      ]
+    })
+  )
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
+  })
+  await wait(300)
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+  expect(getUndoStack()(store.getState())).toHaveLength(1)
+  expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+})
+
+test('Async change with continue', async () => {
+  store.dispatch(
+    temporaryCommit({
+      executor: (resolve, _reject, next) => {
+        function firstAsyncUpdate() {
           setTimeout(() => {
-            resolve([
+            next([
               {
                 action: pureChange({ id: 'root', state: 2 })(TEST_SCOPE),
                 reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
               }
             ])
-          }, 300)
-        },
-        initial: [
-          {
-            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
-            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-          }
-        ]
-      })
-    )
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-    await wait(300)
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-    expect(getUndoStack()(store.getState())).toHaveLength(1)
-    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
-  })
-
-  test('Async change with continue', async () => {
-    store.dispatch(
-      temporaryCommit({
-        executor: (resolve, _reject, next) => {
-          function firstAsyncUpdate() {
-            setTimeout(() => {
-              next([
-                {
-                  action: pureChange({ id: 'root', state: 2 })(TEST_SCOPE),
-                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-                }
-              ])
-              secondAsyncUpdate()
-            }, 200)
-          }
-          function secondAsyncUpdate() {
-            setTimeout(() => {
-              next([
-                {
-                  action: pureChange({ id: 'root', state: 3 })(TEST_SCOPE),
-                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-                }
-              ])
-              finalAsyncUpdate()
-            }, 200)
-          }
-          function finalAsyncUpdate() {
-            setTimeout(() => {
-              resolve([
-                {
-                  action: pureChange({ id: 'root', state: 5 })(TEST_SCOPE),
-                  reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-                }
-              ])
-            }, 200)
-          }
-
-          firstAsyncUpdate()
-        },
-        initial: [
-          {
-            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
-            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-          }
-        ]
-      })
-    )
-
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
-    })
-    await wait(200)
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 2
-    })
-    await wait(200)
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 3
-    })
-    await wait(200)
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 5
-    })
-    expect(getUndoStack()(store.getState())).toHaveLength(1)
-    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
-    await undo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 0
-    })
-    await redo()
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 5
-    })
-  })
-
-  test('Async change with reject', async () => {
-    store.dispatch(
-      temporaryCommit({
-        executor: (_resolve, reject, _next) => {
+            secondAsyncUpdate()
+          }, 200)
+        }
+        function secondAsyncUpdate() {
           setTimeout(() => {
-            reject([
+            next([
               {
-                action: pureChange({ id: 'root', state: -1 })(TEST_SCOPE),
+                action: pureChange({ id: 'root', state: 3 })(TEST_SCOPE),
                 reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
               }
             ])
-          }, 300)
-        },
-        initial: [
-          {
-            action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
-            reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
-          }
-        ]
-      })
-    )
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: 1
+            finalAsyncUpdate()
+          }, 200)
+        }
+        function finalAsyncUpdate() {
+          setTimeout(() => {
+            resolve([
+              {
+                action: pureChange({ id: 'root', state: 5 })(TEST_SCOPE),
+                reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+              }
+            ])
+          }, 200)
+        }
+
+        firstAsyncUpdate()
+      },
+      initial: [
+        {
+          action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+          reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+        }
+      ]
     })
-    await wait(300)
-    expect(S.getDocument('root')(store.getState())).toEqual({
-      plugin: 'stateful',
-      state: -1
+  )
+
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
+  })
+  await wait(200)
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 2
+  })
+  await wait(200)
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 3
+  })
+  await wait(200)
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 5
+  })
+  expect(getUndoStack()(store.getState())).toHaveLength(1)
+  expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+  await undo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+  await redo()
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 5
+  })
+})
+
+test('Async change with reject', async () => {
+  store.dispatch(
+    temporaryCommit({
+      executor: (_resolve, reject, _next) => {
+        setTimeout(() => {
+          reject([
+            {
+              action: pureChange({ id: 'root', state: -1 })(TEST_SCOPE),
+              reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+            }
+          ])
+        }, 300)
+      },
+      initial: [
+        {
+          action: pureChange({ id: 'root', state: 1 })(TEST_SCOPE),
+          reverse: pureChange({ id: 'root', state: 0 })(TEST_SCOPE)
+        }
+      ]
     })
-    expect(getUndoStack()(store.getState())).toHaveLength(1)
-    expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+  )
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 1
+  })
+  await wait(300)
+  expect(S.getDocument('root')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: -1
+  })
+  expect(getUndoStack()(store.getState())).toHaveLength(1)
+  expect(getUndoStack()(store.getState())[0]).toHaveLength(1)
+})
+
+test('Undo wrap', async () => {
+  await insert({ id: '1', plugin: 'stateful', state: 0 })
+  await preventCombine()
+  await wrap({
+    id: '1',
+    document: id => {
+      return {
+        plugin: 'blockquote',
+        state: id
+      }
+    }
+  })
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'blockquote',
+    state: {
+      plugin: 'stateful',
+      state: 0
+    }
+  })
+  await undo()
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+})
+
+test('Undo unwrap', async () => {
+  store.dispatch(
+    S.insert({
+      id: 'root',
+      plugin: 'blockquote',
+      state: {
+        plugin: 'stateful',
+        state: 0
+      }
+    })
+  )
+  await waitUntil(
+    () =>
+      R.filter(action => action.type === S.pureInsert.type, store.getActions())
+        .length >= 2
+  )
+  await preventCombine()
+  const lastInsert = R.findLast(
+    action => action.type === S.pureInsert.type,
+    store.getActions()
+  ) as S.PureInsertAction
+  await unwrap({
+    id: 'root',
+    oldId: lastInsert.payload.id
+  })
+  expect(S.serializeRootDocument()(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
+  })
+  await undo()
+  expect(S.serializeRootDocument()(store.getState())).toEqual({
+    plugin: 'blockquote',
+    state: {
+      plugin: 'stateful',
+      state: 0
+    }
+  })
+})
+
+test('Undo replace', async () => {
+  await insert({ id: '1', plugin: 'stateful', state: 0 })
+  await preventCombine()
+  await replace({
+    id: '1',
+    plugin: 'stateful',
+    state: 5
+  })
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 5
+  })
+  await undo()
+  expect(S.serializeDocument('1')(store.getState())).toEqual({
+    plugin: 'stateful',
+    state: 0
   })
 })
 
@@ -421,6 +503,31 @@ async function remove(...args: Parameters<typeof S.remove>) {
   await waitUntil(() =>
     R.any(action => action.type === commit.type, store.getActions())
   )
+}
+
+async function wrap(...args: Parameters<typeof S.wrap>) {
+  store.dispatch(S.wrap(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureWrap.type, store.getActions())
+  )
+}
+
+async function unwrap(...args: Parameters<typeof S.unwrap>) {
+  store.dispatch(S.unwrap(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureUnwrap.type, store.getActions())
+  )
+}
+
+async function replace(...args: Parameters<typeof S.replace>) {
+  store.dispatch(S.replace(...args))
+  await waitUntil(() =>
+    R.any(action => action.type === S.pureReplace.type, store.getActions())
+  )
+}
+
+async function preventCombine() {
+  await wait(1000)
 }
 
 async function reset() {

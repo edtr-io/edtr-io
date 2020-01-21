@@ -15,11 +15,13 @@
     "@edtr-io/internal__plugin": "^0.13.5",
     "@edtr-io/internal__plugin-state": "^0.13.5",
     "@types/ramda": "^0.26.1",
+    "@types/shortid": "^0.0.29",
     "json-stringify-deterministic": "^1.0.0",
     "ramda": "^0.26.1",
     "redux": "^4.0.0",
     "redux-saga": "^1.0.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "shortid": "^2.0.0"
   },
   "devDependencies": {
     "@edtr-io/internal__fixtures": "^0.13.0"

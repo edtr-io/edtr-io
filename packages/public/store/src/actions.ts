@@ -16,6 +16,13 @@ export const setPartialState = createAction<
 /** @public */
 export type SetPartialState = ActionFromActionCreator<typeof setPartialState>
 
+/** @internal */
+export const applyActions = createAction<'ApplyActions', Action[]>(
+  'ApplyActions'
+)
+/** @internal */
+export type ApplyActionsAction = ActionFromActionCreator<typeof applyActions>
+
 /** @public */
 export type Action =
   | ClipboardAction
