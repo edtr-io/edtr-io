@@ -16,13 +16,9 @@ export interface PluginProps {
     // (undocumented)
     config?: {};
     // (undocumented)
-    insert?: DocumentEditorProps['insert'];
-    // (undocumented)
     name?: string;
     // (undocumented)
     parent?: PluginProps;
-    // (undocumented)
-    remove?: DocumentEditorProps['remove'];
     // (undocumented)
     renderSettings?: DocumentEditorProps['renderSettings'];
     // (undocumented)

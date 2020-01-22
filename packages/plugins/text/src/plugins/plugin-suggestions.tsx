@@ -9,7 +9,7 @@ import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {
-    const plugins = pluginClosure.current.availablePlugins
+    const plugins = pluginClosure.current.config.registry
     const search = editor.value.document.text.replace('/', '')
     const pluginsStartingWithSearchString = plugins
       .filter(plugin => {
@@ -151,7 +151,6 @@ function SuggestionsBox({
             currentValue={text.substr(1)}
             selected={selected}
             config={config}
-            name={pluginClosure.current ? pluginClosure.current.name : ''}
           />
         </HoveringOverlay>
       ) : null}

@@ -106,13 +106,6 @@ export interface EditorPluginProps<
   id: string
 
   /**
-   * Name of the plugin as defined in the registry
-   *
-   * @deprecated Will be removed as soon as we found a better solution for that
-   */
-  name: string
-
-  /**
    * `true` if the document is currently editable
    */
   editable: boolean

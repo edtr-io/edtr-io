@@ -102,11 +102,10 @@ const preferenceKey = 'katex:usevisualmath'
 setDefaultPreference(preferenceKey, true)
 
 export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
-  name: string
   config: TextConfig
 }> = props => {
   const [helpOpen, setHelpOpen] = React.useState(false)
-  const { attributes, editor, readOnly, name, node } = props
+  const { attributes, editor, readOnly, node } = props
 
   const { data, key: nodeKey, type: nodeType } = node
   const inline = data.get('inline')
@@ -264,7 +263,6 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
                 }}
               >
                 <Dropdown
-                  name={name}
                   config={props.config}
                   value={useVisualMath ? 'visual' : 'latex'}
                   onChange={e => {
@@ -301,7 +299,6 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
                 {useVisualMath && (
                   <Button
                     config={props.config}
-                    name={name}
                     onMouseDown={() => {
                       setHelpOpen(true)
                     }}

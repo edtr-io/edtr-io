@@ -75,8 +75,6 @@ export interface DocumentProps {
   id: string
   pluginProps?: {
     config?: {}
-    insert?: DocumentEditorProps['insert']
-    remove?: DocumentEditorProps['remove']
     renderSettings?: DocumentEditorProps['renderSettings']
     renderToolbar?: DocumentEditorProps['renderToolbar']
   }

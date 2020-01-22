@@ -34,7 +34,6 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
       config={config}
       state={pluginState}
       id={id}
-      name={document.plugin}
       editable={false}
       focused={false}
       defaultFocusRef={focusRef}

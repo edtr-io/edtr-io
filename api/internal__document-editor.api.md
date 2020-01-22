@@ -13,13 +13,8 @@ export interface DocumentEditorProps {
     focused: boolean;
     hasSettings: boolean;
     hasToolbar: boolean;
-    insert?(options?: {
-        plugin: string;
-        state?: unknown;
-    }): void;
     // (undocumented)
     PluginToolbar: PluginToolbar;
-    remove?(): void;
     renderSettings?(children: React.ReactNode, { close }: {
         close(): void;
     }): React.ReactNode;

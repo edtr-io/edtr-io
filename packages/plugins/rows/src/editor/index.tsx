@@ -101,12 +101,7 @@ export function RowsEditor(props: RowsProps) {
         )
       })}
       {menu ? (
-        <Menu
-          menu={menu}
-          setMenu={setMenu}
-          name={props.name}
-          config={props.config}
-        />
+        <Menu menu={menu} setMenu={setMenu} config={props.config} />
       ) : null}
     </div>
   )

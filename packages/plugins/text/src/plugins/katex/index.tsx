@@ -67,7 +67,7 @@ export const removeKatex = (editor: Editor) => {
 
 export interface KatexPluginOptions {
   EditorComponent?: React.ComponentType<
-    NodeEditorProps & { name: string; config: TextConfig }
+    NodeEditorProps & { config: TextConfig }
   >
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>
@@ -79,12 +79,11 @@ export const createKatexPlugin = ({
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
   function renderEditorComponent(props: NodeEditorProps) {
-    const name = pluginClosure.current ? pluginClosure.current.name : ''
     const config = pluginClosure.current
       ? pluginClosure.current.config
       : undefined
     if (!config) return null
-    return <EditorComponent config={config} {...props} name={name} />
+    return <EditorComponent config={config} {...props} />
   }
   return {
     onKeyDown(event, editor, next) {

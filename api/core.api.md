@@ -43,8 +43,6 @@ export interface DocumentProps {
     // (undocumented)
     pluginProps?: {
         config?: {};
-        insert?: DocumentEditorProps['insert'];
-        remove?: DocumentEditorProps['remove'];
         renderSettings?: DocumentEditorProps['renderSettings'];
         renderToolbar?: DocumentEditorProps['renderToolbar'];
     };

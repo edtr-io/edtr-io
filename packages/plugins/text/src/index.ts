@@ -103,6 +103,7 @@ export interface TextConfig {
       }
     }
   }
+  blockquote?: string
 }
 /** @public */
 export type TextProps = EditorPluginProps<TextState, TextConfig>
@@ -111,11 +112,13 @@ export type TextProps = EditorPluginProps<TextState, TextConfig>
 export function createTextPlugin({
   placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
   registry,
-  theme = {}
+  theme = {},
+  blockquote
 }: {
   placeholder?: TextConfig['placeholder']
   registry: TextConfig['registry']
   theme?: DeepPartial<TextConfig['theme']>
+  blockquote?: string
 }): EditorPlugin<TextState, TextConfig> {
   return {
     Component: TextEditor,
@@ -157,7 +160,8 @@ export function createTextPlugin({
             }
           },
           theme
-        )
+        ),
+        blockquote
       }
     },
     state: textState,
@@ -171,3 +175,4 @@ export function createTextPlugin({
 }
 
 export { isValueEmpty, SlatePluginClosure }
+export { SlateClosure } from './factory/types'

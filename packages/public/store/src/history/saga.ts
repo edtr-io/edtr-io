@@ -114,6 +114,7 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
       break
     }
   }
+  chan.close()
 }
 
 function replaceInArray<T>(arr: T[], arr2: T[]) {

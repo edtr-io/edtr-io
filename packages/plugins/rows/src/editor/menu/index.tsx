@@ -48,11 +48,10 @@ interface MenuProps {
     onClose: (pluginState: { plugin: string; state?: unknown }) => void
   }
   setMenu: (newMenu?: MenuProps['menu']) => void
-  name: string
   config: RowsConfig
 }
 
-export function Menu({ menu, setMenu, name, config }: MenuProps) {
+export function Menu({ menu, setMenu, config }: MenuProps) {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
@@ -71,7 +70,6 @@ export function Menu({ menu, setMenu, name, config }: MenuProps) {
 
   const mappedPlugins = config.plugins
     .filter(({ name: pluginKey, title, description }) => {
-      if (pluginKey === name || pluginKey === 'rows') return false
       if (!search.length) return true
 
       if (title && title.toLowerCase().includes(search.toLowerCase()))

@@ -1,17 +1,12 @@
 import {
   OverlayButton,
   PluginToolbarButton,
-  useScopedDispatch,
   useScopedStore
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
-  change,
   DocumentState,
-  findNextNode,
-  findPreviousNode,
   getDocument,
-  getFocusTree,
   getPlugins,
   ReturnTypeFromSelector,
   serializeDocument
@@ -98,7 +93,6 @@ export function RowRenderer({
   const container = React.useRef<HTMLDivElement>(null)
   const [draggingAbove, setDraggingAbove] = React.useState(true)
   const canDrop = useCanDrop(row.id, draggingAbove)
-  const dispatch = useScopedDispatch()
   const store = useScopedStore()
 
   const [collectedDragProps, drag, dragPreview] = useDrag({
@@ -220,70 +214,6 @@ export function RowRenderer({
 
   const pluginProps = React.useMemo(() => {
     return {
-      insert: (options?: { plugin: string; state?: unknown }) =>
-        rows.insert(index + 1, options),
-      replace: (options?: { plugin: string; state?: unknown }) => {
-        rows.remove(index)
-        rows.insert(index, options)
-      },
-      remove: () => {
-        rows.remove(index)
-      },
-      mergeWithPrevious: (merge: (statePrevious: unknown) => unknown) => {
-        if (index - 1 < 0) return
-
-        const current = getDocument(row.id)(store.getState())
-
-        let previous = getDocument(rows[index - 1].id)(store.getState())
-        if (!previous || !current) return
-
-        if (previous.plugin !== current.plugin) {
-          // check if previous focus plugin is the same type
-          const root = getFocusTree()(store.getState())
-          if (!root) return
-
-          const previousFocusId = findPreviousNode(root, row.id)
-          if (!previousFocusId) return
-
-          previous = getDocument(previousFocusId)(store.getState())
-          if (!previous || previous.plugin !== current.plugin) return
-
-          const merged = merge(previous.state)
-          dispatch(
-            change({
-              id: previousFocusId,
-              state: { initial: () => merged }
-            })
-          )
-          rows.remove(index)
-        } else {
-          merge(previous.state)
-          setTimeout(() => rows.remove(index - 1))
-        }
-      },
-      mergeWithNext: (merge: (statePrevious: unknown) => unknown) => {
-        if (index + 1 === rows.length) return
-        const current = getDocument(row.id)(store.getState())
-        let next = getDocument(rows[index + 1].id)(store.getState())
-        if (!next || !current) return
-        if (next.plugin !== current.plugin) {
-          // check if next focus plugin is the same type
-          const root = getFocusTree()(store.getState())
-          if (!root) return
-
-          const nextFocusId = findNextNode(root, row.id)
-          if (!nextFocusId) return
-
-          // use that plugin for merge
-          next = getDocument(nextFocusId)(store.getState())
-          if (!next || next.plugin !== current.plugin) return
-        }
-
-        merge(next.state)
-        setTimeout(() => {
-          rows.remove(index + 1)
-        })
-      },
       renderSettings(children: React.ReactNode, { close }: { close(): void }) {
         return (
           <React.Fragment>
@@ -337,7 +267,7 @@ export function RowRenderer({
         )
       }
     }
-  }, [drag, store, dispatch, index, row.id, rows])
+  }, [drag, store, index, row.id, rows])
 
   dragPreview(drop(dropContainer))
   const dropPreview =

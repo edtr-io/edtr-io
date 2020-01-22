@@ -185,8 +185,6 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 /** @public */
 export interface PluginProps {
   config?: {}
-  insert?: DocumentEditorProps['insert']
-  remove?: DocumentEditorProps['remove']
   renderSettings?: DocumentEditorProps['renderSettings']
   renderToolbar?: DocumentEditorProps['renderToolbar']
   name?: string
