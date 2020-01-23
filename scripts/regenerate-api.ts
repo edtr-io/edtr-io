@@ -4,7 +4,6 @@ import rimraf from 'rimraf'
 import * as util from 'util'
 
 import { invoke } from './api-extractor'
-import { sleep } from './sleep'
 
 exec()
   .then(() => {
@@ -18,7 +17,6 @@ exec()
 async function exec() {
   await clean()
   bundle()
-  await sleep()
   invokeApiExtractor()
 
   async function clean() {
