@@ -3,7 +3,6 @@
 import { child, EditorPlugin, list, number, object } from '@edtr-io/plugin'
 import { plugin as anchorPlugin } from '@edtr-io/plugin-anchor/__fixtures__'
 import { plugin as blockquotePlugin } from '@edtr-io/plugin-blockquote/__fixtures__'
-import { plugin as equationsPlugin } from '@edtr-io/plugin-equations/__fixtures__'
 import { plugin as filesPlugin } from '@edtr-io/plugin-files/__fixtures__'
 import { plugin as geogebraPlugin } from '@edtr-io/plugin-geogebra/__fixtures__'
 import { plugin as highlightPlugin } from '@edtr-io/plugin-highlight/__fixtures__'
@@ -40,7 +39,6 @@ export const plugins: Record<
   image: imagePlugin,
   anchor: anchorPlugin,
   blockquote: blockquotePlugin,
-  equations: equationsPlugin,
   files: filesPlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,

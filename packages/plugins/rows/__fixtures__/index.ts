@@ -40,11 +40,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faQuoteRight)
     },
     {
-      name: 'equations',
-      title: 'Equations',
-      icon: createIcon(faEquals)
-    },
-    {
       name: 'files',
       title: 'Files',
       icon: createIcon(faFileAlt)

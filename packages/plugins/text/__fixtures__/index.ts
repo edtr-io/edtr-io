@@ -14,9 +14,6 @@ export const plugin = createTextPlugin({
       name: 'blockquote'
     },
     {
-      name: 'equations'
-    },
-    {
       name: 'files'
     },
     {
