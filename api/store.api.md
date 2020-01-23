@@ -390,10 +390,10 @@ export const isEmpty: Selector<boolean, [string]>;
 export const isFocused: Selector<boolean, [string]>;
 
 // @public (undocumented)
-export const mayInsertChild: import("..").Selector<boolean, [string]>;
+export const mayInsertChild: Selector<boolean, [string]>;
 
 // @public (undocumented)
-export const mayRemoveChild: import("..").Selector<boolean, [string]>;
+export const mayRemoveChild: Selector<boolean, [string]>;
 
 // @public (undocumented)
 export interface Node {
