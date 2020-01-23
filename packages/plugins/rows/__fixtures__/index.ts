@@ -60,10 +60,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faImages)
     },
     {
-      name: 'importantStatement',
-      title: 'Important Statement'
-    },
-    {
       name: 'inputExercise',
       title: 'Input Exercise',
       icon: createIcon(faKeyboard)

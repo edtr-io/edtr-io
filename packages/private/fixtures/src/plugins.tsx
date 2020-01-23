@@ -7,7 +7,6 @@ import { plugin as filesPlugin } from '@edtr-io/plugin-files/__fixtures__'
 import { plugin as geogebraPlugin } from '@edtr-io/plugin-geogebra/__fixtures__'
 import { plugin as highlightPlugin } from '@edtr-io/plugin-highlight/__fixtures__'
 import { plugin as imagePlugin } from '@edtr-io/plugin-image/__fixtures__'
-import { plugin as importantStatementPlugin } from '@edtr-io/plugin-important-statement/__fixtures__'
 import { plugin as inputExercisePlugin } from '@edtr-io/plugin-input-exercise/__fixtures__'
 import { plugin as multimediaExplanationPlugin } from '@edtr-io/plugin-multimedia-explanation/__fixtures__'
 import { plugin as rowsPlugin } from '@edtr-io/plugin-rows/__fixtures__'
@@ -41,7 +40,6 @@ export const plugins: Record<
   files: filesPlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
-  importantStatement: importantStatementPlugin,
   inputExercise: inputExercisePlugin,
   multimediaExplanation: multimediaExplanationPlugin,
   rows: rowsPlugin,

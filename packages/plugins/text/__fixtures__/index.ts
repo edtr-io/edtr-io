@@ -26,9 +26,6 @@ export const plugin = createTextPlugin({
       name: 'image'
     },
     {
-      name: 'importantStatement'
-    },
-    {
       name: 'inputExercise'
     },
     {
