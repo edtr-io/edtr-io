@@ -1,4 +1,5 @@
 import { HotKeys } from '@edtr-io/core'
+import { replace } from '@edtr-io/store'
 import * as React from 'react'
 import { Editor } from 'slate'
 
@@ -6,7 +7,6 @@ import { SlatePluginClosure } from '../factory/types'
 import { HoveringOverlay } from './hovering-overlay'
 import { Suggestions } from './suggestions'
 import { TextPlugin } from '..'
-import { replace } from '@edtr-io/store'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {

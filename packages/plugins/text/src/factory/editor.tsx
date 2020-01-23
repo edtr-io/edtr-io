@@ -1,7 +1,6 @@
 import { useScopedStore } from '@edtr-io/core'
 import {
   change,
-  focus,
   findNextNode,
   findPreviousNode,
   focusNext,
@@ -277,9 +276,9 @@ function createOnKeyDown(
         const mayRemove = mayRemoveChild(id)(store.getState())
         const focus = previous ? focusPrevious : focusNext
         if (mayRemove) {
-          if (typeof focus === 'function') focus()
           const parent = getParent(id)(store.getState())
           if (!parent) return
+          store.dispatch(focus())
           store.dispatch(removeChild({ parent: parent.id, child: id }))
         }
       } else {
@@ -325,21 +324,19 @@ function createOnKeyDown(
             )
               return
             const merged = merge(previousDocument.state, previous)
-            setTimeout(() => {
-              store.dispatch(
-                change({
-                  id: previousFocusId,
-                  state: { initial: () => merged }
-                })
-              )
-              store.dispatch(
-                removeChild({
-                  parent: parent.id,
-                  child: id
-                })
-              )
-              store.dispatch(focus(previousFocusId))
-            })
+            store.dispatch(focusPrevious())
+            store.dispatch(
+              change({
+                id: previousFocusId,
+                state: { initial: () => merged }
+              })
+            )
+            store.dispatch(
+              removeChild({
+                parent: parent.id,
+                child: id
+              })
+            )
           }
         } else {
           if (index + 1 >= children.length) return
@@ -362,11 +359,9 @@ function createOnKeyDown(
             if (!nextDocument || nextDocument.plugin !== currentDocument.plugin)
               return
             merge(nextDocument.state, previous)
-            setTimeout(() => {
-              store.dispatch(
-                removeChild({ parent: parent.id, child: nextSibling.id })
-              )
-            })
+            store.dispatch(
+              removeChild({ parent: parent.id, child: nextSibling.id })
+            )
           }
         }
       }
