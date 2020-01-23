@@ -12,9 +12,9 @@ import { HighlightRenderer, HighlightRendererProps } from './renderer'
 
 /** @public */
 export const highlightState = object({
-  text: string(''),
+  code: string(''),
   language: string('text'),
-  lineNumbers: boolean(false)
+  showLineNumbers: boolean(false)
 })
 /** @public */
 export type HighlightState = typeof highlightState

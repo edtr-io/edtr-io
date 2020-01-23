@@ -45,14 +45,14 @@ export function HighlightEditor(props: HighlightProps) {
   return throttledEdit || edit ? (
     <React.Fragment>
       <Textarea
-        value={state.text.value}
+        value={state.code.value}
         name="text"
         placeholder="Füge hier deinen Code ein. Verlasse den Bereich, um eine Vorschau zu sehen."
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          state.text.set(e.target.value)
+          state.code.set(e.target.value)
         }}
       >
-        {state.text.value}
+        {state.code.value}
       </Textarea>
       <PrimarySettings>
         <EditorInput
@@ -75,9 +75,9 @@ export function HighlightEditor(props: HighlightProps) {
           <EditorCheckbox
             label="Zeilennummern anzeigen"
             onChange={() => {
-              state.lineNumbers.set(!state.lineNumbers.value)
+              state.showLineNumbers.set(!state.showLineNumbers.value)
             }}
-            checked={state.lineNumbers.value}
+            checked={state.showLineNumbers.value}
           />
         </CheckboxContainer>
       </PrimarySettings>
@@ -85,8 +85,8 @@ export function HighlightEditor(props: HighlightProps) {
   ) : (
     <Renderer
       language={state.language.value}
-      lineNumbers={state.lineNumbers.value}
-      code={state.text.value}
+      showLineNumbers={state.showLineNumbers.value}
+      code={state.code.value}
     />
   )
 }
