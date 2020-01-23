@@ -308,9 +308,11 @@ function createOnKeyDown(
           if (!previousDocument) return
           if (previousDocument.plugin === currentDocument.plugin) {
             merge(previousDocument.state, previous)
-            store.dispatch(
-              removeChild({ parent: parent.id, child: previousSibling.id })
-            )
+            setTimeout(() => {
+              store.dispatch(
+                removeChild({ parent: parent.id, child: previousSibling.id })
+              )
+            })
           } else {
             const root = getFocusTree()(store.getState())
             if (!root) return
@@ -323,19 +325,21 @@ function createOnKeyDown(
             )
               return
             const merged = merge(previousDocument.state, previous)
-            store.dispatch(
-              change({
-                id: previousFocusId,
-                state: { initial: () => merged }
-              })
-            )
-            store.dispatch(
-              removeChild({
-                parent: parent.id,
-                child: id
-              })
-            )
-            store.dispatch(focus(previousFocusId))
+            setTimeout(() => {
+              store.dispatch(
+                change({
+                  id: previousFocusId,
+                  state: { initial: () => merged }
+                })
+              )
+              store.dispatch(
+                removeChild({
+                  parent: parent.id,
+                  child: id
+                })
+              )
+              store.dispatch(focus(previousFocusId))
+            })
           }
         } else {
           if (index + 1 >= children.length) return
@@ -344,9 +348,11 @@ function createOnKeyDown(
           if (!nextDocument) return
           if (nextDocument.plugin === currentDocument.plugin) {
             merge(nextDocument.state, previous)
-            store.dispatch(
-              removeChild({ parent: parent.id, child: nextSibling.id })
-            )
+            setTimeout(() => {
+              store.dispatch(
+                removeChild({ parent: parent.id, child: nextSibling.id })
+              )
+            })
           } else {
             const root = getFocusTree()(store.getState())
             if (!root) return
@@ -356,9 +362,11 @@ function createOnKeyDown(
             if (!nextDocument || nextDocument.plugin !== currentDocument.plugin)
               return
             merge(nextDocument.state, previous)
-            store.dispatch(
-              removeChild({ parent: parent.id, child: nextSibling.id })
-            )
+            setTimeout(() => {
+              store.dispatch(
+                removeChild({ parent: parent.id, child: nextSibling.id })
+              )
+            })
           }
         }
       }
@@ -481,27 +489,30 @@ function newSlateOnEnter(
           const parent = getParent(id)(store.getState())
           if (!parent) return
           const nextSlateState = splitBlockAtSelection(editor)
-          store.dispatch(
-            insertChildAfter({
-              parent: parent.id,
-              sibling: id,
-              document: {
-                plugin: document.plugin
-              }
-            })
-          )
-          if (nextSlateState) {
-            store.dispatch(
-              insertChildAfter({
-                parent: parent.id,
-                sibling: id,
-                document: {
-                  plugin: document.plugin,
-                  state: nextSlateState
-                }
-              })
-            )
-          }
+          setTimeout(() => {
+            if (nextSlateState) {
+              store.dispatch(
+                insertChildAfter({
+                  parent: parent.id,
+                  sibling: id,
+                  document: {
+                    plugin: document.plugin,
+                    state: nextSlateState
+                  }
+                })
+              )
+            } else {
+              store.dispatch(
+                insertChildAfter({
+                  parent: parent.id,
+                  sibling: id,
+                  document: {
+                    plugin: document.plugin
+                  }
+                })
+              )
+            }
+          })
           return
         }
       }
@@ -592,7 +603,6 @@ function splitBlockAtSelection(editor: CoreEditor) {
 
   afterSelected.forEach(block => {
     if (!block) return
-
     editor.removeNodeByKey(block.key)
   })
 
