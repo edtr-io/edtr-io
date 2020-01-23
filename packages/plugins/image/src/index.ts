@@ -79,9 +79,9 @@ export const createImagePlugin = (
     },
     isEmpty: serializedState => {
       return (
-        (!serializedState.src || isTempFile(serializedState.src)) &&
-        !serializedState.href &&
-        !serializedState.description
+        (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
+        !serializedState.href.value &&
+        !serializedState.description.value
       )
     }
   }
