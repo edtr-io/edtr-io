@@ -80,11 +80,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faNewspaper)
     },
     {
-      name: 'solution',
-      title: 'Solution',
-      icon: createIcon(faCheckSquare)
-    },
-    {
       name: 'spoiler',
       title: 'Spoiler',
       icon: createIcon(faCaretSquareDown)

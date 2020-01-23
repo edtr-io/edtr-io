@@ -38,9 +38,6 @@ export const plugin = createTextPlugin({
       name: 'serloInjection'
     },
     {
-      name: 'solution'
-    },
-    {
       name: 'spoiler'
     },
     {

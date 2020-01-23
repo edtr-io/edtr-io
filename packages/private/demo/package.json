@@ -25,7 +25,6 @@
     "@edtr-io/plugin-rows": "^0.14.0",
     "@edtr-io/plugin-sc-mc-exercise": "^0.14.0",
     "@edtr-io/plugin-serlo-injection": "^0.14.0",
-    "@edtr-io/plugin-solution": "^0.14.0",
     "@edtr-io/plugin-spoiler": "^0.14.0",
     "@edtr-io/plugin-table": "^0.14.0",
     "@edtr-io/plugin-text": "^0.14.0",

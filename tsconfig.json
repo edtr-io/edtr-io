@@ -19,7 +19,6 @@
       "@edtr-io/plugin-rows": ["plugins/rows/src"],
       "@edtr-io/plugin-sc-mc-exercise": ["plugins/sc-mc-exercise/src"],
       "@edtr-io/plugin-serlo-injection": ["plugins/serlo-injection/src"],
-      "@edtr-io/plugin-solution": ["plugins/solution/src"],
       "@edtr-io/plugin-spoiler": ["plugins/spoiler/src"],
       "@edtr-io/plugin-table": ["plugins/table/src"],
       "@edtr-io/plugin-text": ["plugins/text/src"],
