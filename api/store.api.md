@@ -534,13 +534,13 @@ export const pureReplace: {
     (payload: {
         id: string;
         plugin: string;
-        state: unknown;
+        state?: unknown;
     }): (scope: string) => {
         type: "PureReplace";
         payload: {
             id: string;
             plugin: string;
-            state: unknown;
+            state?: unknown;
         };
         scope: string;
     };
@@ -663,13 +663,13 @@ export const replace: {
     (payload: {
         id: string;
         plugin: string;
-        state: unknown;
+        state?: unknown;
     }): (scope: string) => {
         type: "Replace";
         payload: {
             id: string;
             plugin: string;
-            state: unknown;
+            state?: unknown;
         };
         scope: string;
     };
