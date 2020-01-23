@@ -680,7 +680,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v0.13.1',
       name: '0.13.1',
-      date: '2019-01-04',
+      date: '2020-01-04',
       added: [
         'Plugins receive new prop `renderIntoToolbar` to render toolbar buttons'
       ],
@@ -691,19 +691,19 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v0.13.2',
       name: '0.13.2',
-      date: '2019-01-07',
+      date: '2020-01-07',
       fixed: ['**core**. Show toolbar if `renderIntoToolbar` was called']
     },
     {
       tagName: 'v0.13.3',
       name: '0.13.3',
-      date: '2019-01-13',
+      date: '2020-01-13',
       fixed: ['**plugin-highlight**. Fix server-side rendering']
     },
     {
       tagName: 'v0.13.4',
       name: '0.13.4',
-      date: '2019-01-14',
+      date: '2020-01-14',
       added: [
         'Accept the newly released styled-components v5 additionally to v4 as peer dependency'
       ]
@@ -711,7 +711,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v0.13.5',
       name: '0.13.5',
-      date: '2019-01-14',
+      date: '2020-01-14',
       fixed: [
         'Various improvements & fixes in the TypeScript declaration files'
       ]
@@ -719,7 +719,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v0.13.6',
       name: '0.13.6',
-      date: '2019-01-15',
+      date: '2020-01-15',
       fixed: [
         '**plugin-rows**. Improve drag and drop, handle drag and drop between multiple documents correctly'
       ]
@@ -727,8 +727,31 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v0.13.7',
       name: '0.13.7',
-      date: '2019-01-20',
+      date: '2020-01-20',
       fixed: ['**plugin-rows**. Fix drag and drop in Chrome']
+    },
+    {
+      tagName: 'v0.14.0',
+      name: '0.14.0',
+      date: '2020-01-23',
+      breakingChanges: [
+        'Plugins no longer receive `insert`, `remove`, `replace`, `mergeWithPrevious`, `mergeWithNext` via plugin props. Please use the new actions and selectors instead. If you wrote a plugin that provided those, implement the new `insertChild` and `removeChild`.',
+        "Plugins no longer receive their parents' plugin props. Please use the store instead if you need to access your parents somehow.",
+        'Plugins no longer receive their name. Please get your document from the store if you really need that',
+        'For consistency, plugins receive the `StateTypeReturnType` in the optional `isEmpty` instead of their `StateTypeValueType`',
+        "**plugin**. State types no longer receive the plugin props. This was only used by `child` anyways to handle the parents' plugin props.",
+        '**plugin-text**. The blockquote controls will only be shown if the type of the blockquote plugin is provided via plugin config.'
+      ],
+      added: [
+        '**store**. Add `wrap` and `unwrap` actions',
+        '**store**. Add `replace` action',
+        '**store**. Add `insertChildAfter`, `insertChildBefore` and `removeChild` actions',
+        '**store**. Add `getParent` selector',
+        '**store**. Add `mayInsertChild` and `mayRemoveChild` selector'
+      ],
+      fixed: [
+        '**store**. When undoing resp. redoing, replace the state only once'
+      ]
     }
   ])
 

@@ -2,43 +2,66 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.13.7](https://github.com/edtr-io/edtr-io/compare/v0.13.6..v0.13.7) - January 20, 2019
+## [0.14.0](https://github.com/edtr-io/edtr-io/compare/v0.13.7..v0.14.0) - January 23, 2020
+
+### Breaking Changes
+
+- Plugins no longer receive `insert`, `remove`, `replace`, `mergeWithPrevious`, `mergeWithNext` via plugin props. Please use the new actions and selectors instead. If you wrote a plugin that provided those, implement the new `insertChild` and `removeChild`.
+- Plugins no longer receive their parents' plugin props. Please use the store instead if you need to access your parents somehow.
+- Plugins no longer receive their name. Please get your document from the store if you really need that
+- For consistency, plugins receive the `StateTypeReturnType` in the optional `isEmpty` instead of their `StateTypeValueType`
+- **plugin**. State types no longer receive the plugin props. This was only used by `child` anyways to handle the parents' plugin props.
+- **plugin-text**. The blockquote controls will only be shown if the type of the blockquote plugin is provided via plugin config.
+
+### Added
+
+- **store**. Add `wrap` and `unwrap` actions
+- **store**. Add `replace` action
+- **store**. Add `insertChildAfter`, `insertChildBefore` and `removeChild` actions
+- **store**. Add `getParent` selector
+- **store**. Add `mayInsertChild` and `mayRemoveChild` selector
+
+### Fixed
+
+- **store**. When undoing resp. redoing, replace the state only once
+
+## [0.13.7](https://github.com/edtr-io/edtr-io/compare/v0.13.6..v0.13.7) - January 20, 2020
 
 ### Fixed
 
 - **plugin-rows**. Fix drag and drop in Chrome
 
-## [0.13.6](https://github.com/edtr-io/edtr-io/compare/v0.13.5..v0.13.6) - January 15, 2019
+## [0.13.6](https://github.com/edtr-io/edtr-io/compare/v0.13.5..v0.13.6) - January 15, 2020
 
 ### Fixed
 
 - **plugin-rows**. Improve drag and drop, handle drag and drop between multiple documents correctly
 
-## [0.13.5](https://github.com/edtr-io/edtr-io/compare/v0.13.4..v0.13.5) - January 14, 2019
+## [0.13.5](https://github.com/edtr-io/edtr-io/compare/v0.13.4..v0.13.5) - January 14, 2020
 
 ### Fixed
 
 - Various improvements & fixes in the TypeScript declaration files
 
-## [0.13.4](https://github.com/edtr-io/edtr-io/compare/v0.13.3..v0.13.4) - January 14, 2019
+## [0.13.4](https://github.com/edtr-io/edtr-io/compare/v0.13.3..v0.13.4) - January 14, 2020
 
 ### Added
 
 - Accept the newly released styled-components v5 additionally to v4 as peer dependency
 
-## [0.13.3](https://github.com/edtr-io/edtr-io/compare/v0.13.2..v0.13.3) - January 13, 2019
+## [0.13.3](https://github.com/edtr-io/edtr-io/compare/v0.13.2..v0.13.3) - January 13, 2020
 
 ### Fixed
 
 - **plugin-highlight**. Fix server-side rendering
 
-## [0.13.2](https://github.com/edtr-io/edtr-io/compare/v0.13.1..v0.13.2) - January 7, 2019
+## [0.13.2](https://github.com/edtr-io/edtr-io/compare/v0.13.1..v0.13.2) - January 7, 2020
 
 ### Fixed
 
 - **core**. Show toolbar if `renderIntoToolbar` was called
 
-## [0.13.1](https://github.com/edtr-io/edtr-io/compare/v0.13.0..v0.13.1) - January 4, 2019
+## [0.13.1](https://github.com/edtr-io/edtr-io/compare/v0.13.0..v0.13.1) - January 4, 2020
 
 ### Added
 
