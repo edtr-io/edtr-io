@@ -30,7 +30,6 @@ export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
 
   return (
     <plugin.Component
-      {...pluginProps}
       config={config}
       state={pluginState}
       id={id}

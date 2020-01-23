@@ -215,10 +215,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
         })
       )
     }
-    const state = plugin.state.init(document.state, onChange, {
-      ...pluginProps,
-      name: document.plugin
-    })
+    const state = plugin.state.init(document.state, onChange)
 
     return (
       <HotKeys keyMap={hotKeysKeyMap} handlers={hotKeysHandlers} allowChanges>
@@ -239,7 +236,6 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             PluginToolbar={PluginToolbar}
           >
             <plugin.Component
-              {...pluginProps}
               renderIntoSettings={renderIntoSettings}
               renderIntoToolbar={renderIntoToolbar}
               id={id}

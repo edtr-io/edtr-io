@@ -17,6 +17,7 @@ import { OverlayCheckboxProps } from '@edtr-io/internal__plugin-toolbar';
 import { OverlayInputProps } from '@edtr-io/internal__plugin-toolbar';
 import { OverlaySelectProps } from '@edtr-io/internal__plugin-toolbar';
 import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar';
+import { PluginProps } from '@edtr-io/internal__plugin-state';
 import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar';
 import { PluginToolbarButtonProps } from '@edtr-io/internal__plugin-toolbar';
 import { PluginToolbarOverlayButtonProps } from '@edtr-io/internal__plugin-toolbar';
@@ -41,11 +42,7 @@ export interface DocumentProps {
     // (undocumented)
     id: string;
     // (undocumented)
-    pluginProps?: {
-        config?: {};
-        renderSettings?: DocumentEditorProps['renderSettings'];
-        renderToolbar?: DocumentEditorProps['renderToolbar'];
-    };
+    pluginProps?: PluginProps;
 }
 
 // @public

@@ -1,4 +1,4 @@
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
+import { PluginProps } from '@edtr-io/internal__plugin-state'
 import { undo } from '@edtr-io/store'
 import * as React from 'react'
 
@@ -73,9 +73,5 @@ export class ErrorBoundary extends React.Component<{ undo: () => void }> {
 /** @public */
 export interface DocumentProps {
   id: string
-  pluginProps?: {
-    config?: {}
-    renderSettings?: DocumentEditorProps['renderSettings']
-    renderToolbar?: DocumentEditorProps['renderToolbar']
-  }
+  pluginProps?: PluginProps
 }

@@ -36,9 +36,9 @@ export function list<S, T = S, U = unknown>(
   }
 
   return {
-    init(rawItems, onChange, pluginProps) {
+    init(rawItems, onChange) {
       const items = rawItems.map(item => {
-        return type.init(item.value, createOnChange(item.id), pluginProps)
+        return type.init(item.value, createOnChange(item.id))
       })
 
       return Object.assign(items, {
