@@ -64,7 +64,7 @@ export function FilesEditor(props: FilesProps) {
               <Center>
                 <FileRenderer
                   file={{
-                    location: tmpFile.dataUrl,
+                    src: tmpFile.dataUrl,
                     name: tmpFile.file.name,
                     type: parseFileType(tmpFile.file.name)
                   }}
@@ -84,7 +84,7 @@ export function FilesEditor(props: FilesProps) {
               <Center>
                 <FileRenderer
                   file={{
-                    location: '',
+                    src: '',
                     name: tmpFile.name,
                     type: parseFileType(tmpFile.name)
                   }}

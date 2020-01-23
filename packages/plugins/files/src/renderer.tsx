@@ -52,7 +52,7 @@ export function FileRenderer(props: { file: UploadedFile }) {
   const filename =
     file.name.length > 15 ? `${file.name.substr(0, 12)}...` : file.name
   return (
-    <Download href={file.location} download={file.name}>
+    <Download href={file.src} download={file.name}>
       <File title={file.name}>
         <Icon icon={getIconFromType(file.type)} size="3x" />
         <Filename>{filename}</Filename>

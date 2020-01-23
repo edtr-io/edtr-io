@@ -18,7 +18,7 @@ export const states: Record<string, StateTypeSerializedType<FilesState>> = {
     {
       type: FileType.Image,
       name: 'foo',
-      location:
+      src:
         'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true'
     }
   ]
@@ -27,7 +27,7 @@ export const states: Record<string, StateTypeSerializedType<FilesState>> = {
 function mockUploadFileHandler(file: File): Promise<UploadedFile> {
   return readFile(file).then(loaded => {
     return {
-      location: loaded.dataUrl,
+      src: loaded.dataUrl,
       name: loaded.file.name,
       type: parseFileType(loaded.file.name)
     }

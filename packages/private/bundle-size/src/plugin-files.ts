@@ -10,7 +10,7 @@ export const filesPlugin = createFilesPlugin({ upload: mockUploadFileHandler })
 function mockUploadFileHandler(file: File): Promise<UploadedFile> {
   return readFile(file).then(loaded => {
     return {
-      location: loaded.dataUrl,
+      src: loaded.dataUrl,
       name: loaded.file.name,
       type: parseFileType(loaded.file.name)
     }

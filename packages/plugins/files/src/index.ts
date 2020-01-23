@@ -7,7 +7,7 @@ import { FilesConfig, FileType, UploadedFile } from './types'
 /** @public */
 export const filesState = list(
   upload<UploadedFile>({
-    location: '',
+    src: '',
     name: '',
     type: FileType.Other
   })
