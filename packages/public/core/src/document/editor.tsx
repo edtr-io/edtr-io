@@ -5,10 +5,14 @@ import {
   focusNext,
   focusPrevious,
   getDocument,
+  mayRemoveChild,
+  getParent,
   getPlugin,
-  isDocumentEmpty,
+  insertChildAfter,
+  isEmpty,
   isFocused,
   redo,
+  removeChild,
   undo
 } from '@edtr-io/store'
 import { styled, useTheme } from '@edtr-io/ui'
@@ -19,11 +23,23 @@ import { HotKeys, IgnoreKeys } from 'react-hotkeys'
 
 import { DocumentProps } from '.'
 import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
-import { useScopedDispatch, useScopedSelector } from '../store'
+import { useScopedSelector, useScopedStore } from '../store'
 
 const StyledDocument = styled.div({
   outline: 'none'
 })
+
+const hotKeysKeyMap = {
+  FOCUS_PREVIOUS: 'up',
+  FOCUS_NEXT: 'down',
+  INSERT_DEFAULT_PLUGIN: 'enter',
+  DELETE_EMPTY: ['backspace', 'del'],
+  UNDO: ['ctrl+z', 'command+z'],
+  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
+}
+type HotKeysHandlers = {
+  [K in keyof typeof hotKeysKeyMap]: (keyEvent?: KeyboardEvent) => void
+}
 
 export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   const [hasSettings, setHasSettings] = React.useState(false)
@@ -33,7 +49,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   const plugin = useScopedSelector(
     state => document && getPlugin(document.plugin)(state)
   )
-  const dispatch = useScopedDispatch()
+  const store = useScopedStore()
 
   const container = React.useRef<HTMLDivElement>(null)
   const settingsRef = React.useRef<HTMLDivElement>(
@@ -72,20 +88,58 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused, plugin])
 
-  const handleFocus = React.useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      // Find closest document
-      const target = (e.target as HTMLDivElement).closest('[data-document]')
+  const hotKeysHandlers = React.useMemo((): HotKeysHandlers => {
+    return {
+      FOCUS_PREVIOUS: e => {
+        handleKeyDown(e, () => {
+          store.dispatch(focusPrevious())
+        })
+      },
+      FOCUS_NEXT: e => {
+        handleKeyDown(e, () => {
+          store.dispatch(focusNext())
+        })
+      },
+      INSERT_DEFAULT_PLUGIN: e => {
+        handleKeyDown(e, () => {
+          const parent = getParent(id)(store.getState())
+          if (!parent) return
+          store.dispatch(
+            insertChildAfter({
+              parent: parent.id,
+              sibling: id
+            })
+          )
+        })
+      },
+      DELETE_EMPTY: e => {
+        if (isEmpty(id)(store.getState())) {
+          handleKeyDown(e, () => {
+            if (!e) return
+            if (mayRemoveChild(id)(store.getState())) {
+              const parent = getParent(id)(store.getState())
+              if (!parent) return
 
-      if (!focused && target === container.current) {
-        dispatch(focus(id))
+              if (e.key === 'Backspace') {
+                store.dispatch(focusPrevious())
+              } else if (e.key === 'Delete') {
+                store.dispatch(focusNext())
+              }
+              store.dispatch(removeChild({ parent: parent.id, child: id }))
+            }
+          })
+        }
+      },
+      // TODO: workaround for https://github.com/edtr-io/edtr-io/issues/272
+      UNDO: () => {
+        store.dispatch(undo())
+      },
+      REDO: () => {
+        store.dispatch(redo())
       }
-    },
-    [dispatch, focused, id]
-  )
+    }
 
-  const handleKeyDown = React.useCallback(
-    (e: KeyboardEvent | undefined, next: () => void) => {
+    function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
       if (
         e &&
         plugin &&
@@ -96,8 +150,19 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       }
       e && e.preventDefault()
       next()
+    }
+  }, [id, store, plugin])
+
+  const handleFocus = React.useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      // Find closest document
+      const target = (e.target as HTMLDivElement).closest('[data-document]')
+
+      if (!focused && target === container.current) {
+        store.dispatch(focus(id))
+      }
     },
-    [plugin]
+    [store, focused, id]
   )
 
   const renderIntoSettings = React.useCallback(
@@ -140,7 +205,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
       initial: StateUpdater<unknown>,
       executor?: StateExecutor<StateUpdater<unknown>>
     ) => {
-      dispatch(
+      store.dispatch(
         change({
           id,
           state: {
@@ -150,67 +215,10 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
         })
       )
     }
-    const state = plugin.state.init(document.state, onChange, {
-      ...pluginProps,
-      name: document.plugin
-    })
+    const state = plugin.state.init(document.state, onChange)
 
     return (
-      <HotKeys
-        keyMap={{
-          FOCUS_PREVIOUS: 'up',
-          FOCUS_NEXT: 'down',
-          INSERT_TEXT: 'enter',
-          DELETE_EMPTY: ['backspace', 'del'],
-          UNDO: ['ctrl+z', 'command+z'],
-          REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
-        }}
-        handlers={{
-          FOCUS_PREVIOUS: e => {
-            handleKeyDown(e, () => {
-              dispatch(focusPrevious())
-            })
-          },
-          FOCUS_NEXT: e => {
-            handleKeyDown(e, () => {
-              dispatch(focusNext())
-            })
-          },
-          INSERT_TEXT: e => {
-            handleKeyDown(e, () => {
-              if (pluginProps) {
-                if (typeof pluginProps.insert === 'function') {
-                  pluginProps.insert({ plugin: 'text' })
-                }
-              }
-            })
-          },
-          DELETE_EMPTY: e => {
-            if (isDocumentEmpty(document, plugin)) {
-              handleKeyDown(e, () => {
-                if (!e) return
-
-                if (pluginProps && typeof pluginProps.remove === 'function') {
-                  if (e.key === 'Backspace') {
-                    dispatch(focusPrevious())
-                  } else if (e.key === 'Delete') {
-                    dispatch(focusNext())
-                  }
-                  setTimeout(pluginProps.remove)
-                }
-              })
-            }
-          },
-          // TODO: workaround for https://github.com/edtr-io/edtr-io/issues/272
-          UNDO: () => {
-            dispatch(undo())
-          },
-          REDO: () => {
-            dispatch(redo())
-          }
-        }}
-        allowChanges
-      >
+      <HotKeys keyMap={hotKeysKeyMap} handlers={hotKeysHandlers} allowChanges>
         <StyledDocument
           onMouseDown={handleFocus}
           ref={container}
@@ -228,13 +236,11 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
             PluginToolbar={PluginToolbar}
           >
             <plugin.Component
-              {...pluginProps}
               renderIntoSettings={renderIntoSettings}
               renderIntoToolbar={renderIntoToolbar}
               id={id}
               editable
               focused={focused}
-              name={document.plugin}
               config={config}
               state={state}
               defaultFocusRef={defaultFocusRef}
@@ -256,7 +262,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
     renderIntoSettings,
     renderIntoToolbar,
     id,
-    dispatch,
-    handleKeyDown
+    hotKeysHandlers,
+    store
   ])
 }

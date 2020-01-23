@@ -104,7 +104,7 @@ export const replace = createAction<
   {
     id: string
     plugin: string
-    state: unknown
+    state?: unknown
   }
 >('Replace')
 /** @public */
@@ -115,7 +115,7 @@ export const pureReplace = createAction<
   {
     id: string
     plugin: string
-    state: unknown
+    state?: unknown
   }
 >('PureReplace')
 /** @public */

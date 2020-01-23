@@ -9,7 +9,11 @@ import generate from 'shortid'
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { commit, temporaryCommit } from '../history/actions'
-import { getPluginOrDefault, getPluginTypeOrDefault } from '../plugins/reducer'
+import {
+  getPlugin,
+  getPluginOrDefault,
+  getPluginTypeOrDefault
+} from '../plugins/reducer'
 import { ReturnTypeFromSelector } from '../types'
 import {
   change,
@@ -230,24 +234,56 @@ function* unwrapSaga(action: UnwrapAction) {
 }
 
 function* replaceSaga(action: ReplaceAction) {
-  const { id, plugin, state } = action.payload
+  const { id } = action.payload
   const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
   if (!currentDocument) return
+  const plugin: ReturnTypeFromSelector<typeof getPlugin> = yield select(
+    scopeSelector(getPlugin, action.scope),
+    action.payload.plugin
+  )
+  if (!plugin) return
+  const pendingDocs: {
+    id: string
+    plugin?: string
+    state?: unknown
+  }[] = []
+  const helpers: StoreDeserializeHelpers = {
+    createDocument(doc) {
+      pendingDocs.push(doc)
+    }
+  }
+  let pluginState: unknown
+  if (action.payload.state === undefined) {
+    pluginState = plugin.state.createInitialState(helpers)
+  } else {
+    pluginState = plugin.state.deserialize(action.payload.state, helpers)
+  }
+  const [actions]: [ReversibleAction[], unknown] = yield call(
+    handleRecursiveInserts,
+    action.scope,
+    () => {},
+    pendingDocs
+  )
+
   const reversibleAction: ReversibleAction<
     PureReplaceAction,
     PureReplaceAction
   > = {
-    action: pureReplace({ id, plugin, state })(action.scope),
+    action: pureReplace({
+      id,
+      plugin: action.payload.plugin,
+      state: pluginState
+    })(action.scope),
     reverse: pureReplace({
       id,
       plugin: currentDocument.plugin,
       state: currentDocument.state
     })(action.scope)
   }
-  yield put(commit([reversibleAction])(action.scope))
+  yield put(commit([...actions, reversibleAction])(action.scope))
 }
 
 interface ChannelAction {
@@ -295,7 +331,6 @@ export function* handleRecursiveInserts(
       scopeSelector(getPluginTypeOrDefault, scope),
       doc.plugin
     )
-    // we could, but don't need to reverse inserts.
     actions.push({
       action: pureInsert({
         id: doc.id,

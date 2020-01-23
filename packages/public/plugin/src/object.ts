@@ -32,9 +32,9 @@ export function object<Ds extends Record<string, StateType>>(
   type U = StateTypesReturnType<Ds>
 
   return {
-    init(state, onChange, pluginProps) {
+    init(state, onChange) {
       return R.mapObjIndexed((type, key) => {
-        return type.init(state[key], innerOnChange, pluginProps)
+        return type.init(state[key], innerOnChange)
 
         function innerOnChange(
           initial: StateUpdater<StateTypeReturnType<typeof type>>,

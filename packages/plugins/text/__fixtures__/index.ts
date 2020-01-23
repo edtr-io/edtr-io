@@ -5,6 +5,7 @@ import { TextState, createTextPlugin } from '../src'
 
 export const name = 'text'
 export const plugin = createTextPlugin({
+  blockquote: 'blockquote',
   registry: [
     {
       name: 'anchor'

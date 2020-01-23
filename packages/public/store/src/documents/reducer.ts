@@ -160,7 +160,8 @@ export function isDocumentEmpty(
   if (!doc || !plugin) return false
 
   if (typeof plugin.isEmpty === 'function') {
-    return plugin.isEmpty(doc.state)
+    const state = plugin.state.init(doc.state, () => {})
+    return plugin.isEmpty(state)
   }
 
   const initialState = plugin.state.createInitialState({

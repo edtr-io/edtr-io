@@ -1,17 +1,15 @@
 import { Editor } from 'slate'
 
-import { SlatePluginClosure } from '../factory/types'
 import { unorderedListNode, orderedListNode } from '../model'
 import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'
 import { toggleList, isList } from './list'
-import { TextPlugin } from '..'
+import { SlatePluginClosure, TextPlugin } from '..'
 
 const handleMarkdown = (
   chars: string,
   editor: Editor,
-  next: Function,
-  name: string
+  pluginClosure: SlatePluginClosure
 ) => {
   if (/^\d+\.$/.test(chars)) {
     if (isList(orderedListNode)(editor)) {
@@ -28,7 +26,7 @@ const handleMarkdown = (
       }
       return toggleList(unorderedListNode)(editor)
     case '>':
-      return createBlockquote(editor, name)
+      return createBlockquote(editor, pluginClosure)
     case '#':
       return createSetHeading(1)(editor)
     case '##':
@@ -50,7 +48,7 @@ const onSpace = (
   event: KeyboardEvent,
   editor: Editor,
   next: Function,
-  name: string
+  pluginClosure: SlatePluginClosure
 ) => {
   const { value } = editor
   const { selection } = value
@@ -59,7 +57,7 @@ const onSpace = (
   const { startBlock } = value
   const { start } = selection
   const chars = startBlock.text.slice(0, start.offset).replace(/\s*/g, '')
-  const handled = handleMarkdown(chars, editor, next, name)
+  const handled = handleMarkdown(chars, editor, pluginClosure)
   if (!handled) {
     return next()
   }
@@ -74,14 +72,10 @@ export const markdownShortcuts = (
 ): TextPlugin => {
   return {
     onKeyDown(event, editor, next) {
-      if (!pluginClosure.current) {
-        return next()
-      }
       const e = (event as unknown) as KeyboardEvent
-      const name = pluginClosure.current.name
       switch (e.key) {
         case ' ':
-          return onSpace(e, editor, next, name)
+          return onSpace(e, editor, next, pluginClosure)
         default:
           return next()
       }

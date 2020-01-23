@@ -8,18 +8,25 @@ import * as React from 'react';
 import { StateType } from '@edtr-io/internal__plugin-state';
 import { StateTypeReturnType } from '@edtr-io/internal__plugin-state';
 import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state';
-import { StateTypeValueType } from '@edtr-io/internal__plugin-state';
 import { Theme } from '@edtr-io/ui';
 
 // @public
 export interface EditorPlugin<S extends StateType = StateType, Config extends {} = {}> {
     Component: React.ComponentType<EditorPluginProps<S, Config>>;
     config: Config | ((theme: Theme) => Config);
-    isEmpty?(state: StateTypeValueType<S>): boolean;
+    insertChild?(state: StateTypeReturnType<S>, { previousSibling, document }: {
+        previousSibling?: string;
+        document?: {
+            plugin: string;
+            state?: unknown;
+        };
+    }): void;
+    isEmpty?(state: StateTypeReturnType<S>): boolean;
     onKeyDown?(e: KeyboardEvent): boolean;
     onPaste?(data: DataTransfer): void | {
         state?: StateTypeSerializedType<S>;
     };
+    removeChild?(state: StateTypeReturnType<S>, id: string): void;
     state: S;
 }
 
@@ -30,8 +37,6 @@ export interface EditorPluginProps<S extends StateType = StateType, Config exten
     editable: boolean;
     focused: boolean;
     id: string;
-    // @deprecated
-    name: string;
     renderIntoSettings(children: React.ReactNode): React.ReactNode;
     renderIntoToolbar(children: React.ReactNode): React.ReactNode;
     state: StateTypeReturnType<S>;

@@ -13,15 +13,13 @@ export interface StateType<S = any, T = S, R = unknown> {
    *
    * @param state - current state
    * @param onChange - callback to set the state, accepts a [[StateUpdater]] and an optional [[StateExecutor]]
-   * @param pluginProps - additional props that should be passed down to the component. Only used by [[child]]
    */
   init(
     state: T,
     onChange: (
       initial: StateUpdater<T>,
       executor?: StateExecutor<StateUpdater<T>>
-    ) => void,
-    pluginProps?: PluginProps
+    ) => void
   ): R
 
   /**
@@ -185,10 +183,6 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 /** @public */
 export interface PluginProps {
   config?: {}
-  insert?: DocumentEditorProps['insert']
-  remove?: DocumentEditorProps['remove']
   renderSettings?: DocumentEditorProps['renderSettings']
   renderToolbar?: DocumentEditorProps['renderToolbar']
-  name?: string
-  parent?: PluginProps
 }

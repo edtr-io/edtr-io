@@ -16,14 +16,6 @@ export interface PluginProps {
     // (undocumented)
     config?: {};
     // (undocumented)
-    insert?: DocumentEditorProps['insert'];
-    // (undocumented)
-    name?: string;
-    // (undocumented)
-    parent?: PluginProps;
-    // (undocumented)
-    remove?: DocumentEditorProps['remove'];
-    // (undocumented)
     renderSettings?: DocumentEditorProps['renderSettings'];
     // (undocumented)
     renderToolbar?: DocumentEditorProps['renderToolbar'];
@@ -37,7 +29,7 @@ export interface StateType<S = any, T = S, R = unknown> {
     createInitialState(helpers: StoreDeserializeHelpers): T;
     deserialize(serialized: S, helpers: StoreDeserializeHelpers): T;
     getFocusableChildren(state: T): FocusableChild[];
-    init(state: T, onChange: (initial: StateUpdater<T>, executor?: StateExecutor<StateUpdater<T>>) => void, pluginProps?: PluginProps): R;
+    init(state: T, onChange: (initial: StateUpdater<T>, executor?: StateExecutor<StateUpdater<T>>) => void): R;
     serialize(deserialized: T, helpers: StoreSerializeHelpers): S;
 }
 

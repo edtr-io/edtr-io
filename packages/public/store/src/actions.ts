@@ -5,6 +5,7 @@ import { DocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'
 import { createAction } from './helpers'
 import { HistoryAction } from './history/actions'
+import { PluginAction } from './plugin/actions'
 import { RootAction } from './root/actions'
 import { ActionFromActionCreator, ScopedState } from './types'
 
@@ -29,6 +30,7 @@ export type Action =
   | DocumentsAction
   | FocusAction
   | HistoryAction
+  | PluginAction
   | RootAction
   | SetPartialState
 

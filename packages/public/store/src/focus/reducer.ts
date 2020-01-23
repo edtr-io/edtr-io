@@ -97,6 +97,14 @@ export const getFocusTree: Selector<
   }
 })
 
+/** @public */
+export const getParent: Selector<Node | null, [string]> = createSelector(
+  (state, id) => {
+    const root = getFocusTree()(state)
+    return root && findParent(root, id)
+  }
+)
+
 /**
  * [[Selector]] that returns the focus path from the leaf with the given id
  *

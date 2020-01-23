@@ -18,7 +18,7 @@ import {
   RenderMarkProps
 } from 'slate-react'
 
-import { createUiPlugin, Controls } from './controls'
+import { Controls, createUiPlugin } from './controls'
 import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import { SlatePluginClosure } from './factory/types'
@@ -103,6 +103,7 @@ export interface TextConfig {
       }
     }
   }
+  blockquote?: string
 }
 /** @public */
 export type TextProps = EditorPluginProps<TextState, TextConfig>
@@ -111,11 +112,13 @@ export type TextProps = EditorPluginProps<TextState, TextConfig>
 export function createTextPlugin({
   placeholder = 'Schreibe etwas oder füge mit \u2295 Elemente hinzu.',
   registry,
-  theme = {}
+  theme = {},
+  blockquote
 }: {
   placeholder?: TextConfig['placeholder']
   registry: TextConfig['registry']
   theme?: DeepPartial<TextConfig['theme']>
+  blockquote?: string
 }): EditorPlugin<TextState, TextConfig> {
   return {
     Component: TextEditor,
@@ -157,7 +160,8 @@ export function createTextPlugin({
             }
           },
           theme
-        )
+        ),
+        blockquote
       }
     },
     state: textState,
@@ -165,10 +169,10 @@ export function createTextPlugin({
       return false
     },
     isEmpty: state => {
-      const value = Value.fromJSON(state)
-      return isValueEmpty(value)
+      return isValueEmpty(Value.fromJSON(state.value))
     }
   }
 }
 
 export { isValueEmpty, SlatePluginClosure }
+export { SlateClosure } from './factory/types'

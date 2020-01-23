@@ -98,22 +98,24 @@ export function DefaultControls(props: SubControlProps) {
           }
         />
       </Button>
-      <Button
-        config={config}
-        active={isBlockquote(editor, pluginClosure)}
-        onClick={() => {
-          if (isBlockquote(editor, pluginClosure)) {
-            removeBlockquote(editor, pluginClosure)
-            props.onChange(editor)
-          } else {
-            createBlockquote(editor, name)
-            props.onChange(editor)
-          }
-        }}
-        title="Zitat"
-      >
-        <EdtrIcon icon={edtrTextControls.quote} />
-      </Button>
+      {config.blockquote ? (
+        <Button
+          config={config}
+          active={isBlockquote(editor, pluginClosure)}
+          onClick={() => {
+            if (isBlockquote(editor, pluginClosure)) {
+              removeBlockquote(editor, pluginClosure)
+              props.onChange(editor)
+            } else {
+              createBlockquote(editor, pluginClosure)
+              props.onChange(editor)
+            }
+          }}
+          title="Zitat"
+        >
+          <EdtrIcon icon={edtrTextControls.quote} />
+        </Button>
+      ) : null}
       <Button
         config={config}
         active={isKatex(editor)}

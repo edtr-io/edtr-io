@@ -21,7 +21,6 @@ export enum VisibleControls {
 export interface ControlProps {
   config: TextConfig
   editor: Editor
-  name: string
   pluginClosure: SlatePluginClosure
   readOnly?: boolean
 }
@@ -197,7 +196,6 @@ export const createUiPlugin = (options: UiPluginOptions) => (
       if (readOnly) {
         editor.blur()
       }
-      const name = pluginClosure.current ? pluginClosure.current.name : ''
       const config = pluginClosure.current
         ? pluginClosure.current.config
         : undefined
@@ -209,7 +207,6 @@ export const createUiPlugin = (options: UiPluginOptions) => (
             <Component
               editor={editor}
               {...props}
-              name={name}
               config={config}
               pluginClosure={pluginClosure}
             />

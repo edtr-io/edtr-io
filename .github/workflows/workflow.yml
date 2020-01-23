@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn build --concurrency 2
+      - run: yarn build
   lint:
     runs-on: ubuntu-latest
     strategy:

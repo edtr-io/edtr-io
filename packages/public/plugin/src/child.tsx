@@ -8,21 +8,6 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { generate } from 'shortid'
 
-function PluginPropsDocument({
-  id,
-  props,
-  parentProps
-}: {
-  id: string
-  props?: PluginProps
-  parentProps: PluginProps
-}) {
-  const pluginProps = React.useMemo((): PluginProps => {
-    return { ...props, parent: parentProps }
-  }, [props, parentProps])
-  return <SubDocument pluginProps={pluginProps} id={id} />
-}
-
 /** @public */
 export function child<K extends string, S = unknown>({
   plugin,
@@ -43,24 +28,18 @@ export function child<K extends string, S = unknown>({
   }
 > {
   return {
-    init(id, onChange, pluginProps) {
+    init(id, onChange) {
       return {
         get() {
           return id
         },
         id,
         render: function Child(props: PluginProps = {}) {
-          return (
-            <PluginPropsDocument
-              key={id}
-              id={id}
-              props={{
-                ...props,
-                config: R.mergeDeepRight(config || {}, props.config || {})
-              }}
-              parentProps={pluginProps || {}}
-            />
-          )
+          const pluginProps = {
+            ...props,
+            config: R.mergeDeepRight(config || {}, props.config || {})
+          }
+          return <SubDocument key={id} pluginProps={pluginProps} id={id} />
         },
         replace: (plugin, state) => {
           onChange((_id, helpers) => {

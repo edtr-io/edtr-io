@@ -93,5 +93,4 @@ export interface SuggestionProps {
   options: string[][]
   selected?: number
   currentValue: string
-  name: string
 }

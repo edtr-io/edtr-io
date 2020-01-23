@@ -1,4 +1,5 @@
 import { HotKeys } from '@edtr-io/core'
+import { replace } from '@edtr-io/store'
 import * as React from 'react'
 import { Editor } from 'slate'
 
@@ -9,7 +10,7 @@ import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {
-    const plugins = pluginClosure.current.availablePlugins
+    const plugins = pluginClosure.current.config.registry
     const search = editor.value.document.text.replace('/', '')
     const pluginsStartingWithSearchString = plugins
       .filter(plugin => {
@@ -35,11 +36,16 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   return []
 }
 
-function insertPlugin(editor: Editor) {
+function insertPlugin(editor: Editor, pluginClosure: SlatePluginClosure) {
   return (option: string) => {
-    editor.command('replaceWithPlugin', {
-      plugin: option
-    })
+    if (!pluginClosure.current) return
+    const { id, store } = pluginClosure.current
+    store.dispatch(
+      replace({
+        id,
+        plugin: option
+      })
+    )
   }
 }
 export function pluginSuggestions(
@@ -136,7 +142,7 @@ function SuggestionsBox({
             const option = closure.current.options[closure.current.selected]
             if (!option) return
             setTimeout(() => {
-              insertPlugin(editor)(option[1])
+              insertPlugin(editor, pluginClosure)(option[1])
             })
           }
         }
@@ -146,12 +152,11 @@ function SuggestionsBox({
       {showSuggestions ? (
         <HoveringOverlay position="below">
           <Suggestions
-            onSelect={insertPlugin(editor)}
+            onSelect={insertPlugin(editor, pluginClosure)}
             options={options}
             currentValue={text.substr(1)}
             selected={selected}
             config={config}
-            name={pluginClosure.current ? pluginClosure.current.name : ''}
           />
         </HoveringOverlay>
       ) : null}

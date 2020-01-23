@@ -12,7 +12,7 @@ import { Store as Store_2 } from 'redux';
 import { StoreEnhancer } from 'redux';
 
 // @public (undocumented)
-export type Action = ClipboardAction | DocumentsAction | FocusAction | HistoryAction | RootAction | SetPartialState;
+export type Action = ClipboardAction | DocumentsAction | FocusAction | HistoryAction | PluginAction | RootAction | SetPartialState;
 
 // @public (undocumented)
 export type ActionCreator<T = string, P = any> = {
@@ -220,6 +220,9 @@ export const getHistory: Selector<HistoryState>;
 export const getInitialState: Selector<HistoryState['initialState']>;
 
 // @public (undocumented)
+export const getParent: Selector<Node | null, [string]>;
+
+// @public (undocumented)
 export const getPendingChanges: Selector<HistoryState['pendingChanges']>;
 
 // @public (undocumented)
@@ -323,6 +326,60 @@ export const insert: {
 // @public (undocumented)
 export type InsertAction = ActionFromActionCreator<typeof insert>;
 
+// @public (undocumented)
+export const insertChildAfter: {
+    (payload: {
+        parent: string;
+        sibling?: string | undefined;
+        document?: {
+            plugin: string;
+            state?: unknown;
+        } | undefined;
+    }): (scope: string) => {
+        type: "InsertChildAfter";
+        payload: {
+            parent: string;
+            sibling?: string | undefined;
+            document?: {
+                plugin: string;
+                state?: unknown;
+            } | undefined;
+        };
+        scope: string;
+    };
+    type: "InsertChildAfter";
+};
+
+// @public (undocumented)
+export type InsertChildAfterAction = ActionFromActionCreator<typeof insertChildAfter>;
+
+// @public (undocumented)
+export const insertChildBefore: {
+    (payload: {
+        parent: string;
+        sibling: string;
+        document?: {
+            plugin: string;
+            state?: unknown;
+        } | undefined;
+    }): (scope: string) => {
+        type: "InsertChildBefore";
+        payload: {
+            parent: string;
+            sibling: string;
+            document?: {
+                plugin: string;
+                state?: unknown;
+            } | undefined;
+        };
+        scope: string;
+    };
+    type: "InsertChildBefore";
+};
+
+// @public (undocumented)
+export type InsertChildBeforeAction = ActionFromActionCreator<typeof insertChildBefore>;
+
 // @public
 export function isDocumentEmpty(doc: DocumentState | null, plugin: EditorPlugin | null): boolean;
 
@@ -331,6 +388,12 @@ export const isEmpty: Selector<boolean, [string]>;
 
 // @public
 export const isFocused: Selector<boolean, [string]>;
+
+// @public (undocumented)
+export const mayInsertChild: Selector<boolean, [string]>;
+
+// @public (undocumented)
+export const mayRemoveChild: Selector<boolean, [string]>;
 
 // @public (undocumented)
 export interface Node {
@@ -351,6 +414,9 @@ export const persist: {
 
 // @public (undocumented)
 export type PersistAction = ActionFromActionCreator<typeof persist>;
+
+// @public (undocumented)
+export type PluginAction = InsertChildBeforeAction | InsertChildAfterAction | RemoveChildAction;
 
 // @internal (undocumented)
 export const pluginsReducer: SubReducer<{
@@ -468,13 +534,13 @@ export const pureReplace: {
     (payload: {
         id: string;
         plugin: string;
-        state: unknown;
+        state?: unknown;
     }): (scope: string) => {
         type: "PureReplace";
         payload: {
             id: string;
             plugin: string;
-            state: unknown;
+            state?: unknown;
         };
         scope: string;
     };
@@ -574,17 +640,36 @@ export const remove: {
 export type RemoveAction = ActionFromActionCreator<typeof remove>;
 
 // @public (undocumented)
+export const removeChild: {
+    (payload: {
+        parent: string;
+        child: string;
+    }): (scope: string) => {
+        type: "RemoveChild";
+        payload: {
+            parent: string;
+            child: string;
+        };
+        scope: string;
+    };
+    type: "RemoveChild";
+};
+
+// @public (undocumented)
+export type RemoveChildAction = ActionFromActionCreator<typeof removeChild>;
+
+// @public (undocumented)
 export const replace: {
     (payload: {
         id: string;
         plugin: string;
-        state: unknown;
+        state?: unknown;
     }): (scope: string) => {
         type: "Replace";
         payload: {
             id: string;
             plugin: string;
-            state: unknown;
+            state?: unknown;
         };
         scope: string;
     };

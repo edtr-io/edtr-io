@@ -52,18 +52,6 @@ export interface DocumentEditorProps {
   renderToolbar?(children: React.ReactNode): React.ReactNode
 
   /**
-   * Inserts a sibling after the current document
-   *
-   * @param options - document to insert
-   */
-  insert?(options?: { plugin: string; state?: unknown }): void
-
-  /**
-   * Removes the current document
-   */
-  remove?(): void
-
-  /**
    * `true` if the document is focused
    */
   focused: boolean

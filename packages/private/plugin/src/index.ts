@@ -1,8 +1,7 @@
 import {
   StateType,
   StateTypeReturnType,
-  StateTypeSerializedType,
-  StateTypeValueType
+  StateTypeSerializedType
 } from '@edtr-io/internal__plugin-state'
 import { Theme } from '@edtr-io/ui'
 import * as React from 'react'
@@ -53,7 +52,33 @@ export interface EditorPlugin<
    * @param state - the current state
    * @returns `true` if the plugin is empty
    */
-  isEmpty?(state: StateTypeValueType<S>): boolean
+  isEmpty?(state: StateTypeReturnType<S>): boolean
+
+  /**
+   * May be provided if the plugin is able to insert additional children
+   *
+   * @param state - The current state
+   * @param previousSibling - The id of the child after the new document should be inserted (or `undefined` if the document should be inserted at the front)
+   * @param document - The document to insert
+   */
+  insertChild?(
+    state: StateTypeReturnType<S>,
+    {
+      previousSibling,
+      document
+    }: {
+      previousSibling?: string
+      document?: { plugin: string; state?: unknown }
+    }
+  ): void
+
+  /**
+   * May be provided if the plugin is able to remove its child
+   *
+   * @param state - The current state
+   * @param id - The id of the child that should be removed
+   */
+  removeChild?(state: StateTypeReturnType<S>, id: string): void
 }
 
 /**
@@ -79,13 +104,6 @@ export interface EditorPluginProps<
    * ID of the document
    */
   id: string
-
-  /**
-   * Name of the plugin as defined in the registry
-   *
-   * @deprecated Will be removed as soon as we found a better solution for that
-   */
-  name: string
 
   /**
    * `true` if the document is currently editable
