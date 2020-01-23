@@ -4,7 +4,6 @@ import { plugin as blockquotePlugin } from '@edtr-io/plugin-blockquote/__fixture
 import { plugin as filesPlugin } from '@edtr-io/plugin-files/__fixtures__'
 import { plugin as geogebraPlugin } from '@edtr-io/plugin-geogebra/__fixtures__'
 import { plugin as highlightPlugin } from '@edtr-io/plugin-highlight/__fixtures__'
-import { plugin as hintPlugin } from '@edtr-io/plugin-hint/__fixtures__'
 import { plugin as imagePlugin } from '@edtr-io/plugin-image/__fixtures__'
 import { plugin as importantStatementPlugin } from '@edtr-io/plugin-important-statement/__fixtures__'
 import { plugin as inputExercisePlugin } from '@edtr-io/plugin-input-exercise/__fixtures__'
@@ -30,7 +29,6 @@ export const plugins: Record<
   files: filesPlugin,
   geogebra: geogebraPlugin,
   highlight: highlightPlugin,
-  hint: hintPlugin,
   importantStatement: importantStatementPlugin,
   inputExercise: inputExercisePlugin,
   multimediaExplanation: multimediaExplanationPlugin,

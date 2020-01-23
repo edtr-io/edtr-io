@@ -11,7 +11,6 @@
       "@edtr-io/plugin-files": ["plugins/files/src"],
       "@edtr-io/plugin-geogebra": ["plugins/geogebra/src"],
       "@edtr-io/plugin-highlight": ["plugins/highlight/src"],
-      "@edtr-io/plugin-hint": ["plugins/hint/src"],
       "@edtr-io/plugin-image": ["plugins/image/src"],
       "@edtr-io/plugin-important-statement": [
         "plugins/important-statement/src"

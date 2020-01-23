@@ -55,11 +55,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faCode)
     },
     {
-      name: 'hint',
-      title: 'Hint',
-      icon: createIcon(faLightbulb)
-    },
-    {
       name: 'image',
       title: 'Image',
       icon: createIcon(faImages)

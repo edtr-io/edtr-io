@@ -18,7 +18,6 @@
     "@edtr-io/plugin-files": "^0.14.0",
     "@edtr-io/plugin-geogebra": "^0.14.0",
     "@edtr-io/plugin-highlight": "^0.14.0",
-    "@edtr-io/plugin-hint": "^0.14.0",
     "@edtr-io/plugin-image": "^0.14.0",
     "@edtr-io/plugin-important-statement": "^0.14.0",
     "@edtr-io/plugin-input-exercise": "^0.14.0",

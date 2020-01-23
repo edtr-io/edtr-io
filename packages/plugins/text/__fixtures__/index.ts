@@ -23,9 +23,6 @@ export const plugin = createTextPlugin({
       name: 'highlight'
     },
     {
-      name: 'hint'
-    },
-    {
       name: 'image'
     },
     {
