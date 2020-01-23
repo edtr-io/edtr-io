@@ -29,7 +29,7 @@
     "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "^0.13.0",
+    "@edtr-io/core": "^0.14.0",
     "react": "^16.8.0",
     "react-dnd": "^10.0.0",
     "react-dnd-html5-backend": "^10.0.0",
