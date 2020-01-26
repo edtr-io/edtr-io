@@ -18,6 +18,7 @@ import { RenderBlockProps } from 'slate-react';
 import { RenderInlineProps } from 'slate-react';
 import { RenderMarkProps } from 'slate-react';
 import { Rule } from 'slate-html-serializer';
+import { Serializer } from '@edtr-io/plugin';
 import { useScopedStore } from '@edtr-io/core';
 import { Value } from 'slate';
 import { ValueJSON } from 'slate';
@@ -61,6 +62,96 @@ export interface MarkRendererProps {
 }
 
 // @public (undocumented)
+export type NewElement = NewParagraphElement | NewHeadingElement | NewLinkElement | NewMathElement | NewOrderedListElement | NewUnorderedListElement | NewListItemElement | NewListItemChildElement;
+
+// @public (undocumented)
+export interface NewHeadingElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    level: 1 | 2 | 3 | 4 | 5 | 6;
+    // (undocumented)
+    type: 'h';
+}
+
+// @public (undocumented)
+export interface NewLinkElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    href: string;
+    // (undocumented)
+    type: 'a';
+}
+
+// @public (undocumented)
+export interface NewListItemChildElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    type: 'list-item-child';
+}
+
+// @public (undocumented)
+export interface NewListItemElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    type: 'list-item';
+}
+
+// @public (undocumented)
+export interface NewMathElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    inline: boolean;
+    // (undocumented)
+    src: string;
+    // (undocumented)
+    type: 'math';
+}
+
+// @public (undocumented)
+export type NewNode = NewText | NewElement;
+
+// @public (undocumented)
+export interface NewOrderedListElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    type: 'ordered-list';
+}
+
+// @public (undocumented)
+export interface NewParagraphElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    type: 'p';
+}
+
+// @public (undocumented)
+export interface NewText {
+    // (undocumented)
+    color?: number;
+    // (undocumented)
+    em?: boolean;
+    // (undocumented)
+    strong?: boolean;
+    // (undocumented)
+    text: string;
+}
+
+// @public (undocumented)
+export interface NewUnorderedListElement {
+    // (undocumented)
+    children: NewNode[];
+    // (undocumented)
+    type: 'unordered-list';
+}
+
+// @public (undocumented)
 export type NodeControlsProps = EditorProps & {
     editor: Editor;
 };
@@ -70,6 +161,164 @@ export type NodeEditorProps = BlockEditorProps | InlineEditorProps;
 
 // @public (undocumented)
 export type NodeRendererProps = BlockRendererProps | InlineRendererProps;
+
+// @public (undocumented)
+export interface OldColorMark {
+    // (undocumented)
+    data: {
+        colorIndex: number;
+    };
+    // (undocumented)
+    object: 'mark';
+    // (undocumented)
+    type: '@splish-me/color';
+}
+
+// @public (undocumented)
+export type OldElement = OldParagraphElement | OldHeadingElement | OldLinkElement | OldKatexInlineElement | OldKatexBlockElement | OldOrderedListElement | OldUnorderedListElement | OldListItemElement | OldListItemChildElement;
+
+// @public (undocumented)
+export interface OldEmphasizeMark {
+    // (undocumented)
+    object: 'mark';
+    // (undocumented)
+    type: '@splish-me/em';
+}
+
+// @public (undocumented)
+export interface OldHeadingElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: '@splish-me/h1' | '@splish-me/h2' | '@splish-me/h3' | '@splish-me/h4' | '@splish-me/h5' | '@splish-me/h6';
+}
+
+// @public (undocumented)
+export interface OldKatexBlockElement {
+    // (undocumented)
+    data: {
+        formula: string;
+        inline: false;
+    };
+    // (undocumented)
+    isVoid: true;
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: '@splish-me/katex-block';
+}
+
+// @public (undocumented)
+export interface OldKatexInlineElement {
+    // (undocumented)
+    data: {
+        formula: string;
+        inline: true;
+    };
+    // (undocumented)
+    isVoid: true;
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'inline';
+    // (undocumented)
+    type: '@splish-me/katex-inline';
+}
+
+// @public (undocumented)
+export interface OldLinkElement {
+    // (undocumented)
+    data: {
+        href: string;
+    };
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'inline';
+    // (undocumented)
+    type: '@splish-me/a';
+}
+
+// @public (undocumented)
+export interface OldListItemChildElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: 'list-item-child';
+}
+
+// @public (undocumented)
+export interface OldListItemElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: 'list-item';
+}
+
+// @public (undocumented)
+export type OldMark = OldStrongMark | OldEmphasizeMark | OldColorMark;
+
+// @public (undocumented)
+export type OldNode = OldText | OldElement;
+
+// @public (undocumented)
+export interface OldOrderedListElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: 'ordered-list';
+}
+
+// @public (undocumented)
+export interface OldParagraphElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: 'paragraph';
+}
+
+// @public (undocumented)
+export interface OldStrongMark {
+    // (undocumented)
+    object: 'mark';
+    // (undocumented)
+    type: '@splish-me/strong';
+}
+
+// @public (undocumented)
+export interface OldText {
+    // (undocumented)
+    marks?: OldMark[];
+    // (undocumented)
+    object: 'text';
+    // (undocumented)
+    text: string;
+}
+
+// @public (undocumented)
+export interface OldUnorderedListElement {
+    // (undocumented)
+    nodes: OldNode[];
+    // (undocumented)
+    object: 'block';
+    // (undocumented)
+    type: 'unordered-list';
+}
+
+// @public (undocumented)
+export const serializer: Serializer<NewNode[], ValueJSON>;
 
 // @public (undocumented)
 export interface SlateClosure {
@@ -143,10 +392,10 @@ export type TextProps = EditorPluginProps<TextState, TextConfig>;
 export type TextState = typeof textState;
 
 // @public (undocumented)
-export const textState: import("@edtr-io/internal__plugin-state").StateType<ValueJSON, ValueJSON, {
-    value: ValueJSON;
-    get(): ValueJSON;
-    set(value: ValueJSON | ((currentValue: ValueJSON) => ValueJSON)): void;
+export const textState: import("@edtr-io/internal__plugin-state").StateType<import("./state-migration-serializer").NewNode[], import("slate").ValueJSON, {
+    value: import("slate").ValueJSON;
+    get(): import("slate").ValueJSON;
+    set(value: import("slate").ValueJSON | ((currentValue: import("slate").ValueJSON) => import("slate").ValueJSON)): void;
 }>;
 
 

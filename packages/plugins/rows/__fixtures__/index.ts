@@ -1,23 +1,16 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  name as textPlugin,
-  createTextState,
-  Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import {
   createIcon,
   faAnchor,
   faCaretSquareDown,
-  faCheckSquare,
   faCode,
   faCubes,
   faDotCircle,
-  faEquals,
   faFileAlt,
   faFilm,
   faImages,
   faKeyboard,
-  faLightbulb,
   faNewspaper,
   faParagraph,
   faPhotoVideo,
@@ -104,7 +97,12 @@ export const plugin = createRowsPlugin({
 export const states: Record<string, StateTypeSerializedType<RowsState>> = {
   simple: createRowsState({
     plugin: textPlugin,
-    state: createTextState(Text.create({ text: 'Hello world' }))
+    state: [
+      {
+        type: 'p',
+        children: [{ text: 'Hello world' }]
+      }
+    ]
   })
 }
 

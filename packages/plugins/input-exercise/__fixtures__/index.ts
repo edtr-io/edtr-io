@@ -1,9 +1,5 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  createTextState,
-  name as textPlugin,
-  Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
 import { InputExerciseState, createInputExercisePlugin } from '../src'
 
@@ -23,7 +19,12 @@ export const states: Record<
         isCorrect: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'This is correct' }))
+          state: [
+            {
+              type: 'p',
+              children: [{ text: 'This is correct' }]
+            }
+          ]
         }
       }
     ]
@@ -37,7 +38,12 @@ export const states: Record<
         isCorrect: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'This is correct' }))
+          state: [
+            {
+              type: 'p',
+              children: [{ text: 'This is correct' }]
+            }
+          ]
         }
       }
     ]
@@ -51,7 +57,12 @@ export const states: Record<
         isCorrect: true,
         feedback: {
           plugin: textPlugin,
-          state: createTextState(Text.create({ text: 'This is correct' }))
+          state: [
+            {
+              type: 'p',
+              children: [{ text: 'This is correct' }]
+            }
+          ]
         }
       }
     ]

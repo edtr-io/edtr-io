@@ -4,7 +4,11 @@ import {
   StateUpdater
 } from '@edtr-io/internal__plugin-state'
 
-/** @public */
+/**
+ * @public
+ * @param type
+ * @param initiallyDefined
+ */
 export function optional<S, T, R>(
   type: StateType<S, T, R>,
   initiallyDefined = false

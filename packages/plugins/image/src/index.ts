@@ -82,8 +82,7 @@ export const createImagePlugin = (
       return (
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
         (!serializedState.link.defined || !serializedState.link.href.value) &&
-        (!serializedState.alt.defined ||
-          !serializedState.alt.value)
+        (!serializedState.alt.defined || !serializedState.alt.value)
       )
     }
   }
