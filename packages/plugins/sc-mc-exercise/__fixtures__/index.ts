@@ -61,7 +61,10 @@ export const states: Record<
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'second correct' }))
         },
-        feedback: undefined
+        feedback: {
+          plugin: textPlugin,
+          state: createTextState(Text.create({ text: '' }))
+        }
       },
       {
         isCorrect: false,
