@@ -55,7 +55,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
         {!isTempFile(state.src.value) ? (
           <Img
             src={state.src.value}
-            alt={state.description.defined ? state.description.value : ''}
+            alt={state.alt.defined ? state.alt.value : ''}
           />
         ) : state.src.value.loaded ? (
           <Uploading>
@@ -64,7 +64,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
             </PendingOverlay>
             <Img
               src={state.src.value.loaded.dataUrl}
-              alt={state.description.defined ? state.description.value : ''}
+              alt={state.alt.defined ? state.alt.value : ''}
             />
           </Uploading>
         ) : (

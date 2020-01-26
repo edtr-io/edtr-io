@@ -134,13 +134,13 @@ function PrimaryControls(
   function showAlternativeMenu() {
     switch (props.config.secondInput) {
       case 'description': {
-        const { description } = props.state
+        const { alt } = props.state
         return (
           <React.Fragment>
             <EditorInput
               label="Bildbeschreibung:"
               placeholder="Gib eine Bildbeschreibung ein (mind. 3 Wörter)"
-              value={description.defined ? description.value : ''}
+              value={alt.defined ? alt.value : ''}
               onChange={handleChange(props)('description')}
               editorInputWidth="90%"
               textfieldWidth="70%"
@@ -216,7 +216,7 @@ function Controls<T = unknown>(
       <OverlayTextarea
         label="Bildbeschreibung"
         placeholder="Gib hier eine Bildbeschreibung ein (mindestens 3 Wörter)"
-        value={state.description.defined ? state.description.value : ''}
+        value={state.alt.defined ? state.alt.value : ''}
         onChange={handleChange(props)('description')}
       />
 
@@ -267,14 +267,14 @@ function handleChange(props: ImageProps) {
           state.src.set(value)
           break
         case 'description': {
-          if (state.description.defined) {
+          if (state.alt.defined) {
             if (value) {
-              state.description.set(value)
+              state.alt.set(value)
             } else {
-              state.description.remove()
+              state.alt.remove()
             }
           } else {
-            state.description.create(value)
+            state.alt.create(value)
           }
           break
         }

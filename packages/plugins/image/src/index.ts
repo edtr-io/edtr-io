@@ -23,7 +23,7 @@ export const imageState = object({
       openInNewTab: boolean(false)
     })
   ),
-  description: optional(string('')),
+  alt: optional(string('')),
   maxWidth: optional(number(0))
 })
 /** @public */
@@ -56,7 +56,7 @@ export const createImagePlugin = (
           state: {
             src: value,
             link: undefined,
-            description: undefined,
+            alt: undefined,
             maxWidth: undefined
           }
         }
@@ -71,7 +71,7 @@ export const createImagePlugin = (
             state: {
               src: { pending: files[0] },
               link: undefined,
-              description: undefined,
+              alt: undefined,
               maxWidth: undefined
             }
           }
@@ -82,8 +82,8 @@ export const createImagePlugin = (
       return (
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
         (!serializedState.link.defined || !serializedState.link.href.value) &&
-        (!serializedState.description.defined ||
-          !serializedState.description.value)
+        (!serializedState.alt.defined ||
+          !serializedState.alt.value)
       )
     }
   }
