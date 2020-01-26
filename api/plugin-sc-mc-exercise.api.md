@@ -22,7 +22,7 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
     }>;
     answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -44,16 +44,11 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             id: string;
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
         }>;
     }>[], {
         id: string;
         value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -76,14 +71,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
             }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
         }>;
     }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -106,14 +96,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
     }>[] & {
         set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -135,14 +120,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -164,14 +144,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -193,14 +168,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -222,15 +192,10 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -252,11 +217,6 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }> | undefined): void;
         remove(index: number): void;
@@ -269,7 +229,7 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
     }>;
     answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -291,16 +251,11 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             id: string;
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
         }>;
     }>[], {
         id: string;
         value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -323,14 +278,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
             }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
         }>;
     }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -353,14 +303,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
     }>[] & {
         set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -382,14 +327,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -411,14 +351,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -440,14 +375,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -469,15 +399,10 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -499,11 +424,6 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }> | undefined): void;
         remove(index: number): void;
@@ -516,7 +436,7 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
     }>;
     answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -538,16 +458,11 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             id: string;
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
         }>;
     }>[], {
         id: string;
         value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -570,14 +485,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
             }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
         }>;
     }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        id: import("@edtr-io/internal__plugin-state").StateType<{
+        content: import("@edtr-io/internal__plugin-state").StateType<{
             plugin: string;
             state?: unknown;
         }, string, {
@@ -600,14 +510,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
             render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
             replace: (plugin?: string | undefined, state?: unknown) => void;
         }>;
-        hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
     }>[] & {
         set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -629,14 +534,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -658,14 +558,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -687,14 +582,9 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -716,15 +606,10 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }>[]): void;
         insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            id: import("@edtr-io/internal__plugin-state").StateType<{
+            content: import("@edtr-io/internal__plugin-state").StateType<{
                 plugin: string;
                 state?: unknown;
             }, string, {
@@ -746,11 +631,6 @@ export function createScMcExerciseState(content: Parameters<typeof child>, feedb
                 id: string;
                 render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
                 replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-            hasFeedback: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
             }>;
         }> | undefined): void;
         remove(index: number): void;

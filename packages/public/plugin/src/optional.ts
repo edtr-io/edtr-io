@@ -4,6 +4,7 @@ import {
   StateUpdater
 } from '@edtr-io/internal__plugin-state'
 
+/** @public */
 export function optional<S, T, R>(
   type: StateType<S, T, R>,
   initiallyDefined = false
@@ -123,6 +124,7 @@ export function optional<S, T, R>(
   }
 }
 
+/** @public */
 export type Optional<T> =
   | {
       defined: true

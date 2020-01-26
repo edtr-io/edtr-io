@@ -27,7 +27,7 @@ export interface HighlightRendererProps {
     // (undocumented)
     language: string;
     // (undocumented)
-    lineNumbers: boolean;
+    showLineNumbers: boolean;
 }
 
 // @public (undocumented)
@@ -35,7 +35,7 @@ export type HighlightState = typeof highlightState;
 
 // @public (undocumented)
 export const highlightState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    text: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+    code: import("@edtr-io/internal__plugin-state").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
@@ -45,13 +45,13 @@ export const highlightState: import("@edtr-io/internal__plugin-state").StateType
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    lineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
+    showLineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
         value: boolean;
         get(): boolean;
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
     }>;
 }>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    text: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+    code: import("@edtr-io/internal__plugin-state").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
@@ -61,13 +61,13 @@ export const highlightState: import("@edtr-io/internal__plugin-state").StateType
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    lineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
+    showLineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
         value: boolean;
         get(): boolean;
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
     }>;
 }>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    text: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+    code: import("@edtr-io/internal__plugin-state").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
@@ -77,7 +77,7 @@ export const highlightState: import("@edtr-io/internal__plugin-state").StateType
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    lineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
+    showLineNumbers: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
         value: boolean;
         get(): boolean;
         set(value: boolean | ((currentValue: boolean) => boolean)): void;
