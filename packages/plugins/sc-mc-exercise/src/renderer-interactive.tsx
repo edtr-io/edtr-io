@@ -79,7 +79,7 @@ export class ScMcRendererInteractive extends React.Component<
           {...button} // showFeedback: false
           centered={centered}
         >
-          {answer.id.render()}
+          {answer.content.render()}
         </ScMcExerciseChoiceRenderer>
         {this.props.showFeedback ? this.showFeedback({ button, answer }) : null}
       </React.Fragment>

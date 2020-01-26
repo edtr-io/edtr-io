@@ -19,10 +19,9 @@ export function createScMcExerciseState(
   feedback: Parameters<typeof child>
 ) {
   const answerState = object({
-    id: child(...content),
+    content: child(...content),
     isCorrect: boolean(false),
-    feedback: child(...feedback),
-    hasFeedback: boolean(false)
+    feedback: child(...feedback)
   })
 
   return object({

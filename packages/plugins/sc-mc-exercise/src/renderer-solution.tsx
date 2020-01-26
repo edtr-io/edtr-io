@@ -24,7 +24,7 @@ export class ScMcRendererSolution extends React.Component<ScMcExerciseProps> {
         {...this.props}
         centered={centered}
       >
-        {answer.id.render()}
+        {answer.content.render()}
       </ScMcExerciseChoiceRenderer>
     )
   }

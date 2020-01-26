@@ -19,7 +19,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
   const { editable, focused, state } = props
   const children = R.flatten(
     props.state.answers.map(answer => {
-      return [answer.id.id, answer.feedback.id]
+      return [answer.content.id, answer.feedback.id]
     })
   )
   const handleCheckboxChange = (index: number) => () => {
@@ -78,9 +78,9 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
               {state.answers.map((answer, index) => {
                 return (
                   <InteractiveAnswer
-                    key={answer.id.id}
-                    answer={answer.id.render()}
-                    answerID={answer.id.id}
+                    key={answer.content.id}
+                    answer={answer.content.render()}
+                    answerID={answer.content.id}
                     feedback={answer.feedback.render()}
                     feedbackID={answer.feedback.id}
                     focusedElement={focusedElement || undefined}

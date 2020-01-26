@@ -19,11 +19,10 @@ export const states: Record<
     answers: [
       {
         isCorrect: true,
-        id: {
+        content: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'correct' }))
         },
-        hasFeedback: true,
         feedback: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'correct feedback' }))
@@ -31,11 +30,10 @@ export const states: Record<
       },
       {
         isCorrect: false,
-        id: {
+        content: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'wrong' }))
         },
-        hasFeedback: true,
         feedback: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'wrong feedback' }))
@@ -48,11 +46,10 @@ export const states: Record<
     answers: [
       {
         isCorrect: true,
-        id: {
+        content: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'first correct' }))
         },
-        hasFeedback: true,
         feedback: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'correct feedback' }))
@@ -60,22 +57,18 @@ export const states: Record<
       },
       {
         isCorrect: true,
-        id: {
+        content: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'second correct' }))
         },
-        hasFeedback: false,
-        feedback: {
-          plugin: textPlugin
-        }
+        feedback: undefined
       },
       {
         isCorrect: false,
-        id: {
+        content: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'wrong' }))
         },
-        hasFeedback: true,
         feedback: {
           plugin: textPlugin,
           state: createTextState(Text.create({ text: 'wrong feedback' }))
