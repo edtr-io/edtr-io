@@ -16,11 +16,19 @@ exec()
   })
 
 async function exec() {
-  await clean()
-  bundle()
-  invokeApiExtractor()
-  await cleanTypes()
-  await generateEntries()
+  let i = 0
+  while (i++ < 3) {
+    try {
+      await clean()
+      bundle()
+      invokeApiExtractor()
+      await cleanTypes()
+      await generateEntries()
+      break
+    } catch (e) {
+      console.log('Failed attempt', i, e)
+    }
+  }
 
   async function clean() {
     const rm = util.promisify(rimraf)
