@@ -8,7 +8,7 @@ export const plugin = createHighlightPlugin()
 export const states: Record<string, StateTypeSerializedType<HighlightState>> = {
   javascript: {
     language: 'javascript',
-    lineNumbers: true,
-    text: "console.log('Hello World')"
+    showLineNumbers: true,
+    code: "console.log('Hello World')"
   }
 }

@@ -112,10 +112,8 @@ export const states: Record<string, StateTypeSerializedType<ImageState>> = {
   simple: {
     src:
       'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
-    href: '',
-    target: '',
-    rel: '',
-    description: 'Edtr.io Logo',
-    maxWidth: 0
+    link: undefined,
+    alt: 'Edtr.io Logo',
+    maxWidth: undefined
   }
 }

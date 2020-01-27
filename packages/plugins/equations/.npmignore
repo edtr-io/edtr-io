@@ -1,7 +1,0 @@
-__fixtures__
-__helpers__
-__tests-ssr__
-__tests__
-src/tsconfig.json
-api-extractor.json
-tsconfig.prod.json

@@ -6,7 +6,7 @@ export function HighlightRenderer(props: HighlightRendererProps) {
   return (
     <SyntaxHighlighter
       language={props.language}
-      showLineNumbers={props.lineNumbers}
+      showLineNumbers={props.showLineNumbers}
       style={style}
       customStyle={{
         overflow: 'auto'
@@ -21,5 +21,5 @@ export function HighlightRenderer(props: HighlightRendererProps) {
 export interface HighlightRendererProps {
   code: string
   language: string
-  lineNumbers: boolean
+  showLineNumbers: boolean
 }

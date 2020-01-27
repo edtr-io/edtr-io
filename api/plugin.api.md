@@ -92,6 +92,24 @@ export function object<Ds extends Record<string, StateType>>(types: Ds, getFocus
 }[]): StateType<StateTypesSerializedType<Ds>, StateTypesValueType<Ds>, StateTypesReturnType<Ds>>;
 
 // @public (undocumented)
+export type Optional<T> = {
+    defined: true;
+    value: T;
+} | {
+    defined: false;
+    value: null;
+};
+
+// @public (undocumented)
+export function optional<S, T, R>(type: StateType<S, T, R>, initiallyDefined?: boolean): StateType<S | undefined, Optional<T>, {
+    defined: false;
+    create(value?: S): void;
+} | (R & {
+    defined: true;
+    remove(): void;
+})>;
+
+// @public (undocumented)
 export function scalar<S>(initialState: S): StateType<S, S, {
     value: S;
     get(): S;

@@ -2,12 +2,14 @@ import {
   isTempFile,
   number,
   object,
+  optional,
   string,
   upload,
   UploadHandler,
   UploadValidator,
   EditorPluginProps,
-  EditorPlugin
+  EditorPlugin,
+  boolean
 } from '@edtr-io/plugin'
 
 import { ImageEditor } from './editor'
@@ -15,11 +17,14 @@ import { ImageEditor } from './editor'
 /** @public */
 export const imageState = object({
   src: upload(''),
-  href: string(''),
-  target: string(''),
-  rel: string(''),
-  description: string(''),
-  maxWidth: number(0)
+  link: optional(
+    object({
+      href: string(''),
+      openInNewTab: boolean(false)
+    })
+  ),
+  alt: optional(string('')),
+  maxWidth: optional(number(0))
 })
 /** @public */
 export type ImageState = typeof imageState
@@ -50,11 +55,9 @@ export const createImagePlugin = (
         return {
           state: {
             src: value,
-            href: '',
-            target: '',
-            rel: '',
-            description: '',
-            maxWidth: 0
+            link: undefined,
+            alt: undefined,
+            maxWidth: undefined
           }
         }
       }
@@ -67,11 +70,9 @@ export const createImagePlugin = (
           return {
             state: {
               src: { pending: files[0] },
-              href: '',
-              target: '',
-              rel: '',
-              description: '',
-              maxWidth: 0
+              link: undefined,
+              alt: undefined,
+              maxWidth: undefined
             }
           }
         }
@@ -80,8 +81,8 @@ export const createImagePlugin = (
     isEmpty: serializedState => {
       return (
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
-        !serializedState.href.value &&
-        !serializedState.description.value
+        (!serializedState.link.defined || !serializedState.link.href.value) &&
+        (!serializedState.alt.defined || !serializedState.alt.value)
       )
     }
   }

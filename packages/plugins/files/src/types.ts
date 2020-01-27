@@ -2,7 +2,7 @@ import { UploadHandler } from '@edtr-io/plugin'
 
 /** @public */
 export interface UploadedFile {
-  location: string
+  src: string
   type: FileType
   name: string
 }

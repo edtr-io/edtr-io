@@ -1,14 +1,11 @@
-import { EditorPlugin, EditorPluginProps, scalar } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  serializedScalar
+} from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
-import {
-  BlockJSON,
-  Editor,
-  InlineJSON,
-  MarkJSON,
-  Value,
-  ValueJSON
-} from 'slate'
+import { BlockJSON, Editor, InlineJSON, MarkJSON, Value } from 'slate'
 import { Rule } from 'slate-html-serializer' // TODO: Remove this reference
 import {
   EditorProps,
@@ -24,6 +21,7 @@ import { TextEditor } from './factory/editor'
 import { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
 import { plugins } from './plugins'
+import { serializer } from './state-migration-serializer'
 
 /** @public */
 export type MarkEditorProps = RenderMarkProps
@@ -63,7 +61,7 @@ export type TextPlugin = Plugin &
   }
 
 /** @public */
-export const textState = scalar<ValueJSON>(emptyDocument)
+export const textState = serializedScalar(emptyDocument, serializer)
 /** @public */
 export type TextState = typeof textState
 /** @public */
@@ -176,3 +174,4 @@ export function createTextPlugin({
 
 export { isValueEmpty, SlatePluginClosure }
 export { SlateClosure } from './factory/types'
+export * from './state-migration-serializer'

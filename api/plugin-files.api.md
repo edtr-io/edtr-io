@@ -94,9 +94,9 @@ export function parseFileType(name: string): FileType;
 // @public (undocumented)
 export interface UploadedFile {
     // (undocumented)
-    location: string;
-    // (undocumented)
     name: string;
+    // (undocumented)
+    src: string;
     // (undocumented)
     type: FileType;
 }

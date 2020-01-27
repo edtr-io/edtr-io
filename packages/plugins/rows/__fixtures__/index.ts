@@ -1,23 +1,16 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import {
-  name as textPlugin,
-  createTextState,
-  Text
-} from '@edtr-io/plugin-text/__fixtures__'
+import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import {
   createIcon,
   faAnchor,
   faCaretSquareDown,
-  faCheckSquare,
   faCode,
   faCubes,
   faDotCircle,
-  faEquals,
   faFileAlt,
   faFilm,
   faImages,
   faKeyboard,
-  faLightbulb,
   faNewspaper,
   faParagraph,
   faPhotoVideo,
@@ -40,11 +33,6 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faQuoteRight)
     },
     {
-      name: 'equations',
-      title: 'Equations',
-      icon: createIcon(faEquals)
-    },
-    {
       name: 'files',
       title: 'Files',
       icon: createIcon(faFileAlt)
@@ -60,18 +48,9 @@ export const plugin = createRowsPlugin({
       icon: createIcon(faCode)
     },
     {
-      name: 'hint',
-      title: 'Hint',
-      icon: createIcon(faLightbulb)
-    },
-    {
       name: 'image',
       title: 'Image',
       icon: createIcon(faImages)
-    },
-    {
-      name: 'importantStatement',
-      title: 'Important Statement'
     },
     {
       name: 'inputExercise',
@@ -92,11 +71,6 @@ export const plugin = createRowsPlugin({
       name: 'serloInjection',
       title: 'Serlo Content',
       icon: createIcon(faNewspaper)
-    },
-    {
-      name: 'solution',
-      title: 'Solution',
-      icon: createIcon(faCheckSquare)
     },
     {
       name: 'spoiler',
@@ -123,7 +97,12 @@ export const plugin = createRowsPlugin({
 export const states: Record<string, StateTypeSerializedType<RowsState>> = {
   simple: createRowsState({
     plugin: textPlugin,
-    state: createTextState(Text.create({ text: 'Hello world' }))
+    state: [
+      {
+        type: 'p',
+        children: [{ text: 'Hello world' }]
+      }
+    ]
   })
 }
 

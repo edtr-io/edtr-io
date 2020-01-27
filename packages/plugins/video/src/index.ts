@@ -1,19 +1,14 @@
 import {
   string,
   object,
-  migratable,
   EditorPluginProps,
   EditorPlugin
 } from '@edtr-io/plugin'
 
 import { VideoEditor } from './editor'
 
-const stateV0 = string()
-const stateV1 = object({ src: string(), alt: string() })
 /** @public */
-export const videoState = migratable(stateV0).migrate(stateV1, src => {
-  return { src, alt: '' }
-})
+export const videoState = object({ src: string(), alt: string() })
 /** @public */
 export type VideoState = typeof videoState
 /** @public */
@@ -30,7 +25,7 @@ export function createVideoPlugin(): EditorPlugin<VideoState> {
 
       const regex = /^(https?:\/\/)?(.*?(youtube\.com\/watch\?(.*&)?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))/
       if (regex.test(value)) {
-        return { state: value }
+        return { state: { src: value, alt: '' } }
       }
     }
   }

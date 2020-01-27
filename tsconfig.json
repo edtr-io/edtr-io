@@ -8,15 +8,10 @@
       // Plugins
       "@edtr-io/plugin-anchor": ["plugins/anchor/src"],
       "@edtr-io/plugin-blockquote": ["plugins/blockquote/src"],
-      "@edtr-io/plugin-equations": ["plugins/equations/src"],
       "@edtr-io/plugin-files": ["plugins/files/src"],
       "@edtr-io/plugin-geogebra": ["plugins/geogebra/src"],
       "@edtr-io/plugin-highlight": ["plugins/highlight/src"],
-      "@edtr-io/plugin-hint": ["plugins/hint/src"],
       "@edtr-io/plugin-image": ["plugins/image/src"],
-      "@edtr-io/plugin-important-statement": [
-        "plugins/important-statement/src"
-      ],
       "@edtr-io/plugin-input-exercise": ["plugins/input-exercise/src"],
       "@edtr-io/plugin-multimedia-explanation": [
         "plugins/multimedia-explanation/src"
@@ -24,7 +19,6 @@
       "@edtr-io/plugin-rows": ["plugins/rows/src"],
       "@edtr-io/plugin-sc-mc-exercise": ["plugins/sc-mc-exercise/src"],
       "@edtr-io/plugin-serlo-injection": ["plugins/serlo-injection/src"],
-      "@edtr-io/plugin-solution": ["plugins/solution/src"],
       "@edtr-io/plugin-spoiler": ["plugins/spoiler/src"],
       "@edtr-io/plugin-table": ["plugins/table/src"],
       "@edtr-io/plugin-text": ["plugins/text/src"],

@@ -17,13 +17,18 @@ export type VideoProps = EditorPluginProps<VideoState>;
 export type VideoState = typeof videoState;
 
 // @public (undocumented)
-export const videoState: import("@edtr-io/plugin").MigratableStateType<string, string | {
-    src: string;
-    alt: string;
-}, {
-    src: string;
-    alt: string;
-}, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
+export const videoState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
+    src: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+        value: string;
+        get(): string;
+        set(value: string | ((currentValue: string) => string)): void;
+    }>;
+    alt: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+        value: string;
+        get(): string;
+        set(value: string | ((currentValue: string) => string)): void;
+    }>;
+}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
     src: import("@edtr-io/internal__plugin-state").StateType<string, string, {
         value: string;
         get(): string;

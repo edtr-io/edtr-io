@@ -51,9 +51,12 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
   public render() {
     const { state, disableMouseEvents } = this.props
     const image = (
-      <ImgWrapper maxWidth={state.maxWidth.value}>
+      <ImgWrapper maxWidth={state.maxWidth.defined ? state.maxWidth.value : 0}>
         {!isTempFile(state.src.value) ? (
-          <Img src={state.src.value} alt={state.description.value} />
+          <Img
+            src={state.src.value}
+            alt={state.alt.defined ? state.alt.value : ''}
+          />
         ) : state.src.value.loaded ? (
           <Uploading>
             <PendingOverlay>
@@ -61,7 +64,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
             </PendingOverlay>
             <Img
               src={state.src.value.loaded.dataUrl}
-              alt={state.description.value}
+              alt={state.alt.defined ? state.alt.value : ''}
             />
           </Uploading>
         ) : (
@@ -72,11 +75,15 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
 
     return (
       <div>
-        {state.href.value && !disableMouseEvents ? (
+        {state.link.defined && state.link.href.value && !disableMouseEvents ? (
           <a
-            href={state.href.value}
-            target={state.target.value}
-            rel={state.rel.value}
+            href={state.link.href.value}
+            {...(state.link.openInNewTab.value
+              ? {
+                  target: '_blank',
+                  rel: 'noreferrer noopener'
+                }
+              : {})}
           >
             {image}
           </a>

@@ -133,13 +133,14 @@ function PrimaryControls(
 
   function showAlternativeMenu() {
     switch (props.config.secondInput) {
-      case 'description':
+      case 'description': {
+        const { alt } = props.state
         return (
           <React.Fragment>
             <EditorInput
               label="Bildbeschreibung:"
               placeholder="Gib eine Bildbeschreibung ein (mind. 3 Wörter)"
-              value={props.state.description.value}
+              value={alt.defined ? alt.value : ''}
               onChange={handleChange(props)('description')}
               editorInputWidth="90%"
               textfieldWidth="70%"
@@ -147,13 +148,15 @@ function PrimaryControls(
             />
           </React.Fragment>
         )
-      case 'link':
+      }
+      case 'link': {
+        const { link } = props.state
         return (
           <React.Fragment>
             <EditorInput
               label="Link: "
               placeholder="Verlinke das Bild (optional)"
-              value={props.state.href.value}
+              value={link.defined ? link.href.value : ''}
               onChange={handleChange(props)('href')}
               editorInputWidth="90%"
               textfieldWidth="70%"
@@ -161,6 +164,7 @@ function PrimaryControls(
             />
           </React.Fragment>
         )
+      }
       default:
         return null
     }
@@ -212,7 +216,7 @@ function Controls<T = unknown>(
       <OverlayTextarea
         label="Bildbeschreibung"
         placeholder="Gib hier eine Bildbeschreibung ein (mindestens 3 Wörter)"
-        value={state.description.value}
+        value={state.alt.defined ? state.alt.value : ''}
         onChange={handleChange(props)('description')}
       />
 
@@ -220,14 +224,14 @@ function Controls<T = unknown>(
         label="Verlinke das Bild (optional)"
         placeholder="http://beispiel.de"
         type="text"
-        value={state.href.value}
+        value={state.link.defined ? state.link.href.value : ''}
         onChange={handleChange(props)('href')}
       />
-      {state.href.value ? (
+      {state.link.defined && state.link.href.value ? (
         <React.Fragment>
           <OverlayCheckbox
             label="In neuem Fenster öffnen"
-            checked={state.target.value === '_blank'}
+            checked={state.link.defined ? state.link.openInNewTab.value : false}
             onChange={handleTargetChange(props)}
           />
         </React.Fragment>
@@ -236,9 +240,14 @@ function Controls<T = unknown>(
         label="Maximale Breite (px)"
         placeholder="Gib hier die Breite ein"
         type="number"
-        value={state.maxWidth.value || ''}
+        value={state.maxWidth.defined ? state.maxWidth.value : ''}
         onChange={event => {
-          state.maxWidth.set(parseInt(event.target.value))
+          const value = parseInt(event.target.value)
+          if (state.maxWidth.defined) {
+            state.maxWidth.set(value)
+          } else {
+            state.maxWidth.create(value)
+          }
         }}
       />
     </React.Fragment>
@@ -251,7 +260,40 @@ function handleChange(props: ImageProps) {
       event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
       const { state } = props
-      state[name].set(event.target.value)
+      const value = event.target.value
+
+      switch (name) {
+        case 'src':
+          state.src.set(value)
+          break
+        case 'description': {
+          if (state.alt.defined) {
+            if (value) {
+              state.alt.set(value)
+            } else {
+              state.alt.remove()
+            }
+          } else {
+            state.alt.create(value)
+          }
+          break
+        }
+        case 'href': {
+          if (state.link.defined) {
+            if (value) {
+              state.link.href.set(value)
+            } else {
+              state.link.remove()
+            }
+          } else {
+            state.link.create({
+              href: value,
+              openInNewTab: false
+            })
+          }
+          break
+        }
+      }
     }
   }
 }
@@ -260,12 +302,23 @@ function handleTargetChange(props: ImageProps) {
   return function(checked: boolean) {
     const { state } = props
     if (checked) {
-      state.target.set('_blank')
-      // noopener is safer but not supported in IE, so noreferrer adds some security
-      state.rel.set('noreferrer noopener')
+      if (state.link.defined) {
+        state.link.openInNewTab.set(true)
+      } else {
+        state.link.create({
+          href: '',
+          openInNewTab: true
+        })
+      }
     } else {
-      state.target.set('')
-      state.rel.set('')
+      if (state.link.defined) {
+        state.link.openInNewTab.set(false)
+      } else {
+        state.link.create({
+          href: '',
+          openInNewTab: false
+        })
+      }
     }
   }
 }

@@ -1,5 +1,4 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
-import { Mark, Text } from 'slate'
 
 import { TextState, createTextPlugin } from '../src'
 
@@ -14,9 +13,6 @@ export const plugin = createTextPlugin({
       name: 'blockquote'
     },
     {
-      name: 'equations'
-    },
-    {
       name: 'files'
     },
     {
@@ -26,13 +22,7 @@ export const plugin = createTextPlugin({
       name: 'highlight'
     },
     {
-      name: 'hint'
-    },
-    {
       name: 'image'
-    },
-    {
-      name: 'importantStatement'
     },
     {
       name: 'inputExercise'
@@ -47,9 +37,6 @@ export const plugin = createTextPlugin({
       name: 'serloInjection'
     },
     {
-      name: 'solution'
-    },
-    {
       name: 'spoiler'
     },
     {
@@ -62,41 +49,22 @@ export const plugin = createTextPlugin({
 })
 
 export const states: Record<string, StateTypeSerializedType<TextState>> = {
-  simple: createTextState(Text.create({ text: 'Hello world' })),
-  bold: createTextState(
-    Text.create({
-      text: 'bold',
-      marks: Mark.createSet(['@splish-me/strong'])
-    })
-  ),
-  color: createTextState(
-    Text.create({
-      text: 'color',
-      marks: Mark.createSet([
-        { type: '@splish-me/color', data: { colorIndex: 1 } }
-      ])
-    })
-  )
-}
-
-export function createTextState(
-  ...args: Text[]
-): StateTypeSerializedType<TextState> {
-  return {
-    object: 'value',
-    document: {
-      object: 'document',
-      data: {},
-      nodes: [
-        {
-          object: 'block',
-          type: 'paragraph',
-          data: {},
-          nodes: args.map(text => text.toJSON())
-        }
-      ]
+  simple: [
+    {
+      type: 'p',
+      children: [{ text: 'Hello world' }]
     }
-  }
+  ],
+  bold: [
+    {
+      type: 'p',
+      children: [{ strong: true, text: 'bold' }]
+    }
+  ],
+  color: [
+    {
+      type: 'p',
+      children: [{ color: 0, text: 'color' }]
+    }
+  ]
 }
-
-export * from 'slate'

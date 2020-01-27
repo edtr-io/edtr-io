@@ -12,6 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
+    "@edtr-io/internal__dev-expression": "^0.14.0",
     "@edtr-io/internal__plugin": "^0.14.0",
     "@edtr-io/internal__plugin-state": "^0.14.0",
     "@types/ramda": "^0.26.1",
