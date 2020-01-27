@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.50.0](https://github.com/edtr-io/edtr-io/compare/v0.14.0..v0.50.0) - January 27, 2020
+
+This release cleans up the plugin states for the soon-ish 1.0.0 release. Note that this contains breaking changes in the serialized states so you'll need to migrate any persisted Edtr.io states. As far as we know, this concerns only Serlo so far. Please get in touch if this affects you, too, and we gladly help with migrating.
+
+### Breaking Changes
+
+- **plugin-equations**. Remove `@edtr-io/plugin-equations. We'll experiment with that plugin at Serlo and might publish it as an Edtr.io plugin in the future again.`
+- **plugin-files**. Breaking change in serialized state:
+
+  - Rename `location` to `src`
+
+- **plugin-highlight**. Breaking changes in serialized state:
+
+  - Rename `text` to `code`
+  - Rename `lineNumbers` to `showLineNumbers`
+
+- **plugin-hint**. Remove `@edtr-io/plugin-hint`. Please build your own domain-specific plugins using `ExpandableBox` in `@edtr-io/renderer-ui`.
+- **plugin-image**. Breaking changes in serialized state:
+
+  - Combine `href`, `target` and `rel` into the new optional object `link` with properties `href` and `openInNewTab`
+  - Rename `description` to `alt` and made it optional
+  - Make `maxWidth` optional
+
+- **plugin-important-statement**. Remove `@edtr-io/plugin-important-statement`
+- **plugin-input-exercise**. Breaking change in serialized state:'
+
+  - Remove migratable, i.e. accept only the latest state
+
+- **plugin-sc-mc-exercise**. Breaking change in serialized state:
+
+  - Rename `id` to `content`
+  - Remove `hasFeedback`
+
+- **plugin-solution**. Remove `@edtr-io/plugin-solution`. Please build your own domain-specific plugins using `ExpandableBox` in `@edtr-io/renderer-ui`.
+- **plugin-text**. Breaking change in serialized state:
+
+  - Use slate 0.50+ state for serialization so that we can upgrade to slate 0.50+ after releasing 1.0.0 in a non-breaking way. You can use the newly exported `serializer.serialize` to migrate old slate states.
+
+- **plugin-video**. Breaking changes in serialized state:
+
+  - Remove migratable, i.e. accept only the latest state
+
+### Added
+
+- **plugin**. Add new state type `optional` to work with optional values.
+
 ## [0.14.0](https://github.com/edtr-io/edtr-io/compare/v0.13.7..v0.14.0) - January 23, 2020
 
 ### Breaking Changes

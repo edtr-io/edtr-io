@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-toolbar",
-  "version": "0.14.0",
+  "version": "0.50.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__plugin-toolbar": "^0.14.0"
+    "@edtr-io/internal__plugin-toolbar": "^0.50.0"
   },
   "publishConfig": {
     "access": "public"
