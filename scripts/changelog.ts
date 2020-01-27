@@ -760,7 +760,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       description:
         "This release cleans up the plugin states for the soon-ish 1.0.0 release. Note that this contains breaking changes in the serialized states so you'll need to migrate any persisted Edtr.io states. As far as we know, this concerns only Serlo so far. Please get in touch if this affects you, too, and we gladly help with migrating.",
       breakingChanges: [
-        "**plugin-equations**. Remove `@edtr-io/plugin-equations. We'll experiment with that plugin at Serlo and might publish it as an Edtr.io plugin in the future again.`",
+        "**plugin-equations**. Remove `@edtr-io/plugin-equations`. We'll experiment with that plugin at Serlo and might publish it as an Edtr.io plugin in the future again.",
         `**plugin-files**. Breaking change in serialized state:
 - Rename \`location\` to \`src\`
 `,
