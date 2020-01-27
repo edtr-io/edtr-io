@@ -1,3 +1,4 @@
+import { invariant } from '@edtr-io/internal__dev-expression'
 import {
   StoreDeserializeHelpers,
   StateUpdater
@@ -313,12 +314,15 @@ export function* handleRecursiveInserts(
   const result = act(helpers)
   while (pendingDocs.length > 0) {
     const doc = pendingDocs.pop()
-    if (!doc) return
+    if (!doc) return []
     const plugin: ReturnTypeFromSelector<typeof getPluginOrDefault> = yield select(
       scopeSelector(getPluginOrDefault, scope),
       doc.plugin
     )
-    if (!plugin) return
+    if (!plugin) {
+      invariant(false, `Invalid plugin '${doc.plugin}'`)
+      return []
+    }
 
     let pluginState: unknown
     if (doc.state === undefined) {

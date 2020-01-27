@@ -5,9 +5,9 @@ import {
 } from '@edtr-io/internal__plugin-state'
 
 /**
+ * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} for defined values
+ * @param initiallyDefined - Whether the value should be defined initially
  * @public
- * @param type
- * @param initiallyDefined
  */
 export function optional<S, T, R>(
   type: StateType<S, T, R>,

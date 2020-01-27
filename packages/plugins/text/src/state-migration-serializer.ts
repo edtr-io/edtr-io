@@ -8,7 +8,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
       object: 'value',
       document: {
         object: 'document',
-        nodes: serialized.map(deserializeNode)
+        nodes: (serialized || []).map(deserializeNode)
       }
     } as ValueJSON
 
@@ -134,14 +134,18 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
     }
   },
   serialize(deserialized) {
-    const nodes = deserialized.document
-      ? (deserialized.document.nodes as OldNode[])
-      : []
+    const nodes = removeLeafs(
+      deserialized && deserialized.document
+        ? (deserialized.document.nodes as OldNode[])
+        : []
+    )
     if (!nodes) return []
     return nodes.map(serializeNode)
 
     function serializeNode(node: OldNode): NewNode {
-      if (node.object === 'text') return serializeText(node)
+      if (node.object === 'text') {
+        return serializeText(node)
+      }
       return serializeElement(node)
 
       function serializeElement(element: OldElement): NewElement {
@@ -484,3 +488,30 @@ export type OldElement =
   | OldListItemChildElement
 /** @public */
 export type OldNode = OldText | OldElement
+
+function removeLeafs(nodes: any[]) {
+  if (!nodes) {
+    return []
+  }
+  const cleanedNodes: any[] = nodes.reduce((acc, node) => {
+    if (node.leaves) {
+      // we don't need the node itself, as we exepct it to be a text node
+      return [
+        ...acc,
+        ...node.leaves.map((leave: any) => ({
+          ...leave,
+          object: 'text'
+        }))
+      ]
+    } else {
+      const cleanedNode = node.nodes
+        ? {
+            ...node,
+            nodes: removeLeafs(node.nodes)
+          }
+        : node
+      return [...acc, cleanedNode]
+    }
+  }, [])
+  return cleanedNodes
+}
