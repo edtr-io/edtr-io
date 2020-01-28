@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/internal__dev-expression",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
