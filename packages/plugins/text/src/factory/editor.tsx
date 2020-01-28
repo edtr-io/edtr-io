@@ -26,7 +26,7 @@ import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { htmlToSlateValue, katexBlockNode, slateSchema } from '../model'
 import { SlateClosure } from './types'
-import { isValueEmpty, TextPlugin, TextProps } from '..'
+import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
 
 export function TextEditor(props: TextProps) {
   const store = useScopedStore()
@@ -211,7 +211,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
                     sibling: id,
                     document: {
                       plugin: name,
-                      state: nextSlateState
+                      state: serializer.serialize(nextSlateState)
                     }
                   })
                 )
@@ -492,7 +492,7 @@ function newSlateOnEnter(
                   sibling: id,
                   document: {
                     plugin: document.plugin,
-                    state: nextSlateState
+                    state: serializer.serialize(nextSlateState)
                   }
                 })
               )
