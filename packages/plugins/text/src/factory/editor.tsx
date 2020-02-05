@@ -46,6 +46,7 @@ export function TextEditor(props: TextProps) {
     if (lastValue.current !== props.state.value) {
       setRawState(Value.fromJSON(props.state.value))
       lastValue.current = props.state.value
+      // Refocus Slate after state change if needed
       setTimeout(() => {
         if (!editor.current) return
         if (props.focused) {
@@ -54,6 +55,16 @@ export function TextEditor(props: TextProps) {
       })
     }
   }, [lastValue, props.focused, props.state.value, props.state])
+
+  // Sync Slate focus with Edtr.io focus
+  React.useEffect(() => {
+    if (!editor.current) return
+    if (props.focused) {
+      editor.current.focus()
+    } else {
+      editor.current.blur()
+    }
+  }, [props.focused])
 
   // This ref makes sure that slate hooks and plugins have access to the latest values
   const slateClosure = React.useRef<SlateClosure>({
