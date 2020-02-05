@@ -1,4 +1,4 @@
-import { useScopedSelector } from '@edtr-io/core'
+import { useScopedSelector, useScopedStore } from '@edtr-io/core'
 import {
   AddButton,
   InteractiveAnswer,
@@ -12,10 +12,9 @@ import { ScMcExerciseProps } from '.'
 import { ScMcExerciseRenderer } from './renderer'
 
 export function ScMcExerciseEditor(props: ScMcExerciseProps) {
+  const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())
-  const isEmpty = useScopedSelector(state => (id: string) =>
-    isEmptySelector(id)(state)
-  )
+
   const { editable, focused, state } = props
   const children = R.flatten(
     props.state.answers.map(answer => {
@@ -118,4 +117,8 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
       ) : null}
     </React.Fragment>
   )
+
+  function isEmpty(id: string) {
+    return isEmptySelector(id)(store.getState())
+  }
 }
