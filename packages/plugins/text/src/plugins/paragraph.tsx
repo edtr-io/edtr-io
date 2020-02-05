@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { paragraphNode } from '../model'
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'

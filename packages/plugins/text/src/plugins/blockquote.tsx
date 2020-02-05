@@ -1,5 +1,5 @@
 import { getDocument, getParent, unwrap, wrap } from '@edtr-io/store'
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { SlatePluginClosure } from '../factory/types'
 

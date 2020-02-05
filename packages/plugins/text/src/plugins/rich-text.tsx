@@ -1,6 +1,6 @@
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { getTrimmedSelectionRange, trimSelection } from '../helpers'
 import { strongMark, emphasizeMark } from '../model'

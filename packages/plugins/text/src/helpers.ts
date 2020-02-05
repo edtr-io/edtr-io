@@ -1,4 +1,5 @@
-import { Editor, Range as CoreRange } from 'slate'
+import { Range as CoreRange } from 'slate'
+import { Editor } from 'slate-react'
 
 export function trimSelection(editor: Editor) {
   // Trimm selection before applying transformation

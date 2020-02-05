@@ -5,9 +5,10 @@ import {
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
-import { BlockJSON, Editor, InlineJSON, MarkJSON, Value } from 'slate'
-import { Rule } from 'slate-html-serializer' // TODO: Remove this reference
+import { BlockJSON, InlineJSON, MarkJSON, Value } from 'slate'
+import { Rule } from 'slate-html-serializer'
 import {
+  Editor,
   EditorProps,
   Plugin,
   RenderBlockProps,

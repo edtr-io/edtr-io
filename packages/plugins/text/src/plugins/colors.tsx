@@ -1,6 +1,7 @@
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor } from 'slate'
+import { Editor as CoreEditor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { SlatePluginClosure } from '../factory/types'
 import { getTrimmedSelectionRange } from '../helpers'
@@ -39,7 +40,10 @@ export const removeColor = (editor: Editor) => {
   return editor.value.marks
     .toArray()
     .filter(mark => mark.type === colorMark)
-    .reduce((changedEditor, mark) => editor.removeMark(mark), editor)
+    .reduce(
+      (changedEditor: Editor | CoreEditor, mark) => editor.removeMark(mark),
+      editor
+    )
 }
 
 export const createToggleColor = (colorIndex: number) => (editor: Editor) => {

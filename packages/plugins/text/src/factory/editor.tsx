@@ -106,10 +106,9 @@ export function TextEditor(props: TextProps) {
   const onKeyDown = React.useMemo(() => {
     return createOnKeyDown(slateClosure)
   }, [slateClosure])
-  const onClick = React.useCallback<EventHook>(
-    (e, editor, next): CoreEditor | void => {
+  const onClick = React.useCallback<EventHook<React.MouseEvent>>(
+    (e, editor, next): Editor | void => {
       if (e.target) {
-        // @ts-ignore FIXME: outdated slatejs types
         const node = editor.findNode(e.target as Element)
         if (!node) {
           return editor
@@ -169,7 +168,9 @@ export function TextEditor(props: TextProps) {
   )
 }
 
-function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
+function createOnPaste(
+  slateClosure: React.RefObject<SlateClosure>
+): EventHook<React.ClipboardEvent> {
   return (e, editor, next): void => {
     if (!slateClosure.current) {
       next()
@@ -190,7 +191,7 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
       return
     }
 
-    const { clipboardData } = e as ClipboardEvent
+    const { clipboardData } = e
 
     for (const key in plugins) {
       const { onPaste } = plugins[key]
@@ -261,14 +262,15 @@ function createOnPaste(slateClosure: React.RefObject<SlateClosure>): EventHook {
 
 function createOnKeyDown(
   slateClosure: React.RefObject<SlateClosure>
-): EventHook {
+): EventHook<React.KeyboardEvent> {
   return (e, editor, next): void => {
-    const { key } = (e as unknown) as React.KeyboardEvent
+    const { key } = e
+    const event = (e as unknown) as KeyboardEvent
 
     if (
-      isHotkey('mod+z', e as KeyboardEvent) ||
-      isHotkey('mod+y', e as KeyboardEvent) ||
-      isHotkey('mod+shift+z', e as KeyboardEvent)
+      isHotkey('mod+z', event) ||
+      isHotkey('mod+y', event) ||
+      isHotkey('mod+shift+z', event)
     ) {
       e.preventDefault()
       return
@@ -396,7 +398,7 @@ function createOnKeyDown(
   }
 }
 
-function isSelectionAtStart(editor: CoreEditor) {
+function isSelectionAtStart(editor: Editor) {
   const { selection } = editor.value
   const startNode = editor.value.document.getFirstText()
   return (
@@ -407,7 +409,7 @@ function isSelectionAtStart(editor: CoreEditor) {
   )
 }
 
-function isSelectionAtEnd(editor: CoreEditor) {
+function isSelectionAtEnd(editor: Editor) {
   const { selection } = editor.value
   const endNode = editor.value.document.getLastText()
   return (
@@ -424,7 +426,7 @@ function newSlateOnEnter(
   return {
     onKeyDown(e, editor, next) {
       if (
-        isHotkey('enter', e as KeyboardEvent) &&
+        isHotkey('enter', (e as unknown) as KeyboardEvent) &&
         !editor.value.selection.isExpanded
       ) {
         // remove text plugin and insert on parent if plugin is empty
@@ -587,7 +589,7 @@ function findParentWith(
   return { parent: focusPath[index], sibling: focusPath[index + 1] }
 }
 
-function splitBlockAtSelection(editor: CoreEditor) {
+function splitBlockAtSelection(editor: Editor) {
   if (isSelectionAtEnd(editor)) {
     return
   }

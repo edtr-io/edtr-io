@@ -1,6 +1,6 @@
-//@ts-ignore FIXME
 import List from '@convertkit/slate-lists'
-import { Block, Editor } from 'slate'
+import { Block, Editor as CoreEditor } from 'slate'
+import { Editor } from 'slate-react'
 
 import {
   defaultNode,
@@ -12,7 +12,7 @@ import {
 
 type ListType = typeof orderedListNode | typeof unorderedListNode
 
-export const isList = (type: ListType) => (editor: Editor) => {
+export const isList = (type: ListType) => (editor: Editor | CoreEditor) => {
   const { document, startBlock } = editor.value
   if (!startBlock || startBlock.type !== listItemChildNode) return false
   const listItem = document.getParent(startBlock.key) as Block

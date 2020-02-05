@@ -1,4 +1,4 @@
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { SlatePluginClosure } from '../factory/types'
 import { linkNode } from '../model'

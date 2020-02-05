@@ -6,7 +6,7 @@
 
 import { BlockJSON } from 'slate';
 import { DeepPartial } from '@edtr-io/ui';
-import { Editor } from 'slate';
+import { Editor } from 'slate-react';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { EditorProps } from 'slate-react';

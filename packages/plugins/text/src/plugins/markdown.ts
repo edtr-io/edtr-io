@@ -1,4 +1,4 @@
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import { unorderedListNode, orderedListNode } from '../model'
 import { createBlockquote } from './blockquote'

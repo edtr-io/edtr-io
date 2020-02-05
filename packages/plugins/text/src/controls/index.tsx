@@ -1,7 +1,6 @@
 import { BottomToolbar, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
-import { Editor } from 'slate'
-import { EditorProps } from 'slate-react'
+import { Editor, EditorProps } from 'slate-react'
 
 import { SlatePluginClosure } from '../factory/types'
 import { HoveringOverlay } from '../plugins/hovering-overlay'
@@ -205,7 +204,7 @@ export const createUiPlugin = (options: UiPluginOptions) => (
         <React.Fragment>
           {!readOnly ? (
             <Component
-              editor={editor}
+              editor={(editor as unknown) as Editor}
               {...props}
               config={config}
               pluginClosure={pluginClosure}

@@ -1,7 +1,7 @@
 import { canUseDOM } from 'exenv'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
-import { Editor } from 'slate'
+import { Editor } from 'slate-react'
 
 import {
   NodeRendererProps,
@@ -87,7 +87,7 @@ export const createKatexPlugin = ({
   }
   return {
     onKeyDown(event, editor, next) {
-      const e = event as KeyboardEvent
+      const e = (event as unknown) as KeyboardEvent
       if (isHotkey('mod+m')(e)) {
         e.preventDefault()
         return insertKatex(editor)
