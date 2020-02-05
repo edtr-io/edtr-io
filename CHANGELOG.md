@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.51.0](https://github.com/edtr-io/edtr-io/compare/v0.50.0..v0.51.0) - February 5, 2020
+
+### Breaking Changes
+
+- **renderer**. The renderer doesn't accept a store enhancer anymore
+
+### Fixed
+
+- **plugin-sc-mc-exercise**. Resolve focus issues
+- **plugin-text**. Resolve focus issues
+- **plugin-text**. Provide our own types for slate, slate-html-serializer and slate-react
+- **renderer**. Provide specialized store for the renderer
+
 ## [0.50.0](https://github.com/edtr-io/edtr-io/compare/v0.14.0..v0.50.0) - January 27, 2020
 
 This release cleans up the plugin states for the soon-ish 1.0.0 release. Note that this contains breaking changes in the serialized states so you'll need to migrate any persisted Edtr.io states. As far as we know, this concerns only Serlo so far. Please get in touch if this affects you, too, and we gladly help with migrating.

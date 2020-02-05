@@ -793,6 +793,20 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       added: [
         '**plugin**. Add new state type `optional` to work with optional values.'
       ]
+    },
+    {
+      tagName: 'v0.51.0',
+      name: '0.51.0',
+      date: '2020-02-05',
+      breakingChanges: [
+        "**renderer**. The renderer doesn't accept a store enhancer anymore"
+      ],
+      fixed: [
+        '**plugin-sc-mc-exercise**. Resolve focus issues',
+        '**plugin-text**. Resolve focus issues',
+        '**plugin-text**. Provide our own types for slate, slate-html-serializer and slate-react',
+        '**renderer**. Provide specialized store for the renderer'
+      ]
     }
   ])
 
