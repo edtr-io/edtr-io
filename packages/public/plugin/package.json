@@ -17,7 +17,7 @@
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/shortid": "^0.0.29",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.0",
     "shortid": "^2.0.0"
   },
   "devDependencies": {

@@ -26,7 +26,7 @@
     "@types/react-dom": "^16.8.0",
     "@types/react-redux": "^7.1.1",
     "@types/shortid": "^0.0.29",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.0",
     "react-hotkeys": "^2.0.0",
     "react-redux": "^7.1.1",
     "shortid": "^2.0.0"

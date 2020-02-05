@@ -19,7 +19,7 @@
     "@types/react-onclickoutside": "^6.0.0",
     "@types/react-resizable": "^1.0.0",
     "@types/styled-components": "^4.0.0",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.0",
     "react-onclickoutside": "^6.0.0",
     "react-resizable": "^1.0.0"
   },
