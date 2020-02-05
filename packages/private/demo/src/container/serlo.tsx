@@ -9,7 +9,7 @@ import { useEditable, useLogState } from '../hooks'
 export function SerloRendererContainer(props: RendererProps) {
   return (
     <SerloContainerInner editable={false}>
-      <Renderer {...props} createStoreEnhancer={createStoreDevtoolsEnhancer} />
+      <Renderer {...props} />
     </SerloContainerInner>
   )
 }
