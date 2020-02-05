@@ -312,25 +312,21 @@ export function* handleRecursiveInserts(
     }
   }
   const result = act(helpers)
-  while (pendingDocs.length > 0) {
-    const doc = pendingDocs.pop()
-    if (!doc) return []
+  for (let doc; (doc = pendingDocs.pop()); ) {
     const plugin: ReturnTypeFromSelector<typeof getPluginOrDefault> = yield select(
       scopeSelector(getPluginOrDefault, scope),
       doc.plugin
     )
     if (!plugin) {
       invariant(false, `Invalid plugin '${doc.plugin}'`)
-      return []
+      continue
     }
-
-    let pluginState: unknown
+    let state: unknown
     if (doc.state === undefined) {
-      pluginState = plugin.state.createInitialState(helpers)
+      state = plugin.state.createInitialState(helpers)
     } else {
-      pluginState = plugin.state.deserialize(doc.state, helpers)
+      state = plugin.state.deserialize(doc.state, helpers)
     }
-
     const pluginType: ReturnTypeFromSelector<typeof getPluginTypeOrDefault> = yield select(
       scopeSelector(getPluginTypeOrDefault, scope),
       doc.plugin
@@ -339,7 +335,7 @@ export function* handleRecursiveInserts(
       action: pureInsert({
         id: doc.id,
         plugin: pluginType,
-        state: pluginState
+        state
       })(scope),
       reverse: pureRemove(doc.id)(scope)
     })

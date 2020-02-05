@@ -6,15 +6,12 @@
 
 import { CustomTheme } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
-import { StoreEnhancerFactory } from '@edtr-io/store';
 
 // @public (undocumented)
-export function Renderer<K extends string = string>({ createStoreEnhancer, theme, ...props }: RendererProps<K>): JSX.Element;
+export function Renderer<K extends string = string>({ theme, ...props }: RendererProps<K>): JSX.Element;
 
 // @public (undocumented)
 export interface RendererProps<K extends string = string> {
-    // (undocumented)
-    createStoreEnhancer?: StoreEnhancerFactory;
     // (undocumented)
     plugins: Record<K, EditorPlugin>;
     // (undocumented)

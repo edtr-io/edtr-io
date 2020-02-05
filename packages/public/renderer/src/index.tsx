@@ -1,32 +1,78 @@
 import { Provider, ScopeContext, SubDocument } from '@edtr-io/core'
-import { EditorPlugin } from '@edtr-io/plugin'
-import { initRoot, createStore, StoreEnhancerFactory } from '@edtr-io/store'
+import { invariant } from '@edtr-io/internal__dev-expression'
+import { EditorPlugin, StoreDeserializeHelpers } from '@edtr-io/plugin'
+import { ScopedState, State } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
+import { createStore } from 'redux'
 
 /** @public */
 export function Renderer<K extends string = string>({
-  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
   theme = {},
   ...props
 }: RendererProps<K>) {
-  const { store } = createStore<string>({
-    instances: {
-      main: {
-        plugins: props.plugins,
-        defaultPlugin: ''
+  const store = React.useMemo(() => {
+    return createStore((state: State | undefined) => {
+      if (!state) {
+        return {
+          main: {
+            plugins: {
+              plugins: props.plugins,
+              defaultPlugin: ''
+            },
+            documents: getDocuments(),
+            focus: null,
+            root: 'root',
+            clipboard: [],
+            history: {
+              undoStack: [],
+              redoStack: [],
+              pendingChanges: 0
+            }
+          }
+        }
       }
-    },
-    createEnhancer: createStoreEnhancer
-  })
+      return state
+    })
 
-  store.dispatch(
-    initRoot({
-      initialState: props.state,
-      plugins: props.plugins,
-      defaultPlugin: ''
-    })('main')
-  )
+    function getDocuments(): ScopedState['documents'] {
+      const documents: ScopedState['documents'] = {}
+      const pendingDocs: {
+        id: string
+        plugin: K
+        state?: unknown
+      }[] = [
+        {
+          id: 'root',
+          ...(props.state || {})
+        }
+      ]
+      const helpers: StoreDeserializeHelpers = {
+        createDocument(doc: typeof pendingDocs[0]) {
+          pendingDocs.push(doc)
+        }
+      }
+
+      for (let doc; (doc = pendingDocs.pop()); ) {
+        const plugin = props.plugins[doc.plugin]
+        if (!plugin) {
+          invariant(false, `Invalid plugin '${doc.plugin}'`)
+          continue
+        }
+        let state: unknown
+        if (doc.state === undefined) {
+          state = plugin.state.createInitialState(helpers)
+        } else {
+          state = plugin.state.deserialize(doc.state, helpers)
+        }
+        documents[doc.id] = {
+          plugin: doc.plugin,
+          state
+        }
+      }
+      return documents
+    }
+  }, [props.state, props.plugins])
 
   return (
     <Provider store={store}>
@@ -47,5 +93,4 @@ export interface RendererProps<K extends string = string> {
     state?: unknown
   }
   theme?: CustomTheme
-  createStoreEnhancer?: StoreEnhancerFactory
 }
