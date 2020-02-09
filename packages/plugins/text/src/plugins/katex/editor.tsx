@@ -22,7 +22,7 @@ import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MathQuill: React.ComponentType<any> = canUseDOM
-  ? require('react-mathquill').default
+  ? require('react-mathquill').EditableMathField
   : () => null
 
 interface MathField {
