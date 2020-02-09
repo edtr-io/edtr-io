@@ -807,6 +807,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**plugin-text**. Provide our own types for slate, slate-html-serializer and slate-react',
         '**renderer**. Provide specialized store for the renderer'
       ]
+    },
+    {
+      tagName: 'v0.51.1',
+      name: '0.51.1',
+      date: '2020-02-09',
+      fixed: [
+        '**default-document-editor**. Create `BorderlessOverlayButton` statically'
+      ]
     }
   ])
 

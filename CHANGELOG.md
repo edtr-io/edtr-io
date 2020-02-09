@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.51.1](https://github.com/edtr-io/edtr-io/compare/v0.51.0..v0.51.1) - February 9, 2020
+
+### Fixed
+
+- **default-document-editor**. Create `BorderlessOverlayButton` statically
+
 ## [0.51.0](https://github.com/edtr-io/edtr-io/compare/v0.50.0..v0.51.0) - February 5, 2020
 
 ### Breaking Changes
