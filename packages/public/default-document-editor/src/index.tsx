@@ -75,6 +75,12 @@ const H4 = styled.h4({
   marginRight: '25px'
 })
 
+const BorderlessOverlayButton = styled.button({
+  border: 'none !important',
+  padding: '0 !important',
+  minWidth: '0 !important'
+})
+
 /**
  * Creates the default {@link @edtr-io/document-editor#DocumentEditor | document editor}
  *
@@ -96,11 +102,6 @@ export function createDefaultDocumentEditor(): React.ComponentType<
     PluginToolbar
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
-    const BorderlessOverlayButton = styled(OverlayButton)({
-      border: 'none !important',
-      padding: '0 !important',
-      minWidth: '0 !important'
-    })
 
     const shouldShowSettings = showSettings()
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
@@ -111,6 +112,7 @@ export function createDefaultDocumentEditor(): React.ComponentType<
                 <Header>
                   <H4>Erweiterte Einstellungen</H4>
                   <BorderlessOverlayButton
+                    as={OverlayButton}
                     onClick={() => {
                       close()
                     }}
@@ -126,7 +128,7 @@ export function createDefaultDocumentEditor(): React.ComponentType<
             )
           }
         : undefined
-    }, [renderSettings, shouldShowSettings])
+    }, [OverlayButton, renderSettings, shouldShowSettings])
     const expanded = focused && (showSettings() || showToolbar())
 
     const appended = React.useRef(false)
