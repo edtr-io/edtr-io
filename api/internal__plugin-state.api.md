@@ -4,7 +4,7 @@
 
 ```ts
 
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor';
+import { DocumentEditorProps } from '@edtr-io/internal__document-editor/beta';
 
 // @public
 export interface FocusableChild {

@@ -4,10 +4,10 @@
 
 ```ts
 
-import { DocumentEditorProps } from '@edtr-io/document-editor';
+import { DocumentEditorProps } from '@edtr-io/document-editor/beta';
 import * as React from 'react';
 
-// @public
+// @beta
 export function createDefaultDocumentEditor(): React.ComponentType<DocumentEditorProps>;
 
 

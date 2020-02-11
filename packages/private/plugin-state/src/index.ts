@@ -1,4 +1,4 @@
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
+import { DocumentEditorProps } from '@edtr-io/internal__document-editor/beta'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**

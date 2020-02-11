@@ -1,5 +1,5 @@
-import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor'
-import { createDefaultPluginToolbar } from '@edtr-io/default-plugin-toolbar'
+import { createDefaultDocumentEditor } from '@edtr-io/default-document-editor/beta'
+import { createDefaultPluginToolbar } from '@edtr-io/default-plugin-toolbar/beta'
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 import {
   initRoot,

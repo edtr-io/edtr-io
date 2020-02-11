@@ -4,8 +4,11 @@
 
 ```ts
 
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta';
 
-export * from "@edtr-io/internal__document-editor";
+// @beta (undocumented)
+export type DocumentEditorProps = InternalDocumentEditor.DocumentEditorProps;
+
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,4 +1,4 @@
-import { OverlaySelectProps } from '@edtr-io/internal__plugin-toolbar'
+import { OverlaySelectProps } from '@edtr-io/internal__plugin-toolbar/beta'
 import * as React from 'react'
 
 import { PluginToolbarContext } from '../contexts'

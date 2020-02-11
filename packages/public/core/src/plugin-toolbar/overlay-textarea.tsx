@@ -1,4 +1,4 @@
-import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar'
+import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar/beta'
 import * as React from 'react'
 
 import { PluginToolbarContext } from '../contexts'

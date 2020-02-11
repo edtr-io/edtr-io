@@ -1,4 +1,4 @@
-import { DocumentEditorProps } from '@edtr-io/document-editor'
+import { DocumentEditorProps } from '@edtr-io/document-editor/beta'
 import { edtrClose, EdtrIcon, faCog, Icon, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -85,7 +85,7 @@ const BorderlessOverlayButton = styled.button({
  * Creates the default {@link @edtr-io/document-editor#DocumentEditor | document editor}
  *
  * @returns The default {@link @edtr-io/document-editor#DocumentEditor | document editor}
- * @public
+ * @beta
  */
 export function createDefaultDocumentEditor(): React.ComponentType<
   DocumentEditorProps
