@@ -3,10 +3,10 @@ import { useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { DocumentProps } from '.'
+import { SubDocumentProps } from '.'
 import { useScopedSelector } from '../store'
 
-export function DocumentRenderer({ id, pluginProps }: DocumentProps) {
+export function SubDocumentRenderer({ id, pluginProps }: SubDocumentProps) {
   const document = useScopedSelector(getDocument(id))
   const plugin = useScopedSelector(
     state => document && getPlugin(document.plugin)(state)

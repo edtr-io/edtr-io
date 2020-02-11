@@ -15,10 +15,19 @@ module.exports = function(api) {
               'babel-plugin-module-resolver',
               {
                 alias: {
-                  '^@edtr-io/([^/]+)(.*)': ([_, packageName, filePath]) => {
+                  '^@edtr-io/([^/]+)(.*)$': ([_, packageName, filePath]) => {
                     const base = `@edtr-io/${packageName}`
-                    if (filePath.startsWith('/__fixtures__'))
+                    if (filePath.startsWith('/__fixtures__')) {
                       return `${base}${filePath}`
+                    }
+                    if (
+                      filePath.startsWith('/beta') ||
+                      filePath.startsWith('/internal')
+                    ) {
+                      return `${base}/src${filePath
+                        .replace('/beta', '')
+                        .replace('/internal', '')}`
+                    }
                     return `${base}/src${filePath}`
                   }
                 },

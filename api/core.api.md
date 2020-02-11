@@ -23,7 +23,6 @@ import { PluginToolbarButtonProps } from '@edtr-io/internal__plugin-toolbar';
 import { PluginToolbarOverlayButtonProps } from '@edtr-io/internal__plugin-toolbar';
 import { ProviderProps } from 'react-redux';
 import * as React from 'react';
-import { ReactReduxContextValue } from 'react-redux';
 import { ScopedState } from '@edtr-io/store';
 import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
@@ -37,19 +36,8 @@ export function Document<K extends string = string>({ scope, mirror, ...props }:
 // @public (undocumented)
 export const DocumentEditorContext: React.Context<React.ComponentType<DocumentEditorProps>>;
 
-// @public (undocumented)
-export interface DocumentProps {
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    pluginProps?: PluginProps;
-}
-
 // @public
 export function Editor<K extends string = string>({ createStoreEnhancer, ...props }: EditorProps<K>): JSX.Element;
-
-// @public (undocumented)
-export const EditorContext: React.Context<ReactReduxContextValue<Record<string, ScopedState>, import("redux").AnyAction>>;
 
 // @public (undocumented)
 export interface EditorProps<K extends string = string> {
@@ -124,7 +112,7 @@ export const PluginToolbarContext: React.Context<PluginToolbar>;
 // @public
 export function PluginToolbarOverlayButton(props: PluginToolbarOverlayButtonProps): JSX.Element;
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface Preference {
     // (undocumented)
     getKey: (key: string) => unknown;
@@ -132,7 +120,7 @@ export interface Preference {
     setKey: (key: string, val: unknown) => void;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export const PreferenceContext: React.Context<Preference>;
 
 // @public
@@ -146,11 +134,19 @@ export const ScopeContext: React.Context<{
     editable?: boolean | undefined;
 }>;
 
-// @public
+// @beta
 export function setDefaultPreference(key: string, val: unknown): void;
 
 // @public
-export const SubDocument: (props: DocumentProps) => JSX.Element;
+export const SubDocument: (props: SubDocumentProps) => JSX.Element;
+
+// @public (undocumented)
+export interface SubDocumentProps {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    pluginProps?: PluginProps;
+}
 
 // @public (undocumented)
 export const useDispatch: () => (action: Action) => void;

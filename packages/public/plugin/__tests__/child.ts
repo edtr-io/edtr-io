@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 
 import { child, PluginProps, StoreDeserializeHelpers } from '../src'
 
-jest.mock('@edtr-io/core/document')
+jest.mock('@edtr-io/core/sub-document')
 
 describe('Child', () => {
   let helpers: StoreDeserializeHelpers<string, number>

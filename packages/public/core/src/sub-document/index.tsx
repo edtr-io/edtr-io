@@ -3,24 +3,24 @@ import { undo } from '@edtr-io/store'
 import * as React from 'react'
 
 import { ScopeContext, ErrorContext, useScopedDispatch } from '../store'
-import { DocumentEditor } from './editor'
-import { DocumentRenderer } from './renderer'
+import { SubDocumentEditor } from './editor'
+import { SubDocumentRenderer } from './renderer'
 
 // eslint-disable-next-line jsdoc/require-returns
 /**
  * Renders a document inside another document
  *
- * @param props - The {@link DocumentProps}
+ * @param props - The {@link SubDocumentProps}
  * @public
  */
-export const SubDocument = (props: DocumentProps) => {
+export const SubDocument = (props: SubDocumentProps) => {
   const { editable } = React.useContext(ScopeContext)
   const dispatch = useScopedDispatch()
   const undoMemo = React.useCallback(() => {
     dispatch(undo())
   }, [dispatch])
 
-  const Component = editable ? DocumentEditor : DocumentRenderer
+  const Component = editable ? SubDocumentEditor : SubDocumentRenderer
   return (
     <ErrorBoundary undo={undoMemo}>
       <Component {...props} />
@@ -71,7 +71,7 @@ export class ErrorBoundary extends React.Component<{ undo: () => void }> {
 }
 
 /** @public */
-export interface DocumentProps {
+export interface SubDocumentProps {
   id: string
   pluginProps?: PluginProps
 }

@@ -66,6 +66,7 @@ module.exports = {
       'error',
       {
         allow: [
+          '@edtr-io/*/{beta,internal}',
           'katex/dist/katex.css',
           'react-dom/server',
           'react-dom/test-utils',

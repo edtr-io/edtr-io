@@ -25,7 +25,6 @@ import {
   PreferenceContextProvider,
   PluginToolbarContext
 } from './contexts'
-import { SubDocument } from './document'
 import {
   Provider,
   EditorContext,
@@ -35,6 +34,7 @@ import {
   useDispatch,
   useStore
 } from './store'
+import { SubDocument } from './sub-document'
 
 configure({
   ignoreEventsCondition() {

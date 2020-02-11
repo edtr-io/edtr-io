@@ -829,6 +829,24 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.51.3',
       date: '2020-02-14',
       fixed: ['**plugin-text**. Update dependencies']
+    },
+    {
+      breakingChanges: [
+        '**core**. Remove `EditorContext`',
+        '**core**. Rename `DocumentProps` to `SubDocumentProps`',
+        '**core**. Mark `Preference`, `PreferenceContext` and `setDefaultPreference` as beta API',
+        '**document-editor**. Mark as beta API',
+        '**default-document-editor**. Mark as beta API',
+        '**default-plugin-toolbar**. Mark as beta API',
+        '**plugin-toolbar**. Mark as beta API',
+        '**store**. Rename `instances` to `scopes` in `StoreOptions` (and therefore in `createStore`, too)',
+        '**store**. Rename `ActionFromActionCreator` to `ActionCreatorAction`',
+        '**store**. Rename `ReturnTypeFromSelector` to `SelectorReturnType`',
+        '**store**. Mark `state` as required in `DocumentState`',
+        '**store**. Mark `getClipboard` and `copy` as beta API',
+        '**store**. Mark actions intended for internal use only as internal API',
+        '**store**. Hide some internal types (e.g. the structure of `HistoryState`)'
+      ]
     }
   ])
 
