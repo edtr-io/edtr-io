@@ -176,3 +176,5 @@ export function createTextPlugin({
 export { isValueEmpty, SlatePluginClosure }
 export { SlateClosure } from './factory/types'
 export * from './state-migration-serializer'
+
+export { slateValueToHtml, htmlToSlateValue } from './model'

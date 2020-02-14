@@ -815,6 +815,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: [
         '**default-document-editor**. Create `BorderlessOverlayButton` statically'
       ]
+    },
+    {
+      tagName: 'v0.51.2',
+      name: '0.51.2',
+      date: '2020-02-14',
+      internal: [
+        '**plugin-text**. Export `slateValueToHtml` and `htmlToSlateValue` as internal API'
+      ]
     }
   ])
 

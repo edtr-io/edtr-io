@@ -40,6 +40,9 @@ export function createTextPlugin({ placeholder, registry, theme, blockquote }: {
     blockquote?: string;
 }): EditorPlugin<TextState, TextConfig>;
 
+// @internal (undocumented)
+export function htmlToSlateValue(html: string): Value;
+
 // @public (undocumented)
 export type InlineEditorProps = RenderInlineProps;
 
@@ -332,6 +335,9 @@ export interface SlateClosure {
 
 // @public (undocumented)
 export type SlatePluginClosure = React.RefObject<SlateClosure>;
+
+// @internal (undocumented)
+export function slateValueToHtml(value: Value): string;
 
 // @public (undocumented)
 export interface TextConfig {
