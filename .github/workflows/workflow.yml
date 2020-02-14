@@ -11,6 +11,7 @@ jobs:
       matrix:
         node-version:
           - 10.x
+          - 12.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -24,6 +25,7 @@ jobs:
       matrix:
         node-version:
           - 10.x
+          - 12.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -37,6 +39,7 @@ jobs:
       matrix:
         node-version:
           - 10.x
+          - 12.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -50,6 +53,7 @@ jobs:
       matrix:
         node-version:
           - 10.x
+          - 12.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1

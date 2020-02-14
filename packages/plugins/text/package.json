@@ -32,9 +32,9 @@
     "ramda": "^0.27.0",
     "react-mathquill": "^0.2.0",
     "react-modal": "^3.0.0",
-    "slate": "0.47.4",
-    "slate-html-serializer": "0.8.6",
-    "slate-react": "0.22.4"
+    "slate": "^0.47.0",
+    "slate-html-serializer": "^0.8.0",
+    "slate-react": "^0.22.0"
   },
   "devDependencies": {
     "@edtr-io/core": "^0.51.1",
