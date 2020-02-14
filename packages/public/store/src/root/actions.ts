@@ -1,10 +1,14 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
 
-import { createAction, createActionWithoutPayload } from '../helpers'
-import { ActionFromActionCreator } from '../types'
+import { createActionCreator, createActionWithoutPayload } from '../helpers'
+import {
+  ActionCreatorAction,
+  ActionCreatorWithoutPayload,
+  ActionCreatorWithPayload
+} from '../types'
 
 /** @public */
-export const initRoot = createAction<
+export const initRoot: ActionCreatorWithPayload<
   'InitRoot',
   {
     initialState?: {
@@ -14,15 +18,17 @@ export const initRoot = createAction<
     plugins: Record<string, EditorPlugin>
     defaultPlugin: string
   }
->('InitRoot')
+> = createActionCreator('InitRoot')
 /** @public */
-export type InitRootAction = ActionFromActionCreator<typeof initRoot>
-/** @public */
-export const pureInitRoot = createActionWithoutPayload<'PureInitRoot'>(
+export type InitRootAction = ActionCreatorAction<typeof initRoot>
+/** @internal */
+export const pureInitRoot: ActionCreatorWithoutPayload<'PureInitRoot'> = createActionWithoutPayload(
   'PureInitRoot'
 )
-/** @public */
-export type PureInitRootAction = ActionFromActionCreator<typeof pureInitRoot>
+/** @internal */
+export type PureInitRootAction = ActionCreatorAction<typeof pureInitRoot>
 
 /** @public */
-export type RootAction = InitRootAction | PureInitRootAction
+export type RootAction = InitRootAction
+/** @internal */
+export type InternalRootAction = PureInitRootAction

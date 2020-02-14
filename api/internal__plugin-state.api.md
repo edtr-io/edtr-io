@@ -4,7 +4,7 @@
 
 ```ts
 
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor/beta';
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta';
 
 // @public
 export interface FocusableChild {
@@ -16,9 +16,9 @@ export interface PluginProps {
     // (undocumented)
     config?: {};
     // (undocumented)
-    renderSettings?: DocumentEditorProps['renderSettings'];
+    renderSettings?: InternalDocumentEditor.DocumentEditorProps['renderSettings'];
     // (undocumented)
-    renderToolbar?: DocumentEditorProps['renderToolbar'];
+    renderToolbar?: InternalDocumentEditor.DocumentEditorProps['renderToolbar'];
 }
 
 // @public

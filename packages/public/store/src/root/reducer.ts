@@ -1,6 +1,6 @@
 import { serializeDocument } from '../documents/reducer'
 import { createSelector, createSubReducer, SubReducer } from '../helpers'
-import { ReturnTypeFromSelector, Selector } from '../types'
+import { SelectorReturnType, Selector } from '../types'
 import { pureInitRoot, PureInitRootAction } from './actions'
 
 /** @internal */
@@ -24,7 +24,7 @@ export const serializeRootDocument: Selector<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any
 } | null> = createSelector(
-  (state): ReturnTypeFromSelector<typeof serializeDocument> => {
+  (state): SelectorReturnType<typeof serializeDocument> => {
     const root = getRoot()(state)
     if (!root) return null
     return serializeDocument(root)(state)

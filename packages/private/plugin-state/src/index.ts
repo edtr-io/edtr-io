@@ -1,4 +1,4 @@
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor/beta'
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
@@ -183,6 +183,6 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 /** @public */
 export interface PluginProps {
   config?: {}
-  renderSettings?: DocumentEditorProps['renderSettings']
-  renderToolbar?: DocumentEditorProps['renderToolbar']
+  renderSettings?: InternalDocumentEditor.DocumentEditorProps['renderSettings']
+  renderToolbar?: InternalDocumentEditor.DocumentEditorProps['renderToolbar']
 }

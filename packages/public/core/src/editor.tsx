@@ -62,7 +62,7 @@ export function Editor<K extends string = string>({
 }: EditorProps<K>) {
   const store = React.useMemo(() => {
     return createStore({
-      instances: {
+      scopes: {
         [MAIN_SCOPE]: {
           plugins: props.plugins,
           defaultPlugin: props.defaultPlugin
@@ -120,7 +120,7 @@ export function EditorProvider({
   }, [])
   const store = React.useMemo(() => {
     return createStore({
-      instances: {},
+      scopes: {},
       createEnhancer: createStoreEnhancer
     }).store
     // We want to create the store only once

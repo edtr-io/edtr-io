@@ -8,7 +8,7 @@ import {
   DocumentState,
   getDocument,
   getPlugins,
-  ReturnTypeFromSelector,
+  SelectorReturnType,
   serializeDocument
 } from '@edtr-io/store'
 import {
@@ -87,7 +87,7 @@ export function RowRenderer({
   row: StateTypeReturnType<RowsState>[0]
   rows: StateTypeReturnType<RowsState>
   index: number
-  plugins: ReturnTypeFromSelector<typeof getPlugins>
+  plugins: SelectorReturnType<typeof getPlugins>
   dropContainer: React.RefObject<HTMLDivElement>
 }) {
   const container = React.useRef<HTMLDivElement>(null)

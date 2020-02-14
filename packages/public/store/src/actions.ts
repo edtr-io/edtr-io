@@ -1,28 +1,35 @@
-import { Action as ReduxAction } from 'redux'
-
-import { ClipboardAction } from './clipboard/actions'
-import { DocumentsAction } from './documents/actions'
+import { ClipboardAction, InternalClipboardAction } from './clipboard/actions'
+import { DocumentsAction, InternalDocumentsAction } from './documents/actions'
 import { FocusAction } from './focus/actions'
-import { createAction } from './helpers'
-import { HistoryAction } from './history/actions'
+import { createActionCreator } from './helpers'
+import { HistoryAction, InternalHistoryAction } from './history/actions'
 import { PluginAction } from './plugin/actions'
-import { RootAction } from './root/actions'
-import { ActionFromActionCreator, ScopedState } from './types'
+import { InternalRootAction, RootAction } from './root/actions'
+import {
+  ActionCreatorAction,
+  ActionCreatorWithPayload,
+  ScopedState
+} from './types'
 
 /** @public */
-export const setPartialState = createAction<
+export const setPartialState = createActionCreator<
   'SetPartialState',
   Partial<ScopedState>
 >('SetPartialState')
 /** @public */
-export type SetPartialState = ActionFromActionCreator<typeof setPartialState>
+export type SetPartialState = ActionCreatorAction<typeof setPartialState>
 
 /** @internal */
-export const applyActions = createAction<'ApplyActions', Action[]>(
-  'ApplyActions'
-)
+export const applyActions: ActionCreatorWithPayload<
+  'ApplyActions',
+  InternalAction[]
+> = createActionCreator('ApplyActions')
 /** @internal */
-export type ApplyActionsAction = ActionFromActionCreator<typeof applyActions>
+export interface ApplyActionsAction {
+  type: 'ApplyActions'
+  payload: InternalAction[]
+  scope: string
+}
 
 /** @public */
 export type Action =
@@ -33,15 +40,20 @@ export type Action =
   | PluginAction
   | RootAction
   | SetPartialState
+/** @internal */
+export type InternalAction =
+  | Action
+  | ApplyActionsAction
+  | InternalClipboardAction
+  | InternalDocumentsAction
+  | InternalHistoryAction
+  | InternalRootAction
 
-/** @public */
-export interface Reversible<A = ReduxAction, R = ReduxAction> {
+/** @internal */
+export interface ReversibleAction<
+  A extends InternalAction = InternalAction,
+  R extends InternalAction = InternalAction
+> {
   action: A
   reverse: R
 }
-
-/** @public */
-export type ReversibleAction<
-  A extends Action = Action,
-  R extends Action = Action
-> = Reversible<A, R>

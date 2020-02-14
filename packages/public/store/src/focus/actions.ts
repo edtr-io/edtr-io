@@ -1,27 +1,38 @@
-import { createAction, createActionWithoutPayload } from '../helpers'
-import { ActionFromActionCreator } from '../types'
+import { createActionCreator, createActionWithoutPayload } from '../helpers'
+import {
+  ActionCreatorAction,
+  ActionCreatorWithoutPayload,
+  ActionCreatorWithPayload
+} from '../types'
 
 /** @public */
-export const blur = createActionWithoutPayload<'Blur'>('Blur')
+export const blur: ActionCreatorWithoutPayload<'Blur'> = createActionWithoutPayload(
+  'Blur'
+)
 /** @public */
-export type BlurAction = ActionFromActionCreator<typeof blur>
+export type BlurAction = ActionCreatorAction<typeof blur>
 
 /** @public */
-export const focus = createAction<'Focus', string>('Focus')
+export const focus: ActionCreatorWithPayload<
+  'Focus',
+  string
+> = createActionCreator('Focus')
 /** @public */
-export type FocusDocumentAction = ActionFromActionCreator<typeof focus>
+export type FocusDocumentAction = ActionCreatorAction<typeof focus>
 
 /** @public */
-export const focusNext = createActionWithoutPayload<'FocusNext'>('FocusNext')
+export const focusNext: ActionCreatorWithoutPayload<'FocusNext'> = createActionWithoutPayload(
+  'FocusNext'
+)
 /** @public */
-export type FocusNextDocumentAction = ActionFromActionCreator<typeof focusNext>
+export type FocusNextDocumentAction = ActionCreatorAction<typeof focusNext>
 
 /** @public */
-export const focusPrevious = createActionWithoutPayload<'FocusPrevious'>(
+export const focusPrevious: ActionCreatorWithoutPayload<'FocusPrevious'> = createActionWithoutPayload(
   'FocusPrevious'
 )
 /** @public */
-export type FocusPreviousDocumentAction = ActionFromActionCreator<
+export type FocusPreviousDocumentAction = ActionCreatorAction<
   typeof focusPrevious
 >
 

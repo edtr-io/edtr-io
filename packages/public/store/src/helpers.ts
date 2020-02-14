@@ -2,10 +2,21 @@ import stringify from 'json-stringify-deterministic'
 import * as R from 'ramda'
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 
-import { Action } from './actions'
-import { State, ScopedState, Selector } from './types'
+import { Action, InternalAction } from './actions'
+import {
+  State,
+  ScopedState,
+  Selector,
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+  InternalScopedState,
+  InternalSelector,
+  InternalState
+} from './types'
 
-export function createAction<T, P>(type: T) {
+export function createActionCreator<T, P>(
+  type: T
+): ActionCreatorWithPayload<T, P> {
   const actionCreator = (payload: P) => (scope: string) => {
     return {
       type,
@@ -18,7 +29,9 @@ export function createAction<T, P>(type: T) {
   return actionCreator
 }
 
-export function createActionWithoutPayload<T>(type: T) {
+export function createActionWithoutPayload<T>(
+  type: T
+): ActionCreatorWithoutPayload<T> {
   const actionCreator = () => (scope: string) => {
     return { type, scope }
   }
@@ -27,11 +40,11 @@ export function createActionWithoutPayload<T>(type: T) {
   return actionCreator
 }
 
-export function createSubReducer<K extends keyof ScopedState>(
+export function createSubReducer<K extends keyof InternalScopedState>(
   key: K,
-  initialState: ScopedState[K],
-  actionsMap: CaseReducersMapObject<ScopedState[K]>
-): SubReducer<ScopedState[K]> {
+  initialState: InternalScopedState[K],
+  actionsMap: CaseReducersMapObject<InternalScopedState[K]>
+): SubReducer<InternalScopedState[K]> {
   return (action, state) => {
     const subState = (state && state[key]) || initialState
     if (!state) return subState
@@ -50,6 +63,11 @@ export function createSelector<T, P extends any[]>(
   return (...args: P) => (state: ScopedState) => f(state, ...args)
 }
 
+export function createInternalSelector<T, P extends any[]>(
+  f: (state: InternalScopedState, ...args: P) => T
+): InternalSelector<T, P> {
+  return (...args: P) => (state: InternalScopedState) => f(state, ...args)
+}
 const createDeepEqualSelectorCreator = createSelectorCreator(
   defaultMemoize,
   R.equals
@@ -89,19 +107,19 @@ export function createDeterministicJsonStringifySelector<T, P extends any[]>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function scopeSelector<T, P extends any[]>(
-  selector: Selector<T, P>,
+export function scopeSelector<T, P extends any[], S = State>(
+  selector: Selector<T, P> | InternalSelector<T, P>,
   scope: string
 ) {
-  return (storeState: State, ...args: P) => {
+  return (storeState: InternalState, ...args: P) => {
     return selector(...args)(storeState[scope])
   }
 }
 
 /** @internal */
 export type SubReducer<S = unknown> = (
-  action: Action,
-  state: ScopedState | undefined
+  action: InternalAction,
+  state: InternalScopedState | undefined
 ) => S
 
 export interface CaseReducersMapObject<S = unknown> {

@@ -4,7 +4,6 @@
 
 ```ts
 
-import { Action as Action_2 } from 'redux';
 import { EditorPlugin } from '@edtr-io/internal__plugin';
 import { StateExecutor } from '@edtr-io/internal__plugin-state';
 import { StateUpdater } from '@edtr-io/internal__plugin-state';
@@ -15,119 +14,110 @@ import { StoreEnhancer } from 'redux';
 export type Action = ClipboardAction | DocumentsAction | FocusAction | HistoryAction | PluginAction | RootAction | SetPartialState;
 
 // @public (undocumented)
-export type ActionCreator<T = string, P = any> = {
+export type ActionCreator<T = string, P = any> = ActionCreatorWithoutPayload<T> | ActionCreatorWithPayload<T, P>;
+
+// @public (undocumented)
+export type ActionCreatorAction<T extends ActionCreator> = ReturnType<ReturnType<T>>;
+
+// @public (undocumented)
+export interface ActionCreatorWithoutPayload<T = string> {
+    // (undocumented)
+    (): (scope: string) => {
+        type: T;
+        scope: string;
+    };
+    // (undocumented)
+    type: T;
+}
+
+// @public (undocumented)
+export interface ActionCreatorWithPayload<T = string, P = any> {
+    // (undocumented)
     (payload: P): (scope: string) => {
         type: T;
-        payload?: P;
+        payload: P;
         scope: string;
     };
+    // (undocumented)
     type: T;
-} | {
-    (): (scope: string) => {
-        type: T;
-        scope: string;
-    };
-    type: T;
-};
-
-// @public (undocumented)
-export type ActionFromActionCreator<T extends ActionCreator> = ReturnType<ReturnType<T>>;
+}
 
 // @internal (undocumented)
-export const applyActions: {
-    (payload: Action[]): (scope: string) => {
-        type: "ApplyActions";
-        payload: Action[];
-        scope: string;
-    };
-    type: "ApplyActions";
-};
+export const applyActions: ActionCreatorWithPayload<'ApplyActions', InternalAction[]>;
 
 // @internal (undocumented)
-export type ApplyActionsAction = ActionFromActionCreator<typeof applyActions>;
+export interface ApplyActionsAction {
+    // (undocumented)
+    payload: InternalAction[];
+    // (undocumented)
+    scope: string;
+    // (undocumented)
+    type: 'ApplyActions';
+}
 
 // @public (undocumented)
-export const blur: {
-    (): (scope: string) => {
-        type: "Blur";
-        scope: string;
+export const blur: ActionCreatorWithoutPayload<'Blur'>;
+
+// @public (undocumented)
+export type BlurAction = ActionCreatorAction<typeof blur>;
+
+// @public (undocumented)
+export const change: ActionCreatorWithPayload<'Change', {
+    id: string;
+    state: {
+        initial: StateUpdater<unknown>;
+        executor?: StateExecutor<StateUpdater<unknown>>;
     };
-    type: "Blur";
-};
+}>;
 
 // @public (undocumented)
-export type BlurAction = ActionFromActionCreator<typeof blur>;
-
-// @public (undocumented)
-export const change: {
-    (payload: {
-        id: string;
-        state: {
-            initial: StateUpdater<unknown>;
-            executor?: StateExecutor<StateUpdater<unknown>> | undefined;
-        };
-    }): (scope: string) => {
-        type: "Change";
-        payload: {
-            id: string;
-            state: {
-                initial: StateUpdater<unknown>;
-                executor?: StateExecutor<StateUpdater<unknown>> | undefined;
-            };
-        };
-        scope: string;
-    };
-    type: "Change";
-};
-
-// @public (undocumented)
-export type ChangeAction = ActionFromActionCreator<typeof change>;
+export type ChangeAction = ActionCreatorAction<typeof change>;
 
 // @public (undocumented)
 export type ChangeListener = (payload: {
     changed: boolean;
-    getDocument: () => ReturnTypeFromSelector<typeof serializeRootDocument>;
+    getDocument: () => SelectorReturnType<typeof serializeRootDocument>;
 }) => void;
 
 // @public (undocumented)
-export type ClipboardAction = CopyAction | PureCopyAction;
+export type ClipboardAction = CopyAction;
 
 // @internal (undocumented)
 export const clipboardReducer: SubReducer<DocumentState[]>;
 
-// @public (undocumented)
-export const commit: {
-    (payload: Reversible<import("redux").Action<any>, import("redux").Action<any>>[]): (scope: string) => {
-        type: "Commit";
-        payload: Reversible<import("redux").Action<any>, import("redux").Action<any>>[];
-        scope: string;
-    };
-    type: "Commit";
-};
+// @internal (undocumented)
+export const commit: ActionCreatorWithPayload<'Commit', ReversibleAction[]>;
+
+// @internal (undocumented)
+export interface CommitAction {
+    // (undocumented)
+    payload: ReversibleAction[];
+    // (undocumented)
+    scope: string;
+    // (undocumented)
+    type: 'Commit';
+}
+
+// @beta (undocumented)
+export const copy: ActionCreatorWithPayload<'Copy', string | null>;
 
 // @public (undocumented)
-export type CommitAction = ActionFromActionCreator<typeof commit>;
-
-// @public (undocumented)
-export const copy: {
-    (payload: string | null): (scope: string) => {
-        type: "Copy";
-        payload: string | null;
-        scope: string;
-    };
-    type: "Copy";
-};
-
-// @public (undocumented)
-export type CopyAction = ActionFromActionCreator<typeof copy>;
+export interface CopyAction {
+    // (undocumented)
+    payload: string | null;
+    // (undocumented)
+    scope: string;
+    // (undocumented)
+    type: 'Copy';
+}
 
 // @public
-export function createStore<K extends string>({ instances, createEnhancer }: StoreOptions<K>): {
+export function createStore<K extends string>({ scopes, createEnhancer }: StoreOptions<K>): {
     store: Store_2<State, Action>;
 };
 
 // @public (undocumented)
-export type DocumentsAction = InsertAction | PureInsertAction | RemoveAction | PureRemoveAction | ChangeAction | PureChangeAction | WrapAction | PureWrapAction | UnwrapAction | PureUnwrapAction | ReplaceAction | PureReplaceAction;
+export type DocumentsAction = InsertAction | RemoveAction | ChangeAction | WrapAction | UnwrapAction | ReplaceAction;
 
 // @internal (undocumented)
 export const documentsReducer: SubReducer<Record<string, DocumentState>>;
@@ -137,7 +127,7 @@ export interface DocumentState {
     // (undocumented)
     plugin: string;
     // (undocumented)
-    state?: unknown;
+    state: unknown;
 }
 
 // @public
@@ -150,49 +140,30 @@ export function findParent(root: Node, id: string): Node | null;
 export function findPreviousNode(root: Node, from: string): string | null;
 
 // @public (undocumented)
-export const focus: {
-    (payload: string): (scope: string) => {
-        type: "Focus";
-        payload: string;
-        scope: string;
-    };
-    type: "Focus";
-};
+export const focus: ActionCreatorWithPayload<'Focus', string>;
 
 // @public (undocumented)
 export type FocusAction = BlurAction | FocusDocumentAction | FocusNextDocumentAction | FocusPreviousDocumentAction;
 
 // @public (undocumented)
-export type FocusDocumentAction = ActionFromActionCreator<typeof focus>;
+export type FocusDocumentAction = ActionCreatorAction<typeof focus>;
 
 // @public (undocumented)
-export const focusNext: {
-    (): (scope: string) => {
-        type: "FocusNext";
-        scope: string;
-    };
-    type: "FocusNext";
-};
+export const focusNext: ActionCreatorWithoutPayload<'FocusNext'>;
 
 // @public (undocumented)
-export type FocusNextDocumentAction = ActionFromActionCreator<typeof focusNext>;
+export type FocusNextDocumentAction = ActionCreatorAction<typeof focusNext>;
 
 // @public (undocumented)
-export const focusPrevious: {
-    (): (scope: string) => {
-        type: "FocusPrevious";
-        scope: string;
-    };
-    type: "FocusPrevious";
-};
+export const focusPrevious: ActionCreatorWithoutPayload<'FocusPrevious'>;
 
 // @public (undocumented)
-export type FocusPreviousDocumentAction = ActionFromActionCreator<typeof focusPrevious>;
+export type FocusPreviousDocumentAction = ActionCreatorAction<typeof focusPrevious>;
 
 // @internal (undocumented)
 export const focusReducer: SubReducer<string | null>;
 
-// @public (undocumented)
+// @beta (undocumented)
 export const getClipboard: Selector<DocumentState[]>;
 
 // @public (undocumented)
@@ -213,17 +184,14 @@ export const getFocusPath: Selector<string[] | null, [string?]>;
 // @public
 export const getFocusTree: Selector<Node | null, [string?]>;
 
-// @public (undocumented)
-export const getHistory: Selector<HistoryState>;
-
-// @public (undocumented)
-export const getInitialState: Selector<HistoryState['initialState']>;
+// @internal (undocumented)
+export const getHistory: InternalSelector<HistoryState>;
 
 // @public (undocumented)
 export const getParent: Selector<Node | null, [string]>;
 
 // @public (undocumented)
-export const getPendingChanges: Selector<HistoryState['pendingChanges']>;
+export const getPendingChanges: Selector<number>;
 
 // @public (undocumented)
 export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [string]>;
@@ -237,8 +205,8 @@ export const getPlugins: Selector<Record<string, EditorPlugin>>;
 // @public (undocumented)
 export const getPluginTypeOrDefault: Selector<string, [(string | undefined)?]>;
 
-// @public (undocumented)
-export const getRedoStack: Selector<ReversibleAction[][]>;
+// @internal (undocumented)
+export const getRedoStack: InternalSelector<ReversibleAction[][]>;
 
 // @public (undocumented)
 export const getRoot: Selector<string | null>;
@@ -246,8 +214,8 @@ export const getRoot: Selector<string | null>;
 // @public
 export function getScope(state: State, scope: string): ScopedState;
 
-// @public (undocumented)
-export const getUndoStack: Selector<ReversibleAction[][]>;
+// @internal (undocumented)
+export const getUndoStack: InternalSelector<ReversibleAction[][]>;
 
 // @public
 export const hasFocusedChild: Selector<boolean, [string]>;
@@ -259,12 +227,12 @@ export const hasFocusedDescendant: Selector<boolean, [string]>;
 export const hasPendingChanges: Selector<boolean>;
 
 // @public (undocumented)
-export type HistoryAction = PersistAction | ResetAction | PureResetAction | CommitAction | PureCommitAction | UndoAction | PureUndoAction | RedoAction | PureRedoAction | TemporaryCommitAction;
+export type HistoryAction = PersistAction | ResetAction | UndoAction | RedoAction;
 
 // @internal (undocumented)
 export const historyReducer: SubReducer<HistoryState>;
 
-// @public (undocumented)
+// @internal (undocumented)
 export interface HistoryState {
     // (undocumented)
     initialState?: {
@@ -273,112 +241,92 @@ export interface HistoryState {
     // (undocumented)
     pendingChanges: number;
     // (undocumented)
-    redoStack: Reversible[][];
+    redoStack: ReversibleAction[][];
     // (undocumented)
-    undoStack: Reversible[][];
+    undoStack: ReversibleAction[][];
 }
 
 // @public (undocumented)
-export const initRoot: {
-    (payload: {
-        initialState?: {
-            plugin?: string | undefined;
-            state?: unknown;
-        } | undefined;
-        plugins: Record<string, EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}>>;
-        defaultPlugin: string;
-    }): (scope: string) => {
-        type: "InitRoot";
-        payload: {
-            initialState?: {
-                plugin?: string | undefined;
-                state?: unknown;
-            } | undefined;
-            plugins: Record<string, EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}>>;
-            defaultPlugin: string;
-        };
-        scope: string;
-    };
-    type: "InitRoot";
-};
-
-// @public (undocumented)
-export type InitRootAction = ActionFromActionCreator<typeof initRoot>;
-
-// @public (undocumented)
-export const insert: {
-    (payload: {
-        id: string;
-        plugin?: string | undefined;
+export const initRoot: ActionCreatorWithPayload<'InitRoot', {
+    initialState?: {
+        plugin?: string;
         state?: unknown;
-    }): (scope: string) => {
-        type: "Insert";
-        payload: {
-            id: string;
-            plugin?: string | undefined;
-            state?: unknown;
-        };
-        scope: string;
     };
-    type: "Insert";
-};
+    plugins: Record<string, EditorPlugin>;
+    defaultPlugin: string;
+}>;
 
 // @public (undocumented)
-export type InsertAction = ActionFromActionCreator<typeof insert>;
+export type InitRootAction = ActionCreatorAction<typeof initRoot>;
 
 // @public (undocumented)
-export const insertChildAfter: {
-    (payload: {
-        parent: string;
-        sibling?: string | undefined;
-        document?: {
-            plugin: string;
-            state?: unknown;
-        } | undefined;
-    }): (scope: string) => {
-        type: "InsertChildAfter";
-        payload: {
-            parent: string;
-            sibling?: string | undefined;
-            document?: {
-                plugin: string;
-                state?: unknown;
-            } | undefined;
-        };
-        scope: string;
+export const insert: ActionCreatorWithPayload<"Insert", {
+    id: string;
+    plugin?: string | undefined;
+    state?: unknown;
+}>;
+
+// @public (undocumented)
+export type InsertAction = ActionCreatorAction<typeof insert>;
+
+// @public (undocumented)
+export const insertChildAfter: ActionCreatorWithPayload<'InsertChildAfter', {
+    parent: string;
+    sibling?: string;
+    document?: {
+        plugin: string;
+        state?: unknown;
     };
-    type: "InsertChildAfter";
-};
+}>;
 
 // @public (undocumented)
-export type InsertChildAfterAction = ActionFromActionCreator<typeof insertChildAfter>;
+export type InsertChildAfterAction = ActionCreatorAction<typeof insertChildAfter>;
 
 // @public (undocumented)
-export const insertChildBefore: {
-    (payload: {
-        parent: string;
-        sibling: string;
-        document?: {
-            plugin: string;
-            state?: unknown;
-        } | undefined;
-    }): (scope: string) => {
-        type: "InsertChildBefore";
-        payload: {
-            parent: string;
-            sibling: string;
-            document?: {
-                plugin: string;
-                state?: unknown;
-            } | undefined;
-        };
-        scope: string;
-    };
-    type: "InsertChildBefore";
-};
+export const insertChildBefore: ActionCreatorWithPayload<"InsertChildBefore", {
+    parent: string;
+    sibling: string;
+    document?: {
+        plugin: string;
+        state?: unknown;
+    } | undefined;
+}>;
 
 // @public (undocumented)
-export type InsertChildBeforeAction = ActionFromActionCreator<typeof insertChildBefore>;
+export type InsertChildBeforeAction = ActionCreatorAction<typeof insertChildBefore>;
+
+// @internal (undocumented)
+export type InternalAction = Action | ApplyActionsAction | InternalClipboardAction | InternalDocumentsAction | InternalHistoryAction | InternalRootAction;
+
+// @internal (undocumented)
+export type InternalClipboardAction = PureCopyAction;
+
+// @internal (undocumented)
+export type InternalDocumentsAction = PureInsertAction | PureRemoveAction | PureChangeAction | PureWrapAction | PureUnwrapAction | PureReplaceAction;
+
+// @internal (undocumented)
+export type InternalHistoryAction = PureResetAction | CommitAction | PureCommitAction | PureUndoAction | PureRedoAction | TemporaryCommitAction;
+
+// @internal (undocumented)
+export type InternalRootAction = PureInitRootAction;
+
+// @internal (undocumented)
+export interface InternalScopedState extends ScopedState {
+    // (undocumented)
+    history: HistoryState;
+}
+
+// @internal (undocumented)
+export type InternalSelector<T = any, P extends any[] = []> = (...args: P) => (scopedState: InternalScopedState) => T;
+
+// @internal (undocumented)
+export type InternalSelectorReturnType<T extends InternalSelector<any, any>> = ReturnType<ReturnType<T>>;
+
+// @internal (undocumented)
+export type InternalState = Record<string, InternalScopedState>;
+
+// @internal (undocumented)
+export type InternalStore = Store_2<InternalState, InternalAction>;
 
 // @public
 export function isDocumentEmpty(doc: DocumentState | null, plugin: EditorPlugin | null): boolean;
@@ -404,16 +352,10 @@ export interface Node {
 }
 
 // @public (undocumented)
-export const persist: {
-    (): (scope: string) => {
-        type: "Persist";
-        scope: string;
-    };
-    type: "Persist";
-};
+export const persist: ActionCreatorWithoutPayload<"Persist">;
 
 // @public (undocumented)
-export type PersistAction = ActionFromActionCreator<typeof persist>;
+export type PersistAction = ActionCreatorAction<typeof persist>;
 
 // @public (undocumented)
 export type PluginAction = InsertChildBeforeAction | InsertChildAfterAction | RemoveChildAction;
@@ -424,278 +366,146 @@ export const pluginsReducer: SubReducer<{
     plugins: Record<string, EditorPlugin>;
 }>;
 
-// @public (undocumented)
-export const pureChange: {
-    (payload: {
-        id: string;
-        state: unknown;
-    }): (scope: string) => {
-        type: "PureChange";
-        payload: {
-            id: string;
-            state: unknown;
-        };
-        scope: string;
-    };
-    type: "PureChange";
-};
+// @internal (undocumented)
+export const pureChange: ActionCreatorWithPayload<'PureChange', {
+    id: string;
+    state: unknown;
+}>;
 
-// @public (undocumented)
-export type PureChangeAction = ActionFromActionCreator<typeof pureChange>;
+// @internal (undocumented)
+export type PureChangeAction = ActionCreatorAction<typeof pureChange>;
 
-// @public (undocumented)
-export const pureCommit: {
-    (payload: {
+// @internal (undocumented)
+export const pureCommit: ActionCreatorWithPayload<'PureCommit', {
+    combine: boolean;
+    actions: ReversibleAction[];
+}>;
+
+// @internal (undocumented)
+export interface PureCommitAction {
+    // (undocumented)
+    payload: {
         combine: boolean;
-        actions: Reversible<import("redux").Action<any>, import("redux").Action<any>>[];
-    }): (scope: string) => {
-        type: "PureCommit";
-        payload: {
-            combine: boolean;
-            actions: Reversible<import("redux").Action<any>, import("redux").Action<any>>[];
-        };
-        scope: string;
+        actions: ReversibleAction[];
     };
-    type: "PureCommit";
-};
+    // (undocumented)
+    scope: string;
+    // (undocumented)
+    type: 'PureCommit';
+}
+
+// @internal (undocumented)
+export const pureCopy: ActionCreatorWithPayload<'PureCopy', DocumentState>;
+
+// @internal (undocumented)
+export type PureCopyAction = ActionCreatorAction<typeof pureCopy>;
+
+// @internal (undocumented)
+export const pureInitRoot: ActionCreatorWithoutPayload<'PureInitRoot'>;
+
+// @internal (undocumented)
+export type PureInitRootAction = ActionCreatorAction<typeof pureInitRoot>;
+
+// @internal (undocumented)
+export const pureInsert: ActionCreatorWithPayload<"PureInsert", {
+    id: string;
+} & DocumentState>;
+
+// @internal (undocumented)
+export type PureInsertAction = ActionCreatorAction<typeof pureInsert>;
+
+// @internal (undocumented)
+export const pureRedo: ActionCreatorWithoutPayload<'PureRedo'>;
+
+// @internal (undocumented)
+export type PureRedoAction = ActionCreatorAction<typeof pureRedo>;
+
+// @internal (undocumented)
+export const pureRemove: ActionCreatorWithPayload<"PureRemove", string>;
+
+// @internal (undocumented)
+export type PureRemoveAction = ActionCreatorAction<typeof pureRemove>;
+
+// @internal (undocumented)
+export const pureReplace: ActionCreatorWithPayload<'PureReplace', {
+    id: string;
+    plugin: string;
+    state?: unknown;
+}>;
+
+// @internal (undocumented)
+export type PureReplaceAction = ActionCreatorAction<typeof pureReplace>;
+
+// @internal (undocumented)
+export const pureReset: ActionCreatorWithoutPayload<"PureReset">;
+
+// @internal (undocumented)
+export type PureResetAction = ActionCreatorAction<typeof pureReset>;
+
+// @internal (undocumented)
+export const pureUndo: ActionCreatorWithoutPayload<'PureUndo'>;
+
+// @internal (undocumented)
+export type PureUndoAction = ActionCreatorAction<typeof pureUndo>;
+
+// @internal (undocumented)
+export const pureUnwrap: ActionCreatorWithPayload<'PureUnwrap', {
+    id: string;
+    oldId: string;
+}>;
+
+// @internal (undocumented)
+export type PureUnwrapAction = ActionCreatorAction<typeof pureUnwrap>;
+
+// @internal (undocumented)
+export const pureWrap: ActionCreatorWithPayload<'PureWrap', {
+    id: string;
+    newId: string;
+    document: DocumentState;
+}>;
+
+// @internal (undocumented)
+export type PureWrapAction = ActionCreatorAction<typeof pureWrap>;
 
 // @public (undocumented)
-export type PureCommitAction = ActionFromActionCreator<typeof pureCommit>;
+export const redo: ActionCreatorWithoutPayload<'Redo'>;
 
 // @public (undocumented)
-export const pureCopy: {
-    (payload: DocumentState): (scope: string) => {
-        type: "PureCopy";
-        payload: DocumentState;
-        scope: string;
-    };
-    type: "PureCopy";
-};
+export type RedoAction = ActionCreatorAction<typeof redo>;
 
 // @public (undocumented)
-export type PureCopyAction = ActionFromActionCreator<typeof pureCopy>;
+export const remove: ActionCreatorWithPayload<"Remove", string>;
 
 // @public (undocumented)
-export const pureInitRoot: {
-    (): (scope: string) => {
-        type: "PureInitRoot";
-        scope: string;
-    };
-    type: "PureInitRoot";
-};
+export type RemoveAction = ActionCreatorAction<typeof remove>;
 
 // @public (undocumented)
-export type PureInitRootAction = ActionFromActionCreator<typeof pureInitRoot>;
+export const removeChild: ActionCreatorWithPayload<'RemoveChild', {
+    parent: string;
+    child: string;
+}>;
 
 // @public (undocumented)
-export const pureInsert: {
-    (payload: {
-        id: string;
-    } & DocumentState): (scope: string) => {
-        type: "PureInsert";
-        payload: {
-            id: string;
-        } & DocumentState;
-        scope: string;
-    };
-    type: "PureInsert";
-};
+export type RemoveChildAction = ActionCreatorAction<typeof removeChild>;
 
 // @public (undocumented)
-export type PureInsertAction = ActionFromActionCreator<typeof pureInsert>;
+export const replace: ActionCreatorWithPayload<'Replace', {
+    id: string;
+    plugin: string;
+    state?: unknown;
+}>;
 
 // @public (undocumented)
-export const pureRedo: {
-    (): (scope: string) => {
-        type: "PureRedo";
-        scope: string;
-    };
-    type: "PureRedo";
-};
+export type ReplaceAction = ActionCreatorAction<typeof replace>;
 
 // @public (undocumented)
-export type PureRedoAction = ActionFromActionCreator<typeof pureRedo>;
+export const reset: ActionCreatorWithoutPayload<"Reset">;
 
 // @public (undocumented)
-export const pureRemove: {
-    (payload: string): (scope: string) => {
-        type: "PureRemove";
-        payload: string;
-        scope: string;
-    };
-    type: "PureRemove";
-};
+export type ResetAction = ActionCreatorAction<typeof reset>;
 
-// @public (undocumented)
-export type PureRemoveAction = ActionFromActionCreator<typeof pureRemove>;
-
-// @public (undocumented)
-export const pureReplace: {
-    (payload: {
-        id: string;
-        plugin: string;
-        state?: unknown;
-    }): (scope: string) => {
-        type: "PureReplace";
-        payload: {
-            id: string;
-            plugin: string;
-            state?: unknown;
-        };
-        scope: string;
-    };
-    type: "PureReplace";
-};
-
-// @public (undocumented)
-export type PureReplaceAction = ActionFromActionCreator<typeof pureReplace>;
-
-// @public (undocumented)
-export const pureReset: {
-    (): (scope: string) => {
-        type: "PureReset";
-        scope: string;
-    };
-    type: "PureReset";
-};
-
-// @public (undocumented)
-export type PureResetAction = ActionFromActionCreator<typeof pureReset>;
-
-// @public (undocumented)
-export const pureUndo: {
-    (): (scope: string) => {
-        type: "PureUndo";
-        scope: string;
-    };
-    type: "PureUndo";
-};
-
-// @public (undocumented)
-export type PureUndoAction = ActionFromActionCreator<typeof pureUndo>;
-
-// @public (undocumented)
-export const pureUnwrap: {
-    (payload: {
-        id: string;
-        oldId: string;
-    }): (scope: string) => {
-        type: "PureUnwrap";
-        payload: {
-            id: string;
-            oldId: string;
-        };
-        scope: string;
-    };
-    type: "PureUnwrap";
-};
-
-// @public (undocumented)
-export type PureUnwrapAction = ActionFromActionCreator<typeof pureUnwrap>;
-
-// @public (undocumented)
-export const pureWrap: {
-    (payload: {
-        id: string;
-        newId: string;
-        document: DocumentState;
-    }): (scope: string) => {
-        type: "PureWrap";
-        payload: {
-            id: string;
-            newId: string;
-            document: DocumentState;
-        };
-        scope: string;
-    };
-    type: "PureWrap";
-};
-
-// @public (undocumented)
-export type PureWrapAction = ActionFromActionCreator<typeof pureWrap>;
-
-// @public (undocumented)
-export const redo: {
-    (): (scope: string) => {
-        type: "Redo";
-        scope: string;
-    };
-    type: "Redo";
-};
-
-// @public (undocumented)
-export type RedoAction = ActionFromActionCreator<typeof redo>;
-
-// @public (undocumented)
-export const remove: {
-    (payload: string): (scope: string) => {
-        type: "Remove";
-        payload: string;
-        scope: string;
-    };
-    type: "Remove";
-};
-
-// @public (undocumented)
-export type RemoveAction = ActionFromActionCreator<typeof remove>;
-
-// @public (undocumented)
-export const removeChild: {
-    (payload: {
-        parent: string;
-        child: string;
-    }): (scope: string) => {
-        type: "RemoveChild";
-        payload: {
-            parent: string;
-            child: string;
-        };
-        scope: string;
-    };
-    type: "RemoveChild";
-};
-
-// @public (undocumented)
-export type RemoveChildAction = ActionFromActionCreator<typeof removeChild>;
-
-// @public (undocumented)
-export const replace: {
-    (payload: {
-        id: string;
-        plugin: string;
-        state?: unknown;
-    }): (scope: string) => {
-        type: "Replace";
-        payload: {
-            id: string;
-            plugin: string;
-            state?: unknown;
-        };
-        scope: string;
-    };
-    type: "Replace";
-};
-
-// @public (undocumented)
-export type ReplaceAction = ActionFromActionCreator<typeof replace>;
-
-// @public (undocumented)
-export const reset: {
-    (): (scope: string) => {
-        type: "Reset";
-        scope: string;
-    };
-    type: "Reset";
-};
-
-// @public (undocumented)
-export type ResetAction = ActionFromActionCreator<typeof reset>;
-
-// @public (undocumented)
-export type ReturnTypeFromSelector<T extends Selector<any, any>> = ReturnType<ReturnType<T>>;
-
-// @public (undocumented)
-export interface Reversible<A = Action_2, R = Action_2> {
+// @internal (undocumented)
+export interface ReversibleAction<A extends InternalAction = InternalAction, R extends InternalAction = InternalAction> {
     // (undocumented)
     action: A;
     // (undocumented)
@@ -703,10 +513,7 @@ export interface Reversible<A = Action_2, R = Action_2> {
 }
 
 // @public (undocumented)
-export type ReversibleAction<A extends Action = Action, R extends Action = Action> = Reversible<A, R>;
-
-// @public (undocumented)
-export type RootAction = InitRootAction | PureInitRootAction;
+export type RootAction = InitRootAction;
 
 // @internal (undocumented)
 export const rootReducer: SubReducer<string | null>;
@@ -720,7 +527,7 @@ export interface ScopedState {
     // (undocumented)
     focus: string | null;
     // (undocumented)
-    history: HistoryState;
+    history: unknown;
     // (undocumented)
     plugins: {
         defaultPlugin: string;
@@ -732,6 +539,9 @@ export interface ScopedState {
 
 // @public (undocumented)
 export type Selector<T = any, P extends any[] = []> = (...args: P) => (scopedState: ScopedState) => T;
+
+// @public (undocumented)
+export type SelectorReturnType<T extends Selector<any, any>> = ReturnType<ReturnType<T>>;
 
 // @public
 export const serializeDocument: Selector<{
@@ -746,17 +556,10 @@ export const serializeRootDocument: Selector<{
 } | null>;
 
 // @public (undocumented)
-export type SetPartialState = ActionFromActionCreator<typeof setPartialState>;
+export type SetPartialState = ActionCreatorAction<typeof setPartialState>;
 
 // @public (undocumented)
-export const setPartialState: {
-    (payload: Partial<ScopedState>): (scope: string) => {
-        type: "SetPartialState";
-        payload: Partial<ScopedState>;
-        scope: string;
-    };
-    type: "SetPartialState";
-};
+export const setPartialState: ActionCreatorWithPayload<"SetPartialState", Partial<ScopedState>>;
 
 // @public (undocumented)
 export type State = Record<string, ScopedState>;
@@ -772,83 +575,57 @@ export interface StoreOptions<K extends string> {
     // (undocumented)
     createEnhancer: StoreEnhancerFactory;
     // (undocumented)
-    instances: Record<string, {
+    scopes: Record<string, {
         plugins: Record<K, EditorPlugin>;
         defaultPlugin: K;
     }>;
 }
 
 // @internal (undocumented)
-export type SubReducer<S = unknown> = (action: Action, state: ScopedState | undefined) => S;
+export type SubReducer<S = unknown> = (action: InternalAction, state: InternalScopedState | undefined) => S;
 
-// @public (undocumented)
-export const temporaryCommit: {
-    (payload: {
-        initial: Reversible<import("redux").Action<any>, import("redux").Action<any>>[];
-        executor?: StateExecutor<Reversible<import("redux").Action<any>, import("redux").Action<any>>[]> | undefined;
-    }): (scope: string) => {
-        type: "TemporaryCommit";
-        payload: {
-            initial: Reversible<import("redux").Action<any>, import("redux").Action<any>>[];
-            executor?: StateExecutor<Reversible<import("redux").Action<any>, import("redux").Action<any>>[]> | undefined;
-        };
-        scope: string;
+// @internal (undocumented)
+export const temporaryCommit: ActionCreatorWithPayload<'TemporaryCommit', {
+    initial: ReversibleAction[];
+    executor?: StateExecutor<ReversibleAction[]>;
+}>;
+
+// @internal (undocumented)
+export interface TemporaryCommitAction {
+    // (undocumented)
+    payload: {
+        initial: ReversibleAction[];
+        executor?: StateExecutor<ReversibleAction[]>;
     };
-    type: "TemporaryCommit";
-};
+    // (undocumented)
+    scope: string;
+    // (undocumented)
+    type: 'TemporaryCommit';
+}
 
 // @public (undocumented)
-export type TemporaryCommitAction = ActionFromActionCreator<typeof temporaryCommit>;
+export const undo: ActionCreatorWithoutPayload<'Undo'>;
 
 // @public (undocumented)
-export const undo: {
-    (): (scope: string) => {
-        type: "Undo";
-        scope: string;
-    };
-    type: "Undo";
-};
+export type UndoAction = ActionCreatorAction<typeof undo>;
 
 // @public (undocumented)
-export type UndoAction = ActionFromActionCreator<typeof undo>;
+export const unwrap: ActionCreatorWithPayload<'Unwrap', {
+    id: string;
+    oldId: string;
+}>;
 
 // @public (undocumented)
-export const unwrap: {
-    (payload: {
-        id: string;
-        oldId: string;
-    }): (scope: string) => {
-        type: "Unwrap";
-        payload: {
-            id: string;
-            oldId: string;
-        };
-        scope: string;
-    };
-    type: "Unwrap";
-};
+export type UnwrapAction = ActionCreatorAction<typeof unwrap>;
 
 // @public (undocumented)
-export type UnwrapAction = ActionFromActionCreator<typeof unwrap>;
+export const wrap: ActionCreatorWithPayload<'Wrap', {
+    id: string;
+    document: (id: string) => DocumentState;
+}>;
 
 // @public (undocumented)
-export const wrap: {
-    (payload: {
-        id: string;
-        document: (id: string) => DocumentState;
-    }): (scope: string) => {
-        type: "Wrap";
-        payload: {
-            id: string;
-            document: (id: string) => DocumentState;
-        };
-        scope: string;
-    };
-    type: "Wrap";
-};
-
-// @public (undocumented)
-export type WrapAction = ActionFromActionCreator<typeof wrap>;
+export type WrapAction = ActionCreatorAction<typeof wrap>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,18 +1,18 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
+import * as R from 'ramda'
 import {
   applyMiddleware,
   createStore as createReduxStore,
   Store,
-  StoreEnhancer,
-  PreloadedState
+  StoreEnhancer
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
-import { Action } from './actions'
+import { Action, InternalAction } from './actions'
 import { reducer } from './reducer'
 import { serializeRootDocument } from './root/reducer'
 import { saga } from './saga'
-import { ReturnTypeFromSelector, State } from './types'
+import { InternalState, SelectorReturnType, State } from './types'
 
 /**
  * Creates the Edtr.io store
@@ -21,7 +21,7 @@ import { ReturnTypeFromSelector, State } from './types'
  * @public
  */
 export function createStore<K extends string>({
-  instances,
+  scopes,
   createEnhancer
 }: StoreOptions<K>): {
   store: Store<State, Action>
@@ -30,12 +30,11 @@ export function createStore<K extends string>({
   const defaultEnhancer = applyMiddleware(sagaMiddleware)
   const enhancer = createEnhancer(defaultEnhancer)
 
-  const initialStates: PreloadedState<State> = {}
-  for (const scope in instances) {
-    initialStates[scope] = {
+  const initialStates = R.mapObjIndexed(scope => {
+    return {
       plugins: {
-        defaultPlugin: instances[scope].defaultPlugin,
-        plugins: instances[scope].plugins
+        defaultPlugin: scope.defaultPlugin,
+        plugins: scope.plugins
       },
       documents: {},
       focus: null,
@@ -47,13 +46,13 @@ export function createStore<K extends string>({
         pendingChanges: 0
       }
     }
-  }
+  }, scopes)
 
-  const store = createReduxStore<State, Action, {}, {}>(
+  const store = createReduxStore<InternalState, InternalAction, {}, {}>(
     reducer,
     initialStates,
     enhancer
-  )
+  ) as Store<State, Action>
   sagaMiddleware.run(saga)
 
   return { store }
@@ -61,7 +60,7 @@ export function createStore<K extends string>({
 
 /** @public */
 export interface StoreOptions<K extends string> {
-  instances: Record<
+  scopes: Record<
     string,
     {
       plugins: Record<K, EditorPlugin>
@@ -79,5 +78,5 @@ export type StoreEnhancerFactory = (
 /** @public */
 export type ChangeListener = (payload: {
   changed: boolean
-  getDocument: () => ReturnTypeFromSelector<typeof serializeRootDocument>
+  getDocument: () => SelectorReturnType<typeof serializeRootDocument>
 }) => void

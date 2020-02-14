@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import {
   Action,
   applyActions,
-  ApplyActionsAction,
+  InternalAction,
   setPartialState
 } from './actions'
 import { clipboardReducer } from './clipboard/reducer'
@@ -13,7 +13,7 @@ import { createActionWithoutPayload } from './helpers'
 import { historyReducer } from './history/reducer'
 import { pluginsReducer } from './plugins/reducer'
 import { rootReducer } from './root/reducer'
-import { State, ScopedState } from './types'
+import { State, ScopedState, InternalScopedState, InternalState } from './types'
 
 /**
  * The Edtr.io root reducer
@@ -24,11 +24,11 @@ import { State, ScopedState } from './types'
  * @internal
  */
 export function reducer(
-  state: State = {},
-  action: Action | ApplyActionsAction
-): State {
+  state: InternalState = {},
+  action: InternalAction
+): InternalState {
   if (action.scope === undefined) {
-    return R.map(State => scopedReducer(State, action as Action), state)
+    return R.map(state => scopedReducer(state, action), state)
   }
 
   if (action.type === applyActions.type) {
@@ -42,7 +42,7 @@ export function reducer(
         ...state[action.scope],
         ...action.payload
       }
-    }
+    } as InternalState
   }
 
   return {
@@ -51,7 +51,10 @@ export function reducer(
   }
 }
 
-function scopedReducer(scopeState: ScopedState | undefined, action: Action) {
+function scopedReducer(
+  scopeState: InternalScopedState | undefined,
+  action: InternalAction
+) {
   return {
     clipboard: clipboardReducer(action, scopeState),
     documents: documentsReducer(action, scopeState),
@@ -74,7 +77,10 @@ export function getScope(state: State, scope: string): ScopedState {
   const scopedState = state[scope]
   if (!scopedState) {
     const fakeInitAction = createActionWithoutPayload('InitSubScope')()(scope)
-    return reducer(state, (fakeInitAction as unknown) as Action)[scope]
+    return reducer(
+      state as InternalState,
+      (fakeInitAction as unknown) as Action
+    )[scope]
   }
   return scopedState
 }

@@ -21,11 +21,12 @@ async function exec() {
       await clean()
       bundle()
       invokeApiExtractor()
-      break
+      return
     } catch (e) {
       console.log('Failed attempt', i, e)
     }
   }
+  throw new Error('exec failed')
 
   async function clean() {
     const rm = util.promisify(rimraf)
@@ -34,9 +35,17 @@ async function exec() {
   }
 
   function bundle() {
-    spawnSync('yarn', ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'], {
-      stdio: 'inherit'
-    })
+    const { status, error } = spawnSync(
+      'yarn',
+      ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'],
+      {
+        stdio: 'inherit'
+      }
+    )
+    if (status !== 0) {
+      if (error) throw error
+      throw new Error('build failed')
+    }
   }
 
   function invokeApiExtractor() {

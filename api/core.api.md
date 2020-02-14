@@ -7,20 +7,13 @@
 import { Action } from '@edtr-io/store';
 import { ChangeListener } from '@edtr-io/store';
 import { CustomTheme } from '@edtr-io/ui';
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor/beta';
 import { EditorPlugin } from '@edtr-io/internal__plugin';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { HotKeys } from 'react-hotkeys';
 import { IgnoreKeys } from 'react-hotkeys';
-import { OverlayButtonProps } from '@edtr-io/internal__plugin-toolbar/beta';
-import { OverlayCheckboxProps } from '@edtr-io/internal__plugin-toolbar/beta';
-import { OverlayInputProps } from '@edtr-io/internal__plugin-toolbar/beta';
-import { OverlaySelectProps } from '@edtr-io/internal__plugin-toolbar/beta';
-import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar/beta';
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta';
+import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta';
 import { PluginProps } from '@edtr-io/internal__plugin-state';
-import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar/beta';
-import { PluginToolbarButtonProps } from '@edtr-io/internal__plugin-toolbar/beta';
-import { PluginToolbarOverlayButtonProps } from '@edtr-io/internal__plugin-toolbar/beta';
 import { ProviderProps } from 'react-redux';
 import * as React from 'react';
 import { ScopedState } from '@edtr-io/store';
@@ -34,7 +27,7 @@ export function Document<K extends string = string>({ scope, mirror, ...props }:
 }): JSX.Element | null;
 
 // @public (undocumented)
-export const DocumentEditorContext: React.Context<React.ComponentType<DocumentEditorProps>>;
+export const DocumentEditorContext: React.Context<React.ComponentType<InternalDocumentEditor.DocumentEditorProps>>;
 
 // @public
 export function Editor<K extends string = string>({ createStoreEnhancer, ...props }: EditorProps<K>): JSX.Element;
@@ -91,26 +84,47 @@ export { IgnoreKeys }
 // @public
 export function OverlayButton(props: OverlayButtonProps): JSX.Element;
 
+// @public (undocumented)
+export type OverlayButtonProps = InternalPluginToolbar.OverlayButtonProps;
+
 // @public
 export function OverlayCheckbox(props: OverlayCheckboxProps): JSX.Element;
+
+// @public (undocumented)
+export type OverlayCheckboxProps = InternalPluginToolbar.OverlayCheckboxProps;
 
 // @public
 export function OverlayInput(props: OverlayInputProps): JSX.Element;
 
+// @public (undocumented)
+export type OverlayInputProps = InternalPluginToolbar.OverlayInputProps;
+
 // @public
 export function OverlaySelect(props: OverlaySelectProps): JSX.Element;
+
+// @public (undocumented)
+export type OverlaySelectProps = InternalPluginToolbar.OverlaySelectProps;
 
 // @public
 export function OverlayTextarea(props: OverlayTextareaProps): JSX.Element;
 
 // @public (undocumented)
-export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
+export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps;
 
 // @public (undocumented)
-export const PluginToolbarContext: React.Context<PluginToolbar>;
+export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<InternalPluginToolbar.PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
+
+// @public (undocumented)
+export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps;
+
+// @public (undocumented)
+export const PluginToolbarContext: React.Context<InternalPluginToolbar.PluginToolbar>;
 
 // @public
 export function PluginToolbarOverlayButton(props: PluginToolbarOverlayButtonProps): JSX.Element;
+
+// @public (undocumented)
+export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps;
 
 // @beta (undocumented)
 export interface Preference {
