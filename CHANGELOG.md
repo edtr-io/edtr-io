@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.51.3](https://github.com/edtr-io/edtr-io/compare/v0.51.2..v0.51.3) - February 14, 2020
+
+### Fixed
+
+- **plugin-text**. Update dependencies
+
+## [0.51.2](https://github.com/edtr-io/edtr-io/compare/v0.51.1..v0.51.2) - February 14, 2020
+
+### Internal
+
+- **plugin-text**. Export `slateValueToHtml` and `htmlToSlateValue` as internal API
+
 ## [0.51.1](https://github.com/edtr-io/edtr-io/compare/v0.51.0..v0.51.1) - February 9, 2020
 
 ### Fixed

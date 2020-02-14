@@ -823,6 +823,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       internal: [
         '**plugin-text**. Export `slateValueToHtml` and `htmlToSlateValue` as internal API'
       ]
+    },
+    {
+      tagName: 'v0.51.3',
+      name: '0.51.3',
+      date: '2020-02-14',
+      fixed: ['**plugin-text**. Update dependencies']
     }
   ])
 
