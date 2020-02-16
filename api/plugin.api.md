@@ -116,13 +116,13 @@ export type Optional<T> = {
 };
 
 // @public (undocumented)
-export function optional<S, T, R>(type: StateType<S, T, R>, initiallyDefined?: boolean): OptionalStateType<S, T, R>;
+export function optional<D extends StateType>(type: D, initiallyDefined?: boolean): OptionalStateType<D>;
 
 // @public (undocumented)
-export type OptionalStateType<S, T, R> = StateType<S | undefined, Optional<T>, {
+export type OptionalStateType<D extends StateType> = StateType<StateTypeSerializedType<D> | undefined, Optional<StateTypeValueType<D>>, {
     defined: false;
-    create(value?: S): void;
-} | (R & {
+    create(value?: StateTypeSerializedType<D>): void;
+} | (StateTypeReturnType<D> & {
     defined: true;
     remove(): void;
 })>;

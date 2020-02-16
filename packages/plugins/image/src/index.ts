@@ -9,13 +9,39 @@ import {
   UploadValidator,
   EditorPluginProps,
   EditorPlugin,
-  boolean
+  boolean,
+  ObjectStateType,
+  UploadStateType,
+  OptionalStateType,
+  StringStateType,
+  BooleanStateType,
+  NumberStateType
 } from '@edtr-io/plugin'
 
 import { ImageEditor } from './editor'
 
 /** @public */
-export const imageState = object({
+export type ImageState = ObjectStateType<{
+  src: UploadStateType<string>
+  link: OptionalStateType<
+    ObjectStateType<{
+      href: StringStateType
+      openInNewTab: BooleanStateType
+    }>
+  >
+  alt: OptionalStateType<StringStateType>
+  maxWidth: OptionalStateType<NumberStateType>
+}>
+/** @public */
+export interface ImageConfig {
+  upload: UploadHandler<string>
+  validate: UploadValidator
+  secondInput?: 'description' | 'link'
+}
+/** @public */
+export type ImageProps = EditorPluginProps<ImageState, ImageConfig>
+
+const imageState: ImageState = object({
   src: upload(''),
   link: optional(
     object({
@@ -26,24 +52,14 @@ export const imageState = object({
   alt: optional(string('')),
   maxWidth: optional(number(0))
 })
-/** @public */
-export type ImageState = typeof imageState
-/** @public */
-export interface ImageConfig {
-  upload: UploadHandler<string>
-  validate: UploadValidator
-  secondInput?: 'description' | 'link'
-}
-/** @public */
-export type ImageProps = EditorPluginProps<ImageState, ImageConfig>
 
 /**
  * @param config - {@link ImageConfig | Plugin configuration}
  * @public
  */
-export const createImagePlugin = (
+export function createImagePlugin(
   config: ImageConfig
-): EditorPlugin<ImageState, ImageConfig> => {
+): EditorPlugin<ImageState, ImageConfig> {
   return {
     Component: ImageEditor,
     config,
