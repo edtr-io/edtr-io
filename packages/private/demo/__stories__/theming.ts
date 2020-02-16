@@ -29,11 +29,6 @@ addStory('Theming', {
         color: 'red',
         backgroundColor: 'green',
         highlightColor: 'black'
-      },
-      textarea: {
-        color: 'red',
-        backgroundColor: 'green',
-        highlightColor: 'black'
       }
     },
     rendererUi: {

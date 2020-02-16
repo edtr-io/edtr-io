@@ -9,6 +9,7 @@ export {
   useDispatch,
   useSelector,
   useStore,
+  useScope,
   useScopedDispatch,
   useScopedSelector,
   useScopedStore

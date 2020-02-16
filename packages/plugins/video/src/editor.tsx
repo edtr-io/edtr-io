@@ -1,5 +1,5 @@
 import { OverlayInput } from '@edtr-io/core'
-import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
+import { EditorInput, EditorInlineSettings } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { VideoProps } from '.'
@@ -32,7 +32,7 @@ export const VideoEditor = (props: VideoProps) => {
         </React.Fragment>
       )}
       {focused ? (
-        <PrimarySettings>
+        <EditorInlineSettings>
           <EditorInput
             label="Video URL:"
             value={state.src.value}
@@ -43,7 +43,7 @@ export const VideoEditor = (props: VideoProps) => {
             editorInputWidth="100%"
             ref={props.defaultFocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
     </React.Fragment>
   )

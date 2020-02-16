@@ -4,7 +4,11 @@ import {
   OverlayInput,
   OverlayTextarea
 } from '@edtr-io/core'
-import { EditorButton, EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
+import {
+  EditorButton,
+  EditorInput,
+  EditorInlineSettings
+} from '@edtr-io/editor-ui'
 import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
 import {
   EditorThemeProps,
@@ -70,9 +74,9 @@ export function ImageEditor(props: ImageProps) {
       {imageComponent}
       {focused ? (
         <React.Fragment>
-          <PrimarySettings>
+          <EditorInlineSettings>
             <PrimaryControls {...props} config={config} />
-          </PrimarySettings>
+          </EditorInlineSettings>
           {props.renderIntoSettings(
             <React.Fragment>
               <Controls {...props} config={config} />

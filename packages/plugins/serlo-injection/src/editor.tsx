@@ -1,6 +1,6 @@
 import { OverlayInput } from '@edtr-io/core'
 import {
-  PrimarySettings,
+  EditorInlineSettings,
   EditorInput,
   PreviewOverlay,
   styled
@@ -65,7 +65,7 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
         </PlaceholderWrapper>
       )}
       {props.focused && !preview ? (
-        <PrimarySettings>
+        <EditorInlineSettings>
           <EditorInput
             label="Serlo ID:"
             placeholder="123456"
@@ -77,7 +77,7 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
             editorInputWidth="100%"
             ref={props.defaultFocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
       {props.renderIntoSettings(
         <React.Fragment>

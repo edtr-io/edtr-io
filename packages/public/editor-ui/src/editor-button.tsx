@@ -1,13 +1,8 @@
-import {
-  createEditorUiTheme,
-  EditorThemeProps,
-  ButtonTheme,
-  styled
-} from '@edtr-io/ui'
+import { styled, useEditorUiTheme } from '@edtr-io/ui'
 
 /** @public */
-export const createEditorButtonTheme = createEditorUiTheme<ButtonTheme>(
-  theme => {
+export const EditorButton = styled.button(() => {
+  const theme = useEditorUiTheme('button', theme => {
     return {
       backgroundColor: theme.backgroundColor,
       color: theme.color,
@@ -16,13 +11,7 @@ export const createEditorButtonTheme = createEditorUiTheme<ButtonTheme>(
       hoverColor: theme.primary.background,
       hoverBorderColor: theme.primary.background
     }
-  }
-)
-
-/** @public */
-export const EditorButton = styled.button((props: EditorThemeProps) => {
-  const theme = createEditorButtonTheme('button', props.theme)
-
+  })
   return {
     margin: '3px',
     backgroundColor: theme.backgroundColor,

@@ -165,6 +165,9 @@ export interface SubDocumentProps {
 // @public (undocumented)
 export const useDispatch: () => (action: Action) => void;
 
+// @public (undocumented)
+export function useScope(enforcedScope?: string): string;
+
 // @public
 export function useScopedDispatch(enforcedScope?: string): (scopedAction: (scope: string) => Action) => void;
 

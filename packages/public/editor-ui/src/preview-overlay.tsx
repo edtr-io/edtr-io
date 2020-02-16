@@ -1,4 +1,4 @@
-import { ScopeContext } from '@edtr-io/core'
+import { ScopeContext, useScope } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -8,6 +8,7 @@ const NoClickArea = styled.div<{ active: boolean }>(props => {
     position: 'relative'
   }
 })
+
 const Overlay = styled.div<{ active: boolean; blur: boolean }>(props => {
   return {
     display: props.active ? 'none' : undefined,
@@ -26,6 +27,7 @@ const ButtonWrapper = styled.div({
   textAlign: 'center',
   display: 'flex'
 })
+
 const ActivateButton = styled.button({
   pointerEvents: 'all',
   color: 'white',
@@ -43,25 +45,26 @@ const ActivateButton = styled.button({
  * @param props - Props
  * @public
  */
-export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = props => {
+export function PreviewOverlay(props: PreviewOverlayProps) {
   const [active, setActiveState] = React.useState(false)
-  const { scope } = React.useContext(ScopeContext)
+  const scope = useScope()
+  const { onChange } = props
 
   const setActive = React.useCallback(
-    (nextActive: boolean) => {
-      if (props.onChange) {
-        props.onChange(nextActive)
+    (active: boolean) => {
+      if (typeof onChange === 'function') {
+        onChange(active)
       }
-      setActiveState(nextActive)
+      setActiveState(active)
     },
-    [props]
+    [onChange]
   )
-
   React.useEffect(() => {
     if (!props.focused && active) {
       setActive(false)
     }
   }, [props.focused, active, setActive])
+
   return (
     <NoClickArea active={active}>
       <Overlay blur={props.focused} active={active}>
@@ -106,7 +109,8 @@ export const PreviewOverlay: React.FunctionComponent<PreviewOverlayProps> = prop
 
 /** @public */
 export interface PreviewOverlayProps {
+  children: React.ReactNode
   focused: boolean
   editable?: boolean
-  onChange?: (nextActive: boolean) => void
+  onChange?: (active: boolean) => void
 }

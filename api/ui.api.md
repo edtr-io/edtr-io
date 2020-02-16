@@ -62,45 +62,11 @@ import styled from 'styled-components';
 import { ThemeProps as ThemeProps_2 } from 'styled-components';
 import { ThemeProviderProps } from 'styled-components';
 
-// @public (undocumented)
-export interface BottomToolbarTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    color: string;
-}
-
-// @public (undocumented)
-export interface ButtonTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    borderColor: string;
-    // (undocumented)
-    color: string;
-    // (undocumented)
-    hoverBackgroundColor: string;
-    // (undocumented)
-    hoverBorderColor: string;
-    // (undocumented)
-    hoverColor: string;
-}
-
-// @public (undocumented)
-export interface CheckboxTheme {
-    // (undocumented)
-    boxDeselectedColor: string;
-    // (undocumented)
-    boxSelectedColor: string;
-    // (undocumented)
-    color: string;
-}
-
 // @public
-export function createEditorUiTheme<T extends object>(createDefaultTheme: EditorUiThemeFactory<T>): (key: "button" | "checkbox" | "input" | "bottomToolbar" | "textarea" | "select", theme: {
+export function createEditorUiTheme<K extends keyof EditorUiTheme>(key: K, createDefaultTheme: EditorUiThemeFactory<K>): (theme: {
     editor: EditorTheme;
-    editorUi: EditorUiTheme;
-}) => T;
+    editorUi: DeepPartial<EditorUiTheme>;
+}) => EditorUiTheme[K];
 
 // @public
 export function createIcon(i: IconDefinition): React.ComponentType<{}>;
@@ -166,27 +132,41 @@ export interface EditorTheme {
 // @public (undocumented)
 export type EditorThemeProps = ThemeProps_2<{
     editor: EditorTheme;
-    editorUi: EditorUiTheme;
+    editorUi: DeepPartial<EditorUiTheme>;
 }>;
 
 // @public (undocumented)
 export interface EditorUiTheme {
     // (undocumented)
-    bottomToolbar: BottomToolbarTheme;
+    bottomToolbar: {
+        backgroundColor: string;
+        color: string;
+    };
     // (undocumented)
-    button: ButtonTheme;
+    button: {
+        backgroundColor: string;
+        color: string;
+        borderColor: string;
+        hoverBackgroundColor: string;
+        hoverColor: string;
+        hoverBorderColor: string;
+    };
     // (undocumented)
-    checkbox: CheckboxTheme;
+    checkbox: {
+        boxSelectedColor: string;
+        boxDeselectedColor: string;
+        color: string;
+    };
     // (undocumented)
-    input: InputTheme;
-    // (undocumented)
-    select: SelectTheme;
-    // (undocumented)
-    textarea: TextareaTheme;
+    input: {
+        backgroundColor: string;
+        color: string;
+        highlightColor: string;
+    };
 }
 
 // @public (undocumented)
-export type EditorUiThemeFactory<T extends object> = (theme: EditorTheme) => T;
+export type EditorUiThemeFactory<K extends keyof EditorUiTheme> = (theme: EditorTheme) => EditorUiTheme[K];
 
 // @public (undocumented)
 export const edtrAlignBlock = "M4 21h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-4h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-4h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-4h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM3 4c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1z";
@@ -367,16 +347,6 @@ export { faTrashAlt }
 export function Icon(props: FontAwesomeIconProps): JSX.Element;
 
 // @public (undocumented)
-export interface InputTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    color: string;
-    // (undocumented)
-    highlightColor: string;
-}
-
-// @public (undocumented)
 export interface RendererTheme {
     // (undocumented)
     backgroundColor: string;
@@ -434,16 +404,6 @@ export type RendererUiThemeFactory<T> = (theme: RendererTheme) => T;
 // @public
 export function RootThemeProvider(props: ThemeProviderProps<CustomTheme>): JSX.Element;
 
-// @public (undocumented)
-export interface SelectTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    color: string;
-    // (undocumented)
-    highlightColor: string;
-}
-
 export { styled }
 
 // @public (undocumented)
@@ -458,18 +418,6 @@ export interface SubmitButtonTheme {
     hoverBackgroundColor: string;
     // (undocumented)
     wrongBackgroundColor: string;
-}
-
-// @public (undocumented)
-export interface TextareaTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    borderColor: string;
-    // (undocumented)
-    color: string;
-    // (undocumented)
-    highlightColor: string;
 }
 
 // @public (undocumented)
@@ -499,11 +447,11 @@ export function ThemeProvider(props: ThemeProviderProps<CustomTheme>): JSX.Eleme
 // @public
 export function useEditorTheme(): {
     editor: EditorTheme;
-    editorUi: EditorUiTheme;
+    editorUi: DeepPartial<EditorUiTheme>;
 };
 
 // @public
-export function useEditorUiTheme<T extends object>(key: keyof EditorUiTheme, createDefaultTheme: EditorUiThemeFactory<T>): T;
+export function useEditorUiTheme<K extends keyof EditorUiTheme>(key: K, createDefaultTheme: EditorUiThemeFactory<K>): EditorUiTheme[K];
 
 // @public
 export function useRendererTheme(): {

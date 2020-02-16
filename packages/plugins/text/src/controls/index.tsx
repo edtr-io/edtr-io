@@ -1,4 +1,4 @@
-import { BottomToolbar, styled } from '@edtr-io/editor-ui'
+import { EditorBottomToolbar, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { Editor, EditorProps } from 'slate-react'
 
@@ -80,7 +80,7 @@ function ControlsSwitch({
   }
 }
 
-const TimeoutBottomToolbar = styled(BottomToolbar)<{
+const TimeoutBottomToolbar = styled(EditorBottomToolbar)<{
   visible: boolean
   isTouch: boolean
 }>(props => {

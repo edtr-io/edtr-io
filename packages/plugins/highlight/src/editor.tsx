@@ -1,7 +1,7 @@
 import {
   EditorCheckbox,
   EditorInput,
-  PrimarySettings
+  EditorInlineSettings
 } from '@edtr-io/editor-ui'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
@@ -54,7 +54,7 @@ export function HighlightEditor(props: HighlightProps) {
       >
         {state.code.value}
       </Textarea>
-      <PrimarySettings>
+      <EditorInlineSettings>
         <EditorInput
           list="available-languages"
           label="Language:"
@@ -80,7 +80,7 @@ export function HighlightEditor(props: HighlightProps) {
             checked={state.showLineNumbers.value}
           />
         </CheckboxContainer>
-      </PrimarySettings>
+      </EditorInlineSettings>
     </React.Fragment>
   ) : (
     <Renderer

@@ -1,5 +1,4 @@
 import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
-import { Resizable } from '@edtr-io/editor-ui'
 import {
   hasFocusedDescendant,
   isFocused,
@@ -9,6 +8,7 @@ import { styled, faRandom, Icon } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { MultimediaExplanationProps } from '.'
+import { Resizable } from './resizable'
 
 const STEPS = 4
 const BREAKPOINT = 650
