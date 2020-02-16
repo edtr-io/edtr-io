@@ -102,21 +102,25 @@ export interface FocusableChild {
  *
  * @public
  */
-export type StateTypeSerializedType<
-  D extends StateType<any>
-> = D extends StateType<infer S, any, any> ? S : never
+export type StateTypeSerializedType<D extends StateType> = D extends StateType<
+  infer S,
+  any,
+  any
+>
+  ? S
+  : never
 
 /** @public */
-export type StateTypesSerializedType<
-  Ds extends Record<string, StateType<any>>
-> = { [K in keyof Ds]: StateTypeSerializedType<Ds[K]> }
+export type StateTypesSerializedType<Ds extends Record<string, StateType>> = {
+  [K in keyof Ds]: StateTypeSerializedType<Ds[K]>
+}
 
 /**
  * Maps a [[StateType]] to the type of its deserialized state
  *
  * @public
  */
-export type StateTypeValueType<D extends StateType<any>> = D extends StateType<
+export type StateTypeValueType<D extends StateType> = D extends StateType<
   any,
   infer T,
   any
@@ -125,7 +129,7 @@ export type StateTypeValueType<D extends StateType<any>> = D extends StateType<
   : never
 
 /** @public */
-export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesValueType<Ds extends Record<string, StateType>> = {
   [K in keyof Ds]: StateTypeValueType<Ds[K]>
 }
 
@@ -134,7 +138,7 @@ export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
  *
  * @public
  */
-export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
+export type StateTypeReturnType<D extends StateType> = D extends StateType<
   any,
   any,
   infer R
@@ -143,7 +147,7 @@ export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
   : never
 
 /** @public */
-export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesReturnType<Ds extends Record<string, StateType>> = {
   [K in keyof Ds]: StateTypeReturnType<Ds[K]>
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

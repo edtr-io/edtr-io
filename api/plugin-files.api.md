@@ -42,7 +42,7 @@ export type FilesProps = EditorPluginProps<FilesState, FilesConfig>;
 export type FilesState = typeof filesState;
 
 // @public (undocumented)
-export const filesState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<UploadedFile>[], {
+export const filesState: import("@edtr-io/plugin").StateType<import("@edtr-io/plugin").FileState<UploadedFile>[], {
     id: string;
     value: import("@edtr-io/plugin").FileState<UploadedFile>;
 }[], import("@edtr-io/plugin").UploadStateReturnType<UploadedFile>[] & {

@@ -1,26 +1,13 @@
-import { StateType } from '@edtr-io/internal__plugin-state'
 import * as React from 'react'
 
+import { StateType } from './internal-plugin-state'
 import { asyncScalar } from './scalar'
-
-/** @public */
-export interface UploadStateReturnType<T> {
-  get(): FileState<T>
-  value: FileState<T>
-  isPending: boolean
-  upload(file: File, handler: UploadHandler<T>): Promise<T>
-  set(
-    value: FileState<T> | ((currentValue: FileState<T>) => FileState<T>)
-  ): void
-}
 
 /**
  * @param defaultState - The default state
  * @public
  */
-export function upload<T>(
-  defaultState: T
-): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>> {
+export function upload<T>(defaultState: T): UploadStateType<T> {
   const state = asyncScalar<T, TempFile>(defaultState, isTempFile)
   return {
     ...state,
@@ -70,6 +57,24 @@ export function upload<T>(
       }
     }
   }
+}
+
+/** @public */
+export type UploadStateType<T> = StateType<
+  FileState<T>,
+  FileState<T>,
+  UploadStateReturnType<T>
+>
+
+/** @public */
+export interface UploadStateReturnType<T> {
+  get(): FileState<T>
+  value: FileState<T>
+  isPending: boolean
+  upload(file: File, handler: UploadHandler<T>): Promise<T>
+  set(
+    value: FileState<T> | ((currentValue: FileState<T>) => FileState<T>)
+  ): void
 }
 
 function readFile(file: File): Promise<LoadedFile> {

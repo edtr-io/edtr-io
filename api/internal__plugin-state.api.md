@@ -34,28 +34,28 @@ export interface StateType<S = any, T = S, R = unknown> {
 }
 
 // @public
-export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<any, any, infer R> ? R : never;
+export type StateTypeReturnType<D extends StateType> = D extends StateType<any, any, infer R> ? R : never;
 
 // @public
-export type StateTypeSerializedType<D extends StateType<any>> = D extends StateType<infer S, any, any> ? S : never;
+export type StateTypeSerializedType<D extends StateType> = D extends StateType<infer S, any, any> ? S : never;
 
 // @public (undocumented)
-export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesReturnType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeReturnType<Ds[K]>;
 };
 
 // @public (undocumented)
-export type StateTypesSerializedType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesSerializedType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeSerializedType<Ds[K]>;
 };
 
 // @public (undocumented)
-export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesValueType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeValueType<Ds[K]>;
 };
 
 // @public
-export type StateTypeValueType<D extends StateType<any>> = D extends StateType<any, infer T, any> ? T : never;
+export type StateTypeValueType<D extends StateType> = D extends StateType<any, infer T, any> ? T : never;
 
 // @public
 export type StateUpdater<T> = (previousState: T, helpers: StoreDeserializeHelpers) => T;

@@ -1,5 +1,5 @@
-export * from '@edtr-io/internal__plugin'
-export * from '@edtr-io/internal__plugin-state'
+export * from './internal-plugin'
+export * from './internal-plugin-state'
 
 export * from './child'
 export * from './list'

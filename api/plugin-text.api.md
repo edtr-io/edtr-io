@@ -398,7 +398,7 @@ export type TextProps = EditorPluginProps<TextState, TextConfig>;
 export type TextState = typeof textState;
 
 // @public (undocumented)
-export const textState: import("@edtr-io/internal__plugin-state").StateType<import("./state-migration-serializer").NewNode[], import("slate").ValueJSON, {
+export const textState: import("@edtr-io/plugin").StateType<import("./state-migration-serializer").NewNode[], import("slate").ValueJSON, {
     value: import("slate").ValueJSON;
     get(): import("slate").ValueJSON;
     set(value: import("slate").ValueJSON | ((currentValue: import("slate").ValueJSON) => import("slate").ValueJSON)): void;

@@ -17,7 +17,7 @@ export type GeogebraProps = EditorPluginProps<GeogebraState>;
 export type GeogebraState = typeof geogebraState;
 
 // @public (undocumented)
-export const geogebraState: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+export const geogebraState: import("@edtr-io/plugin").StateType<string, string, {
     value: string;
     get(): string;
     set(value: string | ((currentValue: string) => string)): void;

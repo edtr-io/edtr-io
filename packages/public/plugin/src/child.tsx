@@ -1,12 +1,13 @@
 import { SubDocument } from '@edtr-io/core'
+import * as R from 'ramda'
+import * as React from 'react'
+import { generate } from 'shortid'
+
 import {
   StoreSerializeHelpers,
   StateType,
   PluginProps
-} from '@edtr-io/internal__plugin-state'
-import * as R from 'ramda'
-import * as React from 'react'
-import { generate } from 'shortid'
+} from './internal-plugin-state'
 
 /** @public */
 export function child<K extends string, S = unknown>({
@@ -17,16 +18,7 @@ export function child<K extends string, S = unknown>({
   plugin?: K
   initialState?: S
   config?: {}
-} = {}): StateType<
-  { plugin: K; state?: S },
-  string,
-  {
-    get(): string
-    id: string
-    render: (props?: PluginProps) => React.ReactNode
-    replace: (plugin?: K, state?: S) => void
-  }
-> {
+} = {}): ChildStateType<K, S> {
   return {
     init(id, onChange) {
       return {
@@ -71,3 +63,15 @@ export function child<K extends string, S = unknown>({
     }
   }
 }
+
+/** @public */
+export type ChildStateType<K extends string = string, S = unknown> = StateType<
+  { plugin: K; state?: S },
+  string,
+  {
+    get(): string
+    id: string
+    render: (props?: PluginProps) => React.ReactNode
+    replace: (plugin?: K, state?: S) => void
+  }
+>

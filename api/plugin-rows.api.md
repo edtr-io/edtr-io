@@ -57,7 +57,7 @@ export type RowsProps = EditorPluginProps<RowsState, RowsConfig>;
 export type RowsState = typeof rowsState;
 
 // @public (undocumented)
-export const rowsState: import("@edtr-io/internal__plugin-state").StateType<{
+export const rowsState: import("@edtr-io/plugin").StateType<{
     plugin: string;
     state?: unknown;
 }[], {

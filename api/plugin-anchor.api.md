@@ -14,7 +14,7 @@ export type AnchorProps = EditorPluginProps<AnchorState>;
 export type AnchorState = typeof anchorState;
 
 // @public (undocumented)
-export const anchorState: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+export const anchorState: import("@edtr-io/plugin").StateType<string, string, {
     value: string;
     get(): string;
     set(value: string | ((currentValue: string) => string)): void;

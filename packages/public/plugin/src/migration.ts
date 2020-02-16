@@ -2,7 +2,7 @@ import {
   StateType,
   StoreDeserializeHelpers,
   StoreSerializeHelpers
-} from '@edtr-io/internal__plugin-state'
+} from './internal-plugin-state'
 
 /**
  * @param type - The initial {@link @edtr-io/internal__plugin-state#StateType | state type} to start the migration from

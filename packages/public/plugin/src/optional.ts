@@ -1,8 +1,4 @@
-import {
-  StateExecutor,
-  StateType,
-  StateUpdater
-} from '@edtr-io/internal__plugin-state'
+import { StateExecutor, StateType, StateUpdater } from './internal-plugin-state'
 
 /**
  * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} for defined values
@@ -12,12 +8,7 @@ import {
 export function optional<S, T, R>(
   type: StateType<S, T, R>,
   initiallyDefined = false
-): StateType<
-  S | undefined,
-  Optional<T>,
-  | { defined: false; create(value?: S): void }
-  | (R & { defined: true; remove(): void })
-> {
+): OptionalStateType<S, T, R> {
   return {
     init(state, onChange) {
       if (state.defined) {
@@ -127,6 +118,14 @@ export function optional<S, T, R>(
     }
   }
 }
+
+/** @public */
+export type OptionalStateType<S, T, R> = StateType<
+  S | undefined,
+  Optional<T>,
+  | { defined: false; create(value?: S): void }
+  | (R & { defined: true; remove(): void })
+>
 
 /** @public */
 export type Optional<T> =

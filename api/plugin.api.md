@@ -4,34 +4,35 @@
 
 ```ts
 
-import { PluginProps } from '@edtr-io/internal__plugin-state';
+import * as InternalPlugin from '@edtr-io/internal__plugin';
+import * as InternalPluginState from '@edtr-io/internal__plugin-state';
 import * as React from 'react';
-import { StateExecutor } from '@edtr-io/internal__plugin-state';
-import { StateType } from '@edtr-io/internal__plugin-state';
-import { StateTypesReturnType } from '@edtr-io/internal__plugin-state';
-import { StateTypesSerializedType } from '@edtr-io/internal__plugin-state';
-import { StateTypesValueType } from '@edtr-io/internal__plugin-state';
 
 // @public (undocumented)
-export function asyncScalar<T, Temp>(initial: T, isTemporaryValue: (field: T | Temp) => boolean): StateType<T, T | Temp, {
+export function asyncScalar<T, Temp>(initial: T, isTemporaryValue: (field: T | Temp) => boolean): AsyncScalarStateType<T, Temp>;
+
+// @public (undocumented)
+export type AsyncScalarStateType<T, Temp> = StateType<T, T | Temp, {
     value: T | Temp;
     get(): T | Temp;
     set(initial: T | Temp | ((previousValue: T | Temp) => T | Temp), executor?: StateExecutor<T | Temp | ((previousValue: T | Temp) => T | Temp)>): void;
 }>;
 
 // @public (undocumented)
-export function boolean(initialValue?: boolean): StateType<boolean, boolean, {
-    value: boolean;
-    get(): boolean;
-    set(value: boolean | ((currentValue: boolean) => boolean)): void;
-}>;
+export function boolean(initialValue?: boolean): BooleanStateType;
+
+// @public (undocumented)
+export type BooleanStateType = ScalarStateType<boolean>;
 
 // @public (undocumented)
 export function child<K extends string, S = unknown>({ plugin, initialState, config }?: {
     plugin?: K;
     initialState?: S;
     config?: {};
-}): StateType<{
+}): ChildStateType<K, S>;
+
+// @public (undocumented)
+export type ChildStateType<K extends string = string, S = unknown> = StateType<{
     plugin: K;
     state?: S;
 }, string, {
@@ -42,13 +43,25 @@ export function child<K extends string, S = unknown>({ plugin, initialState, con
 }>;
 
 // @public (undocumented)
+export type EditorPlugin<S extends StateType = StateType, Config extends {} = {}> = InternalPlugin.EditorPlugin<S, Config>;
+
+// @public (undocumented)
+export type EditorPluginProps<S extends StateType = StateType, Config extends {} = {}> = InternalPlugin.EditorPluginProps<S, Config>;
+
+// @public (undocumented)
 export type FileState<T> = T | TempFile;
+
+// @public (undocumented)
+export type FocusableChild = InternalPluginState.FocusableChild;
 
 // @public (undocumented)
 export function isTempFile<T>(state: FileState<T>): state is TempFile;
 
 // @public (undocumented)
-export function list<S, T = S, U = unknown>(type: StateType<S, T, U>, initialCount?: number): StateType<S[], {
+export function list<S, T = S, U = unknown>(type: StateType<S, T, U>, initialCount?: number): ListStateType<S, T, U>;
+
+// @public (undocumented)
+export type ListStateType<S, T = S, U = unknown> = StateType<S[], {
     id: string;
     value: T;
 }[], U[] & {
@@ -76,11 +89,10 @@ export interface MigratableStateType<InitialS, AllS, S, T, R> extends StateType<
 }
 
 // @public (undocumented)
-export function number(initialValue?: number): StateType<number, number, {
-    value: number;
-    get(): number;
-    set(value: number | ((currentValue: number) => number)): void;
-}>;
+export function number(initialValue?: number): NumberStateType;
+
+// @public (undocumented)
+export type NumberStateType = ScalarStateType<number>;
 
 // @public (undocumented)
 export function object<Ds extends Record<string, StateType>>(types: Ds, getFocusableChildren?: (children: {
@@ -89,7 +101,10 @@ export function object<Ds extends Record<string, StateType>>(types: Ds, getFocus
     }[];
 }) => {
     id: string;
-}[]): StateType<StateTypesSerializedType<Ds>, StateTypesValueType<Ds>, StateTypesReturnType<Ds>>;
+}[]): ObjectStateType<Ds>;
+
+// @public (undocumented)
+export type ObjectStateType<Ds extends Record<string, StateType>> = StateType<StateTypesSerializedType<Ds>, StateTypesValueType<Ds>, StateTypesReturnType<Ds>>;
 
 // @public (undocumented)
 export type Optional<T> = {
@@ -101,7 +116,10 @@ export type Optional<T> = {
 };
 
 // @public (undocumented)
-export function optional<S, T, R>(type: StateType<S, T, R>, initiallyDefined?: boolean): StateType<S | undefined, Optional<T>, {
+export function optional<S, T, R>(type: StateType<S, T, R>, initiallyDefined?: boolean): OptionalStateType<S, T, R>;
+
+// @public (undocumented)
+export type OptionalStateType<S, T, R> = StateType<S | undefined, Optional<T>, {
     defined: false;
     create(value?: S): void;
 } | (R & {
@@ -110,14 +128,19 @@ export function optional<S, T, R>(type: StateType<S, T, R>, initiallyDefined?: b
 })>;
 
 // @public (undocumented)
-export function scalar<S>(initialState: S): StateType<S, S, {
-    value: S;
-    get(): S;
-    set(value: S | ((currentValue: S) => S)): void;
-}>;
+export type PluginProps = InternalPluginState.PluginProps;
 
 // @public (undocumented)
-export function serializedScalar<S, T>(initialState: T, serializer: Serializer<S, T>): StateType<S, T, {
+export function scalar<S>(initialState: S): ScalarStateType<S>;
+
+// @public (undocumented)
+export type ScalarStateType<S> = SerializedScalarStateType<S, S>;
+
+// @public (undocumented)
+export function serializedScalar<S, T>(initialState: T, serializer: Serializer<S, T>): SerializedScalarStateType<S, T>;
+
+// @public (undocumented)
+export type SerializedScalarStateType<S, T> = StateType<S, T, {
     value: T;
     get(): T;
     set(value: T | ((currentValue: T) => T)): void;
@@ -132,11 +155,45 @@ export interface Serializer<S, T> {
 }
 
 // @public (undocumented)
-export function string(initialValue?: string): StateType<string, string, {
-    value: string;
-    get(): string;
-    set(value: string | ((currentValue: string) => string)): void;
-}>;
+export type StateExecutor<T> = InternalPluginState.StateExecutor<T>;
+
+// @public (undocumented)
+export type StateType<S = any, T = S, R = unknown> = InternalPluginState.StateType<S, T, R>;
+
+// @public (undocumented)
+export type StateTypeReturnType<D extends StateType> = InternalPluginState.StateTypeReturnType<D>;
+
+// @public (undocumented)
+export type StateTypeSerializedType<D extends StateType> = InternalPluginState.StateTypeSerializedType<D>;
+
+// @public (undocumented)
+export type StateTypesReturnType<Ds extends Record<string, StateType>> = InternalPluginState.StateTypesReturnType<Ds>;
+
+// Warning: (ae-missing-release-tag) "StateTypesSerializedType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type StateTypesSerializedType<Ds extends Record<string, StateType>> = InternalPluginState.StateTypesSerializedType<Ds>;
+
+// @public (undocumented)
+export type StateTypesValueType<Ds extends Record<string, StateType>> = InternalPluginState.StateTypesValueType<Ds>;
+
+// @public (undocumented)
+export type StateTypeValueType<D extends StateType> = InternalPluginState.StateTypeValueType<D>;
+
+// @public (undocumented)
+export type StateUpdater<T> = InternalPluginState.StateUpdater<T>;
+
+// @public (undocumented)
+export type StoreDeserializeHelpers<K extends string = string, S = unknown> = InternalPluginState.StoreDeserializeHelpers<K, S>;
+
+// @public (undocumented)
+export type StoreSerializeHelpers<K extends string = string, S = unknown> = InternalPluginState.StoreSerializeHelpers<K, S>;
+
+// @public (undocumented)
+export function string(initialValue?: string): StringStateType;
+
+// @public (undocumented)
+export type StringStateType = ScalarStateType<string>;
 
 // @public (undocumented)
 export interface TempFile {
@@ -151,7 +208,7 @@ export interface TempFile {
 }
 
 // @public (undocumented)
-export function upload<T>(defaultState: T): StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>>;
+export function upload<T>(defaultState: T): UploadStateType<T>;
 
 // @public (undocumented)
 export type UploadHandler<T> = (file: File) => Promise<T>;
@@ -169,6 +226,9 @@ export interface UploadStateReturnType<T> {
     // (undocumented)
     value: FileState<T>;
 }
+
+// @public (undocumented)
+export type UploadStateType<T> = StateType<FileState<T>, FileState<T>, UploadStateReturnType<T>>;
 
 // @public (undocumented)
 export type UploadValidator<E = unknown> = (file: File) => {
@@ -192,9 +252,6 @@ export interface Versionized<S> {
     value: S;
 }
 
-
-export * from "@edtr-io/internal__plugin";
-export * from "@edtr-io/internal__plugin-state";
 
 // (No @packageDocumentation comment for this package)
 

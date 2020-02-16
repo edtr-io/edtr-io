@@ -26,7 +26,7 @@ export type TableProps = EditorPluginProps<TableState, TableConfig>;
 export type TableState = typeof tableState;
 
 // @public (undocumented)
-export const tableState: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+export const tableState: import("@edtr-io/plugin").StateType<string, string, {
     value: string;
     get(): string;
     set(value: string | ((currentValue: string) => string)): void;

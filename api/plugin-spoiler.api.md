@@ -27,13 +27,13 @@ export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>;
 export type SpoilerState = typeof spoilerState;
 
 // @public (undocumented)
-export const spoilerState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    title: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+export const spoilerState: import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
+    title: import("@edtr-io/plugin").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    content: import("@edtr-io/internal__plugin-state").StateType<{
+    content: import("@edtr-io/plugin").StateType<{
         plugin: "rows";
         state?: unknown;
     }, string, {
@@ -43,12 +43,12 @@ export const spoilerState: import("@edtr-io/internal__plugin-state").StateType<i
         replace: (plugin?: "rows" | undefined, state?: unknown) => void;
     }>;
 }>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    title: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+    title: import("@edtr-io/plugin").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    content: import("@edtr-io/internal__plugin-state").StateType<{
+    content: import("@edtr-io/plugin").StateType<{
         plugin: "rows";
         state?: unknown;
     }, string, {
@@ -58,12 +58,12 @@ export const spoilerState: import("@edtr-io/internal__plugin-state").StateType<i
         replace: (plugin?: "rows" | undefined, state?: unknown) => void;
     }>;
 }>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    title: import("@edtr-io/internal__plugin-state").StateType<string, string, {
+    title: import("@edtr-io/plugin").StateType<string, string, {
         value: string;
         get(): string;
         set(value: string | ((currentValue: string) => string)): void;
     }>;
-    content: import("@edtr-io/internal__plugin-state").StateType<{
+    content: import("@edtr-io/plugin").StateType<{
         plugin: "rows";
         state?: unknown;
     }, string, {

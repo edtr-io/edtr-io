@@ -1,11 +1,12 @@
+import * as R from 'ramda'
+import { generate } from 'shortid'
+
 import {
   StoreDeserializeHelpers,
   StateType,
   StateUpdater,
   StateExecutor
-} from '@edtr-io/internal__plugin-state'
-import * as R from 'ramda'
-import { generate } from 'shortid'
+} from './internal-plugin-state'
 
 /**
  * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} of the list items
@@ -15,21 +16,7 @@ import { generate } from 'shortid'
 export function list<S, T = S, U = unknown>(
   type: StateType<S, T, U>,
   initialCount = 0
-): StateType<
-  S[],
-  {
-    id: string
-    value: T
-  }[],
-  U[] & {
-    set(
-      updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
-    ): void
-    insert(index?: number, options?: S): void
-    remove(index: number): void
-    move(from: number, to: number): void
-  }
-> {
+): ListStateType<S, T, U> {
   interface WrappedValue {
     id: string
     value: T
@@ -142,3 +129,20 @@ export function list<S, T = S, U = unknown>(
     }
   }
 }
+
+/** @public */
+export type ListStateType<S, T = S, U = unknown> = StateType<
+  S[],
+  {
+    id: string
+    value: T
+  }[],
+  U[] & {
+    set(
+      updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+    ): void
+    insert(index?: number, options?: S): void
+    remove(index: number): void
+    move(from: number, to: number): void
+  }
+>
