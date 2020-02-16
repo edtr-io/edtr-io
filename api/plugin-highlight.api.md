@@ -4,9 +4,12 @@
 
 ```ts
 
+import { BooleanStateType } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
 import * as React from 'react';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<HighlightState, HighlightConfig>;
@@ -31,58 +34,11 @@ export interface HighlightRendererProps {
 }
 
 // @public (undocumented)
-export type HighlightState = typeof highlightState;
-
-// @public (undocumented)
-export const highlightState: import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    code: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    language: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    showLineNumbers: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    code: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    language: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    showLineNumbers: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    code: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    language: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    showLineNumbers: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-}>>;
+export type HighlightState = ObjectStateType<{
+    code: StringStateType;
+    language: StringStateType;
+    showLineNumbers: BooleanStateType;
+}>;
 
 
 // (No @packageDocumentation comment for this package)
