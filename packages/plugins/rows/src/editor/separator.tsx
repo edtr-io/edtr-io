@@ -1,4 +1,4 @@
-import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrPlus } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsConfig } from '..'
@@ -69,7 +69,7 @@ export function Add(props: {
       title="Füge ein Element hinzu"
       onMouseDown={props.onClick}
     >
-      <Icon icon={edtrRowsControls.plus} />
+      <Icon icon={edtrPlus} />
     </AddTrigger>
   )
 }

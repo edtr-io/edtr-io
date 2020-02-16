@@ -1,4 +1,14 @@
-import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import {
+  edtrBold,
+  edtrFormula,
+  EdtrIcon,
+  edtrItalic,
+  edtrLink,
+  edtrListBullets,
+  edtrListNumbered,
+  edtrQuote,
+  edtrText
+} from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
@@ -35,7 +45,7 @@ export function DefaultControls(props: SubControlProps) {
         }}
         title="Fett (Strg + B)"
       >
-        <EdtrIcon icon={edtrTextControls.bold} />
+        <EdtrIcon icon={edtrBold} />
       </Button>
       <Button
         config={config}
@@ -46,7 +56,7 @@ export function DefaultControls(props: SubControlProps) {
         }}
         title="Kursiv (Strg + I)"
       >
-        <EdtrIcon icon={edtrTextControls.italic} />
+        <EdtrIcon icon={edtrItalic} />
       </Button>
       <Button
         config={config}
@@ -57,7 +67,7 @@ export function DefaultControls(props: SubControlProps) {
         }}
         title="Link (Strg + K)"
       >
-        <EdtrIcon icon={edtrTextControls.link} />
+        <EdtrIcon icon={edtrLink} />
       </Button>
       <Button
         config={config}
@@ -67,7 +77,7 @@ export function DefaultControls(props: SubControlProps) {
         }}
         title="Überschriften"
       >
-        <EdtrIcon icon={edtrTextControls.text} />
+        <EdtrIcon icon={edtrText} />
       </Button>
       <Button
         config={config}
@@ -92,9 +102,7 @@ export function DefaultControls(props: SubControlProps) {
       >
         <EdtrIcon
           icon={
-            isList(orderedListNode)(editor)
-              ? edtrTextControls.listNumbered
-              : edtrTextControls.listBullets
+            isList(orderedListNode)(editor) ? edtrListNumbered : edtrListBullets
           }
         />
       </Button>
@@ -113,7 +121,7 @@ export function DefaultControls(props: SubControlProps) {
           }}
           title="Zitat"
         >
-          <EdtrIcon icon={edtrTextControls.quote} />
+          <EdtrIcon icon={edtrQuote} />
         </Button>
       ) : null}
       <Button
@@ -125,7 +133,7 @@ export function DefaultControls(props: SubControlProps) {
         }}
         title="Matheformel (Strg + M)"
       >
-        <EdtrIcon icon={edtrTextControls.formel} />
+        <EdtrIcon icon={edtrFormula} />
       </Button>
     </React.Fragment>
   )

@@ -1,4 +1,4 @@
-import { styled, EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrColorText, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
@@ -54,7 +54,7 @@ export function ColorControls(props: SubControlProps) {
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >
-        <EdtrIcon icon={edtrTextControls.close} />
+        <EdtrIcon icon={edtrClose} />
       </Button>
     </React.Fragment>
   )
@@ -103,7 +103,7 @@ export function ColoredTextIcon(props: { index?: number; config: TextConfig }) {
   return (
     <ColoredText>
       <FlexContainer>
-        <EdtrIcon icon={edtrTextControls.colorText} />
+        <EdtrIcon icon={edtrColorText} />
         <Line config={props.config} index={props.index} />
       </FlexContainer>
     </ColoredText>

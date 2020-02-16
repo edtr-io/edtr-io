@@ -1,4 +1,4 @@
-import { EdtrIcon, edtrRowsControls, styled } from '@edtr-io/ui'
+import { edtrClose, EdtrIcon, edtrSearch, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsConfig } from '../..'
@@ -98,9 +98,9 @@ export const Search = ({
           visible={search.length > 0}
           onClick={() => setSearch('')}
         >
-          <EdtrIcon icon={edtrRowsControls.close} />
+          <EdtrIcon icon={edtrClose} />
         </ClearSearchContainer>
-        <SearchIcon config={config} icon={edtrRowsControls.search} />
+        <SearchIcon config={config} icon={edtrSearch} />
       </InputWrapper>
     </StyledSearch>
   )

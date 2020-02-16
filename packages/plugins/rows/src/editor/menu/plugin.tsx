@@ -1,4 +1,4 @@
-import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrDefaultPlugin } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsConfig } from '../..'
@@ -69,7 +69,7 @@ export const Plugin = ({
         {plugin.icon ? (
           <plugin.icon />
         ) : (
-          <DefaultIcon icon={edtrRowsControls.defaultPlugin} />
+          <DefaultIcon icon={edtrDefaultPlugin} />
         )}
       </IconWrapper>
       <Title>{plugin.title || pluginName}</Title>

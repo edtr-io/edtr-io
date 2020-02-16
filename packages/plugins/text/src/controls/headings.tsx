@@ -1,4 +1,4 @@
-import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import { edtrClose, EdtrIcon } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -38,7 +38,7 @@ export const HeadingControls: React.FunctionComponent<SubControlProps> = props =
         onClick={() => props.switchControls(VisibleControls.All)}
         title="Untermenü schließen"
       >
-        <EdtrIcon icon={edtrTextControls.close} />
+        <EdtrIcon icon={edtrClose} />
       </Button>
     </React.Fragment>
   )

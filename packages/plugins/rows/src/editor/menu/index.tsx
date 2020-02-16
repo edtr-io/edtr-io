@@ -1,4 +1,4 @@
-import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsConfig } from '../..'
@@ -95,7 +95,7 @@ export function Menu({ menu, setMenu, config }: MenuProps) {
       <Search config={config} search={search} setSearch={setSearch} />
       <PluginList>{mappedPlugins}</PluginList>
       <CloseButtonContainer onClick={() => setMenu(undefined)}>
-        <EdtrIcon icon={edtrRowsControls.close} />
+        <EdtrIcon icon={edtrClose} />
       </CloseButtonContainer>
     </Wrapper>
   )

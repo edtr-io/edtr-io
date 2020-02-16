@@ -845,7 +845,9 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**store**. Mark `state` as required in `DocumentState`',
         '**store**. Mark `getClipboard` and `copy` as beta API',
         '**store**. Mark actions intended for internal use only as internal API',
-        '**store**. Hide some internal types (e.g. the structure of `HistoryState`)'
+        '**store**. Hide some internal types (e.g. the structure of `HistoryState`)',
+        '**ui**. Rename `edtrFormel` to `edtrFormula`',
+        '**ui**. Remove the deprecated `edtrRowsControls` and `edtrTextControls`'
       ]
     }
   ])
