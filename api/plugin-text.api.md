@@ -18,6 +18,7 @@ import { RenderBlockProps } from 'slate-react';
 import { RenderInlineProps } from 'slate-react';
 import { RenderMarkProps } from 'slate-react';
 import { Rule } from 'slate-html-serializer';
+import { SerializedScalarStateType } from '@edtr-io/plugin';
 import { Serializer } from '@edtr-io/plugin';
 import { useScopedStore } from '@edtr-io/core';
 import { Value } from 'slate';
@@ -395,14 +396,7 @@ export type TextPlugin = Plugin & Rule & {
 export type TextProps = EditorPluginProps<TextState, TextConfig>;
 
 // @public (undocumented)
-export type TextState = typeof textState;
-
-// @public (undocumented)
-export const textState: import("@edtr-io/plugin").StateType<import("./state-migration-serializer").NewNode[], import("slate").ValueJSON, {
-    value: import("slate").ValueJSON;
-    get(): import("slate").ValueJSON;
-    set(value: import("slate").ValueJSON | ((currentValue: import("slate").ValueJSON) => import("slate").ValueJSON)): void;
-}>;
+export type TextState = SerializedScalarStateType<NewNode[], ValueJSON>;
 
 
 // (No @packageDocumentation comment for this package)
