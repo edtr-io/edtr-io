@@ -5,16 +5,41 @@ import {
   object,
   string,
   EditorPluginProps,
-  EditorPlugin
+  EditorPlugin,
+  ObjectStateType,
+  StringStateType,
+  ListStateType,
+  BooleanStateType,
+  ChildStateType
 } from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
 
-/**
- * @param feedback - Configuration for the feedback child
- * @public
- */
-export function createInputExerciseState(feedback: Parameters<typeof child>) {
+/** @public */
+export type InputExerciseState = ObjectStateType<{
+  type: StringStateType
+  unit: StringStateType
+  answers: ListStateType<
+    ObjectStateType<{
+      value: StringStateType
+      isCorrect: BooleanStateType
+      feedback: ChildStateType
+    }>
+  >
+}>
+/** @public */
+export interface InputExerciseConfig {
+  theme: { borderColor: string; borderStyle: string }
+}
+/** @public */
+export type InputExerciseProps = EditorPluginProps<
+  InputExerciseState,
+  InputExerciseConfig
+>
+
+function createInputExerciseState(
+  feedback: Parameters<typeof child>
+): InputExerciseState {
   const answerObject = object({
     value: string(''),
     isCorrect: boolean(),
@@ -27,17 +52,6 @@ export function createInputExerciseState(feedback: Parameters<typeof child>) {
     answers: list(answerObject)
   })
 }
-/** @public */
-export type InputExerciseState = ReturnType<typeof createInputExerciseState>
-/** @public */
-export interface InputExerciseConfig {
-  theme: { borderColor: string; borderStyle: string }
-}
-/** @public */
-export type InputExerciseProps = EditorPluginProps<
-  InputExerciseState,
-  InputExerciseConfig
->
 
 /** @public */
 export function createInputExercisePlugin({
