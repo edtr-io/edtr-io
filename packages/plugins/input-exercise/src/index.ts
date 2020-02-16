@@ -10,7 +10,8 @@ import {
   StringStateType,
   ListStateType,
   BooleanStateType,
-  ChildStateType
+  ChildStateType,
+  ChildStateTypeConfig
 } from '@edtr-io/plugin'
 
 import { InputExerciseEditor } from './editor'
@@ -33,7 +34,7 @@ export interface InputExerciseConfig {
 }
 /** @public */
 export interface InputExerciseStaticConfig {
-  feedback?: Parameters<typeof child>[0]
+  feedback?: ChildStateTypeConfig
 }
 
 /** @public */

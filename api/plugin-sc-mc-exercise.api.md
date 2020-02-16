@@ -5,13 +5,15 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
-import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
+// Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
+//
 // @public (undocumented)
 export function createScMcExercisePlugin(config?: ScMcExerciseStaticConfig): EditorPlugin<ScMcExerciseState>;
 
@@ -31,9 +33,9 @@ export type ScMcExerciseState = ObjectStateType<{
 // @public (undocumented)
 export interface ScMcExerciseStaticConfig {
     // (undocumented)
-    content?: Parameters<typeof child>[0];
+    content?: ChildStateTypeConfig;
     // (undocumented)
-    feedback?: Parameters<typeof child>[0];
+    feedback?: ChildStateTypeConfig;
 }
 
 

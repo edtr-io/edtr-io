@@ -5,8 +5,8 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
-import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
@@ -44,7 +44,7 @@ export type InputExerciseState = ObjectStateType<{
 // @public (undocumented)
 export interface InputExerciseStaticConfig {
     // (undocumented)
-    feedback?: Parameters<typeof child>[0];
+    feedback?: ChildStateTypeConfig;
 }
 
 

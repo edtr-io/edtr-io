@@ -4,8 +4,8 @@
 
 ```ts
 
-import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
@@ -36,7 +36,7 @@ export type SpoilerState = ObjectStateType<{
 // @public (undocumented)
 export interface SpoilerStaticConfig {
     // (undocumented)
-    content?: Parameters<typeof child>[0];
+    content?: ChildStateTypeConfig;
 }
 
 

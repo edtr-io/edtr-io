@@ -8,7 +8,8 @@ import {
   ObjectStateType,
   BooleanStateType,
   ListStateType,
-  ChildStateType
+  ChildStateType,
+  ChildStateTypeConfig
 } from '@edtr-io/plugin'
 
 import { ScMcExerciseEditor } from './editor'
@@ -26,8 +27,8 @@ export type ScMcExerciseState = ObjectStateType<{
 }>
 /** @public */
 export interface ScMcExerciseStaticConfig {
-  content?: Parameters<typeof child>[0]
-  feedback?: Parameters<typeof child>[0]
+  content?: ChildStateTypeConfig
+  feedback?: ChildStateTypeConfig
 }
 /** @public */
 export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>

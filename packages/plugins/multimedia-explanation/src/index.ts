@@ -3,6 +3,7 @@ import {
   BooleanStateType,
   child,
   ChildStateType,
+  ChildStateTypeConfig,
   EditorPlugin,
   EditorPluginProps,
   number,
@@ -29,7 +30,7 @@ export interface MultimediaExplanationConfig {
 }
 /** @public */
 export interface MultimediaExplanationStaticConfig {
-  explanation?: Parameters<typeof child>[0]
+  explanation?: ChildStateTypeConfig
 }
 /** @public */
 export type MultimediaExplanationProps = EditorPluginProps<

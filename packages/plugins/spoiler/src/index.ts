@@ -6,7 +6,8 @@ import {
   EditorPlugin,
   ObjectStateType,
   StringStateType,
-  ChildStateType
+  ChildStateType,
+  ChildStateTypeConfig
 } from '@edtr-io/plugin'
 
 import { SpoilerEditor } from './editor'
@@ -18,7 +19,7 @@ export type SpoilerState = ObjectStateType<{
 }>
 /** @public */
 export interface SpoilerStaticConfig {
-  content?: Parameters<typeof child>[0]
+  content?: ChildStateTypeConfig
 }
 /** @public */
 export interface SpoilerConfig {

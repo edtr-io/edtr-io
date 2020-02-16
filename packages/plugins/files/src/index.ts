@@ -13,9 +13,10 @@ import { FilesConfig, FileType, UploadedFile } from './types'
 
 /** @public */
 export type FilesState = ListStateType<UploadStateType<UploadedFile>>
+export { UploadedFile }
 /** @public */
 export type FilesProps = EditorPluginProps<FilesState, FilesConfig>
-
+export { FilesConfig }
 const filesState: FilesState = list(
   upload({
     src: '',
@@ -39,5 +40,5 @@ export function createFilesPlugin(
   }
 }
 
-export * from './types'
+export { FileType } from './types'
 export { parseFileType } from './upload'

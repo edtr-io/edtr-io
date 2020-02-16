@@ -14,24 +14,6 @@ import { UploadStateType } from '@edtr-io/plugin';
 export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesState, FilesConfig>;
 
 // @public (undocumented)
-export interface FileError {
-    // (undocumented)
-    errorCode: FileErrorCode;
-    // (undocumented)
-    message: string;
-}
-
-// @public (undocumented)
-export enum FileErrorCode {
-    // (undocumented)
-    FILE_TOO_BIG = 1,
-    // (undocumented)
-    NO_FILE_SELECTED = 0,
-    // (undocumented)
-    UPLOAD_FAILED = 2
-}
-
-// @public (undocumented)
 export interface FilesConfig {
     // (undocumented)
     upload: UploadHandler<UploadedFile>;
@@ -66,20 +48,6 @@ export enum FileType {
 }
 
 // @public (undocumented)
-export interface FileUploadConfig<T> {
-    // (undocumented)
-    getAdditionalFields?: Function;
-    // (undocumented)
-    getStateFromResponse: (response: T) => UploadedFile;
-    // (undocumented)
-    maxFileSize: number;
-    // (undocumented)
-    paramName?: string;
-    // (undocumented)
-    url: string;
-}
-
-// @public (undocumented)
 export function parseFileType(name: string): FileType;
 
 // @public (undocumented)
@@ -90,12 +58,6 @@ export interface UploadedFile {
     src: string;
     // (undocumented)
     type: FileType;
-}
-
-// @public (undocumented)
-export interface UploadProps {
-    // (undocumented)
-    onFiles: (files: File[]) => void;
 }
 
 

@@ -10,7 +10,6 @@ import {
 import { VideoEditor } from './editor'
 
 /** @public */
-/** @public */
 export type VideoState = ObjectStateType<{
   src: StringStateType
   alt: StringStateType

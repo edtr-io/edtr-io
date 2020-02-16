@@ -5,8 +5,8 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
-import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { NumberStateType } from '@edtr-io/plugin';
@@ -38,7 +38,7 @@ export type MultimediaExplanationState = ObjectStateType<{
 // @public (undocumented)
 export interface MultimediaExplanationStaticConfig {
     // (undocumented)
-    explanation?: Parameters<typeof child>[0];
+    explanation?: ChildStateTypeConfig;
 }
 
 

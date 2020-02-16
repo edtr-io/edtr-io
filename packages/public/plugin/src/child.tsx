@@ -14,11 +14,7 @@ export function child<K extends string, S = unknown>({
   plugin,
   initialState,
   config
-}: {
-  plugin?: K
-  initialState?: S
-  config?: {}
-} = {}): ChildStateType<K, S> {
+}: ChildStateTypeConfig = {}): ChildStateType<K, S> {
   return {
     init(id, onChange) {
       return {
@@ -75,3 +71,10 @@ export type ChildStateType<K extends string = string, S = unknown> = StateType<
     replace: (plugin?: K, state?: S) => void
   }
 >
+
+/** @public */
+export interface ChildStateTypeConfig<K extends string = string, S = unknown> {
+  plugin?: K
+  initialState?: S
+  config?: {}
+}

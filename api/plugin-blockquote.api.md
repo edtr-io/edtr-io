@@ -4,8 +4,8 @@
 
 ```ts
 
-import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 
@@ -18,7 +18,7 @@ export type BlockquoteState = ChildStateType;
 // @public (undocumented)
 export interface BlockquoteStaticConfig {
     // (undocumented)
-    content?: Parameters<typeof child>[0];
+    content?: ChildStateTypeConfig;
 }
 
 // @public (undocumented)

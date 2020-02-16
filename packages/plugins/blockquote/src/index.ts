@@ -1,6 +1,7 @@
 import {
   child,
   ChildStateType,
+  ChildStateTypeConfig,
   EditorPlugin,
   EditorPluginProps
 } from '@edtr-io/plugin'
@@ -9,11 +10,11 @@ import { BlockquoteRenderer } from './renderer'
 
 /** @public */
 export interface BlockquoteStaticConfig {
-  content?: Parameters<typeof child>[0]
+  content?: ChildStateTypeConfig
 }
 
 /**
- * @param config
+ * @param config - Config
  * @public
  */
 export function createBlockquotePlugin(
