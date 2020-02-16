@@ -6,6 +6,7 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export function createSerloInjectionPlugin(): EditorPlugin<SerloInjectionState>;
@@ -14,14 +15,7 @@ export function createSerloInjectionPlugin(): EditorPlugin<SerloInjectionState>;
 export type SerloInjectionProps = EditorPluginProps<SerloInjectionState>;
 
 // @public (undocumented)
-export type SerloInjectionState = typeof serloInjectionState;
-
-// @public (undocumented)
-export const serloInjectionState: import("@edtr-io/plugin").StateType<string, string, {
-    value: string;
-    get(): string;
-    set(value: string | ((currentValue: string) => string)): void;
-}>;
+export type SerloInjectionState = StringStateType;
 
 
 // (No @packageDocumentation comment for this package)

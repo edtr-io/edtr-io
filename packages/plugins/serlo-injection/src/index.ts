@@ -1,13 +1,18 @@
-import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  string,
+  StringStateType
+} from '@edtr-io/plugin'
 
 import { SerloInjectionEditor } from './editor'
 
 /** @public */
-export const serloInjectionState = string()
-/** @public */
-export type SerloInjectionState = typeof serloInjectionState
+export type SerloInjectionState = StringStateType
 /** @public */
 export type SerloInjectionProps = EditorPluginProps<SerloInjectionState>
+
+const serloInjectionState: SerloInjectionState = string()
 
 /** @public */
 export function createSerloInjectionPlugin(): EditorPlugin<
