@@ -1,13 +1,18 @@
-import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  string,
+  StringStateType
+} from '@edtr-io/plugin'
 
 import { GeogebraEditor } from './editor'
 
 /** @public */
-export const geogebraState = string()
-/** @public */
-export type GeogebraState = typeof geogebraState
+export type GeogebraState = StringStateType
 /** @public */
 export type GeogebraProps = EditorPluginProps<GeogebraState>
+
+const geogebraState: GeogebraState = string()
 
 /** @public */
 export function createGeogebraPlugin(): EditorPlugin<GeogebraState> {
