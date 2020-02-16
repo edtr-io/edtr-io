@@ -5,6 +5,7 @@
 ```ts
 
 import { child } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 
@@ -12,7 +13,7 @@ import { EditorPluginProps } from '@edtr-io/plugin';
 export type BlockquoteProps = EditorPluginProps<BlockquoteState>;
 
 // @public (undocumented)
-export type BlockquoteState = ReturnType<typeof child>;
+export type BlockquoteState = ChildStateType;
 
 // @public (undocumented)
 export function createBlockquotePlugin({ content }?: {
