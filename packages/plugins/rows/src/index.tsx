@@ -1,15 +1,19 @@
-import { child, EditorPlugin, EditorPluginProps, list } from '@edtr-io/plugin'
+import {
+  child,
+  ChildStateType,
+  EditorPlugin,
+  EditorPluginProps,
+  list,
+  ListStateType
+} from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { RowsEditor } from './editor'
 
-const rowState = child()
 /** @public */
-export const rowsState = list(rowState, 1)
-/** @public */
-export type RowsState = typeof rowsState
+export type RowsState = ListStateType<ChildStateType>
 /** @public */
 export interface RowsConfig {
   plugins: {
@@ -45,6 +49,9 @@ export interface RowsConfig {
 }
 /** @public */
 export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
+
+const rowState = child()
+const rowsState: RowsState = list(rowState, 1)
 
 /** @public */
 export function createRowsPlugin({

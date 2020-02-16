@@ -4,9 +4,11 @@
 
 ```ts
 
+import { ChildStateType } from '@edtr-io/plugin';
 import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ListStateType } from '@edtr-io/plugin';
 import * as React from 'react';
 
 // @public (undocumented)
@@ -54,32 +56,7 @@ export interface RowsConfig {
 export type RowsProps = EditorPluginProps<RowsState, RowsConfig>;
 
 // @public (undocumented)
-export type RowsState = typeof rowsState;
-
-// @public (undocumented)
-export const rowsState: import("@edtr-io/plugin").StateType<{
-    plugin: string;
-    state?: unknown;
-}[], {
-    id: string;
-    value: string;
-}[], {
-    get(): string;
-    id: string;
-    render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => React.ReactNode;
-    replace: (plugin?: string | undefined, state?: unknown) => void;
-}[] & {
-    set(updater: (currentList: string[], deserialize: (serialized: {
-        plugin: string;
-        state?: unknown;
-    }) => string) => string[]): void;
-    insert(index?: number | undefined, options?: {
-        plugin: string;
-        state?: unknown;
-    } | undefined): void;
-    remove(index: number): void;
-    move(from: number, to: number): void;
-}>;
+export type RowsState = ListStateType<ChildStateType>;
 
 
 // (No @packageDocumentation comment for this package)
