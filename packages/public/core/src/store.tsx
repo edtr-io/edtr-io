@@ -56,8 +56,8 @@ export function Provider(
  * @public
  */
 export function useScope(enforcedScope?: string) {
-  if (enforcedScope === undefined) return React.useContext(ScopeContext).scope
-  return enforcedScope
+  const { scope } = React.useContext(ScopeContext)
+  return enforcedScope === undefined ? scope : enforcedScope
 }
 
 /** @public */

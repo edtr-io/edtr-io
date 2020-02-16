@@ -1,4 +1,4 @@
-import { EditorTextarea } from '@edtr-io/renderer-ui'
+import { EditorTextarea } from '@edtr-io/editor-ui'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 

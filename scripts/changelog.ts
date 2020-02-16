@@ -832,7 +832,8 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     },
     {
       fixed: [
-        '**ui**. The property `editorUi` of `EditorThemeProps` and `useEditorTheme` is now correctly typed as `DeepPartial<EditorUiTheme>`'
+        '**ui**. The property `editorUi` of `EditorThemeProps` and `useEditorTheme` is now correctly typed as `DeepPartial<EditorUiTheme>`',
+        '**ui**. The property `rendererUi` of `RendererThemeProps` and `useRendererTheme` is now correctly typed as `DeepPartial<RendererUiTheme>`'
       ],
       breakingChanges: [
         '**core**. Remove `EditorContext`',
@@ -845,6 +846,8 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**editor-ui**. Rename `PrimarySettings` to `EditorInlineSettings`',
         '**editor-ui**. Remove `create*Theme`, `OnClickOutside`, `Resizable` and `UploadProgress`',
         '**plugin-toolbar**. Mark as beta API',
+        '**renderer-ui**. Move `EditorTextarea` into `@edtr-io/editor-ui`',
+        '**renderer-ui**. Remove `create*Theme`, `FetchDimensions`',
         '**store**. Rename `instances` to `scopes` in `StoreOptions` (and therefore in `createStore`, too)',
         '**store**. Rename `ActionFromActionCreator` to `ActionCreatorAction`',
         '**store**. Rename `ReturnTypeFromSelector` to `SelectorReturnType`',
@@ -853,9 +856,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**store**. Mark actions intended for internal use only as internal API',
         '**store**. Hide some internal types (e.g. the structure of `HistoryState`)',
         '**ui**. `createEditorUiTheme` now accepts the key of the editor UI component directly',
+        '**ui**. `createRendererUiTheme` now accepts the key of the renderer UI component directly',
         '**ui**. Rename `edtrFormel` to `edtrFormula`',
         '**ui**. Remove the deprecated `edtrRowsControls` and `edtrTextControls`',
         "**ui**. Remove `BottomToolbarTheme`, `ButtonTheme`, `CheckboxTheme`, `InputTheme` types. Use `EditorUiTheme['*']` instead",
+        "**ui**. Remove `ExpandableBoxTheme`, `SubmitButtonTheme` types. Use `RendererUiTheme['*']` instead",
         '**ui**. Remove unused `SelectTheme` and `TextareaTheme`'
       ]
     }

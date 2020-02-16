@@ -72,10 +72,10 @@ export function createEditorUiTheme<K extends keyof EditorUiTheme>(key: K, creat
 export function createIcon(i: IconDefinition): React.ComponentType<{}>;
 
 // @public
-export function createRendererUiTheme<T extends object>(createDefaultTheme: RendererUiThemeFactory<T>): (key: "expandableBox" | "submitButton", theme: {
+export function createRendererUiTheme<K extends keyof RendererUiTheme>(key: K, createDefaultTheme: RendererUiThemeFactory<K>): (theme: {
     renderer: RendererTheme;
-    rendererUi: RendererUiTheme;
-}) => T;
+    rendererUi: DeepPartial<RendererUiTheme>;
+}) => RendererUiTheme[K];
 
 // @public (undocumented)
 export type CustomTheme = DeepPartial<Theme>;
@@ -231,16 +231,6 @@ export const edtrSearch = "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16
 // @public (undocumented)
 export const edtrText = "M2.5 5.5C2.5 6.33 3.17 7 4 7h3.5v10.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V7H14c.83 0 1.5-.67 1.5-1.5S14.83 4 14 4H4c-.83 0-1.5.67-1.5 1.5zM20 9h-6c-.83 0-1.5.67-1.5 1.5S13.17 12 14 12h1.5v5.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V12H20c.83 0 1.5-.67 1.5-1.5S20.83 9 20 9z";
 
-// @public (undocumented)
-export interface ExpandableBoxTheme {
-    // (undocumented)
-    containerBorderColor: string;
-    // (undocumented)
-    toggleBackgroundColor: string;
-    // (undocumented)
-    toggleColor: string;
-}
-
 export { faAnchor }
 
 export { faCaretSquareDown }
@@ -387,38 +377,34 @@ export interface RendererTheme {
 // @public (undocumented)
 export type RendererThemeProps = ThemeProps_2<{
     renderer: RendererTheme;
-    rendererUi: RendererUiTheme;
+    rendererUi: DeepPartial<RendererUiTheme>;
 }>;
 
 // @public (undocumented)
 export interface RendererUiTheme {
     // (undocumented)
-    expandableBox: ExpandableBoxTheme;
+    expandableBox: {
+        containerBorderColor: string;
+        toggleBackgroundColor: string;
+        toggleColor: string;
+    };
     // (undocumented)
-    submitButton: SubmitButtonTheme;
+    submitButton: {
+        backgroundColor: string;
+        hoverBackgroundColor: string;
+        color: string;
+        correctBackgroundColor: string;
+        wrongBackgroundColor: string;
+    };
 }
 
 // @public (undocumented)
-export type RendererUiThemeFactory<T> = (theme: RendererTheme) => T;
+export type RendererUiThemeFactory<K extends keyof RendererUiTheme> = (theme: RendererTheme) => RendererUiTheme[K];
 
 // @public
 export function RootThemeProvider(props: ThemeProviderProps<CustomTheme>): JSX.Element;
 
 export { styled }
-
-// @public (undocumented)
-export interface SubmitButtonTheme {
-    // (undocumented)
-    backgroundColor: string;
-    // (undocumented)
-    color: string;
-    // (undocumented)
-    correctBackgroundColor: string;
-    // (undocumented)
-    hoverBackgroundColor: string;
-    // (undocumented)
-    wrongBackgroundColor: string;
-}
 
 // @public (undocumented)
 export interface Theme {
@@ -456,11 +442,11 @@ export function useEditorUiTheme<K extends keyof EditorUiTheme>(key: K, createDe
 // @public
 export function useRendererTheme(): {
     renderer: RendererTheme;
-    rendererUi: RendererUiTheme;
+    rendererUi: DeepPartial<RendererUiTheme>;
 };
 
 // @public
-export function useRendererUiTheme<T extends object>(key: keyof RendererUiTheme, createDefaultTheme: RendererUiThemeFactory<T>): T;
+export function useRendererUiTheme<K extends keyof RendererUiTheme>(key: K, createDefaultTheme: RendererUiThemeFactory<K>): RendererUiTheme[K];
 
 // @public
 export function useTheme(): Theme;

@@ -1,10 +1,11 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
 import { ScMcExerciseProps, ScMcExerciseState } from '.'
 import { calculateLayoutOptions } from './helpers'
+import { FetchDimensions } from './fetch-dimensions'
 
 enum Phase {
   noJS = 0,

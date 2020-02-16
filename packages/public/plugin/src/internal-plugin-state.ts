@@ -22,10 +22,10 @@ export type StateTypesReturnType<
   Ds extends Record<string, StateType>
 > = InternalPluginState.StateTypesReturnType<Ds>
 /** @public */
-/** @public */
 export type StateTypeSerializedType<
   D extends StateType
 > = InternalPluginState.StateTypeSerializedType<D>
+/** @public */
 export type StateTypesSerializedType<
   Ds extends Record<string, StateType>
 > = InternalPluginState.StateTypesSerializedType<Ds>

@@ -1,5 +1,5 @@
 import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
-import { EditorTextarea } from '@edtr-io/renderer-ui'
+import { EditorTextarea } from '@edtr-io/editor-ui'
 import { faQuestionCircle, Icon, styled } from '@edtr-io/ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'

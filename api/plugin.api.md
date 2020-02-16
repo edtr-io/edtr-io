@@ -169,8 +169,6 @@ export type StateTypeSerializedType<D extends StateType> = InternalPluginState.S
 // @public (undocumented)
 export type StateTypesReturnType<Ds extends Record<string, StateType>> = InternalPluginState.StateTypesReturnType<Ds>;
 
-// Warning: (ae-missing-release-tag) "StateTypesSerializedType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
 // @public (undocumented)
 export type StateTypesSerializedType<Ds extends Record<string, StateType>> = InternalPluginState.StateTypesSerializedType<Ds>;
 
