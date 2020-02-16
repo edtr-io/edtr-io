@@ -11,6 +11,7 @@ import {
 
 export const name = 'multimediaExplanation'
 export const plugin = createMultimediaExplanationPlugin({
+  explanation: 'rows',
   plugins: [
     {
       name: image.name,

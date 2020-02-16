@@ -4,191 +4,20 @@
 
 ```ts
 
+import { BooleanStateType } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { NumberStateType } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export const createMultimediaExplanationPlugin: (config: MultimediaExplanationConfig) => EditorPlugin<import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>>, MultimediaExplanationConfig>;
-
-// @public (undocumented)
-export const createMultimediaExplanationState: (config: MultimediaExplanationConfig) => import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    explanation: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-    multimedia: import("@edtr-io/plugin").StateType<{
-        plugin: string;
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: string | undefined, state?: unknown) => void;
-    }>;
-    illustrating: import("@edtr-io/plugin").StateType<boolean, boolean, {
-        value: boolean;
-        get(): boolean;
-        set(value: boolean | ((currentValue: boolean) => boolean)): void;
-    }>;
-    width: import("@edtr-io/plugin").StateType<number, number, {
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    }>;
-}>>;
+export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig>;
 
 // @public (undocumented)
 export interface MultimediaExplanationConfig {
+    // (undocumented)
+    explanation: string;
     // (undocumented)
     plugins: {
         name: string;
@@ -200,7 +29,12 @@ export interface MultimediaExplanationConfig {
 export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationState, MultimediaExplanationConfig>;
 
 // @public (undocumented)
-export type MultimediaExplanationState = ReturnType<typeof createMultimediaExplanationState>;
+export type MultimediaExplanationState = ObjectStateType<{
+    explanation: ChildStateType;
+    multimedia: ChildStateType;
+    illustrating: BooleanStateType;
+    width: NumberStateType;
+}>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -845,6 +845,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**editor-ui**. Rename `BottomToolbar` to `EditorBottomToolbar`',
         '**editor-ui**. Rename `PrimarySettings` to `EditorInlineSettings`',
         '**editor-ui**. Remove `create*Theme`, `OnClickOutside`, `Resizable` and `UploadProgress`',
+        '**plugin-multimedia-explanation**. Added required config `explanation` that specifies which plugin should be used for the explanation',
         '**plugin-toolbar**. Mark as beta API',
         '**renderer-ui**. Move `EditorTextarea` into `@edtr-io/editor-ui`',
         '**renderer-ui**. Remove `create*Theme`, `FetchDimensions`',
