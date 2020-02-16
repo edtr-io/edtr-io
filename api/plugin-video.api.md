@@ -6,6 +6,8 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export function createVideoPlugin(): EditorPlugin<VideoState>;
@@ -14,43 +16,10 @@ export function createVideoPlugin(): EditorPlugin<VideoState>;
 export type VideoProps = EditorPluginProps<VideoState>;
 
 // @public (undocumented)
-export type VideoState = typeof videoState;
-
-// @public (undocumented)
-export const videoState: import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    src: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    src: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    src: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>>;
+export type VideoState = ObjectStateType<{
+    src: StringStateType;
+    alt: StringStateType;
+}>;
 
 
 // (No @packageDocumentation comment for this package)

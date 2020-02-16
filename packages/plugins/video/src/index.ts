@@ -2,17 +2,23 @@ import {
   string,
   object,
   EditorPluginProps,
-  EditorPlugin
+  EditorPlugin,
+  ObjectStateType,
+  StringStateType
 } from '@edtr-io/plugin'
 
 import { VideoEditor } from './editor'
 
 /** @public */
-export const videoState = object({ src: string(), alt: string() })
 /** @public */
-export type VideoState = typeof videoState
+export type VideoState = ObjectStateType<{
+  src: StringStateType
+  alt: StringStateType
+}>
 /** @public */
 export type VideoProps = EditorPluginProps<VideoState>
+
+const videoState: VideoState = object({ src: string(), alt: string() })
 
 /** @public */
 export function createVideoPlugin(): EditorPlugin<VideoState> {
