@@ -8,20 +8,23 @@ import {
 import { BlockquoteRenderer } from './renderer'
 
 /** @public */
-export function createBlockquotePlugin({
-  content = []
-}: { content?: Parameters<typeof child> } = {}): EditorPlugin<BlockquoteState> {
+export interface BlockquoteStaticConfig {
+  content?: Parameters<typeof child>[0]
+}
+
+/** @public */
+export function createBlockquotePlugin(
+  config: BlockquoteStaticConfig = {}
+): EditorPlugin<BlockquoteState> {
   return {
     Component: BlockquoteRenderer,
     config: {},
-    state: createBlockquotePluginState(content)
+    state: createBlockquotePluginState(config)
   }
 }
 
-function createBlockquotePluginState(
-  content: Parameters<typeof child>
-): BlockquoteState {
-  return child(...content)
+function createBlockquotePluginState({ content }: BlockquoteStaticConfig) {
+  return child(content)
 }
 /** @public */
 export type BlockquoteState = ChildStateType

@@ -32,18 +32,23 @@ export interface InputExerciseConfig {
   theme: { borderColor: string; borderStyle: string }
 }
 /** @public */
+export interface InputExerciseStaticConfig {
+  feedback?: Parameters<typeof child>[0]
+}
+
+/** @public */
 export type InputExerciseProps = EditorPluginProps<
   InputExerciseState,
   InputExerciseConfig
 >
 
-function createInputExerciseState(
-  feedback: Parameters<typeof child>
-): InputExerciseState {
+function createInputExerciseState({
+  feedback
+}: InputExerciseStaticConfig): InputExerciseState {
   const answerObject = object({
     value: string(''),
     isCorrect: boolean(),
-    feedback: child(...feedback)
+    feedback: child(feedback)
   })
 
   return object({
@@ -56,10 +61,9 @@ function createInputExerciseState(
 /** @public */
 export function createInputExercisePlugin({
   theme = {},
-  feedback = []
-}: {
+  feedback
+}: InputExerciseStaticConfig & {
   theme?: Partial<InputExerciseConfig['theme']>
-  feedback?: Parameters<typeof child>
 } = {}): EditorPlugin<InputExerciseState, InputExerciseConfig> {
   return {
     Component: InputExerciseEditor,
@@ -72,6 +76,6 @@ export function createInputExercisePlugin({
         }
       }
     },
-    state: createInputExerciseState(feedback)
+    state: createInputExerciseState({ feedback })
   }
 }

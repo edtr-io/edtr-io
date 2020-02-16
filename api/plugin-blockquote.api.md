@@ -16,9 +16,13 @@ export type BlockquoteProps = EditorPluginProps<BlockquoteState>;
 export type BlockquoteState = ChildStateType;
 
 // @public (undocumented)
-export function createBlockquotePlugin({ content }?: {
-    content?: Parameters<typeof child>;
-}): EditorPlugin<BlockquoteState>;
+export interface BlockquoteStaticConfig {
+    // (undocumented)
+    content?: Parameters<typeof child>[0];
+}
+
+// @public (undocumented)
+export function createBlockquotePlugin(config?: BlockquoteStaticConfig): EditorPlugin<BlockquoteState>;
 
 
 // (No @packageDocumentation comment for this package)

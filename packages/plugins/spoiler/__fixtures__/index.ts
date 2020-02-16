@@ -8,7 +8,9 @@ import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { SpoilerState, createSpoilerPlugin } from '../src'
 
 export const name = 'spoiler'
-export const plugin = createSpoilerPlugin()
+export const plugin = createSpoilerPlugin({
+  content: { plugin: 'rows' }
+})
 
 export const states: Record<string, StateTypeSerializedType<SpoilerState>> = {
   simple: {

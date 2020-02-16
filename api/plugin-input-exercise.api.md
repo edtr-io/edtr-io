@@ -14,9 +14,8 @@ import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createInputExercisePlugin({ theme, feedback }?: {
+export function createInputExercisePlugin({ theme, feedback }?: InputExerciseStaticConfig & {
     theme?: Partial<InputExerciseConfig['theme']>;
-    feedback?: Parameters<typeof child>;
 }): EditorPlugin<InputExerciseState, InputExerciseConfig>;
 
 // @public (undocumented)
@@ -41,6 +40,12 @@ export type InputExerciseState = ObjectStateType<{
         feedback: ChildStateType;
     }>>;
 }>;
+
+// @public (undocumented)
+export interface InputExerciseStaticConfig {
+    // (undocumented)
+    feedback?: Parameters<typeof child>[0];
+}
 
 
 // (No @packageDocumentation comment for this package)

@@ -13,10 +13,7 @@ import { ListStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createScMcExercisePlugin({ content, feedback }?: {
-    content?: Parameters<typeof child>;
-    feedback?: Parameters<typeof child>;
-}): EditorPlugin<ScMcExerciseState>;
+export function createScMcExercisePlugin(config?: ScMcExerciseStaticConfig): EditorPlugin<ScMcExerciseState>;
 
 // @public (undocumented)
 export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>;
@@ -30,6 +27,14 @@ export type ScMcExerciseState = ObjectStateType<{
         feedback: ChildStateType;
     }>>;
 }>;
+
+// @public (undocumented)
+export interface ScMcExerciseStaticConfig {
+    // (undocumented)
+    content?: Parameters<typeof child>[0];
+    // (undocumented)
+    feedback?: Parameters<typeof child>[0];
+}
 
 
 // (No @packageDocumentation comment for this package)

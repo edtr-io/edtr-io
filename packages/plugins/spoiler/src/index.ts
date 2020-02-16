@@ -3,18 +3,23 @@ import {
   object,
   string,
   EditorPluginProps,
-  EditorPlugin
+  EditorPlugin,
+  ObjectStateType,
+  StringStateType,
+  ChildStateType
 } from '@edtr-io/plugin'
 
 import { SpoilerEditor } from './editor'
 
 /** @public */
-export const spoilerState = object({
-  title: string(''),
-  content: child({ plugin: 'rows' })
-})
+export type SpoilerState = ObjectStateType<{
+  title: StringStateType
+  content: ChildStateType
+}>
 /** @public */
-export type SpoilerState = typeof spoilerState
+export interface SpoilerStaticConfig {
+  content?: Parameters<typeof child>[0]
+}
 /** @public */
 export interface SpoilerConfig {
   theme: {
@@ -24,10 +29,18 @@ export interface SpoilerConfig {
 /** @public */
 export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>
 
+function createSpoilerState({ content }: SpoilerStaticConfig): SpoilerState {
+  return object({
+    title: string(''),
+    content: child(content)
+  })
+}
+
 /** @public */
 export function createSpoilerPlugin({
+  content = {},
   theme = {}
-}: {
+}: SpoilerStaticConfig & {
   theme?: Partial<SpoilerConfig['theme']>
 } = {}): EditorPlugin<SpoilerState, SpoilerConfig> {
   return {
@@ -40,6 +53,6 @@ export function createSpoilerPlugin({
         }
       }
     },
-    state: spoilerState
+    state: createSpoilerState({ content })
   }
 }

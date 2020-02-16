@@ -4,11 +4,15 @@
 
 ```ts
 
+import { child } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createSpoilerPlugin({ theme }?: {
+export function createSpoilerPlugin({ content, theme }?: SpoilerStaticConfig & {
     theme?: Partial<SpoilerConfig['theme']>;
 }): EditorPlugin<SpoilerState, SpoilerConfig>;
 
@@ -24,55 +28,16 @@ export interface SpoilerConfig {
 export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>;
 
 // @public (undocumented)
-export type SpoilerState = typeof spoilerState;
+export type SpoilerState = ObjectStateType<{
+    title: StringStateType;
+    content: ChildStateType;
+}>;
 
 // @public (undocumented)
-export const spoilerState: import("@edtr-io/plugin").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    title: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    content: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    title: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    content: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    title: import("@edtr-io/plugin").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    content: import("@edtr-io/plugin").StateType<{
-        plugin: "rows";
-        state?: unknown;
-    }, string, {
-        get(): string;
-        id: string;
-        render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-        replace: (plugin?: "rows" | undefined, state?: unknown) => void;
-    }>;
-}>>;
+export interface SpoilerStaticConfig {
+    // (undocumented)
+    content?: Parameters<typeof child>[0];
+}
 
 
 // (No @packageDocumentation comment for this package)

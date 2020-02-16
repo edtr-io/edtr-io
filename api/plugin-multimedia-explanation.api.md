@@ -5,6 +5,7 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
+import { child } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
@@ -12,12 +13,10 @@ import { NumberStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig>;
+export function createMultimediaExplanationPlugin(config: MultimediaExplanationStaticConfig & MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig>;
 
 // @public (undocumented)
 export interface MultimediaExplanationConfig {
-    // (undocumented)
-    explanation: string;
     // (undocumented)
     plugins: {
         name: string;
@@ -35,6 +34,12 @@ export type MultimediaExplanationState = ObjectStateType<{
     illustrating: BooleanStateType;
     width: NumberStateType;
 }>;
+
+// @public (undocumented)
+export interface MultimediaExplanationStaticConfig {
+    // (undocumented)
+    explanation?: Parameters<typeof child>[0];
+}
 
 
 // (No @packageDocumentation comment for this package)

@@ -194,10 +194,10 @@ export const getParent: Selector<Node | null, [string]>;
 export const getPendingChanges: Selector<number>;
 
 // @public (undocumented)
-export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [string]>;
+export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, any>, {}> | null, [string]>;
 
 // @public (undocumented)
-export const getPluginOrDefault: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, unknown>, {}> | null, [(string | undefined)?]>;
+export const getPluginOrDefault: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, any>, {}> | null, [(string | undefined)?]>;
 
 // @public (undocumented)
 export const getPlugins: Selector<Record<string, EditorPlugin>>;

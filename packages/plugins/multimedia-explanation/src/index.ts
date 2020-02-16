@@ -22,11 +22,14 @@ export type MultimediaExplanationState = ObjectStateType<{
 }>
 /** @public */
 export interface MultimediaExplanationConfig {
-  explanation: string
   plugins: {
     name: string
     title: string
   }[]
+}
+/** @public */
+export interface MultimediaExplanationStaticConfig {
+  explanation?: Parameters<typeof child>[0]
 }
 /** @public */
 export type MultimediaExplanationProps = EditorPluginProps<
@@ -35,10 +38,10 @@ export type MultimediaExplanationProps = EditorPluginProps<
 >
 
 function createMultimediaExplanationState(
-  config: MultimediaExplanationConfig
+  config: MultimediaExplanationStaticConfig & MultimediaExplanationConfig
 ): MultimediaExplanationState {
   return object({
-    explanation: child({ plugin: config.explanation }),
+    explanation: child(config.explanation),
     multimedia: child({ plugin: config.plugins[0].name }),
     illustrating: boolean(true),
     width: number(50) // percent
@@ -50,7 +53,7 @@ function createMultimediaExplanationState(
  * @public
  */
 export function createMultimediaExplanationPlugin(
-  config: MultimediaExplanationConfig
+  config: MultimediaExplanationStaticConfig & MultimediaExplanationConfig
 ): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig> {
   return {
     Component: MultimediaExplanationEditor,
