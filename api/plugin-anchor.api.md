@@ -6,19 +6,13 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export type AnchorProps = EditorPluginProps<AnchorState>;
 
 // @public (undocumented)
-export type AnchorState = typeof anchorState;
-
-// @public (undocumented)
-export const anchorState: import("@edtr-io/plugin").StateType<string, string, {
-    value: string;
-    get(): string;
-    set(value: string | ((currentValue: string) => string)): void;
-}>;
+export type AnchorState = StringStateType;
 
 // @public (undocumented)
 export function createAnchorPlugin(): EditorPlugin<AnchorState>;
