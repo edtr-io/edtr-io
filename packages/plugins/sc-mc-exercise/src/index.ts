@@ -53,7 +53,10 @@ function createScMcExerciseState({
   })
 }
 
-/** @public */
+/**
+ * @param config
+ * @public
+ */
 export function createScMcExercisePlugin(
   config: ScMcExerciseStaticConfig = {}
 ): EditorPlugin<ScMcExerciseState> {

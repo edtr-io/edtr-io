@@ -4,8 +4,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { ScMcExerciseProps, ScMcExerciseState } from '.'
-import { calculateLayoutOptions } from './helpers'
 import { FetchDimensions } from './fetch-dimensions'
+import { calculateLayoutOptions } from './helpers'
 
 enum Phase {
   noJS = 0,

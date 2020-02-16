@@ -12,7 +12,10 @@ export interface BlockquoteStaticConfig {
   content?: Parameters<typeof child>[0]
 }
 
-/** @public */
+/**
+ * @param config
+ * @public
+ */
 export function createBlockquotePlugin(
   config: BlockquoteStaticConfig = {}
 ): EditorPlugin<BlockquoteState> {

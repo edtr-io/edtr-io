@@ -11,7 +11,10 @@ import * as React from 'react'
  *
  * @public
  */
-export interface EditorPlugin<S extends StateType = StateType, Config extends {} = {}> {
+export interface EditorPlugin<
+  S extends StateType = StateType,
+  Config extends {} = {}
+> {
   /**
    * React component that will be used to render the plugin. It accepts [[PluginEditorProps]] and `Props`.
    */
