@@ -4,20 +4,38 @@ import {
   list,
   object,
   EditorPluginProps,
-  EditorPlugin
+  EditorPlugin,
+  ObjectStateType,
+  BooleanStateType,
+  ListStateType,
+  ChildStateType
 } from '@edtr-io/plugin'
 
 import { ScMcExerciseEditor } from './editor'
+
+/** @public */
+export type ScMcExerciseState = ObjectStateType<{
+  isSingleChoice: BooleanStateType
+  answers: ListStateType<
+    ObjectStateType<{
+      content: ChildStateType
+      isCorrect: BooleanStateType
+      feedback: ChildStateType
+    }>
+  >
+}>
+/** @public */
+export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>
 
 /**
  * @param content - Configuration for the content child
  * @param feedback - Configuration for the feedback child
  * @public
  */
-export function createScMcExerciseState(
+function createScMcExerciseState(
   content: Parameters<typeof child>,
   feedback: Parameters<typeof child>
-) {
+): ScMcExerciseState {
   const answerState = object({
     content: child(...content),
     isCorrect: boolean(false),
@@ -29,10 +47,6 @@ export function createScMcExerciseState(
     answers: list(answerState)
   })
 }
-/** @public */
-export type ScMcExerciseState = ReturnType<typeof createScMcExerciseState>
-/** @public */
-export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>
 
 /** @public */
 export function createScMcExercisePlugin({
