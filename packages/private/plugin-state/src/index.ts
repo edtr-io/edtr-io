@@ -7,7 +7,7 @@ import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta
  * @example the built-in [[boolean]], [[number]], [[string]], [[scalar]] and [[serializedScalar]], [[list]], [[object]], and [[child]] state types
  * @public
  */
-export interface StateType<S = any, T = S, R = unknown> {
+export interface StateType<S = any, T = any, R = any> {
   /**
    * Initializes the public API for usage in plugin components
    *
@@ -103,9 +103,7 @@ export interface FocusableChild {
  * @public
  */
 export type StateTypeSerializedType<D extends StateType> = D extends StateType<
-  infer S,
-  any,
-  any
+  infer S
 >
   ? S
   : never
@@ -122,8 +120,7 @@ export type StateTypesSerializedType<Ds extends Record<string, StateType>> = {
  */
 export type StateTypeValueType<D extends StateType> = D extends StateType<
   any,
-  infer T,
-  any
+  infer T
 >
   ? T
   : never

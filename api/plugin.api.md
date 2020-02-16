@@ -58,15 +58,15 @@ export type FocusableChild = InternalPluginState.FocusableChild;
 export function isTempFile<T>(state: FileState<T>): state is TempFile;
 
 // @public (undocumented)
-export function list<S, T = S, U = unknown>(type: StateType<S, T, U>, initialCount?: number): ListStateType<S, T, U>;
+export function list<D extends StateType>(type: D, initialCount?: number): ListStateType<D>;
 
 // @public (undocumented)
-export type ListStateType<S, T = S, U = unknown> = StateType<S[], {
+export type ListStateType<D extends StateType> = StateType<StateTypeSerializedType<D>[], {
     id: string;
-    value: T;
-}[], U[] & {
-    set(updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]): void;
-    insert(index?: number, options?: S): void;
+    value: StateTypeValueType<D>;
+}[], StateTypeReturnType<D>[] & {
+    set(updater: (currentList: StateTypeValueType<D>[], deserialize: (serialized: StateTypeSerializedType<D>) => StateTypeValueType<D>) => StateTypeValueType<D>[]): void;
+    insert(index?: number, options?: StateTypeSerializedType<D>): void;
     remove(index: number): void;
     move(from: number, to: number): void;
 }>;
@@ -158,7 +158,7 @@ export interface Serializer<S, T> {
 export type StateExecutor<T> = InternalPluginState.StateExecutor<T>;
 
 // @public (undocumented)
-export type StateType<S = any, T = S, R = unknown> = InternalPluginState.StateType<S, T, R>;
+export type StateType<S = any, T = any, R = any> = InternalPluginState.StateType<S, T, R>;
 
 // @public (undocumented)
 export type StateTypeReturnType<D extends StateType> = InternalPluginState.StateTypeReturnType<D>;

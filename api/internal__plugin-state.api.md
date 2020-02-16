@@ -25,7 +25,7 @@ export interface PluginProps {
 export type StateExecutor<T> = (resolve: (value: T) => void, reject: (value: T) => void, next: (value: T) => void) => void;
 
 // @public
-export interface StateType<S = any, T = S, R = unknown> {
+export interface StateType<S = any, T = any, R = any> {
     createInitialState(helpers: StoreDeserializeHelpers): T;
     deserialize(serialized: S, helpers: StoreDeserializeHelpers): T;
     getFocusableChildren(state: T): FocusableChild[];
@@ -37,7 +37,7 @@ export interface StateType<S = any, T = S, R = unknown> {
 export type StateTypeReturnType<D extends StateType> = D extends StateType<any, any, infer R> ? R : never;
 
 // @public
-export type StateTypeSerializedType<D extends StateType> = D extends StateType<infer S, any, any> ? S : never;
+export type StateTypeSerializedType<D extends StateType> = D extends StateType<infer S> ? S : never;
 
 // @public (undocumented)
 export type StateTypesReturnType<Ds extends Record<string, StateType>> = {
@@ -55,7 +55,7 @@ export type StateTypesValueType<Ds extends Record<string, StateType>> = {
 };
 
 // @public
-export type StateTypeValueType<D extends StateType> = D extends StateType<any, infer T, any> ? T : never;
+export type StateTypeValueType<D extends StateType> = D extends StateType<any, infer T> ? T : never;
 
 // @public
 export type StateUpdater<T> = (previousState: T, helpers: StoreDeserializeHelpers) => T;

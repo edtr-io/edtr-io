@@ -5,18 +5,25 @@ import {
   StoreDeserializeHelpers,
   StateType,
   StateUpdater,
-  StateExecutor
+  StateExecutor,
+  StateTypeSerializedType,
+  StateTypeValueType,
+  StateTypeReturnType
 } from './internal-plugin-state'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} of the list items
  * @param initialCount - The initial number of list items
  * @public
  */
-export function list<S, T = S, U = unknown>(
-  type: StateType<S, T, U>,
+export function list<D extends StateType>(
+  type: D,
   initialCount = 0
-): ListStateType<S, T, U> {
+): ListStateType<D> {
+  type S = StateTypeSerializedType<D>
+  type T = StateTypeValueType<D>
+
   interface WrappedValue {
     id: string
     value: T
@@ -131,17 +138,22 @@ export function list<S, T = S, U = unknown>(
 }
 
 /** @public */
-export type ListStateType<S, T = S, U = unknown> = StateType<
-  S[],
+export type ListStateType<D extends StateType> = StateType<
+  StateTypeSerializedType<D>[],
   {
     id: string
-    value: T
+    value: StateTypeValueType<D>
   }[],
-  U[] & {
+  StateTypeReturnType<D>[] & {
     set(
-      updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
+      updater: (
+        currentList: StateTypeValueType<D>[],
+        deserialize: (
+          serialized: StateTypeSerializedType<D>
+        ) => StateTypeValueType<D>
+      ) => StateTypeValueType<D>[]
     ): void
-    insert(index?: number, options?: S): void
+    insert(index?: number, options?: StateTypeSerializedType<D>): void
     remove(index: number): void
     move(from: number, to: number): void
   }

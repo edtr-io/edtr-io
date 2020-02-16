@@ -10,8 +10,8 @@ export type StateExecutor<T> = InternalPluginState.StateExecutor<T>
 /** @public */
 export type StateType<
   S = any,
-  T = S,
-  R = unknown
+  T = any,
+  R = any
 > = InternalPluginState.StateType<S, T, R>
 /** @public */
 export type StateTypeReturnType<

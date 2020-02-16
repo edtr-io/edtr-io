@@ -6,7 +6,9 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ListStateType } from '@edtr-io/plugin';
 import { UploadHandler } from '@edtr-io/plugin';
+import { UploadStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesState, FilesConfig>;
@@ -39,18 +41,7 @@ export interface FilesConfig {
 export type FilesProps = EditorPluginProps<FilesState, FilesConfig>;
 
 // @public (undocumented)
-export type FilesState = typeof filesState;
-
-// @public (undocumented)
-export const filesState: import("@edtr-io/plugin").StateType<import("@edtr-io/plugin").FileState<UploadedFile>[], {
-    id: string;
-    value: import("@edtr-io/plugin").FileState<UploadedFile>;
-}[], import("@edtr-io/plugin").UploadStateReturnType<UploadedFile>[] & {
-    set(updater: (currentList: import("@edtr-io/plugin").FileState<UploadedFile>[], deserialize: (serialized: import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>[]): void;
-    insert(index?: number | undefined, options?: UploadedFile | import("@edtr-io/plugin").TempFile | undefined): void;
-    remove(index: number): void;
-    move(from: number, to: number): void;
-}>;
+export type FilesState = ListStateType<UploadStateType<UploadedFile>>;
 
 // @public (undocumented)
 export enum FileType {
