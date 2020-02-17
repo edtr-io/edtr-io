@@ -32,8 +32,8 @@ export interface EditorPlugin<S extends StateType = StateType, Config extends {}
 
 // @public
 export interface EditorPluginProps<S extends StateType = StateType, Config extends {} = {}> {
+    autofocusRef: React.RefObject<HTMLInputElement & HTMLTextAreaElement>;
     config: Config;
-    defaultFocusRef: React.RefObject<HTMLInputElement & HTMLTextAreaElement>;
     editable: boolean;
     focused: boolean;
     id: string;

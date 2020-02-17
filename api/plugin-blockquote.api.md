@@ -10,19 +10,19 @@ import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export type BlockquoteProps = EditorPluginProps<BlockquoteState>;
-
-// @public (undocumented)
-export type BlockquoteState = ChildStateType;
-
-// @public (undocumented)
-export interface BlockquoteStaticConfig {
+export interface BlockquoteConfig {
     // (undocumented)
-    content?: ChildStateTypeConfig;
+    content: ChildStateTypeConfig;
 }
 
 // @public (undocumented)
-export function createBlockquotePlugin(config?: BlockquoteStaticConfig): EditorPlugin<BlockquoteState>;
+export type BlockquotePluginState = ChildStateType;
+
+// @public (undocumented)
+export type BlockquoteProps = EditorPluginProps<BlockquotePluginState>;
+
+// @public (undocumented)
+export function createBlockquotePlugin(config: BlockquoteConfig): EditorPlugin<BlockquotePluginState>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,6 +1,7 @@
 import {
   child,
   ChildStateType,
+  ChildStateTypeConfig,
   EditorPlugin,
   EditorPluginProps,
   list,
@@ -12,60 +13,37 @@ import * as React from 'react'
 
 import { RowsEditor } from './editor'
 
-/** @public */
-export type RowsState = ListStateType<ChildStateType>
-/** @public */
-export interface RowsConfig {
-  plugins: {
-    name: string
-    title?: string
-    icon?: React.ComponentType
-    description?: string
-  }[]
-  theme: {
-    backgroundColor: string
-    color: string
-    highlightColor: string
-    lightBackgroundColor: string
+/**
+ * @param config - {@link RowsConfig | Plugin configuration}
+ * @public
+ */
+export function createRowsPlugin(
+  config: RowsConfig
+): EditorPlugin<RowsPluginState, RowsPluginConfig> {
+  const { i18n = {}, theme = {}, content, plugins } = config
 
-    menu: {
-      highlightColor: string
-      primary: {
-        backgroundColor: string
-        color: string
-      }
-      secondary: {
-        backgroundColor: string
-        color: string
-      }
-      dropzone: {
-        highlightColor: string
-        backgroundColor: string
-        color: string
-        highlightBackgroundColor: string
-      }
-    }
-  }
-}
-/** @public */
-export type RowsProps = EditorPluginProps<RowsState, RowsConfig>
-
-const rowState = child()
-const rowsState: RowsState = list(rowState, 1)
-
-/** @public */
-export function createRowsPlugin({
-  plugins,
-  theme = {}
-}: {
-  plugins: RowsConfig['plugins']
-  theme?: DeepPartial<RowsConfig['theme']>
-}): EditorPlugin<RowsState, RowsConfig> {
   return {
     Component: RowsEditor,
     config: ({ editor }) => {
       return {
         plugins,
+        i18n: R.mergeDeepRight(
+          {
+            menu: {
+              searchPlaceholder: 'Search for tools…'
+            },
+            settings: {
+              duplicateLabel: 'Duplicate',
+              removeLabel: 'Remove',
+              closeLabel: 'Close'
+            },
+            toolbar: {
+              dragLabel: 'Drag the element within the document'
+            },
+            addLabel: 'Add an element'
+          },
+          i18n
+        ),
         theme: R.mergeDeepRight(
           {
             color: editor.secondary.color,
@@ -94,8 +72,7 @@ export function createRowsPlugin({
         )
       }
     },
-    state: rowsState,
-
+    state: list(child(content), 1),
     insertChild(state, { previousSibling, document }) {
       const index = getIndexToInsert()
       if (index === null) return
@@ -119,3 +96,64 @@ export function createRowsPlugin({
     }
   }
 }
+
+/** @public */
+export interface RowsConfig extends Omit<RowsPluginConfig, 'i18n' | 'theme'> {
+  content: ChildStateTypeConfig
+  i18n?: DeepPartial<RowsPluginConfig['i18n']>
+  theme?: DeepPartial<RowsPluginConfig['theme']>
+}
+
+/** @public */
+export type RowsPluginState = ListStateType<ChildStateType>
+
+/** @public */
+export interface RowsPluginConfig {
+  plugins: {
+    name: string
+    title?: string
+    icon?: React.ComponentType
+    description?: string
+  }[]
+  i18n: {
+    menu: {
+      searchPlaceholder: string
+    }
+    settings: {
+      duplicateLabel: string
+      removeLabel: string
+      closeLabel: string
+    }
+    toolbar: {
+      dragLabel: string
+    }
+    addLabel: string
+  }
+  theme: {
+    backgroundColor: string
+    color: string
+    highlightColor: string
+    lightBackgroundColor: string
+
+    menu: {
+      highlightColor: string
+      primary: {
+        backgroundColor: string
+        color: string
+      }
+      secondary: {
+        backgroundColor: string
+        color: string
+      }
+      dropzone: {
+        highlightColor: string
+        backgroundColor: string
+        color: string
+        highlightBackgroundColor: string
+      }
+    }
+  }
+}
+
+/** @public */
+export type RowsProps = EditorPluginProps<RowsPluginState, RowsPluginConfig>

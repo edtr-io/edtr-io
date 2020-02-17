@@ -12,7 +12,7 @@ export const insert = createActionCreator<
   'Insert',
   {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }
 >('Insert')

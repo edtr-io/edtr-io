@@ -89,7 +89,7 @@ export function FilesEditor(props: FilesProps) {
                     type: parseFileType(tmpFile.name)
                   }}
                 />
-                <span>Fehlgeschlagen</span>
+                <span>{config.i18n.failedUploadMessage}</span>
                 <span>
                   <EditorButton
                     onClick={() => file.upload(tmpFile, config.upload)}
@@ -109,6 +109,7 @@ export function FilesEditor(props: FilesProps) {
       })}
       {focused ? (
         <Upload
+          config={config}
           onFiles={files => {
             files.forEach(file => {
               state.insert(state.length, {

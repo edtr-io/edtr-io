@@ -167,9 +167,6 @@ export const focusReducer: SubReducer<string | null>;
 export const getClipboard: Selector<DocumentState[]>;
 
 // @public (undocumented)
-export const getDefaultPlugin: Selector<string>;
-
-// @public (undocumented)
 export const getDocument: Selector<DocumentState | null, [string | null]>;
 
 // @public (undocumented)
@@ -197,13 +194,7 @@ export const getPendingChanges: Selector<number>;
 export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, any>, {}> | null, [string]>;
 
 // @public (undocumented)
-export const getPluginOrDefault: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, any>, {}> | null, [(string | undefined)?]>;
-
-// @public (undocumented)
 export const getPlugins: Selector<Record<string, EditorPlugin>>;
-
-// @public (undocumented)
-export const getPluginTypeOrDefault: Selector<string, [(string | undefined)?]>;
 
 // @internal (undocumented)
 export const getRedoStack: InternalSelector<ReversibleAction[][]>;
@@ -248,12 +239,11 @@ export interface HistoryState {
 
 // @public (undocumented)
 export const initRoot: ActionCreatorWithPayload<'InitRoot', {
-    initialState?: {
-        plugin?: string;
+    initialState: {
+        plugin: string;
         state?: unknown;
     };
     plugins: Record<string, EditorPlugin>;
-    defaultPlugin: string;
 }>;
 
 // @public (undocumented)
@@ -262,7 +252,7 @@ export type InitRootAction = ActionCreatorAction<typeof initRoot>;
 // @public (undocumented)
 export const insert: ActionCreatorWithPayload<"Insert", {
     id: string;
-    plugin?: string | undefined;
+    plugin: string;
     state?: unknown;
 }>;
 
@@ -361,10 +351,7 @@ export type PersistAction = ActionCreatorAction<typeof persist>;
 export type PluginAction = InsertChildBeforeAction | InsertChildAfterAction | RemoveChildAction;
 
 // @internal (undocumented)
-export const pluginsReducer: SubReducer<{
-    defaultPlugin: string;
-    plugins: Record<string, EditorPlugin>;
-}>;
+export const pluginsReducer: SubReducer<Record<string, EditorPlugin>>;
 
 // @internal (undocumented)
 export const pureChange: ActionCreatorWithPayload<'PureChange', {
@@ -529,10 +516,7 @@ export interface ScopedState {
     // (undocumented)
     history: unknown;
     // (undocumented)
-    plugins: {
-        defaultPlugin: string;
-        plugins: Record<string, EditorPlugin>;
-    };
+    plugins: Record<string, EditorPlugin>;
     // (undocumented)
     root: string | null;
 }
@@ -575,10 +559,7 @@ export interface StoreOptions<K extends string> {
     // (undocumented)
     createEnhancer: StoreEnhancerFactory;
     // (undocumented)
-    scopes: Record<string, {
-        plugins: Record<K, EditorPlugin>;
-        defaultPlugin: K;
-    }>;
+    scopes: Record<string, Record<K, EditorPlugin>>;
 }
 
 // @internal (undocumented)

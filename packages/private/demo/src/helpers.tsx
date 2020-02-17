@@ -1,4 +1,3 @@
-import { EditorProps } from '@edtr-io/core'
 import { RendererProps } from '@edtr-io/renderer'
 import { storiesOf } from '@storybook/react'
 import { startCase } from 'lodash'
@@ -10,7 +9,6 @@ import { EditorStory, RendererStory } from './container'
 export function addStory(
   name: string,
   props: {
-    defaultPlugin?: EditorProps['defaultPlugin']
     theme?: RendererProps['theme']
     state: RendererProps['state']
   }

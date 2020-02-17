@@ -52,8 +52,8 @@ export function EditorStory(props: Partial<EditorProps>) {
 
   return (
     <Component
+      initialState={props.initialState || { plugin: 'text' }}
       plugins={plugins}
-      defaultPlugin="text"
       onError={action('onError')}
       {...props}
     />

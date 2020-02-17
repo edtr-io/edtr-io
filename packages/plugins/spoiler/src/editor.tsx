@@ -9,7 +9,7 @@ export function SpoilerEditor({
   config,
   state,
   editable,
-  defaultFocusRef
+  autofocusRef
 }: SpoilerProps) {
   const { theme } = config
   const spoilerTheme = React.useMemo(() => {
@@ -30,14 +30,14 @@ export function SpoilerEditor({
         <EditorInput
           onChange={e => state.title.set(e.target.value)}
           value={state.title.value}
-          placeholder="Titel eingeben"
-          ref={defaultFocusRef}
+          placeholder={config.i18n.title.placeholder}
+          ref={autofocusRef}
         />
       ) : (
         <React.Fragment>{state.title.value}</React.Fragment>
       )
     },
-    [defaultFocusRef, editable, state.title]
+    [config.i18n.title.placeholder, autofocusRef, editable, state.title]
   )
 
   return (

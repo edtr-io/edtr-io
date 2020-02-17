@@ -9,13 +9,28 @@ import { EditorPluginProps } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export type AnchorProps = EditorPluginProps<AnchorState>;
+export interface AnchorConfig {
+    // (undocumented)
+    i18n?: Partial<AnchorPluginConfig['i18n']>;
+}
 
 // @public (undocumented)
-export type AnchorState = StringStateType;
+export interface AnchorPluginConfig {
+    // (undocumented)
+    i18n: {
+        label: string;
+        placeholder: string;
+    };
+}
 
 // @public (undocumented)
-export function createAnchorPlugin(): EditorPlugin<AnchorState>;
+export type AnchorPluginState = StringStateType;
+
+// @public (undocumented)
+export type AnchorProps = EditorPluginProps<AnchorPluginState, AnchorPluginConfig>;
+
+// @public (undocumented)
+export function createAnchorPlugin(config?: AnchorConfig): EditorPlugin<AnchorPluginState, AnchorPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,59 +1,79 @@
 import {
   child,
-  object,
-  string,
-  EditorPluginProps,
-  EditorPlugin,
-  ObjectStateType,
-  StringStateType,
   ChildStateType,
-  ChildStateTypeConfig
+  ChildStateTypeConfig,
+  EditorPlugin,
+  EditorPluginProps,
+  object,
+  ObjectStateType,
+  string,
+  StringStateType
 } from '@edtr-io/plugin'
+import { DeepPartial } from '@edtr-io/ui'
+import * as R from 'ramda'
 
 import { SpoilerEditor } from './editor'
 
-/** @public */
-export type SpoilerState = ObjectStateType<{
-  title: StringStateType
-  content: ChildStateType
-}>
-/** @public */
-export interface SpoilerStaticConfig {
-  content?: ChildStateTypeConfig
-}
-/** @public */
-export interface SpoilerConfig {
-  theme: {
-    color: string
-  }
-}
-/** @public */
-export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>
+/**
+ * @param config - {@link SpoilerConfig | Plugin configuration}
+ * @public
+ */ export function createSpoilerPlugin(
+  config: SpoilerConfig
+): EditorPlugin<SpoilerPluginState, SpoilerPluginConfig> {
+  const { i18n = {}, theme = {}, content } = config
 
-function createSpoilerState({ content }: SpoilerStaticConfig): SpoilerState {
-  return object({
-    title: string(''),
-    content: child(content)
-  })
-}
-
-/** @public */
-export function createSpoilerPlugin({
-  content = {},
-  theme = {}
-}: SpoilerStaticConfig & {
-  theme?: Partial<SpoilerConfig['theme']>
-} = {}): EditorPlugin<SpoilerState, SpoilerConfig> {
   return {
     Component: SpoilerEditor,
     config: () => {
       return {
+        i18n: R.mergeDeepRight(
+          {
+            title: {
+              placeholder: 'Enter a title'
+            }
+          },
+          i18n
+        ),
         theme: {
           color: '#f5f5f5',
           ...theme
         }
       }
     },
-    state: createSpoilerState({ content })
+    state: object({
+      title: string(''),
+      content: child(content)
+    })
   }
 }
+
+/** @public */
+export interface SpoilerConfig {
+  content: ChildStateTypeConfig
+  i18n?: DeepPartial<SpoilerPluginConfig['i18n']>
+  theme?: Partial<SpoilerPluginConfig['theme']>
+}
+
+/** @public */
+export type SpoilerPluginState = ObjectStateType<{
+  title: StringStateType
+  content: ChildStateType
+}>
+
+/** @public */
+export interface SpoilerPluginConfig {
+  i18n: {
+    title: {
+      placeholder: string
+    }
+  }
+  theme: {
+    color: string
+  }
+}
+
+/** @public */
+export type SpoilerProps = EditorPluginProps<
+  SpoilerPluginState,
+  SpoilerPluginConfig
+>

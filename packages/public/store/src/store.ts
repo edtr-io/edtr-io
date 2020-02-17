@@ -32,10 +32,7 @@ export function createStore<K extends string>({
 
   const initialStates = R.mapObjIndexed(scope => {
     return {
-      plugins: {
-        defaultPlugin: scope.defaultPlugin,
-        plugins: scope.plugins
-      },
+      plugins: scope,
       documents: {},
       focus: null,
       root: null,
@@ -60,13 +57,7 @@ export function createStore<K extends string>({
 
 /** @public */
 export interface StoreOptions<K extends string> {
-  scopes: Record<
-    string,
-    {
-      plugins: Record<K, EditorPlugin>
-      defaultPlugin: K
-    }
-  >
+  scopes: Record<string, Record<K, EditorPlugin>>
   createEnhancer: StoreEnhancerFactory
 }
 

@@ -25,7 +25,7 @@ export function boolean(initialValue?: boolean): BooleanStateType;
 export type BooleanStateType = ScalarStateType<boolean>;
 
 // @public (undocumented)
-export function child<K extends string, S = unknown>({ plugin, initialState, config }?: ChildStateTypeConfig): ChildStateType<K, S>;
+export function child<K extends string, S = unknown>({ plugin, initialState, config }: ChildStateTypeConfig): ChildStateType<K, S>;
 
 // @public (undocumented)
 export type ChildStateType<K extends string = string, S = unknown> = StateType<{
@@ -35,7 +35,7 @@ export type ChildStateType<K extends string = string, S = unknown> = StateType<{
     get(): string;
     id: string;
     render: (props?: PluginProps) => React.ReactNode;
-    replace: (plugin?: K, state?: S) => void;
+    replace: (plugin: K, state?: S) => void;
 }>;
 
 // @public (undocumented)
@@ -45,7 +45,7 @@ export interface ChildStateTypeConfig<K extends string = string, S = unknown> {
     // (undocumented)
     initialState?: S;
     // (undocumented)
-    plugin?: K;
+    plugin: K;
 }
 
 // @public (undocumented)

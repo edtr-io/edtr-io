@@ -64,7 +64,7 @@ export type StateUpdater<T> = (previousState: T, helpers: StoreDeserializeHelper
 export interface StoreDeserializeHelpers<K extends string = string, S = unknown> {
     createDocument(document: {
         id: string;
-        plugin?: K;
+        plugin: K;
         state?: S;
     }): void;
 }

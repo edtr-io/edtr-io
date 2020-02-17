@@ -7,6 +7,7 @@
 import { BooleanStateType } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
 import { ChildStateTypeConfig } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
@@ -14,12 +15,41 @@ import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createInputExercisePlugin({ theme, feedback }?: InputExerciseStaticConfig & {
-    theme?: Partial<InputExerciseConfig['theme']>;
-}): EditorPlugin<InputExerciseState, InputExerciseConfig>;
+export function createInputExercisePlugin(config: InputExerciseConfig): EditorPlugin<InputExercisePluginState, InputExercisePluginConfig>;
 
 // @public (undocumented)
 export interface InputExerciseConfig {
+    // (undocumented)
+    feedback: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<InputExercisePluginConfig['i18n']>;
+    // (undocumented)
+    theme?: Partial<InputExercisePluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export interface InputExercisePluginConfig {
+    // (undocumented)
+    i18n: {
+        types: Record<InputExerciseType, string>;
+        type: {
+            label: string;
+        };
+        unit: {
+            label: string;
+        };
+        answer: {
+            addLabel: string;
+            value: {
+                placeholder: string;
+            };
+        };
+        inputPlaceholder: string;
+        fallbackFeedback: {
+            correct: string;
+            wrong: string;
+        };
+    };
     // (undocumented)
     theme: {
         borderColor: string;
@@ -28,10 +58,7 @@ export interface InputExerciseConfig {
 }
 
 // @public (undocumented)
-export type InputExerciseProps = EditorPluginProps<InputExerciseState, InputExerciseConfig>;
-
-// @public (undocumented)
-export type InputExerciseState = ObjectStateType<{
+export type InputExercisePluginState = ObjectStateType<{
     type: StringStateType;
     unit: StringStateType;
     answers: ListStateType<ObjectStateType<{
@@ -42,9 +69,16 @@ export type InputExerciseState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export interface InputExerciseStaticConfig {
+export type InputExerciseProps = EditorPluginProps<InputExercisePluginState, InputExercisePluginConfig>;
+
+// @public (undocumented)
+export enum InputExerciseType {
     // (undocumented)
-    feedback?: ChildStateTypeConfig;
+    InputExpressionEqualMatchChallenge = "input-expression-equal-match-challenge",
+    // (undocumented)
+    InputNumberExactMatchChallenge = "input-number-exact-match-challenge",
+    // (undocumented)
+    InputStringNormalizedMatchChallenge = "input-string-normalized-match-challenge"
 }
 
 

@@ -8,7 +8,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-/** @public */
+/** @internal */
 export enum ExerciseState {
   Default = 1,
   SolvedRight,
@@ -63,7 +63,7 @@ const SubmitButtonComponent = styled.button<{ exerciseState: ExerciseState }>(
   }
 )
 
-/** @public */
+/** @internal */
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState
   onClick?: () => void

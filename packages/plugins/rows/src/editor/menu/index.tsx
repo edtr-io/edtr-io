@@ -1,11 +1,11 @@
 import { styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { RowsConfig } from '../..'
+import { RowsPluginConfig } from '../..'
 import { Plugin } from './plugin'
 import { Search } from './search'
 
-const Wrapper = styled.div<{ config: RowsConfig }>(({ config }) => {
+const Wrapper = styled.div<{ config: RowsPluginConfig }>(({ config }) => {
   const { theme } = config
   return {
     display: 'flex',
@@ -48,7 +48,7 @@ interface MenuProps {
     onClose: (pluginState: { plugin: string; state?: unknown }) => void
   }
   setMenu: (newMenu?: MenuProps['menu']) => void
-  config: RowsConfig
+  config: RowsPluginConfig
 }
 
 export function Menu({ menu, setMenu, config }: MenuProps) {

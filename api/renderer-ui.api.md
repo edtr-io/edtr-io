@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { styled } from '@edtr-io/ui';
 
-// @public (undocumented)
+// @internal (undocumented)
 export enum ExerciseState {
     // (undocumented)
     Default = 1,
@@ -25,10 +25,10 @@ export function ExpandableBox({ children, editable, alwaysVisible, renderTitle }
     renderTitle: (collapsed: boolean) => React.ReactNode;
 }): JSX.Element;
 
-// @public (undocumented)
+// @internal (undocumented)
 export function Feedback({ boxFree, children, isTrueAnswer, showOnLeft }: FeedbackProps): JSX.Element;
 
-// @public (undocumented)
+// @internal (undocumented)
 export interface FeedbackProps {
     // (undocumented)
     boxFree?: boolean;
@@ -42,7 +42,7 @@ export interface FeedbackProps {
 
 export { styled }
 
-// @public (undocumented)
+// @internal (undocumented)
 export class SubmitButton extends React.Component<{
     exerciseState: ExerciseState;
     onClick?: () => void;

@@ -9,10 +9,10 @@ import {
   removeColor
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
-import { TextConfig } from '..'
+import { TextPluginConfig } from '..'
 
 export function ColorControls(props: SubControlProps) {
-  const { theme } = props.config
+  const { i18n, theme } = props.config
   const { colors, defaultColor } = theme.plugins.colors
   return (
     <React.Fragment>
@@ -26,7 +26,7 @@ export function ColorControls(props: SubControlProps) {
           props.switchControls(VisibleControls.All)
           props.onChange(props.editor)
         }}
-        title="Farbe zurücksetzen"
+        title={i18n.colors.resetColorTitle}
       >
         <ColorPaletteIcon color={defaultColor} />
       </Button>
@@ -44,7 +44,7 @@ export function ColorControls(props: SubControlProps) {
             props.switchControls(VisibleControls.All)
             props.onChange(props.editor)
           }}
-          title="Einfärben"
+          title={i18n.colors.setColorTitle}
         >
           <ColorPaletteIcon color={color} />
         </Button>
@@ -52,7 +52,7 @@ export function ColorControls(props: SubControlProps) {
       <Button
         config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title="Untermenü schließen"
+        title={i18n.colors.closeMenuTitle}
       >
         <EdtrIcon icon={edtrClose} />
       </Button>
@@ -84,22 +84,27 @@ const FlexContainer = styled.span({
   flexDirection: 'column'
 })
 
-const Line = styled.span<{ index?: number; config: TextConfig }>(props => {
-  const { theme } = props.config
-  const { colors, defaultColor } = theme.plugins.colors
-  return {
-    border: `2px solid ${
-      props.index === undefined
-        ? defaultColor
-        : colors[props.index % colors.length]
-    }`,
-    borderRadius: '4px',
-    bottom: '0',
-    width: '80%',
-    position: 'absolute'
+const Line = styled.span<{ index?: number; config: TextPluginConfig }>(
+  props => {
+    const { theme } = props.config
+    const { colors, defaultColor } = theme.plugins.colors
+    return {
+      border: `2px solid ${
+        props.index === undefined
+          ? defaultColor
+          : colors[props.index % colors.length]
+      }`,
+      borderRadius: '4px',
+      bottom: '0',
+      width: '80%',
+      position: 'absolute'
+    }
   }
-})
-export function ColoredTextIcon(props: { index?: number; config: TextConfig }) {
+)
+export function ColoredTextIcon(props: {
+  index?: number
+  config: TextPluginConfig
+}) {
   return (
     <ColoredText>
       <FlexContainer>

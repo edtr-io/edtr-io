@@ -14,16 +14,6 @@ test('Initial state', () => {
 })
 
 describe('Insert', () => {
-  test('Default Plugin', async () => {
-    store.dispatch(S.insert({ id: '0' }))
-    await waitUntil(() =>
-      R.any(action => action.type === S.pureInsert.type, store.getActions())
-    )
-    const doc = S.getDocument('0')(store.getState())
-    if (!doc) throw new Error('Document not found')
-    expect(doc.plugin).toEqual('text')
-  })
-
   test('Stateful plugin w/ state', async () => {
     store.dispatch(
       S.insert({
@@ -168,29 +158,30 @@ test('Wrap', async () => {
 test('Unwrap', async () => {
   store.dispatch(
     S.insert({
-      id: '2',
-      plugin: 'stateful',
-      state: 0
-    })
-  )
-  store.dispatch(
-    S.insert({
       id: '1',
       plugin: 'blockquote',
-      state: '2'
+      state: {
+        plugin: 'stateful',
+        state: 0
+      }
     })
   )
-  await waitUntil(
-    () =>
-      R.filter(action => action.type === S.pureInsert.type, store.getActions())
-        .length >= 2
-  )
+  let inserts: S.PureInsertAction[] = []
+  await waitUntil(() => {
+    inserts = R.filter(
+      action => action.type === S.pureInsert.type,
+      store.getActions()
+    ) as S.PureInsertAction[]
+    return inserts.length >= 2
+  })
+  const id = inserts[1].payload.id
   store.dispatch(
     S.unwrap({
       id: '1',
-      oldId: '2'
+      oldId: id
     })
   )
+  console.log('okay?')
   await waitUntil(() =>
     R.any(action => action.type === S.pureUnwrap.type, store.getActions())
   )

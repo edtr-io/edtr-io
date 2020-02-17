@@ -1,8 +1,8 @@
 import { styled } from '@edtr-io/ui'
 
-import { TextConfig } from '..'
+import { TextPluginConfig } from '..'
 
-export const Dropdown = styled.select<{ config: TextConfig }>(props => {
+export const Dropdown = styled.select<{ config: TextPluginConfig }>(props => {
   const { theme } = props.config
   return {
     backgroundColor: theme.backgroundColor,
@@ -19,18 +19,19 @@ export const Dropdown = styled.select<{ config: TextConfig }>(props => {
   }
 })
 
-export const Option = styled.option<{ config: TextConfig; active?: boolean }>(
-  props => {
-    const { theme } = props.config
-    return {
-      backgroundColor: props.active
-        ? theme.active.backgroundColor
-        : theme.dropDown.backgroundColor,
-      color: props.active ? theme.active.color : theme.color,
-      cursor: 'pointer',
-      '&:hover': {
-        color: theme.hoverColor
-      }
+export const Option = styled.option<{
+  config: TextPluginConfig
+  active?: boolean
+}>(props => {
+  const { theme } = props.config
+  return {
+    backgroundColor: props.active
+      ? theme.active.backgroundColor
+      : theme.dropDown.backgroundColor,
+    color: props.active ? theme.active.color : theme.color,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.hoverColor
     }
   }
-)
+})

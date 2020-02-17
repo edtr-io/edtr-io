@@ -12,10 +12,7 @@ export function* rootSaga() {
 function* initRootSaga(action: InitRootAction) {
   yield put(
     setPartialState({
-      plugins: {
-        plugins: action.payload.plugins,
-        defaultPlugin: action.payload.defaultPlugin
-      }
+      plugins: action.payload.plugins
     })(action.scope)
   )
   yield put(pureInitRoot()(action.scope))

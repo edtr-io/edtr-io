@@ -163,7 +163,7 @@ export interface StoreDeserializeHelpers<
    *
    * @param document - document to insert
    */
-  createDocument(document: { id: string; plugin?: K; state?: S }): void
+  createDocument(document: { id: string; plugin: K; state?: S }): void
 }
 
 /**

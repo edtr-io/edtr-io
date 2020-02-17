@@ -1,9 +1,9 @@
 import { styled, EdtrIcon, edtrDefaultPlugin } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { RowsConfig } from '../..'
+import { RowsPluginConfig } from '../..'
 
-const StyledPlugin = styled.div<{ config: RowsConfig }>(({ config }) => {
+const StyledPlugin = styled.div<{ config: RowsPluginConfig }>(({ config }) => {
   const { theme } = config
   return {
     display: 'flex',
@@ -60,7 +60,7 @@ export const Plugin = ({
     description?: string
   }
   pluginName: string
-  config: RowsConfig
+  config: RowsPluginConfig
   onClick: () => void
 }) => {
   return (

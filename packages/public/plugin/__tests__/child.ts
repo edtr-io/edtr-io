@@ -14,21 +14,7 @@ describe('Child', () => {
     }
   })
 
-  test('default plugin, initial state', () => {
-    const state = child()
-
-    // Store
-    const id = state.createInitialState(helpers)
-    expect(typeof id).toEqual('string')
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(helpers.createDocument).toHaveBeenCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(helpers.createDocument).toBeCalledWith({
-      id
-    })
-  })
-
-  test('given plugin, initial state', () => {
+  test('initial state', () => {
     const state = child({ plugin: 'counter' })
 
     // Store
@@ -43,7 +29,7 @@ describe('Child', () => {
     })
   })
 
-  test('given plugin, given state', () => {
+  test('given state', () => {
     const state = child({ plugin: 'counter', initialState: 3 })
 
     // Store
@@ -60,7 +46,7 @@ describe('Child', () => {
   })
 
   test('deserialize', () => {
-    const state = child()
+    const state = child({ plugin: 'counter' })
     const serialized = {
       plugin: 'counter',
       state: 0
@@ -80,7 +66,7 @@ describe('Child', () => {
   })
 
   test('serialize', () => {
-    const state = child<'counter', number>()
+    const state = child<'counter', number>({ plugin: 'counter' })
     const deserialized = 'foo'
 
     const serialized = state.serialize(deserialized, {
@@ -101,7 +87,7 @@ describe('Child', () => {
   })
 
   test('return type', () => {
-    const state = child()
+    const state = child({ plugin: 'counter' })
     const id = 'foo'
     const childValue = state.init(id, () => {})
     expect(childValue.get()).toEqual(id)
@@ -110,12 +96,12 @@ describe('Child', () => {
   })
 
   test('get focusable children', () => {
-    const state = child()
+    const state = child({ plugin: 'counter' })
     expect(state.getFocusableChildren('foo')).toEqual([{ id: 'foo' }])
   })
 
   test('plugin config', () => {
-    const state = child()
+    const state = child({ plugin: 'counter' })
     const id = 'foo'
     const childValue = state.init(id, () => {})
     let pluginProps: PluginProps = {}
@@ -130,7 +116,7 @@ describe('Child', () => {
   })
 
   test('plugin config, overridden in child', () => {
-    const state = child({ config: { foo: 'bar' } })
+    const state = child({ plugin: 'counter', config: { foo: 'bar' } })
     const id = 'foo'
     const childValue = state.init(id, () => {})
     let pluginProps: PluginProps = {}
@@ -145,7 +131,7 @@ describe('Child', () => {
   })
 
   test('plugin config, overridden in render', () => {
-    const state = child()
+    const state = child({ plugin: 'counter' })
     const childValue = state.init('foo', () => {})
     let pluginProps: PluginProps = {}
     // @ts-ignore
@@ -159,7 +145,7 @@ describe('Child', () => {
   })
 
   test('plugin config, overridden in both child and render', () => {
-    const state = child({ config: { foo: 'foo' } })
+    const state = child({ plugin: 'counter', config: { foo: 'foo' } })
     const childValue = state.init('foo', () => {})
     let pluginProps: PluginProps = {}
     // @ts-ignore

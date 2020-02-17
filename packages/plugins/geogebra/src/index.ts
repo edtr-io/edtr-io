@@ -7,19 +7,25 @@ import {
 
 import { GeogebraEditor } from './editor'
 
-/** @public */
-export type GeogebraState = StringStateType
-/** @public */
-export type GeogebraProps = EditorPluginProps<GeogebraState>
+/**
+ * @param config - {@link GeogebraConfig | Plugin configuration}
+ * @public
+ */
+export function createGeogebraPlugin(
+  config: GeogebraConfig = {}
+): EditorPlugin<GeogebraPluginState, GeogebraPluginConfig> {
+  const { i18n = {} } = config
 
-const geogebraState: GeogebraState = string()
-
-/** @public */
-export function createGeogebraPlugin(): EditorPlugin<GeogebraState> {
   return {
     Component: GeogebraEditor,
-    config: {},
-    state: geogebraState,
+    config: {
+      i18n: {
+        label: 'GeoGebra URL or ID',
+        placeholder: '12345',
+        ...i18n
+      }
+    },
+    state: string(),
     onPaste(clipboardData: DataTransfer) {
       const value = clipboardData.getData('text')
 
@@ -29,3 +35,25 @@ export function createGeogebraPlugin(): EditorPlugin<GeogebraState> {
     }
   }
 }
+
+/** @public */
+export interface GeogebraConfig {
+  i18n?: Partial<GeogebraPluginConfig['i18n']>
+}
+
+/** @public */
+export type GeogebraPluginState = StringStateType
+
+/** @public */
+export interface GeogebraPluginConfig {
+  i18n: {
+    label: string
+    placeholder: string
+  }
+}
+
+/** @public */
+export type GeogebraProps = EditorPluginProps<
+  GeogebraPluginState,
+  GeogebraPluginConfig
+>

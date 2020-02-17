@@ -7,21 +7,52 @@
 import { BooleanStateType } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
 import { ChildStateTypeConfig } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
-// Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
-//
 // @public (undocumented)
-export function createScMcExercisePlugin(config?: ScMcExerciseStaticConfig): EditorPlugin<ScMcExerciseState>;
+export function createScMcExercisePlugin(config: ScMcExerciseConfig): EditorPlugin<ScMcExercisePluginState, ScMcExercisePluginConfig>;
 
 // @public (undocumented)
-export type ScMcExerciseProps = EditorPluginProps<ScMcExerciseState>;
+export interface ScMcExerciseConfig extends Omit<ScMcExercisePluginConfig, 'i18n'> {
+    // (undocumented)
+    content: ChildStateTypeConfig;
+    // (undocumented)
+    feedback: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<ScMcExercisePluginConfig['i18n']>;
+}
 
 // @public (undocumented)
-export type ScMcExerciseState = ObjectStateType<{
+export interface ScMcExercisePluginConfig {
+    // (undocumented)
+    i18n: {
+        types: {
+            singleChoice: string;
+            multipleChoice: string;
+        };
+        isSingleChoice: {
+            label: string;
+        };
+        answer: {
+            addLabel: string;
+            fallbackFeedback: {
+                wrong: string;
+            };
+        };
+        globalFeedback: {
+            correct: string;
+            missingCorrectAnswers: string;
+            wrong: string;
+        };
+    };
+}
+
+// @public (undocumented)
+export type ScMcExercisePluginState = ObjectStateType<{
     isSingleChoice: BooleanStateType;
     answers: ListStateType<ObjectStateType<{
         content: ChildStateType;
@@ -31,12 +62,7 @@ export type ScMcExerciseState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export interface ScMcExerciseStaticConfig {
-    // (undocumented)
-    content?: ChildStateTypeConfig;
-    // (undocumented)
-    feedback?: ChildStateTypeConfig;
-}
+export type ScMcExerciseProps = EditorPluginProps<ScMcExercisePluginState, ScMcExercisePluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

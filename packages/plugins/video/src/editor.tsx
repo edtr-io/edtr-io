@@ -16,14 +16,14 @@ export const VideoEditor = (props: VideoProps) => {
       {props.renderIntoSettings(
         <React.Fragment>
           <OverlayInput
-            label="Video URL:"
+            label={props.config.i18n.src.label}
             value={state.src.value}
             onChange={e => {
               state.src.set(e.target.value)
             }}
           />
           <OverlayInput
-            label="alternativer Text:"
+            label={props.config.i18n.alt.label}
             value={state.alt.value}
             onChange={e => {
               state.alt.set(e.target.value)
@@ -39,9 +39,9 @@ export const VideoEditor = (props: VideoProps) => {
             onChange={e => {
               state.src.set(e.target.value)
             }}
-            textfieldWidth="80%"
-            editorInputWidth="100%"
-            ref={props.defaultFocusRef}
+            width="80%"
+            inputWidth="100%"
+            ref={props.autofocusRef}
           />
         </EditorInlineSettings>
       ) : null}

@@ -21,7 +21,7 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           toggleList(orderedListNode)(props.editor).focus()
           props.onChange(props.editor)
         }}
-        title="Nummerierte Liste"
+        title={props.config.i18n.list.toggleOrderedList}
       >
         <EdtrIcon icon={edtrListNumbered} />
       </Button>
@@ -35,14 +35,14 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           }
           props.onChange(props.editor)
         }}
-        title="Aufzählung"
+        title={props.config.i18n.list.toggleUnorderedList}
       >
         <EdtrIcon icon={edtrListBullets} />
       </Button>
       <Button
         config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title="Untermenü schließen"
+        title={props.config.i18n.list.closeMenuTitle}
       >
         <EdtrIcon icon={edtrClose} />
       </Button>

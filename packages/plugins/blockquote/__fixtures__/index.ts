@@ -1,14 +1,14 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
-import { BlockquoteState, createBlockquotePlugin } from '../src'
+import { BlockquotePluginState, createBlockquotePlugin } from '../src'
 
 export const name = 'blockquote'
-export const plugin = createBlockquotePlugin()
+export const plugin = createBlockquotePlugin({ content: { plugin: 'text' } })
 
 export const states: Record<
   string,
-  StateTypeSerializedType<BlockquoteState>
+  StateTypeSerializedType<BlockquotePluginState>
 > = {
   simple: {
     plugin: textPlugin,

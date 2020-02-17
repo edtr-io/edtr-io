@@ -27,14 +27,14 @@ describe('list', () => {
   })
 
   test('initial list with 0 children', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const initial = state.createInitialState(helpers)
 
     expect(initial).toEqual([])
   })
 
   test('initial list with one initial child', () => {
-    const state = list(child(), 1)
+    const state = list(child({ plugin: 'counter ' }), 1)
     const initial = state.createInitialState(helpers)
 
     expect(initial).toHaveLength(1)
@@ -43,7 +43,7 @@ describe('list', () => {
   })
 
   test('initial list with two initial children', () => {
-    const state = list(child(), 2)
+    const state = list(child({ plugin: 'counter' }), 2)
     const initial = state.createInitialState(helpers)
 
     expect(initial).toHaveLength(2)
@@ -52,7 +52,7 @@ describe('list', () => {
   })
 
   test('deserialize', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const serialized = [
       { plugin: 'counter', state: 0 },
       { plugin: 'counter', state: 1 }
@@ -69,7 +69,7 @@ describe('list', () => {
   })
 
   test('serialize', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const deserialized = [
       {
         id: 'foo',
@@ -96,20 +96,20 @@ describe('list', () => {
   })
 
   test('return type, empty list', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init([], () => {})
     expect(listValue.length).toEqual(0)
   })
 
   test('return type, non-empty list', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init([{ id: 'foo', value: 'bar' }], () => {})
     expect(listValue).toHaveLength(1)
   })
 
   test('return type, empty list, insert last', () => {
     store = []
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(1)
@@ -124,7 +124,7 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.insert()
     expect(store).toHaveLength(2)
@@ -138,7 +138,7 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.insert(0)
     expect(store).toHaveLength(2)
@@ -152,7 +152,7 @@ describe('list', () => {
         value: 'foo'
       }
     ]
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(0)
@@ -169,7 +169,7 @@ describe('list', () => {
         value: 'bar'
       }
     ]
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.remove(0)
     expect(store).toHaveLength(1)
@@ -187,7 +187,7 @@ describe('list', () => {
         value: 'bar'
       }
     ]
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
     listValue.set(list => {
       return [list[0]]
@@ -197,7 +197,7 @@ describe('list', () => {
   })
 
   test('get focusable children', () => {
-    const state = list(child())
+    const state = list(child({ plugin: 'counter' }))
     expect(state.getFocusableChildren([{ id: 'foo', value: 'bar' }])).toEqual([
       { id: 'bar' }
     ])
@@ -231,7 +231,7 @@ describe('list', () => {
   })
 
   test('inner change correctly dispatches changes', () => {
-    const state = list(list(child(), 0), 1)
+    const state = list(list(child({ plugin: 'counter' }), 0), 1)
     const initialState = state.createInitialState(helpers)
     expect(helpers.createDocument).not.toHaveBeenCalled()
 

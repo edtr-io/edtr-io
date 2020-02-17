@@ -25,7 +25,7 @@ test('default plugin', () => {
 function renderDocument(onChange: StateProps['onChange']) {
   act(() => {
     ReactDOM.render(
-      <Editor plugins={plugins} defaultPlugin="stateful">
+      <Editor plugins={plugins} initialState={{ plugin: 'stateful' }}>
         {children => {
           return (
             <React.Fragment>

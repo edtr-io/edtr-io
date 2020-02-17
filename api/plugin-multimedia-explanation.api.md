@@ -7,16 +7,36 @@
 import { BooleanStateType } from '@edtr-io/plugin';
 import { ChildStateType } from '@edtr-io/plugin';
 import { ChildStateTypeConfig } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { NumberStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createMultimediaExplanationPlugin(config: MultimediaExplanationStaticConfig & MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationState, MultimediaExplanationConfig>;
+export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
 
 // @public (undocumented)
-export interface MultimediaExplanationConfig {
+export interface MultimediaExplanationConfig extends Omit<MultimediaExplanationPluginConfig, 'i18n'> {
+    // (undocumented)
+    explanation: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<MultimediaExplanationPluginConfig['i18n']>;
+}
+
+// @public (undocumented)
+export interface MultimediaExplanationPluginConfig {
+    // (undocumented)
+    i18n: {
+        changeMultimediaType: string;
+        illustrating: {
+            label: string;
+            values: {
+                illustrating: string;
+                explaining: string;
+            };
+        };
+    };
     // (undocumented)
     plugins: {
         name: string;
@@ -25,10 +45,7 @@ export interface MultimediaExplanationConfig {
 }
 
 // @public (undocumented)
-export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationState, MultimediaExplanationConfig>;
-
-// @public (undocumented)
-export type MultimediaExplanationState = ObjectStateType<{
+export type MultimediaExplanationPluginState = ObjectStateType<{
     explanation: ChildStateType;
     multimedia: ChildStateType;
     illustrating: BooleanStateType;
@@ -36,10 +53,7 @@ export type MultimediaExplanationState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export interface MultimediaExplanationStaticConfig {
-    // (undocumented)
-    explanation?: ChildStateTypeConfig;
-}
+export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

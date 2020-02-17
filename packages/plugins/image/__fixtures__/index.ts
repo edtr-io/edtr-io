@@ -4,7 +4,7 @@ import {
   UploadValidator
 } from '@edtr-io/plugin'
 
-import { ImageState, createImagePlugin } from '../src'
+import { ImagePluginState, createImagePlugin } from '../src'
 
 export const name = 'image'
 
@@ -108,7 +108,10 @@ export const plugin = createImagePlugin({
   secondInput: 'description'
 })
 
-export const states: Record<string, StateTypeSerializedType<ImageState>> = {
+export const states: Record<
+  string,
+  StateTypeSerializedType<ImagePluginState>
+> = {
   simple: {
     src:
       'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',

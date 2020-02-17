@@ -6,6 +6,7 @@ import { Inline } from 'slate'
 import { Editor } from 'slate-react'
 
 import { trimSelection } from '../helpers'
+import { I18nContext } from '../i18n-context'
 import { linkNode } from '../model'
 import { InlineInput } from './inline-input'
 import { InlineSettings } from './inline-settings'
@@ -82,6 +83,7 @@ const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props
 }
 
 const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = props => {
+  const i18n = React.useContext(I18nContext)
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
@@ -134,7 +136,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
         >
           <InlineInput
             value={value}
-            placeholder="Hier Link einfügen"
+            placeholder={i18n.link.placeholder}
             onChange={event => {
               const newValue = event.target.value
               setValue(newValue)
@@ -167,7 +169,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
             }}
           />
           <a target="_blank" href={value} rel="noopener noreferrer">
-            <OpenInNewTab title="Öffne in neuem Tab">
+            <OpenInNewTab title={i18n.link.openInNewTabTitle}>
               <Icon icon={faExternalLinkAlt} />
             </OpenInNewTab>
           </a>

@@ -30,7 +30,7 @@ import {
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { useCanDrop } from './use-can-drop'
-import { RowsConfig, RowsState } from '..'
+import { RowsPluginConfig, RowsPluginState } from '..'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
@@ -67,7 +67,7 @@ const GrayOut = styled.div({
   opacity: 0.3
 })
 
-const Inserted = styled.hr<{ config: RowsConfig }>(({ config }) => {
+const Inserted = styled.hr<{ config: RowsPluginConfig }>(({ config }) => {
   return {
     border: `1px solid ${config.theme.highlightColor}`
   }
@@ -83,9 +83,9 @@ export function RowRenderer({
   plugins,
   dropContainer
 }: {
-  config: RowsConfig
-  row: StateTypeReturnType<RowsState>[0]
-  rows: StateTypeReturnType<RowsState>
+  config: RowsPluginConfig
+  row: StateTypeReturnType<RowsPluginState>[0]
+  rows: StateTypeReturnType<RowsPluginState>
   index: number
   plugins: SelectorReturnType<typeof getPlugins>
   dropContainer: React.RefObject<HTMLDivElement>
@@ -228,18 +228,18 @@ export function RowRenderer({
                     rows.insert(index, document)
                     close()
                   }}
-                  label="Duplizieren"
+                  label={config.i18n.settings.duplicateLabel}
                 >
-                  <Icon icon={faCopy} /> Duplizieren
+                  <Icon icon={faCopy} /> {config.i18n.settings.duplicateLabel}
                 </BorderlessOverlayButton>
                 <BorderlessOverlayButton
                   onClick={() => {
                     rows.remove(index)
                     close()
                   }}
-                  label="Löschen"
+                  label={config.i18n.settings.removeLabel}
                 >
-                  <Icon icon={faTrashAlt} /> Löschen
+                  <Icon icon={faTrashAlt} /> {config.i18n.settings.removeLabel}
                 </BorderlessOverlayButton>
               </Left>
               <div>
@@ -247,7 +247,7 @@ export function RowRenderer({
                   onClick={() => {
                     close()
                   }}
-                  label="Schließen"
+                  label={config.i18n.settings.closeLabel}
                 />
               </div>
             </ButtonContainer>
@@ -260,14 +260,24 @@ export function RowRenderer({
             <DragToolbarButton
               ref={drag}
               icon={<EdtrIcon icon={edtrDragHandle} />}
-              label="Verschiebe das Element innerhalb des Dokuments"
+              label={config.i18n.toolbar.dragLabel}
             />
             {children}
           </React.Fragment>
         )
       }
     }
-  }, [drag, store, index, row.id, rows])
+  }, [
+    config.i18n.settings.duplicateLabel,
+    config.i18n.settings.removeLabel,
+    config.i18n.settings.closeLabel,
+    config.i18n.toolbar.dragLabel,
+    row.id,
+    store,
+    rows,
+    index,
+    drag
+  ])
 
   dragPreview(drop(dropContainer))
   const dropPreview =

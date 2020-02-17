@@ -41,9 +41,9 @@ const Input = styled.input<{ textWidth: string | undefined }>(
 export const EditorInput = React.forwardRef<HTMLInputElement, EditorInputProps>(
   function EditorInput({ label, ...props }, ref) {
     return (
-      <Label width={props.editorInputWidth}>
-        {label}
-        <Input textWidth={props.textfieldWidth} {...props} ref={ref} />
+      <Label width={props.width}>
+        {label ? `${label}:` : ''}
+        <Input textWidth={props.inputWidth} {...props} ref={ref} />
       </Label>
     )
   }
@@ -56,6 +56,6 @@ export interface EditorInputProps
     HTMLInputElement
   > {
   label?: string
-  textfieldWidth?: string
-  editorInputWidth?: string
+  inputWidth?: string
+  width?: string
 }

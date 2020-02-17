@@ -8,7 +8,7 @@ import {
   NodeEditorProps,
   TextPlugin,
   NodeControlsProps,
-  TextConfig
+  TextPluginConfig
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
 import { trimSelection } from '../../helpers'
@@ -67,7 +67,7 @@ export const removeKatex = (editor: Editor) => {
 
 export interface KatexPluginOptions {
   EditorComponent?: React.ComponentType<
-    NodeEditorProps & { config: TextConfig }
+    NodeEditorProps & { config: TextPluginConfig }
   >
   RenderComponent?: React.ComponentType<NodeRendererProps>
   ControlsComponent?: React.ComponentType<NodeControlsProps>

@@ -23,7 +23,7 @@ interface ContainerProps {
   showOnLeft?: boolean
 }
 
-/** @public */
+/** @internal */
 export function Feedback({
   boxFree,
   children,
@@ -39,7 +39,7 @@ export function Feedback({
   )
 }
 
-/** @public */
+/** @internal */
 export interface FeedbackProps {
   children?: React.ReactNode
   boxFree?: boolean

@@ -1,12 +1,16 @@
 import { useScopedStore } from '@edtr-io/core'
 import { styled } from '@edtr-io/editor-ui'
-import { Feedback, SubmitButton } from '@edtr-io/renderer-ui'
+import { Feedback, SubmitButton } from '@edtr-io/renderer-ui/internal'
 import { isEmpty } from '@edtr-io/store'
 import A from 'algebra.js'
 import * as React from 'react'
 import S from 'string'
 
-import { InputExerciseConfig, InputExerciseProps } from '.'
+import {
+  InputExercisePluginConfig,
+  InputExerciseProps,
+  InputExerciseType
+} from '.'
 
 enum ExerciseState {
   Default = 1,
@@ -18,7 +22,7 @@ const InputContainer = styled.div({
   display: 'flex',
   flexDirection: 'row'
 })
-const InputExerciseField = styled.input<{ config: InputExerciseConfig }>(
+const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
   ({ config }) => {
     const { theme } = config
     return {
@@ -36,34 +40,38 @@ function normalizeNumber(string: string) {
   return S(string).replaceAll(',', '.').s
 }
 
-function normalize(type: string, string: string) {
+function normalize(type: InputExerciseType, string: string) {
   const temp = S(string).collapseWhitespace()
 
   switch (type) {
-    case 'input-number-exact-match-challenge':
+    case InputExerciseType.InputNumberExactMatchChallenge:
       return S(normalizeNumber(temp.s))
         .replaceAll(' /', '/')
         .replaceAll('/ ', '/').s
-    case 'input-expression-equal-match-challenge':
+    case InputExerciseType.InputExpressionEqualMatchChallenge:
       return A.parse(normalizeNumber(temp.s))
-    default:
+    case InputExerciseType.InputStringNormalizedMatchChallenge:
       return temp.s.toUpperCase()
   }
 }
 
-function matchesInput(field: { type: string; value: string }, input: string) {
+function matchesInput(
+  field: { type: InputExerciseType; value: string },
+  input: string
+) {
   try {
     const solution = normalize(field.type, field.value)
     const submission = normalize(field.type, input)
 
     switch (field.type) {
-      case 'input-expression-equal-match-challenge':
+      case InputExerciseType.InputExpressionEqualMatchChallenge:
         return (
           (solution as A.Expression)
             .subtract(submission as A.Expression)
             .toString() === '0'
         )
-      default:
+      case InputExerciseType.InputNumberExactMatchChallenge:
+      case InputExerciseType.InputStringNormalizedMatchChallenge:
         return solution === submission
     }
   } catch (err) {
@@ -74,6 +82,7 @@ function matchesInput(field: { type: string; value: string }, input: string) {
 
 export function InputExerciseRenderer(props: InputExerciseProps) {
   const { state } = props
+  const { i18n } = props.config
   const store = useScopedStore()
   const [feedbackIndex, setFeedbackIndex] = React.useState<number>(-1)
   const [feedbackVisible, setFeedbackVisible] = React.useState<boolean>()
@@ -107,7 +116,10 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
       if (
         input.current &&
         matchesInput(
-          { type: state.type.value, value: answer.value.value },
+          {
+            type: state.type.value as InputExerciseType,
+            value: answer.value.value
+          },
           input.current.value
         )
       ) {
@@ -140,7 +152,7 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
             }}
             data-type={state.type.value}
             type="text"
-            placeholder="Deine Lösung"
+            placeholder={i18n.inputPlaceholder}
             ref={input}
           />
           {state.unit.value}
@@ -161,12 +173,12 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
                 store.getState()
               )
                 ? state.answers[feedbackIndex].isCorrect.value
-                  ? 'Sehr gut!'
-                  : 'Leider falsch!'
+                  ? i18n.fallbackFeedback.correct
+                  : i18n.fallbackFeedback.wrong
                 : state.answers[feedbackIndex].feedback.render()}
             </Feedback>
           ) : (
-            <Feedback boxFree> Leider falsch!</Feedback>
+            <Feedback boxFree>{i18n.fallbackFeedback.wrong}</Feedback>
           )
         ) : null}
         <div>

@@ -63,10 +63,7 @@ export function Editor<K extends string = string>({
   const store = React.useMemo(() => {
     return createStore({
       scopes: {
-        [MAIN_SCOPE]: {
-          plugins: props.plugins,
-          defaultPlugin: props.defaultPlugin
-        }
+        [MAIN_SCOPE]: props.plugins
       },
       createEnhancer: createStoreEnhancer
     }).store
@@ -144,12 +141,16 @@ export function EditorProvider({
  */
 export function Document<K extends string = string>({
   scope = MAIN_SCOPE,
-  mirror,
   ...props
-}: EditorProps<K> & { scope?: string; mirror?: boolean }) {
+}: Omit<EditorProps<K>, 'initialState'> & {
+  scope: string
+} & (
+    | { mirror: true; initialState?: unknown }
+    | { mirror?: false; initialState: EditorProps<K>['initialState'] }
+  )) {
   const storeContext = React.useContext(EditorContext)
   React.useEffect(() => {
-    const isMainInstance = !mirror
+    const isMainInstance = !props.mirror
     if (isMainInstance) {
       if (mountedScopes[scope]) {
         // eslint-disable-next-line no-console
@@ -162,7 +163,7 @@ export function Document<K extends string = string>({
         }
       }
     }
-  }, [mirror, scope])
+  }, [props.mirror, scope])
 
   if (!storeContext) {
     // eslint-disable-next-line no-console
@@ -172,7 +173,7 @@ export function Document<K extends string = string>({
     return null
   }
 
-  return <InnerDocument scope={scope} mirror={mirror} {...props} />
+  return <InnerDocument scope={scope} {...props} />
 }
 
 const defaultTheme: CustomTheme = {}
@@ -183,18 +184,21 @@ const hotKeysKeyMap = {
 
 export function InnerDocument<K extends string = string>({
   children,
-  initialState,
-  mirror,
   plugins,
-  defaultPlugin,
   scope,
   editable,
   theme = defaultTheme,
   onChange,
   onError,
   DocumentEditor = DefaultDocumentEditor,
-  PluginToolbar = DefaultPluginToolbar
-}: EditorProps<K> & { scope: string; mirror?: boolean }) {
+  PluginToolbar = DefaultPluginToolbar,
+  ...props
+}: Omit<EditorProps<K>, 'initialState'> & {
+  scope: string
+} & (
+    | { mirror: true; initialState?: unknown }
+    | { mirror?: false; initialState: EditorProps<K>['initialState'] }
+  )) {
   // Can't use `useScopedSelector` here since `InnerDocument` initializes the scoped state and `ScopeContext`
   const id = useSelector(state => {
     const scopedState = state[scope]
@@ -225,12 +229,12 @@ export function InnerDocument<K extends string = string>({
   }, [onChange, fullStore, scope])
 
   React.useEffect(() => {
-    if (!mirror) {
-      dispatch(initRoot({ initialState, plugins, defaultPlugin })(scope))
+    if (!props.mirror) {
+      dispatch(initRoot({ initialState: props.initialState, plugins })(scope))
     }
     // TODO: initRoot changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialState, plugins, defaultPlugin, mirror])
+  }, [props.initialState, plugins, props.mirror])
   const scopeContextValue = React.useMemo(() => {
     return {
       scope,
@@ -291,8 +295,7 @@ export interface EditorProps<K extends string = string> {
   omitDragDropContext?: boolean
   children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode)
   plugins: Record<K, EditorPlugin>
-  defaultPlugin: K
-  initialState?: {
+  initialState: {
     plugin: string
     state?: unknown
   }

@@ -6,14 +6,19 @@ import { Editor } from 'slate-react'
 import { SlatePluginClosure } from '../factory/types'
 import { getTrimmedSelectionRange } from '../helpers'
 import { colorMark } from '../model'
-import { MarkEditorProps, MarkRendererProps, TextConfig, TextPlugin } from '..'
+import {
+  MarkEditorProps,
+  MarkRendererProps,
+  TextPluginConfig,
+  TextPlugin
+} from '..'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<
-    MarkEditorProps & { colorIndex: number; config: TextConfig }
+    MarkEditorProps & { colorIndex: number; config: TextPluginConfig }
   >
   RenderComponent?: React.ComponentType<
-    MarkRendererProps & { colorIndex: number; config: TextConfig }
+    MarkRendererProps & { colorIndex: number; config: TextPluginConfig }
   >
 }
 
@@ -67,7 +72,7 @@ export const getColorIndex = (editor: Editor) => {
   }
 }
 
-const Color = styled.span<{ config: TextConfig; colorIndex: number }>(
+const Color = styled.span<{ config: TextPluginConfig; colorIndex: number }>(
   ({ config, colorIndex }) => {
     const { theme } = config
     const colors = theme.plugins.colors.colors
@@ -78,7 +83,7 @@ const Color = styled.span<{ config: TextConfig; colorIndex: number }>(
 )
 
 class DefaultEditorComponent extends React.Component<
-  MarkEditorProps & { config: TextConfig; colorIndex: number }
+  MarkEditorProps & { config: TextPluginConfig; colorIndex: number }
 > {
   public render() {
     const { config, attributes, children, colorIndex } = this.props

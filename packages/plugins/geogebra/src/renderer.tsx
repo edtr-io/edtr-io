@@ -128,7 +128,7 @@ export function GeogebraRenderer({
       >
         <img
           src="https://cdn.geogebra.org/static/img/GeoGebra-logo.png"
-          alt="Geogebra"
+          alt="GeoGebra"
         />
       </div>
     )

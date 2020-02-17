@@ -4,28 +4,14 @@ import {
   InteractiveAnswer,
   PreviewOverlay,
   styled
-} from '@edtr-io/editor-ui'
+} from '@edtr-io/editor-ui/internal'
+import { invariant } from '@edtr-io/internal__dev-expression'
 import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { InputExerciseProps } from '.'
+import { InputExerciseProps, InputExerciseType } from '.'
 import { InputExerciseRenderer } from './renderer'
-
-const types = [
-  {
-    name: 'Text',
-    type: 'input-string-normalized-match-challenge'
-  },
-  {
-    name: 'Zahl',
-    type: 'input-number-exact-match-challenge'
-  },
-  {
-    name: 'Ausdruck',
-    type: 'input-expression-equal-match-challenge'
-  }
-]
 
 const AnswerTextfield = styled.input({
   border: 'none',
@@ -33,20 +19,19 @@ const AnswerTextfield = styled.input({
   width: '100%'
 })
 export function InputExerciseEditor(props: InputExerciseProps) {
-  function translateDataType(type: string) {
-    for (let i = 0; i < types.length; i++) {
-      if (type === types[i].type) return types[i].name
-    }
-    return ''
+  function translateDataType(type: InputExerciseType) {
+    return props.config.i18n.types[type]
   }
-  function translateDataName(name: string) {
-    for (let i = 0; i < types.length; i++) {
-      if (name === types[i].name) return types[i].type
+  function translateDataName(name: string): InputExerciseType {
+    console.log(name)
+    for (const type of R.values(InputExerciseType)) {
+      if (name === translateDataType(type)) return type
     }
-    return ''
+    invariant(false, `Invalid type: ${name}`)
   }
 
-  const { editable, state, focused } = props
+  const { editable, state, focused, config } = props
+  const { i18n } = config
   const focusedElement = useScopedSelector(getFocused())
   const nestedFocus =
     focused ||
@@ -71,7 +56,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
                     answer={
                       <AnswerTextfield
                         value={answer.value.value}
-                        placeholder="Gib hier deine Antwort ein"
+                        placeholder={i18n.answer.value.placeholder}
                         type="text"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           answer.value.set(e.target.value)
@@ -92,28 +77,30 @@ export function InputExerciseEditor(props: InputExerciseProps) {
                 )
               })}
               <AddButton onClick={() => state.answers.insert()}>
-                Antwort hinzufügen...
+                {i18n.answer.addLabel}
               </AddButton>
             </React.Fragment>
           ) : null}
           {props.renderIntoSettings(
             <React.Fragment>
               <OverlayInput
-                label="Einheit (optional)"
+                label={i18n.unit.label}
                 value={state.unit.value}
                 onChange={e => {
                   state.unit.set(e.target.value)
                 }}
               />
               <OverlaySelect
-                label="Wähle den Antworttyp"
+                label={i18n.type.label}
                 onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
                   state.type.set(translateDataName(event.target.value))
                 }}
-                value={translateDataType(state.type.value)}
-                options={R.map(type => {
-                  return type.name
-                }, types)}
+                value={translateDataType(state.type.value as InputExerciseType)}
+                options={R.values(
+                  R.mapObjIndexed(type => {
+                    return translateDataType(type)
+                  }, InputExerciseType)
+                )}
               />
             </React.Fragment>
           )}

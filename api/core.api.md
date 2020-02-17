@@ -21,10 +21,15 @@ import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
 
 // @public
-export function Document<K extends string = string>({ scope, mirror, ...props }: EditorProps<K> & {
-    scope?: string;
-    mirror?: boolean;
-}): JSX.Element | null;
+export function Document<K extends string = string>({ scope, ...props }: Omit<EditorProps<K>, 'initialState'> & {
+    scope: string;
+} & ({
+    mirror: true;
+    initialState?: unknown;
+} | {
+    mirror?: false;
+    initialState: EditorProps<K>['initialState'];
+})): JSX.Element | null;
 
 // @public (undocumented)
 export const DocumentEditorContext: React.Context<React.ComponentType<InternalDocumentEditor.DocumentEditorProps>>;
@@ -39,13 +44,11 @@ export interface EditorProps<K extends string = string> {
     // (undocumented)
     createStoreEnhancer?: StoreEnhancerFactory;
     // (undocumented)
-    defaultPlugin: K;
-    // (undocumented)
     DocumentEditor?: React.ContextType<typeof DocumentEditorContext>;
     // (undocumented)
     editable?: boolean;
     // (undocumented)
-    initialState?: {
+    initialState: {
         plugin: string;
         state?: unknown;
     };

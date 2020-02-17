@@ -5,6 +5,7 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { NumberStateType } from '@edtr-io/plugin';
@@ -16,10 +17,47 @@ import { UploadStateType } from '@edtr-io/plugin';
 import { UploadValidator } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createImagePlugin(config: ImageConfig): EditorPlugin<ImageState, ImageConfig>;
+export function createImagePlugin(config: ImageConfig): EditorPlugin<ImagePluginState, ImagePluginConfig>;
 
 // @public (undocumented)
-export interface ImageConfig {
+export interface ImageConfig extends Omit<ImagePluginConfig, 'i18n'> {
+    // (undocumented)
+    i18n?: DeepPartial<ImagePluginConfig['i18n']>;
+}
+
+// @public (undocumented)
+export interface ImagePluginConfig {
+    // (undocumented)
+    i18n: {
+        label: string;
+        failedUploadMessage: string;
+        src: {
+            label: string;
+            placeholder: {
+                empty: string;
+                uploading: string;
+                failed: string;
+            };
+            retryLabel: string;
+        };
+        link: {
+            href: {
+                label: string;
+                placeholder: string;
+            };
+            openInNewTab: {
+                label: string;
+            };
+        };
+        alt: {
+            label: string;
+            placeholder: string;
+        };
+        maxWidth: {
+            label: string;
+            placeholder: string;
+        };
+    };
     // (undocumented)
     secondInput?: 'description' | 'link';
     // (undocumented)
@@ -29,10 +67,7 @@ export interface ImageConfig {
 }
 
 // @public (undocumented)
-export type ImageProps = EditorPluginProps<ImageState, ImageConfig>;
-
-// @public (undocumented)
-export type ImageState = ObjectStateType<{
+export type ImagePluginState = ObjectStateType<{
     src: UploadStateType<string>;
     link: OptionalStateType<ObjectStateType<{
         href: StringStateType;
@@ -41,6 +76,9 @@ export type ImageState = ObjectStateType<{
     alt: OptionalStateType<StringStateType>;
     maxWidth: OptionalStateType<NumberStateType>;
 }>;
+
+// @public (undocumented)
+export type ImageProps = EditorPluginProps<ImagePluginState, ImagePluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

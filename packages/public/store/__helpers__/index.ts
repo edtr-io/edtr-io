@@ -14,10 +14,7 @@ export function setupStore() {
 
   const store = createStore({
     scopes: {
-      [TEST_SCOPE]: {
-        plugins,
-        defaultPlugin: 'text'
-      }
+      [TEST_SCOPE]: plugins
     },
     createEnhancer: defaultEnhancer => {
       return compose(defaultEnhancer, applyMiddleware(testMiddleware))

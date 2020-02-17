@@ -60,15 +60,15 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
   const PluginToolbar = React.useContext(PluginToolbarContext)
-  const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
+  const autofocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
     null
   )
 
   React.useEffect(() => {
     if (focused) {
       setTimeout(() => {
-        if (defaultFocusRef.current) {
-          defaultFocusRef.current.focus()
+        if (autofocusRef.current) {
+          autofocusRef.current.focus()
         }
       })
     }
@@ -243,7 +243,7 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
               focused={focused}
               config={config}
               state={state}
-              defaultFocusRef={defaultFocusRef}
+              autofocusRef={autofocusRef}
             />
           </DocumentEditor>
         </StyledDocument>

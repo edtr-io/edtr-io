@@ -6,18 +6,33 @@
 
 import { ChildStateType } from '@edtr-io/plugin';
 import { ChildStateTypeConfig } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createSpoilerPlugin({ content, theme }?: SpoilerStaticConfig & {
-    theme?: Partial<SpoilerConfig['theme']>;
-}): EditorPlugin<SpoilerState, SpoilerConfig>;
+export function createSpoilerPlugin(config: SpoilerConfig): EditorPlugin<SpoilerPluginState, SpoilerPluginConfig>;
 
 // @public (undocumented)
 export interface SpoilerConfig {
+    // (undocumented)
+    content: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<SpoilerPluginConfig['i18n']>;
+    // (undocumented)
+    theme?: Partial<SpoilerPluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export interface SpoilerPluginConfig {
+    // (undocumented)
+    i18n: {
+        title: {
+            placeholder: string;
+        };
+    };
     // (undocumented)
     theme: {
         color: string;
@@ -25,19 +40,13 @@ export interface SpoilerConfig {
 }
 
 // @public (undocumented)
-export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>;
-
-// @public (undocumented)
-export type SpoilerState = ObjectStateType<{
+export type SpoilerPluginState = ObjectStateType<{
     title: StringStateType;
     content: ChildStateType;
 }>;
 
 // @public (undocumented)
-export interface SpoilerStaticConfig {
-    // (undocumented)
-    content?: ChildStateTypeConfig;
-}
+export type SpoilerProps = EditorPluginProps<SpoilerPluginState, SpoilerPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,14 +1,17 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
-import { ScMcExerciseState, createScMcExercisePlugin } from '../src'
+import { ScMcExercisePluginState, createScMcExercisePlugin } from '../src'
 
 export const name = 'scMcExercise'
-export const plugin = createScMcExercisePlugin()
+export const plugin = createScMcExercisePlugin({
+  content: { plugin: 'text' },
+  feedback: { plugin: 'text' }
+})
 
 export const states: Record<
   string,
-  StateTypeSerializedType<ScMcExerciseState>
+  StateTypeSerializedType<ScMcExercisePluginState>
 > = {
   singleChoice: {
     isSingleChoice: true,

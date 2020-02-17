@@ -17,10 +17,7 @@ export type InternalStore = ReduxStore<InternalState, InternalAction>
 
 /** @public */
 export interface ScopedState {
-  plugins: {
-    defaultPlugin: string
-    plugins: Record<string, EditorPlugin>
-  }
+  plugins: Record<string, EditorPlugin>
   documents: Record<string, DocumentState>
   focus: string | null
   root: string | null

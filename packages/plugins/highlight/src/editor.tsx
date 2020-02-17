@@ -29,7 +29,7 @@ const CheckboxContainer = styled.div({
 
 export function HighlightEditor(props: HighlightProps) {
   const { config, state, focused, editable } = props
-  const { Renderer } = config
+  const { i18n, Renderer } = config
 
   const edit = focused && editable
   const [throttledEdit, setEditThrottled] = React.useState(edit)
@@ -47,7 +47,7 @@ export function HighlightEditor(props: HighlightProps) {
       <Textarea
         value={state.code.value}
         name="text"
-        placeholder="Füge hier deinen Code ein. Verlasse den Bereich, um eine Vorschau zu sehen."
+        placeholder={i18n.code.placeholder}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           state.code.set(e.target.value)
         }}
@@ -62,7 +62,7 @@ export function HighlightEditor(props: HighlightProps) {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             state.language.set(e.target.value)
           }}
-          placeholder="enter Language"
+          placeholder={i18n.language.placeholder}
         />
         <datalist id="available-languages">
           {['c', 'javascript', 'jsx', 'markup', 'java', 'python'].map(
@@ -73,7 +73,7 @@ export function HighlightEditor(props: HighlightProps) {
         </datalist>
         <CheckboxContainer>
           <EditorCheckbox
-            label="Zeilennummern anzeigen"
+            label={i18n.showLineNumbers.label}
             onChange={() => {
               state.showLineNumbers.set(!state.showLineNumbers.value)
             }}
@@ -84,6 +84,7 @@ export function HighlightEditor(props: HighlightProps) {
     </React.Fragment>
   ) : (
     <Renderer
+      config={config}
       language={state.language.value}
       showLineNumbers={state.showLineNumbers.value}
       code={state.code.value}

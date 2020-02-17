@@ -7,18 +7,46 @@ import {
 
 import { AnchorEditor } from './editor'
 
-/** @public */
-export type AnchorState = StringStateType
-/** @public */
-export type AnchorProps = EditorPluginProps<AnchorState>
+/**
+ * @param config - {@link AnchorConfig | Plugin configuration}
+ * @public
+ */
+export function createAnchorPlugin(
+  config: AnchorConfig = {}
+): EditorPlugin<AnchorPluginState, AnchorPluginConfig> {
+  const { i18n = {} } = config
 
-const anchorState: AnchorState = string()
-
-/** @public */
-export function createAnchorPlugin(): EditorPlugin<AnchorState> {
   return {
     Component: AnchorEditor,
-    config: {},
-    state: anchorState
+    config: {
+      i18n: {
+        label: 'Identifier',
+        placeholder: 'ID of the anchor',
+        ...i18n
+      }
+    },
+    state: string()
   }
 }
+
+/** @public */
+export interface AnchorConfig {
+  i18n?: Partial<AnchorPluginConfig['i18n']>
+}
+
+/** @public */
+export type AnchorPluginState = StringStateType
+
+/** @public */
+export interface AnchorPluginConfig {
+  i18n: {
+    label: string
+    placeholder: string
+  }
+}
+
+/** @public */
+export type AnchorProps = EditorPluginProps<
+  AnchorPluginState,
+  AnchorPluginConfig
+>

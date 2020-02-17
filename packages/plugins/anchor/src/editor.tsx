@@ -8,20 +8,21 @@ import { AnchorRenderer } from './renderer'
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export const AnchorEditor = (props: AnchorProps) => {
-  const { editable, focused, state } = props
+  const { editable, focused, state, config } = props
+  const { i18n } = config
   return (
     <React.Fragment>
       {editable ? <StyledIcon icon={faLink} /> : null}
       <AnchorRenderer {...props} />
       {focused ? (
         <EditorInput
-          label="Identifier:"
-          placeholder="Name der Sprungmarke"
+          label={i18n.label}
+          placeholder={i18n.placeholder}
           value={state.value}
           onChange={e => {
             state.set(e.target.value)
           }}
-          ref={props.defaultFocusRef}
+          ref={props.autofocusRef}
         />
       ) : null}
     </React.Fragment>

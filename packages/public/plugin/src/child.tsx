@@ -14,7 +14,7 @@ export function child<K extends string, S = unknown>({
   plugin,
   initialState,
   config
-}: ChildStateTypeConfig = {}): ChildStateType<K, S> {
+}: ChildStateTypeConfig): ChildStateType<K, S> {
   return {
     init(id, onChange) {
       return {
@@ -68,13 +68,13 @@ export type ChildStateType<K extends string = string, S = unknown> = StateType<
     get(): string
     id: string
     render: (props?: PluginProps) => React.ReactNode
-    replace: (plugin?: K, state?: S) => void
+    replace: (plugin: K, state?: S) => void
   }
 >
 
 /** @public */
 export interface ChildStateTypeConfig<K extends string = string, S = unknown> {
-  plugin?: K
+  plugin: K
   initialState?: S
   config?: {}
 }

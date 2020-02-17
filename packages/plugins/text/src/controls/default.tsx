@@ -43,7 +43,7 @@ export function DefaultControls(props: SubControlProps) {
           toggleStrong(editor).focus()
           props.onChange(editor)
         }}
-        title="Fett (Strg + B)"
+        title={config.i18n.richText.toggleStrongTitle}
       >
         <EdtrIcon icon={edtrBold} />
       </Button>
@@ -54,7 +54,7 @@ export function DefaultControls(props: SubControlProps) {
           toggleEmphasize(editor).focus()
           props.onChange(editor)
         }}
-        title="Kursiv (Strg + I)"
+        title={config.i18n.richText.toggleEmphasizeTitle}
       >
         <EdtrIcon icon={edtrItalic} />
       </Button>
@@ -65,7 +65,7 @@ export function DefaultControls(props: SubControlProps) {
           isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
           props.onChange(editor)
         }}
-        title="Link (Strg + K)"
+        title={config.i18n.link.toggleTitle}
       >
         <EdtrIcon icon={edtrLink} />
       </Button>
@@ -75,14 +75,14 @@ export function DefaultControls(props: SubControlProps) {
         onClick={() => {
           props.switchControls(VisibleControls.Headings)
         }}
-        title="Überschriften"
+        title={config.i18n.headings.openMenuTitle}
       >
         <EdtrIcon icon={edtrText} />
       </Button>
       <Button
         config={config}
         onClick={() => props.switchControls(VisibleControls.Colors)}
-        title="Textfarben"
+        title={config.i18n.colors.openMenuTitle}
       >
         <ColoredTextIcon config={props.config} index={getColorIndex(editor)} />
       </Button>
@@ -98,7 +98,7 @@ export function DefaultControls(props: SubControlProps) {
           }
           props.switchControls(VisibleControls.Lists)
         }}
-        title="Listen"
+        title={config.i18n.list.openMenuTitle}
       >
         <EdtrIcon
           icon={
@@ -119,7 +119,7 @@ export function DefaultControls(props: SubControlProps) {
               props.onChange(editor)
             }
           }}
-          title="Zitat"
+          title={config.i18n.blockquote.toggleTitle}
         >
           <EdtrIcon icon={edtrQuote} />
         </Button>
@@ -131,7 +131,7 @@ export function DefaultControls(props: SubControlProps) {
           isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
           props.onChange(editor)
         }}
-        title="Matheformel (Strg + M)"
+        title={config.i18n.math.toggleTitle}
       >
         <EdtrIcon icon={edtrFormula} />
       </Button>

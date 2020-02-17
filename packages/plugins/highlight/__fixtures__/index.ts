@@ -1,11 +1,14 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
-import { HighlightState, createHighlightPlugin } from '../src'
+import { HighlightPluginState, createHighlightPlugin } from '../src'
 
 export const name = 'highlight'
 export const plugin = createHighlightPlugin()
 
-export const states: Record<string, StateTypeSerializedType<HighlightState>> = {
+export const states: Record<
+  string,
+  StateTypeSerializedType<HighlightPluginState>
+> = {
   javascript: {
     language: 'javascript',
     showLineNumbers: true,

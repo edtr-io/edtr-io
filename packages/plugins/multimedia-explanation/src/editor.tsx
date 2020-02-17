@@ -114,7 +114,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
     <React.Fragment>
       <hr />
       <div style={{ flex: 1 }}>
-        <strong>Wie wichtig ist der Multimedia Inhalt?</strong>
+        <strong>{props.config.i18n.illustrating.label}</strong>
       </div>
       <div style={{ flex: 1 }}>
         <select
@@ -122,13 +122,15 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
           onChange={handleIllustratingChange}
         >
           <option value="illustrating">
-            Es ist nur eine Veranschaulichung
+            {props.config.i18n.illustrating.values.illustrating}
           </option>
-          <option value="explaining">Es spielt eine zentrale Rolle</option>
+          <option value="explaining">
+            {props.config.i18n.illustrating.values.explaining}
+          </option>
         </select>
       </div>
       <div>
-        <strong>Tausche das Multimedia Element:</strong>
+        <strong>{props.config.i18n.changeMultimediaType}</strong>
         {PluginSelection}
       </div>
     </React.Fragment>
@@ -148,7 +150,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
           >
             <PluginToolbarButton
               icon={<Icon icon={faRandom} />}
-              label="Tausche das Multimedia Element"
+              label={props.config.i18n.changeMultimediaType}
               onClick={() => {
                 setShowOptions(true)
               }}

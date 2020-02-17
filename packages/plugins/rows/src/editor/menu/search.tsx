@@ -1,7 +1,7 @@
 import { edtrClose, EdtrIcon, edtrSearch, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { RowsConfig } from '../..'
+import { RowsPluginConfig } from '../..'
 
 const StyledSearch = styled.div({
   paddingTop: '25px',
@@ -19,7 +19,7 @@ const InputWrapper = styled.div({
   width: '100%'
 })
 
-const StyledInput = styled.input<{ config: RowsConfig }>(({ config }) => {
+const StyledInput = styled.input<{ config: RowsPluginConfig }>(({ config }) => {
   const { theme } = config
   return {
     padding: '5px 30px',
@@ -43,7 +43,7 @@ const StyledInput = styled.input<{ config: RowsConfig }>(({ config }) => {
 
 const ClearSearchContainer = styled.div<{
   visible: boolean
-  config: RowsConfig
+  config: RowsPluginConfig
 }>(({ config, visible }) => {
   const { theme } = config
   return {
@@ -63,17 +63,19 @@ const ClearSearchContainer = styled.div<{
   }
 })
 
-const SearchIcon = styled(EdtrIcon)<{ config: RowsConfig }>(({ config }) => {
-  const { theme } = config
-  return {
-    height: '55%',
-    position: 'absolute',
-    color: theme.menu.secondary.color,
-    top: '50%',
-    left: '5px',
-    transform: 'translateY(-50%)'
+const SearchIcon = styled(EdtrIcon)<{ config: RowsPluginConfig }>(
+  ({ config }) => {
+    const { theme } = config
+    return {
+      height: '55%',
+      position: 'absolute',
+      color: theme.menu.secondary.color,
+      top: '50%',
+      left: '5px',
+      transform: 'translateY(-50%)'
+    }
   }
-})
+)
 
 export const Search = ({
   search,
@@ -82,14 +84,14 @@ export const Search = ({
 }: {
   search: string
   setSearch: (newValue: string) => void
-  config: RowsConfig
+  config: RowsPluginConfig
 }) => {
   return (
     <StyledSearch>
       <InputWrapper>
         <StyledInput
           config={config}
-          placeholder="Suche hier nach Tools..."
+          placeholder={config.i18n.menu.searchPlaceholder}
           value={search}
           onChange={e => setSearch(e.target.value)}
         />

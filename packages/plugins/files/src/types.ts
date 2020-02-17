@@ -8,12 +8,17 @@ export interface UploadedFile {
 }
 
 /** @public */
-export interface FilesConfig {
+export interface FilesPluginConfig {
   upload: UploadHandler<UploadedFile>
+  i18n: {
+    label: string
+    failedUploadMessage: string
+  }
 }
 
 /** @public */
 export interface UploadProps {
+  config: FilesPluginConfig
   onFiles: (files: File[]) => void
 }
 

@@ -11,12 +11,11 @@ import {
 export const initRoot: ActionCreatorWithPayload<
   'InitRoot',
   {
-    initialState?: {
-      plugin?: string
+    initialState: {
+      plugin: string
       state?: unknown
     }
     plugins: Record<string, EditorPlugin>
-    defaultPlugin: string
   }
 > = createActionCreator('InitRoot')
 /** @public */

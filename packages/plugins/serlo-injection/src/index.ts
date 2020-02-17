@@ -7,20 +7,45 @@ import {
 
 import { SerloInjectionEditor } from './editor'
 
-/** @public */
-export type SerloInjectionState = StringStateType
-/** @public */
-export type SerloInjectionProps = EditorPluginProps<SerloInjectionState>
+/**
+ * @param config - {@link SerloInjectionConfig | Plugin configuration}
+ * @public */
+export function createSerloInjectionPlugin(
+  config: SerloInjectionConfig = {}
+): EditorPlugin<SerloInjectionPluginState, SerloInjectionPluginConfig> {
+  const { i18n = {} } = config
 
-const serloInjectionState: SerloInjectionState = string()
-
-/** @public */
-export function createSerloInjectionPlugin(): EditorPlugin<
-  SerloInjectionState
-> {
   return {
     Component: SerloInjectionEditor,
-    config: {},
-    state: serloInjectionState
+    config: {
+      i18n: {
+        label: 'Serlo ID',
+        placeholder: '123456',
+        ...i18n
+      }
+    },
+    state: string()
   }
 }
+
+/** @public */
+export interface SerloInjectionConfig {
+  i18n?: Partial<SerloInjectionPluginConfig['i18n']>
+}
+
+/** @public */
+export type SerloInjectionPluginState = StringStateType
+
+/** @public */
+export interface SerloInjectionPluginConfig {
+  i18n: {
+    label: string
+    placeholder: string
+  }
+}
+
+/** @public */
+export type SerloInjectionProps = EditorPluginProps<
+  SerloInjectionPluginState,
+  SerloInjectionPluginConfig
+>

@@ -10,11 +10,7 @@ import generate from 'shortid'
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { commit, temporaryCommit } from '../history/actions'
-import {
-  getPlugin,
-  getPluginOrDefault,
-  getPluginTypeOrDefault
-} from '../plugins/reducer'
+import { getPlugin } from '../plugins/reducer'
 import { SelectorReturnType } from '../types'
 import {
   change,
@@ -248,7 +244,7 @@ function* replaceSaga(action: ReplaceAction) {
   if (!plugin) return
   const pendingDocs: {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }[] = []
   const helpers: StoreDeserializeHelpers = {
@@ -298,12 +294,12 @@ interface ChannelAction {
 export function* handleRecursiveInserts(
   scope: string,
   act: (helpers: StoreDeserializeHelpers) => unknown,
-  initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
+  initialDocuments: { id: string; plugin: string; state?: unknown }[] = []
 ) {
   const actions: ReversibleAction[] = []
   const pendingDocs: {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }[] = initialDocuments
   const helpers: StoreDeserializeHelpers = {
@@ -313,8 +309,8 @@ export function* handleRecursiveInserts(
   }
   const result = act(helpers)
   for (let doc; (doc = pendingDocs.pop()); ) {
-    const plugin: SelectorReturnType<typeof getPluginOrDefault> = yield select(
-      scopeSelector(getPluginOrDefault, scope),
+    const plugin: SelectorReturnType<typeof getPlugin> = yield select(
+      scopeSelector(getPlugin, scope),
       doc.plugin
     )
     if (!plugin) {
@@ -327,14 +323,10 @@ export function* handleRecursiveInserts(
     } else {
       state = plugin.state.deserialize(doc.state, helpers)
     }
-    const pluginType: SelectorReturnType<typeof getPluginTypeOrDefault> = yield select(
-      scopeSelector(getPluginTypeOrDefault, scope),
-      doc.plugin
-    )
     actions.push({
       action: pureInsert({
         id: doc.id,
-        plugin: pluginType,
+        plugin: doc.plugin,
         state
       })(scope),
       reverse: pureRemove(doc.id)(scope)

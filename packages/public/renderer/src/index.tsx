@@ -16,10 +16,7 @@ export function Renderer<K extends string = string>({
       if (!state) {
         return {
           main: {
-            plugins: {
-              plugins: props.plugins,
-              defaultPlugin: ''
-            },
+            plugins: props.plugins,
             documents: getDocuments(),
             focus: null,
             root: 'root',

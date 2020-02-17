@@ -5,6 +5,7 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
@@ -12,33 +13,57 @@ import * as React from 'react';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<HighlightState, HighlightConfig>;
+export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<HighlightPluginState, HighlightPluginConfig>;
 
 // @public (undocumented)
 export interface HighlightConfig {
+    // (undocumented)
+    i18n?: DeepPartial<HighlightPluginConfig['i18n']>;
+    // (undocumented)
+    Renderer?: HighlightPluginConfig['Renderer'];
+}
+
+// @public (undocumented)
+export interface HighlightPluginConfig {
+    // (undocumented)
+    i18n: {
+        code: {
+            label: string;
+            placeholder: string;
+        };
+        language: {
+            label: string;
+            placeholder: string;
+        };
+        showLineNumbers: {
+            label: string;
+        };
+    };
     // (undocumented)
     Renderer: React.ComponentType<HighlightRendererProps>;
 }
 
 // @public (undocumented)
-export type HighlightProps = EditorPluginProps<HighlightState, HighlightConfig>;
+export type HighlightPluginState = ObjectStateType<{
+    code: StringStateType;
+    language: StringStateType;
+    showLineNumbers: BooleanStateType;
+}>;
+
+// @public (undocumented)
+export type HighlightProps = EditorPluginProps<HighlightPluginState, HighlightPluginConfig>;
 
 // @public (undocumented)
 export interface HighlightRendererProps {
     // (undocumented)
     code: string;
     // (undocumented)
+    config: HighlightPluginConfig;
+    // (undocumented)
     language: string;
     // (undocumented)
     showLineNumbers: boolean;
 }
-
-// @public (undocumented)
-export type HighlightState = ObjectStateType<{
-    code: StringStateType;
-    language: StringStateType;
-    showLineNumbers: BooleanStateType;
-}>;
 
 
 // (No @packageDocumentation comment for this package)
