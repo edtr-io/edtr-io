@@ -4,20 +4,25 @@
 
 ```ts
 
-import { child } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export type BlockquoteProps = EditorPluginProps<BlockquoteState>;
+export interface BlockquoteConfig {
+    // (undocumented)
+    content: ChildStateTypeConfig;
+}
 
 // @public (undocumented)
-export type BlockquoteState = ReturnType<typeof child>;
+export type BlockquotePluginState = ChildStateType;
 
 // @public (undocumented)
-export function createBlockquotePlugin({ content }?: {
-    content?: Parameters<typeof child>;
-}): EditorPlugin<BlockquoteState>;
+export type BlockquoteProps = EditorPluginProps<BlockquotePluginState>;
+
+// @public (undocumented)
+export function createBlockquotePlugin(config: BlockquoteConfig): EditorPlugin<BlockquotePluginState>;
 
 
 // (No @packageDocumentation comment for this package)

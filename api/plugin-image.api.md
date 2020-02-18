@@ -4,241 +4,60 @@
 
 ```ts
 
+import { BooleanStateType } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { NumberStateType } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
+import { OptionalStateType } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 import { UploadHandler } from '@edtr-io/plugin';
+import { UploadStateType } from '@edtr-io/plugin';
 import { UploadValidator } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export const createImagePlugin: (config: ImageConfig) => EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>>, ImageConfig>;
+export function createImagePlugin(config: ImageConfig): EditorPlugin<ImagePluginState, ImagePluginConfig>;
 
 // @public (undocumented)
-export interface ImageConfig {
+export interface ImageConfig extends Omit<ImagePluginConfig, 'i18n'> {
+    // (undocumented)
+    i18n?: DeepPartial<ImagePluginConfig['i18n']>;
+}
+
+// @public (undocumented)
+export interface ImagePluginConfig {
+    // (undocumented)
+    i18n: {
+        label: string;
+        failedUploadMessage: string;
+        src: {
+            label: string;
+            placeholder: {
+                empty: string;
+                uploading: string;
+                failed: string;
+            };
+            retryLabel: string;
+        };
+        link: {
+            href: {
+                label: string;
+                placeholder: string;
+            };
+            openInNewTab: {
+                label: string;
+            };
+        };
+        alt: {
+            label: string;
+            placeholder: string;
+        };
+        maxWidth: {
+            label: string;
+            placeholder: string;
+        };
+    };
     // (undocumented)
     secondInput?: 'description' | 'link';
     // (undocumented)
@@ -248,238 +67,18 @@ export interface ImageConfig {
 }
 
 // @public (undocumented)
-export type ImageProps = EditorPluginProps<ImageState, ImageConfig>;
+export type ImagePluginState = ObjectStateType<{
+    src: UploadStateType<string>;
+    link: OptionalStateType<ObjectStateType<{
+        href: StringStateType;
+        openInNewTab: BooleanStateType;
+    }>>;
+    alt: OptionalStateType<StringStateType>;
+    maxWidth: OptionalStateType<NumberStateType>;
+}>;
 
 // @public (undocumented)
-export type ImageState = typeof imageState;
-
-// @public (undocumented)
-export const imageState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").FileState<string>, import("@edtr-io/plugin").UploadStateReturnType<string>>;
-    link: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> | undefined, import("@edtr-io/plugin").Optional<import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }>>, {
-        defined: false;
-        create(value?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-        }> | undefined): void;
-    } | (import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        href: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        openInNewTab: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-    }> & {
-        defined: true;
-        remove(): void;
-    })>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string | undefined, import("@edtr-io/plugin").Optional<string>, {
-        defined: false;
-        create(value?: string | undefined): void;
-    } | ({
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-    maxWidth: import("@edtr-io/internal__plugin-state").StateType<number | undefined, import("@edtr-io/plugin").Optional<number>, {
-        defined: false;
-        create(value?: number | undefined): void;
-    } | ({
-        value: number;
-        get(): number;
-        set(value: number | ((currentValue: number) => number)): void;
-    } & {
-        defined: true;
-        remove(): void;
-    })>;
-}>>;
+export type ImageProps = EditorPluginProps<ImagePluginState, ImagePluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

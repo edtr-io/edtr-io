@@ -1,10 +1,10 @@
 import { OverlayInput } from '@edtr-io/core'
 import {
-  PrimarySettings,
+  EditorInlineSettings,
   EditorInput,
   PreviewOverlay,
   styled
-} from '@edtr-io/editor-ui'
+} from '@edtr-io/editor-ui/internal'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -65,31 +65,29 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
         </PlaceholderWrapper>
       )}
       {props.focused && !preview ? (
-        <PrimarySettings>
+        <EditorInlineSettings>
           <EditorInput
-            label="Serlo ID:"
-            placeholder="123456"
+            label={props.config.i18n.label}
+            placeholder={props.config.i18n.placeholder}
             value={props.state.value}
             onChange={e => {
               props.state.set(e.target.value)
             }}
-            textfieldWidth="30%"
-            editorInputWidth="100%"
-            ref={props.defaultFocusRef}
+            width="30%"
+            inputWidth="100%"
+            ref={props.autofocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
       {props.renderIntoSettings(
-        <React.Fragment>
-          <OverlayInput
-            label="Serlo ID:"
-            placeholder="123456"
-            value={props.state.value}
-            onChange={e => {
-              props.state.set(e.target.value)
-            }}
-          />
-        </React.Fragment>
+        <OverlayInput
+          label={props.config.i18n.label}
+          placeholder={props.config.i18n.placeholder}
+          value={props.state.value}
+          onChange={e => {
+            props.state.set(e.target.value)
+          }}
+        />
       )}
     </React.Fragment>
   )

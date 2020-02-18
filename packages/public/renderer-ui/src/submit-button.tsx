@@ -1,22 +1,22 @@
 import {
-  RendererThemeProps,
   styled,
-  createRendererUiTheme,
-  SubmitButtonTheme,
   Icon,
   faSmile,
-  faCheckCircle
+  faCheckCircle,
+  useRendererUiTheme,
+  RendererUiTheme
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-enum ExerciseState {
+/** @internal */
+export enum ExerciseState {
   Default = 1,
   SolvedRight,
   SolvedWrong
 }
 
-const createSubmitButtonTheme = createRendererUiTheme<SubmitButtonTheme>(
-  theme => {
+function useSubmitButtonTheme() {
+  return useRendererUiTheme('submitButton', theme => {
     return {
       backgroundColor: '#337ab7',
       hoverBackgroundColor: '#d9edf7',
@@ -24,11 +24,11 @@ const createSubmitButtonTheme = createRendererUiTheme<SubmitButtonTheme>(
       correctBackgroundColor: theme.success.background,
       wrongBackgroundColor: theme.danger.background
     }
-  }
-)
+  })
+}
 
 const getBackgroundColor = (
-  theme: SubmitButtonTheme,
+  theme: RendererUiTheme['submitButton'],
   exerciseState: ExerciseState
 ) => {
   switch (exerciseState) {
@@ -44,27 +44,26 @@ const getBackgroundColor = (
   }
 }
 
-const SubmitButtonComponent = styled.button<
-  { exerciseState: ExerciseState } & RendererThemeProps
->(({ exerciseState, ...props }) => {
-  const theme = createSubmitButtonTheme('submitButton', props.theme)
-
-  return {
-    float: 'right',
-    margin: '10px 0px',
-    border: 'none',
-    padding: '3px',
-    backgroundColor: getBackgroundColor(theme, exerciseState),
-    color: theme.color,
-    transition: 'background-color .5s ease',
-    outline: 'none',
-    '&hover': {
-      backgroundColor: theme.hoverBackgroundColor
+const SubmitButtonComponent = styled.button<{ exerciseState: ExerciseState }>(
+  ({ exerciseState }) => {
+    const theme = useSubmitButtonTheme()
+    return {
+      float: 'right',
+      margin: '10px 0px',
+      border: 'none',
+      padding: '3px',
+      backgroundColor: getBackgroundColor(theme, exerciseState),
+      color: theme.color,
+      transition: 'background-color .5s ease',
+      outline: 'none',
+      '&hover': {
+        backgroundColor: theme.hoverBackgroundColor
+      }
     }
   }
-})
+)
 
-/** @public */
+/** @internal */
 export class SubmitButton extends React.Component<{
   exerciseState: ExerciseState
   onClick?: () => void

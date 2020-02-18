@@ -1,3 +1,5 @@
+import * as R from 'ramda'
+
 import {
   StateType,
   StateTypesSerializedType,
@@ -7,8 +9,7 @@ import {
   FocusableChild,
   StateUpdater,
   StateExecutor
-} from '@edtr-io/internal__plugin-state'
-import * as R from 'ramda'
+} from './internal-plugin-state'
 
 /**
  * @param types - The {@link @edtr-io/internal__plugin-state#StateType | state types} of the properties of the object
@@ -22,11 +23,7 @@ export function object<Ds extends Record<string, StateType>>(
   ) => { id: string }[] = children => {
     return R.flatten<readonly FocusableChild[][]>(R.values(children))
   }
-): StateType<
-  StateTypesSerializedType<Ds>,
-  StateTypesValueType<Ds>,
-  StateTypesReturnType<Ds>
-> {
+): ObjectStateType<Ds> {
   type S = StateTypesSerializedType<Ds>
   type T = StateTypesValueType<Ds>
   type U = StateTypesReturnType<Ds>
@@ -91,3 +88,10 @@ export function object<Ds extends Record<string, StateType>>(
     }
   }
 }
+
+/** @public */
+export type ObjectStateType<Ds extends Record<string, StateType>> = StateType<
+  StateTypesSerializedType<Ds>,
+  StateTypesValueType<Ds>,
+  StateTypesReturnType<Ds>
+>

@@ -1,22 +1,38 @@
-import { child, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import {
+  child,
+  ChildStateType,
+  ChildStateTypeConfig,
+  EditorPlugin,
+  EditorPluginProps
+} from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
 
-/** @public */
-export function createBlockquotePlugin({
-  content = []
-}: { content?: Parameters<typeof child> } = {}): EditorPlugin<BlockquoteState> {
+/**
+ * @param config - {@link BlockquoteConfig | Plugin configuration}
+ * @public
+ */
+export function createBlockquotePlugin(
+  config: BlockquoteConfig
+): EditorPlugin<BlockquotePluginState> {
   return {
     Component: BlockquoteRenderer,
     config: {},
-    state: createBlockquotePluginState(content)
+    state: createState()
+  }
+
+  function createState() {
+    return child(config.content)
   }
 }
 
-function createBlockquotePluginState(content: Parameters<typeof child>) {
-  return child(...content)
+/** @public */
+export interface BlockquoteConfig {
+  content: ChildStateTypeConfig
 }
+
 /** @public */
-export type BlockquoteState = ReturnType<typeof child>
+export type BlockquotePluginState = ChildStateType
+
 /** @public */
-export type BlockquoteProps = EditorPluginProps<BlockquoteState>
+export type BlockquoteProps = EditorPluginProps<BlockquotePluginState>

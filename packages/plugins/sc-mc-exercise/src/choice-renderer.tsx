@@ -1,4 +1,4 @@
-import { CheckElement } from '@edtr-io/editor-ui'
+import { CheckElement } from '@edtr-io/editor-ui/internal'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 

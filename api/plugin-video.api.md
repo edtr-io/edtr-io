@@ -4,53 +4,42 @@
 
 ```ts
 
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createVideoPlugin(): EditorPlugin<VideoState>;
+export function createVideoPlugin(config?: VideoConfig): EditorPlugin<VideoPluginState, VideoPluginConfig>;
 
 // @public (undocumented)
-export type VideoProps = EditorPluginProps<VideoState>;
+export interface VideoConfig {
+    // (undocumented)
+    i18n?: DeepPartial<VideoPluginConfig>;
+}
 
 // @public (undocumented)
-export type VideoState = typeof videoState;
+export interface VideoPluginConfig {
+    // (undocumented)
+    i18n: {
+        src: {
+            label: string;
+        };
+        alt: {
+            label: string;
+        };
+    };
+}
 
 // @public (undocumented)
-export const videoState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    src: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    alt: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-}>>;
+export type VideoPluginState = ObjectStateType<{
+    src: StringStateType;
+    alt: StringStateType;
+}>;
+
+// @public (undocumented)
+export type VideoProps = EditorPluginProps<VideoPluginState, VideoPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

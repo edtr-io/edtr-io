@@ -10,8 +10,7 @@ let store: ReturnType<typeof setupStore>
 function initRoot(initialState: { plugin: string; state?: unknown }) {
   return S.initRoot({
     initialState,
-    plugins,
-    defaultPlugin: 'text'
+    plugins
   })
 }
 

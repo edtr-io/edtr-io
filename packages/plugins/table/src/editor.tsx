@@ -1,4 +1,4 @@
-import { EditorTextarea } from '@edtr-io/renderer-ui'
+import { EditorTextarea } from '@edtr-io/editor-ui'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -18,12 +18,12 @@ export function TableEditor(props: TableProps) {
           <div>
             <EditorTextarea
               value={state.value}
-              placeholder="Schreibe deine Tabelle in Markdown. Eine Vorschau siehst du unten."
+              placeholder={props.config.i18n.placeholder}
               name="markdown"
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 state.set(e.target.value)
               }}
-              ref={props.defaultFocusRef}
+              ref={props.autofocusRef}
             >
               {state.value}
             </EditorTextarea>

@@ -6,22 +6,31 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createGeogebraPlugin(): EditorPlugin<GeogebraState>;
+export function createGeogebraPlugin(config?: GeogebraConfig): EditorPlugin<GeogebraPluginState, GeogebraPluginConfig>;
 
 // @public (undocumented)
-export type GeogebraProps = EditorPluginProps<GeogebraState>;
+export interface GeogebraConfig {
+    // (undocumented)
+    i18n?: Partial<GeogebraPluginConfig['i18n']>;
+}
 
 // @public (undocumented)
-export type GeogebraState = typeof geogebraState;
+export interface GeogebraPluginConfig {
+    // (undocumented)
+    i18n: {
+        label: string;
+        placeholder: string;
+    };
+}
 
 // @public (undocumented)
-export const geogebraState: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-    value: string;
-    get(): string;
-    set(value: string | ((currentValue: string) => string)): void;
-}>;
+export type GeogebraPluginState = StringStateType;
+
+// @public (undocumented)
+export type GeogebraProps = EditorPluginProps<GeogebraPluginState, GeogebraPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

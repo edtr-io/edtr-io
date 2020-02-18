@@ -68,64 +68,35 @@ export const defaultEditorTheme: EditorTheme = {
 }
 
 /** @public */
-export interface ButtonTheme {
-  backgroundColor: string
-  color: string
-  borderColor: string
-  hoverBackgroundColor: string
-  hoverColor: string
-  hoverBorderColor: string
-}
-
-/** @public */
-export interface CheckboxTheme {
-  boxSelectedColor: string
-  boxDeselectedColor: string
-  color: string
-}
-
-/** @public */
-export interface InputTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
-}
-
-/** @public */
-export interface SelectTheme {
-  backgroundColor: string
-  color: string
-  highlightColor: string
-}
-
-/** @public */
-export interface TextareaTheme {
-  backgroundColor: string
-  color: string
-  borderColor: string
-  highlightColor: string
-}
-
-/** @public */
-export interface BottomToolbarTheme {
-  backgroundColor: string
-  color: string
-}
-
-/** @public */
 export interface EditorUiTheme {
-  button: ButtonTheme
-  checkbox: CheckboxTheme
-  input: InputTheme
-  bottomToolbar: BottomToolbarTheme
-  textarea: TextareaTheme
-  select: SelectTheme
+  button: {
+    backgroundColor: string
+    color: string
+    borderColor: string
+    hoverBackgroundColor: string
+    hoverColor: string
+    hoverBorderColor: string
+  }
+  checkbox: {
+    boxSelectedColor: string
+    boxDeselectedColor: string
+    color: string
+  }
+  input: {
+    backgroundColor: string
+    color: string
+    highlightColor: string
+  }
+  bottomToolbar: {
+    backgroundColor: string
+    color: string
+  }
 }
 
 /** @public */
 export type EditorThemeProps = StyledThemeProps<{
   editor: EditorTheme
-  editorUi: EditorUiTheme
+  editorUi: DeepPartial<EditorUiTheme>
 }>
 
 /**
@@ -136,7 +107,7 @@ export type EditorThemeProps = StyledThemeProps<{
  */
 export function useEditorTheme(): {
   editor: EditorTheme
-  editorUi: EditorUiTheme
+  editorUi: DeepPartial<EditorUiTheme>
 } {
   return React.useContext(StyledThemeContext)
 }
@@ -144,21 +115,23 @@ export function useEditorTheme(): {
 /**
  * Creates a function that maps {@link EditorThemeProps} to the current theme of the specified editor UI component
  *
+ * @param key - The editor UI component
  * @param createDefaultTheme - The {@link EditorUiThemeFactory | factory} for the default theme
- * @returns A function that accepts an editor UI component and {@link EditorThemeProps} and returns the current theme of the specified component
+ * @returns A function that accepts {@link EditorThemeProps} and returns the current theme of the specified component
  * @public
  */
-export function createEditorUiTheme<T extends object>(
-  createDefaultTheme: EditorUiThemeFactory<T>
+export function createEditorUiTheme<K extends keyof EditorUiTheme>(
+  key: K,
+  createDefaultTheme: EditorUiThemeFactory<K>
 ) {
-  return (
-    key: keyof EditorUiTheme,
-    theme: { editor: EditorTheme; editorUi: EditorUiTheme }
-  ): T => {
+  return (theme: {
+    editor: EditorTheme
+    editorUi: DeepPartial<EditorUiTheme>
+  }): EditorUiTheme[K] => {
     return (R.mergeDeepRight(
       createDefaultTheme(theme.editor),
-      ((theme.editorUi[key] as unknown) as DeepPartial<T>) || {}
-    ) as unknown) as T
+      ((theme.editorUi[key] || {}) as unknown) as DeepPartial<EditorUiTheme[K]>
+    ) as unknown) as EditorUiTheme[K]
   }
 }
 
@@ -170,13 +143,15 @@ export function createEditorUiTheme<T extends object>(
  * @returns The current theme of the specified component
  * @public
  */
-export function useEditorUiTheme<T extends object>(
-  key: keyof EditorUiTheme,
-  createDefaultTheme: EditorUiThemeFactory<T>
+export function useEditorUiTheme<K extends keyof EditorUiTheme>(
+  key: K,
+  createDefaultTheme: EditorUiThemeFactory<K>
 ) {
   const theme = useEditorTheme()
-  return createEditorUiTheme(createDefaultTheme)(key, theme)
+  return createEditorUiTheme(key, createDefaultTheme)(theme)
 }
 
 /** @public */
-export type EditorUiThemeFactory<T extends object> = (theme: EditorTheme) => T
+export type EditorUiThemeFactory<K extends keyof EditorUiTheme> = (
+  theme: EditorTheme
+) => EditorUiTheme[K]

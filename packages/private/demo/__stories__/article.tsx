@@ -1,4 +1,4 @@
-import { Document, EditorProvider } from '@edtr-io/core'
+import { Document, EditorProvider } from '@edtr-io/core/beta'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
@@ -72,7 +72,6 @@ storiesOf('Article', module)
               <Document
                 initialState={state}
                 plugins={plugins}
-                defaultPlugin="text"
                 scope="instance1"
                 mirror
               />
@@ -82,7 +81,6 @@ storiesOf('Article', module)
         <Document
           initialState={state}
           plugins={plugins}
-          defaultPlugin="text"
           scope="instance1"
           editable
         />
@@ -90,17 +88,11 @@ storiesOf('Article', module)
         <Document
           initialState={state2}
           plugins={plugins}
-          defaultPlugin="text"
           scope="instance2"
           editable
         />
         <p>And here is the rendered output of Instance 1:</p>
-        <Document
-          plugins={plugins}
-          defaultPlugin="text"
-          scope="instance1"
-          mirror
-        />
+        <Document plugins={plugins} scope="instance1" mirror />
       </EditorProvider>
     )
   })

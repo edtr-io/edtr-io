@@ -1,41 +1,46 @@
 import { StateExecutor, StateUpdater } from '@edtr-io/internal__plugin-state'
 
-import { createAction } from '../helpers'
-import { ActionFromActionCreator, DocumentState } from '../types'
+import { createActionCreator } from '../helpers'
+import {
+  ActionCreatorAction,
+  ActionCreatorWithPayload,
+  DocumentState
+} from '../types'
 
 /** @public */
-export const insert = createAction<
+export const insert = createActionCreator<
   'Insert',
   {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }
 >('Insert')
 /** @public */
-export type InsertAction = ActionFromActionCreator<typeof insert>
-/** @public */
-export const pureInsert = createAction<
+export type InsertAction = ActionCreatorAction<typeof insert>
+/** @internal */
+export const pureInsert = createActionCreator<
   'PureInsert',
   {
     id: string
   } & DocumentState
 >('PureInsert')
-/** @public */
-export type PureInsertAction = ActionFromActionCreator<typeof pureInsert>
+/** @internal */
+export type PureInsertAction = ActionCreatorAction<typeof pureInsert>
 
 /** @public */
-export const remove = createAction<'Remove', string>('Remove')
+export const remove = createActionCreator<'Remove', string>('Remove')
 /** @public */
-export type RemoveAction = ActionFromActionCreator<typeof remove>
+export type RemoveAction = ActionCreatorAction<typeof remove>
+/** @internal */
+export const pureRemove = createActionCreator<'PureRemove', string>(
+  'PureRemove'
+)
+/** @internal */
+export type PureRemoveAction = ActionCreatorAction<typeof pureRemove>
 
 /** @public */
-export const pureRemove = createAction<'PureRemove', string>('PureRemove')
-/** @public */
-export type PureRemoveAction = ActionFromActionCreator<typeof pureRemove>
-
-/** @public */
-export const change = createAction<
+export const change: ActionCreatorWithPayload<
   'Change',
   {
     id: string
@@ -44,94 +49,96 @@ export const change = createAction<
       executor?: StateExecutor<StateUpdater<unknown>>
     }
   }
->('Change')
+> = createActionCreator('Change')
 /** @public */
-export type ChangeAction = ActionFromActionCreator<typeof change>
-/** @public */
-export const pureChange = createAction<
+export type ChangeAction = ActionCreatorAction<typeof change>
+/** @internal */
+export const pureChange: ActionCreatorWithPayload<
   'PureChange',
   { id: string; state: unknown }
->('PureChange')
-/** @public */
-export type PureChangeAction = ActionFromActionCreator<typeof pureChange>
+> = createActionCreator('PureChange')
+/** @internal */
+export type PureChangeAction = ActionCreatorAction<typeof pureChange>
 
 /** @public */
-export const wrap = createAction<
+export const wrap: ActionCreatorWithPayload<
   'Wrap',
   {
     id: string
     document: (id: string) => DocumentState
   }
->('Wrap')
+> = createActionCreator('Wrap')
 /** @public */
-export type WrapAction = ActionFromActionCreator<typeof wrap>
-/** @public */
-export const pureWrap = createAction<
+export type WrapAction = ActionCreatorAction<typeof wrap>
+/** @internal */
+export const pureWrap: ActionCreatorWithPayload<
   'PureWrap',
   {
     id: string
     newId: string
     document: DocumentState
   }
->('PureWrap')
-/** @public */
-export type PureWrapAction = ActionFromActionCreator<typeof pureWrap>
+> = createActionCreator('PureWrap')
+/** @internal */
+export type PureWrapAction = ActionCreatorAction<typeof pureWrap>
 
 /** @public */
-export const unwrap = createAction<
+export const unwrap: ActionCreatorWithPayload<
   'Unwrap',
   {
     id: string
     oldId: string
   }
->('Unwrap')
+> = createActionCreator('Unwrap')
 /** @public */
-export type UnwrapAction = ActionFromActionCreator<typeof unwrap>
-/** @public */
-export const pureUnwrap = createAction<
+export type UnwrapAction = ActionCreatorAction<typeof unwrap>
+/** @internal */
+export const pureUnwrap: ActionCreatorWithPayload<
   'PureUnwrap',
   {
     id: string
     oldId: string
   }
->('PureUnwrap')
-/** @public */
-export type PureUnwrapAction = ActionFromActionCreator<typeof pureUnwrap>
+> = createActionCreator('PureUnwrap')
+/** @internal */
+export type PureUnwrapAction = ActionCreatorAction<typeof pureUnwrap>
 
 /** @public */
-export const replace = createAction<
+export const replace: ActionCreatorWithPayload<
   'Replace',
   {
     id: string
     plugin: string
     state?: unknown
   }
->('Replace')
+> = createActionCreator('Replace')
 /** @public */
-export type ReplaceAction = ActionFromActionCreator<typeof replace>
-/** @public */
-export const pureReplace = createAction<
+export type ReplaceAction = ActionCreatorAction<typeof replace>
+/** @internal */
+export const pureReplace: ActionCreatorWithPayload<
   'PureReplace',
   {
     id: string
     plugin: string
     state?: unknown
   }
->('PureReplace')
-/** @public */
-export type PureReplaceAction = ActionFromActionCreator<typeof pureReplace>
+> = createActionCreator('PureReplace')
+/** @internal */
+export type PureReplaceAction = ActionCreatorAction<typeof pureReplace>
 
 /** @public */
 export type DocumentsAction =
   | InsertAction
-  | PureInsertAction
   | RemoveAction
-  | PureRemoveAction
   | ChangeAction
-  | PureChangeAction
   | WrapAction
-  | PureWrapAction
   | UnwrapAction
-  | PureUnwrapAction
   | ReplaceAction
+/** @internal */
+export type InternalDocumentsAction =
+  | PureInsertAction
+  | PureRemoveAction
+  | PureChangeAction
+  | PureWrapAction
+  | PureUnwrapAction
   | PureReplaceAction

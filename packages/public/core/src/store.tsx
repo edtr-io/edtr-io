@@ -50,6 +50,11 @@ export function Provider(
   return <ReduxProvider {...props} context={EditorContext} />
 }
 
+/**
+ * @param enforcedScope - If provided, used as the scope instead of the current scope
+ *
+ * @public
+ */
 export function useScope(enforcedScope?: string) {
   const { scope } = React.useContext(ScopeContext)
   return enforcedScope === undefined ? scope : enforcedScope

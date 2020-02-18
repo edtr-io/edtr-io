@@ -1,4 +1,4 @@
-import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import { edtrClose, EdtrIcon } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
@@ -27,7 +27,7 @@ export const HeadingControls: React.FunctionComponent<SubControlProps> = props =
               props.onChange(props.editor)
               props.switchControls(VisibleControls.All)
             }}
-            title={`Überschrift ${level}`}
+            title={props.config.i18n.headings.setHeadingTitle(level)}
           >
             H{level}
           </Button>
@@ -36,9 +36,9 @@ export const HeadingControls: React.FunctionComponent<SubControlProps> = props =
       <Button
         config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title="Untermenü schließen"
+        title={props.config.i18n.headings.closeMenuTitle}
       >
-        <EdtrIcon icon={edtrTextControls.close} />
+        <EdtrIcon icon={edtrClose} />
       </Button>
     </React.Fragment>
   )

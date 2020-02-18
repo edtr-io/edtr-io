@@ -1,4 +1,4 @@
-import { EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
+import { EditorInput, EditorInlineSettings } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { GeogebraProps } from '.'
@@ -13,19 +13,19 @@ export function GeogebraEditor(props: GeogebraProps) {
     <React.Fragment>
       <GeogebraRenderer {...props} disableCursorEvents={editable} />
       {focused ? (
-        <PrimarySettings>
+        <EditorInlineSettings>
           <EditorInput
-            label="Geogebra Link oder ID:"
-            placeholder="12345"
+            label={props.config.i18n.label}
+            placeholder={props.config.i18n.placeholder}
             value={state.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               state.set(e.target.value)
             }}
-            textfieldWidth="70%"
-            editorInputWidth="100%"
-            ref={props.defaultFocusRef}
+            inputWidth="70%"
+            width="100%"
+            ref={props.autofocusRef}
           />
-        </PrimarySettings>
+        </EditorInlineSettings>
       ) : null}
     </React.Fragment>
   )

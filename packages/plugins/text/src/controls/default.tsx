@@ -1,4 +1,14 @@
-import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import {
+  edtrBold,
+  edtrFormula,
+  EdtrIcon,
+  edtrItalic,
+  edtrLink,
+  edtrListBullets,
+  edtrListNumbered,
+  edtrQuote,
+  edtrText
+} from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
@@ -33,9 +43,9 @@ export function DefaultControls(props: SubControlProps) {
           toggleStrong(editor).focus()
           props.onChange(editor)
         }}
-        title="Fett (Strg + B)"
+        title={config.i18n.richText.toggleStrongTitle}
       >
-        <EdtrIcon icon={edtrTextControls.bold} />
+        <EdtrIcon icon={edtrBold} />
       </Button>
       <Button
         config={config}
@@ -44,9 +54,9 @@ export function DefaultControls(props: SubControlProps) {
           toggleEmphasize(editor).focus()
           props.onChange(editor)
         }}
-        title="Kursiv (Strg + I)"
+        title={config.i18n.richText.toggleEmphasizeTitle}
       >
-        <EdtrIcon icon={edtrTextControls.italic} />
+        <EdtrIcon icon={edtrItalic} />
       </Button>
       <Button
         config={config}
@@ -55,9 +65,9 @@ export function DefaultControls(props: SubControlProps) {
           isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
           props.onChange(editor)
         }}
-        title="Link (Strg + K)"
+        title={config.i18n.link.toggleTitle}
       >
-        <EdtrIcon icon={edtrTextControls.link} />
+        <EdtrIcon icon={edtrLink} />
       </Button>
       <Button
         config={config}
@@ -65,14 +75,14 @@ export function DefaultControls(props: SubControlProps) {
         onClick={() => {
           props.switchControls(VisibleControls.Headings)
         }}
-        title="Überschriften"
+        title={config.i18n.headings.openMenuTitle}
       >
-        <EdtrIcon icon={edtrTextControls.text} />
+        <EdtrIcon icon={edtrText} />
       </Button>
       <Button
         config={config}
         onClick={() => props.switchControls(VisibleControls.Colors)}
-        title="Textfarben"
+        title={config.i18n.colors.openMenuTitle}
       >
         <ColoredTextIcon config={props.config} index={getColorIndex(editor)} />
       </Button>
@@ -88,13 +98,11 @@ export function DefaultControls(props: SubControlProps) {
           }
           props.switchControls(VisibleControls.Lists)
         }}
-        title="Listen"
+        title={config.i18n.list.openMenuTitle}
       >
         <EdtrIcon
           icon={
-            isList(orderedListNode)(editor)
-              ? edtrTextControls.listNumbered
-              : edtrTextControls.listBullets
+            isList(orderedListNode)(editor) ? edtrListNumbered : edtrListBullets
           }
         />
       </Button>
@@ -111,9 +119,9 @@ export function DefaultControls(props: SubControlProps) {
               props.onChange(editor)
             }
           }}
-          title="Zitat"
+          title={config.i18n.blockquote.toggleTitle}
         >
-          <EdtrIcon icon={edtrTextControls.quote} />
+          <EdtrIcon icon={edtrQuote} />
         </Button>
       ) : null}
       <Button
@@ -123,9 +131,9 @@ export function DefaultControls(props: SubControlProps) {
           isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
           props.onChange(editor)
         }}
-        title="Matheformel (Strg + M)"
+        title={config.i18n.math.toggleTitle}
       >
-        <EdtrIcon icon={edtrTextControls.formel} />
+        <EdtrIcon icon={edtrFormula} />
       </Button>
     </React.Fragment>
   )

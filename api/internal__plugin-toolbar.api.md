@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface OverlayButtonProps {
     // (undocumented)
     children?: React.ReactNode;
@@ -18,7 +18,7 @@ export interface OverlayButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface OverlayCheckboxProps {
     // (undocumented)
     checked?: boolean;
@@ -28,13 +28,13 @@ export interface OverlayCheckboxProps {
     onChange?: (checked: boolean) => void;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface OverlayInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     // (undocumented)
     label: string;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface OverlaySelectProps extends React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
     // (undocumented)
     label: string;
@@ -44,13 +44,13 @@ export interface OverlaySelectProps extends React.DetailedHTMLProps<React.Select
     width?: string;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface OverlayTextareaProps extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
     // (undocumented)
     label: string;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface PluginToolbar {
     // (undocumented)
     OverlayButton: React.ComponentType<OverlayButtonProps>;
@@ -68,7 +68,7 @@ export interface PluginToolbar {
     PluginToolbarOverlayButton: React.ComponentType<PluginToolbarOverlayButtonProps>;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface PluginToolbarButtonProps {
     // (undocumented)
     className?: string;
@@ -82,7 +82,7 @@ export interface PluginToolbarButtonProps {
     ref: React.Ref<HTMLButtonElement>;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface PluginToolbarOverlayButtonProps {
     // (undocumented)
     className?: string;

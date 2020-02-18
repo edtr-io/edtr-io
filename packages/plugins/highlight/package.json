@@ -15,9 +15,11 @@
     "@edtr-io/editor-ui": "^0.51.1",
     "@edtr-io/plugin": "^0.51.1",
     "@edtr-io/ui": "^0.51.0",
+    "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-syntax-highlighter": "^11.0.0",
+    "ramda": "^0.27.0",
     "react-syntax-highlighter": "^12.0.0"
   },
   "devDependencies": {

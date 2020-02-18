@@ -2,7 +2,7 @@ import { LoadedFile, StateTypeSerializedType } from '@edtr-io/plugin'
 
 import {
   createFilesPlugin,
-  FilesState,
+  FilesPluginState,
   FileType,
   parseFileType,
   UploadedFile
@@ -13,7 +13,10 @@ export const plugin = createFilesPlugin({
   upload: mockUploadFileHandler
 })
 
-export const states: Record<string, StateTypeSerializedType<FilesState>> = {
+export const states: Record<
+  string,
+  StateTypeSerializedType<FilesPluginState>
+> = {
   simple: [
     {
       type: FileType.Image,

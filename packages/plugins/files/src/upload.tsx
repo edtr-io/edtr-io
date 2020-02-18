@@ -37,8 +37,8 @@ export function parseFileType(name: string): FileType {
   return FileType.Other
 }
 
-export const Upload: React.FunctionComponent<UploadProps> = props => {
-  const input = React.createRef<HTMLInputElement>()
+export function Upload(props: UploadProps) {
+  const input = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
       <EditorButton
@@ -49,7 +49,7 @@ export const Upload: React.FunctionComponent<UploadProps> = props => {
           }
         }}
       >
-        Durchsuchen ...
+        {props.config.i18n.label}
       </EditorButton>
       <input
         type="file"

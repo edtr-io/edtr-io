@@ -3,7 +3,7 @@ import {
   AddButton,
   InteractiveAnswer,
   PreviewOverlay
-} from '@edtr-io/editor-ui'
+} from '@edtr-io/editor-ui/internal'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -36,7 +36,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
   const handleSCMCChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { state } = props
 
-    state.isSingleChoice.set(event.target.value === 'Single Choice')
+    state.isSingleChoice.set(event.target.value === 'sc')
     state.isSingleChoice.value &&
       state.answers.forEach(answer => {
         answer.isCorrect.set(false)
@@ -94,22 +94,24 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
                   />
                 )
               })}
-              <AddButton onClick={addButton}>Antwort hinzufügen...</AddButton>
+              <AddButton onClick={addButton}>
+                {props.config.i18n.answer.addLabel}
+              </AddButton>
             </React.Fragment>
           ) : null}
           {props.renderIntoSettings(
             <React.Fragment>
-              Wähle den Aufgabentyp:
+              {props.config.i18n.isSingleChoice.label}
               <select
-                value={
-                  state.isSingleChoice.value
-                    ? 'Single Choice'
-                    : 'Multiple Choice'
-                }
+                value={state.isSingleChoice.value ? 'sc' : 'mc'}
                 onChange={handleSCMCChange}
               >
-                <option value="Multiple Choice">Multiple Choice</option>
-                <option value="Single Choice">Single Choice</option>
+                <option value="mc">
+                  {props.config.i18n.types.multipleChoice}
+                </option>
+                <option value="sc">
+                  {props.config.i18n.types.singleChoice}
+                </option>
               </select>
             </React.Fragment>
           )}

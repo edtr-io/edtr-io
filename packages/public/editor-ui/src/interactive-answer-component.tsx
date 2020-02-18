@@ -16,7 +16,7 @@ const AddButtonComponent = styled.button({
 
 /**
  * @param props - Props
- * @public
+ * @internal
  */
 export function AddButton(props: {
   onClick: () => void
@@ -133,7 +133,7 @@ const Tick = styled.div<{ checked: boolean }>(({ checked }) => {
   }
 })
 
-/** @public */
+/** @internal */
 export class CheckElement extends React.Component<CheckElementProps> {
   public render() {
     const { isRadio, isActive, handleChange } = this.props
@@ -153,7 +153,7 @@ export class CheckElement extends React.Component<CheckElementProps> {
 
 /**
  * @param props - Props
- * @public
+ * @internal
  */
 export function InteractiveAnswer(props: {
   isRadio?: boolean
@@ -193,7 +193,7 @@ export function InteractiveAnswer(props: {
   )
 }
 
-/** @public */
+/** @internal */
 export interface CheckElementProps {
   isRadio: boolean
   isActive: boolean

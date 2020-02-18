@@ -1,4 +1,4 @@
-import { OverlayCheckboxProps } from '@edtr-io/plugin-toolbar'
+import { OverlayCheckboxProps } from '@edtr-io/plugin-toolbar/beta'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 

@@ -1,4 +1,4 @@
-import { BottomToolbar, styled } from '@edtr-io/editor-ui'
+import { EditorBottomToolbar, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { Editor, EditorProps } from 'slate-react'
 
@@ -8,7 +8,7 @@ import { ColorControls } from './colors'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
 import { ListControls } from './lists'
-import { TextConfig, TextPlugin } from '..'
+import { TextPluginConfig, TextPlugin } from '..'
 
 export enum VisibleControls {
   All,
@@ -18,7 +18,7 @@ export enum VisibleControls {
 }
 
 export interface ControlProps {
-  config: TextConfig
+  config: TextPluginConfig
   editor: Editor
   pluginClosure: SlatePluginClosure
   readOnly?: boolean
@@ -27,7 +27,7 @@ export interface ControlProps {
 export interface SubControlProps extends ControlProps {
   switchControls: (control: VisibleControls) => void
   onChange: (editor: Editor) => Editor
-  config: TextConfig
+  config: TextPluginConfig
 }
 
 export interface UiPluginOptions {
@@ -80,7 +80,7 @@ function ControlsSwitch({
   }
 }
 
-const TimeoutBottomToolbar = styled(BottomToolbar)<{
+const TimeoutBottomToolbar = styled(EditorBottomToolbar)<{
   visible: boolean
   isTouch: boolean
 }>(props => {

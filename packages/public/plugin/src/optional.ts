@@ -1,23 +1,24 @@
 import {
   StateExecutor,
   StateType,
+  StateTypeReturnType,
+  StateTypeSerializedType,
+  StateTypeValueType,
   StateUpdater
-} from '@edtr-io/internal__plugin-state'
+} from './internal-plugin-state'
 
 /**
  * @param type - The {@link @edtr-io/internal__plugin-state#StateType | state type} for defined values
  * @param initiallyDefined - Whether the value should be defined initially
  * @public
  */
-export function optional<S, T, R>(
-  type: StateType<S, T, R>,
+export function optional<D extends StateType>(
+  type: D,
   initiallyDefined = false
-): StateType<
-  S | undefined,
-  Optional<T>,
-  | { defined: false; create(value?: S): void }
-  | (R & { defined: true; remove(): void })
-> {
+): OptionalStateType<D> {
+  type T = StateTypeValueType<D>
+  type R = StateTypeReturnType<D>
+
   return {
     init(state, onChange) {
       if (state.defined) {
@@ -127,6 +128,14 @@ export function optional<S, T, R>(
     }
   }
 }
+
+/** @public */
+export type OptionalStateType<D extends StateType> = StateType<
+  StateTypeSerializedType<D> | undefined,
+  Optional<StateTypeValueType<D>>,
+  | { defined: false; create(value?: StateTypeSerializedType<D>): void }
+  | (StateTypeReturnType<D> & { defined: true; remove(): void })
+>
 
 /** @public */
 export type Optional<T> =

@@ -1,9 +1,9 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui'
+import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui/internal'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { ScMcExerciseState } from '.'
+import { ScMcExercisePluginState } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
@@ -65,7 +65,7 @@ export class ScMcRendererInteractive extends React.Component<
     )
   }
   private showAnswer = (
-    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0],
+    answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0],
     index: number,
     centered: boolean
   ): React.ReactNode => {
@@ -90,7 +90,7 @@ export class ScMcRendererInteractive extends React.Component<
     answer,
     button
   }: {
-    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0]
+    answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0]
     button: Button
   }): React.ReactNode {
     if (!button.showFeedback) {
@@ -107,7 +107,7 @@ export class ScMcRendererInteractive extends React.Component<
       <Feedback boxFree showOnLeft isTrueAnswer={answer.isCorrect.value}>
         {answer.isCorrect.value
           ? ''
-          : 'Leider falsch! versuche es doch noch einmal!'}
+          : this.props.config.i18n.answer.fallbackFeedback.wrong}
       </Feedback>
     )
   }
@@ -207,9 +207,9 @@ export class ScMcRendererInteractive extends React.Component<
     }
 
     if (mistakes === 0) {
-      return 'Sehr gut!'
+      return this.props.config.i18n.globalFeedback.correct
     } else {
-      return 'Das stimmt so leider nicht.'
+      return this.props.config.i18n.globalFeedback.wrong
     }
   }
 
@@ -223,7 +223,7 @@ export type ScMcRendererInteractiveProps = ScMcRendererProps & {
   }) => string | undefined
   nextButtonStateAfterSubmit: (params: {
     button: Button
-    answer: StateTypeReturnType<ScMcExerciseState>['answers'][0]
+    answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0]
     mistakes: number
     missingSolutions: number
   }) => Button

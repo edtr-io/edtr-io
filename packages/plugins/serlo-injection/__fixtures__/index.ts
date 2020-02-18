@@ -1,13 +1,13 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
-import { SerloInjectionState, createSerloInjectionPlugin } from '../src'
+import { SerloInjectionPluginState, createSerloInjectionPlugin } from '../src'
 
 export const name = 'serloInjection'
 export const plugin = createSerloInjectionPlugin()
 
 export const states: Record<
   string,
-  StateTypeSerializedType<SerloInjectionState>
+  StateTypeSerializedType<SerloInjectionPluginState>
 > = {
   simple: '54210'
 }

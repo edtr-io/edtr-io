@@ -24,8 +24,7 @@ beforeEach(async () => {
   store.dispatch(
     S.initRoot({
       initialState: { plugin: 'stateful', state: 0 },
-      plugins,
-      defaultPlugin: 'text'
+      plugins
     })
   )
   await waitUntil(() =>

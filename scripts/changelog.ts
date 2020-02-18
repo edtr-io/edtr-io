@@ -829,6 +829,87 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.51.3',
       date: '2020-02-14',
       fixed: ['**plugin-text**. Update dependencies']
+    },
+    {
+      description:
+        'This release cleans up the public API for the upcoming 1.0.0 release.',
+      fixed: [
+        '**store**. The property `state` of `DocumentState` is now correctly marked as required',
+        '**ui**. The property `editorUi` of `EditorThemeProps` and `useEditorTheme` is now correctly typed as `DeepPartial<EditorUiTheme>`',
+        '**ui**. The property `rendererUi` of `RendererThemeProps` and `useRendererTheme` is now correctly typed as `DeepPartial<RendererUiTheme>`',
+        '**ui**. `DeepPartial` now correctly works with function types'
+      ],
+      breakingChanges: [
+        `We removed the concept of \`defaultPlugin\` from the core and moved it into the plugins instead. This way, each plugin can configure its own default plugin(s) and it's more clear where we require a plugin to bet set:
+- **core**. \`EditorProps\` no longer accepts \`defaultPlugin\` and now requires \`initialState\` (which could be \`{"plugin":"rows"}\` in the simplest case)
+- **core**. \`Document\` now requires \`initialState\` if it is not a mirror
+- **plugin**. The \`child\` state type now requires \`plugin\` to bet set
+- **plugin**  \`child.replace\` now requires \`plugin\` to be set'
+- **plugin**. The \`createDocument\` helper for deserialization of state type values now requires \`plugin\` to be set. This should only affect if you if you wrote your own custom state type
+- **plugin-blockquote**. Plugin config now requires the newly added \`content\` that specifies which plugin should be used for the content
+- **plugin-input-exercise**. Plugin config now requires \`feedback\` that specifies which plugin should be used for the feedback
+- **plugin-multimedia-explanation**. Plugin config now requires the newly added \`explanation\` that specifies which plugin should be used for the explanation
+- **plugin-rows**. Plugin config now requires the newly added \`content\` that specifies which plugin should be used for the content
+- **plugin-sc-mc-exercise**. Plugin config now requires the newly added \`content\` resp. \`feedback\` that specifies which plugin should be used for the content resp. feedback
+- **plugin-spoiler**. Plugin config now requires the newly added \`content\` that specifies which plugin should be used for the content
+- **store**. Removed \`getDefaultPlugin\`, \`getPluginOrDefault\`, \`getPluginTypeOrDefault\`
+- **store**. Removed \`defaultPlugin\` from \`State["plugins"]\` and remove the no longer needed nesting
+- **store**. Removed \`defaultPlugin\` from \`StoreOptions["scopes"]\` and remove the no longer needed nesting
+- **store**. \`InitRoot\` now requires \`plugin\` to be set
+`,
+        `We added internationalization support. All strings should now be in English by default and should be (optionally) configurable (feel free to create an issue if we missed some):
+- **plugin-anchor**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-files**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-geogebra**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-highlight**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-image**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-input-exercise**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-multimedia-explanation**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-rows**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-sc-mc-exercise**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-serlo-injection**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-spoiler**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-table**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-text**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+- **plugin-video**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
+`,
+        `We marked some API as experimental. They can still be imported by appending \`/beta\` to the package name if you want to try them out before they are stable:
+- **core**. Mark \`EditorProvider\` and \`Document\` as beta API
+- **core**. Mark \`Preference\`, \`PreferenceContext\` and \`setDefaultPreference\` as beta API'
+- **document-editor**. Mark as beta API'
+- **default-document-editor**. Mark as beta API
+- **default-plugin-toolbar**. Mark as beta API
+- **plugin-toolbar**. Mark as beta API
+- **store**. Mark \`getClipboard\` and \`copy\` as beta API
+`,
+        `We removed some exports that were only used internally or weren't supposed to be exported:
+- **core**. Remove \`EditorContext\`      
+- **editor-ui**. Remove \`AddButton\`, \`CheckElement\`, \`CheckElementProps\`, \`InteractiveAnswer\`, \`PreviewOverlay\`, \`PreviewOverlayProps\`. We'll experiment with these components internally and might publish them in some way in the future again
+- **editor-ui**. Remove \`create*Theme\`, \`OnClickOutside\`, \`Resizable\`, \`UploadProgress\`
+- **renderer-ui**. Remove \`create*Theme\`, \`FetchDimensions\`'
+- **renderer-ui**. Remove \`ExerciseState\`, \`Feedback\`, \`FeedbackProps\`, \`SubmitButton\`. We'll experiment with these components internally and might publish them in some way in the future again.
+- **store**. Mark actions intended for internal use only as internal API
+- **store**. Hide some internal types (e.g. the structure of \`HistoryState\`)
+- **ui**. Remove unused \`SelectTheme\` and \`TextareaTheme\`
+- **ui**. Remove the deprecated \`edtrRowsControls\` and \`edtrTextControls\`
+- **ui**. Remove \`BottomToolbarTheme\`, \`ButtonTheme\`, \`CheckboxTheme\`, \`InputTheme\` types. Use \`EditorUiTheme['*']\` instead
+- **ui**. Remove \`ExpandableBoxTheme\`, \`SubmitButtonTheme\` types. Use \`RendererUiTheme['*']\` instead
+`,
+        `We improved (in our humble opinion 😬) the names of exports in a couple of places resp. improved consistency:
+- **core**. Rename \`DocumentProps\` to \`SubDocumentProps\`
+- **editor-ui**. Rename \`BottomToolbar\` to \`EditorBottomToolbar\`
+- **editor-ui**. Rename \`PrimarySettings\` to \`EditorInlineSettings\`
+- **editor-ui**. Rename \`editorInputWidth\` to \`inputWidth\` and \`textfieldWidth\` to \`width\` in \`EditorInputProps\`         
+- **plugin**. Renamed \`defaultFocusRef\` to \`autofocusRef\` in \`EditorPluginProps\`
+- **renderer-ui**. Move \`EditorTextarea\` into \`@edtr-io/editor-ui\`
+- **store**. Rename \`instances\` to \`scopes\` in \`StoreOptions\` (and therefore in \`createStore\`, too)',
+- **store**. Rename \`ActionFromActionCreator\` to \`ActionCreatorAction\`
+- **store**. Rename \`ReturnTypeFromSelector\` to \`SelectorReturnType\`
+- **ui**. Rename \`edtrFormel\` to \`edtrFormula\`
+- **ui**. \`createEditorUiTheme\` now accepts the key of the editor UI component directly
+- **ui**. \`createRendererUiTheme\` now accepts the key of the renderer UI component directly
+`
+      ]
     }
   ])
 

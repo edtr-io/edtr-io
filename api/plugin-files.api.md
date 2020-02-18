@@ -6,51 +6,37 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ListStateType } from '@edtr-io/plugin';
 import { UploadHandler } from '@edtr-io/plugin';
+import { UploadStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesState, FilesConfig>;
-
-// @public (undocumented)
-export interface FileError {
-    // (undocumented)
-    errorCode: FileErrorCode;
-    // (undocumented)
-    message: string;
-}
-
-// @public (undocumented)
-export enum FileErrorCode {
-    // (undocumented)
-    FILE_TOO_BIG = 1,
-    // (undocumented)
-    NO_FILE_SELECTED = 0,
-    // (undocumented)
-    UPLOAD_FAILED = 2
-}
+export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesPluginState, FilesPluginConfig>;
 
 // @public (undocumented)
 export interface FilesConfig {
+    // (undocumented)
+    i18n?: Partial<FilesPluginConfig['i18n']>;
+    // (undocumented)
+    upload: FilesPluginConfig['upload'];
+}
+
+// @public (undocumented)
+export interface FilesPluginConfig {
+    // (undocumented)
+    i18n: {
+        label: string;
+        failedUploadMessage: string;
+    };
     // (undocumented)
     upload: UploadHandler<UploadedFile>;
 }
 
 // @public (undocumented)
-export type FilesProps = EditorPluginProps<FilesState, FilesConfig>;
+export type FilesPluginState = ListStateType<UploadStateType<UploadedFile>>;
 
 // @public (undocumented)
-export type FilesState = typeof filesState;
-
-// @public (undocumented)
-export const filesState: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/plugin").FileState<UploadedFile>[], {
-    id: string;
-    value: import("@edtr-io/plugin").FileState<UploadedFile>;
-}[], import("@edtr-io/plugin").UploadStateReturnType<UploadedFile>[] & {
-    set(updater: (currentList: import("@edtr-io/plugin").FileState<UploadedFile>[], deserialize: (serialized: import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>) => import("@edtr-io/plugin").FileState<UploadedFile>[]): void;
-    insert(index?: number | undefined, options?: UploadedFile | import("@edtr-io/plugin").TempFile | undefined): void;
-    remove(index: number): void;
-    move(from: number, to: number): void;
-}>;
+export type FilesProps = EditorPluginProps<FilesPluginState, FilesPluginConfig>;
 
 // @public (undocumented)
 export enum FileType {
@@ -75,20 +61,6 @@ export enum FileType {
 }
 
 // @public (undocumented)
-export interface FileUploadConfig<T> {
-    // (undocumented)
-    getAdditionalFields?: Function;
-    // (undocumented)
-    getStateFromResponse: (response: T) => UploadedFile;
-    // (undocumented)
-    maxFileSize: number;
-    // (undocumented)
-    paramName?: string;
-    // (undocumented)
-    url: string;
-}
-
-// @public (undocumented)
 export function parseFileType(name: string): FileType;
 
 // @public (undocumented)
@@ -99,12 +71,6 @@ export interface UploadedFile {
     src: string;
     // (undocumented)
     type: FileType;
-}
-
-// @public (undocumented)
-export interface UploadProps {
-    // (undocumented)
-    onFiles: (files: File[]) => void;
 }
 
 

@@ -1,30 +1,28 @@
 import { plugins } from '@edtr-io/internal__fixtures'
 import { applyMiddleware, compose, Middleware } from 'redux'
 
-import { Action, createStore } from '../src'
+import { createStore, InternalAction } from '../src'
+import { InternalStore } from '../src/types'
 
 export const TEST_SCOPE = 'test'
 export function setupStore() {
-  let actions: Action[] = []
+  let actions: InternalAction[] = []
   const testMiddleware: Middleware = () => next => action => {
     actions.push(action)
     return next(action)
   }
 
   const store = createStore({
-    instances: {
-      [TEST_SCOPE]: {
-        plugins,
-        defaultPlugin: 'text'
-      }
+    scopes: {
+      [TEST_SCOPE]: plugins
     },
     createEnhancer: defaultEnhancer => {
       return compose(defaultEnhancer, applyMiddleware(testMiddleware))
     }
-  }).store
+  }).store as InternalStore
 
   return {
-    dispatch: (f: (scope: string) => Action) => {
+    dispatch: (f: (scope: string) => InternalAction) => {
       const action = f(TEST_SCOPE)
       store.dispatch(action)
       return action

@@ -4,12 +4,12 @@
 
 ```ts
 
-import { PluginToolbar } from '@edtr-io/plugin-toolbar';
+import { PluginToolbar } from '@edtr-io/plugin-toolbar/beta';
 
-// @public
+// @beta
 export function createDefaultPluginToolbar(config?: DefaultPluginToolbarConfig): PluginToolbar;
 
-// @public (undocumented)
+// @beta (undocumented)
 export interface DefaultPluginToolbarConfig {
     // (undocumented)
     primaryColor: string;

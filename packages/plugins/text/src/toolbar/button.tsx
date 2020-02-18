@@ -1,9 +1,9 @@
 import { styled } from '@edtr-io/ui'
 
-import { TextConfig } from '..'
+import { TextPluginConfig } from '..'
 
 export const Button = styled.button(
-  (props: { active?: boolean; config: TextConfig }) => {
+  (props: { active?: boolean; config: TextPluginConfig }) => {
     const { theme } = props.config
     return {
       backgroundColor: props.active

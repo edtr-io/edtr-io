@@ -75,8 +75,7 @@ describe('Focus', () => {
               ]
             }
           },
-          plugins,
-          defaultPlugin: 'text'
+          plugins
         })
       )
       await waitUntil(
@@ -99,8 +98,7 @@ describe('Focus', () => {
             plugin: 'rows',
             state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
           },
-          plugins,
-          defaultPlugin: 'text'
+          plugins
         })
       )
       await waitUntil(
@@ -150,8 +148,7 @@ describe('Focus', () => {
               ]
             }
           },
-          plugins,
-          defaultPlugin: 'text'
+          plugins
         })
       )
       await waitUntil(
@@ -302,8 +299,7 @@ describe('Focus', () => {
               ]
             }
           },
-          plugins,
-          defaultPlugin: 'text'
+          plugins
         })
       )
       await waitUntil(

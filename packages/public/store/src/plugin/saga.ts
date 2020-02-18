@@ -3,12 +3,12 @@ import * as R from 'ramda'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
 
-import { Action } from '../actions'
+import { InternalAction } from '../actions'
 import { change, ChangeAction, getDocument } from '../documents'
 import { getFocusTree } from '../focus'
 import { scopeSelector } from '../helpers'
 import { getPlugin } from '../plugins'
-import { ReturnTypeFromSelector } from '../types'
+import { SelectorReturnType } from '../types'
 import {
   insertChildAfter,
   InsertChildAfterAction,
@@ -27,7 +27,7 @@ export function* pluginSaga() {
 }
 
 function* insertChildBeforeSaga({ payload, scope }: InsertChildBeforeAction) {
-  const parent: ReturnTypeFromSelector<typeof getFocusTree> = yield select(
+  const parent: SelectorReturnType<typeof getFocusTree> = yield select(
     scopeSelector(getFocusTree, scope),
     payload.parent
   )
@@ -81,17 +81,17 @@ function* createPlugin(
   scope: string,
   f: (plugin: EditorPlugin, state: unknown) => void
 ) {
-  const document: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const document: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, scope),
     id
   )
   if (!document) return
-  const plugin: ReturnTypeFromSelector<typeof getPlugin> = yield select(
+  const plugin: SelectorReturnType<typeof getPlugin> = yield select(
     scopeSelector(getPlugin, scope),
     document.plugin
   )
   if (!plugin) return
-  const chan: Channel<Action> = yield call(channel)
+  const chan: Channel<InternalAction> = yield call(channel)
   const state = plugin.state.init(document.state, (initial, executor) => {
     const action = change({
       id,
@@ -106,7 +106,7 @@ function* createPlugin(
   chan.close()
   yield call(channelSaga, chan)
 
-  function* channelSaga(chan: Channel<Action>) {
+  function* channelSaga(chan: Channel<InternalAction>) {
     while (true) {
       const action: ChangeAction = yield take(chan)
       yield put(action)

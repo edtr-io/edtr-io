@@ -1,9 +1,10 @@
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { TextConfig } from '..'
+import { I18nContext } from '../i18n-context'
+import { TextPluginConfig } from '..'
 
-const Suggestion = styled.div<{ active: boolean; config: TextConfig }>(
+const Suggestion = styled.div<{ active: boolean; config: TextPluginConfig }>(
   ({ active, config }) => {
     const { theme } = config
     return {
@@ -25,70 +26,67 @@ const Container = styled.div({
   padding: '10px'
 })
 
-const StyledText = styled.span<{ highlight: boolean; config: TextConfig }>(
-  ({ highlight, config }) => {
-    const { theme } = config
-    return {
-      color: highlight
-        ? theme.suggestions.text.highlight
-        : theme.suggestions.text.default
-    }
+const StyledText = styled.span<{
+  highlight: boolean
+  config: TextPluginConfig
+}>(({ highlight, config }) => {
+  const { theme } = config
+  return {
+    color: highlight
+      ? theme.suggestions.text.highlight
+      : theme.suggestions.text.default
   }
-)
+})
 
-export class Suggestions extends React.Component<SuggestionProps> {
-  public render() {
-    return (
-      <Container>
-        {this.props.options.length === 0
-          ? 'keine Einträge vorhanden'
-          : this.props.options.map((option, index) => {
-              const displayText = option[0]
-              const fragments = displayText
-                .split(
-                  new RegExp(`(${escapeRegExp(this.props.currentValue)})`, 'i')
-                )
-                .map(text => {
-                  return {
-                    text,
-                    highlight:
-                      text.toLowerCase() ===
-                      this.props.currentValue.toLowerCase()
-                  }
-                })
+export function Suggestions(props: SuggestionProps) {
+  const i18n = React.useContext(I18nContext)
+  return (
+    <Container>
+      {props.options.length === 0
+        ? i18n.suggestions.noResultsMessage
+        : props.options.map((option, index) => {
+            const displayText = option[0]
+            const fragments = displayText
+              .split(new RegExp(`(${escapeRegExp(props.currentValue)})`, 'i'))
+              .map(text => {
+                return {
+                  text,
+                  highlight:
+                    text.toLowerCase() === props.currentValue.toLowerCase()
+                }
+              })
 
-              return (
-                <Suggestion
-                  key={index}
-                  active={index === this.props.selected}
-                  onMouseDown={() => this.props.onSelect(option[1])}
-                  config={this.props.config}
-                >
-                  {fragments.map((f, index) => {
-                    return (
-                      <StyledText
-                        key={index}
-                        highlight={f.highlight}
-                        config={this.props.config}
-                      >
-                        {f.text}
-                      </StyledText>
-                    )
-                  })}
-                </Suggestion>
-              )
-            })}
-      </Container>
-    )
+            return (
+              <Suggestion
+                key={index}
+                active={index === props.selected}
+                onMouseDown={() => props.onSelect(option[1])}
+                config={props.config}
+              >
+                {fragments.map((f, index) => {
+                  return (
+                    <StyledText
+                      key={index}
+                      highlight={f.highlight}
+                      config={props.config}
+                    >
+                      {f.text}
+                    </StyledText>
+                  )
+                })}
+              </Suggestion>
+            )
+          })}
+    </Container>
+  )
 
-    function escapeRegExp(string: string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    }
+  function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 }
 
 export interface SuggestionProps {
-  config: TextConfig
+  config: TextPluginConfig
   onSelect: Function
   options: string[][]
   selected?: number

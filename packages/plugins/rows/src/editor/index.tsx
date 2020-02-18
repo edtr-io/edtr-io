@@ -8,7 +8,7 @@ import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { RowsConfig, RowsProps, RowsState } from '..'
+import { RowsPluginConfig, RowsProps, RowsPluginState } from '..'
 
 const DropContainer = styled.div({
   position: 'relative',
@@ -24,11 +24,11 @@ function RowEditor({
   row,
   rows
 }: {
-  config: RowsConfig
+  config: RowsPluginConfig
   openMenu(index: number): void
   index: number
-  rows: StateTypeReturnType<RowsState>
-  row: StateTypeReturnType<RowsState>[0]
+  rows: StateTypeReturnType<RowsPluginState>
+  row: StateTypeReturnType<RowsPluginState>[0]
 }) {
   const focused = useScopedSelector(isFocused(row.id))
   const plugins = useScopedSelector(getPlugins())

@@ -11,9 +11,9 @@ import {
   takeEvery
 } from 'redux-saga/effects'
 
-import { applyActions, Reversible, ReversibleAction } from '../actions'
+import { applyActions, ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
-import { ReturnTypeFromSelector } from '../types'
+import { InternalSelectorReturnType, SelectorReturnType } from '../types'
 import {
   undo,
   redo,
@@ -42,7 +42,7 @@ export function* historySaga() {
 }
 
 function* temporaryCommitSaga(action: TemporaryCommitAction) {
-  const actions = action.payload.initial as ReversibleAction[]
+  const actions = action.payload.initial
   yield all(actions.map(action => put(action.action)))
   yield put(
     pureCommit({
@@ -53,7 +53,7 @@ function* temporaryCommitSaga(action: TemporaryCommitAction) {
   const chan: Channel<ChannelAction> = yield call(channel)
 
   function createPutToChannel(type: 'resolve' | 'reject' | 'next') {
-    return function(finalActions: Reversible[]) {
+    return function(finalActions: ReversibleAction[]) {
       chan.put({
         [type]: finalActions,
         scope: action.scope,
@@ -85,7 +85,7 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
     const finalActions = payload.resolve || payload.next || payload.reject || []
     const tempActions = payload.tempActions
 
-    const stack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
+    const stack: InternalSelectorReturnType<typeof getUndoStack> = yield select(
       scopeSelector(getUndoStack, payload.scope)
     )
 
@@ -158,7 +158,7 @@ function* executeCommit(
 }
 
 function* undoSaga(action: UndoAction) {
-  const undoStack: ReturnTypeFromSelector<typeof getUndoStack> = yield select(
+  const undoStack: InternalSelectorReturnType<typeof getUndoStack> = yield select(
     scopeSelector(getUndoStack, action.scope)
   )
   const toUndo = R.head(undoStack)
@@ -172,7 +172,7 @@ function* undoSaga(action: UndoAction) {
 }
 
 function* redoSaga(action: RedoAction) {
-  const redoStack: ReturnTypeFromSelector<typeof getRedoStack> = yield select(
+  const redoStack: InternalSelectorReturnType<typeof getRedoStack> = yield select(
     scopeSelector(getRedoStack, action.scope)
   )
   const replay = R.head(redoStack)
@@ -184,7 +184,7 @@ function* redoSaga(action: RedoAction) {
 
 function* resetSaga(action: ResetAction) {
   while (true) {
-    const pendingChanges: ReturnTypeFromSelector<typeof getPendingChanges> = yield select(
+    const pendingChanges: SelectorReturnType<typeof getPendingChanges> = yield select(
       scopeSelector(getPendingChanges, action.scope)
     )
     if (pendingChanges === 0) break

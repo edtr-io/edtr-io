@@ -8,17 +8,10 @@ beforeEach(() => {
 })
 
 describe('Plugins', () => {
-  describe('Default plugin', () => {
-    test('Initial state', () => {
-      expect(S.getDefaultPlugin()(store.getState())).toEqual('text')
-    })
+  test('Existing plugins', () => {
+    expect(S.getPlugin('text')(store.getState())).toBeDefined()
   })
-  describe('Plugins', () => {
-    test('Existing plugins', () => {
-      expect(S.getPlugin('text')(store.getState())).toBeDefined()
-    })
-    test('Non-existing plugin', () => {
-      expect(S.getPlugin('foobar')(store.getState())).toBeNull()
-    })
+  test('Non-existing plugin', () => {
+    expect(S.getPlugin('foobar')(store.getState())).toBeNull()
   })
 })

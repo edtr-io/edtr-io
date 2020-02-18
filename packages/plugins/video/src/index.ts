@@ -1,25 +1,40 @@
 import {
-  string,
-  object,
+  EditorPlugin,
   EditorPluginProps,
-  EditorPlugin
+  object,
+  ObjectStateType,
+  string,
+  StringStateType
 } from '@edtr-io/plugin'
+import { DeepPartial } from '@edtr-io/ui'
+import * as R from 'ramda'
 
 import { VideoEditor } from './editor'
 
-/** @public */
-export const videoState = object({ src: string(), alt: string() })
-/** @public */
-export type VideoState = typeof videoState
-/** @public */
-export type VideoProps = EditorPluginProps<VideoState>
+/**
+ * @param config - {@link VideoConfig | Plugin configuration}
+ * @public
+ */ export function createVideoPlugin(
+  config: VideoConfig = {}
+): EditorPlugin<VideoPluginState, VideoPluginConfig> {
+  const { i18n = {} } = config
 
-/** @public */
-export function createVideoPlugin(): EditorPlugin<VideoState> {
   return {
     Component: VideoEditor,
-    config: {},
-    state: videoState,
+    config: {
+      i18n: R.mergeDeepRight(
+        {
+          src: {
+            label: 'Video URL'
+          },
+          alt: {
+            label: 'Description'
+          }
+        },
+        i18n
+      )
+    },
+    state: object({ src: string(), alt: string() }),
     onPaste(clipboardData: DataTransfer) {
       const value = clipboardData.getData('text')
 
@@ -30,3 +45,29 @@ export function createVideoPlugin(): EditorPlugin<VideoState> {
     }
   }
 }
+
+/** @public */
+export interface VideoConfig {
+  i18n?: DeepPartial<VideoPluginConfig>
+}
+
+/** @public */
+export type VideoPluginState = ObjectStateType<{
+  src: StringStateType
+  alt: StringStateType
+}>
+
+/** @public */
+export interface VideoPluginConfig {
+  i18n: {
+    src: {
+      label: string
+    }
+    alt: {
+      label: string
+    }
+  }
+}
+
+/** @public */
+export type VideoProps = EditorPluginProps<VideoPluginState, VideoPluginConfig>

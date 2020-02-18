@@ -1,14 +1,16 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
-import { InputExerciseState, createInputExercisePlugin } from '../src'
+import { InputExercisePluginState, createInputExercisePlugin } from '../src'
 
 export const name = 'inputExercise'
-export const plugin = createInputExercisePlugin()
+export const plugin = createInputExercisePlugin({
+  feedback: { plugin: 'text' }
+})
 
 export const states: Record<
   string,
-  StateTypeSerializedType<InputExerciseState>
+  StateTypeSerializedType<InputExercisePluginState>
 > = {
   text: {
     type: 'input-string-normalized-match-challenge',

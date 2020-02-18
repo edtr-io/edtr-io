@@ -2,21 +2,18 @@ import { OverlayButton } from '@edtr-io/core'
 import { EditorButton } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
-export const Upload: React.FunctionComponent<UploadProps> = props => {
-  const input = React.createRef<HTMLInputElement>()
+import { ImagePluginConfig } from '.'
 
-  const selectFile = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (input.current) {
-      input.current.click()
-    }
-  }
+export function Upload(props: UploadProps) {
+  const input = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
       {props.inOverlay ? (
-        <OverlayButton onClick={selectFile} label="Durchsuchen…" />
+        <OverlayButton onClick={selectFile} label={props.config.i18n.label} />
       ) : (
-        <EditorButton onClick={selectFile}>Durchsuchen…</EditorButton>
+        <EditorButton onClick={selectFile}>
+          {props.config.i18n.label}
+        </EditorButton>
       )}
       <input
         type="file"
@@ -32,9 +29,17 @@ export const Upload: React.FunctionComponent<UploadProps> = props => {
       />
     </React.Fragment>
   )
+
+  function selectFile(e: React.MouseEvent) {
+    e.preventDefault()
+    if (input.current) {
+      input.current.click()
+    }
+  }
 }
 
 export interface UploadProps {
+  config: ImagePluginConfig
   inOverlay?: boolean
   onFile: (file: File) => void
 }

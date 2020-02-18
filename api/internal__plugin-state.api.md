@@ -4,7 +4,7 @@
 
 ```ts
 
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor';
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta';
 
 // @public
 export interface FocusableChild {
@@ -16,16 +16,16 @@ export interface PluginProps {
     // (undocumented)
     config?: {};
     // (undocumented)
-    renderSettings?: DocumentEditorProps['renderSettings'];
+    renderSettings?: InternalDocumentEditor.DocumentEditorProps['renderSettings'];
     // (undocumented)
-    renderToolbar?: DocumentEditorProps['renderToolbar'];
+    renderToolbar?: InternalDocumentEditor.DocumentEditorProps['renderToolbar'];
 }
 
 // @public
 export type StateExecutor<T> = (resolve: (value: T) => void, reject: (value: T) => void, next: (value: T) => void) => void;
 
 // @public
-export interface StateType<S = any, T = S, R = unknown> {
+export interface StateType<S = any, T = any, R = any> {
     createInitialState(helpers: StoreDeserializeHelpers): T;
     deserialize(serialized: S, helpers: StoreDeserializeHelpers): T;
     getFocusableChildren(state: T): FocusableChild[];
@@ -34,28 +34,28 @@ export interface StateType<S = any, T = S, R = unknown> {
 }
 
 // @public
-export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<any, any, infer R> ? R : never;
+export type StateTypeReturnType<D extends StateType> = D extends StateType<any, any, infer R> ? R : never;
 
 // @public
-export type StateTypeSerializedType<D extends StateType<any>> = D extends StateType<infer S, any, any> ? S : never;
+export type StateTypeSerializedType<D extends StateType> = D extends StateType<infer S> ? S : never;
 
 // @public (undocumented)
-export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesReturnType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeReturnType<Ds[K]>;
 };
 
 // @public (undocumented)
-export type StateTypesSerializedType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesSerializedType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeSerializedType<Ds[K]>;
 };
 
 // @public (undocumented)
-export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesValueType<Ds extends Record<string, StateType>> = {
     [K in keyof Ds]: StateTypeValueType<Ds[K]>;
 };
 
 // @public
-export type StateTypeValueType<D extends StateType<any>> = D extends StateType<any, infer T, any> ? T : never;
+export type StateTypeValueType<D extends StateType> = D extends StateType<any, infer T> ? T : never;
 
 // @public
 export type StateUpdater<T> = (previousState: T, helpers: StoreDeserializeHelpers) => T;
@@ -64,7 +64,7 @@ export type StateUpdater<T> = (previousState: T, helpers: StoreDeserializeHelper
 export interface StoreDeserializeHelpers<K extends string = string, S = unknown> {
     createDocument(document: {
         id: string;
-        plugin?: K;
+        plugin: K;
         state?: S;
     }): void;
 }

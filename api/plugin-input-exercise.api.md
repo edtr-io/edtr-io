@@ -4,561 +4,52 @@
 
 ```ts
 
-import { child } from '@edtr-io/plugin';
+import { BooleanStateType } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
+import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ListStateType } from '@edtr-io/plugin';
+import { ObjectStateType } from '@edtr-io/plugin';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createInputExercisePlugin({ theme, feedback }?: {
-    theme?: Partial<InputExerciseConfig['theme']>;
-    feedback?: Parameters<typeof child>;
-}): EditorPlugin<InputExerciseState, InputExerciseConfig>;
-
-// @public (undocumented)
-export function createInputExerciseState(feedback: Parameters<typeof child>): import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-    type: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    unit: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[], {
-        id: string;
-        value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>;
-    }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[] & {
-        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[]): void;
-        insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }> | undefined): void;
-        remove(index: number): void;
-        move(from: number, to: number): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-    type: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    unit: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[], {
-        id: string;
-        value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>;
-    }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[] & {
-        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[]): void;
-        insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }> | undefined): void;
-        remove(index: number): void;
-        move(from: number, to: number): void;
-    }>;
-}>, import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-    type: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    unit: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-        value: string;
-        get(): string;
-        set(value: string | ((currentValue: string) => string)): void;
-    }>;
-    answers: import("@edtr-io/internal__plugin-state").StateType<import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[], {
-        id: string;
-        value: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>;
-    }[], import("@edtr-io/internal__plugin-state").StateTypesReturnType<{
-        value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-            value: string;
-            get(): string;
-            set(value: string | ((currentValue: string) => string)): void;
-        }>;
-        isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-            value: boolean;
-            get(): boolean;
-            set(value: boolean | ((currentValue: boolean) => boolean)): void;
-        }>;
-        feedback: import("@edtr-io/internal__plugin-state").StateType<{
-            plugin: string;
-            state?: unknown;
-        }, string, {
-            get(): string;
-            id: string;
-            render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-            replace: (plugin?: string | undefined, state?: unknown) => void;
-        }>;
-    }>[] & {
-        set(updater: (currentList: import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[], deserialize: (serialized: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>) => import("@edtr-io/internal__plugin-state").StateTypesValueType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }>[]): void;
-        insert(index?: number | undefined, options?: import("@edtr-io/internal__plugin-state").StateTypesSerializedType<{
-            value: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-                value: string;
-                get(): string;
-                set(value: string | ((currentValue: string) => string)): void;
-            }>;
-            isCorrect: import("@edtr-io/internal__plugin-state").StateType<boolean, boolean, {
-                value: boolean;
-                get(): boolean;
-                set(value: boolean | ((currentValue: boolean) => boolean)): void;
-            }>;
-            feedback: import("@edtr-io/internal__plugin-state").StateType<{
-                plugin: string;
-                state?: unknown;
-            }, string, {
-                get(): string;
-                id: string;
-                render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => import("react").ReactNode;
-                replace: (plugin?: string | undefined, state?: unknown) => void;
-            }>;
-        }> | undefined): void;
-        remove(index: number): void;
-        move(from: number, to: number): void;
-    }>;
-}>>;
+export function createInputExercisePlugin(config: InputExerciseConfig): EditorPlugin<InputExercisePluginState, InputExercisePluginConfig>;
 
 // @public (undocumented)
 export interface InputExerciseConfig {
+    // (undocumented)
+    feedback: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<InputExercisePluginConfig['i18n']>;
+    // (undocumented)
+    theme?: Partial<InputExercisePluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export interface InputExercisePluginConfig {
+    // (undocumented)
+    i18n: {
+        types: Record<InputExerciseType, string>;
+        type: {
+            label: string;
+        };
+        unit: {
+            label: string;
+        };
+        answer: {
+            addLabel: string;
+            value: {
+                placeholder: string;
+            };
+        };
+        inputPlaceholder: string;
+        fallbackFeedback: {
+            correct: string;
+            wrong: string;
+        };
+    };
     // (undocumented)
     theme: {
         borderColor: string;
@@ -567,10 +58,28 @@ export interface InputExerciseConfig {
 }
 
 // @public (undocumented)
-export type InputExerciseProps = EditorPluginProps<InputExerciseState, InputExerciseConfig>;
+export type InputExercisePluginState = ObjectStateType<{
+    type: StringStateType;
+    unit: StringStateType;
+    answers: ListStateType<ObjectStateType<{
+        value: StringStateType;
+        isCorrect: BooleanStateType;
+        feedback: ChildStateType;
+    }>>;
+}>;
 
 // @public (undocumented)
-export type InputExerciseState = ReturnType<typeof createInputExerciseState>;
+export type InputExerciseProps = EditorPluginProps<InputExercisePluginState, InputExercisePluginConfig>;
+
+// @public (undocumented)
+export enum InputExerciseType {
+    // (undocumented)
+    InputExpressionEqualMatchChallenge = "input-expression-equal-match-challenge",
+    // (undocumented)
+    InputNumberExactMatchChallenge = "input-number-exact-match-challenge",
+    // (undocumented)
+    InputStringNormalizedMatchChallenge = "input-string-normalized-match-challenge"
+}
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,11 +1,11 @@
-import { PreferenceContext, setDefaultPreference } from '@edtr-io/core'
-import { EditorTextarea } from '@edtr-io/renderer-ui'
+import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
+import { EditorTextarea } from '@edtr-io/editor-ui'
 import { faQuestionCircle, Icon, styled } from '@edtr-io/ui'
 import { canUseDOM } from 'exenv'
 import * as React from 'react'
 import Modal from 'react-modal'
 
-import { NodeEditorProps, TextConfig } from '../..'
+import { NodeEditorProps, TextPluginConfig } from '../..'
 import { isTouchDevice } from '../../controls'
 import {
   katexBlockNode,
@@ -58,41 +58,6 @@ const KeySpan = styled.span({
   minWidth: 20
 })
 
-const HelpText = (
-  <>
-    Tastenkürzel:
-    <br />
-    <br />
-    <p>
-      Bruch: <KeySpan>/</KeySpan>
-    </p>
-    <p>
-      Hochgestellt: <KeySpan>↑</KeySpan> oder <KeySpan>^</KeySpan>
-    </p>
-    <p>
-      Tiefgestellt: <KeySpan>↓</KeySpan> oder <KeySpan>_</KeySpan>
-    </p>
-    <p>
-      π, α, β, γ: <KeySpan>pi</KeySpan>, <KeySpan>alpha</KeySpan>,{' '}
-      <KeySpan>beta</KeySpan>,<KeySpan>gamma</KeySpan>
-    </p>
-    <p>
-      ≤, ≥: <KeySpan>{'<='}</KeySpan>, <KeySpan>{'>='}</KeySpan>
-    </p>
-    <p>
-      Wurzeln: <KeySpan>\sqrt</KeySpan>, <KeySpan>\nthroot</KeySpan>
-    </p>
-    <p>
-      Mathematische Symbole: <KeySpan>{'\\<NAME>'}</KeySpan>, z.B.{' '}
-      <KeySpan>\neq</KeySpan> (≠), <KeySpan>\pm</KeySpan> (±), ...
-    </p>
-    <p>
-      Funktionen: <KeySpan>sin</KeySpan>, <KeySpan>cos</KeySpan>,{' '}
-      <KeySpan>ln</KeySpan>, ...
-    </p>
-  </>
-)
-
 function isAndroid() {
   return isTouchDevice() && navigator && /(android)/i.test(navigator.userAgent)
 }
@@ -102,7 +67,7 @@ const preferenceKey = 'katex:usevisualmath'
 setDefaultPreference(preferenceKey, true)
 
 export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
-  config: TextConfig
+  config: TextPluginConfig
 }> = props => {
   const [helpOpen, setHelpOpen] = React.useState(false)
   const { attributes, editor, readOnly, node } = props
@@ -168,7 +133,7 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
           }
         }}
       >
-        {HelpText}
+        {props.config.i18n.math.helpText(KeySpan)}
       </Modal>
       {renderChildren()}
     </>
@@ -276,14 +241,14 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
                   <Option
                     config={props.config}
                     active={useVisualMath}
-                    value="visual"
+                    value={props.config.i18n.math.editors.visual}
                   >
                     visual
                   </Option>
                   <Option
                     config={props.config}
                     active={!useVisualMath}
-                    value="latex"
+                    value={props.config.i18n.math.editors.latex}
                   >
                     latex
                   </Option>
@@ -291,7 +256,7 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
                 {!isList(orderedListNode)(editor.controller) &&
                 !isList(unorderedListNode)(editor.controller) ? (
                   <InlineCheckbox
-                    label="eigene Zeile"
+                    label={props.config.i18n.math.displayBlockLabel}
                     checked={!inline}
                     onChange={handleInlineToggle}
                   />
@@ -307,7 +272,15 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
                   </Button>
                 )}
 
-                {hasError && <>Nur LaTeX verfügbar!&nbsp;&nbsp;</>}
+                {hasError && (
+                  <>
+                    {
+                      props.config.i18n.math.editors
+                        .noVisualEditorAvailableMessage
+                    }
+                    &nbsp;&nbsp;
+                  </>
+                )}
                 <br></br>
                 {!useVisualMath && (
                   <MathEditorTextArea
@@ -326,7 +299,9 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
           {formula ? (
             <Math formula={formula} inline={inline} />
           ) : (
-            <span style={{ backgroundColor: 'lightgrey' }}>[neue Formel]</span>
+            <span style={{ backgroundColor: 'lightgrey' }}>
+              {props.config.i18n.math.placeholder}
+            </span>
           )}
         </span>
       )

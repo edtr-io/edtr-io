@@ -4,7 +4,11 @@ import {
   OverlayInput,
   OverlayTextarea
 } from '@edtr-io/core'
-import { EditorButton, EditorInput, PrimarySettings } from '@edtr-io/editor-ui'
+import {
+  EditorButton,
+  EditorInput,
+  EditorInlineSettings
+} from '@edtr-io/editor-ui'
 import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
 import {
   EditorThemeProps,
@@ -15,7 +19,7 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ImageConfig, ImageProps } from '.'
+import { ImageProps } from '.'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
 
@@ -55,7 +59,7 @@ export function ImageEditor(props: ImageProps) {
       <ImgPlaceholderWrapper>
         <Icon icon={faImages} size="5x" />
         {isTempFile(state.src.value) && state.src.value.failed ? (
-          <Failed>Hochladen fehlgeschlagen</Failed>
+          <Failed>{config.i18n.failedUploadMessage}</Failed>
         ) : null}
       </ImgPlaceholderWrapper>
     ) : (
@@ -70,9 +74,9 @@ export function ImageEditor(props: ImageProps) {
       {imageComponent}
       {focused ? (
         <React.Fragment>
-          <PrimarySettings>
+          <EditorInlineSettings>
             <PrimaryControls {...props} config={config} />
-          </PrimarySettings>
+          </EditorInlineSettings>
           {props.renderIntoSettings(
             <React.Fragment>
               <Controls {...props} config={config} />
@@ -84,29 +88,26 @@ export function ImageEditor(props: ImageProps) {
   )
 }
 
-function PrimaryControls(
-  props: ImageProps & {
-    config: ImageConfig
-  }
-) {
+function PrimaryControls(props: ImageProps) {
+  const { i18n } = props.config
   const { src } = props.state
   return src.value === '' || isTempFile(src.value) ? (
     <React.Fragment>
       <EditorInput
-        label="Bild-Adresse (URL):"
+        label={i18n.src.label}
         placeholder={
           !isTempFile(src.value)
-            ? 'http://beispiel.de/bild.png'
+            ? i18n.src.placeholder.empty
             : !src.value.failed
-            ? 'Wird hochgeladen...'
-            : 'Upload fehlgeschlagen...'
+            ? i18n.src.placeholder.uploading
+            : i18n.src.placeholder.failed
         }
         value={!isTempFile(src.value) ? src.value : ''}
         disabled={isTempFile(src.value) && !src.value.failed}
         onChange={handleChange(props)('src')}
-        editorInputWidth="70%"
-        textfieldWidth="60%"
-        ref={props.defaultFocusRef}
+        width="70%"
+        inputWidth="60%"
+        ref={props.autofocusRef}
       />
       <ButtonWrapper>
         {isTempFile(src.value) && src.value.failed ? (
@@ -121,6 +122,7 @@ function PrimaryControls(
           </EditorButton>
         ) : null}
         <Upload
+          config={props.config}
           onFile={file => {
             src.upload(file, props.config.upload)
           }}
@@ -138,13 +140,13 @@ function PrimaryControls(
         return (
           <React.Fragment>
             <EditorInput
-              label="Bildbeschreibung:"
-              placeholder="Gib eine Bildbeschreibung ein (mind. 3 Wörter)"
+              label={i18n.alt.label}
+              placeholder={i18n.alt.placeholder}
               value={alt.defined ? alt.value : ''}
               onChange={handleChange(props)('description')}
-              editorInputWidth="90%"
-              textfieldWidth="70%"
-              ref={props.defaultFocusRef}
+              width="90%"
+              inputWidth="70%"
+              ref={props.autofocusRef}
             />
           </React.Fragment>
         )
@@ -154,13 +156,13 @@ function PrimaryControls(
         return (
           <React.Fragment>
             <EditorInput
-              label="Link: "
-              placeholder="Verlinke das Bild (optional)"
+              label={i18n.link.href.label}
+              placeholder={i18n.link.href.placeholder}
               value={link.defined ? link.href.value : ''}
               onChange={handleChange(props)('href')}
-              editorInputWidth="90%"
-              textfieldWidth="70%"
-              ref={props.defaultFocusRef}
+              width="90%"
+              inputWidth="70%"
+              ref={props.autofocusRef}
             />
           </React.Fragment>
         )
@@ -171,23 +173,20 @@ function PrimaryControls(
   }
 }
 
-function Controls<T = unknown>(
-  props: ImageProps & {
-    config: ImageConfig
-  }
-) {
+function Controls<T = unknown>(props: ImageProps) {
   const { state } = props
+  const { i18n } = props.config
 
   return (
     <React.Fragment>
       <OverlayInput
-        label="Bild-Adresse (URL)"
+        label={i18n.src.label}
         placeholder={
           !isTempFile(state.src.value)
-            ? 'http://beispiel.de/bild.png'
+            ? i18n.src.placeholder.empty
             : !state.src.value.failed
-            ? 'Wird hochgeladen...'
-            : 'Upload fehlgeschlagen...'
+            ? i18n.src.placeholder.uploading
+            : i18n.src.placeholder.failed
         }
         value={!isTempFile(state.src.value) ? state.src.value : undefined}
         disabled={isTempFile(state.src.value) && !state.src.value.failed}
@@ -201,12 +200,13 @@ function Controls<T = unknown>(
                 state.src.upload(state.src.value.failed, props.config.upload)
               }
             }}
-            label="Upload erneut versuchen"
+            label={i18n.src.retryLabel}
           >
             <Icon icon={faRedoAlt} />
           </OverlayButton>
         ) : null}
         <Upload
+          config={props.config}
           inOverlay
           onFile={file => {
             state.src.upload(file, props.config.upload)
@@ -214,15 +214,15 @@ function Controls<T = unknown>(
         />
       </OverlayButtonWrapper>
       <OverlayTextarea
-        label="Bildbeschreibung"
-        placeholder="Gib hier eine Bildbeschreibung ein (mindestens 3 Wörter)"
+        label={i18n.alt.label}
+        placeholder={i18n.alt.placeholder}
         value={state.alt.defined ? state.alt.value : ''}
         onChange={handleChange(props)('description')}
       />
 
       <OverlayInput
-        label="Verlinke das Bild (optional)"
-        placeholder="http://beispiel.de"
+        label={i18n.link.href.label}
+        placeholder={i18n.link.href.placeholder}
         type="text"
         value={state.link.defined ? state.link.href.value : ''}
         onChange={handleChange(props)('href')}
@@ -230,15 +230,15 @@ function Controls<T = unknown>(
       {state.link.defined && state.link.href.value ? (
         <React.Fragment>
           <OverlayCheckbox
-            label="In neuem Fenster öffnen"
+            label={i18n.link.openInNewTab.label}
             checked={state.link.defined ? state.link.openInNewTab.value : false}
             onChange={handleTargetChange(props)}
           />
         </React.Fragment>
       ) : null}
       <OverlayInput
-        label="Maximale Breite (px)"
-        placeholder="Gib hier die Breite ein"
+        label={i18n.maxWidth.label}
+        placeholder={i18n.maxWidth.placeholder}
         type="number"
         value={state.maxWidth.defined ? state.maxWidth.value : ''}
         onChange={event => {

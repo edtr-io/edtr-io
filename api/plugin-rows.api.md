@@ -4,19 +4,44 @@
 
 ```ts
 
+import { ChildStateType } from '@edtr-io/plugin';
+import { ChildStateTypeConfig } from '@edtr-io/plugin';
 import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
+import { ListStateType } from '@edtr-io/plugin';
 import * as React from 'react';
 
 // @public (undocumented)
-export function createRowsPlugin({ plugins, theme }: {
-    plugins: RowsConfig['plugins'];
-    theme?: DeepPartial<RowsConfig['theme']>;
-}): EditorPlugin<RowsState, RowsConfig>;
+export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsPluginConfig>;
 
 // @public (undocumented)
-export interface RowsConfig {
+export interface RowsConfig extends Omit<RowsPluginConfig, 'i18n' | 'theme'> {
+    // (undocumented)
+    content: ChildStateTypeConfig;
+    // (undocumented)
+    i18n?: DeepPartial<RowsPluginConfig['i18n']>;
+    // (undocumented)
+    theme?: DeepPartial<RowsPluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export interface RowsPluginConfig {
+    // (undocumented)
+    i18n: {
+        menu: {
+            searchPlaceholder: string;
+        };
+        settings: {
+            duplicateLabel: string;
+            removeLabel: string;
+            closeLabel: string;
+        };
+        toolbar: {
+            dragLabel: string;
+        };
+        addLabel: string;
+    };
     // (undocumented)
     plugins: {
         name: string;
@@ -51,35 +76,10 @@ export interface RowsConfig {
 }
 
 // @public (undocumented)
-export type RowsProps = EditorPluginProps<RowsState, RowsConfig>;
+export type RowsPluginState = ListStateType<ChildStateType>;
 
 // @public (undocumented)
-export type RowsState = typeof rowsState;
-
-// @public (undocumented)
-export const rowsState: import("@edtr-io/internal__plugin-state").StateType<{
-    plugin: string;
-    state?: unknown;
-}[], {
-    id: string;
-    value: string;
-}[], {
-    get(): string;
-    id: string;
-    render: (props?: import("@edtr-io/internal__plugin-state").PluginProps | undefined) => React.ReactNode;
-    replace: (plugin?: string | undefined, state?: unknown) => void;
-}[] & {
-    set(updater: (currentList: string[], deserialize: (serialized: {
-        plugin: string;
-        state?: unknown;
-    }) => string) => string[]): void;
-    insert(index?: number | undefined, options?: {
-        plugin: string;
-        state?: unknown;
-    } | undefined): void;
-    remove(index: number): void;
-    move(from: number, to: number): void;
-}>;
+export type RowsProps = EditorPluginProps<RowsPluginState, RowsPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

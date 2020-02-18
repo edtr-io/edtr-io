@@ -21,7 +21,7 @@ describe('object', () => {
 
   test('initial with child', () => {
     const state = object({
-      foo: child(),
+      foo: child({ plugin: 'counter' }),
       counter: number()
     })
     const initial = state.createInitialState(helpers)
@@ -33,8 +33,8 @@ describe('object', () => {
 
   test('initial with 2 children', () => {
     const state = object({
-      foo: child(),
-      bar: child()
+      foo: child({ plugin: 'counter' }),
+      bar: child({ plugin: 'counter ' })
     })
     const initial = state.createInitialState(helpers)
 
@@ -46,7 +46,7 @@ describe('object', () => {
 
   test('deserialize', () => {
     const state = object({
-      foo: child(),
+      foo: child({ plugin: 'counter' }),
       counter: number()
     })
 
@@ -64,8 +64,8 @@ describe('object', () => {
 
   test('serialize', () => {
     const state = object({
-      foo: child(),
-      bar: child(),
+      foo: child({ plugin: 'counter' }),
+      bar: child({ plugin: 'counter' }),
       counter: number()
     })
     const deserialized = {
@@ -91,7 +91,7 @@ describe('object', () => {
 
   test('return type', () => {
     const state = object({
-      foo: child(),
+      foo: child({ plugin: 'counter' }),
       counter: number()
     })
     const initial = {
@@ -109,7 +109,7 @@ describe('object', () => {
 
   test('store', () => {
     const state = object({
-      foo: child(),
+      foo: child({ plugin: 'counter' }),
       counter: number()
     })
     const initialState = {
@@ -132,7 +132,7 @@ describe('object', () => {
 
   test('innerOnChange correctly dispatches changes', () => {
     const state = object({
-      foo: list(child(), 0)
+      foo: list(child({ plugin: 'counter' }), 0)
     })
     const initialState = state.createInitialState(helpers)
     expect(helpers.createDocument).not.toHaveBeenCalled()
@@ -166,7 +166,7 @@ describe('object', () => {
 
   test('get focusable children', () => {
     const state = object({
-      foo: child(),
+      foo: child({ plugin: 'counter' }),
       counter: number()
     })
     const initialState = {

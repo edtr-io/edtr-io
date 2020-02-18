@@ -1,45 +1,79 @@
 import {
   child,
-  object,
-  string,
+  ChildStateType,
+  ChildStateTypeConfig,
+  EditorPlugin,
   EditorPluginProps,
-  EditorPlugin
+  object,
+  ObjectStateType,
+  string,
+  StringStateType
 } from '@edtr-io/plugin'
+import { DeepPartial } from '@edtr-io/ui'
+import * as R from 'ramda'
 
 import { SpoilerEditor } from './editor'
 
-/** @public */
-export const spoilerState = object({
-  title: string(''),
-  content: child({ plugin: 'rows' })
-})
-/** @public */
-export type SpoilerState = typeof spoilerState
-/** @public */
-export interface SpoilerConfig {
-  theme: {
-    color: string
-  }
-}
-/** @public */
-export type SpoilerProps = EditorPluginProps<SpoilerState, SpoilerConfig>
+/**
+ * @param config - {@link SpoilerConfig | Plugin configuration}
+ * @public
+ */ export function createSpoilerPlugin(
+  config: SpoilerConfig
+): EditorPlugin<SpoilerPluginState, SpoilerPluginConfig> {
+  const { i18n = {}, theme = {}, content } = config
 
-/** @public */
-export function createSpoilerPlugin({
-  theme = {}
-}: {
-  theme?: Partial<SpoilerConfig['theme']>
-} = {}): EditorPlugin<SpoilerState, SpoilerConfig> {
   return {
     Component: SpoilerEditor,
     config: () => {
       return {
+        i18n: R.mergeDeepRight(
+          {
+            title: {
+              placeholder: 'Enter a title'
+            }
+          },
+          i18n
+        ),
         theme: {
           color: '#f5f5f5',
           ...theme
         }
       }
     },
-    state: spoilerState
+    state: object({
+      title: string(''),
+      content: child(content)
+    })
   }
 }
+
+/** @public */
+export interface SpoilerConfig {
+  content: ChildStateTypeConfig
+  i18n?: DeepPartial<SpoilerPluginConfig['i18n']>
+  theme?: Partial<SpoilerPluginConfig['theme']>
+}
+
+/** @public */
+export type SpoilerPluginState = ObjectStateType<{
+  title: StringStateType
+  content: ChildStateType
+}>
+
+/** @public */
+export interface SpoilerPluginConfig {
+  i18n: {
+    title: {
+      placeholder: string
+    }
+  }
+  theme: {
+    color: string
+  }
+}
+
+/** @public */
+export type SpoilerProps = EditorPluginProps<
+  SpoilerPluginState,
+  SpoilerPluginConfig
+>

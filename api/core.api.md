@@ -7,49 +7,35 @@
 import { Action } from '@edtr-io/store';
 import { ChangeListener } from '@edtr-io/store';
 import { CustomTheme } from '@edtr-io/ui';
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor';
 import { EditorPlugin } from '@edtr-io/internal__plugin';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { HotKeys } from 'react-hotkeys';
 import { IgnoreKeys } from 'react-hotkeys';
-import { OverlayButtonProps } from '@edtr-io/internal__plugin-toolbar';
-import { OverlayCheckboxProps } from '@edtr-io/internal__plugin-toolbar';
-import { OverlayInputProps } from '@edtr-io/internal__plugin-toolbar';
-import { OverlaySelectProps } from '@edtr-io/internal__plugin-toolbar';
-import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar';
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta';
+import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta';
 import { PluginProps } from '@edtr-io/internal__plugin-state';
-import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar';
-import { PluginToolbarButtonProps } from '@edtr-io/internal__plugin-toolbar';
-import { PluginToolbarOverlayButtonProps } from '@edtr-io/internal__plugin-toolbar';
 import { ProviderProps } from 'react-redux';
 import * as React from 'react';
-import { ReactReduxContextValue } from 'react-redux';
 import { ScopedState } from '@edtr-io/store';
 import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
 
-// @public
-export function Document<K extends string = string>({ scope, mirror, ...props }: EditorProps<K> & {
-    scope?: string;
-    mirror?: boolean;
-}): JSX.Element | null;
+// @beta
+export function Document<K extends string = string>({ scope, ...props }: Omit<EditorProps<K>, 'initialState'> & {
+    scope: string;
+} & ({
+    mirror: true;
+    initialState?: unknown;
+} | {
+    mirror?: false;
+    initialState: EditorProps<K>['initialState'];
+})): JSX.Element | null;
 
 // @public (undocumented)
-export const DocumentEditorContext: React.Context<React.ComponentType<DocumentEditorProps>>;
-
-// @public (undocumented)
-export interface DocumentProps {
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    pluginProps?: PluginProps;
-}
+export const DocumentEditorContext: React.Context<React.ComponentType<InternalDocumentEditor.DocumentEditorProps>>;
 
 // @public
 export function Editor<K extends string = string>({ createStoreEnhancer, ...props }: EditorProps<K>): JSX.Element;
-
-// @public (undocumented)
-export const EditorContext: React.Context<ReactReduxContextValue<Record<string, ScopedState>, import("redux").AnyAction>>;
 
 // @public (undocumented)
 export interface EditorProps<K extends string = string> {
@@ -58,13 +44,11 @@ export interface EditorProps<K extends string = string> {
     // (undocumented)
     createStoreEnhancer?: StoreEnhancerFactory;
     // (undocumented)
-    defaultPlugin: K;
-    // (undocumented)
     DocumentEditor?: React.ContextType<typeof DocumentEditorContext>;
     // (undocumented)
     editable?: boolean;
     // (undocumented)
-    initialState?: {
+    initialState: {
         plugin: string;
         state?: unknown;
     };
@@ -82,7 +66,7 @@ export interface EditorProps<K extends string = string> {
     theme?: CustomTheme;
 }
 
-// @public
+// @beta
 export function EditorProvider({ createStoreEnhancer, omitDragDropContext, children }: {
     omitDragDropContext?: boolean;
     createStoreEnhancer?: StoreEnhancerFactory;
@@ -103,28 +87,49 @@ export { IgnoreKeys }
 // @public
 export function OverlayButton(props: OverlayButtonProps): JSX.Element;
 
+// @public (undocumented)
+export type OverlayButtonProps = InternalPluginToolbar.OverlayButtonProps;
+
 // @public
 export function OverlayCheckbox(props: OverlayCheckboxProps): JSX.Element;
+
+// @public (undocumented)
+export type OverlayCheckboxProps = InternalPluginToolbar.OverlayCheckboxProps;
 
 // @public
 export function OverlayInput(props: OverlayInputProps): JSX.Element;
 
+// @public (undocumented)
+export type OverlayInputProps = InternalPluginToolbar.OverlayInputProps;
+
 // @public
 export function OverlaySelect(props: OverlaySelectProps): JSX.Element;
+
+// @public (undocumented)
+export type OverlaySelectProps = InternalPluginToolbar.OverlaySelectProps;
 
 // @public
 export function OverlayTextarea(props: OverlayTextareaProps): JSX.Element;
 
 // @public (undocumented)
-export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
+export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps;
 
 // @public (undocumented)
-export const PluginToolbarContext: React.Context<PluginToolbar>;
+export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<InternalPluginToolbar.PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
+
+// @public (undocumented)
+export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps;
+
+// @public (undocumented)
+export const PluginToolbarContext: React.Context<InternalPluginToolbar.PluginToolbar>;
 
 // @public
 export function PluginToolbarOverlayButton(props: PluginToolbarOverlayButtonProps): JSX.Element;
 
 // @public (undocumented)
+export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps;
+
+// @beta (undocumented)
 export interface Preference {
     // (undocumented)
     getKey: (key: string) => unknown;
@@ -132,7 +137,7 @@ export interface Preference {
     setKey: (key: string, val: unknown) => void;
 }
 
-// @public (undocumented)
+// @beta (undocumented)
 export const PreferenceContext: React.Context<Preference>;
 
 // @public
@@ -146,14 +151,25 @@ export const ScopeContext: React.Context<{
     editable?: boolean | undefined;
 }>;
 
-// @public
+// @beta
 export function setDefaultPreference(key: string, val: unknown): void;
 
 // @public
-export const SubDocument: (props: DocumentProps) => JSX.Element;
+export const SubDocument: (props: SubDocumentProps) => JSX.Element;
+
+// @public (undocumented)
+export interface SubDocumentProps {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    pluginProps?: PluginProps;
+}
 
 // @public (undocumented)
 export const useDispatch: () => (action: Action) => void;
+
+// @public (undocumented)
+export function useScope(enforcedScope?: string): string;
 
 // @public
 export function useScopedDispatch(enforcedScope?: string): (scopedAction: (scope: string) => Action) => void;

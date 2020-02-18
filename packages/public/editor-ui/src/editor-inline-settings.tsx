@@ -1,6 +1,6 @@
 import { styled } from '@edtr-io/ui'
 
 /** @public */
-export const PrimarySettings = styled.div({
+export const EditorInlineSettings = styled.div({
   marginTop: '15px'
 })

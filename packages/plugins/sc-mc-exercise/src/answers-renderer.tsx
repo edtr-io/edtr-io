@@ -1,9 +1,10 @@
 import { StateTypeReturnType } from '@edtr-io/plugin'
-import { styled, FetchDimensions } from '@edtr-io/renderer-ui'
+import { styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { ScMcExerciseProps, ScMcExerciseState } from '.'
+import { ScMcExerciseProps, ScMcExercisePluginState } from '.'
+import { FetchDimensions } from './fetch-dimensions'
 import { calculateLayoutOptions } from './helpers'
 
 enum Phase {
@@ -15,7 +16,7 @@ enum Phase {
 export class ScMcAnswersRenderer extends React.Component<
   ScMcExerciseProps & {
     showAnswer: (
-      answer: StateTypeReturnType<ScMcExerciseState>['answers'][0],
+      answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0],
       index: number,
       centered: boolean
     ) => React.ReactNode

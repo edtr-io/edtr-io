@@ -16,12 +16,19 @@ export {
 } from './store'
 export {
   ActionCreator,
-  ActionFromActionCreator,
+  ActionCreatorWithoutPayload,
+  ActionCreatorWithPayload,
+  ActionCreatorAction,
   DocumentState,
   HistoryState,
   Selector,
-  ReturnTypeFromSelector,
+  InternalSelector,
+  SelectorReturnType,
+  InternalSelectorReturnType,
   State,
   Store,
-  ScopedState
+  ScopedState,
+  InternalState,
+  InternalStore,
+  InternalScopedState
 } from './types'

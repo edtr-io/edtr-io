@@ -1,8 +1,8 @@
-import { createAction } from '../helpers'
-import { ActionFromActionCreator } from '../types'
+import { createActionCreator } from '../helpers'
+import { ActionCreatorAction, ActionCreatorWithPayload } from '../types'
 
 /** @public */
-export const insertChildBefore = createAction<
+export const insertChildBefore = createActionCreator<
   'InsertChildBefore',
   {
     parent: string
@@ -14,11 +14,11 @@ export const insertChildBefore = createAction<
   }
 >('InsertChildBefore')
 /** @public */
-export type InsertChildBeforeAction = ActionFromActionCreator<
+export type InsertChildBeforeAction = ActionCreatorAction<
   typeof insertChildBefore
 >
 /** @public */
-export const insertChildAfter = createAction<
+export const insertChildAfter: ActionCreatorWithPayload<
   'InsertChildAfter',
   {
     parent: string
@@ -28,22 +28,22 @@ export const insertChildAfter = createAction<
       state?: unknown
     }
   }
->('InsertChildAfter')
+> = createActionCreator('InsertChildAfter')
 /** @public */
-export type InsertChildAfterAction = ActionFromActionCreator<
+export type InsertChildAfterAction = ActionCreatorAction<
   typeof insertChildAfter
 >
 
 /** @public */
-export const removeChild = createAction<
+export const removeChild: ActionCreatorWithPayload<
   'RemoveChild',
   {
     parent: string
     child: string
   }
->('RemoveChild')
+> = createActionCreator('RemoveChild')
 /** @public */
-export type RemoveChildAction = ActionFromActionCreator<typeof removeChild>
+export type RemoveChildAction = ActionCreatorAction<typeof removeChild>
 
 /** @public */
 export type PluginAction =

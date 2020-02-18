@@ -1,4 +1,4 @@
-import { OverlayTextareaProps } from '@edtr-io/internal__plugin-toolbar'
+import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta'
 import * as React from 'react'
 
 import { PluginToolbarContext } from '../contexts'
@@ -14,3 +14,5 @@ export function OverlayTextarea(props: OverlayTextareaProps) {
   const { OverlayTextarea } = React.useContext(PluginToolbarContext)
   return <OverlayTextarea {...props} />
 }
+/** @public */
+export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps

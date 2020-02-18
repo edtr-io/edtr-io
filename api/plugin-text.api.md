@@ -18,6 +18,7 @@ import { RenderBlockProps } from 'slate-react';
 import { RenderInlineProps } from 'slate-react';
 import { RenderMarkProps } from 'slate-react';
 import { Rule } from 'slate-html-serializer';
+import { SerializedScalarStateType } from '@edtr-io/plugin';
 import { Serializer } from '@edtr-io/plugin';
 import { useScopedStore } from '@edtr-io/core';
 import { Value } from 'slate';
@@ -33,12 +34,7 @@ export interface BlockRendererProps {
 }
 
 // @public (undocumented)
-export function createTextPlugin({ placeholder, registry, theme, blockquote }: {
-    placeholder?: TextConfig['placeholder'];
-    registry: TextConfig['registry'];
-    theme?: DeepPartial<TextConfig['theme']>;
-    blockquote?: string;
-}): EditorPlugin<TextState, TextConfig>;
+export function createTextPlugin(config: TextConfig): EditorPlugin<TextPluginState, TextPluginConfig>;
 
 // @internal (undocumented)
 export function htmlToSlateValue(html: string): Value;
@@ -326,7 +322,7 @@ export const serializer: Serializer<NewNode[], ValueJSON>;
 // @public (undocumented)
 export interface SlateClosure {
     // (undocumented)
-    config: TextConfig;
+    config: TextPluginConfig;
     // (undocumented)
     id: TextProps['id'];
     // (undocumented)
@@ -343,6 +339,75 @@ export function slateValueToHtml(value: Value): string;
 export interface TextConfig {
     // (undocumented)
     blockquote?: string;
+    // (undocumented)
+    i18n?: DeepPartial<TextPluginConfig['i18n']>;
+    // (undocumented)
+    placeholder?: TextPluginConfig['placeholder'];
+    // (undocumented)
+    registry: TextPluginConfig['registry'];
+    // (undocumented)
+    theme?: DeepPartial<TextPluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export type TextPlugin = Plugin & Rule & {
+    commands?: {
+        [key: string]: (editor: Editor, ...args: any[]) => Editor;
+    };
+};
+
+// @public (undocumented)
+export interface TextPluginConfig {
+    // (undocumented)
+    blockquote?: string;
+    // (undocumented)
+    i18n: {
+        blockquote: {
+            toggleTitle: string;
+        };
+        colors: {
+            setColorTitle: string;
+            resetColorTitle: string;
+            openMenuTitle: string;
+            closeMenuTitle: string;
+        };
+        headings: {
+            setHeadingTitle(level: number): string;
+            openMenuTitle: string;
+            closeMenuTitle: string;
+        };
+        link: {
+            toggleTitle: string;
+            placeholder: string;
+            openInNewTabTitle: string;
+        };
+        list: {
+            toggleOrderedList: string;
+            toggleUnorderedList: string;
+            openMenuTitle: string;
+            closeMenuTitle: string;
+        };
+        math: {
+            toggleTitle: string;
+            displayBlockLabel: string;
+            placeholder: string;
+            editors: {
+                visual: string;
+                latex: string;
+                noVisualEditorAvailableMessage: string;
+            };
+            helpText(KeySpan: React.ComponentType<{
+                children: React.ReactNode;
+            }>): React.ReactNode;
+        };
+        richText: {
+            toggleStrongTitle: string;
+            toggleEmphasizeTitle: string;
+        };
+        suggestions: {
+            noResultsMessage: string;
+        };
+    };
     // (undocumented)
     placeholder: string;
     // (undocumented)
@@ -385,24 +450,10 @@ export interface TextConfig {
 }
 
 // @public (undocumented)
-export type TextPlugin = Plugin & Rule & {
-    commands?: {
-        [key: string]: (editor: Editor, ...args: any[]) => Editor;
-    };
-};
+export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>;
 
 // @public (undocumented)
-export type TextProps = EditorPluginProps<TextState, TextConfig>;
-
-// @public (undocumented)
-export type TextState = typeof textState;
-
-// @public (undocumented)
-export const textState: import("@edtr-io/internal__plugin-state").StateType<import("./state-migration-serializer").NewNode[], import("slate").ValueJSON, {
-    value: import("slate").ValueJSON;
-    get(): import("slate").ValueJSON;
-    set(value: import("slate").ValueJSON | ((currentValue: import("slate").ValueJSON) => import("slate").ValueJSON)): void;
-}>;
+export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

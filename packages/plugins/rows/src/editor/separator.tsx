@@ -1,7 +1,7 @@
-import { styled, EdtrIcon, edtrRowsControls } from '@edtr-io/ui'
+import { styled, EdtrIcon, edtrPlus } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { RowsConfig } from '..'
+import { RowsPluginConfig } from '..'
 
 const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   return {
@@ -14,7 +14,7 @@ const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
   }
 })
 
-const AddTrigger = styled.div<{ focused: boolean; config: RowsConfig }>(
+const AddTrigger = styled.div<{ focused: boolean; config: RowsPluginConfig }>(
   ({ focused, config }) => {
     const { theme } = config
     return {
@@ -57,7 +57,7 @@ const Icon = styled(EdtrIcon)({
 })
 
 export function Add(props: {
-  config: RowsConfig
+  config: RowsPluginConfig
   focused: boolean
   onClick: () => void
 }) {
@@ -66,10 +66,10 @@ export function Add(props: {
       className="add-trigger"
       config={props.config}
       focused={props.focused}
-      title="Füge ein Element hinzu"
+      title={props.config.i18n.addLabel}
       onMouseDown={props.onClick}
     >
-      <Icon icon={edtrRowsControls.plus} />
+      <Icon icon={edtrPlus} />
     </AddTrigger>
   )
 }
@@ -80,7 +80,7 @@ export function Separator({
   onClick,
   focused
 }: {
-  config: RowsConfig
+  config: RowsPluginConfig
   isFirst?: boolean
   onClick: () => void
   focused?: boolean

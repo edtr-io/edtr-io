@@ -1,4 +1,4 @@
-import { PluginToolbarButtonProps } from '@edtr-io/internal__plugin-toolbar'
+import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta'
 import * as React from 'react'
 
 import { PluginToolbarContext } from '../contexts'
@@ -11,3 +11,5 @@ export const PluginToolbarButton = React.forwardRef<
   const { PluginToolbarButton } = React.useContext(PluginToolbarContext)
   return <PluginToolbarButton {...props} ref={ref} />
 })
+/** @public */
+export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps

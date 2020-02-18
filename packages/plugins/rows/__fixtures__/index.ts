@@ -17,10 +17,11 @@ import {
   faQuoteRight
 } from '@edtr-io/ui'
 
-import { RowsState, createRowsPlugin } from '../src'
+import { RowsPluginState, createRowsPlugin } from '../src'
 
 export const name = 'rows'
 export const plugin = createRowsPlugin({
+  content: { plugin: 'text' },
   plugins: [
     {
       name: 'anchor',
@@ -94,7 +95,10 @@ export const plugin = createRowsPlugin({
   ]
 })
 
-export const states: Record<string, StateTypeSerializedType<RowsState>> = {
+export const states: Record<
+  string,
+  StateTypeSerializedType<RowsPluginState>
+> = {
   simple: createRowsState({
     plugin: textPlugin,
     state: [
@@ -108,6 +112,6 @@ export const states: Record<string, StateTypeSerializedType<RowsState>> = {
 
 export function createRowsState(
   ...args: { plugin: string; state: unknown }[]
-): StateTypeSerializedType<RowsState> {
+): StateTypeSerializedType<RowsPluginState> {
   return args
 }

@@ -8,9 +8,9 @@ import { markdownShortcuts } from './markdown'
 import { createParagraphPlugin } from './paragraph'
 import { pluginSuggestions } from './plugin-suggestions'
 import { createRichTextPlugin } from './rich-text'
-import { TextConfig } from '..'
+import { TextPluginConfig } from '..'
 
-export const plugins: TextConfig['plugins'] = [
+export const plugins: TextPluginConfig['plugins'] = [
   pluginSuggestions,
   createParagraphPlugin(),
   createRichTextPlugin(),

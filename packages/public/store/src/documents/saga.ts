@@ -10,12 +10,8 @@ import generate from 'shortid'
 import { ReversibleAction } from '../actions'
 import { scopeSelector } from '../helpers'
 import { commit, temporaryCommit } from '../history/actions'
-import {
-  getPlugin,
-  getPluginOrDefault,
-  getPluginTypeOrDefault
-} from '../plugins/reducer'
-import { ReturnTypeFromSelector } from '../types'
+import { getPlugin } from '../plugins/reducer'
+import { SelectorReturnType } from '../types'
 import {
   change,
   ChangeAction,
@@ -64,7 +60,7 @@ function* insertSaga(action: InsertAction) {
 
 function* removeSaga(action: RemoveAction) {
   const id = action.payload
-  const doc: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const doc: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
@@ -85,7 +81,7 @@ function* removeSaga(action: RemoveAction) {
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
-  const document: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const document: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
@@ -172,7 +168,7 @@ function* changeSaga(action: ChangeAction) {
     while (true) {
       const payload: ChannelAction = yield take(chan)
 
-      const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+      const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
         scopeSelector(getDocument, action.scope),
         id
       )
@@ -201,7 +197,7 @@ function* changeSaga(action: ChangeAction) {
 
 function* wrapSaga(action: WrapAction) {
   const { id, document: documentHandler } = action.payload
-  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
@@ -218,7 +214,7 @@ function* wrapSaga(action: WrapAction) {
 
 function* unwrapSaga(action: UnwrapAction) {
   const { id, oldId } = action.payload
-  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
@@ -236,19 +232,19 @@ function* unwrapSaga(action: UnwrapAction) {
 
 function* replaceSaga(action: ReplaceAction) {
   const { id } = action.payload
-  const currentDocument: ReturnTypeFromSelector<typeof getDocument> = yield select(
+  const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
   if (!currentDocument) return
-  const plugin: ReturnTypeFromSelector<typeof getPlugin> = yield select(
+  const plugin: SelectorReturnType<typeof getPlugin> = yield select(
     scopeSelector(getPlugin, action.scope),
     action.payload.plugin
   )
   if (!plugin) return
   const pendingDocs: {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }[] = []
   const helpers: StoreDeserializeHelpers = {
@@ -298,12 +294,12 @@ interface ChannelAction {
 export function* handleRecursiveInserts(
   scope: string,
   act: (helpers: StoreDeserializeHelpers) => unknown,
-  initialDocuments: { id: string; plugin?: string; state?: unknown }[] = []
+  initialDocuments: { id: string; plugin: string; state?: unknown }[] = []
 ) {
   const actions: ReversibleAction[] = []
   const pendingDocs: {
     id: string
-    plugin?: string
+    plugin: string
     state?: unknown
   }[] = initialDocuments
   const helpers: StoreDeserializeHelpers = {
@@ -313,8 +309,8 @@ export function* handleRecursiveInserts(
   }
   const result = act(helpers)
   for (let doc; (doc = pendingDocs.pop()); ) {
-    const plugin: ReturnTypeFromSelector<typeof getPluginOrDefault> = yield select(
-      scopeSelector(getPluginOrDefault, scope),
+    const plugin: SelectorReturnType<typeof getPlugin> = yield select(
+      scopeSelector(getPlugin, scope),
       doc.plugin
     )
     if (!plugin) {
@@ -327,14 +323,10 @@ export function* handleRecursiveInserts(
     } else {
       state = plugin.state.deserialize(doc.state, helpers)
     }
-    const pluginType: ReturnTypeFromSelector<typeof getPluginTypeOrDefault> = yield select(
-      scopeSelector(getPluginTypeOrDefault, scope),
-      doc.plugin
-    )
     actions.push({
       action: pureInsert({
         id: doc.id,
-        plugin: pluginType,
+        plugin: doc.plugin,
         state
       })(scope),
       reverse: pureRemove(doc.id)(scope)

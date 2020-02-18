@@ -1,21 +1,17 @@
-import { list, upload, EditorPlugin, EditorPluginProps } from '@edtr-io/plugin'
+import {
+  list,
+  upload,
+  EditorPlugin,
+  EditorPluginProps,
+  ListStateType,
+  UploadStateType
+} from '@edtr-io/plugin'
 
 import { FilesEditor } from './editor'
 import { onPaste } from './on-paste'
-import { FilesConfig, FileType, UploadedFile } from './types'
+import { FilesPluginConfig, FileType, UploadedFile } from './types'
 
-/** @public */
-export const filesState = list(
-  upload<UploadedFile>({
-    src: '',
-    name: '',
-    type: FileType.Other
-  })
-)
-/** @public */
-export type FilesState = typeof filesState
-/** @public */
-export type FilesProps = EditorPluginProps<FilesState, FilesConfig>
+export { FileType } from './types'
 
 /**
  * @param config - {@link FilesConfig | Plugin configuration}
@@ -23,14 +19,42 @@ export type FilesProps = EditorPluginProps<FilesState, FilesConfig>
  */
 export function createFilesPlugin(
   config: FilesConfig
-): EditorPlugin<FilesState, FilesConfig> {
+): EditorPlugin<FilesPluginState, FilesPluginConfig> {
+  const { i18n = {} } = config
+
   return {
     Component: FilesEditor,
-    config,
-    state: filesState,
+    config: {
+      upload: config.upload,
+      i18n: {
+        label: 'Browse…',
+        failedUploadMessage: 'Upload failed',
+        ...i18n
+      }
+    },
+    state: list(
+      upload({
+        src: '',
+        name: '',
+        type: FileType.Other
+      })
+    ),
     onPaste
   }
 }
 
-export * from './types'
+/** @public */
+export interface FilesConfig {
+  upload: FilesPluginConfig['upload']
+  i18n?: Partial<FilesPluginConfig['i18n']>
+}
+
+/** @public */
+export type FilesPluginState = ListStateType<UploadStateType<UploadedFile>>
+export { UploadedFile }
+
+/** @public */
+export type FilesProps = EditorPluginProps<FilesPluginState, FilesPluginConfig>
+export { FilesPluginConfig }
+
 export { parseFileType } from './upload'

@@ -1,19 +1,52 @@
-import { EditorPlugin, EditorPluginProps, string } from '@edtr-io/plugin'
+import {
+  EditorPlugin,
+  EditorPluginProps,
+  string,
+  StringStateType
+} from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
 
-/** @public */
-export const anchorState = string()
-/** @public */
-export type AnchorState = typeof anchorState
-/** @public */
-export type AnchorProps = EditorPluginProps<AnchorState>
+/**
+ * @param config - {@link AnchorConfig | Plugin configuration}
+ * @public
+ */
+export function createAnchorPlugin(
+  config: AnchorConfig = {}
+): EditorPlugin<AnchorPluginState, AnchorPluginConfig> {
+  const { i18n = {} } = config
 
-/** @public */
-export function createAnchorPlugin(): EditorPlugin<AnchorState> {
   return {
     Component: AnchorEditor,
-    config: {},
-    state: anchorState
+    config: {
+      i18n: {
+        label: 'Identifier',
+        placeholder: 'ID of the anchor',
+        ...i18n
+      }
+    },
+    state: string()
   }
 }
+
+/** @public */
+export interface AnchorConfig {
+  i18n?: Partial<AnchorPluginConfig['i18n']>
+}
+
+/** @public */
+export type AnchorPluginState = StringStateType
+
+/** @public */
+export interface AnchorPluginConfig {
+  i18n: {
+    label: string
+    placeholder: string
+  }
+}
+
+/** @public */
+export type AnchorProps = EditorPluginProps<
+  AnchorPluginState,
+  AnchorPluginConfig
+>

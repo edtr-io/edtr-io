@@ -1,6 +1,6 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
-import { TextState, createTextPlugin } from '../src'
+import { TextPluginState, createTextPlugin } from '../src'
 
 export const name = 'text'
 export const plugin = createTextPlugin({
@@ -48,7 +48,10 @@ export const plugin = createTextPlugin({
   ]
 })
 
-export const states: Record<string, StateTypeSerializedType<TextState>> = {
+export const states: Record<
+  string,
+  StateTypeSerializedType<TextPluginState>
+> = {
   simple: [
     {
       type: 'p',

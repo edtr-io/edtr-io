@@ -1,4 +1,9 @@
-import { EdtrIcon, edtrTextControls } from '@edtr-io/ui'
+import {
+  edtrClose,
+  EdtrIcon,
+  edtrListBullets,
+  edtrListNumbered
+} from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
@@ -16,9 +21,9 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           toggleList(orderedListNode)(props.editor).focus()
           props.onChange(props.editor)
         }}
-        title="Nummerierte Liste"
+        title={props.config.i18n.list.toggleOrderedList}
       >
-        <EdtrIcon icon={edtrTextControls.listNumbered} />
+        <EdtrIcon icon={edtrListNumbered} />
       </Button>
       <Button
         config={props.config}
@@ -30,16 +35,16 @@ export const ListControls: React.FunctionComponent<SubControlProps> = props => {
           }
           props.onChange(props.editor)
         }}
-        title="Aufzählung"
+        title={props.config.i18n.list.toggleUnorderedList}
       >
-        <EdtrIcon icon={edtrTextControls.listBullets} />
+        <EdtrIcon icon={edtrListBullets} />
       </Button>
       <Button
         config={props.config}
         onClick={() => props.switchControls(VisibleControls.All)}
-        title="Untermenü schließen"
+        title={props.config.i18n.list.closeMenuTitle}
       >
-        <EdtrIcon icon={edtrTextControls.close} />
+        <EdtrIcon icon={edtrClose} />
       </Button>
     </React.Fragment>
   )

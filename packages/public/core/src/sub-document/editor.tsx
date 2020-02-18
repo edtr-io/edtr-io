@@ -21,7 +21,7 @@ import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { HotKeys, IgnoreKeys } from 'react-hotkeys'
 
-import { DocumentProps } from '.'
+import { SubDocumentProps } from '.'
 import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
 import { useScopedSelector, useScopedStore } from '../store'
 
@@ -41,7 +41,7 @@ type HotKeysHandlers = {
   [K in keyof typeof hotKeysKeyMap]: (keyEvent?: KeyboardEvent) => void
 }
 
-export function DocumentEditor({ id, pluginProps }: DocumentProps) {
+export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
   const [hasSettings, setHasSettings] = React.useState(false)
   const [hasToolbar, setHasToolbar] = React.useState(false)
   const document = useScopedSelector(getDocument(id))
@@ -60,15 +60,15 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
   const PluginToolbar = React.useContext(PluginToolbarContext)
-  const defaultFocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
+  const autofocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
     null
   )
 
   React.useEffect(() => {
     if (focused) {
       setTimeout(() => {
-        if (defaultFocusRef.current) {
-          defaultFocusRef.current.focus()
+        if (autofocusRef.current) {
+          autofocusRef.current.focus()
         }
       })
     }
@@ -243,7 +243,7 @@ export function DocumentEditor({ id, pluginProps }: DocumentProps) {
               focused={focused}
               config={config}
               state={state}
-              defaultFocusRef={defaultFocusRef}
+              autofocusRef={autofocusRef}
             />
           </DocumentEditor>
         </StyledDocument>

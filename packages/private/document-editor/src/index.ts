@@ -1,10 +1,10 @@
-import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar'
+import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar/beta'
 import * as React from 'react'
 
 /**
  * Allows to override the default rendering behavior of the document editor
  *
- * @public
+ * @beta
  */
 export interface DocumentEditorProps {
   /**

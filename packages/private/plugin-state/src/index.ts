@@ -1,4 +1,4 @@
-import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
+import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
@@ -7,7 +7,7 @@ import { DocumentEditorProps } from '@edtr-io/internal__document-editor'
  * @example the built-in [[boolean]], [[number]], [[string]], [[scalar]] and [[serializedScalar]], [[list]], [[object]], and [[child]] state types
  * @public
  */
-export interface StateType<S = any, T = S, R = unknown> {
+export interface StateType<S = any, T = any, R = any> {
   /**
    * Initializes the public API for usage in plugin components
    *
@@ -102,30 +102,31 @@ export interface FocusableChild {
  *
  * @public
  */
-export type StateTypeSerializedType<
-  D extends StateType<any>
-> = D extends StateType<infer S, any, any> ? S : never
+export type StateTypeSerializedType<D extends StateType> = D extends StateType<
+  infer S
+>
+  ? S
+  : never
 
 /** @public */
-export type StateTypesSerializedType<
-  Ds extends Record<string, StateType<any>>
-> = { [K in keyof Ds]: StateTypeSerializedType<Ds[K]> }
+export type StateTypesSerializedType<Ds extends Record<string, StateType>> = {
+  [K in keyof Ds]: StateTypeSerializedType<Ds[K]>
+}
 
 /**
  * Maps a [[StateType]] to the type of its deserialized state
  *
  * @public
  */
-export type StateTypeValueType<D extends StateType<any>> = D extends StateType<
+export type StateTypeValueType<D extends StateType> = D extends StateType<
   any,
-  infer T,
-  any
+  infer T
 >
   ? T
   : never
 
 /** @public */
-export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesValueType<Ds extends Record<string, StateType>> = {
   [K in keyof Ds]: StateTypeValueType<Ds[K]>
 }
 
@@ -134,7 +135,7 @@ export type StateTypesValueType<Ds extends Record<string, StateType<any>>> = {
  *
  * @public
  */
-export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
+export type StateTypeReturnType<D extends StateType> = D extends StateType<
   any,
   any,
   infer R
@@ -143,7 +144,7 @@ export type StateTypeReturnType<D extends StateType<any>> = D extends StateType<
   : never
 
 /** @public */
-export type StateTypesReturnType<Ds extends Record<string, StateType<any>>> = {
+export type StateTypesReturnType<Ds extends Record<string, StateType>> = {
   [K in keyof Ds]: StateTypeReturnType<Ds[K]>
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
@@ -162,7 +163,7 @@ export interface StoreDeserializeHelpers<
    *
    * @param document - document to insert
    */
-  createDocument(document: { id: string; plugin?: K; state?: S }): void
+  createDocument(document: { id: string; plugin: K; state?: S }): void
 }
 
 /**
@@ -183,6 +184,6 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 /** @public */
 export interface PluginProps {
   config?: {}
-  renderSettings?: DocumentEditorProps['renderSettings']
-  renderToolbar?: DocumentEditorProps['renderToolbar']
+  renderSettings?: InternalDocumentEditor.DocumentEditorProps['renderSettings']
+  renderToolbar?: InternalDocumentEditor.DocumentEditorProps['renderToolbar']
 }

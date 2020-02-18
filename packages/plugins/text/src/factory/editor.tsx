@@ -24,6 +24,7 @@ import * as React from 'react'
 import { Editor as CoreEditor, Node, Operation, Value, ValueJSON } from 'slate'
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
+import { I18nContext } from '../i18n-context'
 import { htmlToSlateValue, katexBlockNode, slateSchema } from '../model'
 import { SlateClosure } from './types'
 import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
@@ -137,23 +138,25 @@ export function TextEditor(props: TextProps) {
 
   return React.useMemo(
     () => (
-      <Editor
-        ref={slate => {
-          const slateReact = (slate as unknown) as CoreEditor | null
-          if (slateReact && !editor.current) {
-            editor.current = slateReact
-          }
-        }}
-        onPaste={onPaste}
-        onKeyDown={onKeyDown}
-        onClick={onClick}
-        onChange={onChange}
-        placeholder={props.editable ? props.config.placeholder : ''}
-        plugins={slatePlugins.current}
-        readOnly={!props.focused}
-        value={rawState}
-        schema={slateSchema}
-      />
+      <I18nContext.Provider value={props.config.i18n}>
+        <Editor
+          ref={slate => {
+            const slateReact = (slate as unknown) as CoreEditor | null
+            if (slateReact && !editor.current) {
+              editor.current = slateReact
+            }
+          }}
+          onPaste={onPaste}
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+          onChange={onChange}
+          placeholder={props.editable ? props.config.placeholder : ''}
+          plugins={slatePlugins.current}
+          readOnly={!props.focused}
+          value={rawState}
+          schema={slateSchema}
+        />
+      </I18nContext.Provider>
     ),
     [
       onPaste,
@@ -161,6 +164,7 @@ export function TextEditor(props: TextProps) {
       onClick,
       onChange,
       props.editable,
+      props.config.i18n,
       props.config.placeholder,
       props.focused,
       rawState

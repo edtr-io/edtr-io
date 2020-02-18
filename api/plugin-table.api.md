@@ -7,12 +7,25 @@
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import * as React from 'react';
+import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createTablePlugin(config?: TableConfig): EditorPlugin<TableState, TableConfig>;
+export function createTablePlugin(config?: TableConfig): EditorPlugin<TablePluginState, TablePluginConfig>;
 
 // @public (undocumented)
 export interface TableConfig {
+    // (undocumented)
+    i18n?: Partial<TablePluginConfig['i18n']>;
+    // (undocumented)
+    MarkdownRenderer?: TablePluginConfig['MarkdownRenderer'];
+}
+
+// @public (undocumented)
+export interface TablePluginConfig {
+    // (undocumented)
+    i18n: {
+        placeholder: string;
+    };
     // (undocumented)
     MarkdownRenderer: React.ComponentType<{
         markdown: string;
@@ -20,17 +33,10 @@ export interface TableConfig {
 }
 
 // @public (undocumented)
-export type TableProps = EditorPluginProps<TableState, TableConfig>;
+export type TablePluginState = StringStateType;
 
 // @public (undocumented)
-export type TableState = typeof tableState;
-
-// @public (undocumented)
-export const tableState: import("@edtr-io/internal__plugin-state").StateType<string, string, {
-    value: string;
-    get(): string;
-    set(value: string | ((currentValue: string) => string)): void;
-}>;
+export type TableProps = EditorPluginProps<TablePluginState, TablePluginConfig>;
 
 
 // (No @packageDocumentation comment for this package)

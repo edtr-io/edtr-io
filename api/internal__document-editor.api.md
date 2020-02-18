@@ -4,10 +4,10 @@
 
 ```ts
 
-import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar';
+import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar/beta';
 import * as React from 'react';
 
-// @public
+// @beta
 export interface DocumentEditorProps {
     children: React.ReactNode;
     focused: boolean;

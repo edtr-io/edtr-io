@@ -4,8 +4,32 @@
 
 ```ts
 
+import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta';
 
-export * from "@edtr-io/internal__plugin-toolbar";
+// @beta (undocumented)
+export type OverlayButtonProps = InternalPluginToolbar.OverlayButtonProps;
+
+// @beta (undocumented)
+export type OverlayCheckboxProps = InternalPluginToolbar.OverlayCheckboxProps;
+
+// @beta (undocumented)
+export type OverlayInputProps = InternalPluginToolbar.OverlayInputProps;
+
+// @beta (undocumented)
+export type OverlaySelectProps = InternalPluginToolbar.OverlaySelectProps;
+
+// @beta (undocumented)
+export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps;
+
+// @beta (undocumented)
+export type PluginToolbar = InternalPluginToolbar.PluginToolbar;
+
+// @beta (undocumented)
+export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps;
+
+// @beta (undocumented)
+export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps;
+
 
 // (No @packageDocumentation comment for this package)
 

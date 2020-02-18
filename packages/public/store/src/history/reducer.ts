@@ -2,8 +2,18 @@ import * as R from 'ramda'
 
 import { ReversibleAction } from '../actions'
 import { getDocuments } from '../documents/reducer'
-import { createSelector, createSubReducer, SubReducer } from '../helpers'
-import { HistoryState, Selector } from '../types'
+import {
+  createInternalSelector,
+  createSelector,
+  createSubReducer,
+  SubReducer
+} from '../helpers'
+import {
+  HistoryState,
+  InternalScopedState,
+  InternalSelector,
+  Selector
+} from '../types'
 import {
   persist,
   PersistAction,
@@ -79,19 +89,14 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
   }
 )
 
-/** @public */
-export const getHistory: Selector<HistoryState> = createSelector(
+/** @internal */
+export const getHistory: InternalSelector<HistoryState> = createInternalSelector(
   state => state.history
 )
 
 /** @public */
-export const getInitialState: Selector<HistoryState['initialState']> = createSelector(
-  state => getHistory()(state).initialState
-)
-
-/** @public */
-export const getPendingChanges: Selector<HistoryState['pendingChanges']> = createSelector(
-  state => getHistory()(state).pendingChanges
+export const getPendingChanges: Selector<number> = createSelector(
+  state => getHistory()(state as InternalScopedState).pendingChanges
 )
 
 /** @public */
@@ -99,11 +104,11 @@ export const hasPendingChanges: Selector<boolean> = createSelector(
   state => getPendingChanges()(state) !== 0
 )
 
-/** @public */
-export const getUndoStack: Selector<ReversibleAction[][]> = createSelector(
-  state => getHistory()(state).undoStack as ReversibleAction[][]
+/** @internal */
+export const getUndoStack: InternalSelector<ReversibleAction[][]> = createInternalSelector(
+  state => getHistory()(state).undoStack
 )
-/** @public */
-export const getRedoStack: Selector<ReversibleAction[][]> = createSelector(
-  state => getHistory()(state).redoStack as ReversibleAction[][]
+/** @internal */
+export const getRedoStack: InternalSelector<ReversibleAction[][]> = createInternalSelector(
+  state => getHistory()(state).redoStack
 )

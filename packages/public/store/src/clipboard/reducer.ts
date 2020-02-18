@@ -22,7 +22,7 @@ export const clipboardReducer: SubReducer<DocumentState[]> = createSubReducer(
   }
 )
 
-/** @public */
+/** @beta */
 export const getClipboard: Selector<DocumentState[]> = createSelector(
   state => state.clipboard
 )
