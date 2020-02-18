@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v0.51.3..HEAD)
+## [0.52.0](https://github.com/edtr-io/edtr-io/compare/v0.51.3..v0.52.0) - February 18, 2020
 
 This release cleans up the public API for the upcoming 1.0.0 release.
 

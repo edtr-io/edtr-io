@@ -831,6 +831,9 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: ['**plugin-text**. Update dependencies']
     },
     {
+      tagName: 'v0.52.0',
+      name: '0.52.0',
+      date: '2020-02-18',
       description:
         'This release cleans up the public API for the upcoming 1.0.0 release.',
       fixed: [
