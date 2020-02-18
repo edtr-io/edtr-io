@@ -1,4 +1,4 @@
-import { Document, EditorProvider } from '@edtr-io/core'
+import { Document, EditorProvider } from '@edtr-io/core/beta'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'

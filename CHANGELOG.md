@@ -45,6 +45,7 @@ This release cleans up the public API for the upcoming 1.0.0 release.
 
 - We marked some API as experimental. They can still be imported by appending `/beta` to the package name if you want to try them out before they are stable:
 
+  - **core**. Mark `EditorProvider` and `Document` as beta API
   - **core**. Mark `Preference`, `PreferenceContext` and `setDefaultPreference` as beta API'
   - **document-editor**. Mark as beta API'
   - **default-document-editor**. Mark as beta API

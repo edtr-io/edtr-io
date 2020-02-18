@@ -1,4 +1,4 @@
-import { Document, EditorProps, EditorProvider } from '@edtr-io/core'
+import { Document, EditorProps, EditorProvider } from '@edtr-io/core/beta'
 import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 

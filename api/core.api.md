@@ -20,7 +20,7 @@ import { ScopedState } from '@edtr-io/store';
 import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
 
-// @public
+// @beta
 export function Document<K extends string = string>({ scope, ...props }: Omit<EditorProps<K>, 'initialState'> & {
     scope: string;
 } & ({
@@ -66,7 +66,7 @@ export interface EditorProps<K extends string = string> {
     theme?: CustomTheme;
 }
 
-// @public
+// @beta
 export function EditorProvider({ createStoreEnhancer, omitDragDropContext, children }: {
     omitDragDropContext?: boolean;
     createStoreEnhancer?: StoreEnhancerFactory;

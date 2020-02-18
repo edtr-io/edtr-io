@@ -874,6 +874,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 - **plugin-video**. Plugin config now accepts an optional \`i18n\` attribute that allows to override the strings used
 `,
         `We marked some API as experimental. They can still be imported by appending \`/beta\` to the package name if you want to try them out before they are stable:
+- **core**. Mark \`EditorProvider\` and \`Document\` as beta API
 - **core**. Mark \`Preference\`, \`PreferenceContext\` and \`setDefaultPreference\` as beta API'
 - **document-editor**. Mark as beta API'
 - **default-document-editor**. Mark as beta API

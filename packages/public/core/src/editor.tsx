@@ -94,7 +94,7 @@ export function Editor<K extends string = string>({
  * @param createStoreEnhancer - Optional {@link @edtr-io/store#StoreEnhancerFactory | store enhancer factory}
  * @param omitDragDropContext - If set to `true`, we omit the hydration of {@link react-dnd#DndProvider}
  * @param children - The children
- * @public
+ * @beta
  */
 export function EditorProvider({
   createStoreEnhancer = defaultEnhancer => defaultEnhancer,
@@ -137,7 +137,7 @@ export function EditorProvider({
  * @param scope - The scope of the document
  * @param mirror - Should be set to `true` for all but one document of the same scope
  * @param props - The {@link EditorProps | props} for the document
- * @public
+ * @beta
  */
 export function Document<K extends string = string>({
   scope = MAIN_SCOPE,
