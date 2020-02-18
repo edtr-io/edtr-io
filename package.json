@@ -24,6 +24,7 @@
     "changelog": "ts-node scripts/changelog",
     "predeploy": "yarn build",
     "deploy": "yarn _publish",
+    "postdeploy": "ts-node scripts/deploy-demo",
     "deploy:from-package": "yarn deploy from-package",
     "deploy:prerelease": "yarn lerna version --amend --no-push && yarn deploy:from-package --dist-tag next",
     "_eslint": "eslint \"{{packages/*/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,scripts,src}/**/*,*},*}.{js,jsx,ts,tsx}\" --config .eslint-extended-ci.config.js --no-eslintrc",

@@ -37,3 +37,6 @@ packages/*/*/internal/
 
 # API Extractor
 .api-extractor
+
+# Secrets
+*.secret.*
