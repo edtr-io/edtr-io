@@ -1,7 +1,6 @@
-// eslint-disable-next-line jsdoc/require-returns
-import * as StyledComponents from 'styled-components'
-import * as React from 'react'
 import * as R from 'ramda'
+import * as React from 'react'
+import * as StyledComponents from 'styled-components'
 
 import { defaultEditorTheme, EditorTheme, EditorUiTheme } from './editor-theme'
 import {
@@ -81,6 +80,7 @@ export function useTheme() {
   return React.useContext(ThemeContext)
 }
 
+// eslint-disable-next-line jsdoc/require-returns
 /**
  * Provider to override the current {@link Theme | theme}
  *
