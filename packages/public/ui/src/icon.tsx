@@ -7,11 +7,11 @@ import * as R from 'ramda'
 import * as React from 'react'
 import styled from 'styled-components'
 
+// eslint-disable-next-line jsdoc/require-returns
 /**
  * Font Awesome Icon component
  *
- * @param props - Most of {@link @fortawesome/react-fontawesome#FontAwesomeIconProps}
- * @returns The icon
+ * @param props - Most of {@link https://github.com/FortAwesome/react-fontawesome | FontAwesomeIconProps}
  * @public
  */
 export function Icon(props: FontAwesomeIconProps) {

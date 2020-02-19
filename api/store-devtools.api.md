@@ -4,10 +4,10 @@
 
 ```ts
 
-import { StoreEnhancer } from 'redux';
+import { StoreEnhancerFactory } from '@edtr-io/store';
 
 // @public
-export function createStoreDevtoolsEnhancer(defaultEnhancer: StoreEnhancer): StoreEnhancer;
+export const createStoreDevtoolsEnhancer: StoreEnhancerFactory;
 
 
 // (No @packageDocumentation comment for this package)

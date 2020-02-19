@@ -1,6 +1,19 @@
+/**
+ * Defines the Interface for the Edtr.io plugin toolbar (INTERNAL)
+ *
+ * @remarks
+ * This is an internal package. You should use the re-exports defined in
+ * {@link @edtr-io/plugin-toolbar# | `@edtr-io/plugin-toolbar`} instead.
+ *
+ * @packageDocumentation
+ */
 import * as React from 'react'
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | PluginToolbarButton}
+ *
+ * @beta
+ */
 export interface PluginToolbarButtonProps {
   className?: string
   icon: React.ReactNode
@@ -9,7 +22,11 @@ export interface PluginToolbarButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | PluginToolbarOverlayButton}
+ *
+ * @beta
+ */
 export interface PluginToolbarOverlayButtonProps {
   className?: string
   renderContent?(
@@ -21,7 +38,11 @@ export interface PluginToolbarOverlayButtonProps {
   label: string
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | OverlayButton}
+ *
+ * @beta
+ */
 export interface OverlayButtonProps {
   className?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
@@ -29,14 +50,22 @@ export interface OverlayButtonProps {
   label: string
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | OverlayCheckbox}
+ *
+ * @beta
+ */
 export interface OverlayCheckboxProps {
   checked?: boolean
   onChange?: (checked: boolean) => void
   label: string
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | OverlayInput}
+ *
+ * @beta
+ */
 export interface OverlayInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -45,7 +74,11 @@ export interface OverlayInputProps
   label: string
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | OverlaySelect}
+ *
+ * @beta
+ */
 export interface OverlaySelectProps
   extends React.DetailedHTMLProps<
     React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -56,7 +89,11 @@ export interface OverlaySelectProps
   width?: string
 }
 
-/** @beta */
+/**
+ * The props for {@link PluginToolbar | OverlayTextarea}
+ *
+ * @beta
+ */
 export interface OverlayTextareaProps
   extends React.DetailedHTMLProps<
     React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -65,7 +102,11 @@ export interface OverlayTextareaProps
   label: string
 }
 
-/** @beta */
+/**
+ * Describes the available components for the plugin toolbar
+ *
+ * @beta
+ */
 export interface PluginToolbar {
   OverlayButton: React.ComponentType<OverlayButtonProps>
   OverlayCheckbox: React.ComponentType<OverlayCheckboxProps>

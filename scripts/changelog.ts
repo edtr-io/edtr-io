@@ -913,6 +913,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 - **ui**. \`createRendererUiTheme\` now accepts the key of the renderer UI component directly
 `
       ]
+    },
+    {
+      breakingChanges: [
+        '**ui**. Remove `ThemeConsumer`. Use `ThemeContext.Consumer` instead.'
+      ]
     }
   ])
 

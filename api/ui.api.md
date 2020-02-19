@@ -58,9 +58,8 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as React from 'react';
-import styled from 'styled-components';
+import * as StyledComponents from 'styled-components';
 import { ThemeProps as ThemeProps_2 } from 'styled-components';
-import { ThemeProviderProps } from 'styled-components';
 
 // @public
 export function createEditorUiTheme<K extends keyof EditorUiTheme>(key: K, createDefaultTheme: EditorUiThemeFactory<K>): (theme: {
@@ -77,7 +76,7 @@ export function createRendererUiTheme<K extends keyof RendererUiTheme>(key: K, c
     rendererUi: DeepPartial<RendererUiTheme>;
 }) => RendererUiTheme[K];
 
-// @public (undocumented)
+// @public
 export type CustomTheme = DeepPartial<Theme>;
 
 // @public (undocumented)
@@ -402,11 +401,12 @@ export interface RendererUiTheme {
 export type RendererUiThemeFactory<K extends keyof RendererUiTheme> = (theme: RendererTheme) => RendererUiTheme[K];
 
 // @public
-export function RootThemeProvider(props: ThemeProviderProps<CustomTheme>): JSX.Element;
+export function RootThemeProvider(props: StyledComponents.ThemeProviderProps<CustomTheme>): JSX.Element;
 
-export { styled }
+// @public
+export const styled: StyledComponents.ThemedStyledInterface<StyledComponents.DefaultTheme>;
 
-// @public (undocumented)
+// @public
 export interface Theme {
     // (undocumented)
     editor: EditorTheme;
@@ -418,17 +418,14 @@ export interface Theme {
     rendererUi: DeepPartial<RendererUiTheme>;
 }
 
-// @public (undocumented)
-export const ThemeConsumer: React.Context<Theme>['Consumer'];
-
-// @public (undocumented)
+// @public
 export const ThemeContext: React.Context<Theme>;
 
-// @public (undocumented)
-export type ThemeProps = ThemeProps_2<Theme>;
+// @public
+export type ThemeProps = StyledComponents.ThemeProps<Theme>;
 
 // @public
-export function ThemeProvider(props: ThemeProviderProps<CustomTheme>): JSX.Element;
+export function ThemeProvider(props: StyledComponents.ThemeProviderProps<CustomTheme>): JSX.Element;
 
 // @public
 export function useEditorTheme(): {
@@ -451,7 +448,5 @@ export function useRendererUiTheme<K extends keyof RendererUiTheme>(key: K, crea
 // @public
 export function useTheme(): Theme;
 
-
-// (No @packageDocumentation comment for this package)
 
 ```
