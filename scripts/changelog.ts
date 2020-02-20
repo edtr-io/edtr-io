@@ -894,7 +894,8 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 - **store**. Mark actions intended for internal use only as internal API
 - **store**. Hide some internal types (e.g. the structure of \`HistoryState\`)
 - **ui**. Remove unused \`SelectTheme\` and \`TextareaTheme\`
-- **ui**. Remove the deprecated \`edtrRowsControls\` and \`edtrTextControls\`
+- **ui**. Remove the deprecated \`edtrRowsControls\` and \`edtrTextControls\`,
+- **ui**. Remove \`ThemeConsumer\`. Use \`ThemeContext.Consumer\` instead.
 - **ui**. Remove \`BottomToolbarTheme\`, \`ButtonTheme\`, \`CheckboxTheme\`, \`InputTheme\` types. Use \`EditorUiTheme['*']\` instead
 - **ui**. Remove \`ExpandableBoxTheme\`, \`SubmitButtonTheme\` types. Use \`RendererUiTheme['*']\` instead
 `,
@@ -915,9 +916,10 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       ]
     },
     {
-      breakingChanges: [
-        '**ui**. Remove `ThemeConsumer`. Use `ThemeContext.Consumer` instead.'
-      ]
+      tagName: 'v0.52.1',
+      name: '0.52.1',
+      date: '2020-02-20',
+      fixed: ['Specify correct Edtr.io version in peer dependencies']
     }
   ])
 

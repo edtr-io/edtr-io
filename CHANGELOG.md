@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.52.1](https://github.com/edtr-io/edtr-io/compare/v0.52.0..v0.52.1) - February 20, 2020
+
+### Fixed
+
+- Specify correct Edtr.io version in peer dependencies
+
 ## [0.52.0](https://github.com/edtr-io/edtr-io/compare/v0.51.3..v0.52.0) - February 18, 2020
 
 This release cleans up the public API for the upcoming 1.0.0 release.
@@ -63,7 +69,8 @@ This release cleans up the public API for the upcoming 1.0.0 release.
   - **store**. Mark actions intended for internal use only as internal API
   - **store**. Hide some internal types (e.g. the structure of `HistoryState`)
   - **ui**. Remove unused `SelectTheme` and `TextareaTheme`
-  - **ui**. Remove the deprecated `edtrRowsControls` and `edtrTextControls`
+  - **ui**. Remove the deprecated `edtrRowsControls` and `edtrTextControls`,
+  - **ui**. Remove `ThemeConsumer`. Use `ThemeContext.Consumer` instead.
   - **ui**. Remove `BottomToolbarTheme`, `ButtonTheme`, `CheckboxTheme`, `InputTheme` types. Use `EditorUiTheme['*']` instead
   - **ui**. Remove `ExpandableBoxTheme`, `SubmitButtonTheme` types. Use `RendererUiTheme['*']` instead
 
