@@ -5,7 +5,7 @@ import { PluginToolbarContext } from '../contexts'
 
 // eslint-disable-next-line jsdoc/require-returns
 /**
- * Renders the {@link @edtr-io/plugin-toolbar#PluginToolbar.OverlayInput}
+ * Renders the {@link @edtr-io/plugin-toolbar#PluginToolbar | OverlayInput}
  *
  * @param props - {@link @edtr-io/plugin-toolbar#OverlayInputProps}
  * @public

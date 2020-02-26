@@ -3,7 +3,7 @@ import { Value } from 'slate'
 import { defaultNode } from '../model'
 
 /**
- * @param value - Current {@link slate#Value | value}
+ * @param value - Current {@link https://docs.slatejs.org/v/v0.47/slate-core/value | value}
  * @public
  */
 export function isValueEmpty(value: Value) {

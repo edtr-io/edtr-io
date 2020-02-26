@@ -82,9 +82,9 @@ const BorderlessOverlayButton = styled.button({
 })
 
 /**
- * Creates the default {@link @edtr-io/document-editor#DocumentEditor | document editor}
+ * Creates the default {@link @edtr-io/document-editor#DocumentEditorProps | document editor}
  *
- * @returns The default {@link @edtr-io/document-editor#DocumentEditor | document editor}
+ * @returns The default {@link @edtr-io/document-editor#DocumentEditorProps | document editor}
  * @beta
  */
 export function createDefaultDocumentEditor(): React.ComponentType<

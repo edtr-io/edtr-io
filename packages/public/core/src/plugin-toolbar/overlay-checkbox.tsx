@@ -5,7 +5,7 @@ import { PluginToolbarContext } from '../contexts'
 
 // eslint-disable-next-line jsdoc/require-returns
 /**
- * Renders the {@link @edtr-io/plugin-toolbar#PluginToolbar.OverlayCheckbox}
+ * Renders the {@link @edtr-io/plugin-toolbar#PluginToolbar | OverlayCheckbox}
  *
  * @param props - {@link @edtr-io/plugin-toolbar#OverlayCheckboxProps}
  * @public

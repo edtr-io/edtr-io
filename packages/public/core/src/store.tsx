@@ -41,7 +41,7 @@ export const ErrorContext = React.createContext<
 /**
  * Store Provider
  *
- * @param props - The {@link react-redux#ProviderProps}
+ * @param props - The {@link https://react-redux.js.org/api/provider#props | ProviderProps}
  * @public
  */
 export function Provider(

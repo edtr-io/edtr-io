@@ -114,7 +114,7 @@ export function OverlayTextarea(props: OverlayTextareaProps): JSX.Element;
 // @public (undocumented)
 export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps;
 
-// @public (undocumented)
+// @public
 export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<InternalPluginToolbar.PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
 
 // @public (undocumented)
