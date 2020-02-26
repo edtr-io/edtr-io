@@ -1,4 +1,3 @@
-import stringify from 'json-stringify-deterministic'
 import * as R from 'ramda'
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 
@@ -87,17 +86,17 @@ export function createDeepEqualSelector<T, P extends any[]>(
   }
 }
 
-const createDeterministicJsonStringifySelectorCreator = createSelectorCreator(
+const createJsonStringifySelectorCreator = createSelectorCreator(
   defaultMemoize,
-  (a, b) => stringify(a) === stringify(b)
+  (a, b) => JSON.stringify(a) === JSON.stringify(b)
 )
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createDeterministicJsonStringifySelector<T, P extends any[]>(
+export function createJsonStringifySelector<T, P extends any[]>(
   f: (state: ScopedState, ...args: P) => T
 ): Selector<T, P> {
   return (...args: P) => {
-    return createDeterministicJsonStringifySelectorCreator(
+    return createJsonStringifySelectorCreator(
       (state: ScopedState) => {
         return f(state, ...args)
       },

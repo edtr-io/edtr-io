@@ -4,7 +4,7 @@ import { pureInsert, PureInsertAction } from '../documents/actions'
 import { getDocument } from '../documents/reducer'
 import {
   createDeepEqualSelector,
-  createDeterministicJsonStringifySelector,
+  createJsonStringifySelector,
   createSelector,
   createSubReducer,
   SubReducer
@@ -76,7 +76,7 @@ export const isFocused: Selector<boolean, [string]> = createSelector(
 export const getFocusTree: Selector<
   Node | null,
   [string?]
-> = createDeterministicJsonStringifySelector((state, id = undefined) => {
+> = createJsonStringifySelector((state, id = undefined) => {
   const root = id ? id : getRoot()(state)
   if (!root) return null
   const document = getDocument(root)(state)

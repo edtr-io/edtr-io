@@ -17,7 +17,6 @@
     "@edtr-io/internal__plugin-state": "^0.52.1",
     "@types/ramda": "^0.26.1",
     "@types/shortid": "^0.0.29",
-    "json-stringify-deterministic": "^1.0.0",
     "ramda": "^0.27.0",
     "redux": "^4.0.0",
     "redux-saga": "^1.0.0",

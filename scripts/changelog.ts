@@ -920,6 +920,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.52.1',
       date: '2020-02-20',
       fixed: ['Specify correct Edtr.io version in peer dependencies']
+    },
+    {
+      tagName: 'v0.52.2',
+      name: '0.52.2',
+      date: '2020-02-26',
+      fixed: ['**store**. Remove `json-stringify-deterministic` dependency']
     }
   ])
 
