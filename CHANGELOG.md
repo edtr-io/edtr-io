@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.52.2](https://github.com/edtr-io/edtr-io/compare/v0.52.1..v0.52.2) - February 26, 2020
+
+### Fixed
+
+- **store**. Remove `json-stringify-deterministic` dependency
+
 ## [0.52.1](https://github.com/edtr-io/edtr-io/compare/v0.52.0..v0.52.1) - February 20, 2020
 
 ### Fixed
