@@ -23,6 +23,7 @@
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/string": "^0.0.29",
+    "@types/styled-components": "^4.0.0",
     "algebra.js": "^0.2.0",
     "ramda": "^0.27.0",
     "string": "^3.0.0"
@@ -30,12 +31,14 @@
   "devDependencies": {
     "@edtr-io/core": "^0.52.2",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": "^5.0.0"
   },
   "peerDependencies": {
     "@edtr-io/core": "^0.52.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": ">= 4"
   },
   "publishConfig": {
     "access": "public"

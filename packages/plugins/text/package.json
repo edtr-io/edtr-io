@@ -24,6 +24,7 @@
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-modal": "^3.0.0",
+    "@types/styled-components": "^4.0.0",
     "exenv": "^1.0.0",
     "immutable": "^3.8.1",
     "is-hotkey": "^0.1.0",
@@ -38,12 +39,14 @@
   "devDependencies": {
     "@edtr-io/core": "^0.52.2",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": "^5.0.0"
   },
   "peerDependencies": {
     "@edtr-io/core": "^0.52.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": ">= 4"
   },
   "publishConfig": {
     "access": "public"

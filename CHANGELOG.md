@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - **plugin-text**. Add optional `plugins` to `createTextPlugin` that allows to specify the activated features. This is an interim solution until the plugin supports [Slate v0.50+](https://github.com/edtr-io/edtr-io/pull/261)
 
+### Fixed
+
+- Correctly specify nested peer dependencies
+
 ## [0.52.2](https://github.com/edtr-io/edtr-io/compare/v0.52.1..v0.52.2) - February 26, 2020
 
 ### Fixed
