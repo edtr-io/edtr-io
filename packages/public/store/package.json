@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store",
-  "version": "0.52.2",
+  "version": "1.0.0-beta.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,9 +12,9 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__dev-expression": "^0.52.0",
-    "@edtr-io/internal__plugin": "^0.52.1",
-    "@edtr-io/internal__plugin-state": "^0.52.1",
+    "@edtr-io/internal__dev-expression": "^1.0.0-beta.0",
+    "@edtr-io/internal__plugin": "^1.0.0-beta.0",
+    "@edtr-io/internal__plugin-state": "^1.0.0-beta.0",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
