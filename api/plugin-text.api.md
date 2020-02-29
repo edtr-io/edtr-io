@@ -344,6 +344,14 @@ export interface TextConfig {
     // (undocumented)
     placeholder?: TextPluginConfig['placeholder'];
     // (undocumented)
+    plugins?: {
+        suggestions?: boolean;
+        math?: boolean;
+        headings?: boolean;
+        lists?: boolean;
+        colors?: boolean;
+    };
+    // (undocumented)
     registry: TextPluginConfig['registry'];
     // (undocumented)
     theme?: DeepPartial<TextPluginConfig['theme']>;

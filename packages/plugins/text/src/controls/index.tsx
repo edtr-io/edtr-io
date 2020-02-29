@@ -8,7 +8,7 @@ import { ColorControls } from './colors'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
 import { ListControls } from './lists'
-import { TextPluginConfig, TextPlugin } from '..'
+import { TextPluginConfig, TextPlugin, TextConfig } from '..'
 
 export enum VisibleControls {
   All,
@@ -21,6 +21,13 @@ export interface ControlProps {
   config: TextPluginConfig
   editor: Editor
   pluginClosure: SlatePluginClosure
+  plugins: {
+    suggestions?: boolean
+    math?: boolean
+    headings?: boolean
+    lists?: boolean
+    colors?: boolean
+  }
   readOnly?: boolean
 }
 
@@ -32,6 +39,7 @@ export interface SubControlProps extends ControlProps {
 
 export interface UiPluginOptions {
   Component: React.ComponentType<Partial<EditorProps> & ControlProps>
+  plugins?: TextConfig['plugins']
 }
 
 function ControlsSwitch({
@@ -187,7 +195,16 @@ export function isTouchDevice(): boolean {
 export const createUiPlugin = (options: UiPluginOptions) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
-  const { Component } = options
+  const {
+    Component,
+    plugins = {
+      suggestions: true,
+      math: true,
+      headings: true,
+      lists: true,
+      colors: true
+    }
+  } = options
 
   return {
     renderEditor(props, editor, next) {
@@ -208,6 +225,7 @@ export const createUiPlugin = (options: UiPluginOptions) => (
               {...props}
               config={config}
               pluginClosure={pluginClosure}
+              plugins={plugins}
             />
           ) : null}
           {children}

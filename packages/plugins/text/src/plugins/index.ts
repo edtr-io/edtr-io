@@ -8,17 +8,27 @@ import { markdownShortcuts } from './markdown'
 import { createParagraphPlugin } from './paragraph'
 import { pluginSuggestions } from './plugin-suggestions'
 import { createRichTextPlugin } from './rich-text'
-import { TextPluginConfig } from '..'
+import { TextConfig, TextPluginConfig } from '..'
 
-export const plugins: TextPluginConfig['plugins'] = [
-  pluginSuggestions,
-  createParagraphPlugin(),
-  createRichTextPlugin(),
-  createLinkPlugin(),
-  createKatexPlugin(),
-  createHeadingsPlugin(),
-  createListPlugin(),
-  createColorPlugin(),
-  markdownShortcuts,
-  autoLink
-]
+export function createPlugins(
+  plugins: TextConfig['plugins'] = {
+    suggestions: true,
+    math: true,
+    headings: true,
+    lists: true,
+    colors: true
+  }
+): TextPluginConfig['plugins'] {
+  return [
+    ...(plugins.suggestions ? [pluginSuggestions] : []),
+    createParagraphPlugin(),
+    createRichTextPlugin(),
+    createLinkPlugin(),
+    createKatexPlugin(),
+    ...(plugins.headings ? [createHeadingsPlugin()] : []),
+    ...(plugins.lists ? [createListPlugin()] : []),
+    ...(plugins.colors ? [createColorPlugin()] : []),
+    markdownShortcuts,
+    autoLink
+  ]
+}

@@ -926,6 +926,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '0.52.2',
       date: '2020-02-26',
       fixed: ['**store**. Remove `json-stringify-deterministic` dependency']
+    },
+    {
+      tagName: 'v1.0.0-beta.0',
+      name: '1.0.0-beta.0',
+      date: '2020-02-29',
+      added: [
+        '**plugin-text**. Add optional `plugins` to `createTextPlugin` that allows to specify the activated features. This is an interim solution until the plugin supports [Slate v0.50+](https://github.com/edtr-io/edtr-io/pull/261)'
+      ]
     }
   ])
 

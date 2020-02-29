@@ -33,7 +33,7 @@ import { Button } from '../toolbar/button'
 import { ColoredTextIcon } from './colors'
 
 export function DefaultControls(props: SubControlProps) {
-  const { editor, config, pluginClosure } = props
+  const { editor, config, pluginClosure, plugins } = props
   return (
     <React.Fragment>
       <Button
@@ -69,43 +69,54 @@ export function DefaultControls(props: SubControlProps) {
       >
         <EdtrIcon icon={edtrLink} />
       </Button>
-      <Button
-        config={config}
-        active={!!getHeadingLevel(props.editor)}
-        onClick={() => {
-          props.switchControls(VisibleControls.Headings)
-        }}
-        title={config.i18n.headings.openMenuTitle}
-      >
-        <EdtrIcon icon={edtrText} />
-      </Button>
-      <Button
-        config={config}
-        onClick={() => props.switchControls(VisibleControls.Colors)}
-        title={config.i18n.colors.openMenuTitle}
-      >
-        <ColoredTextIcon config={props.config} index={getColorIndex(editor)} />
-      </Button>
-      <Button
-        config={config}
-        onClick={() => {
-          if (
-            !isList(unorderedListNode)(editor) &&
-            !isList(orderedListNode)(editor)
-          ) {
-            toggleList(unorderedListNode)(props.editor).focus()
-            props.onChange(editor)
-          }
-          props.switchControls(VisibleControls.Lists)
-        }}
-        title={config.i18n.list.openMenuTitle}
-      >
-        <EdtrIcon
-          icon={
-            isList(orderedListNode)(editor) ? edtrListNumbered : edtrListBullets
-          }
-        />
-      </Button>
+      {plugins.headings ? (
+        <Button
+          config={config}
+          active={!!getHeadingLevel(props.editor)}
+          onClick={() => {
+            props.switchControls(VisibleControls.Headings)
+          }}
+          title={config.i18n.headings.openMenuTitle}
+        >
+          <EdtrIcon icon={edtrText} />
+        </Button>
+      ) : null}
+      {plugins.colors ? (
+        <Button
+          config={config}
+          onClick={() => props.switchControls(VisibleControls.Colors)}
+          title={config.i18n.colors.openMenuTitle}
+        >
+          <ColoredTextIcon
+            config={props.config}
+            index={getColorIndex(editor)}
+          />
+        </Button>
+      ) : null}
+      {plugins.lists ? (
+        <Button
+          config={config}
+          onClick={() => {
+            if (
+              !isList(unorderedListNode)(editor) &&
+              !isList(orderedListNode)(editor)
+            ) {
+              toggleList(unorderedListNode)(props.editor).focus()
+              props.onChange(editor)
+            }
+            props.switchControls(VisibleControls.Lists)
+          }}
+          title={config.i18n.list.openMenuTitle}
+        >
+          <EdtrIcon
+            icon={
+              isList(orderedListNode)(editor)
+                ? edtrListNumbered
+                : edtrListBullets
+            }
+          />
+        </Button>
+      ) : null}
       {config.blockquote ? (
         <Button
           config={config}
@@ -124,17 +135,19 @@ export function DefaultControls(props: SubControlProps) {
           <EdtrIcon icon={edtrQuote} />
         </Button>
       ) : null}
-      <Button
-        config={config}
-        active={isKatex(editor)}
-        onClick={() => {
-          isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
-          props.onChange(editor)
-        }}
-        title={config.i18n.math.toggleTitle}
-      >
-        <EdtrIcon icon={edtrFormula} />
-      </Button>
+      {plugins.math ? (
+        <Button
+          config={config}
+          active={isKatex(editor)}
+          onClick={() => {
+            isKatex(editor) ? removeKatex(editor).focus() : insertKatex(editor)
+            props.onChange(editor)
+          }}
+          title={config.i18n.math.toggleTitle}
+        >
+          <EdtrIcon icon={edtrFormula} />
+        </Button>
+      ) : null}
     </React.Fragment>
   )
 }

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0-beta.0](https://github.com/edtr-io/edtr-io/compare/v0.52.2..v1.0.0-beta.0) - February 29, 2020
+
+### Added
+
+- **plugin-text**. Add optional `plugins` to `createTextPlugin` that allows to specify the activated features. This is an interim solution until the plugin supports [Slate v0.50+](https://github.com/edtr-io/edtr-io/pull/261)
+
 ## [0.52.2](https://github.com/edtr-io/edtr-io/compare/v0.52.1..v0.52.2) - February 26, 2020
 
 ### Fixed

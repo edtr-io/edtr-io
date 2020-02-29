@@ -23,7 +23,7 @@ import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
-import { plugins } from './plugins'
+import { createPlugins } from './plugins'
 import { NewNode, serializer } from './state-migration-serializer'
 
 /** @public */
@@ -86,7 +86,10 @@ export function createTextPlugin(
         orange = '#ff6703'
       return {
         registry,
-        plugins: [...plugins, createUiPlugin({ Component: Controls })],
+        plugins: [
+          ...createPlugins(config.plugins),
+          createUiPlugin({ Component: Controls, plugins: config.plugins })
+        ],
         placeholder,
         i18n: R.mergeDeepRight(
           {
@@ -225,6 +228,13 @@ export function createTextPlugin(
 /** @public */
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
+  plugins?: {
+    suggestions?: boolean
+    math?: boolean
+    headings?: boolean
+    lists?: boolean
+    colors?: boolean
+  }
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
   theme?: DeepPartial<TextPluginConfig['theme']>
