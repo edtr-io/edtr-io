@@ -1,6 +1,8 @@
 <p><br></p>
 <p align="center">
-<img src="README_files/edtrio_full.svg" alt="edtr.io logo" width="277" height="68">
+<a href="https://edtr.io">
+<img src="README_files/edtr-io.gif" alt="Edtr.io Logo" width="467" height="150">
+</a>
 </p>
 <p align="center">
 <a href="https://edtr.io">www.edtr.io</a>
@@ -16,71 +18,15 @@ select any editable element on the page, edit it in-place or drag ’n’ drop i
 Its plugin architecture makes edtr.io lean AND adaptable to any use case at the same time.<br>
 Edtr.io is of course Open Source.
 </p>
-<p align="center">
-Check out the demo at <a href="https://demo.edtr.io">demo.edtr.io</a>!
-</p>
 <p><br><br></p>
 
-## The Editor
+## Documentation
 
-### Core Characteristics
+Check out the [Documentation](https://edtr.io/docs/getting-started) and [API Reference](https://edtr.io/api).
 
-Edtr.io's plugin architecture makes it adapt to virtually any use case. Platform providers have full control over the available editing options. The edtr.io project provides a lean core of basic functionalities. For Rich Text editing, we build on Slate.js.
+## Local Developement
 
-Edtr.io is based on reusable React components. Implementing and integrating a plugin only requires a few lines of code. You decide how data gets persisted; the state is a normalized JSON object, no HTML is involved. Plugins support undo/redo out of the box.
-
-Edtr.io has UX at heart. Our core implements a consistent user experience. Building plugins from reusable elements ensures a uniform look and feel. Integrating edtr.io into an existing applications is simple: all functionalities are fully customizable, theming can be applied from ground up.
-
-In-line editors provide an easy way to work on web content. Content creators work directly on elements, adding and changing them in-place. Everything just looks like the final page. Users do not need knowledge of markup languages or any special training.
-
-<p align="center">
-	<img src="README_files/example.png" alt="Editor examples" width="888" height="300">
-</p>
-
-### Basic Features
-
-- Rich text editing
-- Drag ’n’ drop content sorting
-- Global undo/redo
-- Mobile preview
-
-### Basic Plugins
-
-- Image upload
-- Blockquote
-- Spoiler
-- Markdown table
-- Youtube video integration (in development)
-- Vimeo video integration (in development)
-- Wiki Commons video integration (in development)
-
-### Plugins for Education
-
-- Input text exercise
-- Matching exercise
-- Multiple and single choice exercise
-- Basic equations
-- Wiris equation editor
-- GeoGebraTube integration
-- H5P.com integration
-- Serlo.org content integration
-
-### Further Plugins
-
-- Code highlighting
-
-Feel free to write your own plugin to extend edtr.io for your use case!
-
-### Status
-
-[![Build status](https://img.shields.io/github/workflow/status/edtr-io/edtr-io/JavaScript/master.svg)](https://github.com/edtr-io/edtr-io/actions?query=branch%3Amaster) [![Kanban board](https://img.shields.io/badge/Kanban-board-brightgreen.svg)](https://github.com/orgs/edtr-io/projects/1)
-
-Edtr.io is currently in active development. Our working prototype is in use and being tested since June on serlo.org.
-Watch this space, there will be a public demo soon.
-
-### Local Developement
-
-```
+```bash
 git clone https://github.com/edtr-io/edtr-io.git
 cd edtr-io
 yarn
@@ -88,7 +34,7 @@ yarn start
 ```
 
 That should be all!
-(When yarn fails try using the current node lts)
+(When yarn fails try using the current node LTS)
 
 ## Committed to Simplicity and Openness
 
@@ -120,18 +66,17 @@ We love education. We need this editor. We're in for the long haul.
 
 ## License
 
-Edtr.io is under MIT license.
+Edtr.io is licensed under MIT.
 
 ## Contacts
 
-In case you want to use the editor for the education sector,\
- contact [serlo.org](mailto:en@serlo.org)
+In case you want to use the editor for the education sector, contact [serlo.org](mailto:en@serlo.org)
 
-### Commercial Support
+## Commercial Support
 
-Commercial integration, custom plugin development and support is available from Splish.me, from the same knowledgeable people writing the code for edtr.io's core functionalities. For inquiries, please contact [edtr-io@splish.me](mailto:edtr-io@splish.me).
+Commercial integration, custom plugin development and support is available from Splish.me, from the same knowledgeable people writing the code for edtr.io's core functionalities. For inquiries, please contact [edtr-io@splish.dev](mailto:edtr-io@splish.dev).
 
-### Want to contribute?
+## Want to contribute?
 
 Contributions welcome!
 You can reach our development team at [en@serlo.org](mailto:en@serlo.org)
@@ -143,6 +88,6 @@ About the [Hasso Plattner Institut](https://hpi.de/en/the-hpi/overview.html)\
 About our integration partner, [Splish](http://splish.me)\
 About the [HPI Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html)
 
-### Big Thanks
+## Big Thanks
 
 Cross-browser Testing Platform and Open Source ❤️ provided by [Sauce Labs](https://saucelabs.com)
