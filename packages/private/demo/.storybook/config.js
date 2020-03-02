@@ -7,7 +7,7 @@ const req = require.context('../__stories__', true, /\.tsx?$/)
 
 addDecorator(withKnobs)
 addParameters({
-  options: { addonPanelInRight: true, theme }
+  options: { addonPanelInRight: true, showPanel: false, theme }
 })
 configure(loadStories, module)
 
