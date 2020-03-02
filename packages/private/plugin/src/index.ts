@@ -31,12 +31,20 @@ export interface EditorPlugin<
   state: S
 
   /**
-   * May be provided to let the plugin respond to [`paste` events](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
+   * May be provided to let the plugin respond to text [`paste` events](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
+   * or drop events
    *
-   * @param data - the [DataTransfer](https://developer.mozilla.orgdocs/Web/API/DataTransfer) object of the corresponding [`paste` event](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
-   * @returns an object optionally containing the serialized state of the document to insert if you want to handle the [`paste` event](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
+   * @param text - The pasted text
    */
-  onPaste?(data: DataTransfer): void | { state?: StateTypeSerializedType<S> }
+  onText?(text: string): void | { state?: StateTypeSerializedType<S> }
+
+  /**
+   * May be provided to let the plugin respond to file [`paste` events](https://developer.mozilla.org/docs/Web/API/Element/paste_event)
+   * or drop events
+   *
+   * @param files - The [FileList](https://developer.mozilla.org/en-US/docs/Web/API/FileList)
+   */
+  onFiles?(files: File[]): void | { state?: StateTypeSerializedType<S> }
 
   /**
    * May be provided to prevent the default Edtr.io keyboard shortcuts

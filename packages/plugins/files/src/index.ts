@@ -8,7 +8,6 @@ import {
 } from '@edtr-io/plugin'
 
 import { FilesEditor } from './editor'
-import { onPaste } from './on-paste'
 import { FilesPluginConfig, FileType, UploadedFile } from './types'
 
 export { FileType } from './types'
@@ -39,7 +38,13 @@ export function createFilesPlugin(
         type: FileType.Other
       })
     ),
-    onPaste
+    onFiles(files: File[]) {
+      if (files.length) {
+        return {
+          state: files.map(file => ({ pending: file }))
+        }
+      }
+    }
   }
 }
 

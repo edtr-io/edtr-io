@@ -4,7 +4,6 @@ import { Icon, faRedoAlt, styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { FilesProps } from '.'
-import { getFilesFromDataTransfer } from './on-paste'
 import { FileRenderer, FilesRenderer } from './renderer'
 import { parseFileType, Upload } from './upload'
 
@@ -31,23 +30,25 @@ export function FilesEditor(props: FilesProps) {
   const { config, editable, focused, state } = props
   usePendingFilesUploader(state, config.upload)
 
-  function onPaste(data: DataTransfer) {
-    const files = getFilesFromDataTransfer(data)
-    if (files.length) {
-      files.forEach(file => {
-        state.insert(state.length, {
-          pending: file
-        })
-      })
-    }
-  }
-
   if (!editable) return <FilesRenderer {...props} />
 
   return (
     <div
       onPaste={event => {
-        onPaste(event.clipboardData)
+        const items = event.clipboardData.files
+        const files: File[] = []
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i]
+          if (!item) continue
+          files.push(item)
+        }
+        if (files.length) {
+          files.forEach(file => {
+            state.insert(state.length, {
+              pending: file
+            })
+          })
+        }
       }}
     >
       {state.map((file, i) => {

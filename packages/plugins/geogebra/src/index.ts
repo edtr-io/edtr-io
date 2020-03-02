@@ -26,9 +26,7 @@ export function createGeogebraPlugin(
       }
     },
     state: string(),
-    onPaste(clipboardData: DataTransfer) {
-      const value = clipboardData.getData('text')
-
+    onText(value) {
       if (/geogebra\.org\/m\/(.+)/.test(value)) {
         return { state: value }
       }

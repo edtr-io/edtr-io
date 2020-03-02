@@ -80,9 +80,7 @@ export function createImagePlugin(
       alt: optional(string('')),
       maxWidth: optional(number(0))
     }),
-    onPaste: (clipboardData: DataTransfer) => {
-      const value = clipboardData.getData('text')
-
+    onText(value) {
       if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value.toLowerCase())) {
         return {
           state: {
@@ -93,8 +91,8 @@ export function createImagePlugin(
           }
         }
       }
-
-      const files = getFilesFromDataTransfer(clipboardData)
+    },
+    onFiles(files) {
       if (files.length === 1) {
         const file = files[0]
         const validation = config.validate(file)
@@ -117,17 +115,6 @@ export function createImagePlugin(
         (!serializedState.alt.defined || !serializedState.alt.value)
       )
     }
-  }
-
-  function getFilesFromDataTransfer(clipboardData: DataTransfer) {
-    const items = clipboardData.files
-    const files: File[] = []
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i]
-      if (!item) continue
-      files.push(item)
-    }
-    return files
   }
 }
 

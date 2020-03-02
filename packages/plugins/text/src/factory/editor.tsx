@@ -197,55 +197,31 @@ function createOnPaste(
 
     const { clipboardData } = e
 
-    for (const key in plugins) {
-      const { onPaste } = plugins[key]
-      if (clipboardData && typeof onPaste === 'function') {
-        const result = onPaste(clipboardData)
-        if (result !== undefined) {
-          if (
-            mayRemoveChild(id)(store.getState()) &&
-            isValueEmpty(editor.value)
-          ) {
-            store.dispatch(
-              replace({
-                id,
-                plugin: key,
-                state: result.state
-              })
-            )
-          } else {
-            const nextSlateState = splitBlockAtSelection(editor)
-            const parent = getParent(id)(store.getState())
-            if (!parent) return
+    const files = getFilesFromDataTransfer(clipboardData)
+    const text = clipboardData.getData('text')
 
-            setTimeout(() => {
-              // insert new text-plugin with the parts after the current cursor position if any
-              if (nextSlateState) {
-                store.dispatch(
-                  insertChildAfter({
-                    parent: parent.id,
-                    sibling: id,
-                    document: {
-                      plugin: name,
-                      state: serializer.serialize(nextSlateState)
-                    }
-                  })
-                )
-              }
-              store.dispatch(
-                insertChildAfter({
-                  parent: parent.id,
-                  sibling: id,
-                  document: {
-                    plugin: key,
-                    state: result.state
-                  }
-                })
-              )
-            })
+    if (files && files.length > 0) {
+      for (const key in plugins) {
+        const { onFiles } = plugins[key]
+        if (typeof onFiles === 'function') {
+          const result = onFiles(files)
+          if (result !== undefined) {
+            handleResult(key, result)
+            return
           }
+        }
+      }
+    }
 
-          return
+    if (text) {
+      for (const key in plugins) {
+        const { onText } = plugins[key]
+        if (typeof onText === 'function') {
+          const result = onText(text)
+          if (result !== undefined) {
+            handleResult(key, result)
+            return
+          }
         }
       }
     }
@@ -261,6 +237,59 @@ function createOnPaste(
     }
 
     next()
+
+    function getFilesFromDataTransfer(clipboardData: DataTransfer) {
+      const items = clipboardData.files
+      const files: File[] = []
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i]
+        if (!item) continue
+        files.push(item)
+      }
+      return files
+    }
+
+    function handleResult(key: string, result: { state?: unknown }) {
+      if (mayRemoveChild(id)(store.getState()) && isValueEmpty(editor.value)) {
+        store.dispatch(
+          replace({
+            id,
+            plugin: key,
+            state: result.state
+          })
+        )
+      } else {
+        const nextSlateState = splitBlockAtSelection(editor)
+        const parent = getParent(id)(store.getState())
+        if (!parent) return
+
+        setTimeout(() => {
+          // insert new text-plugin with the parts after the current cursor position if any
+          if (nextSlateState) {
+            store.dispatch(
+              insertChildAfter({
+                parent: parent.id,
+                sibling: id,
+                document: {
+                  plugin: name,
+                  state: serializer.serialize(nextSlateState)
+                }
+              })
+            )
+          }
+          store.dispatch(
+            insertChildAfter({
+              parent: parent.id,
+              sibling: id,
+              document: {
+                plugin: key,
+                state: result.state
+              }
+            })
+          )
+        })
+      }
+    }
   }
 }
 

@@ -188,7 +188,7 @@ function Controls<T = unknown>(props: ImageProps) {
             ? i18n.src.placeholder.uploading
             : i18n.src.placeholder.failed
         }
-        value={!isTempFile(state.src.value) ? state.src.value : undefined}
+        value={!isTempFile(state.src.value) ? state.src.value : ''}
         disabled={isTempFile(state.src.value) && !state.src.value.failed}
         onChange={handleChange(props)('src')}
       />

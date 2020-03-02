@@ -177,36 +177,46 @@ export function RowRenderer({
 
       const dropIndex = index
 
-      let transfer: DataTransfer
-
       switch (type) {
         case NativeTypes.FILE: {
           const files: File[] = monitor.getItem().files
-          transfer = createFakeDataTransfer(files)
+          for (const key in plugins) {
+            const { onFiles } = plugins[key]
+            if (typeof onFiles === 'function') {
+              const result = onFiles(files)
+              if (result !== undefined) {
+                handleResult(key, result)
+                return
+              }
+            }
+          }
           break
         }
         case NativeTypes.URL: {
           const urls: string[] = monitor.getItem().urls
-          transfer = createFakeDataTransfer([], urls[0])
+          const text = urls[0]
+          for (const key in plugins) {
+            const { onText } = plugins[key]
+            if (typeof onText === 'function') {
+              const result = onText(text)
+              if (result !== undefined) {
+                handleResult(key, result)
+                return
+              }
+            }
+          }
           break
         }
       }
 
-      for (const key in plugins) {
-        const { onPaste } = plugins[key]
-        if (typeof onPaste === 'function') {
-          const result = onPaste(transfer)
-          if (result !== undefined) {
-            if (isDraggingAbove(monitor)) {
-              rows.insert(dropIndex, { plugin: key, state: result.state })
-            } else {
-              rows.insert(dropIndex + 1, {
-                plugin: key,
-                state: result.state
-              })
-            }
-            return
-          }
+      function handleResult(key: string, result: { state?: unknown }) {
+        if (isDraggingAbove(monitor)) {
+          rows.insert(dropIndex, { plugin: key, state: result.state })
+        } else {
+          rows.insert(dropIndex + 1, {
+            plugin: key,
+            state: result.state
+          })
         }
       }
     }
@@ -314,23 +324,6 @@ export function RowRenderer({
 
     return dragClientY < domMiddleY
   }
-}
-
-// Needed until we get the correct dataTransfer (see e.g. https://github.com/react-dnd/react-dnd/issues/635)
-function createFakeDataTransfer(files: File[], text?: string) {
-  class FakeDataTransfer extends DataTransfer {
-    public dropEffect = 'all'
-    public effectAllowed = 'all'
-    public files = (files as unknown) as FileList
-    public readonly types = ['Files']
-    public getData(type: string) {
-      if (type.toLowerCase().startsWith('text')) {
-        return text || ''
-      }
-      return ''
-    }
-  }
-  return new FakeDataTransfer()
 }
 
 function isFileType(

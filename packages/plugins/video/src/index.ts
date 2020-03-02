@@ -35,9 +35,7 @@ import { VideoEditor } from './editor'
       )
     },
     state: object({ src: string(), alt: string() }),
-    onPaste(clipboardData: DataTransfer) {
-      const value = clipboardData.getData('text')
-
+    onText(value) {
       const regex = /^(https?:\/\/)?(.*?(youtube\.com\/watch\?(.*&)?v=.+|youtu\.be\/.+|vimeo\.com\/.+|upload\.wikimedia\.org\/.+(\.webm|\.ogg)?|br\.de\/.+))/
       if (regex.test(value)) {
         return { state: { src: value, alt: '' } }
