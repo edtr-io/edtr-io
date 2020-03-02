@@ -34,7 +34,7 @@ export const VideoEditor = (props: VideoProps) => {
       {focused ? (
         <EditorInlineSettings>
           <EditorInput
-            label="Video URL:"
+            label={props.config.i18n.src.label}
             value={state.src.value}
             onChange={e => {
               state.src.set(e.target.value)
