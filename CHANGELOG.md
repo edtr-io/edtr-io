@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0-beta.1](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.0..v1.0.0-beta.1) - March 2, 2020
+
+### Breaking Changes
+
+- **plugin**. Remove `onPaste` in favor of `onText` and `onFiles`
+
+### Fixed
+
+- **core**. Fix some warnings introduced in React v16.13.0
+- **plugin-rows**. Fix drag and drop of native files
+- **plugin-video**. Fix i18n
+
 ## [1.0.0-beta.0](https://github.com/edtr-io/edtr-io/compare/v0.52.2..v1.0.0-beta.0) - February 29, 2020
 
 ### Added

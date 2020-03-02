@@ -935,6 +935,19 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       added: [
         '**plugin-text**. Add optional `plugins` to `createTextPlugin` that allows to specify the activated features. This is an interim solution until the plugin supports [Slate v0.50+](https://github.com/edtr-io/edtr-io/pull/261)'
       ]
+    },
+    {
+      tagName: 'v1.0.0-beta.1',
+      name: '1.0.0-beta.1',
+      date: '2020-03-02',
+      breakingChanges: [
+        '**plugin**. Remove `onPaste` in favor of `onText` and `onFiles`'
+      ],
+      fixed: [
+        '**core**. Fix some warnings introduced in React v16.13.0',
+        '**plugin-rows**. Fix drag and drop of native files',
+        '**plugin-video**. Fix i18n'
+      ]
     }
   ])
 

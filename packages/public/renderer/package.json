@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/renderer",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,23 +12,23 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__dev-expression": "^1.0.0-beta.0",
-    "@edtr-io/plugin": "^1.0.0-beta.0",
-    "@edtr-io/store": "^1.0.0-beta.0",
+    "@edtr-io/internal__dev-expression": "^1.0.0-beta.1",
+    "@edtr-io/plugin": "^1.0.0-beta.1",
+    "@edtr-io/store": "^1.0.0-beta.1",
     "@edtr-io/ui": "^0.52.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/styled-components": "^4.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^1.0.0-beta.0",
+    "@edtr-io/core": "^1.0.0-beta.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "redux": "^4.0.0",
     "styled-components": "^5.0.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "1.0.0-beta.0",
+    "@edtr-io/core": "1.0.0-beta.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "redux": "^4.0.0",

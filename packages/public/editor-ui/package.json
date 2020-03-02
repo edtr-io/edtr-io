@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/editor-ui",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
     "react-textarea-autosize": "^7.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^1.0.0-beta.0",
+    "@edtr-io/core": "^1.0.0-beta.1",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
@@ -31,7 +31,7 @@
     "styled-components": "^5.0.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "1.0.0-beta.0",
+    "@edtr-io/core": "1.0.0-beta.1",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",
