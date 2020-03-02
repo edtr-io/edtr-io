@@ -167,11 +167,13 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
 
   const renderIntoSettings = React.useCallback(
     (children: React.ReactNode) => {
-      setHasSettings(true)
-      if (!settingsRef.current) return null
-      return createPortal(
-        <IgnoreKeys>{children}</IgnoreKeys>,
-        settingsRef.current
+      return (
+        <RenderIntoSettings
+          setHasSettings={setHasSettings}
+          settingsRef={settingsRef}
+        >
+          {children}
+        </RenderIntoSettings>
       )
     },
     [settingsRef]
@@ -265,4 +267,20 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
     hotKeysHandlers,
     store
   ])
+}
+
+function RenderIntoSettings({
+  children,
+  setHasSettings,
+  settingsRef
+}: {
+  children: React.ReactNode
+  setHasSettings: (value: boolean) => void
+  settingsRef: React.MutableRefObject<HTMLDivElement>
+}) {
+  React.useEffect(() => {
+    setHasSettings(true)
+  })
+  if (!settingsRef.current) return null
+  return createPortal(<IgnoreKeys>{children}</IgnoreKeys>, settingsRef.current)
 }
