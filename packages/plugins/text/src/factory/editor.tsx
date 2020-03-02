@@ -24,10 +24,10 @@ import * as React from 'react'
 import { Editor as CoreEditor, Node, Operation, Value, ValueJSON } from 'slate'
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
+import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
 import { I18nContext } from '../i18n-context'
 import { htmlToSlateValue, katexBlockNode, slateSchema } from '../model'
 import { SlateClosure } from './types'
-import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
 
 export function TextEditor(props: TextProps) {
   const store = useScopedStore()

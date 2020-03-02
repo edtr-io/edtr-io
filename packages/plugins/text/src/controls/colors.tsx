@@ -2,6 +2,7 @@ import { styled, EdtrIcon, edtrColorText, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SubControlProps, VisibleControls } from '.'
+import { TextPluginConfig } from '..'
 import { trimSelection } from '../helpers'
 import {
   createIsColor,
@@ -9,7 +10,6 @@ import {
   removeColor
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
-import { TextPluginConfig } from '..'
 
 export function ColorControls(props: SubControlProps) {
   const { i18n, theme } = props.config

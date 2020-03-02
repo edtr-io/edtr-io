@@ -1,8 +1,8 @@
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { I18nContext } from '../i18n-context'
 import { TextPluginConfig } from '..'
+import { I18nContext } from '../i18n-context'
 
 const Suggestion = styled.div<{ active: boolean; config: TextPluginConfig }>(
   ({ active, config }) => {

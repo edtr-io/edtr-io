@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Editor } from 'slate-react'
 
-import { paragraphNode } from '../model'
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
+import { paragraphNode } from '../model'
 
 export const setParagraph = (editor: Editor) => {
   return editor.setBlocks(paragraphNode)

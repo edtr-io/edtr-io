@@ -3,10 +3,10 @@ import { replace } from '@edtr-io/store'
 import * as React from 'react'
 import { Editor } from 'slate-react'
 
+import { TextPlugin } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { HoveringOverlay } from './hovering-overlay'
 import { Suggestions } from './suggestions'
-import { TextPlugin } from '..'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
   if (pluginClosure.current) {

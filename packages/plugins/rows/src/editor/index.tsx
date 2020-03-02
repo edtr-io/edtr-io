@@ -4,11 +4,11 @@ import { getPlugins, isFocused } from '@edtr-io/store'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
+import { RowsPluginConfig, RowsProps, RowsPluginState } from '..'
 import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
 import { Separator } from './separator'
-import { RowsPluginConfig, RowsProps, RowsPluginState } from '..'
 
 const DropContainer = styled.div({
   position: 'relative',

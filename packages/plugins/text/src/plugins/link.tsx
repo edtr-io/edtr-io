@@ -5,17 +5,17 @@ import * as React from 'react'
 import { Inline } from 'slate'
 import { Editor } from 'slate-react'
 
-import { trimSelection } from '../helpers'
-import { I18nContext } from '../i18n-context'
-import { linkNode } from '../model'
-import { InlineInput } from './inline-input'
-import { InlineSettings } from './inline-settings'
 import {
   NodeControlsProps,
   InlineEditorProps,
   InlineRendererProps,
   TextPlugin
 } from '..'
+import { trimSelection } from '../helpers'
+import { I18nContext } from '../i18n-context'
+import { linkNode } from '../model'
+import { InlineInput } from './inline-input'
+import { InlineSettings } from './inline-settings'
 
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 

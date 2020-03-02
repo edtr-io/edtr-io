@@ -1,10 +1,10 @@
 import { Editor } from 'slate-react'
 
+import { SlatePluginClosure, TextPlugin } from '..'
 import { unorderedListNode, orderedListNode } from '../model'
 import { createBlockquote } from './blockquote'
 import { createSetHeading } from './headings'
 import { toggleList, isList } from './list'
-import { SlatePluginClosure, TextPlugin } from '..'
 
 const handleMarkdown = (
   chars: string,

@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 import { Editor } from 'slate-react'
 
-import { HeadingLevel, createHeadingNode } from '../model'
 import { BlockEditorProps, BlockRendererProps, TextPlugin } from '..'
+import { HeadingLevel, createHeadingNode } from '../model'
 
 export interface HeadingsPluginOptions {
   EditorComponent?: React.ComponentType<

@@ -3,15 +3,15 @@ import * as React from 'react'
 import { Editor as CoreEditor } from 'slate'
 import { Editor } from 'slate-react'
 
-import { SlatePluginClosure } from '../factory/types'
-import { getTrimmedSelectionRange } from '../helpers'
-import { colorMark } from '../model'
 import {
   MarkEditorProps,
   MarkRendererProps,
   TextPluginConfig,
   TextPlugin
 } from '..'
+import { SlatePluginClosure } from '../factory/types'
+import { getTrimmedSelectionRange } from '../helpers'
+import { colorMark } from '../model'
 
 export interface ColorPluginOptions {
   EditorComponent?: React.ComponentType<

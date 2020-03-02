@@ -1,8 +1,8 @@
 import { Editor } from 'slate-react'
 
+import { TextPlugin } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { linkNode } from '../model'
-import { TextPlugin } from '..'
 
 const onSpecialKey = (event: KeyboardEvent, editor: Editor, next: Function) => {
   const { value } = editor

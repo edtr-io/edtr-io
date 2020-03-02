@@ -2,9 +2,9 @@ import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor } from 'slate-react'
 
+import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
 import { getTrimmedSelectionRange, trimSelection } from '../helpers'
 import { strongMark, emphasizeMark } from '../model'
-import { MarkEditorProps, MarkRendererProps, TextPlugin } from '..'
 
 // in use?
 const codeMark = 'code'

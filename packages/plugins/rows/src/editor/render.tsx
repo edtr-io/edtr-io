@@ -29,8 +29,8 @@ import {
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { useCanDrop } from './use-can-drop'
 import { RowsPluginConfig, RowsPluginState } from '..'
+import { useCanDrop } from './use-can-drop'
 
 interface RowDragObject extends DragObjectWithType {
   type: 'row'
