@@ -22,8 +22,11 @@ export interface EditorPlugin<S extends StateType = StateType, Config extends {}
         };
     }): void;
     isEmpty?(state: StateTypeReturnType<S>): boolean;
+    onFiles?(files: File[]): void | {
+        state?: StateTypeSerializedType<S>;
+    };
     onKeyDown?(e: KeyboardEvent): boolean;
-    onPaste?(data: DataTransfer): void | {
+    onText?(text: string): void | {
         state?: StateTypeSerializedType<S>;
     };
     removeChild?(state: StateTypeReturnType<S>, id: string): void;
