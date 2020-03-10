@@ -1,16 +1,32 @@
 import { useScopedStore } from '@edtr-io/core'
-import { findParent, getFocusPath, getFocusTree, Node } from '@edtr-io/store'
+import {
+  findParent,
+  getDocument,
+  getFocusPath,
+  getFocusTree,
+  Node
+} from '@edtr-io/store'
 import * as R from 'ramda'
 
-export function useCanDrop(id: string, draggingAbove: boolean) {
+export function useCanDrop(
+  id: string,
+  draggingAbove: boolean,
+  allowedPlugins: string[]
+) {
   const store = useScopedStore()
 
   return function(dragId?: string) {
     return (
       dragId &&
+      isAllowedPlugin(dragId) &&
       !wouldDropInOwnChildren(dragId) &&
       !wouldDropAtInitialPosition(dragId)
     )
+  }
+
+  function isAllowedPlugin(dragId: string) {
+    const doc = getDocument(dragId)(store.getState())
+    return doc && allowedPlugins.includes(doc.plugin)
   }
 
   function wouldDropInOwnChildren(dragId: string) {

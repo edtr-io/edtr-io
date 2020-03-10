@@ -69,6 +69,8 @@ const GrayOut = styled.div({
 
 const Inserted = styled.hr<{ config: RowsPluginConfig }>(({ config }) => {
   return {
+    margin: 0,
+    padding: 0,
     border: `1px solid ${config.theme.highlightColor}`
   }
 })
@@ -92,7 +94,10 @@ export function RowRenderer({
 }) {
   const container = React.useRef<HTMLDivElement>(null)
   const [draggingAbove, setDraggingAbove] = React.useState(true)
-  const canDrop = useCanDrop(row.id, draggingAbove)
+  const allowedPlugins = React.useMemo(() => {
+    return config.plugins.map(plugin => plugin.name)
+  }, [config])
+  const canDrop = useCanDrop(row.id, draggingAbove, allowedPlugins)
   const store = useScopedStore()
 
   const [collectedDragProps, drag, dragPreview] = useDrag({
