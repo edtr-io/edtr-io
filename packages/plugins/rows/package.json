@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,10 +12,10 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^1.0.0-beta.1",
-    "@edtr-io/plugin": "^1.0.0-beta.1",
-    "@edtr-io/store": "^1.0.0-beta.1",
-    "@edtr-io/ui": "^0.52.1",
+    "@edtr-io/editor-ui": "^1.0.0-beta.2",
+    "@edtr-io/plugin": "^1.0.0-beta.2",
+    "@edtr-io/store": "^1.0.0-beta.2",
+    "@edtr-io/ui": "^1.0.0-beta.2",
     "@types/ramda": "^0.26.1",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
@@ -23,7 +23,7 @@
     "ramda": "^0.27.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^1.0.0-beta.1",
+    "@edtr-io/core": "^1.0.0-beta.2",
     "react": "^16.8.0",
     "react-dnd": "^10.0.0",
     "react-dnd-html5-backend": "^10.0.0",
@@ -31,7 +31,7 @@
     "styled-components": "^5.0.0"
   },
   "peerDependencies": {
-    "@edtr-io/core": "1.0.0-beta.1",
+    "@edtr-io/core": "1.0.0-beta.2",
     "react": "^16.8.0",
     "react-dnd": "^10.0.0",
     "react-dnd-html5-backend": "^10.0.0",

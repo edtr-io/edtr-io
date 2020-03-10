@@ -948,6 +948,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**plugin-rows**. Fix drag and drop of native files',
         '**plugin-video**. Fix i18n'
       ]
+    },
+    {
+      tagName: 'v1.0.0-beta.2',
+      name: '1.0.0-beta.2',
+      date: '2020-03-10',
+      added: ['**plugin-rows**. Only allow configured plugins to be dropped']
     }
   ])
 
