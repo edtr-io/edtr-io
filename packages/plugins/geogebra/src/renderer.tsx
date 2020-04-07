@@ -15,65 +15,6 @@ enum Error {
 }
 type ApiResponse = ApiData | Error
 
-const cache: { [src: string]: ApiResponse } = {}
-
-const requestAppletData = debounce(
-  (setApiResponse: (data: ApiResponse) => void, src?: string) => {
-    if (!src) {
-      return
-    }
-
-    if (cache[src]) {
-      setApiResponse(cache[src])
-      return
-    }
-
-    axios
-      .post(
-        'https://www.geogebra.org/api/json.php',
-        {
-          request: {
-            '-api': '1.0.0',
-            task: {
-              '-type': 'fetch',
-              fields: {
-                field: [
-                  { '-name': 'width' },
-                  { '-name': 'height' },
-                  { '-name': 'preview_url' }
-                ]
-              },
-              filters: {
-                field: [{ '-name': 'id', '#text': src }]
-              },
-              limit: { '-num': '1' }
-            }
-          }
-        },
-        // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
-        {
-          headers: {
-            'Content-Type': 'text/plain'
-          }
-        }
-      )
-      .then(res => {
-        let data: ApiResponse = Error.NotExisting
-        if (res.data.responses.response.item) {
-          const {
-            width = 800,
-            height = 500,
-            previewUrl
-          } = res.data.responses.response.item
-          data = { width, height, previewUrl }
-        }
-        cache[src] = data
-        setApiResponse(data)
-      })
-  },
-  500
-)
-
 const Geogebra = styled.iframe({
   position: 'absolute',
   top: 0,
@@ -103,17 +44,13 @@ export function GeogebraRenderer({
   state,
   disableCursorEvents
 }: GeogebraRendererProps) {
-  const [data, setApiResponse] = React.useState<ApiResponse>(Error.NotExisting)
   let id = state.value
   // check if state was the full url
   const match = /geogebra\.org\/m\/(.+)/.exec(state.value)
   if (match) {
     id = match[1]
   }
-
-  React.useEffect(() => {
-    requestAppletData(setApiResponse, id)
-  }, [id])
+  const data = useCachedApiResponse(id)
 
   if (data === Error.NotExisting) {
     return (
@@ -145,12 +82,77 @@ export function GeogebraRenderer({
           <Geogebra
             title={id}
             scrolling="no"
-            src={'https://www.geogebra.org/material/iframe/id/' + id}
+            src={`https://www.geogebra.org/material/iframe/id/${id}`}
           />
         </ScaleContainer>
       )
     }
   }
+}
+
+function useCachedApiResponse(id?: string): ApiResponse {
+  const [data, setApiResponse] = React.useState<ApiResponse>(Error.NotExisting)
+  const cache = React.useRef<{ [src: string]: ApiResponse }>({})
+
+  const debouncedRequestAppletData = React.useRef<(src?: string) => void>(
+    debounce((src?: string) => {
+      if (!src) return
+
+      if (cache.current[src]) {
+        setApiResponse(cache.current[src])
+        return
+      }
+
+      axios
+        .post(
+          'https://www.geogebra.org/api/json.php',
+          {
+            request: {
+              '-api': '1.0.0',
+              task: {
+                '-type': 'fetch',
+                fields: {
+                  field: [
+                    { '-name': 'width' },
+                    { '-name': 'height' },
+                    { '-name': 'preview_url' }
+                  ]
+                },
+                filters: {
+                  field: [{ '-name': 'id', '#text': src }]
+                },
+                limit: { '-num': '1' }
+              }
+            }
+          },
+          // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
+          {
+            headers: {
+              'Content-Type': 'text/plain'
+            }
+          }
+        )
+        .then(res => {
+          let data: ApiResponse = Error.NotExisting
+          if (res.data.responses.response.item) {
+            const {
+              width = 800,
+              height = 500,
+              previewUrl
+            } = res.data.responses.response.item
+            data = { width, height, previewUrl }
+          }
+          cache.current[src] = data
+          setApiResponse(data)
+        })
+    }, 500)
+  )
+
+  React.useEffect(() => {
+    debouncedRequestAppletData.current(id)
+  }, [debouncedRequestAppletData, id])
+
+  return data
 }
 
 export type GeogebraRendererProps = GeogebraProps & {
