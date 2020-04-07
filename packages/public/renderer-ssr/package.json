@@ -34,7 +34,7 @@
     "@edtr-io/plugin-table": "^1.0.0-beta.2",
     "@edtr-io/plugin-text": "^1.0.0-beta.2",
     "@edtr-io/plugin-video": "^1.0.0-beta.2",
-    "@types/ramda": "^0.26.1",
+    "@types/ramda": "^0.27.0",
     "ramda": "^0.27.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",

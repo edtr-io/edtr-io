@@ -1,5 +1,13 @@
 import { DocumentEditorProps } from '@edtr-io/document-editor/beta'
-import { edtrClose, EdtrIcon, faCog, Icon, styled } from '@edtr-io/ui'
+import {
+  DeepPartial,
+  edtrClose,
+  EdtrIcon,
+  faCog,
+  Icon,
+  styled
+} from '@edtr-io/ui'
+import * as R from 'ramda'
 import * as React from 'react'
 
 const Container = styled.div<{
@@ -84,12 +92,13 @@ const BorderlessOverlayButton = styled.button({
 /**
  * Creates the default {@link @edtr-io/document-editor#DocumentEditorProps | document editor}
  *
+ * @param config - Configuration
  * @returns The default {@link @edtr-io/document-editor#DocumentEditorProps | document editor}
  * @beta
  */
-export function createDefaultDocumentEditor(): React.ComponentType<
-  DocumentEditorProps
-> {
+export function createDefaultDocumentEditor(
+  config: DefaultDocumentEditorConfig = {}
+): React.ComponentType<DocumentEditorProps> {
   return function DocumentEditor({
     focused,
     children,
@@ -103,6 +112,17 @@ export function createDefaultDocumentEditor(): React.ComponentType<
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
 
+    const i18n = R.mergeDeepRight(
+      {
+        settings: {
+          buttonLabel: 'Settings',
+          modalTitle: 'Extended Settings',
+          modalCloseLabel: 'Close'
+        }
+      },
+      config.i18n || {}
+    )
+
     const shouldShowSettings = showSettings()
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
       return shouldShowSettings
@@ -110,13 +130,13 @@ export function createDefaultDocumentEditor(): React.ComponentType<
             return (
               <React.Fragment>
                 <Header>
-                  <H4>Erweiterte Einstellungen</H4>
+                  <H4>{i18n.settings.modalTitle}</H4>
                   <BorderlessOverlayButton
                     as={OverlayButton}
                     onClick={() => {
                       close()
                     }}
-                    label="Schließen"
+                    label={i18n.settings.modalCloseLabel}
                   >
                     <EdtrIcon icon={edtrClose} />
                   </BorderlessOverlayButton>
@@ -136,7 +156,7 @@ export function createDefaultDocumentEditor(): React.ComponentType<
       <React.Fragment>
         {showSettings() ? (
           <PluginToolbarOverlayButton
-            label="Einstellungen"
+            label={i18n.settings.buttonLabel}
             icon={<Icon icon={faCog} size="lg" />}
             renderContent={renderSettingsContent}
             contentRef={settingsRef}
@@ -183,4 +203,14 @@ export function createDefaultDocumentEditor(): React.ComponentType<
       return hasToolbar || renderToolbar !== undefined
     }
   }
+}
+
+/** @beta */
+export interface DefaultDocumentEditorConfig {
+  i18n?: DeepPartial<{
+    modal: {
+      title: string
+      closeLabel: string
+    }
+  }>
 }

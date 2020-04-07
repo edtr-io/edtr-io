@@ -957,6 +957,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     },
     {
       fixed: [
+        '**default-document-editor**. Allow to configure i18n, use English strings by default.',
         '**plugin-geogebra**. Handle multiple GeoGebra applets correctly.'
       ]
     }

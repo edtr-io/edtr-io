@@ -4,11 +4,23 @@
 
 ```ts
 
+import { DeepPartial } from '@edtr-io/ui';
 import { DocumentEditorProps } from '@edtr-io/document-editor/beta';
 import * as React from 'react';
 
 // @beta
-export function createDefaultDocumentEditor(): React.ComponentType<DocumentEditorProps>;
+export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig): React.ComponentType<DocumentEditorProps>;
+
+// @beta (undocumented)
+export interface DefaultDocumentEditorConfig {
+    // (undocumented)
+    i18n?: DeepPartial<{
+        modal: {
+            title: string;
+            closeLabel: string;
+        };
+    }>;
+}
 
 
 // (No @packageDocumentation comment for this package)

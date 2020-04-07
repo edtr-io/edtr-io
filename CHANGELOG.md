@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **default-document-editor**. Allow to configure i18n, use English strings by default.
 - **plugin-geogebra**. Handle multiple GeoGebra applets correctly.
 
 ## [1.0.0-beta.2](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.1..v1.0.0-beta.2) - March 10, 2020
