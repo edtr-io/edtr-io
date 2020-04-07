@@ -956,6 +956,9 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       added: ['**plugin-rows**. Only allow configured plugins to be dropped']
     },
     {
+      tagName: 'v1.0.0-beta.3',
+      name: '1.0.0-beta.3',
+      date: '2020-04-07',
       fixed: [
         '**default-document-editor**. Allow to configure i18n, use English strings by default.',
         '**plugin-geogebra**. Handle multiple GeoGebra applets correctly.'
