@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.3..HEAD)
+
+### Added
+
+- **ui**. Expose `merge` function that extends a `DeepPartial<T>` to `T` in a type-safe manner by defining fallback values.
+
 ## [1.0.0-beta.3](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.2..v1.0.0-beta.3) - April 7, 2020
 
 ### Fixed

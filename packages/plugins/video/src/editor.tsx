@@ -18,14 +18,14 @@ export const VideoEditor = (props: VideoProps) => {
           <OverlayInput
             label={props.config.i18n.src.label}
             value={state.src.value}
-            onChange={e => {
+            onChange={(e) => {
               state.src.set(e.target.value)
             }}
           />
           <OverlayInput
             label={props.config.i18n.alt.label}
             value={state.alt.value}
-            onChange={e => {
+            onChange={(e) => {
               state.alt.set(e.target.value)
             }}
           />
@@ -36,7 +36,7 @@ export const VideoEditor = (props: VideoProps) => {
           <EditorInput
             label={props.config.i18n.src.label}
             value={state.src.value}
-            onChange={e => {
+            onChange={(e) => {
               state.src.set(e.target.value)
             }}
             width="80%"

@@ -5,7 +5,7 @@ import {
   StoreDeserializeHelpers,
   StateUpdater,
   list,
-  StateExecutor
+  StateExecutor,
 } from '../src'
 
 describe('object', () => {
@@ -15,14 +15,14 @@ describe('object', () => {
 
   beforeEach(() => {
     helpers = {
-      createDocument: jest.fn()
+      createDocument: jest.fn(),
     }
   })
 
   test('initial with child', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
     const initial = state.createInitialState(helpers)
 
@@ -34,7 +34,7 @@ describe('object', () => {
   test('initial with 2 children', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      bar: child({ plugin: 'counter ' })
+      bar: child({ plugin: 'counter ' }),
     })
     const initial = state.createInitialState(helpers)
 
@@ -47,12 +47,12 @@ describe('object', () => {
   test('deserialize', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
 
     const serialized = {
       foo: { plugin: 'text', state: 'foobar' },
-      counter: 5
+      counter: 5,
     }
 
     const deserialized = state.deserialize(serialized, helpers)
@@ -66,37 +66,37 @@ describe('object', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
       bar: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
     const deserialized = {
       foo: 'foo',
       bar: 'bar',
-      counter: 5
+      counter: 5,
     }
     expect(
       state.serialize(deserialized, {
         getDocument(id: string) {
           return {
             plugin: 'counter',
-            state: id === 'foo' ? 0 : 1
+            state: id === 'foo' ? 0 : 1,
           }
-        }
+        },
       })
     ).toEqual({
       foo: { plugin: 'counter', state: 0 },
       bar: { plugin: 'counter', state: 1 },
-      counter: 5
+      counter: 5,
     })
   })
 
   test('return type', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
     const initial = {
       foo: 'foo',
-      counter: 5
+      counter: 5,
     }
     const objectValue = state.init(initial, () => {})
     expect(typeof objectValue.foo.render).toEqual('function')
@@ -110,11 +110,11 @@ describe('object', () => {
   test('store', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
     const initialState = {
       foo: 'foo',
-      counter: 5
+      counter: 5,
     }
 
     let store = initialState
@@ -123,16 +123,16 @@ describe('object', () => {
     }
 
     const objValue = state.init(initialState, onChange)
-    objValue.counter.set(value => value + 1)
+    objValue.counter.set((value) => value + 1)
     expect(store).toEqual({
       foo: 'foo',
-      counter: 6
+      counter: 6,
     })
   })
 
   test('innerOnChange correctly dispatches changes', () => {
     const state = object({
-      foo: list(child({ plugin: 'counter' }), 0)
+      foo: list(child({ plugin: 'counter' }), 0),
     })
     const initialState = state.createInitialState(helpers)
     expect(helpers.createDocument).not.toHaveBeenCalled()
@@ -145,13 +145,13 @@ describe('object', () => {
       store = initial(store, helpers)
       if (executor) {
         executor(
-          resolveUpdater => {
+          (resolveUpdater) => {
             store = resolveUpdater(store, helpers)
           },
-          rejectUpdater => {
+          (rejectUpdater) => {
             store = rejectUpdater(store, helpers)
           },
-          nextUpdater => {
+          (nextUpdater) => {
             store = nextUpdater(store, helpers)
           }
         )
@@ -167,11 +167,11 @@ describe('object', () => {
   test('get focusable children', () => {
     const state = object({
       foo: child({ plugin: 'counter' }),
-      counter: number()
+      counter: number(),
     })
     const initialState = {
       foo: 'foo',
-      counter: 5
+      counter: 5,
     }
 
     expect(state.getFocusableChildren(initialState)).toEqual([{ id: 'foo' }])

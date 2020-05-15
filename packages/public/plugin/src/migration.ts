@@ -1,7 +1,7 @@
 import {
   StateType,
   StoreDeserializeHelpers,
-  StoreSerializeHelpers
+  StoreSerializeHelpers,
 } from './internal-plugin-state'
 
 /**
@@ -12,12 +12,12 @@ export function migratable<S, T, R>(
   type: StateType<S, T, R>
 ): MigratableStateType<S, S, S, T, R> {
   return migrate<S, never, S, T, R, S, T, R>(
-    state => {
+    (state) => {
       return state as S
     },
     type,
     0,
-    state => state
+    (state) => state
   )
 }
 
@@ -45,7 +45,7 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
     ): Versionized<S1> {
       return {
         __version__: nextVersion,
-        value: nextType.serialize(deserialized, helpers)
+        value: nextType.serialize(deserialized, helpers),
       }
     },
     migrate<S2, T2, R2>(
@@ -65,7 +65,7 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
         nextVersion + 1,
         f2
       )
-    }
+    },
   }
 }
 

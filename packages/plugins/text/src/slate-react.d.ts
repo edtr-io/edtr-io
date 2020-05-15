@@ -43,7 +43,7 @@ declare module 'slate-react' {
     PointJSON,
     Point,
     RangeTypeJSON,
-    RangeTypeProperties
+    RangeTypeProperties,
   } from 'slate'
   import * as Immutable from 'immutable'
   import * as React from 'react'

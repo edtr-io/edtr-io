@@ -6,7 +6,7 @@
 
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
-import * as React from 'react';
+import * as React_2 from 'react';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
@@ -27,7 +27,7 @@ export interface TablePluginConfig {
         placeholder: string;
     };
     // (undocumented)
-    MarkdownRenderer: React.ComponentType<{
+    MarkdownRenderer: React_2.ComponentType<{
         markdown: string;
     }>;
 }

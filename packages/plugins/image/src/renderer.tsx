@@ -4,12 +4,12 @@ import * as React from 'react'
 
 import { ImageProps } from '.'
 
-const ImgWrapper = styled.div<{ maxWidth: number }>(props => {
+const ImgWrapper = styled.div<{ maxWidth: number }>((props) => {
   return {
     maxWidth: props.maxWidth > 0 ? props.maxWidth + 'px' : undefined,
     display: 'block',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
   }
 })
 
@@ -17,11 +17,11 @@ const Img = styled.img({
   maxWidth: '100%',
   display: 'block',
   marginLeft: 'auto',
-  marginRight: 'auto'
+  marginRight: 'auto',
 })
 
 const Uploading = styled.div({
-  position: 'relative'
+  position: 'relative',
 })
 const PendingOverlay = styled.div({
   backgroundColor: 'rgba(255,255,255,0.5)',
@@ -30,7 +30,7 @@ const PendingOverlay = styled.div({
   position: 'absolute',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
 })
 
 const Pending = styled.div({
@@ -42,9 +42,9 @@ const Pending = styled.div({
   animation: 'spin 1s linear infinite',
   '@keyframes spin': {
     to: {
-      transform: 'rotate(360deg)'
-    }
-  }
+      transform: 'rotate(360deg)',
+    },
+  },
 })
 
 export class ImageRenderer extends React.Component<ImageRendererProps> {
@@ -81,7 +81,7 @@ export class ImageRenderer extends React.Component<ImageRendererProps> {
             {...(state.link.openInNewTab.value
               ? {
                   target: '_blank',
-                  rel: 'noreferrer noopener'
+                  rel: 'noreferrer noopener',
                 }
               : {})}
           >

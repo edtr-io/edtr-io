@@ -56,10 +56,12 @@ export interface ApplyActionsAction {
 }
 
 // @public (undocumented)
-export const blur: ActionCreatorWithoutPayload<'Blur'>;
+const blur_2: ActionCreatorWithoutPayload<'Blur'>;
+
+export { blur_2 as blur }
 
 // @public (undocumented)
-export type BlurAction = ActionCreatorAction<typeof blur>;
+export type BlurAction = ActionCreatorAction<typeof blur_2>;
 
 // @public (undocumented)
 export const change: ActionCreatorWithPayload<'Change', {
@@ -112,7 +114,7 @@ export interface CopyAction {
 }
 
 // @public
-export function createStore<K extends string>({ scopes, createEnhancer }: StoreOptions<K>): {
+export function createStore<K extends string>(options: StoreOptions<K>): {
     store: Store_2<State, Action>;
 };
 
@@ -131,22 +133,24 @@ export interface DocumentState {
 }
 
 // @public
-export function findNextNode(root: Node, from: string): string | null;
+export function findNextNode(root: Node_2, from: string): string | null;
 
 // @public
-export function findParent(root: Node, id: string): Node | null;
+export function findParent(root: Node_2, id: string): Node_2 | null;
 
 // @public
-export function findPreviousNode(root: Node, from: string): string | null;
+export function findPreviousNode(root: Node_2, from: string): string | null;
 
 // @public (undocumented)
-export const focus: ActionCreatorWithPayload<'Focus', string>;
+const focus_2: ActionCreatorWithPayload<'Focus', string>;
+
+export { focus_2 as focus }
 
 // @public (undocumented)
 export type FocusAction = BlurAction | FocusDocumentAction | FocusNextDocumentAction | FocusPreviousDocumentAction;
 
 // @public (undocumented)
-export type FocusDocumentAction = ActionCreatorAction<typeof focus>;
+export type FocusDocumentAction = ActionCreatorAction<typeof focus_2>;
 
 // @public (undocumented)
 export const focusNext: ActionCreatorWithoutPayload<'FocusNext'>;
@@ -179,13 +183,13 @@ export const getFocused: Selector<string | null, []>;
 export const getFocusPath: Selector<string[] | null, [string?]>;
 
 // @public
-export const getFocusTree: Selector<Node | null, [string?]>;
+export const getFocusTree: Selector<Node_2 | null, [string?]>;
 
 // @internal (undocumented)
 export const getHistory: InternalSelector<HistoryState>;
 
 // @public (undocumented)
-export const getParent: Selector<Node | null, [string]>;
+export const getParent: Selector<Node_2 | null, [string]>;
 
 // @public (undocumented)
 export const getPendingChanges: Selector<number>;
@@ -334,12 +338,14 @@ export const mayInsertChild: Selector<boolean, [string]>;
 export const mayRemoveChild: Selector<boolean, [string]>;
 
 // @public (undocumented)
-export interface Node {
+interface Node_2 {
     // (undocumented)
-    children?: Node[];
+    children?: Node_2[];
     // (undocumented)
     id: string;
 }
+
+export { Node_2 as Node }
 
 // @public (undocumented)
 export const persist: ActionCreatorWithoutPayload<"Persist">;

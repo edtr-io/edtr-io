@@ -20,19 +20,19 @@ const getActiveMarks = (editor: Editor) => {
   )
 }
 export const isStrong = (editor: Editor) => {
-  return getActiveMarks(editor).some(mark =>
+  return getActiveMarks(editor).some((mark) =>
     mark ? mark.type === strongMark : false
   )
 }
 
 export const isEmphasized = (editor: Editor) => {
-  return getActiveMarks(editor).some(mark =>
+  return getActiveMarks(editor).some((mark) =>
     mark ? mark.type === emphasizeMark : false
   )
 }
 
 export const isCode = (editor: Editor) => {
-  return getActiveMarks(editor).some(mark =>
+  return getActiveMarks(editor).some((mark) =>
     mark ? mark.type === codeMark : false
   )
 }
@@ -70,7 +70,7 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
 }
 
 export const createRichTextPlugin = ({
-  EditorComponent = DefaultEditorComponent
+  EditorComponent = DefaultEditorComponent,
 }: RichTextPluginOptions = {}) => (): TextPlugin => {
   return {
     onKeyDown(event, editor, next) {
@@ -100,6 +100,6 @@ export const createRichTextPlugin = ({
       }
 
       return next()
-    }
+    },
   }
 }

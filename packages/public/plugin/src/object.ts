@@ -8,7 +8,7 @@ import {
   StateTypeReturnType,
   FocusableChild,
   StateUpdater,
-  StateExecutor
+  StateExecutor,
 } from './internal-plugin-state'
 
 /**
@@ -20,7 +20,7 @@ export function object<Ds extends Record<string, StateType>>(
   types: Ds,
   getFocusableChildren: (
     children: { [K in keyof Ds]: { id: string }[] }
-  ) => { id: string }[] = children => {
+  ) => { id: string }[] = (children) => {
     return R.flatten<readonly FocusableChild[][]>(R.values(children))
   }
 ): ObjectStateType<Ds> {
@@ -55,9 +55,9 @@ export function object<Ds extends Record<string, StateType>>(
             executor
               ? (resolve, reject, next) => {
                   executor(
-                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
-                    innerUpdater => reject(wrapUpdater(innerUpdater)),
-                    innerUpdater => next(wrapUpdater(innerUpdater))
+                    (innerUpdater) => resolve(wrapUpdater(innerUpdater)),
+                    (innerUpdater) => reject(wrapUpdater(innerUpdater)),
+                    (innerUpdater) => next(wrapUpdater(innerUpdater))
                   )
                 }
               : undefined
@@ -66,7 +66,7 @@ export function object<Ds extends Record<string, StateType>>(
       }, types) as U
     },
     createInitialState(helpers) {
-      return R.map(type => {
+      return R.map((type) => {
         return type.createInitialState(helpers)
       }, types) as T
     },
@@ -85,7 +85,7 @@ export function object<Ds extends Record<string, StateType>>(
         return type.getFocusableChildren(state[key])
       }, types) as { [K in keyof Ds]: { id: string }[] }
       return getFocusableChildren(children)
-    }
+    },
   }
 }
 

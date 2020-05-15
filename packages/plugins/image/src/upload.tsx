@@ -21,7 +21,7 @@ export function Upload(props: UploadProps) {
         accept="image/*"
         style={{ display: 'none' }}
         ref={input}
-        onChange={event => {
+        onChange={(event) => {
           if (event.target.files && event.target.files.length) {
             props.onFile(event.target.files[0])
           }

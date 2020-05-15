@@ -2,7 +2,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 
 import { SerloInjectionEditor } from './editor'
@@ -21,10 +21,10 @@ export function createSerloInjectionPlugin(
       i18n: {
         label: 'Serlo ID',
         placeholder: '123456',
-        ...i18n
-      }
+        ...i18n,
+      },
     },
-    state: string()
+    state: string(),
   }
 }
 

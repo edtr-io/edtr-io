@@ -9,7 +9,7 @@ import { useScopedSelector } from '../store'
 export function SubDocumentRenderer({ id, pluginProps }: SubDocumentProps) {
   const document = useScopedSelector(getDocument(id))
   const plugin = useScopedSelector(
-    state => document && getPlugin(document.plugin)(state)
+    (state) => document && getPlugin(document.plugin)(state)
   )
   const focusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(null)
   const theme = useTheme()

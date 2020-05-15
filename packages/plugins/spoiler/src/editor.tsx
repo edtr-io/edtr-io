@@ -9,7 +9,7 @@ export function SpoilerEditor({
   config,
   state,
   editable,
-  autofocusRef
+  autofocusRef,
 }: SpoilerProps) {
   const { theme } = config
   const spoilerTheme = React.useMemo(() => {
@@ -18,9 +18,9 @@ export function SpoilerEditor({
         expandableBox: {
           toggleBackgroundColor: theme.color,
           toggleColor: '#333',
-          containerBorderColor: theme.color
-        }
-      }
+          containerBorderColor: theme.color,
+        },
+      },
     }
   }, [theme])
 
@@ -28,7 +28,7 @@ export function SpoilerEditor({
     (_collapsed: boolean) => {
       return editable ? (
         <EditorInput
-          onChange={e => state.title.set(e.target.value)}
+          onChange={(e) => state.title.set(e.target.value)}
           value={state.title.value}
           placeholder={config.i18n.title.placeholder}
           ref={autofocusRef}

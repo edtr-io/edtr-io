@@ -4,7 +4,7 @@ import {
   applyMiddleware,
   createStore as createReduxStore,
   Store,
-  StoreEnhancer
+  StoreEnhancer,
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -17,20 +17,21 @@ import { InternalState, SelectorReturnType, State } from './types'
 /**
  * Creates the Edtr.io store
  *
+ * @param options - The options
  * @returns The Edtr.io store
  * @public
  */
-export function createStore<K extends string>({
-  scopes,
-  createEnhancer
-}: StoreOptions<K>): {
+export function createStore<K extends string>(
+  options: StoreOptions<K>
+): {
   store: Store<State, Action>
 } {
+  const { scopes, createEnhancer } = options
   const sagaMiddleware = createSagaMiddleware()
   const defaultEnhancer = applyMiddleware(sagaMiddleware)
   const enhancer = createEnhancer(defaultEnhancer)
 
-  const initialStates = R.mapObjIndexed(scope => {
+  const initialStates = R.mapObjIndexed((scope) => {
     return {
       plugins: scope,
       documents: {},
@@ -40,8 +41,8 @@ export function createStore<K extends string>({
       history: {
         undoStack: [],
         redoStack: [],
-        pendingChanges: 0
-      }
+        pendingChanges: 0,
+      },
     }
   }, scopes)
 

@@ -1,7 +1,13 @@
 export { HotKeys, IgnoreKeys, GlobalHotKeys } from 'react-hotkeys'
 
 export { SubDocument, SubDocumentProps } from './sub-document'
-export { Document, Editor, EditorProps, EditorProvider } from './editor'
+export {
+  Document,
+  Editor,
+  EditorProps,
+  EditorProvider,
+  EditorProviderProps,
+} from './editor'
 export {
   ScopeContext,
   ErrorContext,
@@ -12,13 +18,13 @@ export {
   useScope,
   useScopedDispatch,
   useScopedSelector,
-  useScopedStore
+  useScopedStore,
 } from './store'
 export {
   DocumentEditorContext,
   Preference,
   PreferenceContext,
   PluginToolbarContext,
-  setDefaultPreference
+  setDefaultPreference,
 } from './contexts'
 export * from './plugin-toolbar'

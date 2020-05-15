@@ -10,13 +10,13 @@ const StyledSearch = styled.div({
   justifyContent: 'center',
   width: '600px',
   '@media (max-width: 650px)': {
-    width: '100%'
-  }
+    width: '100%',
+  },
 })
 
 const InputWrapper = styled.div({
   position: 'relative',
-  width: '100%'
+  width: '100%',
 })
 
 const StyledInput = styled.input<{ config: RowsPluginConfig }>(({ config }) => {
@@ -32,12 +32,12 @@ const StyledInput = styled.input<{ config: RowsPluginConfig }>(({ config }) => {
     width: '100%',
 
     '&:focus': {
-      borderColor: theme.menu.highlightColor
+      borderColor: theme.menu.highlightColor,
     },
 
     '&::placeholder': {
-      color: theme.menu.secondary.color
-    }
+      color: theme.menu.secondary.color,
+    },
   }
 })
 
@@ -58,8 +58,8 @@ const ClearSearchContainer = styled.div<{
     color: theme.menu.secondary.color,
 
     '&:hover': {
-      color: theme.menu.highlightColor
-    }
+      color: theme.menu.highlightColor,
+    },
   }
 })
 
@@ -72,7 +72,7 @@ const SearchIcon = styled(EdtrIcon)<{ config: RowsPluginConfig }>(
       color: theme.menu.secondary.color,
       top: '50%',
       left: '5px',
-      transform: 'translateY(-50%)'
+      transform: 'translateY(-50%)',
     }
   }
 )
@@ -80,7 +80,7 @@ const SearchIcon = styled(EdtrIcon)<{ config: RowsPluginConfig }>(
 export const Search = ({
   search,
   setSearch,
-  config
+  config,
 }: {
   search: string
   setSearch: (newValue: string) => void
@@ -93,7 +93,7 @@ export const Search = ({
           config={config}
           placeholder={config.i18n.menu.searchPlaceholder}
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <ClearSearchContainer
           config={config}

@@ -5,7 +5,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   list,
-  ListStateType
+  ListStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -30,17 +30,17 @@ export function createRowsPlugin(
         i18n: R.mergeDeepRight(
           {
             menu: {
-              searchPlaceholder: 'Search for tools…'
+              searchPlaceholder: 'Search for tools…',
             },
             settings: {
               duplicateLabel: 'Duplicate',
               removeLabel: 'Remove',
-              closeLabel: 'Close'
+              closeLabel: 'Close',
             },
             toolbar: {
-              dragLabel: 'Drag the element within the document'
+              dragLabel: 'Drag the element within the document',
             },
-            addLabel: 'Add an element'
+            addLabel: 'Add an element',
           },
           i18n
         ),
@@ -54,22 +54,22 @@ export function createRowsPlugin(
               highlightColor: editor.primary.background,
               primary: {
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                color: editor.backgroundColor
+                color: editor.backgroundColor,
               },
               secondary: {
                 backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                color: '#999999'
+                color: '#999999',
               },
               dropzone: {
                 backgroundColor: 'rgb(73, 73, 73)',
                 color: '#dbdbdb',
                 highlightColor: editor.primary.background,
-                highlightBackgroundColor: 'rgb(60,60,60)'
-              }
-            }
+                highlightBackgroundColor: 'rgb(60,60,60)',
+              },
+            },
           },
           theme
-        )
+        ),
       }
     },
     state: list(child(content), 1),
@@ -81,7 +81,7 @@ export function createRowsPlugin(
       function getIndexToInsert(): number | null {
         if (!previousSibling) return 0
         const index = R.findIndex(
-          sibling => sibling.id === previousSibling,
+          (sibling) => sibling.id === previousSibling,
           state
         )
         if (index === -1) return null
@@ -90,10 +90,10 @@ export function createRowsPlugin(
     },
 
     removeChild(state, id) {
-      const index = R.findIndex(child => child.id === id, state)
+      const index = R.findIndex((child) => child.id === id, state)
       if (index === -1) return
       state.remove(index)
-    }
+    },
   }
 }
 

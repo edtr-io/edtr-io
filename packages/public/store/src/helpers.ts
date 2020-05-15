@@ -10,7 +10,7 @@ import {
   ActionCreatorWithoutPayload,
   InternalScopedState,
   InternalSelector,
-  InternalState
+  InternalState,
 } from './types'
 
 export function createActionCreator<T, P>(
@@ -20,7 +20,7 @@ export function createActionCreator<T, P>(
     return {
       type,
       payload,
-      scope
+      scope,
     }
   }
   actionCreator.type = type
@@ -62,6 +62,7 @@ export function createSelector<T, P extends any[]>(
   return (...args: P) => (state: ScopedState) => f(state, ...args)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createInternalSelector<T, P extends any[]>(
   f: (state: InternalScopedState, ...args: P) => T
 ): InternalSelector<T, P> {
@@ -81,7 +82,7 @@ export function createDeepEqualSelector<T, P extends any[]>(
       (state: ScopedState) => {
         return f(state, ...args)
       },
-      s => s
+      (s) => s
     )
   }
 }
@@ -100,7 +101,7 @@ export function createJsonStringifySelector<T, P extends any[]>(
       (state: ScopedState) => {
         return f(state, ...args)
       },
-      s => s
+      (s) => s
     )
   }
 }

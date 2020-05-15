@@ -12,6 +12,6 @@ export const states: Record<
   javascript: {
     language: 'javascript',
     showLineNumbers: true,
-    code: "console.log('Hello World')"
-  }
+    code: "console.log('Hello World')",
+  },
 }

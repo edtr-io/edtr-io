@@ -13,7 +13,7 @@ export const pluginsReducer: SubReducer<Record<
 export const getPlugins: Selector<Record<
   string,
   EditorPlugin
->> = createSelector(state => state.plugins)
+>> = createSelector((state) => state.plugins)
 /** @public */
 export const getPlugin = createSelector(
   (state, type: string): EditorPlugin | null => {

@@ -12,7 +12,7 @@ declare module 'slate-html-serializer' {
     Value,
     Node as SlateNode,
     Mark,
-    Leaf
+    Leaf,
   } from 'slate'
 
   export interface Rule {

@@ -8,7 +8,7 @@ import {
   race,
   select,
   take,
-  takeEvery
+  takeEvery,
 } from 'redux-saga/effects'
 
 import { applyActions, ReversibleAction } from '../actions'
@@ -27,7 +27,7 @@ import {
   RedoAction,
   ResetAction,
   temporaryCommit,
-  TemporaryCommitAction
+  TemporaryCommitAction,
 } from './actions'
 import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
@@ -37,27 +37,27 @@ export function* historySaga() {
     takeEvery(temporaryCommit.type, temporaryCommitSaga),
     takeEvery(undo.type, undoSaga),
     takeEvery(redo.type, redoSaga),
-    takeEvery(reset.type, resetSaga)
+    takeEvery(reset.type, resetSaga),
   ])
 }
 
 function* temporaryCommitSaga(action: TemporaryCommitAction) {
   const actions = action.payload.initial
-  yield all(actions.map(action => put(action.action)))
+  yield all(actions.map((action) => put(action.action)))
   yield put(
     pureCommit({
       combine: false,
-      actions
+      actions,
     })(action.scope)
   )
   const chan: Channel<ChannelAction> = yield call(channel)
 
   function createPutToChannel(type: 'resolve' | 'reject' | 'next') {
-    return function(finalActions: ReversibleAction[]) {
+    return function (finalActions: ReversibleAction[]) {
       chan.put({
         [type]: finalActions,
         scope: action.scope,
-        tempActions: actions
+        tempActions: actions,
       })
     }
   }
@@ -89,22 +89,22 @@ function* resolveSaga(chan: Channel<ChannelAction>) {
       scopeSelector(getUndoStack, payload.scope)
     )
 
-    const replays = R.takeWhile(replay => replay !== tempActions, stack)
+    const replays = R.takeWhile((replay) => replay !== tempActions, stack)
     // revert all actions until the temporary actions
     yield all(
-      replays.map(replay => {
-        return all(replay.map(a => put(a.reverse)))
+      replays.map((replay) => {
+        return all(replay.map((a) => put(a.reverse)))
       })
     )
     // then revert the temporary action
-    yield all(tempActions.map(a => put(a.reverse)))
+    yield all(tempActions.map((a) => put(a.reverse)))
 
     // apply final actions and all reverted actions
-    yield all(finalActions.map(a => put(a.action)))
+    yield all(finalActions.map((a) => put(a.action)))
 
     yield all(
-      replays.map(replay => {
-        return all(replay.map(a => put(a.action)))
+      replays.map((replay) => {
+        return all(replay.map((a) => put(a.action)))
       })
     )
 
@@ -129,7 +129,7 @@ function* commitSaga() {
     while (true) {
       const { action, timeout } = yield race({
         action: take(commit.type),
-        timeout: delay(1000)
+        timeout: delay(1000),
       })
 
       if (timeout) {
@@ -148,11 +148,11 @@ function* executeCommit(
   combine: boolean,
   scope: string
 ) {
-  yield all(actions.map(action => put(action.action)))
+  yield all(actions.map((action) => put(action.action)))
   yield put(
     pureCommit({
       combine,
-      actions
+      actions,
     })(scope)
   )
 }
@@ -165,7 +165,7 @@ function* undoSaga(action: UndoAction) {
   if (!toUndo) return
 
   const actions = R.reverse(toUndo).map(
-    reversibleAction => reversibleAction.reverse
+    (reversibleAction) => reversibleAction.reverse
   )
   yield put(applyActions(actions)(action.scope))
   yield put(pureUndo()(action.scope))
@@ -177,7 +177,7 @@ function* redoSaga(action: RedoAction) {
   )
   const replay = R.head(redoStack)
   if (!replay) return
-  const actions = replay.map(reversibleAction => reversibleAction.action)
+  const actions = replay.map((reversibleAction) => reversibleAction.action)
   yield put(applyActions(actions)(action.scope))
   yield put(pureRedo()(action.scope))
 }

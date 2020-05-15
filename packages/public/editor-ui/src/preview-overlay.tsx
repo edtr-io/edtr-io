@@ -2,14 +2,14 @@ import { ScopeContext, useScope } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-const NoClickArea = styled.div<{ active: boolean }>(props => {
+const NoClickArea = styled.div<{ active: boolean }>((props) => {
   return {
     pointerEvents: props.active ? 'unset' : 'none',
-    position: 'relative'
+    position: 'relative',
   }
 })
 
-const Overlay = styled.div<{ active: boolean; blur: boolean }>(props => {
+const Overlay = styled.div<{ active: boolean; blur: boolean }>((props) => {
   return {
     display: props.active ? 'none' : undefined,
     position: 'absolute',
@@ -17,7 +17,7 @@ const Overlay = styled.div<{ active: boolean; blur: boolean }>(props => {
     height: '100%',
     top: 0,
     backgroundColor: props.blur ? 'rgba(255,255,255,0.8)' : undefined,
-    zIndex: 10
+    zIndex: 10,
   }
 })
 
@@ -25,7 +25,7 @@ const ButtonWrapper = styled.div({
   width: '100%',
   height: '100%',
   textAlign: 'center',
-  display: 'flex'
+  display: 'flex',
 })
 
 const ActivateButton = styled.button({
@@ -38,7 +38,7 @@ const ActivateButton = styled.button({
   outline: 'none',
   backgroundColor: 'rgb(0,126,193)',
   zIndex: 10,
-  margin: 'auto'
+  margin: 'auto',
 })
 
 /**
@@ -84,7 +84,7 @@ export function PreviewOverlay(props: PreviewOverlayProps) {
         <ScopeContext.Provider
           value={{
             scope,
-            editable: false
+            editable: false,
           }}
         >
           {props.children}

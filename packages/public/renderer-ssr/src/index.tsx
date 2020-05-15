@@ -18,7 +18,7 @@ export function render<K extends string = string>(props: RendererProps<K>) {
 
   return {
     styles: sheet.getStyleTags(),
-    html
+    html,
   }
 }
 

@@ -9,14 +9,14 @@ import { EditorStory } from '../src'
 
 const state = {
   plugin: 'counter',
-  state: 0
+  state: 0,
 }
 
 const ToolbarIcon = styled.div({
   backgroundColor: '#aaa',
   width: '20px',
   borderRadius: '3px',
-  margin: '2px'
+  margin: '2px',
 })
 
 const counterState = number()
@@ -29,12 +29,12 @@ const counterPlugin: EditorPlugin<typeof counterState> = {
           <React.Fragment>
             <PluginToolbarButton
               icon={<ToolbarIcon>+</ToolbarIcon>}
-              onClick={() => props.state.set(val => val + 1)}
+              onClick={() => props.state.set((val) => val + 1)}
               label="Increment"
             />
             <PluginToolbarButton
               icon={<ToolbarIcon>-</ToolbarIcon>}
-              onClick={() => props.state.set(val => val - 1)}
+              onClick={() => props.state.set((val) => val - 1)}
               label="Decrement"
             />
           </React.Fragment>
@@ -43,14 +43,14 @@ const counterPlugin: EditorPlugin<typeof counterState> = {
     )
   },
   state: counterState,
-  config: {}
+  config: {},
 }
 
 storiesOf('Toolbar', module).add('Plugin with renderIntoToolbar', () => {
   return (
     <EditorStory
       plugins={{
-        counter: counterPlugin
+        counter: counterPlugin,
       }}
       initialState={state}
       onChange={action('changed')}

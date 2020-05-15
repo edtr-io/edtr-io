@@ -11,7 +11,7 @@ import {
   katexBlockNode,
   katexInlineNode,
   orderedListNode,
-  unorderedListNode
+  unorderedListNode,
 } from '../../model'
 import { Button } from '../../toolbar/button'
 import { Dropdown, Option } from '../../toolbar/dropdown'
@@ -31,21 +31,21 @@ interface MathField {
   latex(): string
 }
 
-const EditorWrapper = styled.div<{ inline: boolean }>(props => {
+const EditorWrapper = styled.div<{ inline: boolean }>((props) => {
   return {
     whiteSpace: undefined,
     overflowWrap: undefined,
     ...(props.inline
       ? {
-          display: 'inline-block'
+          display: 'inline-block',
         }
       : {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           marginTop: '0.9em',
-          marginBottom: '0.9em'
-        })
+          marginBottom: '0.9em',
+        }),
   }
 })
 
@@ -55,7 +55,7 @@ const KeySpan = styled.span({
   borderRadius: 5,
   color: '#1d1c1d',
   textAlign: 'center',
-  minWidth: 20
+  minWidth: 20,
 })
 
 function isAndroid() {
@@ -66,9 +66,11 @@ const preferenceKey = 'katex:usevisualmath'
 
 setDefaultPreference(preferenceKey, true)
 
-export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
-  config: TextPluginConfig
-}> = props => {
+export const DefaultEditorComponent: React.FunctionComponent<
+  NodeEditorProps & {
+    config: TextPluginConfig
+  }
+> = (props) => {
   const [helpOpen, setHelpOpen] = React.useState(false)
   const { attributes, editor, readOnly, node } = props
 
@@ -91,7 +93,7 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
       return mathQuillRef.current
         ? ((mathQuillRef.current as unknown) as { element: unknown }).element
         : null
-    }
+    },
   })
 
   const setFormula = React.useCallback(
@@ -100,8 +102,8 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
         type: nodeType,
         data: {
           formula: value,
-          inline: inline
-        }
+          inline: inline,
+        },
       })
     },
     [editor, nodeKey, nodeType, inline]
@@ -121,7 +123,7 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.1)'
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
           },
           content: {
             borderRadius: 0,
@@ -129,8 +131,8 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
             width: '90%',
             maxWidth: '600px',
             inset: 'auto',
-            margin: '0 auto'
-          }
+            margin: '0 auto',
+          },
         }}
       >
         {props.config.i18n.math.helpText(KeySpan)}
@@ -148,16 +150,10 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
           moveOutOf: (dir: number) => {
             if (dir == 1) {
               // leave right
-              editor
-                .moveToEnd()
-                .moveForward(1)
-                .focus()
+              editor.moveToEnd().moveForward(1).focus()
             } else if (dir == -1) {
               // leave left
-              editor
-                .moveToStart()
-                .moveBackward(1)
-                .focus()
+              editor.moveToStart().moveBackward(1).focus()
             }
           },
           deleteOutOf: (dir: number) => {
@@ -170,14 +166,14 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
           },
           downOutOf: (mathfield: MathField) => {
             mathfield.typedText('_')
-          }
+          },
         },
         ...(isAndroid()
           ? {
               substituteTextarea: alternativeTextArea,
-              substituteKeyboardEvents: alternativeSaneKeyboard
+              substituteKeyboardEvents: alternativeSaneKeyboard,
             }
-          : {})
+          : {}),
       }
 
       return (
@@ -186,7 +182,7 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
             <>
               <EditorWrapper
                 {...attributes}
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
                 }}
                 inline={inline}
@@ -223,14 +219,14 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
               allowSelectionOverflow
             >
               <div
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
                 }}
               >
                 <Dropdown
                   config={props.config}
                   value={useVisualMath ? 'visual' : 'latex'}
-                  onChange={e => {
+                  onChange={(e) => {
                     if (hasError) setError(false)
                     preferences.setKey(
                       preferenceKey,
@@ -343,12 +339,12 @@ export const DefaultEditorComponent: React.FunctionComponent<NodeEditorProps & {
     if (checked) {
       editor.insertBlock({
         type: katexBlockNode,
-        data: newData
+        data: newData,
       })
     } else {
       editor.insertInline({
         type: katexInlineNode,
-        data: newData
+        data: newData,
       })
     }
   }
@@ -357,7 +353,7 @@ const mathEditorTextAreaStyles = {
   color: 'black',
   margin: 2,
   width: '80vw',
-  maxWidth: 600
+  maxWidth: 600,
 }
 
 interface MathEditorTextAreaProps {

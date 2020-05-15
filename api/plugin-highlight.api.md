@@ -9,7 +9,7 @@ import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
-import * as React from 'react';
+import * as React_2 from 'react';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
@@ -40,7 +40,7 @@ export interface HighlightPluginConfig {
         };
     };
     // (undocumented)
-    Renderer: React.ComponentType<HighlightRendererProps>;
+    Renderer: React_2.ComponentType<HighlightRendererProps>;
 }
 
 // @public (undocumented)

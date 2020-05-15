@@ -1,7 +1,7 @@
 import { invariant } from '@edtr-io/internal__dev-expression'
 import {
   StoreDeserializeHelpers,
-  StateUpdater
+  StateUpdater,
 } from '@edtr-io/internal__plugin-state'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
@@ -34,7 +34,7 @@ import {
   replace,
   ReplaceAction,
   PureReplaceAction,
-  pureReplace
+  pureReplace,
 } from './actions'
 import { getDocument } from './reducer'
 
@@ -45,7 +45,7 @@ export function* documentsSaga() {
     takeEvery(change.type, changeSaga),
     takeEvery(wrap.type, wrapSaga),
     takeEvery(unwrap.type, unwrapSaga),
-    takeEvery(replace.type, replaceSaga)
+    takeEvery(replace.type, replaceSaga),
   ])
 }
 
@@ -72,9 +72,9 @@ function* removeSaga(action: RemoveAction) {
       reverse: pureInsert({
         id,
         plugin: doc.plugin,
-        state: doc.state
-      })(action.scope)
-    }
+        state: doc.state,
+      })(action.scope),
+    },
   ]
   yield put(commit(actions)(action.scope))
 }
@@ -101,7 +101,7 @@ function* changeSaga(action: ChangeAction) {
   ): ReversibleAction<PureChangeAction, PureChangeAction> {
     return {
       action: pureChange({ id, state: newState })(action.scope),
-      reverse: pureChange({ id, state: previousState })(action.scope)
+      reverse: pureChange({ id, state: previousState })(action.scope),
     }
   }
 
@@ -131,9 +131,9 @@ function* changeSaga(action: ChangeAction) {
                 callback: (resolveActions, pureResolveState) => {
                   resolve([
                     ...resolveActions,
-                    createChange(document.state, pureResolveState)
+                    createChange(document.state, pureResolveState),
                   ])
-                }
+                },
               })
             },
             function stateReject(updater) {
@@ -143,9 +143,9 @@ function* changeSaga(action: ChangeAction) {
                 callback: (resolveActions, pureResolveState) => {
                   reject([
                     ...resolveActions,
-                    createChange(document.state, pureResolveState)
+                    createChange(document.state, pureResolveState),
                   ])
-                }
+                },
               })
             },
             function stateNext(updater) {
@@ -155,13 +155,13 @@ function* changeSaga(action: ChangeAction) {
                 callback: (resolveActions, pureResolveState) => {
                   next([
                     ...resolveActions,
-                    createChange(document.state, pureResolveState)
+                    createChange(document.state, pureResolveState),
                   ])
-                }
+                },
               })
             }
           )
-        }
+        },
       })(action.scope)
     )
 
@@ -175,7 +175,7 @@ function* changeSaga(action: ChangeAction) {
       if (!currentDocument) continue
 
       const updater =
-        payload.resolve || payload.next || payload.reject || (s => s)
+        payload.resolve || payload.next || payload.reject || ((s) => s)
 
       const [resolveActions, pureResolveState]: [
         ReversibleAction[],
@@ -207,7 +207,7 @@ function* wrapSaga(action: WrapAction) {
     action: pureWrap({ id, newId, document: documentHandler(newId) })(
       action.scope
     ),
-    reverse: pureUnwrap({ id, oldId: newId })(action.scope)
+    reverse: pureUnwrap({ id, oldId: newId })(action.scope),
   }
   yield put(commit([reversibleAction])(action.scope))
 }
@@ -224,8 +224,8 @@ function* unwrapSaga(action: UnwrapAction) {
     reverse: pureWrap({
       id,
       newId: oldId,
-      document: currentDocument
-    })(action.scope)
+      document: currentDocument,
+    })(action.scope),
   }
   yield put(commit([reversibleAction])(action.scope))
 }
@@ -250,7 +250,7 @@ function* replaceSaga(action: ReplaceAction) {
   const helpers: StoreDeserializeHelpers = {
     createDocument(doc) {
       pendingDocs.push(doc)
-    }
+    },
   }
   let pluginState: unknown
   if (action.payload.state === undefined) {
@@ -272,13 +272,13 @@ function* replaceSaga(action: ReplaceAction) {
     action: pureReplace({
       id,
       plugin: action.payload.plugin,
-      state: pluginState
+      state: pluginState,
     })(action.scope),
     reverse: pureReplace({
       id,
       plugin: currentDocument.plugin,
-      state: currentDocument.state
-    })(action.scope)
+      state: currentDocument.state,
+    })(action.scope),
   }
   yield put(commit([...actions, reversibleAction])(action.scope))
 }
@@ -305,7 +305,7 @@ export function* handleRecursiveInserts(
   const helpers: StoreDeserializeHelpers = {
     createDocument(doc) {
       pendingDocs.push(doc)
-    }
+    },
   }
   const result = act(helpers)
   for (let doc; (doc = pendingDocs.pop()); ) {
@@ -327,9 +327,9 @@ export function* handleRecursiveInserts(
       action: pureInsert({
         id: doc.id,
         plugin: doc.plugin,
-        state
+        state,
       })(scope),
-      reverse: pureRemove(doc.id)(scope)
+      reverse: pureRemove(doc.id)(scope),
     })
   }
   return [actions, result]

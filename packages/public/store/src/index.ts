@@ -12,7 +12,7 @@ export {
   createStore,
   ChangeListener,
   StoreEnhancerFactory,
-  StoreOptions
+  StoreOptions,
 } from './store'
 export {
   ActionCreator,
@@ -30,5 +30,5 @@ export {
   ScopedState,
   InternalState,
   InternalStore,
-  InternalScopedState
+  InternalScopedState,
 } from './types'

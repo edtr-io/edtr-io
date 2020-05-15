@@ -11,36 +11,38 @@ const AddButtonComponent = styled.button({
   minHeight: '50px',
   border: '2px solid lightgrey',
   outline: 'none',
-  '&:hover': { border: '3px solid #007ec1', color: '#007ec1' }
+  '&:hover': { border: '3px solid #007ec1', color: '#007ec1' },
 })
 
 /**
  * @param props - Props
  * @internal
  */
-export function AddButton(props: {
-  onClick: () => void
-  children: string
-  title?: string
-}) {
+export function AddButton(props: AddButtonProps) {
   return (
     <AddButtonComponent title={props.title} onMouseDown={props.onClick}>
       <Icon icon={faPlus} /> {props.children}
     </AddButtonComponent>
   )
 }
+/** @internal */
+export interface AddButtonProps {
+  onClick: () => void
+  children: string
+  title?: string
+}
 
 const AnswerContainer = styled.div({
   marginBottom: '10px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 const CheckboxContainer = styled.div({
   width: '10%',
   textAlign: 'center',
   marginRight: '10px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
 })
 
 const RemoveButton = styled.button({
@@ -52,15 +54,15 @@ const RemoveButton = styled.button({
   transform: 'translate(50%, -40%)',
   '&:hover': {
     border: '3px solid #007ec1',
-    color: '#007ec1'
-  }
+    color: '#007ec1',
+  },
 })
 
 const FeedbackField = styled.div({
   paddingLeft: '20px',
   paddingBottom: '10px',
   paddingTop: '10px',
-  marginTop: '5px'
+  marginTop: '5px',
 })
 
 const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
@@ -68,21 +70,21 @@ const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
     border: '2px solid lightgrey',
     [`${RemoveButton}`]: {
       border: '2px solid lightgrey',
-      color: 'lightgrey'
+      color: 'lightgrey',
     },
     [`${FeedbackField}`]: {
-      borderTop: '2px solid lightgrey'
-    }
+      borderTop: '2px solid lightgrey',
+    },
   }
   const focusedBorders = {
     border: '3px solid #007ec1',
     [`${RemoveButton}`]: {
       border: '3px solid #007ec1',
-      color: '#007ec1'
+      color: '#007ec1',
     },
     [`${FeedbackField}`]: {
-      borderTop: '2px solid #007ec1'
-    }
+      borderTop: '2px solid #007ec1',
+    },
   }
 
   return {
@@ -91,7 +93,7 @@ const FramedContainer = styled.div<{ focused: boolean }>(({ focused }) => {
     borderRadius: '10px',
 
     ...(focused ? focusedBorders : defaultBorders),
-    '&:focus-within': focusedBorders
+    '&:focus-within': focusedBorders,
   }
 })
 const AnswerField = styled.div({ paddingLeft: '20px', paddingTop: '10px' })
@@ -110,7 +112,7 @@ const Container = styled.div<{ isRadio: boolean; checked: boolean }>(
       height: '20px',
       display: 'inline-block',
       verticalAlign: 'middle',
-      backgroundColor: checked && !isRadio ? '#007ec1' : 'white'
+      backgroundColor: checked && !isRadio ? '#007ec1' : 'white',
     }
   }
 )
@@ -129,7 +131,7 @@ const Tick = styled.div<{ checked: boolean }>(({ checked }) => {
     borderRight: 'none',
     borderRadius: '2px',
     zIndex: 10,
-    transform: 'rotate(-45deg)'
+    transform: 'rotate(-45deg)',
   }
 })
 
@@ -141,7 +143,7 @@ export class CheckElement extends React.Component<CheckElementProps> {
       <Container
         isRadio={isRadio}
         checked={isActive}
-        onClick={e => {
+        onClick={(e) => {
           handleChange(e)
         }}
       >
@@ -155,17 +157,7 @@ export class CheckElement extends React.Component<CheckElementProps> {
  * @param props - Props
  * @internal
  */
-export function InteractiveAnswer(props: {
-  isRadio?: boolean
-  isActive?: boolean
-  handleChange: () => void
-  answerID?: string
-  feedbackID: string
-  answer: HTMLInputElement | React.ReactNode
-  feedback: React.ReactNode
-  focusedElement?: string
-  remove: () => void
-}) {
+export function InteractiveAnswer(props: InteractiveAnswerProps) {
   return (
     <AnswerContainer>
       <CheckboxContainer>
@@ -191,6 +183,18 @@ export function InteractiveAnswer(props: {
       </FramedContainer>
     </AnswerContainer>
   )
+}
+/** @internal */
+export interface InteractiveAnswerProps {
+  isRadio?: boolean
+  isActive?: boolean
+  handleChange: () => void
+  answerID?: string
+  feedbackID: string
+  answer: HTMLInputElement | React.ReactNode
+  feedback: React.ReactNode
+  focusedElement?: string
+  remove: () => void
 }
 
 /** @internal */

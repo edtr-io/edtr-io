@@ -35,7 +35,7 @@ export interface FileUploadConfig<T> {
 export enum FileErrorCode {
   NO_FILE_SELECTED,
   FILE_TOO_BIG,
-  UPLOAD_FAILED
+  UPLOAD_FAILED,
 }
 
 /** @public */
@@ -54,5 +54,5 @@ export enum FileType {
   Word = 'word',
   PowerPoint = 'powerpoint',
   Excel = 'excel',
-  Other = 'other'
+  Other = 'other',
 }

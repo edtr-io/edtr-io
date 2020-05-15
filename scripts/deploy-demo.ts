@@ -11,9 +11,9 @@ exec({
   secret,
   commit,
   ref: version,
-  removePreviousCommit: false
+  removePreviousCommit: false,
 })
-  .catch(e => {
+  .catch((e) => {
     console.log('Failed', e)
     process.exit(1)
   })
@@ -21,13 +21,13 @@ exec({
     return setCommit({
       secret,
       ref: 'latest',
-      commit
+      commit,
     })
   })
 
 function getCommit() {
   const result = spawnSync('git', ['rev-parse', 'HEAD'], {
-    stdio: 'pipe'
+    stdio: 'pipe',
   })
   return String(result.stdout).trim()
 }

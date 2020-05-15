@@ -5,7 +5,7 @@ import {
   EdtrIcon,
   faCog,
   Icon,
-  styled
+  styled,
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -19,7 +19,7 @@ const Container = styled.div<{
     ...(!noHeight
       ? {
           minHeight: '10px',
-          marginBottom: '25px'
+          marginBottom: '25px',
         }
       : {}),
     position: 'relative',
@@ -31,11 +31,11 @@ const Container = styled.div<{
       ? {
           borderColor: '#333333',
           paddingTop: 0,
-          paddingBottom: 0
+          paddingBottom: 0,
         }
       : {
-          borderColor: 'transparent'
-        })
+          borderColor: 'transparent',
+        }),
   }
 })
 
@@ -56,8 +56,8 @@ const ToolbarContainer = styled.div<{ expanded: boolean }>(({ expanded }) => {
       opacity: 1,
       height: '100%',
       width: '2px',
-      zIndex: 15
-    }
+      zIndex: 15,
+    },
   }
 })
 
@@ -70,23 +70,23 @@ const ToolbarContent = styled.div<{ expanded: boolean }>(({ expanded }) => {
     opacity: expanded ? 1 : 0,
     zIndex: 16,
     position: 'relative',
-    transition: '250ms all ease-in-out'
+    transition: '250ms all ease-in-out',
   }
 })
 
 const Header = styled.div({
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 
 const H4 = styled.h4({
-  marginRight: '25px'
+  marginRight: '25px',
 })
 
 const BorderlessOverlayButton = styled.button({
   border: 'none !important',
   padding: '0 !important',
-  minWidth: '0 !important'
+  minWidth: '0 !important',
 })
 
 /**
@@ -108,7 +108,7 @@ export function createDefaultDocumentEditor(
     toolbarRef,
     hasSettings,
     hasToolbar,
-    PluginToolbar
+    PluginToolbar,
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
 
@@ -117,11 +117,12 @@ export function createDefaultDocumentEditor(
         settings: {
           buttonLabel: 'Settings',
           modalTitle: 'Extended Settings',
-          modalCloseLabel: 'Close'
-        }
+          modalCloseLabel: 'Close',
+        },
       },
       config.i18n || {}
     )
+    const { modalTitle, modalCloseLabel } = i18n.settings
 
     const shouldShowSettings = showSettings()
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
@@ -130,13 +131,13 @@ export function createDefaultDocumentEditor(
             return (
               <React.Fragment>
                 <Header>
-                  <H4>{i18n.settings.modalTitle}</H4>
+                  <H4>{modalTitle}</H4>
                   <BorderlessOverlayButton
                     as={OverlayButton}
                     onClick={() => {
                       close()
                     }}
-                    label={i18n.settings.modalCloseLabel}
+                    label={modalCloseLabel}
                   >
                     <EdtrIcon icon={edtrClose} />
                   </BorderlessOverlayButton>
@@ -148,7 +149,13 @@ export function createDefaultDocumentEditor(
             )
           }
         : undefined
-    }, [OverlayButton, renderSettings, shouldShowSettings])
+    }, [
+      OverlayButton,
+      renderSettings,
+      shouldShowSettings,
+      modalTitle,
+      modalCloseLabel,
+    ])
     const expanded = focused && (showSettings() || showToolbar())
 
     const appended = React.useRef(false)
@@ -163,7 +170,7 @@ export function createDefaultDocumentEditor(
           />
         ) : null}
         <div
-          ref={ref => {
+          ref={(ref) => {
             // The ref `appended` ensures that we only append the content once so that we don't lose focus on every render
             if (ref && toolbarRef.current && !appended.current) {
               appended.current = true
@@ -194,7 +201,7 @@ export function createDefaultDocumentEditor(
           renderSettings(null, {
             close() {
               // noop
-            }
+            },
           }) !== null)
       )
     }

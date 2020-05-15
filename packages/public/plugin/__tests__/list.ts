@@ -4,7 +4,7 @@ import {
   StoreDeserializeHelpers,
   string,
   StateUpdater,
-  StateExecutor
+  StateExecutor,
 } from '../src'
 
 describe('list', () => {
@@ -21,7 +21,7 @@ describe('list', () => {
 
   beforeEach(() => {
     helpers = {
-      createDocument: jest.fn()
+      createDocument: jest.fn(),
     }
     store = []
   })
@@ -55,7 +55,7 @@ describe('list', () => {
     const state = list(child({ plugin: 'counter' }))
     const serialized = [
       { plugin: 'counter', state: 0 },
-      { plugin: 'counter', state: 1 }
+      { plugin: 'counter', state: 1 },
     ]
     const deserialized = state.deserialize(serialized, helpers)
     expect(deserialized).toHaveLength(2)
@@ -73,25 +73,25 @@ describe('list', () => {
     const deserialized = [
       {
         id: 'foo',
-        value: 'foobar'
+        value: 'foobar',
       },
       {
         id: 'bar',
-        value: 'barfoo'
-      }
+        value: 'barfoo',
+      },
     ]
     expect(
       state.serialize(deserialized, {
         getDocument(id: string) {
           return {
             plugin: 'counter',
-            state: id === 'foobar' ? 0 : 1
+            state: id === 'foobar' ? 0 : 1,
           }
-        }
+        },
       })
     ).toEqual([
       { plugin: 'counter', state: 0 },
-      { plugin: 'counter', state: 1 }
+      { plugin: 'counter', state: 1 },
     ])
   })
 
@@ -121,8 +121,8 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
-      }
+        value: 'foo',
+      },
     ]
     const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
@@ -135,8 +135,8 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
-      }
+        value: 'foo',
+      },
     ]
     const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
@@ -149,8 +149,8 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
-      }
+        value: 'foo',
+      },
     ]
     const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
@@ -162,12 +162,12 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
+        value: 'foo',
       },
       {
         id: '1',
-        value: 'bar'
-      }
+        value: 'bar',
+      },
     ]
     const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
@@ -180,16 +180,16 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
+        value: 'foo',
       },
       {
         id: '1',
-        value: 'bar'
-      }
+        value: 'bar',
+      },
     ]
     const state = list(child({ plugin: 'counter' }))
     const listValue = state.init(store, onChange)
-    listValue.set(list => {
+    listValue.set((list) => {
       return [list[0]]
     })
     expect(store).toHaveLength(1)
@@ -199,7 +199,7 @@ describe('list', () => {
   test('get focusable children', () => {
     const state = list(child({ plugin: 'counter' }))
     expect(state.getFocusableChildren([{ id: 'foo', value: 'bar' }])).toEqual([
-      { id: 'bar' }
+      { id: 'bar' },
     ])
   })
 
@@ -207,26 +207,26 @@ describe('list', () => {
     store = [
       {
         id: '0',
-        value: 'foo'
+        value: 'foo',
       },
       {
         id: '1',
-        value: 'bar'
-      }
+        value: 'bar',
+      },
     ]
 
     const state = list(string())
     const listValue = state.init(store, onChange)
-    listValue[0].set(val => val + 'bar')
+    listValue[0].set((val) => val + 'bar')
     expect(store).toEqual([
       {
         id: '0',
-        value: 'foobar'
+        value: 'foobar',
       },
       {
         id: '1',
-        value: 'bar'
-      }
+        value: 'bar',
+      },
     ])
   })
 
@@ -243,13 +243,13 @@ describe('list', () => {
       store = initial(store, helpers)
       if (executor) {
         executor(
-          resolveUpdater => {
+          (resolveUpdater) => {
             store = resolveUpdater(store, helpers)
           },
-          rejectUpdater => {
+          (rejectUpdater) => {
             store = rejectUpdater(store, helpers)
           },
-          nextUpdater => {
+          (nextUpdater) => {
             store = nextUpdater(store, helpers)
           }
         )

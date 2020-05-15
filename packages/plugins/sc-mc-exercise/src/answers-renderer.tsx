@@ -10,7 +10,7 @@ import { calculateLayoutOptions } from './helpers'
 enum Phase {
   noJS = 0,
   optionTesting = 1,
-  finished = 2
+  finished = 2,
 }
 
 export class ScMcAnswersRenderer extends React.Component<
@@ -26,7 +26,7 @@ export class ScMcAnswersRenderer extends React.Component<
   public state = {
     phase: Phase.noJS,
     remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
-    lastOption: [this.props.state.answers.length, 1] as [number, number]
+    lastOption: [this.props.state.answers.length, 1] as [number, number],
   }
   public render() {
     if (this.state.remainingOptions.length === 0) return null
@@ -52,7 +52,7 @@ export class ScMcAnswersRenderer extends React.Component<
             return 1.5 * height <= widths[index]
           })
           const [containerWidth, ...boxWidths] = widths
-          const equalWidths = boxWidths.every(width => {
+          const equalWidths = boxWidths.every((width) => {
             return width === boxWidths[0]
           })
           if (
@@ -62,20 +62,20 @@ export class ScMcAnswersRenderer extends React.Component<
           ) {
             this.setState({ phase: Phase.finished, lastOption: option })
           } else {
-            this.setState(state => {
+            this.setState((state) => {
               const newOptions = state.remainingOptions.slice(1)
               if (newOptions.length > 0) {
                 return { phase: state.phase, remainingOptions: newOptions }
               } else {
                 return {
                   remainingOptions: state.remainingOptions,
-                  phase: Phase.finished
+                  phase: Phase.finished,
                 }
               }
             })
           }
         }}
-        render={createRef => {
+        render={(createRef) => {
           return (
             <div style={{ visibility: 'hidden' }} ref={createRef(0)}>
               {this.renderOption(option, createRef)}
@@ -117,7 +117,7 @@ export class ScMcAnswersRenderer extends React.Component<
   private calculateLayout() {
     this.setState({
       phase: Phase.optionTesting,
-      remainingOptions: calculateLayoutOptions(this.props.state.answers.length)
+      remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
     })
   }
   private onResize = () => {
@@ -136,7 +136,7 @@ export class ScMcAnswersRenderer extends React.Component<
     flexGrow: 1,
     flexBasis: 0,
     flexShrink: 1,
-    margin: '0 15px'
+    margin: '0 15px',
   })
 }
 

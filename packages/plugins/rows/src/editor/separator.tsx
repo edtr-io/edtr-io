@@ -10,7 +10,7 @@ const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
     width: '100%',
     transform: isFirst ? 'translateY(-100%)' : 'translateY(100%)',
     top: isFirst ? 0 : undefined,
-    bottom: isFirst ? undefined : 0
+    bottom: isFirst ? undefined : 0,
   }
 })
 
@@ -35,8 +35,8 @@ const AddTrigger = styled.div<{ focused: boolean; config: RowsPluginConfig }>(
       '&:hover': {
         color: theme.highlightColor,
         opacity: 1,
-        cursor: 'pointer'
-      }
+        cursor: 'pointer',
+      },
     }
   }
 )
@@ -48,12 +48,12 @@ const TriggerArea = styled.div({
   justifyContent: 'center',
 
   '&:hover .add-trigger': {
-    opacity: 0.6
-  }
+    opacity: 0.6,
+  },
 })
 
 const Icon = styled(EdtrIcon)({
-  width: '26px'
+  width: '26px',
 })
 
 export function Add(props: {
@@ -78,7 +78,7 @@ export function Separator({
   config,
   isFirst,
   onClick,
-  focused
+  focused,
 }: {
   config: RowsPluginConfig
   isFirst?: boolean

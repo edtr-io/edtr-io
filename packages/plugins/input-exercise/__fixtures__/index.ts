@@ -5,7 +5,7 @@ import { InputExercisePluginState, createInputExercisePlugin } from '../src'
 
 export const name = 'inputExercise'
 export const plugin = createInputExercisePlugin({
-  feedback: { plugin: 'text' }
+  feedback: { plugin: 'text' },
 })
 
 export const states: Record<
@@ -24,12 +24,12 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'This is correct' }]
-            }
-          ]
-        }
-      }
-    ]
+              children: [{ text: 'This is correct' }],
+            },
+          ],
+        },
+      },
+    ],
   },
   number: {
     type: 'input-number-exact-match-challenge',
@@ -43,12 +43,12 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'This is correct' }]
-            }
-          ]
-        }
-      }
-    ]
+              children: [{ text: 'This is correct' }],
+            },
+          ],
+        },
+      },
+    ],
   },
   expression: {
     type: 'input-expression-equal-match-challenge',
@@ -62,11 +62,11 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'This is correct' }]
-            }
-          ]
-        }
-      }
-    ]
-  }
+              children: [{ text: 'This is correct' }],
+            },
+          ],
+        },
+      },
+    ],
+  },
 }

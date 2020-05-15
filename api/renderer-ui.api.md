@@ -4,7 +4,7 @@
 
 ```ts
 
-import * as React from 'react';
+import * as React_2 from 'react';
 import { styled } from '@edtr-io/ui';
 
 // @internal (undocumented)
@@ -18,22 +18,29 @@ export enum ExerciseState {
 }
 
 // @public (undocumented)
-export function ExpandableBox({ children, editable, alwaysVisible, renderTitle }: {
-    children?: React.ReactNode;
-    editable?: boolean;
+export function ExpandableBox(props: ExpandableBoxProps): JSX.Element;
+
+// @public (undocumented)
+export interface ExpandableBoxProps {
+    // (undocumented)
     alwaysVisible?: boolean;
-    renderTitle: (collapsed: boolean) => React.ReactNode;
-}): JSX.Element;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    editable?: boolean;
+    // (undocumented)
+    renderTitle: (collapsed: boolean) => React_2.ReactNode;
+}
 
 // @internal (undocumented)
-export function Feedback({ boxFree, children, isTrueAnswer, showOnLeft }: FeedbackProps): JSX.Element;
+export function Feedback(props: FeedbackProps): JSX.Element;
 
 // @internal (undocumented)
 export interface FeedbackProps {
     // (undocumented)
     boxFree?: boolean;
     // (undocumented)
-    children?: React.ReactNode;
+    children?: React_2.ReactNode;
     // (undocumented)
     isTrueAnswer?: boolean;
     // (undocumented)
@@ -43,7 +50,7 @@ export interface FeedbackProps {
 export { styled }
 
 // @internal (undocumented)
-export class SubmitButton extends React.Component<{
+export class SubmitButton extends React_2.Component<{
     exerciseState: ExerciseState;
     onClick?: () => void;
 }> {

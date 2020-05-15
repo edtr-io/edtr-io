@@ -1,13 +1,12 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   FontAwesomeIcon,
-  FontAwesomeIconProps
+  FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome'
 import * as R from 'ramda'
 import * as React from 'react'
 import styled from 'styled-components'
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Font Awesome Icon component
  *
@@ -35,7 +34,7 @@ export function Icon(props: FontAwesomeIconProps) {
       'symbol',
       'style',
       'tabIndex',
-      'title'
+      'title',
     ],
     props
   )
@@ -111,7 +110,7 @@ export function createIcon(i: IconDefinition): React.ComponentType<{}> {
 const EdtrSVG = styled.svg({
   display: 'inline-block',
   verticalAlign: 'middle',
-  overflow: 'hidden'
+  overflow: 'hidden',
 })
 
 /**
@@ -121,7 +120,7 @@ const EdtrSVG = styled.svg({
  * @returns The icon
  * @public
  */
-export function EdtrIcon(props: { icon: string; className?: string }) {
+export function EdtrIcon(props: EdtrIconProps) {
   return (
     <EdtrSVG
       width="24"
@@ -132,6 +131,12 @@ export function EdtrIcon(props: { icon: string; className?: string }) {
       <path fill="currentcolor" d={props.icon} />
     </EdtrSVG>
   )
+}
+
+/** @public */
+export interface EdtrIconProps {
+  icon: string
+  className?: string
 }
 
 /** @public */

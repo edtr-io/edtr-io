@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Blockquote',
   plugin: name,
-  states: states
+  states: states,
 })

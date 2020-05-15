@@ -9,7 +9,7 @@ import {
   number,
   NumberStateType,
   object,
-  ObjectStateType
+  ObjectStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -39,19 +39,19 @@ export function createMultimediaExplanationPlugin(
             label: 'How important is the multimedia content?',
             values: {
               illustrating: 'It is an illustrating',
-              explaining: 'It is essential'
-            }
-          }
+              explaining: 'It is essential',
+            },
+          },
         },
         i18n
-      )
+      ),
     },
     state: object({
       explanation: child(explanation),
       multimedia: child({ plugin: plugins[0].name }),
       illustrating: boolean(true),
-      width: number(50) // percent
-    })
+      width: number(50), // percent
+    }),
   }
 }
 

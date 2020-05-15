@@ -6,7 +6,7 @@ import { ScMcExercisePluginState, createScMcExercisePlugin } from '../src'
 export const name = 'scMcExercise'
 export const plugin = createScMcExercisePlugin({
   content: { plugin: 'text' },
-  feedback: { plugin: 'text' }
+  feedback: { plugin: 'text' },
 })
 
 export const states: Record<
@@ -23,19 +23,19 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'correct' }]
-            }
-          ]
+              children: [{ text: 'correct' }],
+            },
+          ],
         },
         feedback: {
           plugin: textPlugin,
           state: [
             {
               type: 'p',
-              children: [{ text: 'correct feedback' }]
-            }
-          ]
-        }
+              children: [{ text: 'correct feedback' }],
+            },
+          ],
+        },
       },
       {
         isCorrect: false,
@@ -44,21 +44,21 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'wrong' }]
-            }
-          ]
+              children: [{ text: 'wrong' }],
+            },
+          ],
         },
         feedback: {
           plugin: textPlugin,
           state: [
             {
               type: 'p',
-              children: [{ text: 'wrong feedback' }]
-            }
-          ]
-        }
-      }
-    ]
+              children: [{ text: 'wrong feedback' }],
+            },
+          ],
+        },
+      },
+    ],
   },
   multipleChoice: {
     isSingleChoice: false,
@@ -70,19 +70,19 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'first correct' }]
-            }
-          ]
+              children: [{ text: 'first correct' }],
+            },
+          ],
         },
         feedback: {
           plugin: textPlugin,
           state: [
             {
               type: 'p',
-              children: [{ text: 'correct feedback' }]
-            }
-          ]
-        }
+              children: [{ text: 'correct feedback' }],
+            },
+          ],
+        },
       },
       {
         isCorrect: true,
@@ -91,19 +91,19 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'second correct' }]
-            }
-          ]
+              children: [{ text: 'second correct' }],
+            },
+          ],
         },
         feedback: {
           plugin: textPlugin,
           state: [
             {
               type: 'p',
-              children: [{ text: '' }]
-            }
-          ]
-        }
+              children: [{ text: '' }],
+            },
+          ],
+        },
       },
       {
         isCorrect: false,
@@ -112,20 +112,20 @@ export const states: Record<
           state: [
             {
               type: 'p',
-              children: [{ text: 'wrong' }]
-            }
-          ]
+              children: [{ text: 'wrong' }],
+            },
+          ],
         },
         feedback: {
           plugin: textPlugin,
           state: [
             {
               type: 'p',
-              children: [{ text: 'wrong feedback' }]
-            }
-          ]
-        }
-      }
-    ]
-  }
+              children: [{ text: 'wrong feedback' }],
+            },
+          ],
+        },
+      },
+    ],
+  },
 }

@@ -2,7 +2,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -23,11 +23,11 @@ export function createTablePlugin(
     config: {
       i18n: {
         placeholder: 'Enter the table using Markdown syntax',
-        ...i18n
+        ...i18n,
       },
-      MarkdownRenderer
+      MarkdownRenderer,
     },
-    state: string()
+    state: string(),
   }
 
   function DefaultMarkdownRenderer({ markdown }: { markdown: string }) {

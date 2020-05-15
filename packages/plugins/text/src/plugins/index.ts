@@ -16,7 +16,7 @@ export function createPlugins(
     math: true,
     headings: true,
     lists: true,
-    colors: true
+    colors: true,
   }
 ): TextPluginConfig['plugins'] {
   return [
@@ -29,6 +29,6 @@ export function createPlugins(
     ...(plugins.lists ? [createListPlugin()] : []),
     ...(plugins.colors ? [createColorPlugin()] : []),
     markdownShortcuts,
-    autoLink
+    autoLink,
   ]
 }

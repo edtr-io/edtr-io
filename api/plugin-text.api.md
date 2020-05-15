@@ -12,8 +12,8 @@ import { EditorPluginProps } from '@edtr-io/plugin';
 import { EditorProps } from 'slate-react';
 import { InlineJSON } from 'slate';
 import { MarkJSON } from 'slate';
-import { Plugin } from 'slate-react';
-import * as React from 'react';
+import { Plugin as Plugin_2 } from 'slate-react';
+import * as React_2 from 'react';
 import { RenderBlockProps } from 'slate-react';
 import { RenderInlineProps } from 'slate-react';
 import { RenderMarkProps } from 'slate-react';
@@ -330,7 +330,7 @@ export interface SlateClosure {
 }
 
 // @public (undocumented)
-export type SlatePluginClosure = React.RefObject<SlateClosure>;
+export type SlatePluginClosure = React_2.RefObject<SlateClosure>;
 
 // @internal (undocumented)
 export function slateValueToHtml(value: Value): string;
@@ -358,7 +358,7 @@ export interface TextConfig {
 }
 
 // @public (undocumented)
-export type TextPlugin = Plugin & Rule & {
+export type TextPlugin = Plugin_2 & Rule & {
     commands?: {
         [key: string]: (editor: Editor, ...args: any[]) => Editor;
     };
@@ -404,9 +404,9 @@ export interface TextPluginConfig {
                 latex: string;
                 noVisualEditorAvailableMessage: string;
             };
-            helpText(KeySpan: React.ComponentType<{
-                children: React.ReactNode;
-            }>): React.ReactNode;
+            helpText(KeySpan: React_2.ComponentType<{
+                children: React_2.ReactNode;
+            }>): React_2.ReactNode;
         };
         richText: {
             toggleStrongTitle: string;

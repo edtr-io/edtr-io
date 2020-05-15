@@ -6,7 +6,7 @@ import * as video from '@edtr-io/plugin-video/__fixtures__'
 
 import {
   MultimediaExplanationPluginState,
-  createMultimediaExplanationPlugin
+  createMultimediaExplanationPlugin,
 } from '../src'
 
 export const name = 'multimediaExplanation'
@@ -15,17 +15,17 @@ export const plugin = createMultimediaExplanationPlugin({
   plugins: [
     {
       name: image.name,
-      title: 'Image'
+      title: 'Image',
     },
     {
       name: video.name,
-      title: 'Video'
+      title: 'Video',
     },
     {
       name: geogebra.name,
-      title: 'GeoGebra'
-    }
-  ]
+      title: 'GeoGebra',
+    },
+  ],
 })
 
 export const states: Record<
@@ -36,18 +36,18 @@ export const states: Record<
     explanation: { plugin: rows.name, state: rows.states.simple },
     multimedia: {
       plugin: image.name,
-      state: image.states.simple
+      state: image.states.simple,
     },
     illustrating: true,
-    width: 50
+    width: 50,
   },
   explaining: {
     explanation: { plugin: rows.name, state: rows.states.simple },
     multimedia: {
       plugin: image.name,
-      state: image.states.simple
+      state: image.states.simple,
     },
     illustrating: false,
-    width: 50
-  }
+    width: 50,
+  },
 }

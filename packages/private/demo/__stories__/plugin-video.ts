@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Video',
   plugin: name,
-  states: states
+  states: states,
 })

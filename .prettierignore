@@ -1,1 +1,12 @@
+# API Extractor
+.api-extractor/
+api/
+
+# Transpiled code
+packages/*/*/api/
+packages/*/*/dist/
+packages/*/*/beta/
+packages/*/*/internal/
+
+# Lerna config
 lerna.json

@@ -35,5 +35,5 @@ export const plugins: Record<
   spoiler: spoilerPlugin,
   table: tablePlugin,
   text: textPlugin,
-  video: videoPlugin
+  video: videoPlugin,
 }

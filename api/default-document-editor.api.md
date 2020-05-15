@@ -6,10 +6,10 @@
 
 import { DeepPartial } from '@edtr-io/ui';
 import { DocumentEditorProps } from '@edtr-io/document-editor/beta';
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @beta
-export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig): React.ComponentType<DocumentEditorProps>;
+export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig): React_2.ComponentType<DocumentEditorProps>;
 
 // @beta (undocumented)
 export interface DefaultDocumentEditorConfig {

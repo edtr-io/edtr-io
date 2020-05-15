@@ -9,5 +9,5 @@ export const states: Record<
   string,
   StateTypeSerializedType<SerloInjectionPluginState>
 > = {
-  simple: '54210'
+  simple: '54210',
 }

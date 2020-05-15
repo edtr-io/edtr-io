@@ -2,7 +2,7 @@ import { IgnoreKeys } from '@edtr-io/core'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import TextareaAutosize, {
-  TextareaAutosizeProps
+  TextareaAutosizeProps,
 } from 'react-textarea-autosize'
 
 const Textarea = styled(TextareaAutosize)({
@@ -16,12 +16,12 @@ const Textarea = styled(TextareaAutosize)({
   outline: 'none',
   boxShadow: '0 1px 1px 0 rgba(0,0,0,0.50)',
   '&::-webkit-input-placeholder': {
-    color: 'rgba(0,0,0,0.5)'
-  }
+    color: 'rgba(0,0,0,0.5)',
+  },
 })
 
 const StyledIgnoreKeys = styled(IgnoreKeys)({
-  width: '100%'
+  width: '100%',
 })
 
 /** @public */
@@ -34,7 +34,7 @@ export const EditorTextarea = React.forwardRef<
       <Textarea
         {...props}
         inputRef={ref || undefined}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
             return
           }

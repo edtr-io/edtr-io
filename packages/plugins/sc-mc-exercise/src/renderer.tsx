@@ -17,7 +17,7 @@ export function ScMcExerciseRenderer(props: ScMcRendererProps) {
       nextButtonStateAfterSubmit={({ button, answer }) => {
         return {
           selected: button.selected && answer.isCorrect.value,
-          showFeedback: button.selected
+          showFeedback: button.selected,
         }
       }}
       showFeedback

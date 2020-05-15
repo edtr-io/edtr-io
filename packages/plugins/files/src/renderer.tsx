@@ -10,7 +10,7 @@ import {
   faFileVideo,
   faFileWord,
   Icon,
-  styled
+  styled,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -21,16 +21,16 @@ const Download = styled.a<{ tmp?: boolean; failed?: boolean }>({
   display: 'inline-block',
   textDecoration: 'none',
   color: 'inherit',
-  margin: '10px'
+  margin: '10px',
 })
 const File = styled.div({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 const Filename = styled.span({
-  color: 'rgb(51,51,51)'
+  color: 'rgb(51,51,51)',
 })
 
 export function FilesRenderer(props: FilesProps) {

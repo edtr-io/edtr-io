@@ -57,7 +57,7 @@ import { faToolbox } from '@fortawesome/free-solid-svg-icons/faToolbox';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import * as React from 'react';
+import * as React_2 from 'react';
 import * as StyledComponents from 'styled-components';
 import { ThemeProps as ThemeProps_2 } from 'styled-components';
 
@@ -68,7 +68,7 @@ export function createEditorUiTheme<K extends keyof EditorUiTheme>(key: K, creat
 }) => EditorUiTheme[K];
 
 // @public
-export function createIcon(i: IconDefinition): React.ComponentType<{}>;
+export function createIcon(i: IconDefinition): React_2.ComponentType<{}>;
 
 // @public
 export function createRendererUiTheme<K extends keyof RendererUiTheme>(key: K, createDefaultTheme: RendererUiThemeFactory<K>): (theme: {
@@ -79,7 +79,7 @@ export function createRendererUiTheme<K extends keyof RendererUiTheme>(key: K, c
 // @public
 export type CustomTheme = DeepPartial<Theme>;
 
-// @public (undocumented)
+// @public
 export type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[] ? DeepPartial<U>[] : T[P] extends readonly (infer U)[] ? readonly DeepPartial<U>[] : T[P] extends Function ? T[P] : DeepPartial<T[P]>;
 };
@@ -201,10 +201,15 @@ export const edtrFill = "M16.56 8.94L8.32.7C7.93.31 7.3.31 6.91.7c-.39.39-.39 1.
 export const edtrFormula = "M9.796061,6.84358189 L9.546061,9.73358189 L11.366061,9.73358189 C11.9183457,9.73358189 12.366061,10.1812971 12.366061,10.7335819 L12.366061,10.7335819 C12.366061,11.2858666 11.9183457,11.7335819 11.366061,11.7335819 L9.366061,11.7335819 L8.926061,16.8035819 C8.726061,19.0035819 6.786061,20.6335819 4.586061,20.4335819 C3.95133688,20.3777262 3.21218763,20.0027937 2.36861326,19.3087844 L2.3686112,19.3087869 C1.93754177,18.9541458 1.8755844,18.3172015 2.23022554,17.8861321 C2.25098506,17.8608987 2.27295601,17.8366869 2.296061,17.8135819 L2.296061,17.8135819 C2.68943711,17.4202058 3.31879167,17.3943638 3.74309403,17.7541652 C4.42335978,18.3310001 5.0243456,18.5341427 5.546061,18.3635819 C6.326061,18.1235819 6.876061,17.4335819 6.946061,16.6235819 L7.366061,11.7335819 L5.366061,11.7335819 C4.81377625,11.7335819 4.366061,11.2858666 4.366061,10.7335819 L4.366061,10.7335819 C4.366061,10.1812971 4.81377625,9.73358189 5.366061,9.73358189 L7.546061,9.73358189 L7.816061,6.66358189 C8.006061,4.46358189 9.936061,2.83358189 12.146061,3.01358189 C12.7876823,3.06959645 13.5343235,3.45039469 14.3859845,4.15597662 L14.3859731,4.15599041 C14.8171452,4.51320676 14.8770982,5.1523219 14.5198819,5.58349402 C14.4997127,5.60783893 14.4784158,5.63122712 14.456061,5.65358189 L14.456061,5.65358189 C14.077745,6.03189793 13.4644763,6.03223098 13.0857495,5.65432608 C12.6951429,5.26458609 12.3219165,5.05433484 11.966061,5.02358189 C10.866061,4.92358189 9.896061,5.73358189 9.796061,6.84358189 Z M20.841061,12.6785819 L20.841061,12.6785819 C20.4517003,12.2892211 19.8204217,12.2892211 19.431061,12.6785819 L17.306061,14.8035819 L15.1860786,12.6835995 C14.7931405,12.2906614 14.1567565,12.2884206 13.761061,12.6785819 L13.761061,12.6785819 C13.3689485,13.0652103 13.3645027,13.6965046 13.7511312,14.0886171 C13.7527745,14.0902837 13.7544236,14.0919445 13.7560786,14.0935995 L15.896061,16.2335819 L13.7610785,18.3385997 C13.3717179,18.7224956 13.3672879,19.3493438 13.7511838,19.7387045 C13.7544529,19.7420201 13.7577454,19.7453127 13.761061,19.7485819 L13.761061,19.7485819 C14.1567565,20.1387432 14.7931405,20.1365024 15.1860786,19.7435643 L17.306061,17.6235819 L19.431061,19.7485819 C19.8204217,20.1379426 20.4517003,20.1379426 20.841061,19.7485819 L20.841061,19.7485819 C21.2290435,19.3605994 21.2290435,18.7315555 20.841061,18.343573 C20.8402306,18.3427426 20.8393988,18.3419137 20.8385654,18.3410863 L18.716061,16.2335819 L20.8435477,14.0910599 C21.2319346,13.6999283 21.2308227,13.0683435 20.841061,12.6785819 Z";
 
 // @public
-export function EdtrIcon(props: {
-    icon: string;
+export function EdtrIcon(props: EdtrIconProps): JSX.Element;
+
+// @public (undocumented)
+export interface EdtrIconProps {
+    // (undocumented)
     className?: string;
-}): JSX.Element;
+    // (undocumented)
+    icon: string;
+}
 
 // @public (undocumented)
 export const edtrItalic = "M10 5.5c0 .83.67 1.5 1.5 1.5h.71l-3.42 8H7.5c-.83 0-1.5.67-1.5 1.5S6.67 18 7.5 18h5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-.71l3.42-8h1.29c.83 0 1.5-.67 1.5-1.5S17.33 4 16.5 4h-5c-.83 0-1.5.67-1.5 1.5z";
@@ -335,6 +340,17 @@ export { faTrashAlt }
 // @public
 export function Icon(props: FontAwesomeIconProps): JSX.Element;
 
+// @public
+export function merge<T extends object>(payload: MergePayload<T>): T;
+
+// @public (undocumented)
+export interface MergePayload<T> {
+    // (undocumented)
+    fallback: T;
+    // (undocumented)
+    values: DeepPartial<T>;
+}
+
 // @public (undocumented)
 export interface RendererTheme {
     // (undocumented)
@@ -419,7 +435,7 @@ export interface Theme {
 }
 
 // @public
-export const ThemeContext: React.Context<Theme>;
+export const ThemeContext: React_2.Context<Theme>;
 
 // @public
 export type ThemeProps = StyledComponents.ThemeProps<Theme>;

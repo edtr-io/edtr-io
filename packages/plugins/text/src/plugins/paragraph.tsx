@@ -22,7 +22,7 @@ class DefaultEditorComponent extends React.Component<BlockEditorProps> {
 }
 
 export const createParagraphPlugin = ({
-  EditorComponent = DefaultEditorComponent
+  EditorComponent = DefaultEditorComponent,
 }: ParagraphPluginOptions = {}) => (): TextPlugin => {
   return {
     renderBlock(props, _editor, next) {
@@ -33,6 +33,6 @@ export const createParagraphPlugin = ({
       }
 
       return next()
-    }
+    },
   }
 }

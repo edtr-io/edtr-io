@@ -11,7 +11,7 @@ export function HighlightRenderer(props: HighlightRendererProps) {
       showLineNumbers={props.showLineNumbers}
       style={style}
       customStyle={{
-        overflow: 'auto'
+        overflow: 'auto',
       }}
     >
       {props.code || props.config.i18n.code.label}

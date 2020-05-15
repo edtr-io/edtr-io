@@ -1,7 +1,7 @@
 import {
   StateType,
   StateTypeReturnType,
-  StateTypeSerializedType
+  StateTypeSerializedType,
 } from '@edtr-io/internal__plugin-state'
 import { Theme } from '@edtr-io/ui'
 import * as React from 'react'
@@ -73,7 +73,7 @@ export interface EditorPlugin<
     state: StateTypeReturnType<S>,
     {
       previousSibling,
-      document
+      document,
     }: {
       previousSibling?: string
       document?: { plugin: string; state?: unknown }

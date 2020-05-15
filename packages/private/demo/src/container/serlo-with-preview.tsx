@@ -21,7 +21,7 @@ export function SerloWithPreviewEditorContainer(props: EditorProps) {
           height: '100vh',
           borderLeft: '4px solid black',
           backgroundColor: '#eee',
-          zIndex: 999
+          zIndex: 999,
         }}
       >
         <div>
@@ -30,7 +30,7 @@ export function SerloWithPreviewEditorContainer(props: EditorProps) {
               width: '850px',
               transformOrigin: 'left top 0px',
               transform: 'scale(0.22)',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}
           >
             <Document {...props} scope={scope} mirror />

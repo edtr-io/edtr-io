@@ -13,7 +13,7 @@ import {
   isFocused,
   redo,
   removeChild,
-  undo
+  undo,
 } from '@edtr-io/store'
 import { styled, useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -26,7 +26,7 @@ import { DocumentEditorContext, PluginToolbarContext } from '../contexts'
 import { useScopedSelector, useScopedStore } from '../store'
 
 const StyledDocument = styled.div({
-  outline: 'none'
+  outline: 'none',
 })
 
 const hotKeysKeyMap = {
@@ -35,7 +35,7 @@ const hotKeysKeyMap = {
   INSERT_DEFAULT_PLUGIN: 'enter',
   DELETE_EMPTY: ['backspace', 'del'],
   UNDO: ['ctrl+z', 'command+z'],
-  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
+  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z'],
 }
 type HotKeysHandlers = {
   [K in keyof typeof hotKeysKeyMap]: (keyEvent?: KeyboardEvent) => void
@@ -47,7 +47,7 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
   const document = useScopedSelector(getDocument(id))
   const focused = useScopedSelector(isFocused(id))
   const plugin = useScopedSelector(
-    state => document && getPlugin(document.plugin)(state)
+    (state) => document && getPlugin(document.plugin)(state)
   )
   const store = useScopedStore()
 
@@ -90,29 +90,29 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
 
   const hotKeysHandlers = React.useMemo((): HotKeysHandlers => {
     return {
-      FOCUS_PREVIOUS: e => {
+      FOCUS_PREVIOUS: (e) => {
         handleKeyDown(e, () => {
           store.dispatch(focusPrevious())
         })
       },
-      FOCUS_NEXT: e => {
+      FOCUS_NEXT: (e) => {
         handleKeyDown(e, () => {
           store.dispatch(focusNext())
         })
       },
-      INSERT_DEFAULT_PLUGIN: e => {
+      INSERT_DEFAULT_PLUGIN: (e) => {
         handleKeyDown(e, () => {
           const parent = getParent(id)(store.getState())
           if (!parent) return
           store.dispatch(
             insertChildAfter({
               parent: parent.id,
-              sibling: id
+              sibling: id,
             })
           )
         })
       },
-      DELETE_EMPTY: e => {
+      DELETE_EMPTY: (e) => {
         if (isEmpty(id)(store.getState())) {
           handleKeyDown(e, () => {
             if (!e) return
@@ -136,7 +136,7 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
       },
       REDO: () => {
         store.dispatch(redo())
-      }
+      },
     }
 
     function handleKeyDown(e: KeyboardEvent | undefined, next: () => void) {
@@ -212,8 +212,8 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
           id,
           state: {
             initial,
-            executor
-          }
+            executor,
+          },
         })
       )
     }
@@ -265,14 +265,14 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
     renderIntoToolbar,
     id,
     hotKeysHandlers,
-    store
+    store,
   ])
 }
 
 function RenderIntoSettings({
   children,
   setHasSettings,
-  settingsRef
+  settingsRef,
 }: {
   children: React.ReactNode
   setHasSettings: (value: boolean) => void

@@ -8,7 +8,7 @@ export async function exec({
   secret,
   commit,
   ref: rawRef,
-  removePreviousCommit
+  removePreviousCommit,
 }: Partial<Payload> & { removePreviousCommit: boolean }) {
   if (!secret) throw new Error('secret not set')
   if (!commit) return
@@ -21,7 +21,7 @@ export async function exec({
   await setCommit({
     ref,
     commit,
-    secret
+    secret,
   })
   console.log(`Storybook published: https://storybook.edtr.io/${ref}/`)
 
@@ -35,13 +35,13 @@ export async function exec({
       return
     }
     spawnSync('gsutil', ['-m', 'cp', '-r', path.join(source, '*'), dest], {
-      stdio: 'inherit'
+      stdio: 'inherit',
     })
   }
 
   function remove(commit: string) {
     spawnSync('gsutil', ['rm', '-r', `${bucket}/${commit}/`], {
-      stdio: 'inherit'
+      stdio: 'inherit',
     })
   }
 }
@@ -52,8 +52,8 @@ export function getCommit({ secret, ref }: Pick<Payload, 'secret' | 'ref'>) {
       `https://api.cloudflare.com/client/v4/accounts/0e24f0f2e24dfe914ff15504899b0156/storage/kv/namespaces/f2d4ac58853245febc094ea6005a92e0/values/${ref}`,
       {
         headers: {
-          Authorization: `Bearer ${secret}`
-        }
+          Authorization: `Bearer ${secret}`,
+        },
       },
       (error, res) => {
         if (error) return reject(error)
@@ -70,11 +70,11 @@ export function setCommit({ secret, commit, ref }: Payload) {
       `https://api.cloudflare.com/client/v4/accounts/0e24f0f2e24dfe914ff15504899b0156/storage/kv/namespaces/f2d4ac58853245febc094ea6005a92e0/values/${ref}`,
       {
         headers: {
-          Authorization: `Bearer ${secret}`
+          Authorization: `Bearer ${secret}`,
         },
-        body: commit
+        body: commit,
       },
-      error => {
+      (error) => {
         if (error) return reject(error)
         return resolve()
       }

@@ -7,7 +7,7 @@ import {
   orderedListNode,
   unorderedListNode,
   listItemNode,
-  listItemChildNode
+  listItemChildNode,
 } from '../model'
 
 type ListType = typeof orderedListNode | typeof unorderedListNode
@@ -34,7 +34,7 @@ export const createListPlugin = () => () =>
       unordered_list: unorderedListNode,
       list_item: listItemNode,
       list_item_child: listItemChildNode,
-      default: defaultNode
-    }
+      default: defaultNode,
+    },
   })
 /* eslint-enable @typescript-eslint/camelcase */

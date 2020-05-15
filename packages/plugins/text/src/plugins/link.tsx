@@ -9,7 +9,7 @@ import {
   NodeControlsProps,
   InlineEditorProps,
   InlineRendererProps,
-  TextPlugin
+  TextPlugin,
 } from '..'
 import { trimSelection } from '../helpers'
 import { I18nContext } from '../i18n-context'
@@ -20,7 +20,7 @@ import { InlineSettings } from './inline-settings'
 const OpenInNewTab = styled.span({ margin: '0 0 0 10px' })
 
 export const isLink = (editor: Editor) => {
-  return editor.value.inlines.some(inline =>
+  return editor.value.inlines.some((inline) =>
     inline ? inline.type === linkNode : false
   )
 }
@@ -37,7 +37,7 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
     return editor
       .wrapInline({
         type: linkNode,
-        data
+        data,
       })
       .moveToEnd()
       .focus()
@@ -50,7 +50,7 @@ export const wrapLink = (data: { href: string } = { href: '' }) => (
     .moveFocusBackward(1)
     .wrapInline({
       type: linkNode,
-      data
+      data,
     })
     .moveToStart()
 }
@@ -61,7 +61,9 @@ export interface LinkPluginOptions {
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
-const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props => {
+const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = (
+  props
+) => {
   const { attributes, children, node, isSelected } = props
   const href = node.data.get('href')
 
@@ -72,7 +74,7 @@ const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props
       style={
         isSelected
           ? {
-              textDecoration: 'underline'
+              textDecoration: 'underline',
             }
           : undefined
       }
@@ -82,7 +84,9 @@ const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = props
   )
 }
 
-const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = props => {
+const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
+  props
+) => {
   const i18n = React.useContext(I18nContext)
   const { editor } = props
   const inline = editor.value.inlines.find(nodeIsLink)
@@ -114,8 +118,8 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
     editor.setNodeByKey(inline.key, {
       type: inline.type,
       data: {
-        href
-      }
+        href,
+      },
     })
   }
 
@@ -137,19 +141,19 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
           <InlineInput
             value={value}
             placeholder={i18n.link.placeholder}
-            onChange={event => {
+            onChange={(event) => {
               const newValue = event.target.value
               setValue(newValue)
               handleHrefChange(newValue, inline, editor)
             }}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 event.preventDefault()
                 handleHrefChange(value, inline, editor)
                 editor.focus()
               }
             }}
-            onBlur={event => {
+            onBlur={(event) => {
               const value = event.target.value
               if (new RegExp('^([_\\-a-zA-Z0-9.]+\\.[\\w]{2,})').test(value)) {
                 setValue(`https://${value}`)
@@ -181,7 +185,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = pro
 
 export const createLinkPlugin = ({
   EditorComponent = DefaultEditorComponent,
-  ControlsComponent = DefaultControlsComponent
+  ControlsComponent = DefaultControlsComponent,
 }: LinkPluginOptions = {}) => (): TextPlugin => {
   return {
     onKeyDown(event, editor, next) {
@@ -213,6 +217,6 @@ export const createLinkPlugin = ({
           {children}
         </ControlsComponent>
       )
-    }
+    },
   }
 }

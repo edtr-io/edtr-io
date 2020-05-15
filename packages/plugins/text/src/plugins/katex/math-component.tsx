@@ -22,7 +22,7 @@ export const Math = (props: MathProps) => {
 
   const html = KaTeX.renderToString(formula, {
     displayMode: false,
-    throwOnError: false
+    throwOnError: false,
   })
 
   if (inline) {

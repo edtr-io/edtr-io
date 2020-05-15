@@ -2,7 +2,7 @@ import { useScopedSelector, useScopedStore } from '@edtr-io/core'
 import {
   AddButton,
   InteractiveAnswer,
-  PreviewOverlay
+  PreviewOverlay,
 } from '@edtr-io/editor-ui/internal'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -17,13 +17,13 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
 
   const { editable, focused, state } = props
   const children = R.flatten(
-    props.state.answers.map(answer => {
+    props.state.answers.map((answer) => {
       return [answer.content.id, answer.feedback.id]
     })
   )
   const handleCheckboxChange = (index: number) => () => {
     const { state } = props
-    state.answers[index].isCorrect.set(currentVal => !currentVal)
+    state.answers[index].isCorrect.set((currentVal) => !currentVal)
   }
 
   const handleRadioButtonChange = (rightanswerIndex: number) => () => {
@@ -38,7 +38,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
 
     state.isSingleChoice.set(event.target.value === 'sc')
     state.isSingleChoice.value &&
-      state.answers.forEach(answer => {
+      state.answers.forEach((answer) => {
         answer.isCorrect.set(false)
       })
   }

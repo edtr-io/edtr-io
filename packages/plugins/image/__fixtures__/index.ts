@@ -1,7 +1,7 @@
 import {
   LoadedFile,
   StateTypeSerializedType,
-  UploadValidator
+  UploadValidator,
 } from '@edtr-io/plugin'
 
 import { ImagePluginState, createImagePlugin } from '../src'
@@ -16,7 +16,7 @@ enum FileErrorCode {
   NO_FILE_SELECTED,
   BAD_EXTENSION,
   FILE_TOO_BIG,
-  UPLOAD_FAILED
+  UPLOAD_FAILED,
 }
 
 interface FileError {
@@ -30,13 +30,13 @@ function matchesAllowedExtensions(fileName: string) {
 }
 
 function handleErrors(errors: FileErrorCode[]): FileError[] {
-  return errors.map(error => ({
+  return errors.map((error) => ({
     errorCode: error,
-    message: errorCodeToMessage(error)
+    message: errorCodeToMessage(error),
   }))
 }
 function onError(errors: FileError[]): void {
-  alert(errors.map(error => error.message).join('\n'))
+  alert(errors.map((error) => error.message).join('\n'))
 }
 
 function errorCodeToMessage(error: FileErrorCode) {
@@ -54,7 +54,7 @@ function errorCodeToMessage(error: FileErrorCode) {
   }
 }
 
-export const validateFile: UploadValidator<FileError[]> = file => {
+export const validateFile: UploadValidator<FileError[]> = (file) => {
   let uploadErrors: FileErrorCode[] = []
 
   if (!file) {
@@ -65,13 +65,13 @@ export const validateFile: UploadValidator<FileError[]> = file => {
     uploadErrors = [...uploadErrors, FileErrorCode.FILE_TOO_BIG]
   } else {
     return {
-      valid: true
+      valid: true,
     }
   }
 
   return {
     valid: false,
-    errors: handleErrors(uploadErrors)
+    errors: handleErrors(uploadErrors),
   }
 }
 
@@ -82,16 +82,16 @@ function mockUploadImageHandler(file: File): Promise<string> {
     return Promise.reject(validation.errors)
   }
 
-  return readFile(file).then(loaded => {
+  return readFile(file).then((loaded) => {
     return loaded.dataUrl
   })
 }
 
 function readFile(file: File): Promise<LoadedFile> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const reader = new FileReader()
 
-    reader.onload = function(e: ProgressEvent) {
+    reader.onload = function (e: ProgressEvent) {
       if (!e.target) return
       const { result } = (e.target as unknown) as { result: string }
       const dataUrl = result
@@ -105,7 +105,7 @@ function readFile(file: File): Promise<LoadedFile> {
 export const plugin = createImagePlugin({
   upload: mockUploadImageHandler,
   validate: validateFile,
-  secondInput: 'description'
+  secondInput: 'description',
 })
 
 export const states: Record<
@@ -117,6 +117,6 @@ export const states: Record<
       'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
     link: undefined,
     alt: 'Edtr.io Logo',
-    maxWidth: undefined
-  }
+    maxWidth: undefined,
+  },
 }

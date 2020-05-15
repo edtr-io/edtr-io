@@ -5,14 +5,14 @@ import {
   serializedScalar,
   string,
   Serializer,
-  StateUpdater
+  StateUpdater,
 } from '../src'
 
 const deserializeHelpers = {
-  createDocument: () => {}
+  createDocument: () => {},
 }
 const serializeHelpers = {
-  getDocument: () => null
+  getDocument: () => null,
 }
 
 describe('scalar', () => {
@@ -42,7 +42,7 @@ describe('serialized scalar', () => {
     },
     serialize(deserialized) {
       return JSON.stringify(deserialized)
-    }
+    },
   }
 
   test('initial', () => {
@@ -53,7 +53,7 @@ describe('serialized scalar', () => {
   test('deserialize', () => {
     const state = serializedScalar({ value: 0 }, serializer)
     expect(state.deserialize('{"value":1}', deserializeHelpers)).toEqual({
-      value: 1
+      value: 1,
     })
   })
 
@@ -183,7 +183,7 @@ describe('boolean', () => {
     }
 
     const booleanValue = state.init(initialState, onChange)
-    booleanValue.set(value => !value)
+    booleanValue.set((value) => !value)
     expect(store).toEqual(true)
   })
 })

@@ -5,13 +5,13 @@ module.exports = ({ config }) => {
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
     options: {
-      rootMode: 'upward'
-    }
+      rootMode: 'upward',
+    },
   })
   config.plugins.push(new webpack.EnvironmentPlugin(['TITLE']))
   config.resolve.extensions.push('.ts', '.tsx')
   config.devServer = {
-    stats: 'errors-only'
+    stats: 'errors-only',
   }
   return config
 }

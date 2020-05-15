@@ -19,15 +19,15 @@ describe('Insert', () => {
       S.insert({
         id: '0',
         plugin: 'stateful',
-        state: { counter: 0 }
+        state: { counter: 0 },
       })
     )
     await waitUntil(() =>
-      R.any(action => action.type === S.pureInsert.type, store.getActions())
+      R.any((action) => action.type === S.pureInsert.type, store.getActions())
     )
     expect(S.getDocument('0')(store.getState())).toEqual({
       plugin: 'stateful',
-      state: { counter: 0 }
+      state: { counter: 0 },
     })
   })
 })
@@ -38,11 +38,11 @@ describe('Remove', () => {
       S.insert({
         id: '1',
         plugin: 'stateful',
-        state: { counter: 0 }
+        state: { counter: 0 },
       })
     )
     await waitUntil(() =>
-      R.any(action => action.type === S.pureInsert.type, store.getActions())
+      R.any((action) => action.type === S.pureInsert.type, store.getActions())
     )
     store.dispatch(S.remove('1'))
     expect(S.getDocuments()(store.getState())).toEqual({})
@@ -52,20 +52,20 @@ describe('Remove', () => {
       S.insert({
         id: '1',
         plugin: 'stateful',
-        state: { counter: 0 }
+        state: { counter: 0 },
       })
     )
     store.dispatch(
       S.insert({
         id: '2',
         plugin: 'stateful',
-        state: { counter: 0 }
+        state: { counter: 0 },
       })
     )
     await waitUntil(
       () =>
         R.filter(
-          action => action.type === S.pureInsert.type,
+          (action) => action.type === S.pureInsert.type,
           store.getActions()
         ).length >= 2
     )
@@ -73,8 +73,8 @@ describe('Remove', () => {
     expect(S.getDocuments()(store.getState())).toEqual({
       2: {
         plugin: 'stateful',
-        state: { counter: 0 }
-      }
+        state: { counter: 0 },
+      },
     })
   })
   test('Non-existing document', async () => {
@@ -82,11 +82,11 @@ describe('Remove', () => {
       S.insert({
         id: '1',
         plugin: 'stateful',
-        state: { counter: 0 }
+        state: { counter: 0 },
       })
     )
     await waitUntil(() =>
-      R.any(action => action.type === S.pureInsert.type, store.getActions())
+      R.any((action) => action.type === S.pureInsert.type, store.getActions())
     )
     store.dispatch(S.remove('2'))
     expect(R.values(S.getDocuments()(store.getState()))).toHaveLength(1)
@@ -99,24 +99,24 @@ describe('Change', () => {
       S.insert({
         id: '1',
         plugin: 'stateful',
-        state: 0
+        state: 0,
       })
     )
     await waitUntil(() =>
-      R.any(action => action.type === S.pureInsert.type, store.getActions())
+      R.any((action) => action.type === S.pureInsert.type, store.getActions())
     )
     store.dispatch(
       S.change({
         id: '1',
-        state: { initial: () => 1 }
+        state: { initial: () => 1 },
       })
     )
     await waitUntil(() =>
-      R.any(action => action.type === S.pureChange.type, store.getActions())
+      R.any((action) => action.type === S.pureChange.type, store.getActions())
     )
     expect(S.getDocument('1')(store.getState())).toEqual({
       plugin: 'stateful',
-      state: 1
+      state: 1,
     })
   })
 })
@@ -126,32 +126,32 @@ test('Wrap', async () => {
     S.insert({
       id: '1',
       plugin: 'stateful',
-      state: 0
+      state: 0,
     })
   )
   await waitUntil(() =>
-    R.any(action => action.type === S.pureInsert.type, store.getActions())
+    R.any((action) => action.type === S.pureInsert.type, store.getActions())
   )
   store.dispatch(
     S.wrap({
       id: '1',
-      document: id => {
+      document: (id) => {
         return {
           plugin: 'blockquote',
-          state: id
+          state: id,
         }
-      }
+      },
     })
   )
   await waitUntil(() =>
-    R.any(action => action.type === S.pureWrap.type, store.getActions())
+    R.any((action) => action.type === S.pureWrap.type, store.getActions())
   )
   expect(S.serializeDocument('1')(store.getState())).toEqual({
     plugin: 'blockquote',
     state: {
       plugin: 'stateful',
-      state: 0
-    }
+      state: 0,
+    },
   })
 })
 
@@ -162,14 +162,14 @@ test('Unwrap', async () => {
       plugin: 'blockquote',
       state: {
         plugin: 'stateful',
-        state: 0
-      }
+        state: 0,
+      },
     })
   )
   let inserts: S.PureInsertAction[] = []
   await waitUntil(() => {
     inserts = R.filter(
-      action => action.type === S.pureInsert.type,
+      (action) => action.type === S.pureInsert.type,
       store.getActions()
     ) as S.PureInsertAction[]
     return inserts.length >= 2
@@ -178,16 +178,15 @@ test('Unwrap', async () => {
   store.dispatch(
     S.unwrap({
       id: '1',
-      oldId: id
+      oldId: id,
     })
   )
-  console.log('okay?')
   await waitUntil(() =>
-    R.any(action => action.type === S.pureUnwrap.type, store.getActions())
+    R.any((action) => action.type === S.pureUnwrap.type, store.getActions())
   )
   expect(S.serializeDocument('1')(store.getState())).toEqual({
     plugin: 'stateful',
-    state: 0
+    state: 0,
   })
 })
 
@@ -196,24 +195,24 @@ test('Replace', async () => {
     S.insert({
       id: '1',
       plugin: 'stateful',
-      state: 0
+      state: 0,
     })
   )
   await waitUntil(() =>
-    R.any(action => action.type === S.pureInsert.type, store.getActions())
+    R.any((action) => action.type === S.pureInsert.type, store.getActions())
   )
   store.dispatch(
     S.replace({
       id: '1',
       plugin: 'stateful',
-      state: 5
+      state: 5,
     })
   )
   await waitUntil(() =>
-    R.any(action => action.type === S.pureReplace.type, store.getActions())
+    R.any((action) => action.type === S.pureReplace.type, store.getActions())
   )
   expect(S.serializeDocument('1')(store.getState())).toEqual({
     plugin: 'stateful',
-    state: 5
+    state: 5,
   })
 })

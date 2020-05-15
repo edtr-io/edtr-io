@@ -15,13 +15,14 @@ import * as InternalDocumentEditor from '@edtr-io/internal__document-editor/beta
 import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta';
 import { PluginProps } from '@edtr-io/internal__plugin-state';
 import { ProviderProps } from 'react-redux';
-import * as React from 'react';
+import * as React_2 from 'react';
 import { ScopedState } from '@edtr-io/store';
+import { State } from '@edtr-io/store';
 import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
 
 // @beta
-export function Document<K extends string = string>({ scope, ...props }: Omit<EditorProps<K>, 'initialState'> & {
+function Document_2<K extends string = string>(props: Omit<EditorProps<K>, 'initialState'> & {
     scope: string;
 } & ({
     mirror: true;
@@ -31,20 +32,22 @@ export function Document<K extends string = string>({ scope, ...props }: Omit<Ed
     initialState: EditorProps<K>['initialState'];
 })): JSX.Element | null;
 
+export { Document_2 as Document }
+
 // @public (undocumented)
-export const DocumentEditorContext: React.Context<React.ComponentType<InternalDocumentEditor.DocumentEditorProps>>;
+export const DocumentEditorContext: React_2.Context<React_2.ComponentType<InternalDocumentEditor.DocumentEditorProps>>;
 
 // @public
-export function Editor<K extends string = string>({ createStoreEnhancer, ...props }: EditorProps<K>): JSX.Element;
+export function Editor<K extends string = string>(props: EditorProps<K>): JSX.Element;
 
 // @public (undocumented)
 export interface EditorProps<K extends string = string> {
     // (undocumented)
-    children?: React.ReactNode | ((document: React.ReactNode) => React.ReactNode);
+    children?: React_2.ReactNode | ((document: React_2.ReactNode) => React_2.ReactNode);
     // (undocumented)
     createStoreEnhancer?: StoreEnhancerFactory;
     // (undocumented)
-    DocumentEditor?: React.ContextType<typeof DocumentEditorContext>;
+    DocumentEditor?: React_2.ContextType<typeof DocumentEditorContext>;
     // (undocumented)
     editable?: boolean;
     // (undocumented)
@@ -57,24 +60,30 @@ export interface EditorProps<K extends string = string> {
     // (undocumented)
     onChange?: ChangeListener;
     // (undocumented)
-    onError?: React.ContextType<typeof ErrorContext>;
+    onError?: React_2.ContextType<typeof ErrorContext>;
     // (undocumented)
     plugins: Record<K, EditorPlugin>;
     // (undocumented)
-    PluginToolbar?: React.ContextType<typeof PluginToolbarContext>;
+    PluginToolbar?: React_2.ContextType<typeof PluginToolbarContext>;
     // (undocumented)
     theme?: CustomTheme;
 }
 
 // @beta
-export function EditorProvider({ createStoreEnhancer, omitDragDropContext, children }: {
-    omitDragDropContext?: boolean;
-    createStoreEnhancer?: StoreEnhancerFactory;
-    children: React.ReactNode;
-}): JSX.Element;
+export function EditorProvider(props: EditorProviderProps): JSX.Element;
 
 // @public (undocumented)
-export const ErrorContext: React.Context<((error: Error, errorInfo: {
+export interface EditorProviderProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    createStoreEnhancer?: StoreEnhancerFactory;
+    // (undocumented)
+    omitDragDropContext?: boolean;
+}
+
+// @public (undocumented)
+export const ErrorContext: React_2.Context<((error: Error, errorInfo: {
     componentStack: string;
 }) => void) | undefined>;
 
@@ -115,13 +124,13 @@ export function OverlayTextarea(props: OverlayTextareaProps): JSX.Element;
 export type OverlayTextareaProps = InternalPluginToolbar.OverlayTextareaProps;
 
 // @public
-export const PluginToolbarButton: React.ForwardRefExoticComponent<Pick<InternalPluginToolbar.PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React.RefAttributes<HTMLButtonElement>>;
+export const PluginToolbarButton: React_2.ForwardRefExoticComponent<Pick<InternalPluginToolbar.PluginToolbarButtonProps, "className" | "icon" | "label" | "onClick"> & React_2.RefAttributes<HTMLButtonElement>>;
 
 // @public (undocumented)
 export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps;
 
 // @public (undocumented)
-export const PluginToolbarContext: React.Context<InternalPluginToolbar.PluginToolbar>;
+export const PluginToolbarContext: React_2.Context<InternalPluginToolbar.PluginToolbar>;
 
 // @public
 export function PluginToolbarOverlayButton(props: PluginToolbarOverlayButtonProps): JSX.Element;
@@ -138,15 +147,15 @@ export interface Preference {
 }
 
 // @beta (undocumented)
-export const PreferenceContext: React.Context<Preference>;
+export const PreferenceContext: React_2.Context<Preference>;
 
 // @public
 export function Provider(props: ProviderProps<Action> & {
-    children: React.ReactNode;
+    children: React_2.ReactNode;
 }): JSX.Element;
 
 // @public (undocumented)
-export const ScopeContext: React.Context<{
+export const ScopeContext: React_2.Context<{
     scope: string;
     editable?: boolean | undefined;
 }>;
@@ -185,7 +194,7 @@ export function useScopedStore(enforcedScope?: string): {
 };
 
 // @public (undocumented)
-export const useSelector: <T>(selector: (state: Record<string, ScopedState>) => T) => T;
+export const useSelector: <T>(selector: (state: State) => T) => T;
 
 // @public (undocumented)
 export const useStore: () => Store;

@@ -13,5 +13,5 @@ export const states: Record<
     | ------ | ----------- |
     | ex1 | longer text than the rest |
     | some more lines | |
-    | empty second |`
+    | empty second |`,
 }

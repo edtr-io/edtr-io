@@ -6,7 +6,7 @@
 
 import * as InternalPlugin from '@edtr-io/internal__plugin';
 import * as InternalPluginState from '@edtr-io/internal__plugin-state';
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @public (undocumented)
 export function asyncScalar<T, Temp>(initial: T, isTemporaryValue: (field: T | Temp) => boolean): AsyncScalarStateType<T, Temp>;
@@ -25,7 +25,7 @@ export function boolean(initialValue?: boolean): BooleanStateType;
 export type BooleanStateType = ScalarStateType<boolean>;
 
 // @public (undocumented)
-export function child<K extends string, S = unknown>({ plugin, initialState, config }: ChildStateTypeConfig): ChildStateType<K, S>;
+export function child<K extends string, S = unknown>(params: ChildStateTypeConfig): ChildStateType<K, S>;
 
 // @public (undocumented)
 export type ChildStateType<K extends string = string, S = unknown> = StateType<{
@@ -34,7 +34,7 @@ export type ChildStateType<K extends string = string, S = unknown> = StateType<{
 }, string, {
     get(): string;
     id: string;
-    render: (props?: PluginProps) => React.ReactNode;
+    render: (props?: PluginProps) => React_2.ReactNode;
     replace: (plugin: K, state?: S) => void;
 }>;
 

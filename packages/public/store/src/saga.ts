@@ -12,6 +12,6 @@ export function* saga() {
     call(documentsSaga),
     call(historySaga),
     call(pluginSaga),
-    call(rootSaga)
+    call(rootSaga),
   ])
 }

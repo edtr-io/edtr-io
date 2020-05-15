@@ -12,11 +12,14 @@ export class FetchDimensions extends React.Component<
     scrollHeights: R.times(() => null, this.props.length),
     scrollWidths: R.times(() => null, this.props.length),
     clientHeights: R.times(() => null, this.props.length),
-    clientWidths: R.times(() => null, this.props.length)
+    clientWidths: R.times(() => null, this.props.length),
   }
 
   public componentDidUpdate(): void {
-    const all = R.all(height => typeof height === 'number', this.state.heights)
+    const all = R.all(
+      (height) => typeof height === 'number',
+      this.state.heights
+    )
 
     if (all && !this.done) {
       this.done = true
@@ -30,7 +33,7 @@ export class FetchDimensions extends React.Component<
         return
       }
 
-      this.setState(state => {
+      this.setState((state) => {
         if (typeof state.heights[index] === 'number') {
           return null
         }
@@ -57,7 +60,7 @@ export class FetchDimensions extends React.Component<
             index,
             instance.clientWidth,
             state.clientWidths
-          )
+          ),
         }
       })
     }

@@ -17,11 +17,11 @@ const state2 = JSON.parse(
 )
 
 addStory('Article/Initial State', {
-  state
+  state,
 })
 
 addStory('Article/Alternative State', {
-  state: state2
+  state: state2,
 })
 
 storiesOf('Article', module)
@@ -40,9 +40,9 @@ storiesOf('Article', module)
       plugin: 'rows',
       state: [
         {
-          plugin: 'text'
-        }
-      ]
+          plugin: 'text',
+        },
+      ],
     }
     return (
       <EditorProvider>
@@ -56,7 +56,7 @@ storiesOf('Article', module)
             height: '100vh',
             borderLeft: '4px solid black',
             backgroundColor: '#eee',
-            zIndex: 999
+            zIndex: 999,
           }}
         >
           Here is a small preview of the rendered Document
@@ -66,7 +66,7 @@ storiesOf('Article', module)
                 width: '850px',
                 transformOrigin: 'left top 0px',
                 transform: 'scale(0.22)',
-                overflow: 'hidden'
+                overflow: 'hidden',
               }}
             >
               <Document

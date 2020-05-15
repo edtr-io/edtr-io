@@ -5,7 +5,7 @@ const ContainerWithBox = styled.div<ContainerProps>({
   backgroundColor: '#fcf8e3',
   borderColor: '#faebcc',
   color: '#8a6d3b',
-  padding: '15px'
+  padding: '15px',
 })
 
 const ContainerWithoutBox = styled.div<ContainerProps>(
@@ -13,7 +13,7 @@ const ContainerWithoutBox = styled.div<ContainerProps>(
     return {
       color: correct ? '#95bc1a' : '#f7b07c',
       fontWeight: 'bold',
-      textAlign: showOnLeft ? 'left' : 'right'
+      textAlign: showOnLeft ? 'left' : 'right',
     }
   }
 )
@@ -23,13 +23,12 @@ interface ContainerProps {
   showOnLeft?: boolean
 }
 
-/** @internal */
-export function Feedback({
-  boxFree,
-  children,
-  isTrueAnswer,
-  showOnLeft
-}: FeedbackProps) {
+/**
+ * @param props - The props
+ * @internal
+ */
+export function Feedback(props: FeedbackProps) {
+  const { boxFree, children, isTrueAnswer, showOnLeft } = props
   const Container = boxFree ? ContainerWithoutBox : ContainerWithBox
 
   return (

@@ -8,8 +8,8 @@ const InlineInputInner = styled.input({
   color: '#ffffff',
   '&:focus': {
     outline: 'none',
-    borderBottom: '2px solid rgb(70, 155, 255)'
-  }
+    borderBottom: '2px solid rgb(70, 155, 255)',
+  },
 })
 
 const InlineInputRefForward: React.RefForwardingComponent<

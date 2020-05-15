@@ -18,11 +18,11 @@ import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { plugin as videoPlugin } from '@edtr-io/plugin-video/__fixtures__'
 
 const nestedArrayState = object({
-  children: list(child({ plugin: 'stateful' }), 1)
+  children: list(child({ plugin: 'stateful' }), 1),
 })
 
 const nestedState = object({
-  child: child({ plugin: 'stateful' })
+  child: child({ plugin: 'stateful' }),
 })
 
 const statefulState = number(0)
@@ -52,16 +52,16 @@ export const plugins: Record<
   stateful: {
     config: {},
     Component: () => null,
-    state: statefulState
+    state: statefulState,
   },
   nested: {
     config: {},
     Component: () => null,
-    state: nestedState
+    state: nestedState,
   },
   nestedArray: {
     config: {},
     Component: () => null,
-    state: nestedArrayState
-  }
+    state: nestedArrayState,
+  },
 }

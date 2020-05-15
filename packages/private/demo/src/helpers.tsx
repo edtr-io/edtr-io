@@ -25,7 +25,7 @@ export function addStory(
 export function addPluginStories({
   name,
   plugin,
-  states
+  states,
 }: {
   plugin: string
   name: string
@@ -34,15 +34,15 @@ export function addPluginStories({
   const storyName = `Plugins/${name}`
   addStory(`${storyName}/Initial State`, {
     state: {
-      plugin
-    }
+      plugin,
+    },
   })
   R.forEachObjIndexed((state, name) => {
     addStory(`${storyName}/${startCase(name)}`, {
       state: {
         plugin,
-        state
-      }
+        state,
+      },
     })
   }, states)
 }

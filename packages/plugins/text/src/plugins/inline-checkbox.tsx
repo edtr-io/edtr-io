@@ -5,12 +5,12 @@ const CheckboxInlineLabel = styled.label({
   color: '#ffffff',
   verticalAlign: 'middle',
   margin: '5px 10px',
-  display: 'inline-block'
+  display: 'inline-block',
 })
 
 const CheckboxInlineLabelInner = styled.span({
   marginRight: '10px',
-  verticalAlign: 'middle'
+  verticalAlign: 'middle',
 })
 
 const CheckboxToggleContainer = styled.div<{
@@ -24,7 +24,7 @@ const CheckboxToggleContainer = styled.div<{
     height: '20px',
     display: 'inline-block',
     verticalAlign: 'middle',
-    backgroundColor: value ? '#ffffff' : 'rgba(51,51,51,0.95)'
+    backgroundColor: value ? '#ffffff' : 'rgba(51,51,51,0.95)',
   }
 })
 
@@ -42,7 +42,7 @@ const CheckboxToggle = styled.div<{ value?: boolean }>(({ value }) => {
     borderRadius: '1px',
 
     transform: 'rotate(-45deg)',
-    zIndex: 1000
+    zIndex: 1000,
   }
 })
 
@@ -51,7 +51,7 @@ export function InlineCheckbox({ checked, onChange, label }: CheckboxProps) {
     <CheckboxInlineLabel>
       <CheckboxInlineLabelInner>{label}</CheckboxInlineLabelInner>
       <CheckboxToggleContainer
-        onMouseDown={e => {
+        onMouseDown={(e) => {
           // avoid loosing focus
           e.stopPropagation()
         }}

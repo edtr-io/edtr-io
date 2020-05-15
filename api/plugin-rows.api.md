@@ -10,7 +10,7 @@ import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @public (undocumented)
 export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsPluginConfig>;
@@ -46,7 +46,7 @@ export interface RowsPluginConfig {
     plugins: {
         name: string;
         title?: string;
-        icon?: React.ComponentType;
+        icon?: React_2.ComponentType;
         description?: string;
     }[];
     // (undocumented)

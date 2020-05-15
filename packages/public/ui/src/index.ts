@@ -12,8 +12,8 @@ import * as StyledComponents from 'styled-components'
  */
 export const styled = StyledComponents.default
 
+export * from './deep-partial'
 export * from './editor-theme'
 export * from './icon'
 export * from './renderer-theme'
 export * from './theme'
-export * from './types'

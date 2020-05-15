@@ -16,14 +16,14 @@ const Suggestion = styled.div<{ active: boolean; config: TextPluginConfig }>(
         : theme.suggestions.background.default,
       borderRadius: '4px',
       '&:hover': {
-        background: theme.suggestions.background.highlight
-      }
+        background: theme.suggestions.background.highlight,
+      },
     }
   }
 )
 
 const Container = styled.div({
-  padding: '10px'
+  padding: '10px',
 })
 
 const StyledText = styled.span<{
@@ -34,7 +34,7 @@ const StyledText = styled.span<{
   return {
     color: highlight
       ? theme.suggestions.text.highlight
-      : theme.suggestions.text.default
+      : theme.suggestions.text.default,
   }
 })
 
@@ -48,11 +48,11 @@ export function Suggestions(props: SuggestionProps) {
             const displayText = option[0]
             const fragments = displayText
               .split(new RegExp(`(${escapeRegExp(props.currentValue)})`, 'i'))
-              .map(text => {
+              .map((text) => {
                 return {
                   text,
                   highlight:
-                    text.toLowerCase() === props.currentValue.toLowerCase()
+                    text.toLowerCase() === props.currentValue.toLowerCase(),
                 }
               })
 

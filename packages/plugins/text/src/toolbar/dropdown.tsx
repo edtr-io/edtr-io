@@ -2,7 +2,7 @@ import { styled } from '@edtr-io/ui'
 
 import { TextPluginConfig } from '..'
 
-export const Dropdown = styled.select<{ config: TextPluginConfig }>(props => {
+export const Dropdown = styled.select<{ config: TextPluginConfig }>((props) => {
   const { theme } = props.config
   return {
     backgroundColor: theme.backgroundColor,
@@ -14,15 +14,15 @@ export const Dropdown = styled.select<{ config: TextPluginConfig }>(props => {
     borderRadius: '4px',
     margin: '5px',
     '&:hover': {
-      color: theme.hoverColor
-    }
+      color: theme.hoverColor,
+    },
   }
 })
 
 export const Option = styled.option<{
   config: TextPluginConfig
   active?: boolean
-}>(props => {
+}>((props) => {
   const { theme } = props.config
   return {
     backgroundColor: props.active
@@ -31,7 +31,7 @@ export const Option = styled.option<{
     color: props.active ? theme.active.color : theme.color,
     cursor: 'pointer',
     '&:hover': {
-      color: theme.hoverColor
-    }
+      color: theme.hoverColor,
+    },
   }
 })

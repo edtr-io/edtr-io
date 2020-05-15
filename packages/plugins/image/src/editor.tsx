@@ -2,12 +2,12 @@ import {
   OverlayButton,
   OverlayCheckbox,
   OverlayInput,
-  OverlayTextarea
+  OverlayTextarea,
 } from '@edtr-io/core'
 import {
   EditorButton,
   EditorInput,
-  EditorInlineSettings
+  EditorInlineSettings,
 } from '@edtr-io/editor-ui'
 import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
 import {
@@ -15,7 +15,7 @@ import {
   Icon,
   faImages,
   faRedoAlt,
-  styled
+  styled,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -26,25 +26,25 @@ import { Upload } from './upload'
 const ImgPlaceholderWrapper = styled.div({
   position: 'relative',
   width: '100%',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 const ButtonWrapper = styled.span({
   float: 'right',
   display: 'flex',
   flexDirection: 'row',
 
-  justifyContent: 'flex-end'
+  justifyContent: 'flex-end',
 })
 
 const OverlayButtonWrapper = styled.div({
   marginTop: '5px',
-  textAlign: 'right'
+  textAlign: 'right',
 })
 
-const Failed = styled.div<EditorThemeProps>(props => {
+const Failed = styled.div<EditorThemeProps>((props) => {
   return {
     fontWeight: 'bold',
-    color: props.theme.editor.danger.background
+    color: props.theme.editor.danger.background,
   }
 })
 
@@ -123,7 +123,7 @@ function PrimaryControls(props: ImageProps) {
         ) : null}
         <Upload
           config={props.config}
-          onFile={file => {
+          onFile={(file) => {
             src.upload(file, props.config.upload)
           }}
         />
@@ -208,7 +208,7 @@ function Controls<T = unknown>(props: ImageProps) {
         <Upload
           config={props.config}
           inOverlay
-          onFile={file => {
+          onFile={(file) => {
             state.src.upload(file, props.config.upload)
           }}
         />
@@ -241,7 +241,7 @@ function Controls<T = unknown>(props: ImageProps) {
         placeholder={i18n.maxWidth.placeholder}
         type="number"
         value={state.maxWidth.defined ? state.maxWidth.value : ''}
-        onChange={event => {
+        onChange={(event) => {
           const value = parseInt(event.target.value)
           if (state.maxWidth.defined) {
             state.maxWidth.set(value)
@@ -255,7 +255,7 @@ function Controls<T = unknown>(props: ImageProps) {
 }
 
 function handleChange(props: ImageProps) {
-  return function(name: 'src' | 'description' | 'href') {
+  return function (name: 'src' | 'description' | 'href') {
     return (
       event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -288,7 +288,7 @@ function handleChange(props: ImageProps) {
           } else {
             state.link.create({
               href: value,
-              openInNewTab: false
+              openInNewTab: false,
             })
           }
           break
@@ -299,7 +299,7 @@ function handleChange(props: ImageProps) {
 }
 
 function handleTargetChange(props: ImageProps) {
-  return function(checked: boolean) {
+  return function (checked: boolean) {
     const { state } = props
     if (checked) {
       if (state.link.defined) {
@@ -307,7 +307,7 @@ function handleTargetChange(props: ImageProps) {
       } else {
         state.link.create({
           href: '',
-          openInNewTab: true
+          openInNewTab: true,
         })
       }
     } else {
@@ -316,7 +316,7 @@ function handleTargetChange(props: ImageProps) {
       } else {
         state.link.create({
           href: '',
-          openInNewTab: false
+          openInNewTab: false,
         })
       }
     }

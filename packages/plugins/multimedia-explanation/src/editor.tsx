@@ -2,7 +2,7 @@ import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
 import {
   hasFocusedDescendant,
   isFocused,
-  serializeDocument
+  serializeDocument,
 } from '@edtr-io/store'
 import { styled, faRandom, Icon } from '@edtr-io/ui'
 import * as React from 'react'
@@ -15,16 +15,16 @@ const BREAKPOINT = 650
 
 const StyledResizable = styled(Resizable)({
   padding: '5px',
-  position: 'relative'
+  position: 'relative',
 })
 
 const Clear = styled.div({
-  clear: 'both'
+  clear: 'both',
 })
 
-const Container = styled.div<{ hasFocus: boolean }>(props => {
+const Container = styled.div<{ hasFocus: boolean }>((props) => {
   return {
-    border: props.hasFocus ? '2px solid #ccc' : ''
+    border: props.hasFocus ? '2px solid #ccc' : '',
   }
 })
 
@@ -34,13 +34,13 @@ const InlineOptionsWrapper = styled.div({
   right: '0',
   padding: '30px',
   zIndex: 95,
-  whiteSpace: 'nowrap'
+  whiteSpace: 'nowrap',
 })
 
 const InlineOptionsContentWrapper = styled.div({
   boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
   backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  borderRadius: '4px'
+  borderRadius: '4px',
 })
 
 function InlineOptions(props: React.PropsWithChildren<{}>) {
@@ -58,8 +58,8 @@ const Option = styled.div({
   width: '100%',
   minWidth: '150px',
   '&:hover': {
-    color: 'rgb(70, 155, 255)'
-  }
+    color: 'rgb(70, 155, 255)',
+  },
 })
 export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
   function handleIllustratingChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -83,12 +83,12 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
     Record<string, unknown>
   >({})
   function handleMultimediaChange(selected: string) {
-    setReplacedMultimediaCache(current => {
+    setReplacedMultimediaCache((current) => {
       if (!multimedia) return current
 
       return {
         ...current,
-        [multimedia.plugin]: multimedia.state
+        [multimedia.plugin]: multimedia.state,
       }
     })
     props.state.multimedia.replace(selected, replacedMultimediaCache[selected])
@@ -98,7 +98,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
   const PluginSelection = (
     <select
       value={multimedia ? multimedia.plugin : ''}
-      onChange={e => handleMultimediaChange(e.target.value)}
+      onChange={(e) => handleMultimediaChange(e.target.value)}
     >
       {props.config.plugins.map((plugin, i) => {
         return (
@@ -159,7 +159,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
               <InlineOptions>
                 {props.config.plugins
                   .filter(
-                    plugin => !multimedia || plugin.name !== multimedia.plugin
+                    (plugin) => !multimedia || plugin.name !== multimedia.plugin
                   )
                   .map((plugin, i) => {
                     return (
@@ -188,14 +188,14 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
           {MultimediaSettings}
         </React.Fragment>
       )
-    }
+    },
   })
 
   return (
     <React.Fragment>
       <Container
         hasFocus={hasFocus}
-        ref={el => {
+        ref={(el) => {
           if (!el) return
           setRowWidth(el.offsetWidth)
         }}
@@ -207,7 +207,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
             }
             responsiveBreakpoint={BREAKPOINT}
             steps={STEPS}
-            onResizeEnd={newWidth => {
+            onResizeEnd={(newWidth) => {
               props.state.width.set(Math.round((newWidth * 100) / STEPS))
             }}
             rowWidth={rowWidth}

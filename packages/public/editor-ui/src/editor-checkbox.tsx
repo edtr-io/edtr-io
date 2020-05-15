@@ -1,12 +1,12 @@
 import { styled, useEditorUiTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-const useEditorCheckboxTheme = function() {
-  return useEditorUiTheme('checkbox', theme => {
+const useEditorCheckboxTheme = function () {
+  return useEditorUiTheme('checkbox', (theme) => {
     return {
       boxSelectedColor: theme.backgroundColor,
       boxDeselectedColor: 'transparent',
-      color: theme.backgroundColor
+      color: theme.backgroundColor,
     }
   })
 }
@@ -14,7 +14,7 @@ const useEditorCheckboxTheme = function() {
 const Container = styled.label(() => {
   const theme = useEditorCheckboxTheme()
   return {
-    color: theme.color
+    color: theme.color,
   }
 })
 
@@ -28,7 +28,7 @@ const ToggleContainer = styled.div(() => {
     width: '15px',
     height: '15px',
     display: 'inline-block',
-    backgroundColor: theme.boxDeselectedColor
+    backgroundColor: theme.boxDeselectedColor,
   }
 })
 
@@ -50,16 +50,16 @@ const Toggle = styled.div<{ value?: boolean }>(({ value }) => {
     borderRight: 'none',
 
     transform: 'rotate(-45deg)',
-    zIndex: 1000
+    zIndex: 1000,
   }
 })
 
-/** @public */
-export function EditorCheckbox({
-  checked,
-  onChange,
-  label
-}: EditorCheckboxProps) {
+/**
+ * @param props - Props
+ * @public
+ */
+export function EditorCheckbox(props: EditorCheckboxProps) {
+  const { checked, onChange, label } = props
   return (
     <Container>
       <Label>{label}</Label>=

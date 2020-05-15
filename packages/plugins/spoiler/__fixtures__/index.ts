@@ -1,7 +1,7 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 import {
   createRowsState,
-  name as rowsPlugin
+  name as rowsPlugin,
 } from '@edtr-io/plugin-rows/__fixtures__'
 import { name as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 
@@ -9,7 +9,7 @@ import { SpoilerPluginState, createSpoilerPlugin } from '../src'
 
 export const name = 'spoiler'
 export const plugin = createSpoilerPlugin({
-  content: { plugin: 'rows' }
+  content: { plugin: 'rows' },
 })
 
 export const states: Record<
@@ -25,10 +25,10 @@ export const states: Record<
         state: [
           {
             type: 'p',
-            children: [{ text: 'This is a spoiler' }]
-          }
-        ]
-      })
-    }
-  }
+            children: [{ text: 'This is a spoiler' }],
+          },
+        ],
+      }),
+    },
+  },
 }

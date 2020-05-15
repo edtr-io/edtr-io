@@ -13,24 +13,24 @@ function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
     const plugins = pluginClosure.current.config.registry
     const search = editor.value.document.text.replace('/', '')
     const pluginsStartingWithSearchString = plugins
-      .filter(plugin => {
+      .filter((plugin) => {
         if (!search.length) return true
         const value = plugin.title || plugin.name
         return value.toLowerCase().startsWith(search.toLowerCase())
       })
-      .map(plugin => [plugin.title || plugin.name, plugin.name])
+      .map((plugin) => [plugin.title || plugin.name, plugin.name])
     const otherPluginsContainingSearchString = plugins
-      .filter(plugin => {
+      .filter((plugin) => {
         const value = plugin.title || plugin.name
         return (
           value.toLowerCase().includes(search.toLowerCase()) &&
           !value.toLowerCase().startsWith(search.toLowerCase())
         )
       })
-      .map(plugin => [plugin.title || plugin.name, plugin.name])
+      .map((plugin) => [plugin.title || plugin.name, plugin.name])
     return [
       ...pluginsStartingWithSearchString,
-      ...otherPluginsContainingSearchString
+      ...otherPluginsContainingSearchString,
     ]
   }
   return []
@@ -43,7 +43,7 @@ function insertPlugin(editor: Editor, pluginClosure: SlatePluginClosure) {
     store.dispatch(
       replace({
         id,
-        plugin: option
+        plugin: option,
       })
     )
   }
@@ -75,14 +75,14 @@ export function pluginSuggestions(
       }
 
       return next()
-    }
+    },
   }
 }
 
 function SuggestionsBox({
   children,
   editor,
-  pluginClosure
+  pluginClosure,
 }: React.PropsWithChildren<{
   editor: Editor
   pluginClosure: SlatePluginClosure
@@ -95,12 +95,12 @@ function SuggestionsBox({
   const closure = React.useRef({
     showSuggestions,
     selected,
-    options
+    options,
   })
   closure.current = {
     showSuggestions,
     selected,
-    options
+    options,
   }
   React.useEffect(() => {
     if (options.length < selected) {
@@ -116,12 +116,12 @@ function SuggestionsBox({
       keyMap={{
         DEC: 'up',
         INC: 'down',
-        INSERT: 'enter'
+        INSERT: 'enter',
       }}
       handlers={{
         DEC: () => {
           if (closure.current.showSuggestions) {
-            setSelected(currentSelected => {
+            setSelected((currentSelected) => {
               const optionsCount = closure.current.options.length
               if (optionsCount === 0) return 0
               return (currentSelected + optionsCount - 1) % optionsCount
@@ -130,7 +130,7 @@ function SuggestionsBox({
         },
         INC: () => {
           if (closure.current.showSuggestions) {
-            setSelected(currentSelected => {
+            setSelected((currentSelected) => {
               const optionsCount = closure.current.options.length
               if (optionsCount === 0) return 0
               return (currentSelected + 1) % optionsCount
@@ -145,7 +145,7 @@ function SuggestionsBox({
               insertPlugin(editor, pluginClosure)(option[1])
             })
           }
-        }
+        },
       }}
     >
       {children}

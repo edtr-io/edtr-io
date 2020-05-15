@@ -14,7 +14,7 @@ const DropContainer = styled.div({
   position: 'relative',
   // increase dropZone
   marginLeft: '-50px',
-  paddingLeft: '50px'
+  paddingLeft: '50px',
 })
 
 function RowEditor({
@@ -22,7 +22,7 @@ function RowEditor({
   openMenu,
   index,
   row,
-  rows
+  rows,
 }: {
   config: RowsPluginConfig
   openMenu(index: number): void
@@ -67,10 +67,10 @@ export function RowsEditor(props: RowsProps) {
   function openMenu(insertIndex: number) {
     setMenu({
       index: insertIndex,
-      onClose: pluginState => {
+      onClose: (pluginState) => {
         props.state.insert(insertIndex, pluginState)
         setMenu(undefined)
-      }
+      },
     })
   }
 

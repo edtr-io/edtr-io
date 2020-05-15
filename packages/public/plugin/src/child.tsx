@@ -6,15 +6,17 @@ import { generate } from 'shortid'
 import {
   StoreSerializeHelpers,
   StateType,
-  PluginProps
+  PluginProps,
 } from './internal-plugin-state'
 
-/** @public */
-export function child<K extends string, S = unknown>({
-  plugin,
-  initialState,
-  config
-}: ChildStateTypeConfig): ChildStateType<K, S> {
+/**
+ * @param params - The params
+ * @public
+ */
+export function child<K extends string, S = unknown>(
+  params: ChildStateTypeConfig
+): ChildStateType<K, S> {
+  const { plugin, initialState, config } = params
   return {
     init(id, onChange) {
       return {
@@ -25,7 +27,7 @@ export function child<K extends string, S = unknown>({
         render: function Child(props: PluginProps = {}) {
           const pluginProps = {
             ...props,
-            config: R.mergeDeepRight(config || {}, props.config || {})
+            config: R.mergeDeepRight(config || {}, props.config || {}),
           }
           return <SubDocument key={id} pluginProps={pluginProps} id={id} />
         },
@@ -34,7 +36,7 @@ export function child<K extends string, S = unknown>({
             helpers.createDocument({ id, plugin, state })
             return id
           })
-        }
+        },
       }
     },
     createInitialState({ createDocument }) {
@@ -56,7 +58,7 @@ export function child<K extends string, S = unknown>({
     },
     getFocusableChildren(id) {
       return [{ id }]
-    }
+    },
   }
 }
 

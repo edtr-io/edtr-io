@@ -1,10 +1,10 @@
 import { number, Optional, optional, StateUpdater } from '../src'
 
 const deserializeHelpers = {
-  createDocument: () => {}
+  createDocument: () => {},
 }
 const serializeHelpers = {
-  getDocument: () => null
+  getDocument: () => null,
 }
 
 describe('optional', () => {
@@ -23,7 +23,7 @@ describe('optional', () => {
     const state = optional(number(5))
     expect(state.createInitialState(deserializeHelpers)).toEqual({
       defined: false,
-      value: null
+      value: null,
     })
   })
 
@@ -31,7 +31,7 @@ describe('optional', () => {
     const state = optional(number(5), true)
     expect(state.createInitialState(deserializeHelpers)).toEqual({
       defined: true,
-      value: 5
+      value: 5,
     })
   })
 
@@ -39,7 +39,7 @@ describe('optional', () => {
     const state = optional(number(5))
     expect(state.deserialize(undefined, deserializeHelpers)).toEqual({
       defined: false,
-      value: null
+      value: null,
     })
   })
 
@@ -47,7 +47,7 @@ describe('optional', () => {
     const state = optional(number(5))
     expect(state.deserialize(3, deserializeHelpers)).toEqual({
       defined: true,
-      value: 3
+      value: 3,
     })
   })
 

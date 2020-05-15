@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Image',
   plugin: name,
-  states: states
+  states: states,
 })

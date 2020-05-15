@@ -41,7 +41,7 @@ export function scalar<S>(initialState: S): ScalarStateType<S> {
     },
     serialize(state) {
       return state
-    }
+    },
   })
 }
 /** @public */
@@ -69,7 +69,7 @@ export function serializedScalar<S, T>(
           return state
         }
         public set(param: T | ((previousValue: T) => T)) {
-          onChange(previousValue => {
+          onChange((previousValue) => {
             if (typeof param === 'function') {
               const updater = param as (currentValue: T) => T
               return updater(previousValue)
@@ -86,7 +86,7 @@ export function serializedScalar<S, T>(
     getFocusableChildren() {
       return []
     },
-    ...serializer
+    ...serializer,
   }
 }
 /** @public */
@@ -128,7 +128,7 @@ export function asyncScalar<T, Temp>(
         },
         set(initial, executor) {
           onChange(
-            previousState => {
+            (previousState) => {
               if (typeof initial === 'function') {
                 const f = initial as (previous: T | Temp) => T | Temp
                 return f(previousState)
@@ -151,12 +151,12 @@ export function asyncScalar<T, Temp>(
                 }
               : undefined
           )
-        }
+        },
       }
       function wrapResolverParam(
         callback: (updater: StateUpdater<T | Temp>) => void
       ): (updater: T | Temp | ((previousValue: T | Temp) => T | Temp)) => void {
-        return update => {
+        return (update) => {
           if (typeof update === 'function') {
             const f = update as (previous: T | Temp) => T | Temp
             return callback(f)
@@ -180,7 +180,7 @@ export function asyncScalar<T, Temp>(
         return initial
       }
       return deserialized
-    }
+    },
   }
 }
 /** @public */

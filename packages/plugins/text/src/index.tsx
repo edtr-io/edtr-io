@@ -2,10 +2,9 @@ import {
   EditorPlugin,
   EditorPluginProps,
   serializedScalar,
-  SerializedScalarStateType
+  SerializedScalarStateType,
 } from '@edtr-io/plugin'
-import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
+import { DeepPartial, merge } from '@edtr-io/ui'
 import * as React from 'react'
 import { BlockJSON, InlineJSON, MarkJSON, Value, ValueJSON } from 'slate'
 import { Rule } from 'slate-html-serializer'
@@ -15,7 +14,7 @@ import {
   Plugin,
   RenderBlockProps,
   RenderInlineProps,
-  RenderMarkProps
+  RenderMarkProps,
 } from 'slate-react'
 
 import { Controls, createUiPlugin } from './controls'
@@ -65,6 +64,7 @@ export type TextPlugin = Plugin &
 
 /**
  * @param config - {@link TextConfig | Plugin configuration}
+ * @returns The text plugin
  * @public
  */
 export function createTextPlugin(
@@ -75,7 +75,7 @@ export function createTextPlugin(
     registry,
     i18n = {},
     theme = {},
-    blockquote
+    blockquote,
   } = config
 
   return {
@@ -88,37 +88,37 @@ export function createTextPlugin(
         registry,
         plugins: [
           ...createPlugins(config.plugins),
-          createUiPlugin({ Component: Controls, plugins: config.plugins })
+          createUiPlugin({ Component: Controls, plugins: config.plugins }),
         ],
         placeholder,
-        i18n: R.mergeDeepRight(
-          {
+        i18n: merge({
+          fallback: {
             blockquote: {
-              toggleTitle: 'Quote'
+              toggleTitle: 'Quote',
             },
             colors: {
               setColorTitle: 'Set color',
               resetColorTitle: 'Reset color',
               openMenuTitle: 'Colors',
-              closeMenuTitle: 'Close sub menu'
+              closeMenuTitle: 'Close sub menu',
             },
             headings: {
               setHeadingTitle(level: number) {
                 return `Heading ${level}`
               },
               openMenuTitle: 'Headings',
-              closeMenuTitle: 'Close sub menu'
+              closeMenuTitle: 'Close sub menu',
             },
             link: {
               toggleTitle: 'Link (Strg + K)',
               placeholder: 'Enter URL',
-              openInNewTabTitle: 'Open in new tab'
+              openInNewTabTitle: 'Open in new tab',
             },
             list: {
               toggleOrderedList: 'Ordered list',
               toggleUnorderedList: 'Unordered list',
               openMenuTitle: 'Lists',
-              closeMenuTitle: 'Close sub menu'
+              closeMenuTitle: 'Close sub menu',
             },
             math: {
               toggleTitle: 'Math formula (Strg + M)',
@@ -127,7 +127,7 @@ export function createTextPlugin(
               editors: {
                 visual: 'visual',
                 latex: 'LaTeX',
-                noVisualEditorAvailableMessage: 'Only LaTeX editor available'
+                noVisualEditorAvailableMessage: 'Only LaTeX editor available',
               },
               helpText(
                 KeySpan: React.ComponentType<{ children: React.ReactNode }>
@@ -169,59 +169,59 @@ export function createTextPlugin(
                     </p>
                   </>
                 )
-              }
+              },
             },
             richText: {
               toggleStrongTitle: 'Bold (Strg + B)',
-              toggleEmphasizeTitle: 'Italic (Strg + I)'
+              toggleEmphasizeTitle: 'Italic (Strg + I)',
             },
             suggestions: {
-              noResultsMessage: 'No items found'
-            }
+              noResultsMessage: 'No items found',
+            },
           },
-          i18n
-        ),
-        theme: R.mergeDeepRight(
-          {
+          values: i18n,
+        }),
+        theme: merge({
+          fallback: {
             backgroundColor: 'transparent',
             color: editor.color,
             hoverColor: editor.primary.background,
             active: {
               backgroundColor: '#b6b6b6',
-              color: editor.backgroundColor
+              color: editor.backgroundColor,
             },
             dropDown: {
-              backgroundColor: editor.backgroundColor
+              backgroundColor: editor.backgroundColor,
             },
             suggestions: {
               background: {
                 default: 'transparent',
-                highlight: editor.primary.background
+                highlight: editor.primary.background,
               },
               text: {
                 default: editor.color,
-                highlight: editor.danger.background
-              }
+                highlight: editor.danger.background,
+              },
             },
             plugins: {
               colors: {
                 colors: [blue, green, orange],
-                defaultColor: 'black'
-              }
-            }
+                defaultColor: 'black',
+              },
+            },
           },
-          theme
-        ),
-        blockquote
+          values: theme,
+        }),
+        blockquote,
       }
     },
     state: serializedScalar(emptyDocument, serializer),
     onKeyDown() {
       return false
     },
-    isEmpty: state => {
+    isEmpty: (state) => {
       return isValueEmpty(Value.fromJSON(state.value))
-    }
+    },
   }
 }
 

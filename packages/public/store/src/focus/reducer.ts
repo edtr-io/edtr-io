@@ -7,7 +7,7 @@ import {
   createJsonStringifySelector,
   createSelector,
   createSubReducer,
-  SubReducer
+  SubReducer,
 } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { getRoot } from '../root/reducer'
@@ -19,7 +19,7 @@ import {
   FocusDocumentAction,
   focusNext,
   FocusNextDocumentAction,
-  focusPrevious
+  focusPrevious,
 } from './actions'
 
 /** @internal */
@@ -41,7 +41,7 @@ export const focusReducer: SubReducer<string | null> = createSubReducer(
     },
     [pureInsert.type](_focusState, action: PureInsertAction, _state) {
       return action.payload.id
-    }
+    },
   }
 )
 
@@ -52,7 +52,7 @@ export const focusReducer: SubReducer<string | null> = createSubReducer(
  * @public
  */
 export const getFocused: Selector<string | null, []> = createSelector(
-  state => state.focus
+  (state) => state.focus
 )
 
 /**
@@ -86,14 +86,14 @@ export const getFocusTree: Selector<
 
   const children = plugin.state
     .getFocusableChildren(document.state)
-    .map(child => {
+    .map((child) => {
       const subtree = getFocusTree(child.id)(state)
       return subtree || child
     })
 
   return {
     id: root,
-    children
+    children,
   }
 })
 
@@ -160,7 +160,7 @@ export const hasFocusedChild: Selector<boolean, [string]> = createSelector(
     const tree = getFocusTree(id)(state)
     if (!tree || !tree.children) return false
     const focused = getFocused()(state)
-    return R.any(node => node.id === focused, tree.children)
+    return R.any((node) => node.id === focused, tree.children)
   }
 )
 
@@ -176,7 +176,8 @@ export const hasFocusedDescendant: Selector<boolean, [string]> = createSelector(
     const tree = getFocusTree(id)(state)
     if (!tree || !tree.children) return false
     return R.any(
-      node => isFocused(node.id)(state) || hasFocusedDescendant(node.id)(state),
+      (node) =>
+        isFocused(node.id)(state) || hasFocusedDescendant(node.id)(state),
       tree.children
     )
   }
@@ -196,7 +197,7 @@ export function findNextNode(root: Node, from: string): string | null {
   const { children } = parent
   if (!children) return null
 
-  const index = children.findIndex(child => child.id === from)
+  const index = children.findIndex((child) => child.id === from)
 
   // Has sibling
   if (index + 1 < children.length) {
@@ -226,7 +227,7 @@ export function findPreviousNode(root: Node, from: string): string | null {
   const { children } = parent
   if (!children) return null
 
-  const index = children.findIndex(child => child.id === from)
+  const index = children.findIndex((child) => child.id === from)
   // Has sibling
   if (index >= 1) {
     // Go deep

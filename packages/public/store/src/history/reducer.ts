@@ -6,13 +6,13 @@ import {
   createInternalSelector,
   createSelector,
   createSubReducer,
-  SubReducer
+  SubReducer,
 } from '../helpers'
 import {
   HistoryState,
   InternalScopedState,
   InternalSelector,
-  Selector
+  Selector,
 } from '../types'
 import {
   persist,
@@ -22,7 +22,7 @@ import {
   pureRedo,
   PureRedoAction,
   pureUndo,
-  PureUndoAction
+  PureUndoAction,
 } from './actions'
 
 /** @internal */
@@ -31,16 +31,16 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
   {
     undoStack: [],
     redoStack: [],
-    pendingChanges: 0
+    pendingChanges: 0,
   },
   {
     [persist.type](historyState, _action: PersistAction, state) {
       return {
         ...historyState,
         initialState: historyState.initialState || {
-          documents: getDocuments()(state)
+          documents: getDocuments()(state),
         },
-        pendingChanges: 0
+        pendingChanges: 0,
       }
     },
     [pureCommit.type](historyState, action: PureCommitAction) {
@@ -51,7 +51,7 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
         ...historyState,
         undoStack: calculateNewUndoStack(),
         redoStack: [],
-        pendingChanges: historyState.pendingChanges + actions.length
+        pendingChanges: historyState.pendingChanges + actions.length,
       }
 
       function calculateNewUndoStack() {
@@ -72,7 +72,7 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
         ...historyState,
         undoStack: remainingUndoStack,
         redoStack: [actions, ...historyState.redoStack],
-        pendingChanges: historyState.pendingChanges - actions.length
+        pendingChanges: historyState.pendingChanges - actions.length,
       }
     },
     [pureRedo.type](historyState, _action: PureRedoAction) {
@@ -83,32 +83,32 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
         ...historyState,
         undoStack: [actions, ...historyState.undoStack],
         redoStack: remainingRedoStack,
-        pendingChanges: historyState.pendingChanges + actions.length
+        pendingChanges: historyState.pendingChanges + actions.length,
       }
-    }
+    },
   }
 )
 
 /** @internal */
 export const getHistory: InternalSelector<HistoryState> = createInternalSelector(
-  state => state.history
+  (state) => state.history
 )
 
 /** @public */
 export const getPendingChanges: Selector<number> = createSelector(
-  state => getHistory()(state as InternalScopedState).pendingChanges
+  (state) => getHistory()(state as InternalScopedState).pendingChanges
 )
 
 /** @public */
 export const hasPendingChanges: Selector<boolean> = createSelector(
-  state => getPendingChanges()(state) !== 0
+  (state) => getPendingChanges()(state) !== 0
 )
 
 /** @internal */
-export const getUndoStack: InternalSelector<ReversibleAction[][]> = createInternalSelector(
-  state => getHistory()(state).undoStack
-)
+export const getUndoStack: InternalSelector<
+  ReversibleAction[][]
+> = createInternalSelector((state) => getHistory()(state).undoStack)
 /** @internal */
-export const getRedoStack: InternalSelector<ReversibleAction[][]> = createInternalSelector(
-  state => getHistory()(state).redoStack
-)
+export const getRedoStack: InternalSelector<
+  ReversibleAction[][]
+> = createInternalSelector((state) => getHistory()(state).redoStack)

@@ -7,6 +7,6 @@ export const StyledIconContainer = styled.div({
   color: 'rgba(51, 51, 51, 0.95)',
 
   '&:hover': {
-    color: '#469bff'
-  }
+    color: '#469bff',
+  },
 })

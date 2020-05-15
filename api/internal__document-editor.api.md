@@ -5,22 +5,22 @@
 ```ts
 
 import { PluginToolbar } from '@edtr-io/internal__plugin-toolbar/beta';
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @beta
 export interface DocumentEditorProps {
-    children: React.ReactNode;
+    children: React_2.ReactNode;
     focused: boolean;
     hasSettings: boolean;
     hasToolbar: boolean;
     // (undocumented)
     PluginToolbar: PluginToolbar;
-    renderSettings?(children: React.ReactNode, { close }: {
+    renderSettings?(children: React_2.ReactNode, { close }: {
         close(): void;
-    }): React.ReactNode;
-    renderToolbar?(children: React.ReactNode): React.ReactNode;
-    settingsRef: React.RefObject<HTMLDivElement>;
-    toolbarRef: React.RefObject<HTMLDivElement>;
+    }): React_2.ReactNode;
+    renderToolbar?(children: React_2.ReactNode): React_2.ReactNode;
+    settingsRef: React_2.RefObject<HTMLDivElement>;
+    toolbarRef: React_2.RefObject<HTMLDivElement>;
 }
 
 

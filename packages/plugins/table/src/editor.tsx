@@ -6,7 +6,7 @@ import { TableProps } from '.'
 import { TableRenderer } from './renderer'
 
 const Form = styled.form({
-  marginTop: '10px'
+  marginTop: '10px',
 })
 
 export function TableEditor(props: TableProps) {
