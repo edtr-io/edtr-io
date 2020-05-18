@@ -181,9 +181,14 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
 
   const renderIntoToolbar = React.useCallback(
     (children: React.ReactNode) => {
-      setHasToolbar(true)
-      if (!toolbarRef.current) return null
-      return createPortal(children, toolbarRef.current)
+      return (
+        <RenderIntoToolbar
+          setHasToolbar={setHasToolbar}
+          toolbarRef={toolbarRef}
+        >
+          {children}
+        </RenderIntoToolbar>
+      )
     },
     [toolbarRef]
   )
@@ -283,4 +288,20 @@ function RenderIntoSettings({
   })
   if (!settingsRef.current) return null
   return createPortal(<IgnoreKeys>{children}</IgnoreKeys>, settingsRef.current)
+}
+
+function RenderIntoToolbar({
+  children,
+  setHasToolbar,
+  toolbarRef,
+}: {
+  children: React.ReactNode
+  setHasToolbar: (value: boolean) => void
+  toolbarRef: React.MutableRefObject<HTMLDivElement>
+}) {
+  React.useEffect(() => {
+    setHasToolbar(true)
+  })
+  if (!toolbarRef.current) return null
+  return createPortal(children, toolbarRef.current)
 }

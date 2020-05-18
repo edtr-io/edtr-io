@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **core**. Fix warning "cannot update a component while rendering a different component" in `renderIntoToolbar`.
 - **plugin-video**. Fix type declaration of `VideoConfig`.
 
 ## [1.0.0-beta.3](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.2..v1.0.0-beta.3) - April 7, 2020

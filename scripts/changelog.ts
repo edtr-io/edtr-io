@@ -968,7 +968,10 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       added: [
         '**ui**. Expose `merge` function that extends a `DeepPartial<T>` to `T` in a type-safe manner by defining fallback values.',
       ],
-      fixed: ['**plugin-video**. Fix type declaration of `VideoConfig`.'],
+      fixed: [
+        '**core**. Fix warning "cannot update a component while rendering a different component" in `renderIntoToolbar`.',
+        '**plugin-video**. Fix type declaration of `VideoConfig`.',
+      ],
     },
   ])
 
