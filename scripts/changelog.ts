@@ -965,6 +965,9 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       ],
     },
     {
+      tagName: 'v1.0.0-beta.4',
+      name: '1.0.0-beta.4',
+      date: '2020-05-18',
       added: [
         '**ui**. Expose `merge` function that extends a `DeepPartial<T>` to `T` in a type-safe manner by defining fallback values.',
       ],
