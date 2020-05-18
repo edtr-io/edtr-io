@@ -46,7 +46,7 @@ import { VideoEditor } from './editor'
 
 /** @public */
 export interface VideoConfig {
-  i18n?: DeepPartial<VideoPluginConfig>
+  i18n?: DeepPartial<VideoPluginConfig['i18n']>
 }
 
 /** @public */
