@@ -970,6 +970,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       ],
       fixed: [
         '**core**. Fix warning "cannot update a component while rendering a different component" in `renderIntoToolbar`.',
+        '**default-document-editor**. Fix type declaration of `DefaultDocumentEditorConfig`',
         '**plugin-video**. Fix type declaration of `VideoConfig`.',
       ],
     },

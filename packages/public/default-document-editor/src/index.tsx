@@ -5,9 +5,9 @@ import {
   EdtrIcon,
   faCog,
   Icon,
+  merge,
   styled,
 } from '@edtr-io/ui'
-import * as R from 'ramda'
 import * as React from 'react'
 
 const Container = styled.div<{
@@ -112,16 +112,16 @@ export function createDefaultDocumentEditor(
   }: DocumentEditorProps) {
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
 
-    const i18n = R.mergeDeepRight(
-      {
+    const i18n = merge<DefaultDocumentEditorI18n>({
+      fallback: {
         settings: {
           buttonLabel: 'Settings',
           modalTitle: 'Extended Settings',
           modalCloseLabel: 'Close',
         },
       },
-      config.i18n || {}
-    )
+      values: config.i18n || {},
+    })
     const { modalTitle, modalCloseLabel } = i18n.settings
 
     const shouldShowSettings = showSettings()
@@ -214,10 +214,14 @@ export function createDefaultDocumentEditor(
 
 /** @beta */
 export interface DefaultDocumentEditorConfig {
-  i18n?: DeepPartial<{
-    modal: {
-      title: string
-      closeLabel: string
-    }
-  }>
+  i18n?: DeepPartial<DefaultDocumentEditorI18n>
+}
+
+/** @beta */
+export interface DefaultDocumentEditorI18n {
+  settings: {
+    buttonLabel: string
+    modalTitle: string
+    modalCloseLabel: string
+  }
 }

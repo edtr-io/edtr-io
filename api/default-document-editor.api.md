@@ -14,12 +14,17 @@ export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig
 // @beta (undocumented)
 export interface DefaultDocumentEditorConfig {
     // (undocumented)
-    i18n?: DeepPartial<{
-        modal: {
-            title: string;
-            closeLabel: string;
-        };
-    }>;
+    i18n?: DeepPartial<DefaultDocumentEditorI18n>;
+}
+
+// @beta (undocumented)
+export interface DefaultDocumentEditorI18n {
+    // (undocumented)
+    settings: {
+        buttonLabel: string;
+        modalTitle: string;
+        modalCloseLabel: string;
+    };
 }
 
 
