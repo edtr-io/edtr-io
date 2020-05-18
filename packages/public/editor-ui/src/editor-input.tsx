@@ -2,11 +2,11 @@ import { styled, useEditorUiTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 function useEditorInputTheme() {
-  return useEditorUiTheme('input', theme => {
+  return useEditorUiTheme('input', (theme) => {
     return {
       color: theme.backgroundColor,
       backgroundColor: 'transparent',
-      highlightColor: theme.primary.background
+      highlightColor: theme.primary.background,
     }
   })
 }
@@ -15,7 +15,7 @@ const Label = styled.label<{ width: string | undefined }>(({ width }) => {
   const theme = useEditorInputTheme()
   return {
     width,
-    color: theme.color
+    color: theme.color,
   }
 })
 
@@ -31,8 +31,8 @@ const Input = styled.input<{ textWidth: string | undefined }>(
       paddingLeft: '10px',
       '&:focus': {
         outline: 'none',
-        borderBottom: `2px solid ${theme.highlightColor}`
-      }
+        borderBottom: `2px solid ${theme.highlightColor}`,
+      },
     }
   }
 )

@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Table',
   plugin: name,
-  states: states
+  states: states,
 })

@@ -4,18 +4,18 @@
 
 ```ts
 
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @beta
 export interface OverlayButtonProps {
     // (undocumented)
-    children?: React.ReactNode;
+    children?: React_2.ReactNode;
     // (undocumented)
     className?: string;
     // (undocumented)
     label: string;
     // (undocumented)
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    onClick?: React_2.MouseEventHandler<HTMLButtonElement>;
 }
 
 // @beta
@@ -29,13 +29,13 @@ export interface OverlayCheckboxProps {
 }
 
 // @beta
-export interface OverlayInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface OverlayInputProps extends React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     // (undocumented)
     label: string;
 }
 
 // @beta
-export interface OverlaySelectProps extends React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
+export interface OverlaySelectProps extends React_2.DetailedHTMLProps<React_2.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
     // (undocumented)
     label: string;
     // (undocumented)
@@ -45,7 +45,7 @@ export interface OverlaySelectProps extends React.DetailedHTMLProps<React.Select
 }
 
 // @beta
-export interface OverlayTextareaProps extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
+export interface OverlayTextareaProps extends React_2.DetailedHTMLProps<React_2.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
     // (undocumented)
     label: string;
 }
@@ -53,19 +53,19 @@ export interface OverlayTextareaProps extends React.DetailedHTMLProps<React.Text
 // @beta
 export interface PluginToolbar {
     // (undocumented)
-    OverlayButton: React.ComponentType<OverlayButtonProps>;
+    OverlayButton: React_2.ComponentType<OverlayButtonProps>;
     // (undocumented)
-    OverlayCheckbox: React.ComponentType<OverlayCheckboxProps>;
+    OverlayCheckbox: React_2.ComponentType<OverlayCheckboxProps>;
     // (undocumented)
-    OverlayInput: React.ComponentType<OverlayInputProps>;
+    OverlayInput: React_2.ComponentType<OverlayInputProps>;
     // (undocumented)
-    OverlaySelect: React.ComponentType<OverlaySelectProps>;
+    OverlaySelect: React_2.ComponentType<OverlaySelectProps>;
     // (undocumented)
-    OverlayTextarea: React.ComponentType<OverlayTextareaProps>;
+    OverlayTextarea: React_2.ComponentType<OverlayTextareaProps>;
     // (undocumented)
-    PluginToolbarButton: React.ComponentType<PluginToolbarButtonProps>;
+    PluginToolbarButton: React_2.ComponentType<PluginToolbarButtonProps>;
     // (undocumented)
-    PluginToolbarOverlayButton: React.ComponentType<PluginToolbarOverlayButtonProps>;
+    PluginToolbarOverlayButton: React_2.ComponentType<PluginToolbarOverlayButtonProps>;
 }
 
 // @beta
@@ -73,13 +73,13 @@ export interface PluginToolbarButtonProps {
     // (undocumented)
     className?: string;
     // (undocumented)
-    icon: React.ReactNode;
+    icon: React_2.ReactNode;
     // (undocumented)
     label: string;
     // (undocumented)
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    onClick?: React_2.MouseEventHandler<HTMLButtonElement>;
     // (undocumented)
-    ref: React.Ref<HTMLButtonElement>;
+    ref: React_2.Ref<HTMLButtonElement>;
 }
 
 // @beta
@@ -87,15 +87,15 @@ export interface PluginToolbarOverlayButtonProps {
     // (undocumented)
     className?: string;
     // (undocumented)
-    contentRef: React.RefObject<HTMLDivElement>;
+    contentRef: React_2.RefObject<HTMLDivElement>;
     // (undocumented)
-    icon: React.ReactNode;
+    icon: React_2.ReactNode;
     // (undocumented)
     label: string;
     // (undocumented)
-    renderContent?(children: React.ReactNode, additional: {
+    renderContent?(children: React_2.ReactNode, additional: {
         close(): void;
-    }): React.ReactNode;
+    }): React_2.ReactNode;
 }
 
 

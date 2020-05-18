@@ -4,8 +4,8 @@ exec({
   secret: process.env['CF_TOKEN'],
   commit: process.env['COMMIT'],
   ref: process.env['REF'],
-  removePreviousCommit: true
-}).catch(e => {
+  removePreviousCommit: true,
+}).catch((e) => {
   console.log('Failed', e)
   process.exit(1)
 })

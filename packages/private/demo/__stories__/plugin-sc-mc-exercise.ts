@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Sc Mc Exercise',
   plugin: name,
-  states: states
+  states: states,
 })

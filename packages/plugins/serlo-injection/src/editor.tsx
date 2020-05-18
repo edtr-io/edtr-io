@@ -3,7 +3,7 @@ import {
   EditorInlineSettings,
   EditorInput,
   PreviewOverlay,
-  styled
+  styled,
 } from '@edtr-io/editor-ui/internal'
 import { Icon, faNewspaper } from '@edtr-io/ui'
 import * as React from 'react'
@@ -25,7 +25,7 @@ const createURL = (id: string) => {
 const PlaceholderWrapper = styled.div({
   position: 'relative',
   width: '100%',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 export const SerloInjectionEditor = (props: SerloInjectionProps) => {
@@ -50,7 +50,7 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
       {cache ? (
         <PreviewOverlay
           focused={props.focused || false}
-          onChange={nextActive => {
+          onChange={(nextActive) => {
             setPreview(nextActive)
             if (nextActive) {
               setCache(props.state.value)
@@ -70,7 +70,7 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
             label={props.config.i18n.label}
             placeholder={props.config.i18n.placeholder}
             value={props.state.value}
-            onChange={e => {
+            onChange={(e) => {
               props.state.set(e.target.value)
             }}
             width="30%"
@@ -84,7 +84,7 @@ export const SerloInjectionEditor = (props: SerloInjectionProps) => {
           label={props.config.i18n.label}
           placeholder={props.config.i18n.placeholder}
           value={props.state.value}
-          onChange={e => {
+          onChange={(e) => {
             props.state.set(e.target.value)
           }}
         />

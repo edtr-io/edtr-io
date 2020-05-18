@@ -10,13 +10,13 @@ import { PlainEditorContainer, PlainRendererContainer } from './plain'
 import { SerloEditorContainer, SerloRendererContainer } from './serlo'
 import {
   SerloWithPreviewEditorContainer,
-  SerloWithPreviewRendererContainer
+  SerloWithPreviewRendererContainer,
 } from './serlo-with-preview'
 
 enum Container {
   Plain = 'Plain',
   Serlo = 'Serlo',
-  SerloWithPreview = 'SerloWithPreview'
+  SerloWithPreview = 'SerloWithPreview',
 }
 
 const Components: Record<
@@ -28,16 +28,16 @@ const Components: Record<
 > = {
   [Container.Plain]: {
     Editor: PlainEditorContainer,
-    Renderer: PlainRendererContainer
+    Renderer: PlainRendererContainer,
   },
   [Container.Serlo]: {
     Editor: SerloEditorContainer,
-    Renderer: SerloRendererContainer
+    Renderer: SerloRendererContainer,
   },
   [Container.SerloWithPreview]: {
     Editor: SerloWithPreviewEditorContainer,
-    Renderer: SerloWithPreviewRendererContainer
-  }
+    Renderer: SerloWithPreviewRendererContainer,
+  },
 }
 
 export function EditorStory(props: Partial<EditorProps>) {

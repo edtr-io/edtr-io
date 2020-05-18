@@ -8,7 +8,7 @@ import { CustomTheme } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function Renderer<K extends string = string>({ theme, ...props }: RendererProps<K>): JSX.Element;
+export function Renderer<K extends string = string>(props: RendererProps<K>): JSX.Element;
 
 // @public (undocumented)
 export interface RendererProps<K extends string = string> {

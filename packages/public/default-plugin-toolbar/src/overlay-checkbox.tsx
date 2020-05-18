@@ -9,7 +9,7 @@ const OverlayCheckboxLabel = styled.label({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginTop: '20px'
+  marginTop: '20px',
 })
 
 const OverlayCheckboxToggleContainer = styled.div<{
@@ -23,7 +23,7 @@ const OverlayCheckboxToggleContainer = styled.div<{
     height: '20px',
     display: 'inline-block',
     verticalAlign: 'middle',
-    backgroundColor: value ? 'rgba(51,51,51,0.95)' : '#ffffff'
+    backgroundColor: value ? 'rgba(51,51,51,0.95)' : '#ffffff',
   }
 })
 
@@ -43,20 +43,20 @@ const OverlayCheckboxToggle = styled.div<{ value?: boolean }>(({ value }) => {
     borderRadius: '1px',
 
     transform: 'rotate(-45deg)',
-    zIndex: 1000
+    zIndex: 1000,
   }
 })
 
 const OverlayCheckboxInner = styled.div({
   width: '75%',
-  textAlign: 'left'
+  textAlign: 'left',
 })
 
 export function createOverlayCheckbox(_config: DefaultPluginToolbarConfig) {
   return function OverlayCheckbox({
     checked,
     onChange,
-    label
+    label,
   }: OverlayCheckboxProps) {
     return (
       <OverlayCheckboxLabel>

@@ -9,5 +9,5 @@ export const states: Record<
   string,
   StateTypeSerializedType<GeogebraPluginState>
 > = {
-  simple: 'https://www.geogebra.org/m/Hfpaq7jQ'
+  simple: 'https://www.geogebra.org/m/Hfpaq7jQ',
 }

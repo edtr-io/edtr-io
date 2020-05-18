@@ -1,7 +1,7 @@
 import {
   OverlayButton,
   PluginToolbarButton,
-  useScopedStore
+  useScopedStore,
 } from '@edtr-io/core'
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
@@ -9,7 +9,7 @@ import {
   getDocument,
   getPlugins,
   SelectorReturnType,
-  serializeDocument
+  serializeDocument,
 } from '@edtr-io/store'
 import {
   edtrDragHandle,
@@ -17,7 +17,7 @@ import {
   styled,
   Icon,
   faCopy,
-  faTrashAlt
+  faTrashAlt,
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -25,7 +25,7 @@ import {
   DragObjectWithType,
   DropTargetMonitor,
   useDrag,
-  useDrop
+  useDrop,
 } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
@@ -45,33 +45,33 @@ const DragToolbarButton = styled(PluginToolbarButton)({
   cursor: 'grab',
   userSelect: 'none',
   '&:active': {
-    cursor: 'grabbing'
-  }
+    cursor: 'grabbing',
+  },
 })
 
 const ButtonContainer = styled.div({
-  display: 'flex'
+  display: 'flex',
 })
 
 const Left = styled.div({
-  flex: 1
+  flex: 1,
 })
 
 const BorderlessOverlayButton = styled(OverlayButton)({
   border: 'none !important',
   padding: '0 !important',
-  minWidth: '0 !important'
+  minWidth: '0 !important',
 })
 
 const GrayOut = styled.div({
-  opacity: 0.3
+  opacity: 0.3,
 })
 
 const Inserted = styled.hr<{ config: RowsPluginConfig }>(({ config }) => {
   return {
     margin: 0,
     padding: 0,
-    border: `1px solid ${config.theme.highlightColor}`
+    border: `1px solid ${config.theme.highlightColor}`,
   }
 })
 
@@ -83,7 +83,7 @@ export function RowRenderer({
   rows,
   index,
   plugins,
-  dropContainer
+  dropContainer,
 }: {
   config: RowsPluginConfig
   row: StateTypeReturnType<RowsPluginState>[0]
@@ -95,7 +95,7 @@ export function RowRenderer({
   const container = React.useRef<HTMLDivElement>(null)
   const [draggingAbove, setDraggingAbove] = React.useState(true)
   const allowedPlugins = React.useMemo(() => {
-    return config.plugins.map(plugin => plugin.name)
+    return config.plugins.map((plugin) => plugin.name)
   }, [config])
   const canDrop = useCanDrop(row.id, draggingAbove, allowedPlugins)
   const store = useScopedStore()
@@ -105,7 +105,7 @@ export function RowRenderer({
       id: row.id,
       type: 'row',
       serialized: { plugin: '', state: '' },
-      onDrop() {}
+      onDrop() {},
     },
     begin() {
       const serialized = serializeDocument(row.id)(store.getState())
@@ -114,18 +114,18 @@ export function RowRenderer({
         type: 'row',
         serialized,
         onDrop() {
-          rows.set(list => {
-            const i = R.findIndex(id => id === row.id, list)
+          rows.set((list) => {
+            const i = R.findIndex((id) => id === row.id, list)
             return R.remove(i, 1, list)
           })
-        }
+        },
       }
     },
     collect(monitor) {
       return {
-        isDragging: !!monitor.isDragging()
+        isDragging: !!monitor.isDragging(),
       }
-    }
+    },
   })
   const [collectedDropProps, drop] = useDrop({
     accept: ['row', ...validFileTypes],
@@ -135,19 +135,19 @@ export function RowRenderer({
       if (isFileType(type)) {
         return {
           isDragging,
-          isFile: true
+          isFile: true,
         }
       }
 
       if (type == 'row') {
         return {
           isDragging,
-          id: monitor.getItem().id as string
+          id: monitor.getItem().id as string,
         }
       }
 
       return {
-        isDragging: false
+        isDragging: false,
       }
     },
     hover(item: RowDragObject, monitor) {
@@ -169,7 +169,7 @@ export function RowRenderer({
 
         const draggingAbove = isDraggingAbove(monitor)
         rows.set((list, deserializer) => {
-          const i = R.findIndex(id => id === row.id, list)
+          const i = R.findIndex((id) => id === row.id, list)
           return R.insert(
             draggingAbove ? i : i + 1,
             deserializer(item.serialized),
@@ -220,11 +220,11 @@ export function RowRenderer({
         } else {
           rows.insert(dropIndex + 1, {
             plugin: key,
-            state: result.state
+            state: result.state,
           })
         }
       }
-    }
+    },
   })
 
   const pluginProps = React.useMemo(() => {
@@ -280,7 +280,7 @@ export function RowRenderer({
             {children}
           </React.Fragment>
         )
-      }
+      },
     }
   }, [
     config.i18n.settings.duplicateLabel,
@@ -291,7 +291,7 @@ export function RowRenderer({
     store,
     rows,
     index,
-    drag
+    drag,
   ])
 
   dragPreview(drop(dropContainer))

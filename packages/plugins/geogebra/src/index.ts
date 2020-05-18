@@ -2,7 +2,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 
 import { GeogebraEditor } from './editor'
@@ -22,15 +22,15 @@ export function createGeogebraPlugin(
       i18n: {
         label: 'GeoGebra URL or ID',
         placeholder: '12345',
-        ...i18n
-      }
+        ...i18n,
+      },
     },
     state: string(),
     onText(value) {
       if (/geogebra\.org\/m\/(.+)/.test(value)) {
         return { state: value }
       }
-    }
+    },
   }
 }
 

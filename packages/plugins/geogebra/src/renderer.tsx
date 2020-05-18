@@ -11,7 +11,7 @@ interface ApiData {
   previewUrl?: string
 }
 enum Error {
-  NotExisting
+  NotExisting,
 }
 type ApiResponse = ApiData | Error
 
@@ -21,11 +21,11 @@ const Geogebra = styled.iframe({
   left: 0,
   width: '100%',
   height: '100%',
-  border: 'none'
+  border: 'none',
 })
 const PreviewImage = styled.img({
   maxWidth: '100%',
-  height: 'auto'
+  height: 'auto',
 })
 const ScaleContainer = styled.div<{
   aspectRatio: number
@@ -37,12 +37,12 @@ const ScaleContainer = styled.div<{
   display: 'block',
   height: '0',
   overflow: 'hidden',
-  pointerEvents: disableCursorEvents ? 'none' : 'auto'
+  pointerEvents: disableCursorEvents ? 'none' : 'auto',
 }))
 
 export function GeogebraRenderer({
   state,
-  disableCursorEvents
+  disableCursorEvents,
 }: GeogebraRendererProps) {
   let id = state.value
   // check if state was the full url
@@ -60,7 +60,7 @@ export function GeogebraRenderer({
           textAlign: 'center',
           border: '2px lightgrey solid',
           borderRadius: '4px',
-          padding: '10px'
+          padding: '10px',
         }}
       >
         <img
@@ -115,30 +115,30 @@ function useCachedApiResponse(id?: string): ApiResponse {
                   field: [
                     { '-name': 'width' },
                     { '-name': 'height' },
-                    { '-name': 'preview_url' }
-                  ]
+                    { '-name': 'preview_url' },
+                  ],
                 },
                 filters: {
-                  field: [{ '-name': 'id', '#text': src }]
+                  field: [{ '-name': 'id', '#text': src }],
                 },
-                limit: { '-num': '1' }
-              }
-            }
+                limit: { '-num': '1' },
+              },
+            },
           },
           // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
           {
             headers: {
-              'Content-Type': 'text/plain'
-            }
+              'Content-Type': 'text/plain',
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           let data: ApiResponse = Error.NotExisting
           if (res.data.responses.response.item) {
             const {
               width = 800,
               height = 500,
-              previewUrl
+              previewUrl,
             } = res.data.responses.response.item
             data = { width, height, previewUrl }
           }

@@ -8,5 +8,5 @@ addTests({
   states,
   assert(_state, html) {
     expect(html).toContain('<blockquote')
-  }
+  },
 })

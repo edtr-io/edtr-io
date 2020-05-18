@@ -12,7 +12,7 @@ import {
   createStore,
   ChangeListener,
   StoreEnhancerFactory,
-  getScope
+  getScope,
 } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
@@ -23,7 +23,7 @@ import { configure, GlobalHotKeys } from 'react-hotkeys'
 import {
   DocumentEditorContext,
   PreferenceContextProvider,
-  PluginToolbarContext
+  PluginToolbarContext,
 } from './contexts'
 import {
   Provider,
@@ -32,14 +32,14 @@ import {
   ErrorContext,
   useSelector,
   useDispatch,
-  useStore
+  useStore,
 } from './store'
 import { SubDocument } from './sub-document'
 
 configure({
   ignoreEventsCondition() {
     return false
-  }
+  },
 })
 
 const DefaultDocumentEditor = createDefaultDocumentEditor()
@@ -50,22 +50,23 @@ const MAIN_SCOPE = 'main'
 let mountedProvider = false
 const mountedScopes: Record<string, boolean> = {}
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Renders a single editor for an Edtr.io document
  *
+ * @param props - The {@link EditorProps | props}
  * @public
  */
-export function Editor<K extends string = string>({
-  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
-  ...props
-}: EditorProps<K>) {
+export function Editor<K extends string = string>(props: EditorProps<K>) {
+  const {
+    createStoreEnhancer = (defaultEnhancer) => defaultEnhancer,
+    ...rest
+  }: EditorProps<K> = props
   const store = React.useMemo(() => {
     return createStore({
       scopes: {
-        [MAIN_SCOPE]: props.plugins
+        [MAIN_SCOPE]: rest.plugins,
       },
-      createEnhancer: createStoreEnhancer
+      createEnhancer: createStoreEnhancer,
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -77,34 +78,28 @@ export function Editor<K extends string = string>({
   function renderChildren() {
     const children = (
       <InnerDocument
-        {...props}
+        {...rest}
         scope={MAIN_SCOPE}
-        editable={props.editable === undefined ? true : props.editable}
+        editable={rest.editable === undefined ? true : rest.editable}
       />
     )
-    if (props.omitDragDropContext) return children
+    if (rest.omitDragDropContext) return children
     return <DndProvider backend={HTML5Backend}>{children}</DndProvider>
   }
 }
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Hydrates the required contexts
  *
- * @param createStoreEnhancer - Optional {@link @edtr-io/store#StoreEnhancerFactory | store enhancer factory}
- * @param omitDragDropContext - If set to `true`, we omit the hydration of {@link react-dnd#DndProvider}
- * @param children - The children
+ * @param props - The props
  * @beta
  */
-export function EditorProvider({
-  createStoreEnhancer = defaultEnhancer => defaultEnhancer,
-  omitDragDropContext,
-  children
-}: {
-  omitDragDropContext?: boolean
-  createStoreEnhancer?: StoreEnhancerFactory
-  children: React.ReactNode
-}) {
+export function EditorProvider(props: EditorProviderProps) {
+  const {
+    createStoreEnhancer = (defaultEnhancer) => defaultEnhancer,
+    omitDragDropContext,
+    children,
+  }: EditorProviderProps = props
   React.useEffect(() => {
     if (mountedProvider) {
       // eslint-disable-next-line no-console
@@ -118,7 +113,7 @@ export function EditorProvider({
   const store = React.useMemo(() => {
     return createStore({
       scopes: {},
-      createEnhancer: createStoreEnhancer
+      createEnhancer: createStoreEnhancer,
     }).store
     // We want to create the store only once
     // TODO: add effects that handle changes to plugins and defaultPlugin (by dispatching an action)
@@ -129,28 +124,31 @@ export function EditorProvider({
   if (omitDragDropContext) return child
   return <DndProvider backend={HTML5Backend}>{child}</DndProvider>
 }
+/** @public */
+export interface EditorProviderProps {
+  omitDragDropContext?: boolean
+  createStoreEnhancer?: StoreEnhancerFactory
+  children: React.ReactNode
+}
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Renders an editor for an Edtr.io document
  *
- * @param scope - The scope of the document
- * @param mirror - Should be set to `true` for all but one document of the same scope
  * @param props - The {@link EditorProps | props} for the document
  * @beta
  */
-export function Document<K extends string = string>({
-  scope = MAIN_SCOPE,
-  ...props
-}: Omit<EditorProps<K>, 'initialState'> & {
-  scope: string
-} & (
-    | { mirror: true; initialState?: unknown }
-    | { mirror?: false; initialState: EditorProps<K>['initialState'] }
-  )) {
+export function Document<K extends string = string>(
+  props: Omit<EditorProps<K>, 'initialState'> & {
+    scope: string
+  } & (
+      | { mirror: true; initialState?: unknown }
+      | { mirror?: false; initialState: EditorProps<K>['initialState'] }
+    )
+) {
+  const { scope = MAIN_SCOPE, ...rest } = props
   const storeContext = React.useContext(EditorContext)
   React.useEffect(() => {
-    const isMainInstance = !props.mirror
+    const isMainInstance = !rest.mirror
     if (isMainInstance) {
       if (mountedScopes[scope]) {
         // eslint-disable-next-line no-console
@@ -163,7 +161,7 @@ export function Document<K extends string = string>({
         }
       }
     }
-  }, [props.mirror, scope])
+  }, [rest.mirror, scope])
 
   if (!storeContext) {
     // eslint-disable-next-line no-console
@@ -173,13 +171,13 @@ export function Document<K extends string = string>({
     return null
   }
 
-  return <InnerDocument scope={scope} {...props} />
+  return <InnerDocument scope={scope} {...rest} />
 }
 
 const defaultTheme: CustomTheme = {}
 const hotKeysKeyMap = {
   UNDO: ['ctrl+z', 'command+z'],
-  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z']
+  REDO: ['ctrl+y', 'command+y', 'ctrl+shift+z', 'command+shift+z'],
 }
 
 export function InnerDocument<K extends string = string>({
@@ -200,7 +198,7 @@ export function InnerDocument<K extends string = string>({
     | { mirror?: false; initialState: EditorProps<K>['initialState'] }
   )) {
   // Can't use `useScopedSelector` here since `InnerDocument` initializes the scoped state and `ScopeContext`
-  const id = useSelector(state => {
+  const id = useSelector((state) => {
     const scopedState = state[scope]
     if (!scopedState) return null
     return getRoot()(scopedState)
@@ -221,7 +219,7 @@ export function InnerDocument<K extends string = string>({
         onChange({
           changed: hasPendingChanges()(getScope(fullStore.getState(), scope)),
           getDocument: () =>
-            serializeRootDocument()(getScope(fullStore.getState(), scope))
+            serializeRootDocument()(getScope(fullStore.getState(), scope)),
         })
         pendingChanges = currentPendingChanges
       }
@@ -238,13 +236,13 @@ export function InnerDocument<K extends string = string>({
   const scopeContextValue = React.useMemo(() => {
     return {
       scope,
-      editable
+      editable,
     }
   }, [scope, editable])
   const hotKeysHandlers = React.useMemo(() => {
     return {
       UNDO: () => dispatch(undo()(scope)),
-      REDO: () => dispatch(redo()(scope))
+      REDO: () => dispatch(redo()(scope)),
     }
   }, [dispatch, scope])
 

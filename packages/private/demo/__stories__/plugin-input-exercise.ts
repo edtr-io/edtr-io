@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Input Exercise',
   plugin: name,
-  states: states
+  states: states,
 })

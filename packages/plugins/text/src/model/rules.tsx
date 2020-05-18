@@ -15,7 +15,7 @@ import {
   listItemChildNode,
   katexBlockNode,
   katexInlineNode,
-  colorMark
+  colorMark,
 } from './schema'
 
 export const rules: Rule[] = [
@@ -42,10 +42,10 @@ export const rules: Rule[] = [
         return {
           object: 'text',
           text: text.replace(new RegExp('\\r|\\n|\\t', 'g'), ''),
-          marks: []
+          marks: [],
         }
       }
-    }
+    },
   },
   // paragraph
   {
@@ -65,10 +65,10 @@ export const rules: Rule[] = [
         return {
           object: 'block',
           type: paragraphNode,
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       }
-    }
+    },
   },
   // rich text
   {
@@ -93,19 +93,19 @@ export const rules: Rule[] = [
           return {
             object: 'mark',
             type: strongMark,
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         case 'em':
         case 'i':
           return {
             object: 'mark',
             type: emphasizeMark,
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         default:
           return
       }
-    }
+    },
   },
   // link
   {
@@ -132,11 +132,11 @@ export const rules: Rule[] = [
           type: linkNode,
           nodes: next(el.childNodes),
           data: Data.create({
-            href: href ? href : ''
-          })
+            href: href ? href : '',
+          }),
         }
       }
-    }
+    },
   },
   // headings
   {
@@ -164,10 +164,10 @@ export const rules: Rule[] = [
         return {
           object: 'block',
           type: createHeadingNode(level),
-          nodes: next(el.childNodes)
+          nodes: next(el.childNodes),
         }
       }
-    }
+    },
   },
   // lists
   {
@@ -193,13 +193,13 @@ export const rules: Rule[] = [
           return {
             object: 'block',
             type: orderedListNode,
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         case 'ul':
           return {
             object: 'block',
             type: unorderedListNode,
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         case 'li':
           return {
@@ -209,12 +209,12 @@ export const rules: Rule[] = [
               {
                 object: 'block',
                 type: listItemChildNode,
-                nodes: next(el.childNodes)
-              }
-            ]
+                nodes: next(el.childNodes),
+              },
+            ],
           }
       }
-    }
+    },
   },
   // edtr-io specific: katex
   {
@@ -242,9 +242,9 @@ export const rules: Rule[] = [
             type: katexBlockNode,
             data: {
               formula: el.childNodes[0].nodeValue,
-              inline: false
+              inline: false,
             },
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         case 'katexinline':
           return {
@@ -252,14 +252,14 @@ export const rules: Rule[] = [
             type: katexInlineNode,
             data: {
               formula: el.childNodes[0].nodeValue,
-              inline: true
+              inline: true,
             },
-            nodes: next(el.childNodes)
+            nodes: next(el.childNodes),
           }
         default:
           return
       }
-    }
+    },
   },
   // edtr-io specific: color
   {
@@ -281,10 +281,10 @@ export const rules: Rule[] = [
           type: linkNode,
           nodes: next(el.childNodes),
           data: Data.create({
-            colorIndex: parseInt(colorIndex ? colorIndex : '')
-          })
+            colorIndex: parseInt(colorIndex ? colorIndex : ''),
+          }),
         }
       }
-    }
-  }
+    },
+  },
 ]

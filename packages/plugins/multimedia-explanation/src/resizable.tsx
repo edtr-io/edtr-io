@@ -4,7 +4,7 @@ import { Resizable as ReactResizeable } from 'react-resizable'
 
 const StyledResizable = styled(ReactResizeable)<{
   floating?: 'left' | 'right'
-}>(props => {
+}>((props) => {
   return {
     '.react-resizable-handle': {
       [props.floating === 'right' ? 'left' : 'right']: '-4px',
@@ -25,15 +25,15 @@ const StyledResizable = styled(ReactResizeable)<{
         bottom: 'calc(50% - 20px)',
         left: '0',
         right: '0',
-        transition: 'all 200ms linear'
+        transition: 'all 200ms linear',
       },
       '&:hover:after, &:active:after': {
         backgroundColor: '#000',
         top: '0',
         bottom: '0',
-        cursor: 'e-resize'
-      }
-    }
+        cursor: 'e-resize',
+      },
+    },
   }
 })
 
@@ -41,7 +41,7 @@ const Floating = styled.div<{
   responsiveBreakpoint?: number
   floating?: 'left' | 'right'
   widthInPercent: number
-}>(props => {
+}>((props) => {
   return {
     width: `${props.widthInPercent}%`,
     float: props.floating,
@@ -53,11 +53,11 @@ const Floating = styled.div<{
             float: 'none',
 
             '.react-resizable-handle, &:after': {
-              display: 'none'
-            }
-          }
+              display: 'none',
+            },
+          },
         }
-      : {})
+      : {}),
   }
 })
 
@@ -112,7 +112,7 @@ export function Resizable(props: React.PropsWithChildren<ResizableProps>) {
           onResizeStop={onResizeEnd}
           draggableOpts={{
             axis: 'none',
-            offsetParent: document.body
+            offsetParent: document.body,
           }}
           width={width}
           height={0}

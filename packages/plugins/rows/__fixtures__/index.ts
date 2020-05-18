@@ -14,7 +14,7 @@ import {
   faNewspaper,
   faParagraph,
   faPhotoVideo,
-  faQuoteRight
+  faQuoteRight,
 } from '@edtr-io/ui'
 
 import { RowsPluginState, createRowsPlugin } from '../src'
@@ -26,73 +26,73 @@ export const plugin = createRowsPlugin({
     {
       name: 'anchor',
       title: 'Anchor',
-      icon: createIcon(faAnchor)
+      icon: createIcon(faAnchor),
     },
     {
       name: 'blockquote',
       title: 'Blockquote',
-      icon: createIcon(faQuoteRight)
+      icon: createIcon(faQuoteRight),
     },
     {
       name: 'files',
       title: 'Files',
-      icon: createIcon(faFileAlt)
+      icon: createIcon(faFileAlt),
     },
     {
       name: 'geogebra',
       title: 'GeoGebra',
-      icon: createIcon(faCubes)
+      icon: createIcon(faCubes),
     },
     {
       name: 'highlight',
       title: 'Code Highlight',
-      icon: createIcon(faCode)
+      icon: createIcon(faCode),
     },
     {
       name: 'image',
       title: 'Image',
-      icon: createIcon(faImages)
+      icon: createIcon(faImages),
     },
     {
       name: 'inputExercise',
       title: 'Input Exercise',
-      icon: createIcon(faKeyboard)
+      icon: createIcon(faKeyboard),
     },
     {
       name: 'multimediaExplanation',
       title: 'Multimedia Explanation',
-      icon: createIcon(faPhotoVideo)
+      icon: createIcon(faPhotoVideo),
     },
     {
       name: 'scMcExercise',
       title: 'Choice Exercise',
-      icon: createIcon(faDotCircle)
+      icon: createIcon(faDotCircle),
     },
     {
       name: 'serloInjection',
       title: 'Serlo Content',
-      icon: createIcon(faNewspaper)
+      icon: createIcon(faNewspaper),
     },
     {
       name: 'spoiler',
       title: 'Spoiler',
-      icon: createIcon(faCaretSquareDown)
+      icon: createIcon(faCaretSquareDown),
     },
     {
       name: 'table',
-      title: 'Markdown Table'
+      title: 'Markdown Table',
     },
     {
       name: 'text',
       title: 'Text',
-      icon: createIcon(faParagraph)
+      icon: createIcon(faParagraph),
     },
     {
       name: 'video',
       title: 'Video',
-      icon: createIcon(faFilm)
-    }
-  ]
+      icon: createIcon(faFilm),
+    },
+  ],
 })
 
 export const states: Record<
@@ -104,10 +104,10 @@ export const states: Record<
     state: [
       {
         type: 'p',
-        children: [{ text: 'Hello world' }]
-      }
-    ]
-  })
+        children: [{ text: 'Hello world' }],
+      },
+    ],
+  }),
 }
 
 export function createRowsState(

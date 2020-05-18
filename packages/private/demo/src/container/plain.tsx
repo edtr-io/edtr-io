@@ -2,7 +2,7 @@ import {
   Editor,
   EditorProps,
   useScopedDispatch,
-  useScopedSelector
+  useScopedSelector,
 } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
 import {
@@ -12,7 +12,7 @@ import {
   redo,
   reset,
   undo,
-  hasPendingChanges as hasPendingChangesSelector
+  hasPendingChanges as hasPendingChangesSelector,
 } from '@edtr-io/store'
 import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
@@ -25,7 +25,7 @@ export function PlainRendererContainer(props: RendererProps) {
 
 export function PlainEditorContainer(props: EditorProps) {
   const children = React.useCallback(
-    document => {
+    (document) => {
       return (
         <PlainEditorContainerInner editable={props.editable}>
           {document}

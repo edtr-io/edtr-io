@@ -2,7 +2,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 
 import { AnchorEditor } from './editor'
@@ -22,10 +22,10 @@ export function createAnchorPlugin(
       i18n: {
         label: 'Identifier',
         placeholder: 'ID of the anchor',
-        ...i18n
-      }
+        ...i18n,
+      },
     },
-    state: string()
+    state: string(),
   }
 }
 

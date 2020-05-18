@@ -9,7 +9,7 @@ const OverlayInputLabel = styled.label({
   margin: '20px auto 0px',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 const OverlayInputLabelInner = styled.span({ width: '20%' })
@@ -24,8 +24,8 @@ const OverlayInputInner = styled.input<{ config: DefaultPluginToolbarConfig }>(
       width: '75%',
       '&:focus': {
         outline: 'none',
-        borderBottom: `2px solid ${config.primaryColor}`
-      }
+        borderBottom: `2px solid ${config.primaryColor}`,
+      },
     }
   }
 )

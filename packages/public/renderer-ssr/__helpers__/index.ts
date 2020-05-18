@@ -7,7 +7,7 @@ export function addTests<S>({
   name,
   plugin,
   states,
-  assert
+  assert,
 }: {
   name: string
   plugin: string
@@ -22,7 +22,7 @@ export function addTests<S>({
         if (typeof assert === 'function') {
           assert(state, html)
         }
-      }
+      },
     })
   })
 }
@@ -30,7 +30,7 @@ export function addTests<S>({
 export function addTest<S>({
   plugin,
   state,
-  assert
+  assert,
 }: {
   plugin: string
   state: S
@@ -39,9 +39,9 @@ export function addTest<S>({
   const { html } = render({
     state: {
       plugin,
-      state
+      state,
     },
-    plugins
+    plugins,
   })
   if (typeof assert === 'function') {
     assert(html)

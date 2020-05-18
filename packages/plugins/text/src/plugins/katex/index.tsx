@@ -8,7 +8,7 @@ import {
   NodeEditorProps,
   TextPlugin,
   NodeControlsProps,
-  TextPluginConfig
+  TextPluginConfig,
 } from '../..'
 import { SlatePluginClosure } from '../../factory/types'
 import { trimSelection } from '../../helpers'
@@ -21,10 +21,10 @@ if (canUseDOM) {
 
 export const isKatex = (editor: Editor) => {
   return (
-    editor.value.blocks.some(block =>
+    editor.value.blocks.some((block) =>
       block ? block.type === katexBlockNode : false
     ) ||
-    editor.value.inlines.some(inline =>
+    editor.value.inlines.some((inline) =>
       inline ? inline.type === katexInlineNode : false
     )
   )
@@ -38,8 +38,8 @@ export const insertKatex = (editor: Editor) => {
         type: katexInlineNode,
         data: {
           formula: selection ? selection.toString() : '',
-          inline: true
-        }
+          inline: true,
+        },
       })
       .moveToEnd()
     return editor.focus().moveBackward(1)
@@ -48,18 +48,18 @@ export const insertKatex = (editor: Editor) => {
     type: katexInlineNode,
     data: {
       formula: '',
-      inline: true
-    }
+      inline: true,
+    },
   })
 }
 export const removeKatex = (editor: Editor) => {
   const node =
     editor.value.blocks
       .toArray()
-      .find(block => block.type === katexBlockNode) ||
+      .find((block) => block.type === katexBlockNode) ||
     editor.value.inlines
       .toArray()
-      .find(inline => inline.type === katexInlineNode)
+      .find((inline) => inline.type === katexInlineNode)
 
   if (!node) return editor
   return editor.removeNodeByKey(node.key)
@@ -74,7 +74,7 @@ export interface KatexPluginOptions {
 }
 
 export const createKatexPlugin = ({
-  EditorComponent = DefaultEditorComponent
+  EditorComponent = DefaultEditorComponent,
 }: KatexPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
@@ -109,6 +109,6 @@ export const createKatexPlugin = ({
         return renderEditorComponent(props)
       }
       return next()
-    }
+    },
   }
 }

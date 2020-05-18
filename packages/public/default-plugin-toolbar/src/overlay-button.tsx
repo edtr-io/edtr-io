@@ -19,8 +19,8 @@ const Button = styled.button<{ config: DefaultPluginToolbarConfig }>(
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgb(70, 155, 255)',
-        borderColor: config.primaryColor
-      }
+        borderColor: config.primaryColor,
+      },
     }
   }
 )

@@ -2,13 +2,13 @@ import * as R from 'ramda'
 import * as React from 'react'
 import * as StyledComponents from 'styled-components'
 
+import { DeepPartial } from './deep-partial'
 import { defaultEditorTheme, EditorTheme, EditorUiTheme } from './editor-theme'
 import {
   defaultRendererTheme,
   RendererTheme,
-  RendererUiTheme
+  RendererUiTheme,
 } from './renderer-theme'
-import { DeepPartial } from './types'
 
 /**
  * Interface of an Edtr.io theme
@@ -39,10 +39,9 @@ const defaultTheme: Theme = {
   editor: defaultEditorTheme,
   editorUi: {},
   renderer: defaultRendererTheme,
-  rendererUi: {}
+  rendererUi: {},
 }
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Provider to hydrate the context for the {@link Theme | Theme}
  *
@@ -80,7 +79,6 @@ export function useTheme() {
   return React.useContext(ThemeContext)
 }
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Provider to override the current {@link Theme | theme}
  *

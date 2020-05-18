@@ -4,7 +4,7 @@ import {
   EditorPlugin,
   EditorPluginProps,
   ListStateType,
-  UploadStateType
+  UploadStateType,
 } from '@edtr-io/plugin'
 
 import { FilesEditor } from './editor'
@@ -28,23 +28,23 @@ export function createFilesPlugin(
       i18n: {
         label: 'Browse…',
         failedUploadMessage: 'Upload failed',
-        ...i18n
-      }
+        ...i18n,
+      },
     },
     state: list(
       upload({
         src: '',
         name: '',
-        type: FileType.Other
+        type: FileType.Other,
       })
     ),
     onFiles(files: File[]) {
       if (files.length) {
         return {
-          state: files.map(file => ({ pending: file }))
+          state: files.map((file) => ({ pending: file })),
         }
       }
-    }
+    },
   }
 }
 

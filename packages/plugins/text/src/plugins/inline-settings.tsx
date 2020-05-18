@@ -4,7 +4,7 @@ import * as React from 'react'
 import { HoveringOverlay, HoverPosition } from './hovering-overlay'
 
 const InlinePreview = styled.span({
-  padding: '0px 8px'
+  padding: '0px 8px',
 })
 const ChangeButton = styled.div({
   padding: '5px 5px 5px 10px',
@@ -13,8 +13,8 @@ const ChangeButton = styled.div({
   cursor: 'pointer',
   margin: '2px',
   '&:hover': {
-    color: 'rgb(70, 155, 255)'
-  }
+    color: 'rgb(70, 155, 255)',
+  },
 })
 
 export function InlineSettings({

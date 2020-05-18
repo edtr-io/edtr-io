@@ -16,7 +16,7 @@ export function createVideoPlugin(config?: VideoConfig): EditorPlugin<VideoPlugi
 // @public (undocumented)
 export interface VideoConfig {
     // (undocumented)
-    i18n?: DeepPartial<VideoPluginConfig>;
+    i18n?: DeepPartial<VideoPluginConfig['i18n']>;
 }
 
 // @public (undocumented)

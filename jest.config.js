@@ -7,7 +7,7 @@ module.exports = {
     '^react-dnd-touch-backend$': 'react-dnd-touch-backend/dist/cjs',
     '^react-dnd-test-backend$': 'react-dnd-test-backend/dist/cjs',
     '^react-dnd-test-utils$': 'react-dnd-test-utils/dist/cjs',
-    '\\.(css|less|eot|svg|ttf|woff|woff2)$': '<rootDir>/jest.styleMock.js'
+    '\\.(css|less|eot|svg|ttf|woff|woff2)$': '<rootDir>/jest.styleMock.js',
   },
-  transformIgnorePatterns: ['/node_modules/(?!(react-syntax-highlighter)/)']
+  transformIgnorePatterns: ['/node_modules/(?!(react-syntax-highlighter)/)'],
 }

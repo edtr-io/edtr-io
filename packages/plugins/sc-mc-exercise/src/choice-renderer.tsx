@@ -9,7 +9,7 @@ const CheckboxContainer = styled.div({
   textAlign: 'center',
   marginRight: '10px',
   marginBottom: '5px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
 })
 export class ScMcExerciseChoiceRenderer extends React.Component<
   ScMcExerciseProps & ChoiceRendererProps
@@ -21,7 +21,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
       index,
       onClick,
       showFeedback,
-      selected
+      selected,
     } = this.props
     return (
       <div style={{ display: 'flex' }}>
@@ -42,14 +42,14 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
     )
   }
   private Container = styled.div<{ isCorrect: boolean; showFeedback: boolean }>(
-    props => {
+    (props) => {
       return {
         paddingLeft: '20 px',
         color: props.showFeedback
           ? props.isCorrect
             ? '#95bc1a'
             : '#f7b07c'
-          : 'black'
+          : 'black',
       }
     }
   )

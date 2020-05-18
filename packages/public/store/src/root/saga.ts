@@ -12,7 +12,7 @@ export function* rootSaga() {
 function* initRootSaga(action: InitRootAction) {
   yield put(
     setPartialState({
-      plugins: action.payload.plugins
+      plugins: action.payload.plugins,
     })(action.scope)
   )
   yield put(pureInitRoot()(action.scope))
@@ -20,9 +20,9 @@ function* initRootSaga(action: InitRootAction) {
     ReversibleAction[],
     unknown
   ] = yield call(handleRecursiveInserts, action.scope, () => {}, [
-    { id: 'root', ...(action.payload.initialState || {}) }
+    { id: 'root', ...(action.payload.initialState || {}) },
   ])
 
-  yield all(actions.map(reversible => put(reversible.action)))
+  yield all(actions.map((reversible) => put(reversible.action)))
   yield put(persist()(action.scope))
 }

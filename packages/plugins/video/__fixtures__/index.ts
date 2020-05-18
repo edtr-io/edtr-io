@@ -11,6 +11,6 @@ export const states: Record<
 > = {
   simple: {
     src: 'https://www.youtube.com/watch?v=SCJ7nzKwnYo',
-    alt: 'Regenwürmer als Haustiere'
-  }
+    alt: 'Regenwürmer als Haustiere',
+  },
 }

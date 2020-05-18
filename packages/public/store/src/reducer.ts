@@ -4,7 +4,7 @@ import {
   Action,
   applyActions,
   InternalAction,
-  setPartialState
+  setPartialState,
 } from './actions'
 import { clipboardReducer } from './clipboard/reducer'
 import { documentsReducer } from './documents/reducer'
@@ -28,7 +28,7 @@ export function reducer(
   action: InternalAction
 ): InternalState {
   if (action.scope === undefined) {
-    return R.map(state => scopedReducer(state, action), state)
+    return R.map((state) => scopedReducer(state, action), state)
   }
 
   if (action.type === applyActions.type) {
@@ -40,14 +40,14 @@ export function reducer(
       ...state,
       [action.scope]: {
         ...state[action.scope],
-        ...action.payload
-      }
+        ...action.payload,
+      },
     } as InternalState
   }
 
   return {
     ...state,
-    [action.scope]: scopedReducer(state[action.scope], action)
+    [action.scope]: scopedReducer(state[action.scope], action),
   }
 }
 
@@ -61,7 +61,7 @@ function scopedReducer(
     focus: focusReducer(action, scopeState),
     history: historyReducer(action, scopeState),
     plugins: pluginsReducer(action, scopeState),
-    root: rootReducer(action, scopeState)
+    root: rootReducer(action, scopeState),
   }
 }
 

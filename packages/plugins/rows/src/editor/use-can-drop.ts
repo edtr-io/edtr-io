@@ -4,7 +4,7 @@ import {
   getDocument,
   getFocusPath,
   getFocusTree,
-  Node
+  Node,
 } from '@edtr-io/store'
 import * as R from 'ramda'
 
@@ -15,7 +15,7 @@ export function useCanDrop(
 ) {
   const store = useScopedStore()
 
-  return function(dragId?: string) {
+  return function (dragId?: string) {
     return (
       dragId &&
       isAllowedPlugin(dragId) &&
@@ -55,7 +55,7 @@ export function useCanDrop(
   ): number | null {
     if (!parent) return null
     const position = R.findIndex(
-      node => node.id === childId,
+      (node) => node.id === childId,
       parent.children || []
     )
     return position > -1 ? position : null

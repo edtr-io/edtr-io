@@ -18,13 +18,13 @@
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/shortid": "^0.0.29",
-    "@types/styled-components": "^4.0.0",
+    "@types/styled-components": "^5.0.0",
     "ramda": "^0.27.0",
     "shortid": "^2.0.0"
   },
   "devDependencies": {
     "@edtr-io/core": "^1.0.0-beta.3",
-    "@testing-library/react": "^9.0.0",
+    "@testing-library/react": "^10.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "styled-components": "^5.0.0"

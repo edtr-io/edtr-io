@@ -26,7 +26,7 @@ export function createDefaultPluginToolbar(
     OverlaySelect: createOverlaySelect(config),
     OverlayTextarea: createOverlayTextarea(config),
     PluginToolbarButton: createPluginToolbarButton(config),
-    PluginToolbarOverlayButton: createPluginToolbarOverlayButton(config)
+    PluginToolbarOverlayButton: createPluginToolbarOverlayButton(config),
   }
 }
 

@@ -15,7 +15,7 @@ import {
   upload,
   UploadHandler,
   UploadStateType,
-  UploadValidator
+  UploadValidator,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -44,41 +44,41 @@ export function createImagePlugin(
             placeholder: {
               empty: 'https://example.com/image.png',
               uploading: 'Uploading…',
-              failed: 'Upload failed…'
+              failed: 'Upload failed…',
             },
-            retryLabel: 'Retry'
+            retryLabel: 'Retry',
           },
           link: {
             href: {
               label: 'Link',
-              placeholder: 'Link the image'
+              placeholder: 'Link the image',
             },
             openInNewTab: {
-              label: 'Open in new tab'
-            }
+              label: 'Open in new tab',
+            },
           },
           alt: {
             label: 'Description',
-            placeholder: 'Enter an image description'
+            placeholder: 'Enter an image description',
           },
           maxWidth: {
             label: 'Maximum width',
-            placeholder: 'Enter the maximum width'
-          }
+            placeholder: 'Enter the maximum width',
+          },
         },
         i18n
-      )
+      ),
     },
     state: object({
       src: upload(''),
       link: optional(
         object({
           href: string(''),
-          openInNewTab: boolean(false)
+          openInNewTab: boolean(false),
         })
       ),
       alt: optional(string('')),
-      maxWidth: optional(number(0))
+      maxWidth: optional(number(0)),
     }),
     onText(value) {
       if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value.toLowerCase())) {
@@ -87,8 +87,8 @@ export function createImagePlugin(
             src: value,
             link: undefined,
             alt: undefined,
-            maxWidth: undefined
-          }
+            maxWidth: undefined,
+          },
         }
       }
     },
@@ -102,19 +102,19 @@ export function createImagePlugin(
               src: { pending: files[0] },
               link: undefined,
               alt: undefined,
-              maxWidth: undefined
-            }
+              maxWidth: undefined,
+            },
           }
         }
       }
     },
-    isEmpty: serializedState => {
+    isEmpty: (serializedState) => {
       return (
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
         (!serializedState.link.defined || !serializedState.link.href.value) &&
         (!serializedState.alt.defined || !serializedState.alt.value)
       )
-    }
+    },
   }
 }
 

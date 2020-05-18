@@ -1,10 +1,10 @@
 import { asyncScalar, StateExecutor, StateUpdater } from '../src'
 
 const deserializeHelpers = {
-  createDocument: () => {}
+  createDocument: () => {},
 }
 const serializeHelpers = {
-  getDocument: () => null
+  getDocument: () => null,
 }
 
 describe('asyncScalar', () => {
@@ -44,13 +44,13 @@ describe('asyncScalar', () => {
       store = initial(store, deserializeHelpers)
       if (executor) {
         executor(
-          resolveUpdater => {
+          (resolveUpdater) => {
             store = resolveUpdater(store, deserializeHelpers)
           },
-          rejectUpdater => {
+          (rejectUpdater) => {
             store = rejectUpdater(store, deserializeHelpers)
           },
-          nextUpdater => {
+          (nextUpdater) => {
             store = nextUpdater(store, deserializeHelpers)
           }
         )
@@ -76,7 +76,7 @@ describe('asyncScalar', () => {
 })
 
 function wait(time = 10): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, time)

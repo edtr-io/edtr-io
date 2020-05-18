@@ -12,13 +12,13 @@ const EdtrContainer = () => {
   //define the plugins for the editor
   const plugins = {
     rows: rowsPlugin,
-    text: textPlugin
+    text: textPlugin,
     //... further plugins
   }
 
   // create an empty initial State of the rows plugin
   const initialState = {
-    plugin: 'rows'
+    plugin: 'rows',
   }
   // pass plugins and initialState to the rows plugin
   // also set a defaultPlugin which will be used in new rows by default

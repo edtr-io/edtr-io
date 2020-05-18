@@ -36,11 +36,11 @@ export function upload<T>(defaultState: T): UploadStateType<T> {
             })
 
             uploaded
-              .then(uploaded => {
+              .then((uploaded) => {
                 uploadFinished = true
                 return uploaded
               })
-              .then(uploaded => {
+              .then((uploaded) => {
                 resolve(() => {
                   return uploaded
                 })
@@ -53,9 +53,9 @@ export function upload<T>(defaultState: T): UploadStateType<T> {
           })
 
           return uploaded
-        }
+        },
       }
-    }
+    },
   }
 }
 
@@ -78,10 +78,10 @@ export interface UploadStateReturnType<T> {
 }
 
 function readFile(file: File): Promise<LoadedFile> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const reader = new FileReader()
 
-    reader.onload = function(e: ProgressEvent) {
+    reader.onload = function (e: ProgressEvent) {
       if (!e.target) return
       const { result } = (e.target as unknown) as { result: string }
       resolve({ file, dataUrl: result })
@@ -131,7 +131,7 @@ export function usePendingFilesUploader<T>(
     }
 
     function onDone() {
-      setUploading(currentUploading => currentUploading + 1)
+      setUploading((currentUploading) => currentUploading + 1)
     }
   }, [files, uploadHandler, uploading])
 }

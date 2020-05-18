@@ -12,8 +12,8 @@ const src = path.join(__dirname, 'src')
 
 const entry = {}
 fs.readdirSync(src)
-  .filter(fileName => path.extname(fileName) === '.tsx')
-  .forEach(fileName => {
+  .filter((fileName) => path.extname(fileName) === '.tsx')
+  .forEach((fileName) => {
     entry[path.basename(fileName)] = path.join(src, fileName)
   })
 
@@ -30,7 +30,7 @@ module.exports = {
         info.absoluteResourcePath
       )
       return `webpack:///${relativePath}`
-    }
+    },
   },
   module: {
     rules: [
@@ -39,59 +39,59 @@ module.exports = {
         exclude: /node_modules/,
         loader: require.resolve('babel-loader'),
         options: {
-          rootMode: 'upward'
-        }
+          rootMode: 'upward',
+        },
       },
       {
         test: /\.mjs$/,
         resolve: {
-          mainFields: ['module', 'main']
+          mainFields: ['module', 'main'],
         },
         include: /node_modules/,
-        type: 'javascript/auto'
+        type: 'javascript/auto',
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: MiniCssExtractPlugin.loader,
           },
           {
-            loader: 'css-loader'
-          }
-        ]
+            loader: 'css-loader',
+          },
+        ],
       },
       {
         test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|ogg)(\?.*)?$/,
         loader: require.resolve('file-loader'),
         options: {
-          name: '[name].[hash:8].[ext]'
-        }
-      }
-    ]
+          name: '[name].[hash:8].[ext]',
+        },
+      },
+    ],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.mjs', '.js']
+    extensions: ['.ts', '.tsx', '.mjs', '.js'],
   },
   target: 'web',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
+      analyzerMode: 'static',
     }),
     new MiniCssExtractPlugin({
       chunkFilename: '[id].[chunkhash:8].css',
-      filename: '[name].css'
-    })
+      filename: '[name].css',
+    }),
   ],
   optimization: {
     minimizer: [
       new OptimizeCssAssetsPlugin(),
       new TerserPlugin({
-        parallel: true
-      })
-    ]
-  }
+        parallel: true,
+      }),
+    ],
+  },
 }

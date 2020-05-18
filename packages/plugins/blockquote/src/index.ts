@@ -3,7 +3,7 @@ import {
   ChildStateType,
   ChildStateTypeConfig,
   EditorPlugin,
-  EditorPluginProps
+  EditorPluginProps,
 } from '@edtr-io/plugin'
 
 import { BlockquoteRenderer } from './renderer'
@@ -18,7 +18,7 @@ export function createBlockquotePlugin(
   return {
     Component: BlockquoteRenderer,
     config: {},
-    state: createState()
+    state: createState(),
   }
 
   function createState() {

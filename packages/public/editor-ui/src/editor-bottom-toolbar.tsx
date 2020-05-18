@@ -2,10 +2,10 @@ import { EditorThemeProps, styled, useEditorUiTheme } from '@edtr-io/ui'
 
 /** @public */
 export const EditorBottomToolbar = styled.div<EditorThemeProps>(() => {
-  const theme = useEditorUiTheme('bottomToolbar', theme => {
+  const theme = useEditorUiTheme('bottomToolbar', (theme) => {
     return {
       backgroundColor: theme.backgroundColor,
-      color: theme.color
+      color: theme.color,
     }
   })
   return {
@@ -18,6 +18,6 @@ export const EditorBottomToolbar = styled.div<EditorThemeProps>(() => {
     transform: 'translate(-50%,-50%)',
     bottom: '0',
     zIndex: 90,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   }
 })

@@ -6,17 +6,18 @@ import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { createStore } from 'redux'
 
-/** @public */
-export function Renderer<K extends string = string>({
-  theme = {},
-  ...props
-}: RendererProps<K>) {
+/**
+ * @param props - The props
+ * @public
+ */
+export function Renderer<K extends string = string>(props: RendererProps<K>) {
+  const { theme = {}, ...rest } = props
   const store = React.useMemo(() => {
     return createStore((state: State | undefined) => {
       if (!state) {
         return {
           main: {
-            plugins: props.plugins,
+            plugins: rest.plugins,
             documents: getDocuments(),
             focus: null,
             root: 'root',
@@ -24,9 +25,9 @@ export function Renderer<K extends string = string>({
             history: {
               undoStack: [],
               redoStack: [],
-              pendingChanges: 0
-            }
-          }
+              pendingChanges: 0,
+            },
+          },
         }
       }
       return state
@@ -41,17 +42,17 @@ export function Renderer<K extends string = string>({
       }[] = [
         {
           id: 'root',
-          ...(props.state || {})
-        }
+          ...(rest.state || {}),
+        },
       ]
       const helpers: StoreDeserializeHelpers = {
         createDocument(doc: typeof pendingDocs[0]) {
           pendingDocs.push(doc)
-        }
+        },
       }
 
       for (let doc; (doc = pendingDocs.pop()); ) {
-        const plugin = props.plugins[doc.plugin]
+        const plugin = rest.plugins[doc.plugin]
         if (!plugin) {
           invariant(false, `Invalid plugin '${doc.plugin}'`)
           continue
@@ -64,12 +65,12 @@ export function Renderer<K extends string = string>({
         }
         documents[doc.id] = {
           plugin: doc.plugin,
-          state
+          state,
         }
       }
       return documents
     }
-  }, [props.state, props.plugins])
+  }, [rest.state, rest.plugins])
 
   return (
     <Provider store={store}>

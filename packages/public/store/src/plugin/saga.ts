@@ -15,14 +15,14 @@ import {
   insertChildBefore,
   InsertChildBeforeAction,
   removeChild,
-  RemoveChildAction
+  RemoveChildAction,
 } from './actions'
 
 export function* pluginSaga() {
   yield all([
     takeEvery(insertChildBefore.type, insertChildBeforeSaga),
     takeEvery(insertChildAfter.type, insertChildAfterSaga),
-    takeEvery(removeChild.type, removeChildSaga)
+    takeEvery(removeChild.type, removeChildSaga),
   ])
 }
 
@@ -33,7 +33,7 @@ function* insertChildBeforeSaga({ payload, scope }: InsertChildBeforeAction) {
   )
   if (!parent || !parent.children) return
   const index = R.findIndex(
-    child => child.id === payload.sibling,
+    (child) => child.id === payload.sibling,
     parent.children
   )
   if (index === -1) return
@@ -41,7 +41,7 @@ function* insertChildBeforeSaga({ payload, scope }: InsertChildBeforeAction) {
     parent: payload.parent,
     previousSibling: index === 0 ? undefined : parent.children[index - 1].id,
     document: payload.document,
-    scope
+    scope,
   })
 }
 
@@ -50,7 +50,7 @@ function* insertChildAfterSaga({ payload, scope }: InsertChildAfterAction) {
     parent: payload.parent,
     previousSibling: payload.sibling,
     document: payload.document,
-    scope
+    scope,
   })
 }
 
@@ -71,7 +71,7 @@ function* insertChild(payload: {
     if (typeof plugin.insertChild !== 'function') return
     plugin.insertChild(state, {
       previousSibling: payload.previousSibling,
-      document: payload.document
+      document: payload.document,
     })
   })
 }
@@ -97,8 +97,8 @@ function* createPlugin(
       id,
       state: {
         initial,
-        executor
-      }
+        executor,
+      },
     })(scope)
     chan.put(action)
   })

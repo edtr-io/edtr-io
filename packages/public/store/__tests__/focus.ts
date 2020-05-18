@@ -13,7 +13,7 @@ import {
   hasFocusedChild,
   hasFocusedDescendant,
   isFocused,
-  Node
+  Node,
 } from '../src/focus/reducer'
 
 let store: ReturnType<typeof setupStore>
@@ -58,30 +58,30 @@ describe('Focus', () => {
               children: [
                 {
                   plugin: 'stateful',
-                  state: 0
+                  state: 0,
                 },
                 {
                   plugin: 'stateful',
-                  state: 1
+                  state: 1,
                 },
                 {
                   plugin: 'stateful',
-                  state: 2
+                  state: 2,
                 },
                 {
                   plugin: 'stateful',
-                  state: 3
-                }
-              ]
-            }
+                  state: 3,
+                },
+              ],
+            },
           },
-          plugins
+          plugins,
         })
       )
       await waitUntil(
         () =>
           R.filter(
-            action => action.type === pureInsert.type,
+            (action) => action.type === pureInsert.type,
             store.getActions()
           ).length >= 5
       )
@@ -96,15 +96,15 @@ describe('Focus', () => {
         S.initRoot({
           initialState: {
             plugin: 'rows',
-            state: [{ plugin: 'blockquote', state: { plugin: 'text' } }]
+            state: [{ plugin: 'blockquote', state: { plugin: 'text' } }],
           },
-          plugins
+          plugins,
         })
       )
       await waitUntil(
         () =>
           R.filter(
-            action => action.type === pureInsert.type,
+            (action) => action.type === pureInsert.type,
             store.getActions()
           ).length >= 2
       )
@@ -129,32 +129,32 @@ describe('Focus', () => {
                   children: [
                     {
                       plugin: 'stateful',
-                      stat: 0
-                    }
-                  ]
+                      stat: 0,
+                    },
+                  ],
                 },
                 {
                   plugin: 'stateful',
-                  state: 1
+                  state: 1,
                 },
                 {
                   plugin: 'stateful',
-                  state: 2
+                  state: 2,
                 },
                 {
                   plugin: 'stateful',
-                  state: 3
-                }
-              ]
-            }
+                  state: 3,
+                },
+              ],
+            },
           },
-          plugins
+          plugins,
         })
       )
       await waitUntil(
         () =>
           R.filter(
-            action => action.type === pureInsert.type,
+            (action) => action.type === pureInsert.type,
             store.getActions()
           ).length >= 5
       )
@@ -183,17 +183,29 @@ describe('Focus', () => {
       children: [
         {
           id: 'root.0',
-          children: [{ id: 'root.0.0' }, { id: 'root.0.1' }, { id: 'root.0.2' }]
+          children: [
+            { id: 'root.0.0' },
+            { id: 'root.0.1' },
+            { id: 'root.0.2' },
+          ],
         },
         {
           id: 'root.1',
-          children: [{ id: 'root.1.0' }, { id: 'root.1.1' }, { id: 'root.1.2' }]
+          children: [
+            { id: 'root.1.0' },
+            { id: 'root.1.1' },
+            { id: 'root.1.2' },
+          ],
         },
         {
           id: 'root.0',
-          children: [{ id: 'root.2.0' }, { id: 'root.2.1' }, { id: 'root.2.2' }]
-        }
-      ]
+          children: [
+            { id: 'root.2.0' },
+            { id: 'root.2.1' },
+            { id: 'root.2.2' },
+          ],
+        },
+      ],
     }
 
     test('same parent', () => {
@@ -223,7 +235,7 @@ describe('Focus', () => {
       const next = findNextNode(
         {
           id: 'root',
-          children: [{ id: 'root.0' }, { id: 'root.1' }]
+          children: [{ id: 'root.0' }, { id: 'root.1' }],
         },
         'root.1'
       )
@@ -237,17 +249,29 @@ describe('Focus', () => {
       children: [
         {
           id: 'root.0',
-          children: [{ id: 'root.0.0' }, { id: 'root.0.1' }, { id: 'root.0.2' }]
+          children: [
+            { id: 'root.0.0' },
+            { id: 'root.0.1' },
+            { id: 'root.0.2' },
+          ],
         },
         {
           id: 'root.1',
-          children: [{ id: 'root.1.0' }, { id: 'root.1.1' }, { id: 'root.1.2' }]
+          children: [
+            { id: 'root.1.0' },
+            { id: 'root.1.1' },
+            { id: 'root.1.2' },
+          ],
         },
         {
           id: 'root.0',
-          children: [{ id: 'root.2.0' }, { id: 'root.2.1' }, { id: 'root.2.2' }]
-        }
-      ]
+          children: [
+            { id: 'root.2.0' },
+            { id: 'root.2.1' },
+            { id: 'root.2.2' },
+          ],
+        },
+      ],
     }
 
     test('same parent', () => {
@@ -293,19 +317,19 @@ describe('Focus', () => {
                 {
                   plugin: 'nestedArray',
                   state: {
-                    children: [{ plugin: 'stateful', state: 0 }]
-                  }
-                }
-              ]
-            }
+                    children: [{ plugin: 'stateful', state: 0 }],
+                  },
+                },
+              ],
+            },
           },
-          plugins
+          plugins,
         })
       )
       await waitUntil(
         () =>
           R.filter(
-            action => action.type === pureInsert.type,
+            (action) => action.type === pureInsert.type,
             store.getActions()
           ).length >= 3
       )

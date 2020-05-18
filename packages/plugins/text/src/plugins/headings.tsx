@@ -50,7 +50,7 @@ export const createIsHeading = (level: HeadingLevel) => {
   return (editor: Editor) => {
     const type = createHeadingNode(level)
 
-    return editor.value.blocks.some(block =>
+    return editor.value.blocks.some((block) =>
       block ? block.type === type : false
     )
   }
@@ -70,12 +70,12 @@ export const getHeadingLevel = (editor: Editor): HeadingLevel | undefined => {
     3,
     4,
     5,
-    6
+    6,
   ])
 }
 
 export const createHeadingsPlugin = ({
-  EditorComponent = DefaultEditorComponent
+  EditorComponent = DefaultEditorComponent,
 }: HeadingsPluginOptions = {}) => (): TextPlugin => {
   return {
     renderBlock(props, _editor, next) {
@@ -90,6 +90,6 @@ export const createHeadingsPlugin = ({
       }
 
       return next()
-    }
+    },
   }
 }

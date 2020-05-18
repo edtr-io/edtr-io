@@ -9,21 +9,21 @@ const OverlayInputLabel = styled.label({
   margin: '20px auto 0px',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 const OverlayInputLabelInner = styled.span({ width: '20%' })
 
 const OverlaySelectInner = styled.div({
   width: '75%',
-  textAlign: 'left'
+  textAlign: 'left',
 })
 
-const Select = styled.select<{ selectBoxWidth?: string }>(props => {
+const Select = styled.select<{ selectBoxWidth?: string }>((props) => {
   return {
     width: props.selectBoxWidth,
     borderRadius: '5px',
-    outline: 'none'
+    outline: 'none',
   }
 })
 

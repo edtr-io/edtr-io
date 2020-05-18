@@ -15,7 +15,7 @@ import {
   removeChild,
   replace,
   getFocusPath,
-  getPlugin
+  getPlugin,
 } from '@edtr-io/store'
 import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
@@ -42,20 +42,21 @@ export function TextEditor(props: TextProps) {
   const thisState = React.useRef(props.state)
   const lastValue = React.useRef(props.state.value)
 
+  const { focused, state } = props
   React.useEffect(() => {
-    thisState.current = props.state
-    if (lastValue.current !== props.state.value) {
-      setRawState(Value.fromJSON(props.state.value))
-      lastValue.current = props.state.value
+    thisState.current = state
+    if (lastValue.current !== state.value) {
+      setRawState(Value.fromJSON(state.value))
+      lastValue.current = state.value
       // Refocus Slate after state change if needed
       setTimeout(() => {
         if (!editor.current) return
-        if (props.focused) {
+        if (focused) {
           editor.current.focus()
         }
       })
     }
-  }, [lastValue, props.focused, props.state.value, props.state])
+  }, [lastValue, focused, state])
 
   // Sync Slate focus with Edtr.io focus
   React.useEffect(() => {
@@ -71,12 +72,12 @@ export function TextEditor(props: TextProps) {
   const slateClosure = React.useRef<SlateClosure>({
     id: props.id,
     config: props.config,
-    store
+    store,
   })
   slateClosure.current = {
     store,
     config: props.config,
-    id: props.id
+    id: props.id,
   }
   React.useEffect(() => {
     if (!editor.current) return
@@ -93,11 +94,11 @@ export function TextEditor(props: TextProps) {
   const slatePlugins = React.useRef<TextPlugin[]>()
   if (slatePlugins.current === undefined) {
     slatePlugins.current = [
-      ...props.config.plugins.map(slatePluginFactory =>
+      ...props.config.plugins.map((slatePluginFactory) =>
         slatePluginFactory(slateClosure)
       ),
       newSlateOnEnter(slateClosure),
-      focusNextDocumentOnArrowDown(slateClosure)
+      focusNextDocumentOnArrowDown(slateClosure),
     ]
   }
 
@@ -125,7 +126,7 @@ export function TextEditor(props: TextProps) {
       const nextValue = change.value.toJSON()
       setRawState(change.value)
       const withoutSelections = change.operations.filter(
-        operation =>
+        (operation) =>
           typeof operation !== 'undefined' && operation.type !== 'set_selection'
       )
       if (!withoutSelections.isEmpty()) {
@@ -140,7 +141,7 @@ export function TextEditor(props: TextProps) {
     () => (
       <I18nContext.Provider value={props.config.i18n}>
         <Editor
-          ref={slate => {
+          ref={(slate) => {
             const slateReact = (slate as unknown) as CoreEditor | null
             if (slateReact && !editor.current) {
               editor.current = slateReact
@@ -167,7 +168,7 @@ export function TextEditor(props: TextProps) {
       props.config.i18n,
       props.config.placeholder,
       props.focused,
-      rawState
+      rawState,
     ]
   )
 }
@@ -255,7 +256,7 @@ function createOnPaste(
           replace({
             id,
             plugin: key,
-            state: result.state
+            state: result.state,
           })
         )
       } else {
@@ -272,8 +273,8 @@ function createOnPaste(
                 sibling: id,
                 document: {
                   plugin: name,
-                  state: serializer.serialize(nextSlateState)
-                }
+                  state: serializer.serialize(nextSlateState),
+                },
               })
             )
           }
@@ -283,8 +284,8 @@ function createOnPaste(
               sibling: id,
               document: {
                 plugin: key,
-                state: result.state
-              }
+                state: result.state,
+              },
             })
           )
         })
@@ -338,7 +339,7 @@ function createOnKeyDown(
         if (!parent) return
 
         const children = parent.children || []
-        const index = R.findIndex(child => child.id === id, children)
+        const index = R.findIndex((child) => child.id === id, children)
         if (index === -1) return
 
         const currentDocument = getDocument(id)(store.getState())
@@ -374,13 +375,13 @@ function createOnKeyDown(
             store.dispatch(
               change({
                 id: previousFocusId,
-                state: { initial: () => merged }
+                state: { initial: () => merged },
               })
             )
             store.dispatch(
               removeChild({
                 parent: parent.id,
-                child: id
+                child: id,
               })
             )
           }
@@ -480,14 +481,14 @@ function newSlateOnEnter(
                 parent: result.parent,
                 sibling: result.sibling,
                 document: {
-                  plugin: document.plugin
-                }
+                  plugin: document.plugin,
+                },
               })
             )
             store.dispatch(
               removeChild({
                 parent: directParent.id,
-                child: id
+                child: id,
               })
             )
             return
@@ -511,8 +512,8 @@ function newSlateOnEnter(
                 parent: result.parent,
                 sibling: result.sibling,
                 document: {
-                  plugin: document.plugin
-                }
+                  plugin: document.plugin,
+                },
               })
             )
             return
@@ -538,8 +539,8 @@ function newSlateOnEnter(
                   sibling: id,
                   document: {
                     plugin: document.plugin,
-                    state: serializer.serialize(nextSlateState)
-                  }
+                    state: serializer.serialize(nextSlateState),
+                  },
                 })
               )
             } else {
@@ -548,8 +549,8 @@ function newSlateOnEnter(
                   parent: parent.id,
                   sibling: id,
                   document: {
-                    plugin: document.plugin
-                  }
+                    plugin: document.plugin,
+                  },
                 })
               )
             }
@@ -558,7 +559,7 @@ function newSlateOnEnter(
         }
       }
       return next()
-    }
+    },
   }
 }
 
@@ -598,7 +599,7 @@ function focusNextDocumentOnArrowDown(
 
         return null
       }
-    }
+    },
   }
 }
 
@@ -611,7 +612,7 @@ function findParentWith(
   const focusPath = getFocusPath(id)(store.getState())
   if (!focusPath || focusPath.length <= 2) return null
   const parents = R.init(R.init(focusPath))
-  const index = R.findLastIndex(parent => {
+  const index = R.findLastIndex((parent) => {
     const parentDocument = getDocument(parent)(store.getState())
     if (!parentDocument) return false
     const plugin = getPlugin(parentDocument.plugin)(store.getState())
@@ -635,14 +636,14 @@ function splitBlockAtSelection(editor: Editor) {
   }
   const blocks = editor.value.document.nodes
 
-  const afterSelected = blocks.skipUntil(block => {
+  const afterSelected = blocks.skipUntil((block) => {
     if (!block) {
       return false
     }
     return editor.value.blocks.first().key === block.key
   })
 
-  afterSelected.forEach(block => {
+  afterSelected.forEach((block) => {
     if (!block) return
     editor.removeNodeByKey(block.key)
   })
@@ -653,7 +654,7 @@ function splitBlockAtSelection(editor: Editor) {
 function createDocumentFromNodes(nodes: Node[]) {
   return {
     document: {
-      nodes: [...nodes.map(node => node.toJSON())]
-    }
+      nodes: [...nodes.map((node) => node.toJSON())],
+    },
   }
 }

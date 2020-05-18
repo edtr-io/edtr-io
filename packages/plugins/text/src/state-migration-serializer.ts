@@ -8,8 +8,8 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
       object: 'value',
       document: {
         object: 'document',
-        nodes: (serialized || []).map(deserializeNode)
-      }
+        nodes: (serialized || []).map(deserializeNode),
+      },
     } as ValueJSON
 
     function deserializeNode(node: NewNode) {
@@ -24,7 +24,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldParagraphElement = {
               object: 'block',
               type: 'paragraph',
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -33,7 +33,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldHeadingElement = {
               object: 'block',
               type,
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -42,9 +42,9 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
               object: 'inline',
               type: '@splish-me/a',
               data: {
-                href: element.href
+                href: element.href,
               },
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -55,10 +55,10 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
                 type: '@splish-me/katex-inline',
                 data: {
                   formula: element.src,
-                  inline: true
+                  inline: true,
                 },
                 isVoid: true,
-                nodes: element.children.map(deserializeNode)
+                nodes: element.children.map(deserializeNode),
               }
               return oldElement
             }
@@ -67,10 +67,10 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
               type: '@splish-me/katex-block',
               data: {
                 formula: element.src,
-                inline: false
+                inline: false,
               },
               isVoid: true,
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -78,7 +78,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldOrderedListElement = {
               object: 'block',
               type: 'ordered-list',
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -86,7 +86,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldUnorderedListElement = {
               object: 'block',
               type: 'unordered-list',
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -94,7 +94,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldListItemElement = {
               object: 'block',
               type: 'list-item',
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -102,7 +102,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const oldElement: OldListItemChildElement = {
               object: 'block',
               type: 'list-item-child',
-              nodes: element.children.map(deserializeNode)
+              nodes: element.children.map(deserializeNode),
             }
             return oldElement
           }
@@ -121,14 +121,14 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
           marks.push({
             object: 'mark',
             type: '@splish-me/color',
-            data: { colorIndex: text.color }
+            data: { colorIndex: text.color },
           })
         }
 
         return {
           object: 'text',
           text: text.text,
-          marks: marks
+          marks: marks,
         }
       }
     }
@@ -153,7 +153,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
           case 'paragraph': {
             const newElement: NewParagraphElement = {
               type: 'p',
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -161,7 +161,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 1,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -169,7 +169,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 2,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -177,7 +177,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 3,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -185,7 +185,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 4,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -193,7 +193,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 5,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -201,7 +201,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewHeadingElement = {
               type: 'h',
               level: 6,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -209,7 +209,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             const newElement: NewLinkElement = {
               type: 'a',
               href: element.data.href,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -218,7 +218,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
               type: 'math',
               src: element.data.formula,
               inline: false,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -227,35 +227,35 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
               type: 'math',
               src: element.data.formula,
               inline: true,
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
           case 'ordered-list': {
             const newElement: NewOrderedListElement = {
               type: 'ordered-list',
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
           case 'unordered-list': {
             const newElement: NewUnorderedListElement = {
               type: 'unordered-list',
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
           case 'list-item': {
             const newElement: NewListItemElement = {
               type: 'list-item',
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
           case 'list-item-child': {
             const newElement: NewListItemChildElement = {
               type: 'list-item-child',
-              children: element.nodes.map(serializeNode)
+              children: element.nodes.map(serializeNode),
             }
             return newElement
           }
@@ -264,11 +264,11 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
 
       function serializeText(text: OldText): NewText {
         const newText: NewText = {
-          text: text.text
+          text: text.text,
         }
 
         const marks = text.marks || []
-        marks.forEach(mark => {
+        marks.forEach((mark) => {
           switch (mark.type) {
             case '@splish-me/strong':
               newText.strong = true
@@ -284,7 +284,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
         return newText
       }
     }
-  }
+  },
 }
 
 /** @public */
@@ -489,25 +489,28 @@ export type OldElement =
 /** @public */
 export type OldNode = OldText | OldElement
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function removeLeafs(nodes: any[]) {
   if (!nodes) {
     return []
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cleanedNodes: any[] = nodes.reduce((acc, node) => {
     if (node.leaves) {
-      // we don't need the node itself, as we exepct it to be a text node
+      // we don't need the node itself, as we expect it to be a text node
       return [
         ...acc,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ...node.leaves.map((leave: any) => ({
           ...leave,
-          object: 'text'
-        }))
+          object: 'text',
+        })),
       ]
     } else {
       const cleanedNode = node.nodes
         ? {
             ...node,
-            nodes: removeLeafs(node.nodes)
+            nodes: removeLeafs(node.nodes),
           }
         : node
       return [...acc, cleanedNode]

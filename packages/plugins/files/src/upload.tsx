@@ -42,7 +42,7 @@ export function Upload(props: UploadProps) {
   return (
     <React.Fragment>
       <EditorButton
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault()
           if (input.current) {
             input.current.click()
@@ -56,7 +56,7 @@ export function Upload(props: UploadProps) {
         multiple
         style={{ display: 'none' }}
         ref={input}
-        onChange={event => {
+        onChange={(event) => {
           if (event.target.files) {
             let files: File[] = []
             for (const file of (event.target.files as unknown) as File[]) {

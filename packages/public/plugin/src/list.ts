@@ -8,7 +8,7 @@ import {
   StateExecutor,
   StateTypeSerializedType,
   StateTypeValueType,
-  StateTypeReturnType
+  StateTypeReturnType,
 } from './internal-plugin-state'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -31,7 +31,7 @@ export function list<D extends StateType>(
 
   return {
     init(rawItems, onChange) {
-      const items = rawItems.map(item => {
+      const items = rawItems.map((item) => {
         return type.init(item.value, createOnChange(item.id))
       })
 
@@ -40,10 +40,12 @@ export function list<D extends StateType>(
           updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
         ) {
           onChange((wrappedItems, helpers) => {
-            const unwrapped = R.map(wrapped => wrapped.value, wrappedItems)
+            const unwrapped = R.map((wrapped) => wrapped.value, wrappedItems)
             return R.map(
               wrap,
-              updater(unwrapped, options => type.deserialize(options, helpers))
+              updater(unwrapped, (options) =>
+                type.deserialize(options, helpers)
+              )
             )
           })
         },
@@ -62,11 +64,11 @@ export function list<D extends StateType>(
           })
         },
         remove(index: number) {
-          onChange(items => R.remove(index, 1, items))
+          onChange((items) => R.remove(index, 1, items))
         },
         move(from: number, to: number) {
-          onChange(items => R.move(from, to, items))
-        }
+          onChange((items) => R.move(from, to, items))
+        },
       })
 
       function createOnChange(id: string) {
@@ -95,9 +97,9 @@ export function list<D extends StateType>(
             executor
               ? (resolve, reject, next) => {
                   executor(
-                    innerUpdater => resolve(wrapUpdater(innerUpdater)),
-                    innerUpdater => reject(wrapUpdater(innerUpdater)),
-                    innerUpdater => next(wrapUpdater(innerUpdater))
+                    (innerUpdater) => resolve(wrapUpdater(innerUpdater)),
+                    (innerUpdater) => reject(wrapUpdater(innerUpdater)),
+                    (innerUpdater) => next(wrapUpdater(innerUpdater))
                   )
                 }
               : undefined
@@ -111,7 +113,7 @@ export function list<D extends StateType>(
       }, initialCount)
     },
     deserialize(serialized, helpers) {
-      return R.map(s => {
+      return R.map((s) => {
         return wrap(type.deserialize(s, helpers))
       }, serialized)
     },
@@ -122,17 +124,17 @@ export function list<D extends StateType>(
     },
     getFocusableChildren(items) {
       return R.flatten(
-        R.map(item => {
+        R.map((item) => {
           return type.getFocusableChildren(item.value)
         }, items)
       )
-    }
+    },
   }
 
   function wrap(value: T): WrappedValue {
     return {
       id: generate(),
-      value
+      value,
     }
   }
 }

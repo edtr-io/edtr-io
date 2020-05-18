@@ -2,7 +2,7 @@ import { createActionCreator, createActionWithoutPayload } from '../helpers'
 import {
   ActionCreatorAction,
   ActionCreatorWithoutPayload,
-  ActionCreatorWithPayload
+  ActionCreatorWithPayload,
 } from '../types'
 
 /** @public */

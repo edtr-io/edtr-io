@@ -1,9 +1,10 @@
+/* eslint-disable import/no-commonjs */
 module.exports = {
   env: {
     browser: true,
     es6: true,
     jest: true,
-    node: true
+    node: true,
   },
   extends: [
     'eslint:recommended',
@@ -12,7 +13,7 @@ module.exports = {
     'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
-    'prettier'
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'import', 'jsdoc', 'react-hooks'],
@@ -35,8 +36,8 @@ module.exports = {
       {
         classes: false,
         functions: false,
-        typedefs: false
-      }
+        typedefs: false,
+      },
     ],
     '@typescript-eslint/no-useless-constructor': 'error',
 
@@ -50,14 +51,15 @@ module.exports = {
           'internal',
           'packageDocumentation',
           'remarks',
-          'typeParam'
-        ]
-      }
+          'typeParam',
+        ],
+      },
     ],
     'jsdoc/check-types': 'off',
     'jsdoc/require-hyphen-before-param-description': 'warn',
     'jsdoc/require-jsdoc': 'off',
     'jsdoc/require-param-type': 'off',
+    'jsdoc/require-returns': 'off',
     'jsdoc/require-returns-type': 'off',
 
     // eslint-plugin-react
@@ -67,17 +69,17 @@ module.exports = {
 
     // eslint-plugin-react-hooks
     'react-hooks/exhaustive-deps': 'warn',
-    'react-hooks/rules-of-hooks': 'error'
+    'react-hooks/rules-of-hooks': 'error',
   },
   settings: {
     jsdoc: {
       ignorePrivate: true,
       tagNamePreference: {
-        hidden: 'ignore'
-      }
+        hidden: 'ignore',
+      },
     },
     react: {
-      version: 'detect'
-    }
-  }
+      version: 'detect',
+    },
+  },
 }

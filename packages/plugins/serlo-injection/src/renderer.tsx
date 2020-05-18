@@ -6,7 +6,7 @@ import * as React from 'react'
 const Iframe = styled(IframeResizer)({
   width: '100%',
   border: '1px solid #ddd',
-  borderRadius: '2px'
+  borderRadius: '2px',
 })
 
 export const SerloInjectionRenderer = (props: { src: string }) => {

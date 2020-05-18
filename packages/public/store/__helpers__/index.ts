@@ -7,18 +7,18 @@ import { InternalStore } from '../src/types'
 export const TEST_SCOPE = 'test'
 export function setupStore() {
   let actions: InternalAction[] = []
-  const testMiddleware: Middleware = () => next => action => {
+  const testMiddleware: Middleware = () => (next) => (action) => {
     actions.push(action)
     return next(action)
   }
 
   const store = createStore({
     scopes: {
-      [TEST_SCOPE]: plugins
+      [TEST_SCOPE]: plugins,
     },
-    createEnhancer: defaultEnhancer => {
+    createEnhancer: (defaultEnhancer) => {
       return compose(defaultEnhancer, applyMiddleware(testMiddleware))
-    }
+    },
   }).store as InternalStore
 
   return {
@@ -33,12 +33,12 @@ export function setupStore() {
     },
     resetActions() {
       actions = []
-    }
+    },
   }
 }
 
 export function waitUntil(check: () => boolean): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (check()) {
       resolve()
     }
@@ -48,7 +48,7 @@ export function waitUntil(check: () => boolean): Promise<void> {
 }
 
 export function wait(time = 10): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, time)

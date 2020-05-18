@@ -2,7 +2,7 @@ import { createActionCreator } from '../helpers'
 import {
   ActionCreatorAction,
   ActionCreatorWithPayload,
-  DocumentState
+  DocumentState,
 } from '../types'
 
 /** @beta */

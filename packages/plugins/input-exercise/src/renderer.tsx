@@ -9,18 +9,18 @@ import S from 'string'
 import {
   InputExercisePluginConfig,
   InputExerciseProps,
-  InputExerciseType
+  InputExerciseType,
 } from '.'
 
 enum ExerciseState {
   Default = 1,
   SolvedRight,
-  SolvedWrong
+  SolvedWrong,
 }
 const InputContainer = styled.div({
   float: 'right',
   display: 'flex',
-  flexDirection: 'row'
+  flexDirection: 'row',
 })
 const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
   ({ config }) => {
@@ -31,7 +31,7 @@ const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
 
       textAlign: 'center',
       outline: 'none',
-      marginBottom: '10px'
+      marginBottom: '10px',
     }
   }
 )
@@ -118,7 +118,7 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
         matchesInput(
           {
             type: state.type.value as InputExerciseType,
-            value: answer.value.value
+            value: answer.value.value,
           },
           input.current.value
         )
@@ -159,7 +159,7 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
         </InputContainer>
         <div
           style={{
-            clear: 'both'
+            clear: 'both',
           }}
         />
 

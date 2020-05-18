@@ -3,7 +3,7 @@ import * as React from 'react'
 import {
   Provider as ReduxProvider,
   ProviderProps,
-  ReactReduxContextValue
+  ReactReduxContextValue,
 } from 'react-redux'
 
 const createDispatchHook: (
@@ -37,7 +37,6 @@ export const ErrorContext = React.createContext<
   ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
 >(undefined)
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Store Provider
  *
@@ -63,7 +62,6 @@ export function useScope(enforcedScope?: string) {
 /** @public */
 export const useDispatch = createDispatchHook(EditorContext)
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * React Hook to dispatch an action in the current scope
  *
@@ -73,7 +71,12 @@ export const useDispatch = createDispatchHook(EditorContext)
 export function useScopedDispatch(enforcedScope?: string) {
   const scope = useScope(enforcedScope)
   const dispatch = useDispatch()
-  return React.useCallback(scopeDispatch(dispatch, scope), [dispatch, scope])
+  return React.useCallback(
+    (scopedAction: (scope: string) => Action) => {
+      dispatch(scopedAction(scope))
+    },
+    [dispatch, scope]
+  )
 }
 
 function scopeDispatch(dispatch: (action: Action) => void, scope: string) {
@@ -97,7 +100,7 @@ export function useScopedSelector<T>(
   enforcedScope?: string
 ) {
   const scope = useScope(enforcedScope)
-  return useSelector(state => scopedSelector(getScope(state, scope)))
+  return useSelector((state) => scopedSelector(getScope(state, scope)))
 }
 
 /** @public */
@@ -120,7 +123,7 @@ export function useScopedStore(enforcedScope?: string) {
       },
       subscribe: (listener: () => void) => {
         return store.subscribe(listener)
-      }
+      },
     }
   }, [scope, store])
 }

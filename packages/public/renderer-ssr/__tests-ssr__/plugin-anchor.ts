@@ -9,5 +9,5 @@ addTests({
   assert(state, html) {
     expect(html).toContain('<a')
     expect(html).toContain(`id="${state}"`)
-  }
+  },
 })

@@ -11,7 +11,7 @@ import {
   ListStateType,
   BooleanStateType,
   ChildStateType,
-  ChildStateTypeConfig
+  ChildStateTypeConfig,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -29,7 +29,7 @@ export function createInputExercisePlugin(
 
   return {
     Component: InputExerciseEditor,
-    config: defaultTheme => {
+    config: (defaultTheme) => {
       return {
         i18n: R.mergeDeepRight(
           {
@@ -37,49 +37,49 @@ export function createInputExercisePlugin(
               [InputExerciseType.InputStringNormalizedMatchChallenge]: 'Text',
               [InputExerciseType.InputNumberExactMatchChallenge]: 'Number',
               [InputExerciseType.InputExpressionEqualMatchChallenge]:
-                'Mathematical expression'
+                'Mathematical expression',
             },
             type: {
-              label: 'Choose the exercise type'
+              label: 'Choose the exercise type',
             },
             unit: {
-              label: 'Unit'
+              label: 'Unit',
             },
             answer: {
               addLabel: 'Add answer',
               value: {
-                placeholder: 'Enter the value'
-              }
+                placeholder: 'Enter the value',
+              },
             },
             inputPlaceholder: 'Your solution',
             fallbackFeedback: {
               correct: 'Correct',
-              wrong: 'Wrong'
-            }
+              wrong: 'Wrong',
+            },
           },
           i18n
         ),
         theme: {
           borderColor: defaultTheme.renderer.primary.background,
           borderStyle: '3px solid',
-          ...theme
-        }
+          ...theme,
+        },
       }
     },
-    state: createState()
+    state: createState(),
   }
 
   function createState(): InputExercisePluginState {
     const answerObject = object({
       value: string(''),
       isCorrect: boolean(),
-      feedback: child(feedback)
+      feedback: child(feedback),
     })
 
     return object({
       type: string('input-string-normalized-match-challenge'),
       unit: string(''),
-      answers: list(answerObject)
+      answers: list(answerObject),
     })
   }
 }

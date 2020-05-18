@@ -79,6 +79,6 @@ export const markdownShortcuts = (
         default:
           return next()
       }
-    }
+    },
   }
 }

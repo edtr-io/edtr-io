@@ -5,5 +5,5 @@ const defaultConfig = require('./jest.config')
 module.exports = {
   ...defaultConfig,
   testEnvironment: 'node',
-  testRegex: '/__tests-ssr__/.*\\.[jt]sx?$'
+  testRegex: '/__tests-ssr__/.*\\.[jt]sx?$',
 }

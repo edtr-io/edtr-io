@@ -9,7 +9,7 @@ test('Text plugin (w/ bold)', () => {
     assert(html) {
       expect(html).toContain('bold')
       expect(html).toContain('<strong')
-    }
+    },
   })
 })
 
@@ -19,12 +19,12 @@ test('Text plugin (w/ color)', () => {
     state: states.color,
     assert(html) {
       expect(html).toContain('color')
-    }
+    },
   })
 })
 
 addTests({
   name: 'Text',
   plugin: name,
-  states
+  states,
 })

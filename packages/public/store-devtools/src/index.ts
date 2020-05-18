@@ -9,7 +9,9 @@ import { composeWithDevTools } from 'remote-redux-devtools'
  * @returns The {@link redux#StoreEnhancer | StoreEnhancer} including Remote Redux DevTools
  * @public
  */
-export const createStoreDevtoolsEnhancer: StoreEnhancerFactory = defaultEnhancer => {
+export const createStoreDevtoolsEnhancer: StoreEnhancerFactory = (
+  defaultEnhancer
+) => {
   const composeEnhancers = composeWithDevTools({ realtime: true })
   return composeEnhancers(defaultEnhancer)
 }

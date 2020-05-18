@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Highlight',
   plugin: name,
-  states: states
+  states: states,
 })

@@ -22,8 +22,8 @@ export const Button = styled.button(
       padding: '0px',
       width: '25px',
       '&:hover': {
-        color: theme.hoverColor
-      }
+        color: theme.hoverColor,
+      },
     }
   }
 )

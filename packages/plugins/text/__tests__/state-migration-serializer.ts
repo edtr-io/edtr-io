@@ -6,8 +6,8 @@ describe('deserialize', () => {
       object: 'value',
       document: {
         object: 'document',
-        nodes: []
-      }
+        nodes: [],
+      },
     })
   })
 
@@ -16,8 +16,8 @@ describe('deserialize', () => {
       serializer.deserialize([
         {
           type: 'p',
-          children: [{ text: 'Hello world' }]
-        }
+          children: [{ text: 'Hello world' }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -27,10 +27,10 @@ describe('deserialize', () => {
           {
             object: 'block',
             type: 'paragraph',
-            nodes: [{ object: 'text', text: 'Hello world', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: 'Hello world', marks: [] }],
+          },
+        ],
+      },
     })
   })
 
@@ -39,8 +39,8 @@ describe('deserialize', () => {
       serializer.deserialize([
         {
           type: 'p',
-          children: [{ text: 'Hello world', strong: true }]
-        }
+          children: [{ text: 'Hello world', strong: true }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -54,12 +54,12 @@ describe('deserialize', () => {
               {
                 object: 'text',
                 text: 'Hello world',
-                marks: [{ object: 'mark', type: '@splish-me/strong' }]
-              }
-            ]
-          }
-        ]
-      }
+                marks: [{ object: 'mark', type: '@splish-me/strong' }],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -68,8 +68,8 @@ describe('deserialize', () => {
       serializer.deserialize([
         {
           type: 'p',
-          children: [{ text: 'Hello world', em: true }]
-        }
+          children: [{ text: 'Hello world', em: true }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -83,12 +83,12 @@ describe('deserialize', () => {
               {
                 object: 'text',
                 text: 'Hello world',
-                marks: [{ object: 'mark', type: '@splish-me/em' }]
-              }
-            ]
-          }
-        ]
-      }
+                marks: [{ object: 'mark', type: '@splish-me/em' }],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -97,8 +97,8 @@ describe('deserialize', () => {
       serializer.deserialize([
         {
           type: 'p',
-          children: [{ text: 'Hello world', color: 0 }]
-        }
+          children: [{ text: 'Hello world', color: 0 }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -116,14 +116,14 @@ describe('deserialize', () => {
                   {
                     object: 'mark',
                     type: '@splish-me/color',
-                    data: { colorIndex: 0 }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                    data: { colorIndex: 0 },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -133,8 +133,8 @@ describe('deserialize', () => {
         {
           type: 'h',
           level: 1,
-          children: [{ text: 'Hello world' }]
-        }
+          children: [{ text: 'Hello world' }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -144,10 +144,10 @@ describe('deserialize', () => {
           {
             object: 'block',
             type: '@splish-me/h1',
-            nodes: [{ object: 'text', text: 'Hello world', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: 'Hello world', marks: [] }],
+          },
+        ],
+      },
     })
   })
 
@@ -157,8 +157,8 @@ describe('deserialize', () => {
         {
           type: 'a',
           href: 'https://edtr.io',
-          children: [{ text: 'Hello world' }]
-        }
+          children: [{ text: 'Hello world' }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -169,12 +169,12 @@ describe('deserialize', () => {
             object: 'inline',
             type: '@splish-me/a',
             data: {
-              href: 'https://edtr.io'
+              href: 'https://edtr.io',
             },
-            nodes: [{ object: 'text', text: 'Hello world', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: 'Hello world', marks: [] }],
+          },
+        ],
+      },
     })
   })
 
@@ -185,8 +185,8 @@ describe('deserialize', () => {
           type: 'math',
           src: '\\sum_{i=1}^n x^i',
           inline: true,
-          children: [{ text: '' }]
-        }
+          children: [{ text: '' }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -198,13 +198,13 @@ describe('deserialize', () => {
             type: '@splish-me/katex-inline',
             data: {
               formula: '\\sum_{i=1}^n x^i',
-              inline: true
+              inline: true,
             },
             isVoid: true,
-            nodes: [{ object: 'text', text: '', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: '', marks: [] }],
+          },
+        ],
+      },
     })
   })
 
@@ -215,8 +215,8 @@ describe('deserialize', () => {
           type: 'math',
           src: '\\sum_{i=1}^n x^i',
           inline: false,
-          children: [{ text: '' }]
-        }
+          children: [{ text: '' }],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -228,13 +228,13 @@ describe('deserialize', () => {
             type: '@splish-me/katex-block',
             data: {
               formula: '\\sum_{i=1}^n x^i',
-              inline: false
+              inline: false,
             },
             isVoid: true,
-            nodes: [{ object: 'text', text: '', marks: [] }]
-          }
-        ]
-      }
+            nodes: [{ object: 'text', text: '', marks: [] }],
+          },
+        ],
+      },
     })
   })
 
@@ -251,14 +251,14 @@ describe('deserialize', () => {
                   type: 'list-item-child',
                   children: [
                     {
-                      text: 'Hello world'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                      text: 'Hello world',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -280,16 +280,16 @@ describe('deserialize', () => {
                       {
                         object: 'text',
                         text: 'Hello world',
-                        marks: []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 
@@ -306,14 +306,14 @@ describe('deserialize', () => {
                   type: 'list-item-child',
                   children: [
                     {
-                      text: 'Hello world'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                      text: 'Hello world',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ])
     ).toEqual({
       object: 'value',
@@ -335,16 +335,16 @@ describe('deserialize', () => {
                       {
                         object: 'text',
                         text: 'Hello world',
-                        marks: []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     })
   })
 })

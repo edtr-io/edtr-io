@@ -2,14 +2,14 @@ import { styled, useEditorUiTheme } from '@edtr-io/ui'
 
 /** @public */
 export const EditorButton = styled.button(() => {
-  const theme = useEditorUiTheme('button', theme => {
+  const theme = useEditorUiTheme('button', (theme) => {
     return {
       backgroundColor: theme.backgroundColor,
       color: theme.color,
       borderColor: theme.color,
       hoverBackgroundColor: 'rgba(0,0,0,0.50)',
       hoverColor: theme.primary.background,
-      hoverBorderColor: theme.primary.background
+      hoverBorderColor: theme.primary.background,
     }
   })
   return {
@@ -24,7 +24,7 @@ export const EditorButton = styled.button(() => {
     '&:hover': {
       backgroundColor: theme.hoverBackgroundColor,
       color: theme.hoverColor,
-      borderColor: theme.hoverBorderColor
-    }
+      borderColor: theme.hoverBorderColor,
+    },
   }
 })

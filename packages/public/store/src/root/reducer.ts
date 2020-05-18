@@ -10,13 +10,13 @@ export const rootReducer: SubReducer<string | null> = createSubReducer(
   {
     [pureInitRoot.type](_rootState, _action: PureInitRootAction) {
       return 'root'
-    }
+    },
   }
 )
 
 /** @public */
 export const getRoot: Selector<string | null> = createSelector(
-  state => state.root
+  (state) => state.root
 )
 /** @public */
 export const serializeRootDocument: Selector<{

@@ -17,7 +17,7 @@ export function SerloRendererContainer(props: RendererProps) {
 export function SerloEditorContainer(props: EditorProps) {
   const [editable, setEditable] = useEditable(props.editable)
   const children = React.useCallback(
-    document => {
+    (document) => {
       return (
         <SerloEditorContainerInner
           editable={editable}
@@ -44,7 +44,7 @@ export function SerloEditorContainer(props: EditorProps) {
 export function SerloEditorContainerInner({
   editable,
   setEditable,
-  children
+  children,
 }: {
   children: React.ReactNode
   editable: boolean
@@ -87,7 +87,7 @@ export function SerloContainerInner({
   onSave,
   onAbort,
   onEdit,
-  children
+  children,
 }: {
   children: React.ReactNode
   editable: boolean
@@ -105,7 +105,7 @@ export function SerloContainerInner({
         <div
           className="wrap has-navigation has-context"
           style={{
-            marginBottom: '-183px'
+            marginBottom: '-183px',
           }}
         >
           <header id="header">
@@ -370,7 +370,7 @@ export function SerloContainerInner({
                 id="subject-nav-sticky-wrapper"
                 className="sticky-wrapper"
                 style={{
-                  height: '45px'
+                  height: '45px',
                 }}
               >
                 <nav id="subject-nav">

@@ -2,7 +2,7 @@ import {
   Extractor,
   ExtractorConfig,
   ExtractorResult,
-  IExtractorInvokeOptions
+  IExtractorInvokeOptions,
 } from '@microsoft/api-extractor'
 import * as path from 'path'
 

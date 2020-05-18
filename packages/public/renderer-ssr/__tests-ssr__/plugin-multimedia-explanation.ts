@@ -1,6 +1,6 @@
 import {
   name,
-  states
+  states,
 } from '@edtr-io/plugin-multimedia-explanation/__fixtures__'
 
 import { addTests } from '../__helpers__'
@@ -11,5 +11,5 @@ addTests({
   states,
   assert(state, html) {
     expect(html).toContain('<img')
-  }
+  },
 })

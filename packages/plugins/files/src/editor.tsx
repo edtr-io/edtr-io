@@ -9,21 +9,21 @@ import { parseFileType, Upload } from './upload'
 
 const Wrapper = styled.div({
   display: 'inline-block',
-  margin: '0 10px'
+  margin: '0 10px',
 })
 
 const Temporary = styled(Wrapper)({
-  color: '#aaa'
+  color: '#aaa',
 })
 
 const Failed = styled(Wrapper)({
-  color: '#f77'
+  color: '#f77',
 })
 
 const Center = styled.div({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 export function FilesEditor(props: FilesProps) {
@@ -34,7 +34,7 @@ export function FilesEditor(props: FilesProps) {
 
   return (
     <div
-      onPaste={event => {
+      onPaste={(event) => {
         const items = event.clipboardData.files
         const files: File[] = []
         for (let i = 0; i < items.length; i++) {
@@ -43,9 +43,9 @@ export function FilesEditor(props: FilesProps) {
           files.push(item)
         }
         if (files.length) {
-          files.forEach(file => {
+          files.forEach((file) => {
             state.insert(state.length, {
-              pending: file
+              pending: file,
             })
           })
         }
@@ -67,7 +67,7 @@ export function FilesEditor(props: FilesProps) {
                   file={{
                     src: tmpFile.dataUrl,
                     name: tmpFile.file.name,
-                    type: parseFileType(tmpFile.file.name)
+                    type: parseFileType(tmpFile.file.name),
                   }}
                 />
                 <EditorButton onClick={() => state.remove(i)}>
@@ -87,7 +87,7 @@ export function FilesEditor(props: FilesProps) {
                   file={{
                     src: '',
                     name: tmpFile.name,
-                    type: parseFileType(tmpFile.name)
+                    type: parseFileType(tmpFile.name),
                   }}
                 />
                 <span>{config.i18n.failedUploadMessage}</span>
@@ -111,10 +111,10 @@ export function FilesEditor(props: FilesProps) {
       {focused ? (
         <Upload
           config={config}
-          onFiles={files => {
-            files.forEach(file => {
+          onFiles={(files) => {
+            files.forEach((file) => {
               state.insert(state.length, {
-                pending: file
+                pending: file,
               })
             })
           }}

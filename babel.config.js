@@ -1,10 +1,10 @@
 /* eslint-disable import/no-commonjs */
-module.exports = function(api) {
+module.exports = function (api) {
   return {
     presets: [
       '@babel/preset-env',
       '@babel/preset-react',
-      '@babel/preset-typescript'
+      '@babel/preset-typescript',
     ],
     plugins: [
       '@babel/plugin-proposal-class-properties',
@@ -29,13 +29,13 @@ module.exports = function(api) {
                         .replace('/internal', '')}`
                     }
                     return `${base}/src${filePath}`
-                  }
+                  },
                 },
-                loglevel: 'silent'
-              }
-            ]
+                loglevel: 'silent',
+              },
+            ],
           ]
-        : [])
-    ]
+        : []),
+    ],
   }
 }

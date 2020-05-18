@@ -1,7 +1,7 @@
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-const OverlayTriangle = styled.div<{ positionAbove: boolean }>(props => {
+const OverlayTriangle = styled.div<{ positionAbove: boolean }>((props) => {
   const borderPosition = props.positionAbove ? 'borderTop' : 'borderBottom'
   return {
     position: 'relative',
@@ -9,7 +9,7 @@ const OverlayTriangle = styled.div<{ positionAbove: boolean }>(props => {
     height: 0,
     borderLeft: '5px solid transparent',
     borderRight: '5px solid transparent',
-    [borderPosition]: '10px solid rgba(51,51,51,0.95)'
+    [borderPosition]: '10px solid rgba(51,51,51,0.95)',
   }
 })
 
@@ -20,7 +20,7 @@ const InlineOverlayWrapper = styled.div({
   opacity: 0,
   transition: 'opacity 0.5s',
   zIndex: 95,
-  whiteSpace: 'nowrap'
+  whiteSpace: 'nowrap',
 })
 
 const InlineOverlayContentWrapper = styled.div({
@@ -31,9 +31,9 @@ const InlineOverlayContentWrapper = styled.div({
   '& a': {
     color: '#ffffff',
     '&:hover': {
-      color: 'rgb(70, 155, 255)'
-    }
-  }
+      color: 'rgb(70, 155, 255)',
+    },
+  },
 })
 
 export type HoverPosition = 'above' | 'below'
@@ -82,18 +82,20 @@ export function HoveringOverlay(props: {
       ),
       parentRect.width - menu.offsetWidth - 5
     )}px`
-    triangle.current.style.left = `${rect.left -
+    triangle.current.style.left = `${
+      rect.left -
       menu.offsetLeft -
       parentRect.left -
       triangle.current.offsetWidth / 2 +
-      rect.width / 2}px`
+      rect.width / 2
+    }px`
   }, [
     overlay,
     triangle,
     props.position,
     props.anchor,
     positionAbove,
-    props.allowSelectionOverflow
+    props.allowSelectionOverflow,
   ])
 
   return (

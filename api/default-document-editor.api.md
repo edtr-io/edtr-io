@@ -6,20 +6,25 @@
 
 import { DeepPartial } from '@edtr-io/ui';
 import { DocumentEditorProps } from '@edtr-io/document-editor/beta';
-import * as React from 'react';
+import * as React_2 from 'react';
 
 // @beta
-export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig): React.ComponentType<DocumentEditorProps>;
+export function createDefaultDocumentEditor(config?: DefaultDocumentEditorConfig): React_2.ComponentType<DocumentEditorProps>;
 
 // @beta (undocumented)
 export interface DefaultDocumentEditorConfig {
     // (undocumented)
-    i18n?: DeepPartial<{
-        modal: {
-            title: string;
-            closeLabel: string;
-        };
-    }>;
+    i18n?: DeepPartial<DefaultDocumentEditorI18n>;
+}
+
+// @beta (undocumented)
+export interface DefaultDocumentEditorI18n {
+    // (undocumented)
+    settings: {
+        buttonLabel: string;
+        modalTitle: string;
+        modalCloseLabel: string;
+    };
 }
 
 

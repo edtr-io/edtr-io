@@ -7,7 +7,7 @@ import {
   MarkEditorProps,
   MarkRendererProps,
   TextPluginConfig,
-  TextPlugin
+  TextPlugin,
 } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { getTrimmedSelectionRange } from '../helpers'
@@ -29,7 +29,7 @@ const getActiveMarks = (editor: Editor) => {
 }
 
 export const createIsColor = (colorIndex?: number) => (editor: Editor) => {
-  return getActiveMarks(editor).some(mark => {
+  return getActiveMarks(editor).some((mark) => {
     if (!mark) {
       return false
     }
@@ -44,7 +44,7 @@ export const createIsColor = (colorIndex?: number) => (editor: Editor) => {
 export const removeColor = (editor: Editor) => {
   return editor.value.marks
     .toArray()
-    .filter(mark => mark.type === colorMark)
+    .filter((mark) => mark.type === colorMark)
     .reduce(
       (changedEditor: Editor | CoreEditor, mark) => editor.removeMark(mark),
       editor
@@ -57,7 +57,7 @@ export const createToggleColor = (colorIndex: number) => (editor: Editor) => {
   }
   return removeColor(editor).addMark({
     type: colorMark,
-    data: { colorIndex }
+    data: { colorIndex },
   })
 }
 
@@ -65,7 +65,7 @@ export const getColorIndex = (editor: Editor) => {
   if (!createIsColor()(editor)) {
     return undefined
   } else {
-    const mark = getActiveMarks(editor).find(mark =>
+    const mark = getActiveMarks(editor).find((mark) =>
       mark ? mark.type === colorMark : false
     )
     return mark.data.get('colorIndex')
@@ -77,7 +77,7 @@ const Color = styled.span<{ config: TextPluginConfig; colorIndex: number }>(
     const { theme } = config
     const colors = theme.plugins.colors.colors
     return {
-      color: colors[colorIndex % colors.length]
+      color: colors[colorIndex % colors.length],
     }
   }
 )
@@ -96,7 +96,7 @@ class DefaultEditorComponent extends React.Component<
 }
 
 export const createColorPlugin = ({
-  EditorComponent = DefaultEditorComponent
+  EditorComponent = DefaultEditorComponent,
 }: ColorPluginOptions = {}) => (
   pluginClosure: SlatePluginClosure
 ): TextPlugin => {
@@ -115,6 +115,6 @@ export const createColorPlugin = ({
         )
       }
       return next()
-    }
+    },
   }
 }

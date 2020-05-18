@@ -16,7 +16,7 @@ beforeEach(() => {
 })
 
 test('default plugin', () => {
-  renderDocument(document => {
+  renderDocument((document) => {
     if (!document) throw new Error('No document found')
     expect(document.plugin).toEqual('stateful')
   })
@@ -26,7 +26,7 @@ function renderDocument(onChange: StateProps['onChange']) {
   act(() => {
     ReactDOM.render(
       <Editor plugins={plugins} initialState={{ plugin: 'stateful' }}>
-        {children => {
+        {(children) => {
           return (
             <React.Fragment>
               {children}

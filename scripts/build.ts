@@ -10,7 +10,7 @@ exec()
   .then(() => {
     process.exit(0)
   })
-  .catch(error => {
+  .catch((error) => {
     console.error(error)
     process.exit(1)
   })
@@ -42,7 +42,7 @@ async function exec() {
       'yarn',
       ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'],
       {
-        stdio: 'inherit'
+        stdio: 'inherit',
       }
     )
     if (status !== 0) {
@@ -54,7 +54,7 @@ async function exec() {
   function invokeApiExtractor() {
     invoke({
       localBuild: false,
-      showVerboseMessages: true
+      showVerboseMessages: true,
     })
   }
 
@@ -85,7 +85,7 @@ async function exec() {
     const readFile = util.promisify(fs.readFile)
     const writeFile = util.promisify(fs.writeFile)
     const mkDir = util.promisify(fs.mkdir)
-    const fsOptions = { encoding: 'utf-8' }
+    const fsOptions = { encoding: 'utf-8' as BufferEncoding }
 
     const packageJson = await readFile(
       path.join(process.cwd(), 'package.json'),
@@ -93,7 +93,7 @@ async function exec() {
     )
     const { main, module } = JSON.parse(packageJson)
     await Promise.all(
-      ['beta', 'internal'].map(async release => {
+      ['beta', 'internal'].map(async (release) => {
         const dir = path.join(process.cwd(), release)
         try {
           await mkDir(dir)
@@ -106,7 +106,7 @@ async function exec() {
             {
               main: `../${main}`,
               module: `../${module}`,
-              typings: `../api/${release}.d.ts`
+              typings: `../api/${release}.d.ts`,
             },
             null,
             2

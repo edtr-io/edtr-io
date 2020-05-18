@@ -6,7 +6,6 @@ import { ScopeContext, ErrorContext, useScopedDispatch } from '../store'
 import { SubDocumentEditor } from './editor'
 import { SubDocumentRenderer } from './renderer'
 
-// eslint-disable-next-line jsdoc/require-returns
 /**
  * Renders a document inside another document
  *

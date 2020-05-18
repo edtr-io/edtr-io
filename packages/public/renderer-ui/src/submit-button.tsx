@@ -4,7 +4,7 @@ import {
   faSmile,
   faCheckCircle,
   useRendererUiTheme,
-  RendererUiTheme
+  RendererUiTheme,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -12,17 +12,17 @@ import * as React from 'react'
 export enum ExerciseState {
   Default = 1,
   SolvedRight,
-  SolvedWrong
+  SolvedWrong,
 }
 
 function useSubmitButtonTheme() {
-  return useRendererUiTheme('submitButton', theme => {
+  return useRendererUiTheme('submitButton', (theme) => {
     return {
       backgroundColor: '#337ab7',
       hoverBackgroundColor: '#d9edf7',
       color: theme.backgroundColor,
       correctBackgroundColor: theme.success.background,
-      wrongBackgroundColor: theme.danger.background
+      wrongBackgroundColor: theme.danger.background,
     }
   })
 }
@@ -57,8 +57,8 @@ const SubmitButtonComponent = styled.button<{ exerciseState: ExerciseState }>(
       transition: 'background-color .5s ease',
       outline: 'none',
       '&hover': {
-        backgroundColor: theme.hoverBackgroundColor
-      }
+        backgroundColor: theme.hoverBackgroundColor,
+      },
     }
   }
 )

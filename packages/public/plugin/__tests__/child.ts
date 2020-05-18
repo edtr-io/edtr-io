@@ -10,7 +10,7 @@ describe('Child', () => {
 
   beforeEach(() => {
     helpers = {
-      createDocument: jest.fn()
+      createDocument: jest.fn(),
     }
   })
 
@@ -25,7 +25,7 @@ describe('Child', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(helpers.createDocument).toBeCalledWith({
       id,
-      plugin: 'counter'
+      plugin: 'counter',
     })
   })
 
@@ -41,7 +41,7 @@ describe('Child', () => {
     expect(helpers.createDocument).toBeCalledWith({
       id,
       plugin: 'counter',
-      state: 3
+      state: 3,
     })
   })
 
@@ -49,7 +49,7 @@ describe('Child', () => {
     const state = child({ plugin: 'counter' })
     const serialized = {
       plugin: 'counter',
-      state: 0
+      state: 0,
     }
 
     // Store
@@ -61,7 +61,7 @@ describe('Child', () => {
     expect(helpers.createDocument).toBeCalledWith({
       id,
       plugin: 'counter',
-      state: 0
+      state: 0,
     })
   })
 
@@ -74,15 +74,15 @@ describe('Child', () => {
         if (id === 'foo') {
           return {
             plugin: 'counter',
-            state: 0
+            state: 0,
           }
         }
         return null
-      }
+      },
     })
     expect(serialized).toEqual({
       plugin: 'counter',
-      state: 0
+      state: 0,
     })
   })
 

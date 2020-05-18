@@ -6,7 +6,7 @@ import {
   createDeepEqualSelector,
   createSelector,
   createSubReducer,
-  SubReducer
+  SubReducer,
 } from '../helpers'
 import { getPlugin } from '../plugins/reducer'
 import { DocumentState, ScopedState, Selector } from '../types'
@@ -22,7 +22,7 @@ import {
   pureUnwrap,
   PureUnwrapAction,
   pureReplace,
-  PureReplaceAction
+  PureReplaceAction,
 } from './actions'
 
 /** @internal */
@@ -42,8 +42,8 @@ export const documentsReducer: SubReducer<Record<
         ...documentState,
         [id]: {
           plugin: type,
-          state: pluginState
-        }
+          state: pluginState,
+        },
       }
     },
     [pureRemove.type](documentState, action: PureRemoveAction) {
@@ -57,8 +57,8 @@ export const documentsReducer: SubReducer<Record<
         ...documentState,
         [id]: {
           ...documentState[id],
-          state: pluginState
-        }
+          state: pluginState,
+        },
       }
     },
     [pureWrap.type](documentState, action: PureWrapAction, state) {
@@ -70,7 +70,7 @@ export const documentsReducer: SubReducer<Record<
       return {
         ...documentState,
         [newId]: documentState[id],
-        [id]: document
+        [id]: document,
       }
     },
     [pureUnwrap.type](documentState, action: PureUnwrapAction) {
@@ -79,7 +79,7 @@ export const documentsReducer: SubReducer<Record<
 
       return R.dissoc(oldId, {
         ...documentState,
-        [id]: documentState[oldId]
+        [id]: documentState[oldId],
       })
     },
     [pureReplace.type](documentState, action: PureReplaceAction, state) {
@@ -91,10 +91,10 @@ export const documentsReducer: SubReducer<Record<
         ...documentState,
         [id]: {
           plugin: type,
-          state: pluginState
-        }
+          state: pluginState,
+        },
       }
-    }
+    },
   }
 )
 
@@ -102,7 +102,7 @@ export const documentsReducer: SubReducer<Record<
 export const getDocuments: Selector<Record<
   string,
   DocumentState
->> = createSelector(state => state.documents)
+>> = createSelector((state) => state.documents)
 
 /** @public */
 export const getDocument: Selector<
@@ -121,6 +121,7 @@ export const getDocument: Selector<
  * @public
  */
 export const serializeDocument: Selector<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { plugin: string; state: any } | null,
   [string | null]
 > = createDeepEqualSelector((state: ScopedState, id) => {
@@ -129,11 +130,11 @@ export const serializeDocument: Selector<
   const plugin = getPlugin(doc.plugin)(state)
   if (!plugin) return null
   const serializeHelpers: StoreSerializeHelpers = {
-    getDocument: (id: string) => serializeDocument(id)(state)
+    getDocument: (id: string) => serializeDocument(id)(state),
   }
   return {
     plugin: doc.plugin,
-    state: plugin.state.serialize(doc.state, serializeHelpers)
+    state: plugin.state.serialize(doc.state, serializeHelpers),
   }
 })
 
@@ -165,7 +166,7 @@ export function isDocumentEmpty(
   }
 
   const initialState = plugin.state.createInitialState({
-    createDocument: () => {}
+    createDocument: () => {},
   })
   return R.equals(doc.state, initialState)
 }

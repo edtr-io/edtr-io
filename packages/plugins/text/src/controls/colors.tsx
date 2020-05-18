@@ -7,7 +7,7 @@ import { trimSelection } from '../helpers'
 import {
   createIsColor,
   createToggleColor,
-  removeColor
+  removeColor,
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
 
@@ -20,9 +20,7 @@ export function ColorControls(props: SubControlProps) {
         active={!createIsColor()(props.editor)}
         config={props.config}
         onClick={() => {
-          removeColor(props.editor)
-            .moveToEnd()
-            .focus()
+          removeColor(props.editor).moveToEnd().focus()
           props.switchControls(VisibleControls.All)
           props.onChange(props.editor)
         }}
@@ -38,9 +36,7 @@ export function ColorControls(props: SubControlProps) {
           active={createIsColor(index)(props.editor)}
           onClick={() => {
             trimSelection(props.editor)
-            createToggleColor(index)(props.editor)
-              .moveToEnd()
-              .focus()
+            createToggleColor(index)(props.editor).moveToEnd().focus()
             props.switchControls(VisibleControls.All)
             props.onChange(props.editor)
           }}
@@ -60,7 +56,7 @@ export function ColorControls(props: SubControlProps) {
   )
 }
 
-const ColorPaletteIcon = styled.div<{ color: string }>(props => {
+const ColorPaletteIcon = styled.div<{ color: string }>((props) => {
   return {
     display: 'inline-block',
     backgroundColor: props.color,
@@ -68,24 +64,24 @@ const ColorPaletteIcon = styled.div<{ color: string }>(props => {
     width: '19px',
     height: '19px',
     margin: '3px',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
   }
 })
 
 const ColoredText = styled.span({
   position: 'relative',
   verticalAlign: 'middle',
-  display: 'inline-block'
+  display: 'inline-block',
 })
 
 const FlexContainer = styled.span({
   display: 'flex',
   alignItems: 'center',
-  flexDirection: 'column'
+  flexDirection: 'column',
 })
 
 const Line = styled.span<{ index?: number; config: TextPluginConfig }>(
-  props => {
+  (props) => {
     const { theme } = props.config
     const { colors, defaultColor } = theme.plugins.colors
     return {
@@ -97,7 +93,7 @@ const Line = styled.span<{ index?: number; config: TextPluginConfig }>(
       borderRadius: '4px',
       bottom: '0',
       width: '80%',
-      position: 'absolute'
+      position: 'absolute',
     }
   }
 )

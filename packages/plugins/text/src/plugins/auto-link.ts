@@ -30,8 +30,8 @@ const onSpecialKey = (event: KeyboardEvent, editor: Editor, next: Function) => {
       .wrapInline({
         type: linkNode,
         data: {
-          href
-        }
+          href,
+        },
       })
       .moveToEnd()
       .focus()
@@ -56,6 +56,6 @@ export const autoLink = (pluginClosure: SlatePluginClosure): TextPlugin => {
         default:
           return next()
       }
-    }
+    },
   }
 }

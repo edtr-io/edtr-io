@@ -48,7 +48,7 @@ function WrappedModal({
   const appended = React.useRef(false)
   const children = (
     <div
-      ref={ref => {
+      ref={(ref) => {
         // The ref `appended` ensures that we only append the content once so that we don't lose focus on every render
         if (ref && contentRef.current && !appended.current) {
           appended.current = true
@@ -70,7 +70,7 @@ function WrappedModal({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.1)'
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
         },
         content: {
           borderRadius: 0,
@@ -78,15 +78,15 @@ function WrappedModal({
           width: '90%',
           maxWidth: '600px',
           inset: 'auto',
-          margin: '0 auto'
-        }
+          margin: '0 auto',
+        },
       }}
     >
       {renderContent
         ? renderContent(children, {
             close() {
               props.onRequestClose()
-            }
+            },
           })
         : children}
     </Modal>

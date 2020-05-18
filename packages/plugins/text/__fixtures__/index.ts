@@ -7,45 +7,45 @@ export const plugin = createTextPlugin({
   blockquote: 'blockquote',
   registry: [
     {
-      name: 'anchor'
+      name: 'anchor',
     },
     {
-      name: 'blockquote'
+      name: 'blockquote',
     },
     {
-      name: 'files'
+      name: 'files',
     },
     {
-      name: 'geogebra'
+      name: 'geogebra',
     },
     {
-      name: 'highlight'
+      name: 'highlight',
     },
     {
-      name: 'image'
+      name: 'image',
     },
     {
-      name: 'inputExercise'
+      name: 'inputExercise',
     },
     {
-      name: 'multimediaExplanation'
+      name: 'multimediaExplanation',
     },
     {
-      name: 'scMcExercise'
+      name: 'scMcExercise',
     },
     {
-      name: 'serloInjection'
+      name: 'serloInjection',
     },
     {
-      name: 'spoiler'
+      name: 'spoiler',
     },
     {
-      name: 'table'
+      name: 'table',
     },
     {
-      name: 'video'
-    }
-  ]
+      name: 'video',
+    },
+  ],
 })
 
 export const states: Record<
@@ -55,19 +55,19 @@ export const states: Record<
   simple: [
     {
       type: 'p',
-      children: [{ text: 'Hello world' }]
-    }
+      children: [{ text: 'Hello world' }],
+    },
   ],
   bold: [
     {
       type: 'p',
-      children: [{ strong: true, text: 'bold' }]
-    }
+      children: [{ strong: true, text: 'bold' }],
+    },
   ],
   color: [
     {
       type: 'p',
-      children: [{ color: 0, text: 'color' }]
-    }
-  ]
+      children: [{ color: 0, text: 'color' }],
+    },
+  ],
 }

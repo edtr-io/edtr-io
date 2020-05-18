@@ -13,7 +13,7 @@ export interface Preference {
 /** @beta */
 export const PreferenceContext = React.createContext<Preference>({
   getKey: () => {},
-  setKey: () => {}
+  setKey: () => {},
 })
 
 const store: { [key: string]: unknown } = {}

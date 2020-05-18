@@ -9,5 +9,5 @@ export const states: Record<
   string,
   StateTypeSerializedType<AnchorPluginState>
 > = {
-  simple: 'foo'
+  simple: 'foo',
 }

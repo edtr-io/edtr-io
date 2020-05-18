@@ -18,11 +18,11 @@ export const clipboardReducer: SubReducer<DocumentState[]> = createSubReducer(
           : appended
 
       return nextClipboard
-    }
+    },
   }
 )
 
 /** @beta */
 export const getClipboard: Selector<DocumentState[]> = createSelector(
-  state => state.clipboard
+  (state) => state.clipboard
 )

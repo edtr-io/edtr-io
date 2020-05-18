@@ -15,8 +15,8 @@ export const states: Record<
     state: [
       {
         type: 'p',
-        children: [{ text: 'This is a blockquote' }]
-      }
-    ]
-  }
+        children: [{ text: 'This is a blockquote' }],
+      },
+    ],
+  },
 }

@@ -7,7 +7,7 @@ import {
   edtrListBullets,
   edtrListNumbered,
   edtrQuote,
-  edtrText
+  edtrText,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -16,7 +16,7 @@ import { orderedListNode, unorderedListNode } from '../model'
 import {
   createBlockquote,
   isBlockquote,
-  removeBlockquote
+  removeBlockquote,
 } from '../plugins/blockquote'
 import { getColorIndex } from '../plugins/colors'
 import { getHeadingLevel } from '../plugins/headings'
@@ -27,7 +27,7 @@ import {
   isEmphasized,
   isStrong,
   toggleEmphasize,
-  toggleStrong
+  toggleStrong,
 } from '../plugins/rich-text'
 import { Button } from '../toolbar/button'
 import { ColoredTextIcon } from './colors'

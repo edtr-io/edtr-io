@@ -14,7 +14,7 @@ export enum VisibleControls {
   All,
   Headings,
   Lists,
-  Colors
+  Colors,
 }
 
 export interface ControlProps {
@@ -91,7 +91,7 @@ function ControlsSwitch({
 const TimeoutBottomToolbar = styled(EditorBottomToolbar)<{
   visible: boolean
   isTouch: boolean
-}>(props => {
+}>((props) => {
   const touchStyles = props.isTouch
     ? { bottom: 'unset', top: 0, transform: 'translate(-50%, 50%)' }
     : {}
@@ -99,7 +99,7 @@ const TimeoutBottomToolbar = styled(EditorBottomToolbar)<{
   return {
     opacity: props.visible ? 1 : 0,
     transition: '500ms opacity ease-in-out',
-    ...touchStyles
+    ...touchStyles,
   }
 })
 
@@ -117,7 +117,7 @@ export function Controls(props: ControlProps) {
   const currentValue = JSON.stringify(props.editor.value.toJSON())
   const memoized = React.useRef({
     value: currentValue,
-    selectionCollapsed
+    selectionCollapsed,
   })
   React.useEffect(() => {
     let debounceTimeout = setTimeout(showBottomToolbar, 2500)
@@ -128,7 +128,7 @@ export function Controls(props: ControlProps) {
     ) {
       memoized.current = {
         value: currentValue,
-        selectionCollapsed
+        selectionCollapsed,
       }
       if (debounceTimeout) {
         clearTimeout(debounceTimeout)
@@ -148,7 +148,7 @@ export function Controls(props: ControlProps) {
   const onChange = React.useCallback((editor: Editor) => {
     memoized.current = {
       ...memoized.current,
-      value: JSON.stringify(editor.value.toJSON())
+      value: JSON.stringify(editor.value.toJSON()),
     }
     return editor
   }, [])
@@ -202,8 +202,8 @@ export const createUiPlugin = (options: UiPluginOptions) => (
       math: true,
       headings: true,
       lists: true,
-      colors: true
-    }
+      colors: true,
+    },
   } = options
 
   return {
@@ -231,6 +231,6 @@ export const createUiPlugin = (options: UiPluginOptions) => (
           {children}
         </React.Fragment>
       )
-    }
+    },
   }
 }

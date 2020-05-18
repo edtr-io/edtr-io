@@ -4,7 +4,7 @@ import {
   StateTypeReturnType,
   StateTypeSerializedType,
   StateTypeValueType,
-  StateUpdater
+  StateUpdater,
 } from './internal-plugin-state'
 
 /**
@@ -29,10 +29,10 @@ export function optional<D extends StateType>(
             onChange(() => {
               return {
                 defined: false,
-                value: null
+                value: null,
               }
             })
-          }
+          },
         }) as R & { defined: true; remove(): void }
       }
 
@@ -45,10 +45,10 @@ export function optional<D extends StateType>(
               value:
                 value === undefined
                   ? type.createInitialState(helpers)
-                  : type.deserialize(value, helpers)
+                  : type.deserialize(value, helpers),
             }
           })
-        }
+        },
       }
 
       function innerOnChange(
@@ -60,13 +60,13 @@ export function optional<D extends StateType>(
           typeof executor === 'function'
             ? (resolve, reject, next) => {
                 executor(
-                  value => {
+                  (value) => {
                     resolve(wrapStateUpdater(value))
                   },
-                  value => {
+                  (value) => {
                     reject(wrapStateUpdater(value))
                   },
-                  value => {
+                  (value) => {
                     next(wrapStateUpdater(value))
                   }
                 )
@@ -80,12 +80,12 @@ export function optional<D extends StateType>(
           if (previousState.defined) {
             return {
               defined: true,
-              value: f(previousState.value, helpers)
+              value: f(previousState.value, helpers),
             }
           } else {
             return {
               defined: true,
-              value: f(type.createInitialState(helpers), helpers)
+              value: f(type.createInitialState(helpers), helpers),
             }
           }
         }
@@ -95,25 +95,25 @@ export function optional<D extends StateType>(
       if (initiallyDefined) {
         return {
           defined: true,
-          value: type.createInitialState(helpers)
+          value: type.createInitialState(helpers),
         }
       }
       return {
         defined: false,
-        value: null
+        value: null,
       }
     },
     deserialize(serialized, helpers) {
       if (serialized === undefined) {
         return {
           defined: false,
-          value: null
+          value: null,
         }
       }
 
       return {
         defined: true,
-        value: type.deserialize(serialized, helpers)
+        value: type.deserialize(serialized, helpers),
       }
     },
     serialize(deserialized, helpers) {
@@ -125,7 +125,7 @@ export function optional<D extends StateType>(
     getFocusableChildren(state) {
       if (state.defined) return type.getFocusableChildren(state.value)
       return []
-    }
+    },
   }
 }
 

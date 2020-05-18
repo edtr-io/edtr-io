@@ -10,7 +10,7 @@ let store: ReturnType<typeof setupStore>
 function initRoot(initialState: { plugin: string; state?: unknown }) {
   return S.initRoot({
     initialState,
-    plugins
+    plugins,
   })
 }
 
@@ -27,11 +27,11 @@ describe('Root', () => {
     test('Stateful Plugin', async () => {
       store.dispatch(initRoot({ plugin: 'stateful', state: 0 }))
       await waitUntil(() =>
-        R.any(action => action.type === persist.type, store.getActions())
+        R.any((action) => action.type === persist.type, store.getActions())
       )
       expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'stateful',
-        state: 0
+        state: 0,
       })
     })
 
@@ -40,21 +40,21 @@ describe('Root', () => {
         initRoot({
           plugin: 'nested',
           state: {
-            child: { plugin: 'stateful', state: 0 }
-          }
+            child: { plugin: 'stateful', state: 0 },
+          },
         })
       )
       await waitUntil(() =>
-        R.any(action => action.type === persist.type, store.getActions())
+        R.any((action) => action.type === persist.type, store.getActions())
       )
       expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nested',
         state: {
           child: {
             plugin: 'stateful',
-            state: 0
-          }
-        }
+            state: 0,
+          },
+        },
       })
     })
 
@@ -63,12 +63,12 @@ describe('Root', () => {
         initRoot({
           plugin: 'nestedArray',
           state: {
-            children: [{ plugin: 'stateful', state: 1 }]
-          }
+            children: [{ plugin: 'stateful', state: 1 }],
+          },
         })
       )
       await waitUntil(() =>
-        R.any(action => action.type === persist.type, store.getActions())
+        R.any((action) => action.type === persist.type, store.getActions())
       )
       expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nestedArray',
@@ -76,10 +76,10 @@ describe('Root', () => {
           children: [
             {
               plugin: 'stateful',
-              state: 1
-            }
-          ]
-        }
+              state: 1,
+            },
+          ],
+        },
       })
     })
 
@@ -95,16 +95,16 @@ describe('Root', () => {
                 state: {
                   child: {
                     plugin: 'stateful',
-                    state: 2
-                  }
-                }
-              }
-            ]
-          }
+                    state: 2,
+                  },
+                },
+              },
+            ],
+          },
         })
       )
       await waitUntil(() =>
-        R.any(action => action.type === persist.type, store.getActions())
+        R.any((action) => action.type === persist.type, store.getActions())
       )
       expect(S.serializeRootDocument()(store.getState())).toEqual({
         plugin: 'nestedArray',
@@ -112,16 +112,16 @@ describe('Root', () => {
           children: [
             {
               plugin: 'stateful',
-              state: 1
+              state: 1,
             },
             {
               plugin: 'nested',
               state: {
-                child: { plugin: 'stateful', state: 2 }
-              }
-            }
-          ]
-        }
+                child: { plugin: 'stateful', state: 2 },
+              },
+            },
+          ],
+        },
       })
     })
   })

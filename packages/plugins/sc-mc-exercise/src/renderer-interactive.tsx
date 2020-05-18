@@ -11,7 +11,7 @@ import { ScMcRendererProps } from './renderer'
 enum ExerciseState {
   Default = 1,
   SolvedRight,
-  SolvedWrong
+  SolvedWrong,
 }
 
 export class ScMcRendererInteractive extends React.Component<
@@ -19,7 +19,7 @@ export class ScMcRendererInteractive extends React.Component<
   ScMcRendererState
 > {
   public static defaultProps = {
-    getFeedback: () => undefined
+    getFeedback: () => undefined,
   }
 
   public constructor(props: ScMcRendererInteractiveProps) {
@@ -42,13 +42,13 @@ export class ScMcRendererInteractive extends React.Component<
       buttons: props.state.answers.map(() => {
         return {
           selected: false,
-          showFeedback: false
+          showFeedback: false,
         }
       }),
       globalFeedback: '',
       showGlobalFeedback: false,
       solved: false,
-      exerciseState: ExerciseState.Default
+      exerciseState: ExerciseState.Default,
     }
   }
   public render() {
@@ -88,7 +88,7 @@ export class ScMcRendererInteractive extends React.Component<
 
   private showFeedback({
     answer,
-    button
+    button,
   }: {
     answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0]
     button: Button
@@ -153,7 +153,7 @@ export class ScMcRendererInteractive extends React.Component<
         button,
         answer: this.props.state.answers[i],
         mistakes,
-        missingSolutions
+        missingSolutions,
       })
     })
 
@@ -163,7 +163,7 @@ export class ScMcRendererInteractive extends React.Component<
       solved: mistakes === 0,
       globalFeedback: this.getGlobalFeedback({ mistakes, missingSolutions }),
       exerciseState:
-        mistakes === 0 ? ExerciseState.SolvedRight : this.handleWrongAnswer()
+        mistakes === 0 ? ExerciseState.SolvedRight : this.handleWrongAnswer(),
     })
   }
 
@@ -174,22 +174,22 @@ export class ScMcRendererInteractive extends React.Component<
       this.setState({
         buttons: buttons.map((button, index) => {
           return R.assoc('selected', index === selectedIndex, button)
-        })
+        }),
       })
     } else {
       this.setState({
         buttons: R.adjust(
           selectedIndex,
-          button => R.assoc('selected', !button.selected, button),
+          (button) => R.assoc('selected', !button.selected, button),
           buttons
         ),
-        globalFeedback: ''
+        globalFeedback: '',
       })
     }
   }
   private getGlobalFeedback({
     mistakes,
-    missingSolutions
+    missingSolutions,
   }: {
     mistakes: number
     missingSolutions: number
@@ -199,7 +199,7 @@ export class ScMcRendererInteractive extends React.Component<
       typeof getFeedback === 'function' &&
       getFeedback({
         mistakes,
-        missingSolutions
+        missingSolutions,
       })
 
     if (feedback) {

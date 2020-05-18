@@ -2,7 +2,7 @@ import {
   edtrClose,
   EdtrIcon,
   edtrListBullets,
-  edtrListNumbered
+  edtrListNumbered,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -11,7 +11,9 @@ import { orderedListNode, unorderedListNode } from '../model'
 import { isList, toggleList } from '../plugins/list'
 import { Button } from '../toolbar/button'
 
-export const ListControls: React.FunctionComponent<SubControlProps> = props => {
+export const ListControls: React.FunctionComponent<SubControlProps> = (
+  props
+) => {
   return (
     <React.Fragment>
       <Button

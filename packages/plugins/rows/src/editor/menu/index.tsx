@@ -21,8 +21,8 @@ const Wrapper = styled.div<{ config: RowsPluginConfig }>(({ config }) => {
     zIndex: 9999,
 
     '@media (max-width: 1000px)': {
-      padding: '25px 20px 0'
-    }
+      padding: '25px 20px 0',
+    },
   }
 })
 
@@ -31,7 +31,7 @@ const CloseButtonContainer = styled.div({
   top: '15px',
   right: '15px',
   width: '30px',
-  cursor: 'pointer'
+  cursor: 'pointer',
 })
 
 const PluginList = styled.div({
@@ -39,7 +39,7 @@ const PluginList = styled.div({
   justifyContent: 'space-around',
   flexWrap: 'wrap',
   overflowY: 'auto',
-  alignItems: 'stretch'
+  alignItems: 'stretch',
 })
 
 interface MenuProps {
@@ -55,7 +55,7 @@ export function Menu({ menu, setMenu, config }: MenuProps) {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
-    evt => {
+    (evt) => {
       if (evt.key === 'Escape') setMenu(undefined)
     },
     [setMenu]
@@ -81,7 +81,7 @@ export function Menu({ menu, setMenu, config }: MenuProps) {
         return true
       return pluginKey.toLowerCase().includes(search.toLowerCase())
     })
-    .map(plugin => (
+    .map((plugin) => (
       <Plugin
         config={config}
         onClick={() => menu.onClose({ plugin: plugin.name })}

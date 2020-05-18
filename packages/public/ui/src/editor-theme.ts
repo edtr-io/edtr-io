@@ -2,10 +2,10 @@ import * as R from 'ramda'
 import * as React from 'react'
 import {
   ThemeProps as StyledThemeProps,
-  ThemeContext as StyledThemeContext
+  ThemeContext as StyledThemeContext,
 } from 'styled-components'
 
-import { DeepPartial } from './types'
+import { DeepPartial } from './deep-partial'
 
 /** @public */
 export interface EditorTheme {
@@ -41,30 +41,30 @@ export interface EditorTheme {
 export const defaultEditorTheme: EditorTheme = {
   primary: {
     color: '#ffffff',
-    background: 'rgb(70, 155, 255)'
+    background: 'rgb(70, 155, 255)',
   },
   secondary: {
     color: '#333333',
-    background: '#eeeeee'
+    background: '#eeeeee',
   },
   success: {
     color: '#ffffff',
-    background: '#5cb85c'
+    background: '#5cb85c',
   },
   info: {
     color: '#ffffff',
-    background: '#5bc0de'
+    background: '#5bc0de',
   },
   warning: {
     color: '#ffffff',
-    background: '#f0ad4e'
+    background: '#f0ad4e',
   },
   danger: {
     color: '#ffffff',
-    background: '#d9534f'
+    background: '#d9534f',
   },
   color: '#EEEEEE',
-  backgroundColor: 'rgba(51,51,51,0.95)'
+  backgroundColor: 'rgba(51,51,51,0.95)',
 }
 
 /** @public */

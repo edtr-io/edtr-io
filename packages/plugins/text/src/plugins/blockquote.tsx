@@ -30,9 +30,9 @@ export const createBlockquote = (
       document(id) {
         return {
           plugin: blockquote,
-          state: id
+          state: id,
         }
-      }
+      },
     })
   )
 }
@@ -50,7 +50,7 @@ export const removeBlockquote = (
     store.dispatch(
       unwrap({
         id: parent.id,
-        oldId: id
+        oldId: id,
       })
     )
   }

@@ -24,7 +24,7 @@
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-modal": "^3.0.0",
-    "@types/styled-components": "^4.0.0",
+    "@types/styled-components": "^5.0.0",
     "exenv": "^1.0.0",
     "immutable": "^3.8.1",
     "is-hotkey": "^0.1.0",

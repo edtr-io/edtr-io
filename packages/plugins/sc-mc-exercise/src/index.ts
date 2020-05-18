@@ -9,7 +9,7 @@ import {
   BooleanStateType,
   ListStateType,
   ChildStateType,
-  ChildStateTypeConfig
+  ChildStateTypeConfig,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -32,40 +32,40 @@ export function createScMcExercisePlugin(
         {
           types: {
             singleChoice: 'Single-choice',
-            multipleChoice: 'Multiple-choice'
+            multipleChoice: 'Multiple-choice',
           },
           isSingleChoice: {
-            label: 'Choose the exercise type'
+            label: 'Choose the exercise type',
           },
           answer: {
             addLabel: 'Add answer',
             fallbackFeedback: {
-              wrong: 'Wrong'
-            }
+              wrong: 'Wrong',
+            },
           },
           globalFeedback: {
             missingCorrectAnswers:
               'Almost! You missed at least one correct answer',
             correct: 'Correct',
-            wrong: 'Wrong'
-          }
+            wrong: 'Wrong',
+          },
         },
         i18n
-      )
+      ),
     },
-    state: createState()
+    state: createState(),
   }
 
   function createState(): ScMcExercisePluginState {
     const answerState = object({
       content: child(content),
       isCorrect: boolean(false),
-      feedback: child(feedback)
+      feedback: child(feedback),
     })
 
     return object({
       isSingleChoice: boolean(false),
-      answers: list(answerState)
+      answers: list(answerState),
     })
   }
 }

@@ -19,18 +19,18 @@ const StyledPlugin = styled.div<{ config: RowsPluginConfig }>(({ config }) => {
     color: theme.menu.primary.color,
 
     '&:hover': {
-      backgroundColor: theme.menu.secondary.backgroundColor
-    }
+      backgroundColor: theme.menu.secondary.backgroundColor,
+    },
   }
 })
 
 const DefaultIcon = styled(EdtrIcon)({
   height: '100%',
-  width: '100%'
+  width: '100%',
 })
 
 const IconWrapper = styled.div({
-  height: '50px'
+  height: '50px',
 })
 
 const Title = styled.h3({
@@ -38,20 +38,20 @@ const Title = styled.h3({
   fontSize: '24px',
   marginBottom: '10px',
   fontWeight: 'bold',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 const Description = styled.p({
   margin: 0,
   textAlign: 'center',
-  fontSize: '16px'
+  fontSize: '16px',
 })
 
 export const Plugin = ({
   config,
   plugin,
   pluginName,
-  onClick
+  onClick,
 }: {
   plugin: {
     name: string

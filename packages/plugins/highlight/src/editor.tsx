@@ -1,7 +1,7 @@
 import {
   EditorCheckbox,
   EditorInput,
-  EditorInlineSettings
+  EditorInlineSettings,
 } from '@edtr-io/editor-ui'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
@@ -19,12 +19,12 @@ const Textarea = styled.textarea({
   outline: 'none',
   boxShadow: '0 1px 1px 0 rgba(0,0,0,0.50)',
   '&::-webkit-input-placeholder': {
-    color: 'rgba(0,0,0,0.5)'
-  }
+    color: 'rgba(0,0,0,0.5)',
+  },
 })
 
 const CheckboxContainer = styled.div({
-  float: 'right'
+  float: 'right',
 })
 
 export function HighlightEditor(props: HighlightProps) {

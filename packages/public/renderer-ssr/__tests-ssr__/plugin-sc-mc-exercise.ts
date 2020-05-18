@@ -8,5 +8,5 @@ addTests({
   states,
   assert(state, html) {
     expect(html).toContain('correct')
-  }
+  },
 })

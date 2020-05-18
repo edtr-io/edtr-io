@@ -7,10 +7,10 @@ const req = require.context('../__stories__', true, /\.tsx?$/)
 
 addDecorator(withKnobs)
 addParameters({
-  options: { addonPanelInRight: true, showPanel: false, theme }
+  options: { addonPanelInRight: true, showPanel: false, theme },
 })
 configure(loadStories, module)
 
 function loadStories() {
-  req.keys().forEach(filename => req(filename))
+  req.keys().forEach((filename) => req(filename))
 }

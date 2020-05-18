@@ -2,10 +2,10 @@ import * as R from 'ramda'
 import * as React from 'react'
 import {
   ThemeContext as StyledThemeContext,
-  ThemeProps as StyledThemeProps
+  ThemeProps as StyledThemeProps,
 } from 'styled-components'
 
-import { DeepPartial } from './types'
+import { DeepPartial } from './deep-partial'
 
 /** @public */
 export interface RendererTheme {
@@ -43,28 +43,28 @@ export const defaultRendererTheme: RendererTheme = {
   color: '#333333',
   primary: {
     color: '#ffffff',
-    background: '#337ab7'
+    background: '#337ab7',
   },
   secondary: {
     color: '#333333',
-    background: '#eeeeee'
+    background: '#eeeeee',
   },
   success: {
     color: '#ffffff',
-    background: '#5cb85c'
+    background: '#5cb85c',
   },
   info: {
     color: '#ffffff',
-    background: '#5bc0de'
+    background: '#5bc0de',
   },
   warning: {
     color: '#ffffff',
-    background: '#f0ad4e'
+    background: '#f0ad4e',
   },
   danger: {
     color: '#ffffff',
-    background: '#d9534f'
-  }
+    background: '#d9534f',
+  },
 }
 
 /** @public */

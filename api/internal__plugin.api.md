@@ -4,7 +4,7 @@
 
 ```ts
 
-import * as React from 'react';
+import * as React_2 from 'react';
 import { StateType } from '@edtr-io/internal__plugin-state';
 import { StateTypeReturnType } from '@edtr-io/internal__plugin-state';
 import { StateTypeSerializedType } from '@edtr-io/internal__plugin-state';
@@ -12,9 +12,9 @@ import { Theme } from '@edtr-io/ui';
 
 // @public
 export interface EditorPlugin<S extends StateType = StateType, Config extends {} = {}> {
-    Component: React.ComponentType<EditorPluginProps<S, Config>>;
+    Component: React_2.ComponentType<EditorPluginProps<S, Config>>;
     config: Config | ((theme: Theme) => Config);
-    insertChild?(state: StateTypeReturnType<S>, { previousSibling, document }: {
+    insertChild?(state: StateTypeReturnType<S>, { previousSibling, document, }: {
         previousSibling?: string;
         document?: {
             plugin: string;
@@ -35,13 +35,13 @@ export interface EditorPlugin<S extends StateType = StateType, Config extends {}
 
 // @public
 export interface EditorPluginProps<S extends StateType = StateType, Config extends {} = {}> {
-    autofocusRef: React.RefObject<HTMLInputElement & HTMLTextAreaElement>;
+    autofocusRef: React_2.RefObject<HTMLInputElement & HTMLTextAreaElement>;
     config: Config;
     editable: boolean;
     focused: boolean;
     id: string;
-    renderIntoSettings(children: React.ReactNode): React.ReactNode;
-    renderIntoToolbar(children: React.ReactNode): React.ReactNode;
+    renderIntoSettings(children: React_2.ReactNode): React_2.ReactNode;
+    renderIntoToolbar(children: React_2.ReactNode): React_2.ReactNode;
     state: StateTypeReturnType<S>;
 }
 

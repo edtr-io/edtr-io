@@ -19,7 +19,7 @@ export const AnchorEditor = (props: AnchorProps) => {
           label={i18n.label}
           placeholder={i18n.placeholder}
           value={state.value}
-          onChange={e => {
+          onChange={(e) => {
             state.set(e.target.value)
           }}
           ref={props.autofocusRef}

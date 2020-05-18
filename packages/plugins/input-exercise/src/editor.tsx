@@ -3,7 +3,7 @@ import {
   AddButton,
   InteractiveAnswer,
   PreviewOverlay,
-  styled
+  styled,
 } from '@edtr-io/editor-ui/internal'
 import { invariant } from '@edtr-io/internal__dev-expression'
 import { getFocused } from '@edtr-io/store'
@@ -16,7 +16,7 @@ import { InputExerciseRenderer } from './renderer'
 const AnswerTextfield = styled.input({
   border: 'none',
   outline: 'none',
-  width: '100%'
+  width: '100%',
 })
 export function InputExerciseEditor(props: InputExerciseProps) {
   function translateDataType(type: InputExerciseType) {
@@ -37,7 +37,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
     focused ||
     R.includes(
       focusedElement,
-      props.state.answers.map(answer => answer.feedback.id)
+      props.state.answers.map((answer) => answer.feedback.id)
     )
   const [previewActive, setPreviewActive] = React.useState(false)
   return (
@@ -86,7 +86,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
               <OverlayInput
                 label={i18n.unit.label}
                 value={state.unit.value}
-                onChange={e => {
+                onChange={(e) => {
                   state.unit.set(e.target.value)
                 }}
               />
@@ -97,7 +97,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
                 }}
                 value={translateDataType(state.type.value as InputExerciseType)}
                 options={R.values(
-                  R.mapObjIndexed(type => {
+                  R.mapObjIndexed((type) => {
                     return translateDataType(type)
                   }, InputExerciseType)
                 )}

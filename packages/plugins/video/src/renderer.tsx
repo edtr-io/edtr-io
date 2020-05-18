@@ -6,14 +6,14 @@ import { VideoProps } from '.'
 const VideoPlaceholderWrapper = styled.div({
   position: 'relative',
   width: '100%',
-  textAlign: 'center'
+  textAlign: 'center',
 })
 
 enum VideoType {
   YouTube = 'youtube',
   Vimeo = 'vimeo',
   Wikimedia = 'wikimedia',
-  BR = 'br'
+  BR = 'br',
 }
 
 const VideoWrapper = styled.div<{ disableCursorEvents: boolean }>(
@@ -25,7 +25,7 @@ const VideoWrapper = styled.div<{ disableCursorEvents: boolean }>(
     display: 'block',
     height: '0',
     overflow: 'hidden',
-    pointerEvents: disableCursorEvents ? 'none' : 'auto'
+    pointerEvents: disableCursorEvents ? 'none' : 'auto',
   })
 )
 
@@ -35,7 +35,7 @@ const Video = styled.video({
   left: 0,
   width: '100%',
   height: '100%',
-  border: 'none'
+  border: 'none',
 })
 
 const VideoIframe = styled.iframe({
@@ -44,7 +44,7 @@ const VideoIframe = styled.iframe({
   left: 0,
   width: '100%',
   height: '100%',
-  border: 'none'
+  border: 'none',
 })
 
 export type VideoRendererProps = VideoProps & {
@@ -107,7 +107,7 @@ function checkMatch(
       if (match) {
         return {
           embed: `https://www.youtube-nocookie.com/embed/${match[4]}?html5=1`,
-          type: VideoType.YouTube
+          type: VideoType.YouTube,
         }
       }
       break
@@ -117,7 +117,7 @@ function checkMatch(
       if (match) {
         return {
           embed: `https://player.vimeo.com/video/${match[3]}`,
-          type: VideoType.Vimeo
+          type: VideoType.Vimeo,
         }
       }
       break
@@ -127,7 +127,7 @@ function checkMatch(
       if (match) {
         return {
           embed: url,
-          type: VideoType.Wikimedia
+          type: VideoType.Wikimedia,
         }
       }
       break
@@ -137,7 +137,7 @@ function checkMatch(
       if (match) {
         return {
           embed: `https://www.br.de/mediathek/embed/${match[3]}`,
-          type: VideoType.BR
+          type: VideoType.BR,
         }
       }
       break

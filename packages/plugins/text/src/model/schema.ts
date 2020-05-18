@@ -26,17 +26,17 @@ export const defaultNode = paragraphNode
 export const slateSchema = {
   inlines: {
     [katexInlineNode]: {
-      isVoid: true
+      isVoid: true,
     },
     [linkNode]: {
-      text: /.+/
-    }
+      text: /.+/,
+    },
   },
   blocks: {
     [katexBlockNode]: {
-      isVoid: true
-    }
-  }
+      isVoid: true,
+    },
+  },
 }
 
 export const emptyDocument: ValueJSON = {
@@ -47,10 +47,10 @@ export const emptyDocument: ValueJSON = {
         type: defaultNode,
         nodes: [
           {
-            object: 'text'
-          }
-        ]
-      }
-    ]
-  }
+            object: 'text',
+          },
+        ],
+      },
+    ],
+  },
 }

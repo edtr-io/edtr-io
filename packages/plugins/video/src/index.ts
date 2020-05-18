@@ -4,7 +4,7 @@ import {
   object,
   ObjectStateType,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -25,14 +25,14 @@ import { VideoEditor } from './editor'
       i18n: R.mergeDeepRight(
         {
           src: {
-            label: 'Video URL'
+            label: 'Video URL',
           },
           alt: {
-            label: 'Description'
-          }
+            label: 'Description',
+          },
         },
         i18n
-      )
+      ),
     },
     state: object({ src: string(), alt: string() }),
     onText(value) {
@@ -40,13 +40,13 @@ import { VideoEditor } from './editor'
       if (regex.test(value)) {
         return { state: { src: value, alt: '' } }
       }
-    }
+    },
   }
 }
 
 /** @public */
 export interface VideoConfig {
-  i18n?: DeepPartial<VideoPluginConfig>
+  i18n?: DeepPartial<VideoPluginConfig['i18n']>
 }
 
 /** @public */

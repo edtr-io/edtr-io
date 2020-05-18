@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'Spoiler',
   plugin: name,
-  states: states
+  states: states,
 })

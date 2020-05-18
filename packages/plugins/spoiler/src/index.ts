@@ -7,7 +7,7 @@ import {
   object,
   ObjectStateType,
   string,
-  StringStateType
+  StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -29,21 +29,21 @@ import { SpoilerEditor } from './editor'
         i18n: R.mergeDeepRight(
           {
             title: {
-              placeholder: 'Enter a title'
-            }
+              placeholder: 'Enter a title',
+            },
           },
           i18n
         ),
         theme: {
           color: '#f5f5f5',
-          ...theme
-        }
+          ...theme,
+        },
       }
     },
     state: object({
       title: string(''),
-      content: child(content)
-    })
+      content: child(content),
+    }),
   }
 }
 

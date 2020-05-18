@@ -9,7 +9,7 @@ const OverlayTextareaLabel = styled.label({
   display: 'flex',
   flexDirection: 'row',
   margin: '20px auto 0',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 
 const OverlayTextareaLabelInner = styled.span({ width: '20%' })
@@ -29,8 +29,8 @@ const OverlayTextareaInner = styled.textarea<{
     minHeight: '100px',
     width: '75%',
     '&:focus': {
-      border: `2px solid ${config.primaryColor}`
-    }
+      border: `2px solid ${config.primaryColor}`,
+    },
   }
 })
 

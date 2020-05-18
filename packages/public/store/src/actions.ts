@@ -8,7 +8,7 @@ import { InternalRootAction, RootAction } from './root/actions'
 import {
   ActionCreatorAction,
   ActionCreatorWithPayload,
-  ScopedState
+  ScopedState,
 } from './types'
 
 /** @public */

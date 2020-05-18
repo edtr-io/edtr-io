@@ -1,10 +1,10 @@
 module.exports = {
   extends: [
     './.eslintrc.js',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking'
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   parserOptions: {
-    project: ['tsconfig.json', 'tsconfig.eslint.json']
+    project: ['tsconfig.json', 'tsconfig.eslint.json'],
   },
   rules: {
     // eslint-plugin-import
@@ -24,10 +24,10 @@ module.exports = {
           'packages/*/*/{__helpers__,__stories__,__tests__,__tests-ssr__}/**/*',
           'packages/private/bundle-size/webpack.config.js',
           'packages/private/demo/{scripts,src}/**/*',
-          'scripts/**/*'
+          'scripts/**/*',
         ],
-        optionalDependencies: false
-      }
+        optionalDependencies: false,
+      },
     ],
     'import/no-internal-modules': [
       'error',
@@ -38,9 +38,9 @@ module.exports = {
           'react-dom/server',
           'react-dom/test-utils',
           'react-syntax-highlighter/dist/cjs/styles/*/*',
-          'redux-saga/effects'
-        ]
-      }
+          'redux-saga/effects',
+        ],
+      },
     ],
     'import/no-mutable-exports': 'error',
     'import/no-self-import': 'error',
@@ -48,21 +48,21 @@ module.exports = {
     'import/no-useless-path-segments': [
       'error',
       {
-        noUselessIndex: true
-      }
+        noUselessIndex: true,
+      },
     ],
     'import/order': [
       'error',
       {
         alphabetize: {
-          order: 'asc'
+          order: 'asc',
         },
         groups: [
           ['builtin', 'external', 'internal'],
-          ['parent', 'sibling', 'index', 'unknown']
+          ['parent', 'sibling', 'index', 'unknown'],
         ],
-        'newlines-between': 'always'
-      }
-    ]
-  }
+        'newlines-between': 'always',
+      },
+    ],
+  },
 }

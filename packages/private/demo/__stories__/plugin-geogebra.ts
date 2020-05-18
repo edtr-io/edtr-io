@@ -5,5 +5,5 @@ import { addPluginStories } from '../src'
 addPluginStories({
   name: 'GeoGebra',
   plugin: name,
-  states: states
+  states: states,
 })
