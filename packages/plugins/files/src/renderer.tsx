@@ -40,7 +40,7 @@ export function FilesRenderer(props: FilesProps) {
         if (isTempFile(file.value)) {
           return null
         }
-        return <FileRenderer file={file.value} key={file.value.name + i} />
+        return <FileRenderer file={file.value} key={`${file.value.name}${i}`} />
       })}
     </React.Fragment>
   )

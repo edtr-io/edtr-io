@@ -105,12 +105,12 @@ describe('Child', () => {
     const id = 'foo'
     const childValue = state.init(id, () => {})
     let pluginProps: PluginProps = {}
-    // @ts-ignore
+    // @ts-expect-error used jest.mock
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null
     })
-    // @ts-ignore
     render(childValue.render())
     expect(pluginProps.config).toEqual({})
   })
@@ -120,12 +120,12 @@ describe('Child', () => {
     const id = 'foo'
     const childValue = state.init(id, () => {})
     let pluginProps: PluginProps = {}
-    // @ts-ignore
+    // @ts-expect-error used jest.mock
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null
     })
-    // @ts-ignore
     render(childValue.render())
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
@@ -134,12 +134,12 @@ describe('Child', () => {
     const state = child({ plugin: 'counter' })
     const childValue = state.init('foo', () => {})
     let pluginProps: PluginProps = {}
-    // @ts-ignore
+    // @ts-expect-error used jest.mock
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null
     })
-    // @ts-ignore
     render(childValue.render({ config: { foo: 'bar' } }))
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
@@ -148,12 +148,12 @@ describe('Child', () => {
     const state = child({ plugin: 'counter', config: { foo: 'foo' } })
     const childValue = state.init('foo', () => {})
     let pluginProps: PluginProps = {}
-    // @ts-ignore
+    // @ts-expect-error used jest.mock
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null
     })
-    // @ts-ignore
     render(childValue.render({ config: { foo: 'bar' } }))
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })

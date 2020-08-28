@@ -31,6 +31,7 @@ export function object<Ds extends Record<string, StateType>>(
   return {
     init(state, onChange) {
       return R.mapObjIndexed((type, key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.init(state[key], innerOnChange)
 
         function innerOnChange(
@@ -67,16 +68,19 @@ export function object<Ds extends Record<string, StateType>>(
     },
     createInitialState(helpers) {
       return R.map((type) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.createInitialState(helpers)
       }, types) as T
     },
     deserialize(serialized, helpers) {
       return R.mapObjIndexed((type, key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.deserialize(serialized[key], helpers)
       }, types) as T
     },
     serialize(deserialized, helpers) {
       return R.mapObjIndexed((type, key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.serialize(deserialized[key], helpers)
       }, types) as S
     },

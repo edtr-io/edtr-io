@@ -101,7 +101,7 @@ export { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper'
  * @returns A component for the specified icon
  * @public
  */
-export function createIcon(i: IconDefinition): React.ComponentType<{}> {
+export function createIcon(i: IconDefinition): React.ComponentType {
   return function I() {
     return <Icon icon={i} size="4x" />
   }

@@ -64,7 +64,9 @@ describe('list', () => {
     expect(typeof deserialized[1].id).toEqual('string')
     expect(typeof deserialized[1].value).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(2)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(helpers.createDocument.mock.calls[0][0].state).toEqual(0)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(helpers.createDocument.mock.calls[1][0].state).toEqual(1)
   })
 

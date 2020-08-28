@@ -22,12 +22,12 @@ import { Math } from './math-component'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MathQuill: React.ComponentType<any> = canUseDOM
-  ? require('react-mathquill').EditableMathField
+  ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('react-mathquill').EditableMathField
   : () => null
 
 interface MathField {
   typedText(text: string): void
-
   latex(): string
 }
 
@@ -65,6 +65,54 @@ function isAndroid() {
 const preferenceKey = 'katex:usevisualmath'
 
 setDefaultPreference(preferenceKey, true)
+
+interface MathEditorTextAreaProps {
+  defaultValue: string
+  onChange: (val: string) => void
+}
+
+const mathEditorTextareaStyle = {
+  color: 'black',
+  margin: 2,
+  width: '80vw',
+  maxWidth: 600,
+}
+
+const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
+  const [latex, setLatex] = React.useState(props.defaultValue)
+  const { onChange } = props
+  const parentOnChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const val = e.target.value
+      setLatex(val)
+      onChange(val)
+    },
+    [onChange]
+  )
+
+  // focus textarea when latex is empty
+  const textareaRef = React.createRef<HTMLTextAreaElement>()
+  React.useEffect(() => {
+    const val = textareaRef.current
+    if (val && !latex) {
+      // timeout is needed because hovering overlay is positioned only after render of this
+      setTimeout(() => {
+        val.focus()
+      })
+    }
+    // componentDidMount behaviour
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <EditorTextarea
+      style={mathEditorTextareaStyle}
+      onChange={parentOnChange}
+      value={latex}
+      inputRef={textareaRef}
+    />
+  )
+}
 
 export const DefaultEditorComponent: React.FunctionComponent<
   NodeEditorProps & {
@@ -277,7 +325,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     &nbsp;&nbsp;
                   </>
                 )}
-                <br></br>
+                <br />
                 {!useVisualMath && (
                   <MathEditorTextArea
                     defaultValue={formula}
@@ -349,53 +397,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
     }
   }
 }
-const mathEditorTextAreaStyles = {
-  color: 'black',
-  margin: 2,
-  width: '80vw',
-  maxWidth: 600,
-}
-
-interface MathEditorTextAreaProps {
-  defaultValue: string
-  onChange: (val: string) => void
-}
-
-const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
-  const [latex, setLatex] = React.useState(props.defaultValue)
-  const { onChange } = props
-  const parentOnChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const val = e.target.value
-      setLatex(val)
-      onChange(val)
-    },
-    [onChange]
-  )
-
-  // focus textarea when latex is empty
-  const textareaRef = React.createRef<HTMLTextAreaElement>()
-  React.useEffect(() => {
-    const val = textareaRef.current
-    if (val && !latex) {
-      // timeout is needed because hovering overlay is positioned only after render of this
-      setTimeout(() => {
-        val.focus()
-      })
-    }
-    // componentDidMount behaviour
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  return (
-    <EditorTextarea
-      style={mathEditorTextAreaStyles}
-      onChange={parentOnChange}
-      value={latex}
-      inputRef={textareaRef}
-    />
-  )
-}
 
 function alternativeTextArea() {
   const x = document.createElement('input')
@@ -405,7 +406,7 @@ function alternativeTextArea() {
 
 interface SaneKeyboardHandler {
   typedText: (text: string) => void
-  keystroke: (key: string, event: object) => void
+  keystroke: (key: string, event: unknown) => void
 }
 
 function alternativeSaneKeyboard(

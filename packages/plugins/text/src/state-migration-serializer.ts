@@ -494,13 +494,14 @@ function removeLeafs(nodes: any[]) {
   if (!nodes) {
     return []
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   const cleanedNodes: any[] = nodes.reduce((acc, node) => {
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
     if (node.leaves) {
       // we don't need the node itself, as we expect it to be a text node
       return [
         ...acc,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call
         ...node.leaves.map((leave: any) => ({
           ...leave,
           object: 'text',
@@ -515,6 +516,8 @@ function removeLeafs(nodes: any[]) {
         : node
       return [...acc, cleanedNode]
     }
+    /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
   }, [])
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return cleanedNodes
 }

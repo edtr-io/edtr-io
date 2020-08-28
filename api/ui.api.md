@@ -68,7 +68,7 @@ export function createEditorUiTheme<K extends keyof EditorUiTheme>(key: K, creat
 }) => EditorUiTheme[K];
 
 // @public
-export function createIcon(i: IconDefinition): React_2.ComponentType<{}>;
+export function createIcon(i: IconDefinition): React_2.ComponentType;
 
 // @public
 export function createRendererUiTheme<K extends keyof RendererUiTheme>(key: K, createDefaultTheme: RendererUiThemeFactory<K>): (theme: {
@@ -341,7 +341,7 @@ export { faTrashAlt }
 export function Icon(props: FontAwesomeIconProps): JSX.Element;
 
 // @public
-export function merge<T extends object>(payload: MergePayload<T>): T;
+export function merge<T extends {}>(payload: MergePayload<T>): T;
 
 // @public (undocumented)
 export interface MergePayload<T> {

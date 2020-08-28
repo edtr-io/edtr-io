@@ -29,7 +29,11 @@ export function setDefaultPreference(key: string, val: unknown) {
   store[key] = val
 }
 
-export function PreferenceContextProvider(props: React.PropsWithChildren<{}>) {
+export function PreferenceContextProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [state, setState] = React.useState(1)
 
   function setKey(key: string, val: unknown) {
@@ -43,7 +47,7 @@ export function PreferenceContextProvider(props: React.PropsWithChildren<{}>) {
 
   return (
     <PreferenceContext.Provider value={{ setKey, getKey }}>
-      {props.children}
+      {children}
     </PreferenceContext.Provider>
   )
 }

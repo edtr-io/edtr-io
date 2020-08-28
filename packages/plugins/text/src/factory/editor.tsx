@@ -203,6 +203,7 @@ function createOnPaste(
 
     if (files && files.length > 0) {
       for (const key in plugins) {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         const { onFiles } = plugins[key]
         if (typeof onFiles === 'function') {
           const result = onFiles(files)
@@ -216,6 +217,7 @@ function createOnPaste(
 
     if (text) {
       for (const key in plugins) {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         const { onText } = plugins[key]
         if (typeof onText === 'function') {
           const result = onText(text)
@@ -229,7 +231,7 @@ function createOnPaste(
 
     const transfer = getEventTransfer(e)
     if (transfer.type === 'html') {
-      // @ts-ignore: outdated slate types
+      // @ts-expect-error: outdated slate types
       const html = transfer.html as string
       const { document } = htmlToSlateValue(html)
       editor.insertFragment(document)

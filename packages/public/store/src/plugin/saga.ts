@@ -27,6 +27,7 @@ export function* pluginSaga() {
 }
 
 function* insertChildBeforeSaga({ payload, scope }: InsertChildBeforeAction) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const parent: SelectorReturnType<typeof getFocusTree> = yield select(
     scopeSelector(getFocusTree, scope),
     payload.parent
@@ -81,17 +82,21 @@ function* createPlugin(
   scope: string,
   f: (plugin: EditorPlugin, state: unknown) => void
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const document: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, scope),
     id
   )
   if (!document) return
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const plugin: SelectorReturnType<typeof getPlugin> = yield select(
     scopeSelector(getPlugin, scope),
     document.plugin
   )
   if (!plugin) return
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const chan: Channel<InternalAction> = yield call(channel)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const state = plugin.state.init(document.state, (initial, executor) => {
     const action = change({
       id,
@@ -108,6 +113,7 @@ function* createPlugin(
 
   function* channelSaga(chan: Channel<InternalAction>) {
     while (true) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const action: ChangeAction = yield take(chan)
       yield put(action)
     }

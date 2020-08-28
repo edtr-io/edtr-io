@@ -91,14 +91,17 @@ async function exec() {
       path.join(process.cwd(), 'package.json'),
       { encoding: 'utf-8' }
     )
-    const { main, module } = JSON.parse(packageJson)
+    const { main, module } = JSON.parse(packageJson) as {
+      main: string
+      module: string
+    }
     await Promise.all(
       ['beta', 'internal'].map(async (release) => {
         const dir = path.join(process.cwd(), release)
         try {
           await mkDir(dir)
-        } catch (err) {
-          if (err.code !== 'EEXIST') throw err
+        } catch (err: unknown) {
+          if ((err as { code: string }).code !== 'EEXIST') throw err
         }
         await writeFile(
           path.join(dir, 'package.json'),

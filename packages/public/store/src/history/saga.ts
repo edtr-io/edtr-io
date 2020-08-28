@@ -28,6 +28,7 @@ import {
   ResetAction,
   temporaryCommit,
   TemporaryCommitAction,
+  CommitAction,
 } from './actions'
 import { getPendingChanges, getRedoStack, getUndoStack } from './reducer'
 
@@ -50,6 +51,7 @@ function* temporaryCommitSaga(action: TemporaryCommitAction) {
       actions,
     })(action.scope)
   )
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const chan: Channel<ChannelAction> = yield call(channel)
 
   function createPutToChannel(type: 'resolve' | 'reject' | 'next') {
@@ -81,10 +83,12 @@ interface ChannelAction {
 
 function* resolveSaga(chan: Channel<ChannelAction>) {
   while (true) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const payload: ChannelAction = yield take(chan)
     const finalActions = payload.resolve || payload.next || payload.reject || []
     const tempActions = payload.tempActions
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const stack: InternalSelectorReturnType<typeof getUndoStack> = yield select(
       scopeSelector(getUndoStack, payload.scope)
     )
@@ -123,11 +127,16 @@ function replaceInArray<T>(arr: T[], arr2: T[]) {
 
 function* commitSaga() {
   while (true) {
-    const action = yield take(commit.type)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const action: CommitAction = yield take(commit.type)
     yield call(executeCommit, action.payload, false, action.scope)
 
     while (true) {
-      const { action, timeout } = yield race({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const {
+        action,
+        timeout,
+      }: { action: CommitAction; timeout: boolean } = yield race({
         action: take(commit.type),
         timeout: delay(1000),
       })
@@ -158,6 +167,7 @@ function* executeCommit(
 }
 
 function* undoSaga(action: UndoAction) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const undoStack: InternalSelectorReturnType<typeof getUndoStack> = yield select(
     scopeSelector(getUndoStack, action.scope)
   )
@@ -172,6 +182,7 @@ function* undoSaga(action: UndoAction) {
 }
 
 function* redoSaga(action: RedoAction) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const redoStack: InternalSelectorReturnType<typeof getRedoStack> = yield select(
     scopeSelector(getRedoStack, action.scope)
   )
@@ -184,6 +195,7 @@ function* redoSaga(action: RedoAction) {
 
 function* resetSaga(action: ResetAction) {
   while (true) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const pendingChanges: SelectorReturnType<typeof getPendingChanges> = yield select(
       scopeSelector(getPendingChanges, action.scope)
     )

@@ -186,6 +186,7 @@ export function RowRenderer({
         case NativeTypes.FILE: {
           const files: File[] = monitor.getItem().files
           for (const key in plugins) {
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             const { onFiles } = plugins[key]
             if (typeof onFiles === 'function') {
               const result = onFiles(files)
@@ -201,6 +202,7 @@ export function RowRenderer({
           const urls: string[] = monitor.getItem().urls
           const text = urls[0]
           for (const key in plugins) {
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             const { onText } = plugins[key]
             if (typeof onText === 'function') {
               const result = onText(text)

@@ -159,7 +159,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
                 setValue(`https://${value}`)
               }
             }}
-            //@ts-ignore FIXME
+            //@ts-expect-error FIXME
             ref={(ref: InlineInput | null) => {
               if (!ref) return
               if (!lastEdit.current && !value) {

@@ -1,7 +1,13 @@
 import { EditorThemeProps, styled, useEditorUiTheme } from '@edtr-io/ui'
+import { StyledComponent } from 'styled-components'
 
 /** @public */
-export const EditorBottomToolbar = styled.div<EditorThemeProps>(() => {
+// TODO: This is a workaround until API extractor supports import() types, see https://github.com/microsoft/rushstack/pull/1916
+export const EditorBottomToolbar: StyledComponent<
+  'div',
+  never,
+  EditorThemeProps
+> = styled.div<EditorThemeProps>(() => {
   const theme = useEditorUiTheme('bottomToolbar', (theme) => {
     return {
       backgroundColor: theme.backgroundColor,

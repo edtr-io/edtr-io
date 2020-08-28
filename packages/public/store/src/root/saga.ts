@@ -16,6 +16,7 @@ function* initRootSaga(action: InitRootAction) {
     })(action.scope)
   )
   yield put(pureInitRoot()(action.scope))
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [actions]: [
     ReversibleAction[],
     unknown

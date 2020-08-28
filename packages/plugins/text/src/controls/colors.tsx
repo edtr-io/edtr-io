@@ -11,6 +11,18 @@ import {
 } from '../plugins/colors'
 import { Button } from '../toolbar/button'
 
+const ColorPaletteIcon = styled.div<{ color: string }>((props) => {
+  return {
+    display: 'inline-block',
+    backgroundColor: props.color,
+    borderRadius: ' 100%',
+    width: '19px',
+    height: '19px',
+    margin: '3px',
+    verticalAlign: 'middle',
+  }
+})
+
 export function ColorControls(props: SubControlProps) {
   const { i18n, theme } = props.config
   const { colors, defaultColor } = theme.plugins.colors
@@ -55,18 +67,6 @@ export function ColorControls(props: SubControlProps) {
     </React.Fragment>
   )
 }
-
-const ColorPaletteIcon = styled.div<{ color: string }>((props) => {
-  return {
-    display: 'inline-block',
-    backgroundColor: props.color,
-    borderRadius: ' 100%',
-    width: '19px',
-    height: '19px',
-    margin: '3px',
-    verticalAlign: 'middle',
-  }
-})
 
 const ColoredText = styled.span({
   position: 'relative',

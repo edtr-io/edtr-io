@@ -95,11 +95,11 @@ export type RendererThemeProps = StyledThemeProps<{
  * @returns An object containing the current {@link RendererTheme | renderer theme} and {@link RendererUiTheme | renderer UI theme}
  * @public
  */
-export function useRendererTheme(): {
-  renderer: RendererTheme
-  rendererUi: DeepPartial<RendererUiTheme>
-} {
-  return React.useContext(StyledThemeContext)
+export function useRendererTheme() {
+  return React.useContext<{
+    renderer: RendererTheme
+    rendererUi: DeepPartial<RendererUiTheme>
+  }>(StyledThemeContext)
 }
 
 /**

@@ -20,6 +20,7 @@ import { ScopedState } from '@edtr-io/store';
 import { State } from '@edtr-io/store';
 import { Store } from '@edtr-io/store';
 import { StoreEnhancerFactory } from '@edtr-io/store';
+import { Unsubscribe } from 'redux';
 
 // @beta
 function Document_2<K extends string = string>(props: Omit<EditorProps<K>, 'initialState'> & {
@@ -190,7 +191,7 @@ export function useScopedSelector<T>(scopedSelector: (state: ScopedState) => T, 
 export function useScopedStore(enforcedScope?: string): {
     dispatch: (scopedAction: (scope: string) => Action) => void;
     getState: () => ScopedState;
-    subscribe: (listener: () => void) => import("redux").Unsubscribe;
+    subscribe: (listener: () => void) => Unsubscribe;
 };
 
 // @public (undocumented)

@@ -22,7 +22,9 @@ export function optional<D extends StateType>(
   return {
     init(state, onChange) {
       if (state.defined) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const value = type.init(state.value, innerOnChange)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return Object.assign(value, {
           defined: true,
           remove() {
@@ -42,6 +44,7 @@ export function optional<D extends StateType>(
           onChange((_previousState, helpers) => {
             return {
               defined: true,
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               value:
                 value === undefined
                   ? type.createInitialState(helpers)
@@ -95,6 +98,7 @@ export function optional<D extends StateType>(
       if (initiallyDefined) {
         return {
           defined: true,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           value: type.createInitialState(helpers),
         }
       }
@@ -113,11 +117,13 @@ export function optional<D extends StateType>(
 
       return {
         defined: true,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         value: type.deserialize(serialized, helpers),
       }
     },
     serialize(deserialized, helpers) {
       if (deserialized.defined) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.serialize(deserialized.value, helpers)
       }
       return undefined

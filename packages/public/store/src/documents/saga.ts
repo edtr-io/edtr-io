@@ -1,7 +1,7 @@
 import { invariant } from '@edtr-io/internal__dev-expression'
 import {
-  StoreDeserializeHelpers,
   StateUpdater,
+  StoreDeserializeHelpers,
 } from '@edtr-io/internal__plugin-state'
 import { channel, Channel } from 'redux-saga'
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
@@ -15,26 +15,26 @@ import { SelectorReturnType } from '../types'
 import {
   change,
   ChangeAction,
-  pureChange,
   insert,
   InsertAction,
+  pureChange,
+  PureChangeAction,
   pureInsert,
   pureRemove,
-  remove,
-  RemoveAction,
-  PureChangeAction,
-  wrap,
-  WrapAction,
-  pureWrap,
-  PureWrapAction,
-  unwrap,
-  UnwrapAction,
+  pureReplace,
+  PureReplaceAction,
   pureUnwrap,
   PureUnwrapAction,
+  pureWrap,
+  PureWrapAction,
+  remove,
+  RemoveAction,
   replace,
   ReplaceAction,
-  PureReplaceAction,
-  pureReplace,
+  unwrap,
+  UnwrapAction,
+  wrap,
+  WrapAction,
 } from './actions'
 import { getDocument } from './reducer'
 
@@ -51,6 +51,7 @@ export function* documentsSaga() {
 
 function* insertSaga(action: InsertAction) {
   const initialState = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [actions]: [
     ReversibleAction[],
     unknown
@@ -60,6 +61,7 @@ function* insertSaga(action: InsertAction) {
 
 function* removeSaga(action: RemoveAction) {
   const id = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const doc: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
@@ -81,12 +83,14 @@ function* removeSaga(action: RemoveAction) {
 
 function* changeSaga(action: ChangeAction) {
   const { id, state: stateHandler } = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const document: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
   if (!document) return
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [actions, state]: [ReversibleAction[], unknown] = yield call(
     handleRecursiveInserts,
     action.scope,
@@ -112,6 +116,7 @@ function* changeSaga(action: ChangeAction) {
   } else {
     // async change, handle with stateHandler.resolver
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chan: Channel<ChannelAction> = yield call(channel)
 
     yield put(
@@ -166,8 +171,10 @@ function* changeSaga(action: ChangeAction) {
     )
 
     while (true) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const payload: ChannelAction = yield take(chan)
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
         scopeSelector(getDocument, action.scope),
         id
@@ -177,6 +184,7 @@ function* changeSaga(action: ChangeAction) {
       const updater =
         payload.resolve || payload.next || payload.reject || ((s) => s)
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const [resolveActions, pureResolveState]: [
         ReversibleAction[],
         unknown
@@ -197,6 +205,7 @@ function* changeSaga(action: ChangeAction) {
 
 function* wrapSaga(action: WrapAction) {
   const { id, document: documentHandler } = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
@@ -214,6 +223,7 @@ function* wrapSaga(action: WrapAction) {
 
 function* unwrapSaga(action: UnwrapAction) {
   const { id, oldId } = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
@@ -232,11 +242,13 @@ function* unwrapSaga(action: UnwrapAction) {
 
 function* replaceSaga(action: ReplaceAction) {
   const { id } = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
     id
   )
   if (!currentDocument) return
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const plugin: SelectorReturnType<typeof getPlugin> = yield select(
     scopeSelector(getPlugin, action.scope),
     action.payload.plugin
@@ -258,6 +270,7 @@ function* replaceSaga(action: ReplaceAction) {
   } else {
     pluginState = plugin.state.deserialize(action.payload.state, helpers)
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [actions]: [ReversibleAction[], unknown] = yield call(
     handleRecursiveInserts,
     action.scope,
@@ -309,6 +322,7 @@ export function* handleRecursiveInserts(
   }
   const result = act(helpers)
   for (let doc; (doc = pendingDocs.pop()); ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const plugin: SelectorReturnType<typeof getPlugin> = yield select(
       scopeSelector(getPlugin, scope),
       doc.plugin
@@ -332,5 +346,5 @@ export function* handleRecursiveInserts(
       reverse: pureRemove(doc.id)(scope),
     })
   }
-  return [actions, result]
+  return [actions, result] as [ReversibleAction[], unknown]
 }

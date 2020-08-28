@@ -43,12 +43,10 @@ const InlineOptionsContentWrapper = styled.div({
   borderRadius: '4px',
 })
 
-function InlineOptions(props: React.PropsWithChildren<{}>) {
+function InlineOptions({ children }: { children: React.ReactNode }) {
   return (
     <InlineOptionsWrapper>
-      <InlineOptionsContentWrapper>
-        {props.children}
-      </InlineOptionsContentWrapper>
+      <InlineOptionsContentWrapper>{children}</InlineOptionsContentWrapper>
     </InlineOptionsWrapper>
   )
 }

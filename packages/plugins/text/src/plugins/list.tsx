@@ -26,7 +26,6 @@ export const toggleList = (type: ListType = unorderedListNode) => (
   return editor.command('toggleList', { type })
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
 export const createListPlugin = () => () =>
   List({
     blocks: {
@@ -37,4 +36,3 @@ export const createListPlugin = () => () =>
       default: defaultNode,
     },
   })
-/* eslint-enable @typescript-eslint/camelcase */

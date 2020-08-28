@@ -28,7 +28,7 @@
     "exenv": "^1.0.0",
     "immutable": "^3.8.1",
     "is-hotkey": "^0.1.0",
-    "katex": "^0.11.0",
+    "katex": "^0.12.0",
     "ramda": "^0.27.0",
     "react-mathquill": "^0.2.0",
     "react-modal": "^3.0.0",

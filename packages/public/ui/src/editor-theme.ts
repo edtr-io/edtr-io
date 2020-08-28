@@ -105,11 +105,11 @@ export type EditorThemeProps = StyledThemeProps<{
  * @returns An object containing the current {@link EditorTheme | editor theme} and {@link EditorUiTheme | editor UI theme}
  * @public
  */
-export function useEditorTheme(): {
-  editor: EditorTheme
-  editorUi: DeepPartial<EditorUiTheme>
-} {
-  return React.useContext(StyledThemeContext)
+export function useEditorTheme() {
+  return React.useContext<{
+    editor: EditorTheme
+    editorUi: DeepPartial<EditorUiTheme>
+  }>(StyledThemeContext)
 }
 
 /**

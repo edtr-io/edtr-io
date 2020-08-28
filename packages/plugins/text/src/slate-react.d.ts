@@ -193,7 +193,8 @@ declare module 'slate-react' {
     value: Value
   }
 
-  export class Editor extends React.Component<EditorProps, EditorState>
+  export class Editor
+    extends React.Component<EditorProps, EditorState>
     implements Controller {
     controller: CoreEditor
 

@@ -87,7 +87,7 @@ export function Suggestions(props: SuggestionProps) {
 
 export interface SuggestionProps {
   config: TextPluginConfig
-  onSelect: Function
+  onSelect: (option: string) => void
   options: string[][]
   selected?: number
   currentValue: string

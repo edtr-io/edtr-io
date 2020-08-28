@@ -114,7 +114,7 @@ function PrimaryControls(props: ImageProps) {
           <EditorButton
             onClick={() => {
               if (isTempFile(src.value) && src.value.failed) {
-                src.upload(src.value.failed, props.config.upload)
+                void src.upload(src.value.failed, props.config.upload)
               }
             }}
           >
@@ -124,7 +124,7 @@ function PrimaryControls(props: ImageProps) {
         <Upload
           config={props.config}
           onFile={(file) => {
-            src.upload(file, props.config.upload)
+            void src.upload(file, props.config.upload)
           }}
         />
       </ButtonWrapper>
@@ -173,7 +173,7 @@ function PrimaryControls(props: ImageProps) {
   }
 }
 
-function Controls<T = unknown>(props: ImageProps) {
+function Controls(props: ImageProps) {
   const { state } = props
   const { i18n } = props.config
 
@@ -197,7 +197,10 @@ function Controls<T = unknown>(props: ImageProps) {
           <OverlayButton
             onClick={() => {
               if (isTempFile(state.src.value) && state.src.value.failed) {
-                state.src.upload(state.src.value.failed, props.config.upload)
+                void state.src.upload(
+                  state.src.value.failed,
+                  props.config.upload
+                )
               }
             }}
             label={i18n.src.retryLabel}
@@ -209,7 +212,7 @@ function Controls<T = unknown>(props: ImageProps) {
           config={props.config}
           inOverlay
           onFile={(file) => {
-            state.src.upload(file, props.config.upload)
+            void state.src.upload(file, props.config.upload)
           }}
         />
       </OverlayButtonWrapper>

@@ -10,7 +10,8 @@ export type DeepPartial<T> = {
     ? DeepPartial<U>[]
     : T[P] extends readonly (infer U)[]
     ? readonly DeepPartial<U>[]
-    : T[P] extends Function
+    : // eslint-disable-next-line @typescript-eslint/ban-types
+    T[P] extends Function
     ? T[P]
     : DeepPartial<T[P]>
 }
@@ -25,7 +26,8 @@ export type DeepPartial<T> = {
  * @returns The merged object
  * @public
  */
-export function merge<T extends object>(payload: MergePayload<T>) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function merge<T extends {}>(payload: MergePayload<T>) {
   return R.mergeDeepRight(payload.fallback, payload.values) as T
 }
 /** @public */

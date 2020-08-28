@@ -27,7 +27,7 @@ export function upload<T>(defaultState: T): UploadStateType<T> {
             const read = readFile(file)
             let uploadFinished = false
 
-            read.then((loaded: LoadedFile) => {
+            void read.then((loaded: LoadedFile) => {
               if (!uploadFinished) {
                 next(() => {
                   return { uploadHandled: true, loaded }
@@ -124,7 +124,7 @@ export function usePendingFilesUploader<T>(
     ) {
       fileState.value.uploadHandled = true
 
-      fileState
+      void fileState
         .upload(fileState.value.pending, uploadHandler)
         .catch(onDone)
         .then(onDone)

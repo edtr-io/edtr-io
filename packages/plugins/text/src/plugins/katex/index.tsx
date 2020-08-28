@@ -16,6 +16,7 @@ import { katexBlockNode, katexInlineNode } from '../../model'
 import { DefaultEditorComponent } from './editor'
 
 if (canUseDOM) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('react-mathquill').addStyles()
 }
 

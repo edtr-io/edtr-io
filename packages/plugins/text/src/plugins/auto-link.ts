@@ -4,7 +4,11 @@ import { TextPlugin } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { linkNode } from '../model'
 
-const onSpecialKey = (event: KeyboardEvent, editor: Editor, next: Function) => {
+const onSpecialKey = (
+  event: KeyboardEvent,
+  editor: Editor,
+  next: () => unknown
+) => {
   const { value } = editor
   const { selection } = value
   if (selection.isExpanded) return next()
@@ -42,7 +46,7 @@ const onSpecialKey = (event: KeyboardEvent, editor: Editor, next: Function) => {
 
 export const autoLink = (pluginClosure: SlatePluginClosure): TextPlugin => {
   return {
-    onKeyDown(event, editor, next) {
+    onKeyDown(event, editor, next: () => unknown) {
       if (!pluginClosure.current) {
         return next()
       }

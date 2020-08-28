@@ -46,6 +46,7 @@ export function createStore<K extends string>(
     }
   }, scopes)
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const store = createReduxStore<InternalState, InternalAction, {}, {}>(
     reducer,
     initialStates,
@@ -65,7 +66,7 @@ export interface StoreOptions<K extends string> {
 /** @public */
 export type StoreEnhancerFactory = (
   defaultEnhancer: StoreEnhancer
-) => StoreEnhancer<{}, {}>
+) => StoreEnhancer
 
 /** @public */
 export type ChangeListener = (payload: {

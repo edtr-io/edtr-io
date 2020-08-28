@@ -9,6 +9,7 @@ export function setupStore() {
   let actions: InternalAction[] = []
   const testMiddleware: Middleware = () => (next) => (action) => {
     actions.push(action)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return next(action)
   }
 

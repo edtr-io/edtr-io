@@ -1,4 +1,5 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
+import { StateType } from '@edtr-io/internal__plugin-state'
 
 import { createSelector, createSubReducer, SubReducer } from '../helpers'
 import { Selector } from '../types'
@@ -12,7 +13,8 @@ export const pluginsReducer: SubReducer<Record<
 /** @public */
 export const getPlugins: Selector<Record<
   string,
-  EditorPlugin
+  // TODO: This is a workaround until API extractor supports import() types, see https://github.com/microsoft/rushstack/pull/1916
+  EditorPlugin<StateType>
 >> = createSelector((state) => state.plugins)
 /** @public */
 export const getPlugin = createSelector(

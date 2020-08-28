@@ -183,6 +183,7 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
 
 /** @public */
 export interface PluginProps {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   config?: {}
   renderSettings?: InternalDocumentEditor.DocumentEditorProps['renderSettings']
   renderToolbar?: InternalDocumentEditor.DocumentEditorProps['renderToolbar']

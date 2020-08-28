@@ -38,7 +38,7 @@ describe('serialized scalar', () => {
   }
   const serializer: Serializer<string, T> = {
     deserialize(serialized) {
-      return JSON.parse(serialized)
+      return JSON.parse(serialized) as T
     },
     serialize(deserialized) {
       return JSON.stringify(deserialized)

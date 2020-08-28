@@ -6,6 +6,7 @@
 
 import { EditorPlugin } from '@edtr-io/internal__plugin';
 import { StateExecutor } from '@edtr-io/internal__plugin-state';
+import { StateType } from '@edtr-io/internal__plugin-state';
 import { StateUpdater } from '@edtr-io/internal__plugin-state';
 import { Store as Store_2 } from 'redux';
 import { StoreEnhancer } from 'redux';
@@ -195,10 +196,10 @@ export const getParent: Selector<Node_2 | null, [string]>;
 export const getPendingChanges: Selector<number>;
 
 // @public (undocumented)
-export const getPlugin: Selector<EditorPlugin<import("@edtr-io/internal__plugin-state").StateType<any, any, any>, {}> | null, [string]>;
+export const getPlugin: Selector<EditorPlugin<StateType<any, any, any>, {}> | null, [string]>;
 
 // @public (undocumented)
-export const getPlugins: Selector<Record<string, EditorPlugin>>;
+export const getPlugins: Selector<Record<string, EditorPlugin<StateType>>>;
 
 // @internal (undocumented)
 export const getRedoStack: InternalSelector<ReversibleAction[][]>;
@@ -558,7 +559,7 @@ export type State = Record<string, ScopedState>;
 export type Store = Store_2<State, Action>;
 
 // @public (undocumented)
-export type StoreEnhancerFactory = (defaultEnhancer: StoreEnhancer) => StoreEnhancer<{}, {}>;
+export type StoreEnhancerFactory = (defaultEnhancer: StoreEnhancer) => StoreEnhancer;
 
 // @public (undocumented)
 export interface StoreOptions<K extends string> {

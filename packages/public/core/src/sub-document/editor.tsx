@@ -257,6 +257,7 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
       </HotKeys>
     )
   }, [
+    DocumentEditor,
     document,
     plugin,
     theme,

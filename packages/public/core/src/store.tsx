@@ -1,5 +1,6 @@
 import { getScope, Action, State, ScopedState, Store } from '@edtr-io/store'
 import * as React from 'react'
+import { AnyAction, Unsubscribe } from 'redux'
 import {
   Provider as ReduxProvider,
   ProviderProps,
@@ -8,16 +9,16 @@ import {
 
 const createDispatchHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line import/no-commonjs
+) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 () => (action: Action) => void = require('react-redux').createDispatchHook
 const createSelectorHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line import/no-commonjs
+) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 <T>(selector: (state: State) => T) => T = require('react-redux')
   .createSelectorHook
 const createStoreHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line import/no-commonjs
+) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 () => Store = require('react-redux').createStoreHook
 
 /** @public */
@@ -27,7 +28,10 @@ export const ScopeContext = React.createContext<{
 }>({ scope: '' })
 
 /** @public */
-export const EditorContext = React.createContext<ReactReduxContextValue<State>>(
+export const EditorContext = React.createContext<
+  // TODO: This is a workaround until API extractor supports import() types, see https://github.com/microsoft/rushstack/pull/1916
+  ReactReduxContextValue<State, AnyAction>
+>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   undefined as any
 )
@@ -121,7 +125,7 @@ export function useScopedStore(enforcedScope?: string) {
       getState: () => {
         return getScope(store.getState(), scope)
       },
-      subscribe: (listener: () => void) => {
+      subscribe: (listener: () => void): Unsubscribe => {
         return store.subscribe(listener)
       },
     }

@@ -103,7 +103,7 @@ function useCachedApiResponse(id?: string): ApiResponse {
         return
       }
 
-      axios
+      void axios
         .post(
           'https://www.geogebra.org/api/json.php',
           {

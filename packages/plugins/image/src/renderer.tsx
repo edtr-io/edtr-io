@@ -6,7 +6,7 @@ import { ImageProps } from '.'
 
 const ImgWrapper = styled.div<{ maxWidth: number }>((props) => {
   return {
-    maxWidth: props.maxWidth > 0 ? props.maxWidth + 'px' : undefined,
+    maxWidth: props.maxWidth > 0 ? `${props.maxWidth}px` : undefined,
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',

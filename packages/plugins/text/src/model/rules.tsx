@@ -222,14 +222,14 @@ export const rules: Rule[] = [
       const block = obj
 
       if (block.object === 'block' && block.type === katexBlockNode) {
-        // @ts-ignore, custom tag
+        // @ts-expect-error, custom tag
         return <katexblock>{block.data.get('formula')}</katexblock>
       }
 
       const inline = obj
 
       if (inline.object === 'inline' && inline.type === katexInlineNode) {
-        // @ts-ignore, custom tag
+        // @ts-expect-error, custom tag
         return <katexinline>{block.data.get('formula')}</katexinline>
       }
     },
@@ -267,7 +267,7 @@ export const rules: Rule[] = [
       const mark = obj
       if (mark.object === 'mark' && mark.type === colorMark) {
         const colorIndex = mark.data.get('colorIndex')
-        // @ts-ignore, custom tag
+        // @ts-expect-error, custom tag
         return <color index={colorIndex}>{children}</color>
       }
     },

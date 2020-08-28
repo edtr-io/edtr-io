@@ -23,25 +23,10 @@ export interface UploadProps {
 }
 
 /** @public */
-export interface FileUploadConfig<T> {
-  url: string
-  maxFileSize: number
-  paramName?: string
-  getAdditionalFields?: Function
-  getStateFromResponse: (response: T) => UploadedFile
-}
-
-/** @public */
 export enum FileErrorCode {
   NO_FILE_SELECTED,
   FILE_TOO_BIG,
   UPLOAD_FAILED,
-}
-
-/** @public */
-export interface FileError {
-  errorCode: FileErrorCode
-  message: string
 }
 
 /** @public */

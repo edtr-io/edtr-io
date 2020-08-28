@@ -11,7 +11,7 @@ import {
 export function migratable<S, T, R>(
   type: StateType<S, T, R>
 ): MigratableStateType<S, S, S, T, R> {
-  return migrate<S, never, S, T, R, S, T, R>(
+  return migrate<S, never, S, S, T, R>(
     (state) => {
       return state as S
     },
@@ -21,7 +21,7 @@ export function migratable<S, T, R>(
   )
 }
 
-function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
+function migrate<InitialS, AllS, S, S1, T1, R1>(
   recursiveMigrate: (previousState: InitialS | Versionized<AllS>) => S,
   nextType: StateType<S1, T1, R1>,
   nextVersion: number,
@@ -52,7 +52,7 @@ function migrate<InitialS, AllS, S, T, R, S1, T1, R1>(
       nextNextType: StateType<S2, T2, R2>,
       f2: (previousState: S1) => S2
     ): MigratableStateType<InitialS, AllS | S1 | S2, S2, T2, R2> {
-      return migrate<InitialS, AllS | S1, S1, T1, R1, S2, T2, R2>(
+      return migrate<InitialS, AllS | S1, S1, S2, T2, R2>(
         (previousState: InitialS | Versionized<AllS | S1>) => {
           if (isVersionized<S1>(previousState, nextVersion)) {
             return previousState.value

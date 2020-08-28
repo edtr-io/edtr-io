@@ -34,7 +34,7 @@ export type ChildStateType<K extends string = string, S = unknown> = StateType<{
 }, string, {
     get(): string;
     id: string;
-    render: (props?: PluginProps) => React_2.ReactNode;
+    render: (props?: PluginProps) => React_2.ReactElement;
     replace: (plugin: K, state?: S) => void;
 }>;
 

@@ -134,6 +134,7 @@ export const serializeDocument: Selector<
   }
   return {
     plugin: doc.plugin,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     state: plugin.state.serialize(doc.state, serializeHelpers),
   }
 })
@@ -161,10 +162,12 @@ export function isDocumentEmpty(
   if (!doc || !plugin) return false
 
   if (typeof plugin.isEmpty === 'function') {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const state = plugin.state.init(doc.state, () => {})
     return plugin.isEmpty(state)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const initialState = plugin.state.createInitialState({
     createDocument: () => {},
   })

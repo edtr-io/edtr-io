@@ -32,6 +32,7 @@ export function list<D extends StateType>(
   return {
     init(rawItems, onChange) {
       const items = rawItems.map((item) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.init(item.value, createOnChange(item.id))
       })
 
@@ -40,10 +41,12 @@ export function list<D extends StateType>(
           updater: (currentList: T[], deserialize: (serialized: S) => T) => T[]
         ) {
           onChange((wrappedItems, helpers) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             const unwrapped = R.map((wrapped) => wrapped.value, wrappedItems)
             return R.map(
               wrap,
               updater(unwrapped, (options) =>
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                 type.deserialize(options, helpers)
               )
             )
@@ -118,7 +121,9 @@ export function list<D extends StateType>(
       }, serialized)
     },
     serialize(deserialized, helpers) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return R.map(({ value }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return type.serialize(value, helpers)
       }, deserialized)
     },

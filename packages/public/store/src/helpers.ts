@@ -3,7 +3,6 @@ import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 import { Action, InternalAction } from './actions'
 import {
-  State,
   ScopedState,
   Selector,
   ActionCreatorWithPayload,
@@ -107,7 +106,7 @@ export function createJsonStringifySelector<T, P extends any[]>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function scopeSelector<T, P extends any[], S = State>(
+export function scopeSelector<T, P extends any[]>(
   selector: Selector<T, P> | InternalSelector<T, P>,
   scope: string
 ) {
