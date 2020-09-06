@@ -44,9 +44,7 @@ function normalize(type: InputExerciseType, text: string) {
 
   switch (type) {
     case InputExerciseType.InputNumberExactMatchChallenge:
-      return normalizeNumber(temp)
-        .replace(/\s\//g, '/')
-        .replace(/\/\s/g, '/')
+      return normalizeNumber(temp).replace(/\s/g, '')
     case InputExerciseType.InputExpressionEqualMatchChallenge:
       return A.parse(normalizeNumber(temp))
     case InputExerciseType.InputStringNormalizedMatchChallenge:

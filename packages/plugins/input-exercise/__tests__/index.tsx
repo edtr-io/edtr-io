@@ -123,13 +123,13 @@ describe('input challenge', () => {
         expectAnswerIsAccepted(exercise, '1,200.5')
       })
 
-      test('whitespaces around "/" are ignored', () => {
+      test('whitespaces are ignored', () => {
         exercise = createInputExercise({
           type: 'input-number-exact-match-challenge',
-          answers: [createAnswer({ answer: '3/4' })],
+          answers: [createAnswer({ answer: '3/10' })],
         })
 
-        expectAnswerIsAccepted(exercise, '3 / 4')
+        expectAnswerIsAccepted(exercise, ' 3 / 1 0')
       })
     })
 
