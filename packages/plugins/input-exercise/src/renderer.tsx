@@ -36,7 +36,7 @@ const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
 )
 
 function normalizeNumber(numberText: string) {
-  return numberText.replace(/,/g, '.')
+  return numberText.replace(/,/g, '.').replace(/^[+]/, '')
 }
 
 function normalize(type: InputExerciseType, text: string) {

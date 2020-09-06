@@ -131,16 +131,31 @@ describe('input challenge', () => {
 
         expectAnswerIsAccepted(exercise, ' 3 / 1 0')
       })
+
+      test('ignore leading "+" sign', () => {
+        exercise = createInputExercise({
+          type: 'input-number-exact-match-challenge',
+          answers: [createAnswer({ answer: '3' })],
+        })
+
+        expectAnswerIsAccepted(exercise, '+3')
+      })
     })
 
     describe('type = input-expression-equal-match-challenge', () => {
-      test('algebraic differences are ignored', () => {
+      beforeEach(() => {
         exercise = createInputExercise({
           type: 'input-expression-equal-match-challenge',
           answers: [createAnswer({ answer: '1+x^2' })],
         })
+      })
 
+      test('algebraic differences are ignored', () => {
         expectAnswerIsAccepted(exercise, 'x*x + 1')
+      })
+
+      test('ignore leading "+" sign (algebra.js cannot handle those signs)', () => {
+        expectAnswerIsAccepted(exercise, '+(1 + x^2)')
       })
     })
 
