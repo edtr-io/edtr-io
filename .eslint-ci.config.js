@@ -1,3 +1,6 @@
+const fs = require('fs')
+const path = require('path')
+
 module.exports = {
   extends: [
     './.eslintrc.js',
@@ -21,12 +24,14 @@ module.exports = {
       'error',
       {
         devDependencies: [
+          'jest*.[jt]s',
           'packages/*/*/{__helpers__,__stories__,__tests__,__tests-ssr__}/**/*',
           'packages/private/bundle-size/webpack.config.js',
           'packages/private/demo/{scripts,src}/**/*',
           'scripts/**/*',
         ],
         optionalDependencies: false,
+        packageDir: [__dirname, ...getPackageDirectories()],
       },
     ],
     'import/no-internal-modules': [
@@ -65,4 +70,18 @@ module.exports = {
       },
     ],
   },
+}
+
+function getPackageDirectories() {
+  const dirs = getDirectories(path.join(__dirname, 'packages'))
+  const dirsOfDirs = dirs.map((dir) => getDirectories(dir))
+
+  return [].concat(...dirsOfDirs)
+}
+
+function getDirectories(source) {
+  return fs
+    .readdirSync(source, { withFileTypes: true })
+    .filter((child) => child.isDirectory())
+    .map((dir) => path.join(source, dir.name))
 }
