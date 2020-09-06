@@ -18,6 +18,7 @@ const AnswerTextfield = styled.input({
   outline: 'none',
   width: '100%',
 })
+
 export function InputExerciseEditor(props: InputExerciseProps) {
   function translateDataType(type: InputExerciseType) {
     return props.config.i18n.types[type]

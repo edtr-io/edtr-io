@@ -16,66 +16,6 @@ enum ExerciseState {
   SolvedRight,
   SolvedWrong,
 }
-const InputContainer = styled.div({
-  float: 'right',
-  display: 'flex',
-  flexDirection: 'row',
-})
-const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
-  ({ config }) => {
-    const { theme } = config
-    return {
-      border: 'none',
-      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
-
-      textAlign: 'center',
-      outline: 'none',
-      marginBottom: '10px',
-    }
-  }
-)
-
-function normalizeNumber(numberText: string) {
-  return numberText.replace(/,/g, '.').replace(/^[+]/, '')
-}
-
-function normalize(type: InputExerciseType, text: string) {
-  const temp = collapseWhitespace(text)
-
-  switch (type) {
-    case InputExerciseType.InputNumberExactMatchChallenge:
-      return normalizeNumber(temp).replace(/\s/g, '')
-    case InputExerciseType.InputExpressionEqualMatchChallenge:
-      return A.parse(normalizeNumber(temp))
-    case InputExerciseType.InputStringNormalizedMatchChallenge:
-      return temp.toUpperCase()
-  }
-}
-
-function matchesInput(
-  field: { type: InputExerciseType; value: string },
-  input: string
-) {
-  try {
-    const solution = normalize(field.type, field.value)
-    const submission = normalize(field.type, input)
-
-    switch (field.type) {
-      case InputExerciseType.InputExpressionEqualMatchChallenge:
-        return (
-          (solution as A.Expression)
-            .subtract(submission as A.Expression)
-            .toString() === '0'
-        )
-      case InputExerciseType.InputNumberExactMatchChallenge:
-      case InputExerciseType.InputStringNormalizedMatchChallenge:
-        return solution === submission
-    }
-  } catch (err) {
-    // e.g. if user input could not be parsed
-    return false
-  }
-}
 
 export function InputExerciseRenderer(props: InputExerciseProps) {
   const { state } = props
@@ -185,6 +125,68 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
       </form>
     </div>
   )
+}
+
+const InputContainer = styled.div({
+  float: 'right',
+  display: 'flex',
+  flexDirection: 'row',
+})
+
+const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
+  ({ config }) => {
+    const { theme } = config
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+
+      textAlign: 'center',
+      outline: 'none',
+      marginBottom: '10px',
+    }
+  }
+)
+
+function normalize(type: InputExerciseType, text: string) {
+  const temp = collapseWhitespace(text)
+
+  switch (type) {
+    case InputExerciseType.InputNumberExactMatchChallenge:
+      return normalizeNumber(temp).replace(/\s/g, '')
+    case InputExerciseType.InputExpressionEqualMatchChallenge:
+      return A.parse(normalizeNumber(temp))
+    case InputExerciseType.InputStringNormalizedMatchChallenge:
+      return temp.toUpperCase()
+  }
+}
+
+function matchesInput(
+  field: { type: InputExerciseType; value: string },
+  input: string
+) {
+  try {
+    const solution = normalize(field.type, field.value)
+    const submission = normalize(field.type, input)
+
+    switch (field.type) {
+      case InputExerciseType.InputExpressionEqualMatchChallenge:
+        return (
+          (solution as A.Expression)
+            .subtract(submission as A.Expression)
+            .toString() === '0'
+        )
+      case InputExerciseType.InputNumberExactMatchChallenge:
+      case InputExerciseType.InputStringNormalizedMatchChallenge:
+        return solution === submission
+    }
+  } catch (err) {
+    // e.g. if user input could not be parsed
+    return false
+  }
+}
+
+function normalizeNumber(numberText: string) {
+  return numberText.replace(/,/g, '.').replace(/^[+]/, '')
 }
 
 function collapseWhitespace(text: string) {
