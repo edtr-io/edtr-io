@@ -14,6 +14,12 @@
   "dependencies": {
     "@edtr-io/internal__document-editor": "^1.0.0-beta.4"
   },
+  "devDependencies": {
+    "react": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0"
+  },
   "publishConfig": {
     "access": "public"
   }

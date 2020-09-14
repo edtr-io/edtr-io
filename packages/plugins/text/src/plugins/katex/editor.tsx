@@ -2,6 +2,7 @@ import { PreferenceContext, setDefaultPreference } from '@edtr-io/core/beta'
 import { EditorTextarea } from '@edtr-io/editor-ui'
 import { faQuestionCircle, Icon, styled } from '@edtr-io/ui'
 import { canUseDOM } from 'exenv'
+import type { Record } from 'immutable'
 import * as React from 'react'
 import Modal from 'react-modal'
 
@@ -122,7 +123,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const [helpOpen, setHelpOpen] = React.useState(false)
   const { attributes, editor, readOnly, node } = props
 
-  const { data, key: nodeKey, type: nodeType } = node
+  const { key: nodeKey, type: nodeType } = node
+  const data = (node.data as unknown) as KatexData
   const inline = data.get('inline')
   const formula = data.get('formula')
 
@@ -427,3 +429,5 @@ function alternativeSaneKeyboard(
     })
   })
 }
+
+type KatexData = Record<{ inline: boolean; formula: string }>

@@ -1,4 +1,5 @@
 import { styled } from '@edtr-io/ui'
+import type { Record } from 'immutable'
 import * as React from 'react'
 import { Editor as CoreEditor } from 'slate'
 import { Editor } from 'slate-react'
@@ -37,7 +38,10 @@ export const createIsColor = (colorIndex?: number) => (editor: Editor) => {
       return mark.type === colorMark
     }
 
-    return mark.type === colorMark && mark.data.get('colorIndex') == colorIndex
+    return (
+      mark.type === colorMark &&
+      ((mark.data as unknown) as ColorData).get('colorIndex') == colorIndex
+    )
   })
 }
 
@@ -68,7 +72,7 @@ export const getColorIndex = (editor: Editor) => {
     const mark = getActiveMarks(editor).find((mark) =>
       mark ? mark.type === colorMark : false
     )
-    return mark.data.get('colorIndex')
+    return ((mark?.data as unknown) as ColorData).get('colorIndex')
   }
 }
 
@@ -109,7 +113,9 @@ export const createColorPlugin = ({
       const { mark } = props
       if (!config) return null
       if (mark.object === 'mark' && mark.type === colorMark) {
-        const colorIndex = mark.data.get('colorIndex')
+        const colorIndex = ((mark.data as unknown) as ColorData).get(
+          'colorIndex'
+        )
         return (
           <EditorComponent config={config} colorIndex={colorIndex} {...props} />
         )
@@ -118,3 +124,5 @@ export const createColorPlugin = ({
     },
   }
 }
+
+type ColorData = Record<{ colorIndex: number }>

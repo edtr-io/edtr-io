@@ -1,14 +1,15 @@
 import { styled } from '@edtr-io/editor-ui'
-import { Icon, faExternalLinkAlt } from '@edtr-io/ui'
+import { faExternalLinkAlt, Icon } from '@edtr-io/ui'
+import type { Record } from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
 import { Inline } from 'slate'
 import { Editor } from 'slate-react'
 
 import {
-  NodeControlsProps,
   InlineEditorProps,
   InlineRendererProps,
+  NodeControlsProps,
   TextPlugin,
 } from '..'
 import { trimSelection } from '../helpers'
@@ -65,7 +66,7 @@ const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = (
   props
 ) => {
   const { attributes, children, node, isSelected } = props
-  const href = node.data.get('href')
+  const href = ((node.data as unknown) as LinkData).get('href')
 
   return (
     <a
@@ -92,7 +93,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
   const [value, setValue] = React.useState(
-    inline ? inline.data.get('href') : undefined
+    inline ? ((inline.data as unknown) as LinkData).get('href') : undefined
   )
   const edit =
     !props.readOnly && isLink(editor) && editor.value.selection.isCollapsed
@@ -100,7 +101,11 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
 
   React.useEffect(() => {
     if (lastEdit.current !== edit) {
-      if (inline && value !== inline.data.get('href')) {
+      if (
+        inline &&
+        value !== undefined &&
+        value !== ((inline.data as unknown) as LinkData).get('href')
+      ) {
         handleHrefChange(value, inline, editor)
       }
       lastEdit.current = edit
@@ -109,8 +114,8 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
 
   if (!inline) return <React.Fragment>{props.children}</React.Fragment>
 
-  if (value === undefined || lastInline.current.key !== inline.key) {
-    const href = inline.data.get('href')
+  if (value === undefined || lastInline.current?.key !== inline.key) {
+    const href = ((inline.data as unknown) as LinkData).get('href')
     setValue(href)
     lastInline.current = inline
   }
@@ -149,7 +154,9 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 event.preventDefault()
-                handleHrefChange(value, inline, editor)
+                if (value !== undefined) {
+                  handleHrefChange(value, inline, editor)
+                }
                 editor.focus()
               }
             }}
@@ -220,3 +227,5 @@ export const createLinkPlugin = ({
     },
   }
 }
+
+type LinkData = Record<{ href: string }>

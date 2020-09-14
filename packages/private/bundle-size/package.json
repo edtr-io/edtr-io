@@ -5,10 +5,10 @@
   "author": "edtr.io Consortium",
   "repository": "edtr-io/edtr-io",
   "scripts": {
-    "prebuild": "npm-run-all prebuild:clean",
-    "prebuild:clean": "rimraf dist",
-    "prebuild:build": "(cd ../..; yarn build)",
-    "build": "cross-env NODE_ENV=production webpack"
+    "build": "npm-run-all build:clean build:build build:webpack",
+    "build:clean": "rimraf dist",
+    "build:build": "(cd ../..; yarn build)",
+    "build:webpack": "cross-env NODE_ENV=production webpack"
   },
   "dependencies": {
     "@edtr-io/core": "^1.0.0-beta.4",
@@ -30,13 +30,21 @@
     "@edtr-io/plugin-video": "^1.0.0-beta.4",
     "@edtr-io/renderer": "^1.0.0-beta.4",
     "@edtr-io/renderer-ssr": "^1.0.0-beta.4",
+    "@fortawesome/fontawesome-svg-core": "^1.0.0",
+    "@fortawesome/free-solid-svg-icons": "^5.0.0",
+    "@fortawesome/react-fontawesome": "^0.1.0",
+    "immutable": "^4.0.0-0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.0",
     "react-dnd": "^11.0.0",
     "react-dnd-html5-backend": "^11.0.0",
     "react-dom": "^16.8.0",
+    "react-is": "^16.8.0",
+    "redux": "^4.0.0",
     "styled-components": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "babel-loader": "^8.0.0",
     "cross-env": "^7.0.0",
     "file-loader": "^6.0.0",

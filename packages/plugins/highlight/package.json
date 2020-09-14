@@ -25,14 +25,28 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^1.0.0-beta.4",
+    "@fortawesome/fontawesome-svg-core": ">= 1",
+    "@fortawesome/free-solid-svg-icons": ">= 5",
+    "@fortawesome/react-fontawesome": ">= 0.1.0",
     "react": "^16.8.0",
+    "react-dnd": "^11.0.0",
+    "react-dnd-html5-backend": "^11.0.0",
     "react-dom": "^16.8.0",
+    "react-is": "^16.8.0",
+    "redux": "^4.0.0",
     "styled-components": "^5.0.0"
   },
   "peerDependencies": {
     "@edtr-io/core": "1.0.0-beta.4",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "@fortawesome/fontawesome-svg-core": ">= 1",
+    "@fortawesome/free-solid-svg-icons": ">= 5",
+    "@fortawesome/react-fontawesome": ">= 0.1.0",
+    "react": ">= 16.8.0",
+    "react-dnd": ">= 11",
+    "react-dnd-html5-backend": ">= 11",
+    "react-dom": ">= 16.8.0",
+    "react-is": ">= 16.8.0",
+    "redux": ">= 4",
     "styled-components": ">= 4"
   },
   "publishConfig": {

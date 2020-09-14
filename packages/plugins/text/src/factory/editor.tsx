@@ -21,7 +21,14 @@ import * as Immutable from 'immutable'
 import isHotkey from 'is-hotkey'
 import * as R from 'ramda'
 import * as React from 'react'
-import { Editor as CoreEditor, Node, Operation, Value, ValueJSON } from 'slate'
+import {
+  Block,
+  Editor as CoreEditor,
+  Node,
+  Operation,
+  Value,
+  ValueJSON,
+} from 'slate'
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
@@ -642,7 +649,7 @@ function splitBlockAtSelection(editor: Editor) {
     if (!block) {
       return false
     }
-    return editor.value.blocks.first().key === block.key
+    return editor.value.blocks.first<Block>().key === block.key
   })
 
   afterSelected.forEach((block) => {
