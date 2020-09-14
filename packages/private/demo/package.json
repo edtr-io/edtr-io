@@ -43,15 +43,15 @@
     "styled-components": "^5.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.0.0",
-    "@storybook/addon-knobs": "^5.0.0",
-    "@storybook/react": "^5.0.0",
+    "@babel/core": "^7.0.0",
+    "@storybook/addon-actions": "^6.0.0",
+    "@storybook/addon-knobs": "^6.0.0",
+    "@storybook/react": "^6.0.0",
     "@types/lodash": "^4.0.0",
     "@types/ramda": "^0.27.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/request": "^2.0.0",
-    "babel-loader": "^8.0.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "request": "^2.0.0"
   },
