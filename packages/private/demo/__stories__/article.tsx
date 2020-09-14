@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import { DndProvider } from 'react-dnd'
-import html5Backend from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { addStory, EditorStory } from '../src'
 import { plugins } from '../src/plugins'
@@ -27,7 +27,7 @@ addStory('Article/Alternative State', {
 storiesOf('Article', module)
   .add('Initial State (w/ outer DragDropContext)', () => {
     return (
-      <DndProvider backend={html5Backend}>
+      <DndProvider backend={HTML5Backend}>
         <EditorStory initialState={state} omitDragDropContext />
       </DndProvider>
     )

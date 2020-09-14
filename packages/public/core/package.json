@@ -36,8 +36,8 @@
     "@edtr-io/internal__fixtures": "^1.0.0-beta.4",
     "@types/react-test-renderer": "^16.8.0",
     "react": "^16.8.0",
-    "react-dnd": "^10.0.0",
-    "react-dnd-html5-backend": "^10.0.0",
+    "react-dnd": "^11.0.0",
+    "react-dnd-html5-backend": "^11.0.0",
     "react-dom": "^16.8.0",
     "react-test-renderer": "^16.8.0",
     "redux": "^4.0.0",
@@ -45,8 +45,8 @@
   },
   "peerDependencies": {
     "react": "^16.8.0",
-    "react-dnd": "^10.0.0",
-    "react-dnd-html5-backend": "^10.0.0",
+    "react-dnd": "^11.0.0",
+    "react-dnd-html5-backend": "^11.0.0",
     "react-dom": "^16.8.0",
     "redux": "^4.0.0",
     "styled-components": ">= 4"
