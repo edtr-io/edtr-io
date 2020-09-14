@@ -1,5 +1,5 @@
 import { styled } from '@edtr-io/ui'
-import axios from 'axios'
+import fetch from 'isomorphic-unfetch'
 import { debounce } from 'lodash'
 import * as React from 'react'
 
@@ -10,9 +10,11 @@ interface ApiData {
   height: number
   previewUrl?: string
 }
+
 enum Error {
   NotExisting,
 }
+
 type ApiResponse = ApiData | Error
 
 const Geogebra = styled.iframe({
@@ -103,43 +105,40 @@ function useCachedApiResponse(id?: string): ApiResponse {
         return
       }
 
-      void axios
-        .post(
-          'https://www.geogebra.org/api/json.php',
-          {
-            request: {
-              '-api': '1.0.0',
-              task: {
-                '-type': 'fetch',
-                fields: {
-                  field: [
-                    { '-name': 'width' },
-                    { '-name': 'height' },
-                    { '-name': 'preview_url' },
-                  ],
-                },
-                filters: {
-                  field: [{ '-name': 'id', '#text': src }],
-                },
-                limit: { '-num': '1' },
+      void fetch('https://www.geogebra.org/api/json.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          request: {
+            '-api': '1.0.0',
+            task: {
+              '-type': 'fetch',
+              fields: {
+                field: [
+                  { '-name': 'width' },
+                  { '-name': 'height' },
+                  { '-name': 'preview_url' },
+                ],
               },
+              filters: {
+                field: [{ '-name': 'id', '#text': src }],
+              },
+              limit: { '-num': '1' },
             },
           },
-          // This is a (temporary?) workaround since GeoGebra Materials API doesn't handle preflight requests correctly.
-          {
-            headers: {
-              'Content-Type': 'text/plain',
-            },
-          }
-        )
-        .then((res) => {
+        }),
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      })
+        .then((res) => res.json())
+        .then((body) => {
           let data: ApiResponse = Error.NotExisting
-          if (res.data.responses.response.item) {
+          if (body.responses.response.item) {
             const {
               width = 800,
               height = 500,
               previewUrl,
-            } = res.data.responses.response.item
+            } = body.responses.response.item
             data = { width, height, previewUrl }
           }
           cache.current[src] = data
