@@ -1012,6 +1012,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       fixed: ['Correctly declare all needed peer dependencies.'],
       internal: ['**demo**. Deploy demo with Vercel.'],
     },
+    {
+      tagName: 'v1.0.1',
+      name: '1.0.1',
+      date: '2020-09-15',
+      fixed: ['Correctly specify `@edtr-io/core` peer dependency.'],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

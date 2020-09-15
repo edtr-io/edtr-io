@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1](https://github.com/edtr-io/edtr-io/compare/v1.0.0..v1.0.1) - September 15, 2020
+
+### Fixed
+
+- Correctly specify `@edtr-io/core` peer dependency.
+
 ## [1.0.0](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.4..v1.0.0) - September 15, 2020
 
 Bump version to v1.0.0 since the current version is already used in production by Serlo.
