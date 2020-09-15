@@ -33,7 +33,7 @@ export const EditorTextarea = React.forwardRef<
     <StyledIgnoreKeys except={['up', 'down']}>
       <Textarea
         {...props}
-        inputRef={ref || undefined}
+        ref={ref}
         onKeyDown={(e) => {
           if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
             return

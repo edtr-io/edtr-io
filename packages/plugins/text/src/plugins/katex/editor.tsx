@@ -110,7 +110,7 @@ const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
       style={mathEditorTextareaStyle}
       onChange={parentOnChange}
       value={latex}
-      inputRef={textareaRef}
+      ref={textareaRef}
     />
   )
 }
