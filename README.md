@@ -44,8 +44,6 @@ It has been born from the needs of the learning platform [serlo.org](https://ser
 
 In 2019, Serlo partnered with the German [Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html), started by the Hasso Plattner Institute (HPI) in cooperation with MINT-EC, and funded by the Federal Ministry for Education and Research. The HPI Schul-Cloud aims to provide low-threshold access to digital educational content to schools nationwide.
 
-[Splish](http://splish.me) was founded in 2016 by the very people working on the editor, to be able to provide commercial support.
-
 Great content editing is essential for the user experience of a community-driven site - edtr.io’s main purpose is to make editing on the web easy for students and teachers.
 
 We love education. We need this editor. We're in for the long haul.
@@ -72,10 +70,6 @@ Edtr.io is licensed under MIT.
 
 In case you want to use the editor for the education sector, contact [serlo.org](mailto:en@serlo.org)
 
-## Commercial Support
-
-Commercial integration, custom plugin development and support is available from Splish.me, from the same knowledgeable people writing the code for edtr.io's core functionalities. For inquiries, please contact [edtr-io@splish.dev](mailto:edtr-io@splish.dev).
-
 ## Want to contribute?
 
 Contributions welcome!
@@ -85,7 +79,6 @@ You can reach our development team at [en@serlo.org](mailto:en@serlo.org)
 
 About [serlo.org and its vision](https://en.serlo.org/serlo)\
 About the [Hasso Plattner Institut](https://hpi.de/en/the-hpi/overview.html)\
-About our integration partner, [Splish](http://splish.me)\
 About the [HPI Schul-Cloud](https://hpi.de/en/open-campus/hpi-initiatives/schul-cloud.html)
 
 ## Big Thanks

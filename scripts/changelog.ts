@@ -977,6 +977,41 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         '**plugin-video**. Fix type declaration of `VideoConfig`.',
       ],
     },
+    {
+      tagName: 'v1.0.0',
+      name: '1.0.0',
+      date: '2020-09-15',
+      description:
+        'Bump version to v1.0.0 since the current version is already used in production by Serlo.',
+      breakingChanges: [
+        [
+          'core, plugin-rows',
+          'We now have a peer dependency on `react-dnd@^11.0.0` and `react-dnd-html5-backend@^11.0.0` (both `^10.0.0` previously)',
+        ],
+        [
+          'editor-ui',
+          '`EditorTextarea` does not accept `inputRef` anymore. Use `ref` instead.',
+        ],
+        [
+          'plugin',
+          'Remove `onPaste` in favor of `onText` and `onFiles` (v1.0.0-beta.1)',
+        ],
+      ],
+      changed: [
+        'Update dependencies.',
+        'Widen version range of peer dependencies.',
+        [
+          'core, plugin-rows',
+          'We now have a peer dependency on `react-dnd@^11.0.0` and `react-dnd-html5-backend@^11.0.0` (both `^10.0.0` previously)',
+        ],
+        [
+          'editor-ui',
+          '`EditorTextarea` does not accept `inputRef` anymore. Use `ref` instead.',
+        ],
+      ],
+      fixed: ['Correctly declare all needed peer dependencies.'],
+      internal: ['**demo**. Deploy demo with Vercel.'],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

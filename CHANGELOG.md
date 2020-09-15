@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.4..v1.0.0) - September 15, 2020
+
+Bump version to v1.0.0 since the current version is already used in production by Serlo.
+
+### Breaking Changes
+
+- **core, plugin-rows**. We now have a peer dependency on `react-dnd@^11.0.0` and `react-dnd-html5-backend@^11.0.0` (both `^10.0.0` previously)
+- **editor-ui**. `EditorTextarea` does not accept `inputRef` anymore. Use `ref` instead.
+- **plugin**. Remove `onPaste` in favor of `onText` and `onFiles` (v1.0.0-beta.1)
+
+### Changed
+
+- Update dependencies.
+- Widen version range of peer dependencies.
+- **core, plugin-rows**. We now have a peer dependency on `react-dnd@^11.0.0` and `react-dnd-html5-backend@^11.0.0` (both `^10.0.0` previously)
+- **editor-ui**. `EditorTextarea` does not accept `inputRef` anymore. Use `ref` instead.
+
+### Fixed
+
+- Correctly declare all needed peer dependencies.
+
+### Internal
+
+- **demo**. Deploy demo with Vercel.
+
 ## [1.0.0-beta.4](https://github.com/edtr-io/edtr-io/compare/v1.0.0-beta.3..v1.0.0-beta.4) - May 18, 2020
 
 ### Added

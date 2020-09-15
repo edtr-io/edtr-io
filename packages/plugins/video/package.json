@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-video",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,9 +12,9 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^1.0.0-beta.4",
-    "@edtr-io/plugin": "^1.0.0-beta.4",
-    "@edtr-io/ui": "^1.0.0-beta.4",
+    "@edtr-io/editor-ui": "^1.0.0",
+    "@edtr-io/plugin": "^1.0.0",
+    "@edtr-io/ui": "^1.0.0",
     "@types/ramda": "^0.27.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
@@ -22,7 +22,7 @@
     "ramda": "^0.27.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^1.0.0-beta.4",
+    "@edtr-io/core": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": ">= 1",
     "@fortawesome/free-solid-svg-icons": ">= 5",
     "@fortawesome/react-fontawesome": ">= 0.1.0",

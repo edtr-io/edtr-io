@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-input-exercise",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,12 +12,12 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^1.0.0-beta.4",
-    "@edtr-io/internal__dev-expression": "^1.0.0-beta.4",
-    "@edtr-io/plugin": "^1.0.0-beta.4",
-    "@edtr-io/renderer-ui": "^1.0.0-beta.4",
-    "@edtr-io/store": "^1.0.0-beta.4",
-    "@edtr-io/ui": "^1.0.0-beta.4",
+    "@edtr-io/editor-ui": "^1.0.0",
+    "@edtr-io/internal__dev-expression": "^1.0.0",
+    "@edtr-io/plugin": "^1.0.0",
+    "@edtr-io/renderer-ui": "^1.0.0",
+    "@edtr-io/store": "^1.0.0",
+    "@edtr-io/ui": "^1.0.0",
     "@types/algebra.js": "^0.2.0",
     "@types/ramda": "^0.27.0",
     "@types/react": "^16.8.0",
@@ -29,8 +29,8 @@
     "string": "^3.0.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^1.0.0-beta.4",
-    "@edtr-io/plugin-text": "^1.0.0-beta.4",
+    "@edtr-io/core": "^1.0.0",
+    "@edtr-io/plugin-text": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": ">= 1",
     "@fortawesome/free-solid-svg-icons": ">= 5",
     "@fortawesome/react-fontawesome": ">= 0.1.0",
