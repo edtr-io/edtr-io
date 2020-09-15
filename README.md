@@ -56,9 +56,6 @@ We love education. We need this editor. We're in for the long haul.
 	<a href="https://hpi.de/">
 		<img src="README_files/hpi.svg" alt="HPI logo" width="242" height="86">
 	</a>
-	<a href="http://splish.me">
-		<img src="README_files/splish.svg" alt="Splish logo" width="242" height="86">
-	</a>
 	<br><br>
 </p>
 
