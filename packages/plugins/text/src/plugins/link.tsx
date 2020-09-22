@@ -139,7 +139,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
       isLink(editor) &&
       editor.value.selection.isCollapsed ? (
         <InlineSettings
-          key={`inlineoverlay${inline.key}`}
+          key={inline.key}
           onDelete={() => unwrapLink(editor).focus()}
           position="below"
         >

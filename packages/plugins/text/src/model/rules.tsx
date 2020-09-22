@@ -24,7 +24,7 @@ export const rules: Rule[] = [
     serialize(obj, children) {
       if (obj.object === 'string') {
         // our state should contain no newline characters
-        return children.replace(new RegExp('\\r|\\n', 'g'), '')
+        return children.replace(new RegExp('[\\r\\n]', 'g'), '')
       }
     },
 
@@ -41,7 +41,7 @@ export const rules: Rule[] = [
         // sanitize spurious newlines (and whitespace?)
         return {
           object: 'text',
-          text: text.replace(new RegExp('\\r|\\n|\\t', 'g'), ''),
+          text: text.replace(new RegExp('[\\r\\n\\t]', 'g'), ''),
           marks: [],
         }
       }

@@ -1,8 +1,8 @@
 import { styled } from '@edtr-io/ui'
 
-import { TextPluginConfig } from '..'
+import { MathEditorConfig } from './editor-config'
 
-export const Dropdown = styled.select<{ config: TextPluginConfig }>((props) => {
+export const Dropdown = styled.select<{ config: MathEditorConfig }>((props) => {
   const { theme } = props.config
   return {
     backgroundColor: theme.backgroundColor,
@@ -20,7 +20,7 @@ export const Dropdown = styled.select<{ config: TextPluginConfig }>((props) => {
 })
 
 export const Option = styled.option<{
-  config: TextPluginConfig
+  config: MathEditorConfig
   active?: boolean
 }>((props) => {
   const { theme } = props.config

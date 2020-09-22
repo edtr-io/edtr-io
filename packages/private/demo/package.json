@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@edtr-io/core": "^1.0.3",
+    "@edtr-io/math": "^1.0.3",
     "@edtr-io/plugin": "^1.0.3",
     "@edtr-io/plugin-anchor": "^1.0.3",
     "@edtr-io/plugin-blockquote": "^1.0.3",

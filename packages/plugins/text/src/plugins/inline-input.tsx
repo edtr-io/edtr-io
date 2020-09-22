@@ -12,7 +12,7 @@ const InlineInputInner = styled.input({
   },
 })
 
-const InlineInputRefForward: React.RefForwardingComponent<
+const InlineInputRefForward: React.ForwardRefRenderFunction<
   HTMLInputElement,
   InputProps
 > = (props, ref) => {

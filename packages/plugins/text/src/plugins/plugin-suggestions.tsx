@@ -1,11 +1,11 @@
 import { HotKeys } from '@edtr-io/core'
+import { HoverOverlay } from '@edtr-io/editor-ui'
 import { replace } from '@edtr-io/store'
 import * as React from 'react'
 import { Editor } from 'slate-react'
 
 import { TextPlugin } from '..'
 import { SlatePluginClosure } from '../factory/types'
-import { HoveringOverlay } from './hovering-overlay'
 import { Suggestions } from './suggestions'
 
 function mapPlugins(pluginClosure: SlatePluginClosure, editor: Editor) {
@@ -150,7 +150,7 @@ function SuggestionsBox({
     >
       {children}
       {showSuggestions ? (
-        <HoveringOverlay position="below">
+        <HoverOverlay position="below">
           <Suggestions
             onSelect={insertPlugin(editor, pluginClosure)}
             options={options}
@@ -158,7 +158,7 @@ function SuggestionsBox({
             selected={selected}
             config={config}
           />
-        </HoveringOverlay>
+        </HoverOverlay>
       ) : null}
     </HotKeys>
   )

@@ -1,4 +1,3 @@
-import { canUseDOM } from 'exenv'
 import { isHotkey } from 'is-hotkey'
 import * as React from 'react'
 import { Editor } from 'slate-react'
@@ -15,11 +14,6 @@ import { trimSelection } from '../../helpers'
 import { katexBlockNode, katexInlineNode } from '../../model'
 import { DefaultEditorComponent } from './editor'
 
-if (canUseDOM) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require('react-mathquill').addStyles()
-}
-
 export const isKatex = (editor: Editor) => {
   return (
     editor.value.blocks.some((block) =>
@@ -30,6 +24,7 @@ export const isKatex = (editor: Editor) => {
     )
   )
 }
+
 export const insertKatex = (editor: Editor) => {
   if (editor.value.selection.isExpanded) {
     trimSelection(editor)
@@ -53,6 +48,7 @@ export const insertKatex = (editor: Editor) => {
     },
   })
 }
+
 export const removeKatex = (editor: Editor) => {
   const node =
     editor.value.blocks

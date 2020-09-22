@@ -1,10 +1,9 @@
-import { EditorBottomToolbar, styled } from '@edtr-io/editor-ui'
+import { EditorBottomToolbar, HoverOverlay, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { Editor, EditorProps } from 'slate-react'
 
 import { TextPluginConfig, TextPlugin, TextConfig } from '..'
 import { SlatePluginClosure } from '../factory/types'
-import { HoveringOverlay } from '../plugins/hovering-overlay'
 import { ColorControls } from './colors'
 import { DefaultControls } from './default'
 import { HeadingControls } from './headings'
@@ -156,14 +155,14 @@ export function Controls(props: ControlProps) {
   return (
     <React.Fragment>
       {!selectionCollapsed && (
-        <HoveringOverlay position={isTouchDevice() ? 'below' : 'above'}>
+        <HoverOverlay position={isTouchDevice() ? 'below' : 'above'}>
           <ControlsSwitch
             {...props}
             visibleControls={visibleControls}
             setVisibleControls={setVisibleControls}
             onChange={onChange}
           />
-        </HoveringOverlay>
+        </HoverOverlay>
       )}
       {!props.readOnly && (
         <TimeoutBottomToolbar

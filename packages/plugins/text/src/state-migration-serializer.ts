@@ -134,7 +134,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
     }
   },
   serialize(deserialized) {
-    const nodes = removeLeafs(
+    const nodes = removeLeaves(
       deserialized && deserialized.document
         ? (deserialized.document.nodes as OldNode[])
         : []
@@ -490,7 +490,7 @@ export type OldElement =
 export type OldNode = OldText | OldElement
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function removeLeafs(nodes: any[]) {
+function removeLeaves(nodes: any[]) {
   if (!nodes) {
     return []
   }
@@ -511,7 +511,7 @@ function removeLeafs(nodes: any[]) {
       const cleanedNode = node.nodes
         ? {
             ...node,
-            nodes: removeLeafs(node.nodes),
+            nodes: removeLeaves(node.nodes),
           }
         : node
       return [...acc, cleanedNode]
