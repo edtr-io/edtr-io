@@ -21,8 +21,9 @@ import { InlineCheckbox } from '../inline-checkbox'
 import { isList } from '../list'
 import { Math } from './math-component'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MathQuill: React.ComponentType<any> = canUseDOM
+import type { EditableMathFieldProps } from 'react-mathquill'
+
+const MathQuill: React.ComponentClass<EditableMathFieldProps> = canUseDOM
   ? // eslint-disable-next-line @typescript-eslint/no-var-requires
     require('react-mathquill').EditableMathField
   : () => null
@@ -132,19 +133,11 @@ export const DefaultEditorComponent: React.FunctionComponent<
   const [hasError, setError] = React.useState(false)
   const useVisualMath = preferences.getKey(preferenceKey) && !hasError
 
-  //Refs for positioning of hovering menu
-  const mathQuillRef = React.createRef<typeof MathQuill>()
+  // Refs for positioning of hovering menu
+  const mathQuillRef = React.createRef<HTMLDivElement>()
   const latexInputRef: React.MutableRefObject<
     HTMLInputElement | HTMLTextAreaElement | null
   > = React.useRef<HTMLInputElement | HTMLTextAreaElement>(null)
-  const wrappedMathquillRef = Object.defineProperty({}, 'current', {
-    // wrapper around Mathquill component
-    get: () => {
-      return mathQuillRef.current
-        ? ((mathQuillRef.current as unknown) as { element: unknown }).element
-        : null
-    },
-  })
 
   const setFormula = React.useCallback(
     (value: string) => {
@@ -236,6 +229,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
                   e.stopPropagation()
                 }}
                 inline={inline}
+                ref={mathQuillRef}
               >
                 <MathQuill
                   latex={formula}
@@ -243,7 +237,6 @@ export const DefaultEditorComponent: React.FunctionComponent<
                     setFormula(e.latex())
                   }}
                   config={mathquillConfig}
-                  ref={mathQuillRef}
                   mathquillDidMount={checkLatexError}
                 />
               </EditorWrapper>
@@ -265,7 +258,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
           {helpOpen ? null : (
             <HoveringOverlay
               position="above"
-              anchor={useVisualMath ? wrappedMathquillRef : latexInputRef}
+              anchor={useVisualMath ? mathQuillRef : latexInputRef}
               allowSelectionOverflow
             >
               <div
@@ -360,7 +353,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
   }) {
     if (mathquill) {
       if (mathquill.latex() == '' && formula != '') {
-        // Error occured
+        // Error occurred
         setError(true)
       }
       setTimeout(() => {
