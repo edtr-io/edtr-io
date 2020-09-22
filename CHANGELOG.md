@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2](https://github.com/edtr-io/edtr-io/compare/v1.0.1..v1.0.2) - September 22, 2020
+
+### Fixed
+
+- You no longer need to polyfill `regenerator-runtime` yourself.
+
 ## [1.0.1](https://github.com/edtr-io/edtr-io/compare/v1.0.0..v1.0.1) - September 15, 2020
 
 ### Fixed
