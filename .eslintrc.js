@@ -62,6 +62,7 @@ module.exports = {
           'packages/private/bundle-size/webpack.config.js',
           'packages/private/demo/{scripts,src}/**/*',
           'scripts/**/*',
+          'jest*.[jt]s',
         ],
         optionalDependencies: false,
       },

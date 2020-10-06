@@ -17,6 +17,26 @@ enum ExerciseState {
   SolvedWrong,
 }
 
+const InputContainer = styled.div({
+  float: 'right',
+  display: 'flex',
+  flexDirection: 'row',
+})
+
+const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
+  ({ config }) => {
+    const { theme } = config
+    return {
+      border: 'none',
+      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
+
+      textAlign: 'center',
+      outline: 'none',
+      marginBottom: '10px',
+    }
+  }
+)
+
 export function InputExerciseRenderer(props: InputExerciseProps) {
   const { state } = props
   const { i18n } = props.config
@@ -126,26 +146,6 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
     </div>
   )
 }
-
-const InputContainer = styled.div({
-  float: 'right',
-  display: 'flex',
-  flexDirection: 'row',
-})
-
-const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
-  ({ config }) => {
-    const { theme } = config
-    return {
-      border: 'none',
-      borderBottom: `${theme.borderStyle} ${theme.borderColor}`,
-
-      textAlign: 'center',
-      outline: 'none',
-      marginBottom: '10px',
-    }
-  }
-)
 
 function normalize(type: InputExerciseType, text: string) {
   const temp = collapseWhitespace(text)
