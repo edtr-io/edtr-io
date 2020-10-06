@@ -4,7 +4,6 @@ import { Feedback, SubmitButton } from '@edtr-io/renderer-ui/internal'
 import { isEmpty } from '@edtr-io/store'
 import A from 'algebra.js'
 import * as React from 'react'
-import S from 'string'
 
 import {
   InputExercisePluginConfig,
@@ -36,22 +35,22 @@ const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
   }
 )
 
-function normalizeNumber(string: string) {
-  return S(string).replaceAll(',', '.').s
+function normalizeNumber(numberText: string) {
+  return numberText.replace(/,/g, '.')
 }
 
-function normalize(type: InputExerciseType, string: string) {
-  const temp = S(string).collapseWhitespace()
+function normalize(type: InputExerciseType, text: string) {
+  const temp = collapseWhitespace(text)
 
   switch (type) {
     case InputExerciseType.InputNumberExactMatchChallenge:
-      return S(normalizeNumber(temp.s))
-        .replaceAll(' /', '/')
-        .replaceAll('/ ', '/').s
+      return normalizeNumber(temp)
+        .replace(/\s\//g, '/')
+        .replace(/\/\s/g, '/')
     case InputExerciseType.InputExpressionEqualMatchChallenge:
-      return A.parse(normalizeNumber(temp.s))
+      return A.parse(normalizeNumber(temp))
     case InputExerciseType.InputStringNormalizedMatchChallenge:
-      return temp.s.toUpperCase()
+      return temp.toUpperCase()
   }
 }
 
@@ -188,4 +187,8 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
       </form>
     </div>
   )
+}
+
+function collapseWhitespace(text: string) {
+  return text.replace(/[\s\xa0]+/g, ' ').trim()
 }
