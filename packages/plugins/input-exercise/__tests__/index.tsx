@@ -1,18 +1,10 @@
-/*
- * @jest-environment jsdom-sixteen
- */
-
-// eslint-disable-next-line import/no-unassigned-import
-import '@testing-library/jest-dom'
 import { EditorPlugin } from '@edtr-io/plugin'
 import { plugin as inputExercisePlugin } from '@edtr-io/plugin-input-exercise/__fixtures__'
 import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { Renderer } from '@edtr-io/renderer'
-import { render, cleanup } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-
-afterEach(cleanup)
 
 describe('input challenge', () => {
   let exercise: InputExercise
