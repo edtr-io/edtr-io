@@ -52,6 +52,7 @@
     "eslint-plugin-jsdoc": "^30.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
+    "eslint-plugin-testing-library": "^3.0.0",
     "jest": "^26.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.0",
     "lerna": "^3.0.0",

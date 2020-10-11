@@ -13,6 +13,8 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:jsdoc/recommended',
     'plugin:react/recommended',
+    'plugin:testing-library/react',
+    'plugin:testing-library/recommended',
     'prettier/@typescript-eslint',
     'prettier',
   ],
@@ -20,7 +22,14 @@ module.exports = {
   parserOptions: {
     project: ['tsconfig.json', 'tsconfig.eslint.json'],
   },
-  plugins: ['@typescript-eslint', 'import', 'jest-dom', 'jsdoc', 'react-hooks'],
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'jest-dom',
+    'jsdoc',
+    'react-hooks',
+    'testing-library',
+  ],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
@@ -134,6 +143,17 @@ module.exports = {
     // eslint-plugin-react-hooks
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
+
+    // eslint-plugin-testing-library
+    'testing-library/no-debug': 'error',
+    'testing-library/no-dom-import': ['error', 'react'],
+    'testing-library/no-manual-cleanup': 'error',
+    'testing-library/no-wait-for-empty-callback': 'error',
+    'testing-library/no-wait-for-snapshot': 'error',
+    'testing-library/prefer-explicit-assert': 'error',
+    'testing-library/prefer-presence-queries': 'error',
+    'testing-library/prefer-screen-queries': 'error',
+    'testing-library/prefer-wait-for': 'error',
   },
   settings: {
     jsdoc: {
