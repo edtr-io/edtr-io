@@ -6,168 +6,166 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
-describe('input challenge', () => {
-  let exercise: InputExercise
+let exercise: InputExercise
 
-  describe('shows feedback about submitted answer', () => {
-    beforeEach(() => {
-      exercise = createInputExercise({
-        answers: [createAnswer({ answer: 'right solution' })],
-      })
-    })
-
-    describe('displays a feedback after submission', () => {
-      test('when answer is correct', async () => {
-        expect(exercise.queryByText('Correct')).toBeNull()
-
-        await submitAnswer(exercise, 'right solution')
-
-        expect(exercise.getByText('Correct')).toBeVisible()
-      })
-
-      test('when answer is false', async () => {
-        expect(exercise.queryByText('Wrong')).toBeNull()
-
-        await submitAnswer(exercise, 'wrong answer')
-
-        expect(exercise.getByText('Wrong')).toBeVisible()
-      })
-    })
-
-    test('submit button changes text when answer is correct', async () => {
-      await submitAnswer(exercise, 'right solution')
-
-      expect(
-        exercise.getByText('Stimmt!', { selector: 'button > span' })
-      ).toBeVisible()
-    })
-
-    describe('shows result of the last submitted answer', () => {
-      test('when last answer is correct', async () => {
-        await submitAnswer(exercise, 'wrong answer')
-        await submitAnswer(exercise, 'right solution')
-
-        expect(exercise.getByText('Correct')).toBeVisible()
-      })
-
-      test('when last answer is false', async () => {
-        await submitAnswer(exercise, 'right solution')
-        await submitAnswer(exercise, 'wrong answer')
-
-        expect(exercise.getByText('Wrong')).toBeVisible()
-      })
+describe('shows feedback about submitted answer', () => {
+  beforeEach(() => {
+    exercise = createInputExercise({
+      answers: [createAnswer({ answer: 'right solution' })],
     })
   })
 
-  describe('shows feedback of predefined answers', () => {
-    beforeEach(() => {
-      exercise = createInputExercise({
-        answers: [
-          createAnswer({
-            answer: 'right solution',
-            feedback: 'Correct answer!',
-          }),
-          createAnswer({
-            answer: 'wrong solution',
-            isCorrect: false,
-            feedback: 'Wrong answer!',
-          }),
-        ],
-      })
-    })
+  describe('displays a feedback after submission', () => {
+    test('when answer is correct', async () => {
+      expect(exercise.queryByText('Correct')).toBeNull()
 
-    test('shows feedback of correct input when it is predefined', async () => {
       await submitAnswer(exercise, 'right solution')
 
-      expect(exercise.getByText('Correct answer!')).toBeVisible()
+      expect(exercise.getByText('Correct')).toBeVisible()
     })
 
-    test('shows feedback of wrong input when it is predefined', async () => {
-      await submitAnswer(exercise, 'wrong solution')
+    test('when answer is false', async () => {
+      expect(exercise.queryByText('Wrong')).toBeNull()
 
-      expect(exercise.getByText('Wrong answer!')).toBeVisible()
-    })
-
-    test('shows default feedback when answer is not in the list', async () => {
-      await submitAnswer(exercise, 'another wrong solution')
+      await submitAnswer(exercise, 'wrong answer')
 
       expect(exercise.getByText('Wrong')).toBeVisible()
     })
   })
 
-  describe('normalizes the answer', () => {
-    describe('type = input-string-normalized-match-challenge', () => {
-      beforeEach(() => {
-        exercise = createInputExercise({
-          type: 'input-string-normalized-match-challenge',
-          answers: [createAnswer({ answer: 'Right Solution' })],
-        })
-      })
+  test('submit button changes text when answer is correct', async () => {
+    await submitAnswer(exercise, 'right solution')
 
-      test('wrong whitespaces are ignored', async () => {
-        await expectAnswerIsAccepted(exercise, '   Right   Solution   ')
-      })
+    expect(
+      exercise.getByText('Stimmt!', { selector: 'button > span' })
+    ).toBeVisible()
+  })
 
-      test('differences in lower and upper case are ignored', async () => {
-        await expectAnswerIsAccepted(exercise, 'rIGHT sOLUTION')
-      })
-    })
-
-    describe('type = input-number-exact-match-challenge', () => {
-      test('differences between "," and "." are ignored', async () => {
-        exercise = createInputExercise({
-          type: 'input-number-exact-match-challenge',
-          answers: [createAnswer({ answer: '1.200,5' })],
-        })
-
-        await expectAnswerIsAccepted(exercise, '1,200.5')
-      })
-
-      test('whitespaces are ignored', async () => {
-        exercise = createInputExercise({
-          type: 'input-number-exact-match-challenge',
-          answers: [createAnswer({ answer: '3/10' })],
-        })
-
-        await expectAnswerIsAccepted(exercise, ' 3 / 1 0')
-      })
-
-      test('ignore leading "+" sign', async () => {
-        exercise = createInputExercise({
-          type: 'input-number-exact-match-challenge',
-          answers: [createAnswer({ answer: '3' })],
-        })
-
-        await expectAnswerIsAccepted(exercise, '+3')
-      })
-    })
-
-    describe('type = input-expression-equal-match-challenge', () => {
-      beforeEach(() => {
-        exercise = createInputExercise({
-          type: 'input-expression-equal-match-challenge',
-          answers: [createAnswer({ answer: '1+x^2' })],
-        })
-      })
-
-      test('algebraic differences are ignored', async () => {
-        await expectAnswerIsAccepted(exercise, 'x*x + 1')
-      })
-
-      test('ignore leading "+" sign (algebra.js cannot handle those signs)', async () => {
-        await expectAnswerIsAccepted(exercise, '+(1 + x^2)')
-      })
-    })
-
-    async function expectAnswerIsAccepted(
-      exercise: InputExercise,
-      answer: string
-    ) {
-      await submitAnswer(exercise, answer)
+  describe('shows result of the last submitted answer', () => {
+    test('when last answer is correct', async () => {
+      await submitAnswer(exercise, 'wrong answer')
+      await submitAnswer(exercise, 'right solution')
 
       expect(exercise.getByText('Correct')).toBeVisible()
-    }
+    })
+
+    test('when last answer is false', async () => {
+      await submitAnswer(exercise, 'right solution')
+      await submitAnswer(exercise, 'wrong answer')
+
+      expect(exercise.getByText('Wrong')).toBeVisible()
+    })
   })
+})
+
+describe('shows feedback of predefined answers', () => {
+  beforeEach(() => {
+    exercise = createInputExercise({
+      answers: [
+        createAnswer({
+          answer: 'right solution',
+          feedback: 'Correct answer!',
+        }),
+        createAnswer({
+          answer: 'wrong solution',
+          isCorrect: false,
+          feedback: 'Wrong answer!',
+        }),
+      ],
+    })
+  })
+
+  test('shows feedback of correct input when it is predefined', async () => {
+    await submitAnswer(exercise, 'right solution')
+
+    expect(exercise.getByText('Correct answer!')).toBeVisible()
+  })
+
+  test('shows feedback of wrong input when it is predefined', async () => {
+    await submitAnswer(exercise, 'wrong solution')
+
+    expect(exercise.getByText('Wrong answer!')).toBeVisible()
+  })
+
+  test('shows default feedback when answer is not in the list', async () => {
+    await submitAnswer(exercise, 'another wrong solution')
+
+    expect(exercise.getByText('Wrong')).toBeVisible()
+  })
+})
+
+describe('normalizes the answer', () => {
+  describe('type = input-string-normalized-match-challenge', () => {
+    beforeEach(() => {
+      exercise = createInputExercise({
+        type: 'input-string-normalized-match-challenge',
+        answers: [createAnswer({ answer: 'Right Solution' })],
+      })
+    })
+
+    test('wrong whitespaces are ignored', async () => {
+      await expectAnswerIsAccepted(exercise, '   Right   Solution   ')
+    })
+
+    test('differences in lower and upper case are ignored', async () => {
+      await expectAnswerIsAccepted(exercise, 'rIGHT sOLUTION')
+    })
+  })
+
+  describe('type = input-number-exact-match-challenge', () => {
+    test('differences between "," and "." are ignored', async () => {
+      exercise = createInputExercise({
+        type: 'input-number-exact-match-challenge',
+        answers: [createAnswer({ answer: '1.200,5' })],
+      })
+
+      await expectAnswerIsAccepted(exercise, '1,200.5')
+    })
+
+    test('whitespaces are ignored', async () => {
+      exercise = createInputExercise({
+        type: 'input-number-exact-match-challenge',
+        answers: [createAnswer({ answer: '3/10' })],
+      })
+
+      await expectAnswerIsAccepted(exercise, ' 3 / 1 0')
+    })
+
+    test('ignore leading "+" sign', async () => {
+      exercise = createInputExercise({
+        type: 'input-number-exact-match-challenge',
+        answers: [createAnswer({ answer: '3' })],
+      })
+
+      await expectAnswerIsAccepted(exercise, '+3')
+    })
+  })
+
+  describe('type = input-expression-equal-match-challenge', () => {
+    beforeEach(() => {
+      exercise = createInputExercise({
+        type: 'input-expression-equal-match-challenge',
+        answers: [createAnswer({ answer: '1+x^2' })],
+      })
+    })
+
+    test('algebraic differences are ignored', async () => {
+      await expectAnswerIsAccepted(exercise, 'x*x + 1')
+    })
+
+    test('ignore leading "+" sign (algebra.js cannot handle those signs)', async () => {
+      await expectAnswerIsAccepted(exercise, '+(1 + x^2)')
+    })
+  })
+
+  async function expectAnswerIsAccepted(
+    exercise: InputExercise,
+    answer: string
+  ) {
+    await submitAnswer(exercise, answer)
+
+    expect(exercise.getByText('Correct')).toBeVisible()
+  }
 })
 
 type InputExercise = ReturnType<typeof render>
@@ -187,11 +185,7 @@ function createInputExercise({
 
   const state = {
     plugin: 'inputExercise',
-    state: {
-      type: type,
-      unit: '',
-      answers,
-    },
+    state: { type, unit: '', answers },
   }
 
   return render(<Renderer plugins={plugins} state={state} />)
