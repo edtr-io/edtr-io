@@ -10,6 +10,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:jest-dom/recommended',
     'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
@@ -19,7 +20,7 @@ module.exports = {
   parserOptions: {
     project: ['tsconfig.json', 'tsconfig.eslint.json'],
   },
-  plugins: ['@typescript-eslint', 'import', 'jsdoc', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'import', 'jest-dom', 'jsdoc', 'react-hooks'],
   rules: {
     // eslint
     'no-duplicate-imports': 'error',
