@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-commonjs */
-const defaultConfig = require('./jest.config')
+const defaultConfig = require('./jest.base.config')
 
 module.exports = {
   ...defaultConfig,

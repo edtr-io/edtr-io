@@ -4,7 +4,6 @@ import { Feedback, SubmitButton } from '@edtr-io/renderer-ui/internal'
 import { isEmpty } from '@edtr-io/store'
 import A from 'algebra.js'
 import * as React from 'react'
-import S from 'string'
 
 import {
   InputExercisePluginConfig,
@@ -17,11 +16,13 @@ enum ExerciseState {
   SolvedRight,
   SolvedWrong,
 }
+
 const InputContainer = styled.div({
   float: 'right',
   display: 'flex',
   flexDirection: 'row',
 })
+
 const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
   ({ config }) => {
     const { theme } = config
@@ -35,50 +36,6 @@ const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
     }
   }
 )
-
-function normalizeNumber(string: string) {
-  return S(string).replaceAll(',', '.').s
-}
-
-function normalize(type: InputExerciseType, string: string) {
-  const temp = S(string).collapseWhitespace()
-
-  switch (type) {
-    case InputExerciseType.InputNumberExactMatchChallenge:
-      return S(normalizeNumber(temp.s))
-        .replaceAll(' /', '/')
-        .replaceAll('/ ', '/').s
-    case InputExerciseType.InputExpressionEqualMatchChallenge:
-      return A.parse(normalizeNumber(temp.s))
-    case InputExerciseType.InputStringNormalizedMatchChallenge:
-      return temp.s.toUpperCase()
-  }
-}
-
-function matchesInput(
-  field: { type: InputExerciseType; value: string },
-  input: string
-) {
-  try {
-    const solution = normalize(field.type, field.value)
-    const submission = normalize(field.type, input)
-
-    switch (field.type) {
-      case InputExerciseType.InputExpressionEqualMatchChallenge:
-        return (
-          (solution as A.Expression)
-            .subtract(submission as A.Expression)
-            .toString() === '0'
-        )
-      case InputExerciseType.InputNumberExactMatchChallenge:
-      case InputExerciseType.InputStringNormalizedMatchChallenge:
-        return solution === submission
-    }
-  } catch (err) {
-    // e.g. if user input could not be parsed
-    return false
-  }
-}
 
 export function InputExerciseRenderer(props: InputExerciseProps) {
   const { state } = props
@@ -188,4 +145,50 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
       </form>
     </div>
   )
+}
+
+function normalize(type: InputExerciseType, text: string) {
+  const temp = collapseWhitespace(text)
+
+  switch (type) {
+    case InputExerciseType.InputNumberExactMatchChallenge:
+      return normalizeNumber(temp).replace(/\s/g, '')
+    case InputExerciseType.InputExpressionEqualMatchChallenge:
+      return A.parse(normalizeNumber(temp))
+    case InputExerciseType.InputStringNormalizedMatchChallenge:
+      return temp.toUpperCase()
+  }
+}
+
+function matchesInput(
+  field: { type: InputExerciseType; value: string },
+  input: string
+) {
+  try {
+    const solution = normalize(field.type, field.value)
+    const submission = normalize(field.type, input)
+
+    switch (field.type) {
+      case InputExerciseType.InputExpressionEqualMatchChallenge:
+        return (
+          (solution as A.Expression)
+            .subtract(submission as A.Expression)
+            .toString() === '0'
+        )
+      case InputExerciseType.InputNumberExactMatchChallenge:
+      case InputExerciseType.InputStringNormalizedMatchChallenge:
+        return solution === submission
+    }
+  } catch (err) {
+    // e.g. if user input could not be parsed
+    return false
+  }
+}
+
+function normalizeNumber(numberText: string) {
+  return numberText.replace(/,/g, '.').replace(/^[+]/, '')
+}
+
+function collapseWhitespace(text: string) {
+  return text.replace(/[\s\xa0]+/g, ' ').trim()
 }
