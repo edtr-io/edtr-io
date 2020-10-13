@@ -21,12 +21,9 @@
     "lint:prettier": "yarn _prettier --check",
     "lint:tsc": "tsc --noEmit",
     "changelog": "ts-node scripts/changelog",
-    "predeploy": "yarn build",
-    "deploy": "yarn _publish",
-    "deploy:from-package": "yarn deploy from-package",
-    "deploy:prerelease": "yarn lerna version --amend --no-push && yarn deploy:from-package --dist-tag next",
+    "prepare-release": "yarn lerna version --no-git-tag-version --no-push",
+    "deploy:prerelease": "yarn lerna version --amend --no-push && yarn lerna publish from-package --dist-tag next",
     "_eslint": "eslint \"{{packages/*/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,scripts,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
-    "_publish": "lerna publish --message \"release %v\"",
     "_prettier": "prettier ."
   },
   "devDependencies": {
