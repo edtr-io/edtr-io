@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/internal__plugin-state",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__document-editor": "^1.0.2",
+    "@edtr-io/internal__document-editor": "^1.0.3",
     "@types/react": "^16.8.0"
   },
   "devDependencies": {

@@ -1024,6 +1024,17 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       date: '2020-09-22',
       fixed: ['You no longer need to polyfill `regenerator-runtime` yourself.'],
     },
+    {
+      tagName: 'v1.0.3',
+      name: '1.0.3',
+      date: '2020-10-13',
+      fixed: [
+        [
+          'plugin-input-exercise',
+          'Ignore unary positive when comparing numbers and terms.',
+        ],
+      ],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

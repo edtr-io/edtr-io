@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3](https://github.com/edtr-io/edtr-io/compare/v1.0.2..v1.0.3) - October 13, 2020
+
+### Fixed
+
+- **plugin-input-exercise**. Ignore unary positive when comparing numbers and terms.
+
 ## [1.0.2](https://github.com/edtr-io/edtr-io/compare/v1.0.1..v1.0.2) - September 22, 2020
 
 ### Fixed
