@@ -323,6 +323,8 @@ function createOnKeyDown(
       (key === 'Backspace' && isSelectionAtStart(editor)) ||
       (key === 'Delete' && isSelectionAtEnd(editor))
     ) {
+      // prevent accidentally leaving page with backspace
+      e.preventDefault()
       if (!slateClosure.current) return
       const previous = key === 'Backspace'
 
