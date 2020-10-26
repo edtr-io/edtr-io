@@ -36,21 +36,26 @@ const InlineOverlayContentWrapper = styled.div({
   },
 })
 
-export type HoverPosition = 'above' | 'below'
-
-export function HoveringOverlay(props: {
+/** @public */
+export interface HoverOverlayProps {
   children: React.ReactNode
-  position: HoverPosition
+  position: 'above' | 'below'
   anchor?: React.RefObject<HTMLElement>
   allowSelectionOverflow?: boolean
-}) {
+}
+
+/**
+ * @param props - The {@link @edtr-io/editor-ui#HoverOverlayProps | hover overlay props}
+ * @public
+ */
+export function HoverOverlay(props: HoverOverlayProps) {
   const overlay = React.createRef<HTMLDivElement>()
   const triangle = React.createRef<HTMLDivElement>()
   const [positionAbove, setPositionAbove] = React.useState(
     props.position === 'above'
   )
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (!overlay.current || !triangle.current) return
     const menu = overlay.current
     let rect = undefined

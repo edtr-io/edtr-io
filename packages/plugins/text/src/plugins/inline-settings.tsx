@@ -1,7 +1,6 @@
+import { HoverOverlay, HoverOverlayProps } from '@edtr-io/editor-ui'
 import { faTrashAlt, Icon, styled } from '@edtr-io/ui'
 import * as React from 'react'
-
-import { HoveringOverlay, HoverPosition } from './hovering-overlay'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',
@@ -23,15 +22,15 @@ export function InlineSettings({
 }: {
   children: React.ReactNode
   onDelete: React.MouseEventHandler
-  position: HoverPosition
+  position: HoverOverlayProps['position']
   anchor?: React.RefObject<HTMLElement>
 }) {
   return (
-    <HoveringOverlay position={position} anchor={props.anchor}>
+    <HoverOverlay position={position} anchor={props.anchor}>
       <InlinePreview>{props.children}</InlinePreview>
       <ChangeButton onClick={props.onDelete}>
         <Icon icon={faTrashAlt} />
       </ChangeButton>
-    </HoveringOverlay>
+    </HoverOverlay>
   )
 }

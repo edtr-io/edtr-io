@@ -57,7 +57,6 @@ export type NodeRendererProps = BlockRendererProps | InlineRendererProps
 /** @public */
 export type TextPlugin = Plugin &
   Rule & {
-    // FIXME: This type should exist in slate somewhere...
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }

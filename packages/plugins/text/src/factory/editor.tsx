@@ -210,6 +210,7 @@ function createOnPaste(
 
     if (files && files.length > 0) {
       for (const key in plugins) {
+        if (!Object.prototype.hasOwnProperty.call(plugins, key)) continue
         // eslint-disable-next-line @typescript-eslint/unbound-method
         const { onFiles } = plugins[key]
         if (typeof onFiles === 'function') {
@@ -224,6 +225,7 @@ function createOnPaste(
 
     if (text) {
       for (const key in plugins) {
+        if (!Object.prototype.hasOwnProperty.call(plugins, key)) continue
         // eslint-disable-next-line @typescript-eslint/unbound-method
         const { onText } = plugins[key]
         if (typeof onText === 'function') {

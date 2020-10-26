@@ -1,10 +1,10 @@
 {
-  "name": "@edtr-io/plugin-text",
+  "name": "@edtr-io/math",
   "version": "1.0.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/plugin-text.esm.js",
+  "module": "dist/ui.esm.js",
   "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
@@ -12,22 +12,18 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@convertkit/slate-lists": "^0.2.5",
-    "@edtr-io/editor-ui": "^1.0.3",
-    "@edtr-io/math": "^1.0.3",
-    "@edtr-io/plugin": "^1.0.3",
-    "@edtr-io/store": "^1.0.3",
-    "@edtr-io/ui": "^1.0.3",
-    "@types/is-hotkey": "^0.1.0",
-    "@types/ramda": "^0.27.0",
+    "@types/exenv": "^1.0.0",
+    "@types/katex": "^0.11.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
+    "@types/react-modal": "^3.0.0",
     "@types/styled-components": "^5.0.0",
-    "is-hotkey": "^0.1.0",
-    "ramda": "^0.27.0",
-    "slate": "^0.47.0",
-    "slate-html-serializer": "^0.8.0",
-    "slate-react": "^0.22.0"
+    "@edtr-io/editor-ui": "^1.0.3",
+    "@edtr-io/ui": "^1.0.3",
+    "exenv": "^1.0.0",
+    "katex": "^0.12.0",
+    "react-mathquill": "^1.0.0",
+    "react-modal": "^3.0.0"
   },
   "devDependencies": {
     "@edtr-io/core": "^1.0.3",
