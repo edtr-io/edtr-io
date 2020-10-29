@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0](https://github.com/edtr-io/edtr-io/compare/v1.0.3..v1.1.0)
+
+### Added
+
+- **editor-ui**. Expose `HoverOverlay` component that shows an overlay above or below the given ref. This component was part of `@edtr-io/plugin-text` before.
+- **math**. The new package `@edtr-io/math` exposes our `MathEditor` and `MathRenderer` that were part of `@edtr-io/plugin-text` before.
+
+### Fixed
+
+- **plugin-text**. Deleting an empty text node should no longer trigger browser hotkeys ([#304](https://github.com/edtr-io/edtr-io/issues/304)).
+
 ## [1.0.3](https://github.com/edtr-io/edtr-io/compare/v1.0.2..v1.0.3) - October 13, 2020
 
 ### Fixed

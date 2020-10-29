@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/math",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,14 +12,14 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
+    "@edtr-io/editor-ui": "^1.1.0",
+    "@edtr-io/ui": "^1.0.3",
     "@types/exenv": "^1.0.0",
     "@types/katex": "^0.11.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/react-modal": "^3.0.0",
     "@types/styled-components": "^5.0.0",
-    "@edtr-io/editor-ui": "^1.0.3",
-    "@edtr-io/ui": "^1.0.3",
     "exenv": "^1.0.0",
     "katex": "^0.12.0",
     "react-mathquill": "^1.0.0",

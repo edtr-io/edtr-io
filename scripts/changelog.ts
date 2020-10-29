@@ -1035,6 +1035,26 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         ],
       ],
     },
+    {
+      tagName: 'v1.1.0',
+      name: '1.1.0',
+      added: [
+        [
+          'editor-ui',
+          'Expose `HoverOverlay` component that shows an overlay above or below the given ref. This component was part of `@edtr-io/plugin-text` before.',
+        ],
+        [
+          'math',
+          'The new package `@edtr-io/math` exposes our `MathEditor` and `MathRenderer` that were part of `@edtr-io/plugin-text` before.',
+        ],
+      ],
+      fixed: [
+        [
+          'plugin-text',
+          'Deleting an empty text node should no longer trigger browser hotkeys ([#304](https://github.com/edtr-io/edtr-io/issues/304)).',
+        ],
+      ],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)
