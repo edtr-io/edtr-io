@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0](https://github.com/edtr-io/edtr-io/compare/v1.0.3..v1.1.0)
+## [1.1.0](https://github.com/edtr-io/edtr-io/compare/v1.0.3..v1.1.0) - October 29, 2020
 
 ### Added
 

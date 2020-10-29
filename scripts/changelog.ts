@@ -1038,6 +1038,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
     {
       tagName: 'v1.1.0',
       name: '1.1.0',
+      date: '2020-10-29',
       added: [
         [
           'editor-ui',
