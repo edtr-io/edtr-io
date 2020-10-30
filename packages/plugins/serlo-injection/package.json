@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-serlo-injection",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^1.1.0",
+    "@edtr-io/editor-ui": "^1.2.0",
     "@edtr-io/plugin": "^1.0.3",
     "@edtr-io/ui": "^1.0.3",
     "@types/react": "^16.8.0",

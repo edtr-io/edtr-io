@@ -45,6 +45,8 @@ export interface MathEditorProps {
     // (undocumented)
     additionalContainerProps?: Record<string, unknown>;
     // (undocumented)
+    autofocus?: boolean;
+    // (undocumented)
     config: DeepPartial<MathEditorConfig>;
     // (undocumented)
     disableBlock?: boolean;
@@ -61,7 +63,7 @@ export interface MathEditorProps {
     // (undocumented)
     onEditorChange(visual: boolean): void;
     // (undocumented)
-    onInlineChange(inline: boolean): void;
+    onInlineChange?(inline: boolean): void;
     // (undocumented)
     onMoveOutLeft?(): void;
     // (undocumented)

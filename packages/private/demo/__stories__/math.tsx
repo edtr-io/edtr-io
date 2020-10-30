@@ -65,3 +65,32 @@ storiesOf('Math', module)
   .add('MathRenderer (inline)', () => {
     return <MathRenderer state="\sqrt{2}" inline />
   })
+  .add('MathEditor (block, focus on click)', () => {
+    const [focused, setFocused] = React.useState(false)
+    return (
+      <div
+        onClick={() => {
+          setFocused(true)
+        }}
+      >
+        <MathEditorStory autofocus state="\sqrt{2}" readOnly={!focused} />
+      </div>
+    )
+  })
+  .add('MathEditor (block, visual, focus on click)', () => {
+    const [focused, setFocused] = React.useState(false)
+    return (
+      <div
+        onClick={() => {
+          setFocused(true)
+        }}
+      >
+        <MathEditorStory
+          autofocus
+          state="\sqrt{2}"
+          readOnly={!focused}
+          visual
+        />
+      </div>
+    )
+  })

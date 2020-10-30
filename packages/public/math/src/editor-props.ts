@@ -4,6 +4,7 @@ import { MathEditorConfig } from './editor-config'
 
 /** @public */
 export interface MathEditorProps {
+  autofocus?: boolean
   state: string
   inline?: boolean
   readOnly?: boolean
@@ -13,7 +14,7 @@ export interface MathEditorProps {
   additionalContainerProps?: Record<string, unknown>
   onBlur?(): void
   onEditorChange(visual: boolean): void
-  onInlineChange(inline: boolean): void
+  onInlineChange?(inline: boolean): void
   onChange(state: string): void
   onMoveOutRight?(): void
   onMoveOutLeft?(): void
