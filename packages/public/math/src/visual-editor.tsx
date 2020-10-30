@@ -122,10 +122,8 @@ export function VisualEditor(props: VisualEditorProps) {
     setTimeout(() => {
       if (typeof props.onBlur === 'function') {
         props.onBlur()
-        setTimeout(() => {
-          ref.focus()
-        })
       }
+      ref.focus()
     })
   }
 }

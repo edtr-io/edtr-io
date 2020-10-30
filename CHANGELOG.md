@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/edtr-io/edtr-io/compare/v1.1.0..v1.2.0) - October 30, 2020
+
+### Added
+
+- **editor-ui**. `EditorTextarea` now accepts optional props `onMoveOutLeft` and `onMoveOutRight` that allow to attach custom behavior when navigating with arrow keys at the end resp. beginning of the textarea.
+
+### Changed
+
+- **plugin-text**. The text plugin utilizes the improved `MathEditor` which makes navigation with the keyboard easier when math formulas are involved.
+
+### Fixed
+
+- **math**. `MathEditor` focuses automatically again.
+- **math**. `onInlineChange` is no longer a required prop for `MathEditor`
+
 ## [1.1.0](https://github.com/edtr-io/edtr-io/compare/v1.0.3..v1.1.0) - October 29, 2020
 
 ### Added

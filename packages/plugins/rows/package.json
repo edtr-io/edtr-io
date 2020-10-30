@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^1.1.0",
+    "@edtr-io/editor-ui": "^1.2.0",
     "@edtr-io/plugin": "^1.0.3",
     "@edtr-io/store": "^1.0.3",
     "@edtr-io/ui": "^1.0.3",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^1.0.3",
-    "@edtr-io/plugin-text": "^1.1.0",
+    "@edtr-io/plugin-text": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": ">= 1",
     "@fortawesome/free-solid-svg-icons": ">= 5",
     "@fortawesome/react-fontawesome": ">= 0.1.0",

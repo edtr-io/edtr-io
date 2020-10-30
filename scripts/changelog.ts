@@ -1056,6 +1056,30 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         ],
       ],
     },
+    {
+      tagName: 'v1.2.0',
+      name: '1.2.0',
+      date: '2020-10-30',
+      added: [
+        [
+          'editor-ui',
+          '`EditorTextarea` now accepts optional props `onMoveOutLeft` and `onMoveOutRight` that allow to attach custom behavior when navigating with arrow keys at the end resp. beginning of the textarea.',
+        ],
+      ],
+      changed: [
+        [
+          'plugin-text',
+          'The text plugin utilizes the improved `MathEditor` which makes navigation with the keyboard easier when math formulas are involved.',
+        ],
+      ],
+      fixed: [
+        ['math', '`MathEditor` focuses automatically again.'],
+        [
+          'math',
+          '`onInlineChange` is no longer a required prop for `MathEditor`',
+        ],
+      ],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

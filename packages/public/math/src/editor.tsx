@@ -29,7 +29,11 @@ const EditorWrapper = styled.div<{ inline?: boolean }>((props) => {
   }
 })
 
-interface MathEditorTextAreaProps {
+interface MathEditorTextAreaProps
+  extends Pick<
+    MathEditorProps,
+    'onChange' | 'onMoveOutLeft' | 'onMoveOutRight'
+  > {
   defaultValue: string
   onChange: (value: string) => void
 }
@@ -53,16 +57,15 @@ const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
     [onChange]
   )
 
-  // Focus textarea when LaTeX is empty
+  // Autofocus textarea
   const textareaRef = React.createRef<HTMLTextAreaElement>()
   React.useEffect(() => {
     const textarea = textareaRef.current
-    if (textarea && !latex) {
+    if (textarea)
       // Timeout is needed because hovering overlay is positioned only after render of this
       setTimeout(() => {
         textarea.focus()
       })
-    }
     // componentDidMount behaviour
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -71,6 +74,8 @@ const MathEditorTextArea = (props: MathEditorTextAreaProps) => {
     <EditorTextarea
       style={mathEditorTextareaStyle}
       onChange={parentOnChange}
+      onMoveOutRight={props.onMoveOutRight}
+      onMoveOutLeft={props.onMoveOutLeft}
       value={latex}
       ref={textareaRef}
     />
@@ -259,7 +264,9 @@ export function MathEditor(props: MathEditorProps) {
                   label={config.i18n.displayBlockLabel}
                   checked={!props.inline}
                   onChange={(checked) => {
-                    props.onInlineChange(!checked)
+                    if (typeof props.onInlineChange === 'function') {
+                      props.onInlineChange(!checked)
+                    }
                   }}
                 />
               )}

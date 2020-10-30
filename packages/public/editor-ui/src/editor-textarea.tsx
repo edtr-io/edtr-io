@@ -25,32 +25,57 @@ const StyledIgnoreKeys = styled(IgnoreKeys)({
 })
 
 /** @public */
+export interface EditorTextareaProps
+  extends Omit<TextareaAutosizeProps, 'as' | 'ref'> {
+  onMoveOutRight?(): void
+  onMoveOutLeft?(): void
+}
+
+/** @public */
 export const EditorTextarea = React.forwardRef<
   HTMLTextAreaElement,
-  Omit<TextareaAutosizeProps, 'as' | 'ref'>
->(function EditorTextarea(props, ref) {
+  EditorTextareaProps
+>(function EditorTextarea({ onMoveOutLeft, onMoveOutRight, ...props }, ref) {
   return (
     <StyledIgnoreKeys except={['up', 'down']}>
       <Textarea
         {...props}
         ref={ref}
         onKeyDown={(e) => {
-          if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
-            return
+          if (!ref || typeof ref === 'function' || !ref.current) return
+
+          const { selectionStart, selectionEnd, value } = ref.current
+
+          const selectionCollapsed = selectionStart === selectionEnd
+          const caretAtRightEnd = selectionEnd === value.length
+          const caretAtLeftEnd = selectionStart === 0
+
+          if (
+            e.key === 'ArrowRight' &&
+            !e.shiftKey &&
+            selectionCollapsed &&
+            caretAtRightEnd &&
+            typeof onMoveOutRight === 'function'
+          ) {
+            onMoveOutRight()
           }
-          if (ref && typeof ref !== 'function' && ref.current) {
-            const { selectionStart, selectionEnd, value } = ref.current
 
-            if (selectionStart !== selectionEnd) {
-              return
-            }
+          if (
+            e.key === 'ArrowLeft' &&
+            !e.shiftKey &&
+            selectionCollapsed &&
+            caretAtLeftEnd &&
+            typeof onMoveOutLeft === 'function'
+          ) {
+            onMoveOutLeft()
+          }
 
-            if (e.key === 'ArrowUp' && selectionStart !== 0) {
-              e.stopPropagation()
-            }
-            if (e.key === 'ArrowDown' && selectionStart !== value.length) {
-              e.stopPropagation()
-            }
+          if (e.key === 'ArrowUp' && selectionCollapsed && !caretAtLeftEnd) {
+            e.stopPropagation()
+          }
+
+          if (e.key === 'ArrowDown' && selectionCollapsed && !caretAtRightEnd) {
+            e.stopPropagation()
           }
         }}
       />
