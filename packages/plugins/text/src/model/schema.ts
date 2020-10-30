@@ -12,6 +12,7 @@ export const colorMark = '@splish-me/color'
 export const strongMark = '@splish-me/strong'
 export const emphasizeMark = '@splish-me/em'
 export const katexInlineNode = '@splish-me/katex-inline'
+export const codeMark = 'code'
 
 export const katexBlockNode = '@splish-me/katex-block'
 

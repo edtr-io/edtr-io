@@ -117,6 +117,9 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
         if (text.strong) {
           marks.push({ object: 'mark', type: '@splish-me/strong' })
         }
+        if (text.code) {
+          marks.push({ object: 'mark', type: 'code' })
+        }
         if (text.color !== undefined) {
           marks.push({
             object: 'mark',
@@ -278,6 +281,10 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
               return
             case '@splish-me/color':
               newText.color = mark.data.colorIndex
+              return
+            case 'code':
+              newText.code = true
+              return
           }
         })
 
@@ -290,6 +297,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
 /** @public */
 export interface NewText {
   text: string
+  code?: boolean
   color?: number
   em?: boolean
   strong?: boolean
@@ -382,9 +390,18 @@ export interface OldColorMark {
   type: '@splish-me/color'
   data: { colorIndex: number }
 }
+/** @public */
+export interface OldCodeMark {
+  object: 'mark'
+  type: 'code'
+}
 
 /** @public */
-export type OldMark = OldStrongMark | OldEmphasizeMark | OldColorMark
+export type OldMark =
+  | OldStrongMark
+  | OldEmphasizeMark
+  | OldColorMark
+  | OldCodeMark
 
 /** @public */
 export interface OldText {

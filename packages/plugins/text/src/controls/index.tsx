@@ -26,6 +26,7 @@ export interface ControlProps {
     headings?: boolean
     lists?: boolean
     colors?: boolean
+    code?: boolean
   }
   readOnly?: boolean
 }
@@ -202,6 +203,7 @@ export const createUiPlugin = (options: UiPluginOptions) => (
       headings: true,
       lists: true,
       colors: true,
+      code: true,
     },
   } = options
 
