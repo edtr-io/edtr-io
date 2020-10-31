@@ -133,6 +133,8 @@ export interface NewParagraphElement {
 // @public (undocumented)
 export interface NewText {
     // (undocumented)
+    code?: boolean;
+    // (undocumented)
     color?: number;
     // (undocumented)
     em?: boolean;
@@ -160,6 +162,14 @@ export type NodeEditorProps = BlockEditorProps | InlineEditorProps;
 
 // @public (undocumented)
 export type NodeRendererProps = BlockRendererProps | InlineRendererProps;
+
+// @public (undocumented)
+export interface OldCodeMark {
+    // (undocumented)
+    object: 'mark';
+    // (undocumented)
+    type: 'code';
+}
 
 // @public (undocumented)
 export interface OldColorMark {
@@ -263,7 +273,7 @@ export interface OldListItemElement {
 }
 
 // @public (undocumented)
-export type OldMark = OldStrongMark | OldEmphasizeMark | OldColorMark;
+export type OldMark = OldStrongMark | OldEmphasizeMark | OldColorMark | OldCodeMark;
 
 // @public (undocumented)
 export type OldNode = OldText | OldElement;
@@ -347,6 +357,7 @@ export interface TextConfig {
     plugins?: {
         suggestions?: boolean;
         math?: boolean;
+        code?: boolean;
         headings?: boolean;
         lists?: boolean;
         colors?: boolean;
@@ -371,6 +382,9 @@ export interface TextPluginConfig {
     // (undocumented)
     i18n: {
         blockquote: {
+            toggleTitle: string;
+        };
+        code: {
             toggleTitle: string;
         };
         colors: {
