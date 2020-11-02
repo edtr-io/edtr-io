@@ -5,6 +5,7 @@ import rimraf from 'rimraf'
 import * as util from 'util'
 
 import { invoke } from './api-extractor'
+import { yarn } from './yarn'
 
 exec()
   .then(() => {
@@ -38,7 +39,7 @@ async function exec() {
 
   function bundle() {
     const { status, error } = spawnSync(
-      'yarn',
+      yarn,
       ['tsdx', 'build', '--tsconfig', 'tsconfig.prod.json'],
       {
         stdio: 'inherit',
