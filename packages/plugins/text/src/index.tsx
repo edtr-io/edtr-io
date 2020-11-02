@@ -95,6 +95,9 @@ export function createTextPlugin(
             blockquote: {
               toggleTitle: 'Quote',
             },
+            code: {
+              toggleTitle: 'Code',
+            },
             colors: {
               setColorTitle: 'Set color',
               resetColorTitle: 'Reset color',
@@ -230,6 +233,7 @@ export interface TextConfig {
   plugins?: {
     suggestions?: boolean
     math?: boolean
+    code?: boolean
     headings?: boolean
     lists?: boolean
     colors?: boolean
@@ -254,6 +258,9 @@ export interface TextPluginConfig {
   }[]
   i18n: {
     blockquote: {
+      toggleTitle: string
+    }
+    code: {
       toggleTitle: string
     }
     colors: {

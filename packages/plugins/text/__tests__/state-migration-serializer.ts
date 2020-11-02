@@ -127,6 +127,35 @@ describe('deserialize', () => {
     })
   })
 
+  test('code mark', () => {
+    expect(
+      serializer.deserialize([
+        {
+          type: 'p',
+          children: [{ text: 'Hello world', code: true }],
+        },
+      ])
+    ).toEqual({
+      object: 'value',
+      document: {
+        object: 'document',
+        nodes: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            nodes: [
+              {
+                object: 'text',
+                text: 'Hello world',
+                marks: [{ object: 'mark', type: 'code' }],
+              },
+            ],
+          },
+        ],
+      },
+    })
+  })
+
   test('heading', () => {
     expect(
       serializer.deserialize([

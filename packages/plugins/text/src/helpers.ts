@@ -1,6 +1,12 @@
 import { Range as CoreRange } from 'slate'
 import { Editor } from 'slate-react'
 
+export function getActiveMarks(editor: Editor) {
+  return editor.value.document.getActiveMarksAtRange(
+    getTrimmedSelectionRange(editor)
+  )
+}
+
 export function trimSelection(editor: Editor) {
   // Trim selection before applying transformation
   const selection = document.getSelection()

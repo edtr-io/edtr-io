@@ -1080,6 +1080,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         ],
       ],
     },
+    {
+      tagName: 'v1.3.0',
+      name: '1.3.0',
+      date: '2020-11-02',
+      added: [['plugin-text', 'Add inline code.']],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

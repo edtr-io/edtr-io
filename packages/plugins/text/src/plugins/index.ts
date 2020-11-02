@@ -1,5 +1,6 @@
 import { TextConfig, TextPluginConfig } from '..'
 import { autoLink } from './auto-link'
+import { createCodePlugin } from './code'
 import { createColorPlugin } from './colors'
 import { createHeadingsPlugin } from './headings'
 import { createKatexPlugin } from './katex'
@@ -13,6 +14,7 @@ import { createRichTextPlugin } from './rich-text'
 export function createPlugins(
   plugins: TextConfig['plugins'] = {
     suggestions: true,
+    code: true,
     math: true,
     headings: true,
     lists: true,
@@ -28,6 +30,7 @@ export function createPlugins(
     ...(plugins.headings ? [createHeadingsPlugin()] : []),
     ...(plugins.lists ? [createListPlugin()] : []),
     ...(plugins.colors ? [createColorPlugin()] : []),
+    ...(plugins.code ? [createCodePlugin()] : []),
     markdownShortcuts,
     autoLink,
   ]

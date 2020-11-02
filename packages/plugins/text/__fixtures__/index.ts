@@ -70,4 +70,10 @@ export const states: Record<
       children: [{ color: 0, text: 'color' }],
     },
   ],
+  code: [
+    {
+      type: 'p',
+      children: [{ code: true, text: 'inline code' }],
+    },
+  ],
 }

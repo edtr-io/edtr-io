@@ -8,6 +8,8 @@ import {
   edtrListNumbered,
   edtrQuote,
   edtrText,
+  faCode,
+  Icon,
 } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -18,6 +20,7 @@ import {
   isBlockquote,
   removeBlockquote,
 } from '../plugins/blockquote'
+import { isCode, toggleCode } from '../plugins/code'
 import { getColorIndex } from '../plugins/colors'
 import { getHeadingLevel } from '../plugins/headings'
 import { insertKatex, isKatex, removeKatex } from '../plugins/katex'
@@ -146,6 +149,19 @@ export function DefaultControls(props: SubControlProps) {
           title={config.i18n.math.toggleTitle}
         >
           <EdtrIcon icon={edtrFormula} />
+        </Button>
+      ) : null}
+      {plugins.code ? (
+        <Button
+          config={config}
+          active={isCode(editor)}
+          onClick={() => {
+            toggleCode(editor).focus()
+            props.onChange(editor)
+          }}
+          title={config.i18n.code.toggleTitle}
+        >
+          <Icon icon={faCode} />
         </Button>
       ) : null}
     </React.Fragment>
