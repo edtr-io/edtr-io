@@ -1076,7 +1076,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         ['math', '`MathEditor` focuses automatically again.'],
         [
           'math',
-          '`onInlineChange` is no longer a required prop for `MathEditor`',
+          '`onInlineChange` is no longer a required prop for `MathEditor`.',
         ],
       ],
     },
@@ -1085,6 +1085,15 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       name: '1.3.0',
       date: '2020-11-02',
       added: [['plugin-text', 'Add inline code.']],
+    },
+    {
+      tagName: 'v1.3.1',
+      name: '1.3.1',
+      date: '2020-11-04',
+      fixed: [
+        'Fix styling of overlays.',
+        ['plugin-rows', 'Fix duplicate functionality.'],
+      ],
     },
   ])
 

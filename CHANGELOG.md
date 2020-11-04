@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1](https://github.com/edtr-io/edtr-io/compare/v1.3.0..v1.3.1) - November 4, 2020
+
+### Fixed
+
+- Fix styling of overlays.
+- **plugin-rows**. Fix duplicate functionality.
+
 ## [1.3.0](https://github.com/edtr-io/edtr-io/compare/v1.2.0..v1.3.0) - November 2, 2020
 
 ### Added
@@ -21,7 +28,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - **math**. `MathEditor` focuses automatically again.
-- **math**. `onInlineChange` is no longer a required prop for `MathEditor`
+- **math**. `onInlineChange` is no longer a required prop for `MathEditor`.
 
 ## [1.1.0](https://github.com/edtr-io/edtr-io/compare/v1.0.3..v1.1.0) - October 29, 2020
 

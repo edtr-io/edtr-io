@@ -187,7 +187,11 @@ export function MathEditor(props: MathEditorProps) {
             backgroundColor: '#ffffff',
             width: '90%',
             maxWidth: '600px',
-            inset: 'auto',
+            maxHeight: 'calc(100vh - 80px)',
+            top: 'auto',
+            left: 'auto',
+            right: 'auto',
+            bottom: 'auto',
             margin: '0 auto',
           },
         }}

@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/core",
-  "version": "1.0.3",
+  "version": "1.3.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@edtr-io/default-document-editor": "^1.0.3",
-    "@edtr-io/default-plugin-toolbar": "^1.0.3",
+    "@edtr-io/default-plugin-toolbar": "^1.3.1",
     "@edtr-io/internal__document-editor": "^1.0.3",
     "@edtr-io/internal__plugin": "^1.0.3",
     "@edtr-io/internal__plugin-state": "^1.0.3",

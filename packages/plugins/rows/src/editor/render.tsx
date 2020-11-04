@@ -6,7 +6,6 @@ import {
 import { StateTypeReturnType } from '@edtr-io/plugin'
 import {
   DocumentState,
-  getDocument,
   getPlugins,
   SelectorReturnType,
   serializeDocument,
@@ -14,10 +13,10 @@ import {
 import {
   edtrDragHandle,
   EdtrIcon,
-  styled,
-  Icon,
   faCopy,
   faTrashAlt,
+  Icon,
+  styled,
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -240,7 +239,7 @@ export function RowRenderer({
               <Left>
                 <BorderlessOverlayButton
                   onClick={() => {
-                    const document = getDocument(row.id)(store.getState())
+                    const document = serializeDocument(row.id)(store.getState())
                     if (!document) return
                     rows.insert(index, document)
                     close()
