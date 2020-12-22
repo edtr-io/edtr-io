@@ -26,10 +26,9 @@ import {
 } from './actions'
 
 /** @internal */
-export const documentsReducer: SubReducer<Record<
-  string,
-  DocumentState
->> = createSubReducer(
+export const documentsReducer: SubReducer<
+  Record<string, DocumentState>
+> = createSubReducer(
   'documents',
   {},
   {
@@ -99,10 +98,9 @@ export const documentsReducer: SubReducer<Record<
 )
 
 /** @public */
-export const getDocuments: Selector<Record<
-  string,
-  DocumentState
->> = createSelector((state) => state.documents)
+export const getDocuments: Selector<
+  Record<string, DocumentState>
+> = createSelector((state) => state.documents)
 
 /** @public */
 export const getDocument: Selector<

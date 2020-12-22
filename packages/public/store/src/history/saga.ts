@@ -168,9 +168,9 @@ function* executeCommit(
 
 function* undoSaga(action: UndoAction) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const undoStack: InternalSelectorReturnType<typeof getUndoStack> = yield select(
-    scopeSelector(getUndoStack, action.scope)
-  )
+  const undoStack: InternalSelectorReturnType<
+    typeof getUndoStack
+  > = yield select(scopeSelector(getUndoStack, action.scope))
   const toUndo = R.head(undoStack)
   if (!toUndo) return
 
@@ -183,9 +183,9 @@ function* undoSaga(action: UndoAction) {
 
 function* redoSaga(action: RedoAction) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const redoStack: InternalSelectorReturnType<typeof getRedoStack> = yield select(
-    scopeSelector(getRedoStack, action.scope)
-  )
+  const redoStack: InternalSelectorReturnType<
+    typeof getRedoStack
+  > = yield select(scopeSelector(getRedoStack, action.scope))
   const replay = R.head(redoStack)
   if (!replay) return
   const actions = replay.map((reversibleAction) => reversibleAction.action)
@@ -196,9 +196,9 @@ function* redoSaga(action: RedoAction) {
 function* resetSaga(action: ResetAction) {
   while (true) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const pendingChanges: SelectorReturnType<typeof getPendingChanges> = yield select(
-      scopeSelector(getPendingChanges, action.scope)
-    )
+    const pendingChanges: SelectorReturnType<
+      typeof getPendingChanges
+    > = yield select(scopeSelector(getPendingChanges, action.scope))
     if (pendingChanges === 0) break
     else if (pendingChanges < 0) {
       yield call(redoSaga, redo()(action.scope))

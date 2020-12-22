@@ -114,7 +114,5 @@ export interface PluginToolbar {
   OverlaySelect: React.ComponentType<OverlaySelectProps>
   OverlayTextarea: React.ComponentType<OverlayTextareaProps>
   PluginToolbarButton: React.ComponentType<PluginToolbarButtonProps>
-  PluginToolbarOverlayButton: React.ComponentType<
-    PluginToolbarOverlayButtonProps
-  >
+  PluginToolbarOverlayButton: React.ComponentType<PluginToolbarOverlayButtonProps>
 }

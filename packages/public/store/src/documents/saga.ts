@@ -175,10 +175,9 @@ function* changeSaga(action: ChangeAction) {
       const payload: ChannelAction = yield take(chan)
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
-        scopeSelector(getDocument, action.scope),
-        id
-      )
+      const currentDocument: SelectorReturnType<
+        typeof getDocument
+      > = yield select(scopeSelector(getDocument, action.scope), id)
       if (!currentDocument) continue
 
       const updater =
