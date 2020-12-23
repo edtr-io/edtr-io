@@ -1,4 +1,4 @@
-import { generateChangelog } from '@splish-me/changelog'
+import { generateChangelog } from '@inyono/changelog'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
