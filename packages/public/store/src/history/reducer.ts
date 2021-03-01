@@ -104,6 +104,16 @@ export const hasPendingChanges: Selector<boolean> = createSelector(
   (state) => getPendingChanges()(state) !== 0
 )
 
+/** @public */
+export const hasUndoActions: Selector<boolean> = createSelector(
+  (state) => getHistory()(state as InternalScopedState).undoStack.length > 0
+)
+
+/** @public */
+export const hasRedoActions: Selector<boolean> = createSelector(
+  (state) => getHistory()(state as InternalScopedState).redoStack.length > 0
+)
+
 /** @internal */
 export const getUndoStack: InternalSelector<
   ReversibleAction[][]
