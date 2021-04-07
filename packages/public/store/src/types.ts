@@ -22,7 +22,11 @@ export interface ScopedState {
   focus: string | null
   root: string | null
   clipboard: DocumentState[]
-  history: unknown
+  history: {
+    undoStack: unknown[]
+    redoStack: unknown[]
+    pendingChanges: number
+  }
 }
 
 /** @internal */

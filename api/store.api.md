@@ -527,7 +527,11 @@ export interface ScopedState {
     // (undocumented)
     focus: string | null;
     // (undocumented)
-    history: unknown;
+    history: {
+        undoStack: unknown[];
+        redoStack: unknown[];
+        pendingChanges: number;
+    };
     // (undocumented)
     plugins: Record<string, EditorPlugin>;
     // (undocumented)

@@ -8,12 +8,7 @@ import {
   createSubReducer,
   SubReducer,
 } from '../helpers'
-import {
-  HistoryState,
-  InternalScopedState,
-  InternalSelector,
-  Selector,
-} from '../types'
+import { HistoryState, InternalSelector, Selector } from '../types'
 import {
   persist,
   PersistAction,
@@ -96,7 +91,7 @@ export const getHistory: InternalSelector<HistoryState> = createInternalSelector
 
 /** @public */
 export const getPendingChanges: Selector<number> = createSelector(
-  (state) => getHistory()(state as InternalScopedState).pendingChanges
+  (state) => state.history.pendingChanges
 )
 
 /** @public */
@@ -106,12 +101,12 @@ export const hasPendingChanges: Selector<boolean> = createSelector(
 
 /** @public */
 export const hasUndoActions: Selector<boolean> = createSelector(
-  (state) => getHistory()(state as InternalScopedState).undoStack.length > 0
+  (state) => state.history.undoStack.length > 0
 )
 
 /** @public */
 export const hasRedoActions: Selector<boolean> = createSelector(
-  (state) => getHistory()(state as InternalScopedState).redoStack.length > 0
+  (state) => state.history.redoStack.length > 0
 )
 
 /** @internal */
