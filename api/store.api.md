@@ -223,6 +223,12 @@ export const hasFocusedDescendant: Selector<boolean, [string]>;
 export const hasPendingChanges: Selector<boolean>;
 
 // @public (undocumented)
+export const hasRedoActions: Selector<boolean>;
+
+// @public (undocumented)
+export const hasUndoActions: Selector<boolean>;
+
+// @public (undocumented)
 export type HistoryAction = PersistAction | ResetAction | UndoAction | RedoAction;
 
 // @internal (undocumented)
