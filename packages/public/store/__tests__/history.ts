@@ -12,7 +12,13 @@ import {
   pureUndo,
   temporaryCommit,
 } from '../src/history/actions'
-import { getHistory, getRedoStack, getUndoStack } from '../src/history/reducer'
+import {
+  getHistory,
+  getRedoStack,
+  getUndoStack,
+  hasUndoActions,
+  hasRedoActions,
+} from '../src/history/reducer'
 
 let store: ReturnType<typeof setupStore>
 
@@ -468,6 +474,38 @@ test('Undo replace', async () => {
   expect(S.serializeDocument('1')(store.getState())).toEqual({
     plugin: 'stateful',
     state: 0,
+  })
+})
+
+describe('hasUndoActions()', () => {
+  beforeEach(async () => {
+    await change({ id: 'root', state: { initial: () => 1 } })
+  })
+
+  test('returns true when there are undo actions', () => {
+    expect(hasUndoActions()(store.getState())).toEqual(true)
+  })
+
+  test('returns false when there are undo actions', async () => {
+    await undo()
+
+    expect(hasUndoActions()(store.getState())).toEqual(false)
+  })
+})
+
+describe('hasRedoActions()', () => {
+  beforeEach(async () => {
+    await change({ id: 'root', state: { initial: () => 1 } })
+  })
+
+  test('returns true when there are undo actions', () => {
+    expect(hasRedoActions()(store.getState())).toEqual(false)
+  })
+
+  test('returns false when there are undo actions', async () => {
+    await undo()
+
+    expect(hasRedoActions()(store.getState())).toEqual(true)
   })
 })
 

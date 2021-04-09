@@ -223,6 +223,12 @@ export const hasFocusedDescendant: Selector<boolean, [string]>;
 export const hasPendingChanges: Selector<boolean>;
 
 // @public (undocumented)
+export const hasRedoActions: Selector<boolean>;
+
+// @public (undocumented)
+export const hasUndoActions: Selector<boolean>;
+
+// @public (undocumented)
 export type HistoryAction = PersistAction | ResetAction | UndoAction | RedoAction;
 
 // @internal (undocumented)
@@ -521,7 +527,11 @@ export interface ScopedState {
     // (undocumented)
     focus: string | null;
     // (undocumented)
-    history: unknown;
+    history: {
+        undoStack: unknown[];
+        redoStack: unknown[];
+        pendingChanges: number;
+    };
     // (undocumented)
     plugins: Record<string, EditorPlugin>;
     // (undocumented)
