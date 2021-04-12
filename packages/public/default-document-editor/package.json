@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/default-document-editor",
-  "version": "1.0.3",
+  "version": "2.0.0-beta.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/document-editor": "^1.0.3",
-    "@edtr-io/ui": "^1.0.3",
+    "@edtr-io/document-editor": "^2.0.0-beta.0",
+    "@edtr-io/ui": "^2.0.0-beta.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/styled-components": "^5.0.0"

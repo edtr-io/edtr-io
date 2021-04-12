@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store-devtools",
-  "version": "1.0.3",
+  "version": "2.0.0-beta.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/store": "^1.0.3",
+    "@edtr-io/store": "^2.0.0-beta.0",
     "@types/react": "^16.8.0",
     "@types/react-dom": "^16.8.0",
     "@types/remote-redux-devtools": "^0.5.0",
