@@ -13,9 +13,6 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:jsdoc/recommended',
     'plugin:react/recommended',
-    'plugin:testing-library/react',
-    'plugin:testing-library/recommended',
-    'prettier/@typescript-eslint',
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
@@ -176,6 +173,15 @@ module.exports = {
         '@typescript-eslint/no-unsafe-return': 'off',
         '@typescript-eslint/restrict-template-expressions': 'off',
       },
+    },
+    {
+      files: [
+        '**/__tests__/**/*.js',
+        '**/__tests__/**/*.tsx',
+        '**/__tests-ssr__/**/*.js',
+        '**/__tests-ssr__/**/*.js',
+      ],
+      extends: ['plugin:testing-library/dom', 'plugin:testing-library/react'],
     },
   ],
 }

@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import {
   applyMiddleware,
   createStore as createReduxStore,
+  PreloadedState,
   Store,
   StoreEnhancer,
 } from 'redux'
@@ -49,7 +50,8 @@ export function createStore<K extends string>(
   // eslint-disable-next-line @typescript-eslint/ban-types
   const store = createReduxStore<InternalState, InternalAction, {}, {}>(
     reducer,
-    initialStates,
+    // Redux does something weird with `unknown` values.
+    (initialStates as unknown) as PreloadedState<InternalState>,
     enhancer
   ) as Store<State, Action>
   sagaMiddleware.run(saga)
