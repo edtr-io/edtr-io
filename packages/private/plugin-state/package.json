@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@edtr-io/internal__document-editor": "^2.0.0-beta.1",
-    "@types/react": "^16.8.0"
+    "@types/react": "^17.0.0"
   },
   "devDependencies": {
-    "react": "^16.8.0"
+    "react": "^17.0.0"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0"
+    "react": ">= 17"
   },
   "publishConfig": {
     "access": "public"

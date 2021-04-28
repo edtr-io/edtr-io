@@ -12,13 +12,13 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@types/react": "^16.8.0"
+    "@types/react": "^17.0.0"
   },
   "devDependencies": {
-    "react": "^16.8.0"
+    "react": "^17.0.0"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0"
+    "react": ">= 17"
   },
   "publishConfig": {
     "access": "public"

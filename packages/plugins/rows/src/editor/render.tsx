@@ -20,19 +20,13 @@ import {
 } from '@edtr-io/ui'
 import * as R from 'ramda'
 import * as React from 'react'
-import {
-  DragObjectWithType,
-  DropTargetMonitor,
-  useDrag,
-  useDrop,
-} from 'react-dnd'
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import { RowsPluginConfig, RowsPluginState } from '..'
 import { useCanDrop } from './use-can-drop'
 
-interface RowDragObject extends DragObjectWithType {
-  type: 'row'
+interface RowDragObject {
   id: string
   serialized: DocumentState
   onDrop(): void
@@ -100,17 +94,11 @@ export function RowRenderer({
   const store = useScopedStore()
 
   const [collectedDragProps, drag, dragPreview] = useDrag({
-    item: {
-      id: row.id,
-      type: 'row',
-      serialized: { plugin: '', state: '' },
-      onDrop() {},
-    },
-    begin() {
+    type: 'row',
+    item: () => {
       const serialized = serializeDocument(row.id)(store.getState())
       return {
         id: row.id,
-        type: 'row',
         serialized,
         onDrop() {
           rows.set((list) => {
@@ -141,7 +129,7 @@ export function RowRenderer({
       if (type == 'row') {
         return {
           isDragging,
-          id: monitor.getItem().id as string,
+          id: monitor.getItem<RowDragObject>().id,
         }
       }
 
@@ -149,7 +137,7 @@ export function RowRenderer({
         isDragging: false,
       }
     },
-    hover(item: RowDragObject, monitor) {
+    hover(_item: RowDragObject, monitor) {
       if (
         monitor.getItemType() === 'row' &&
         monitor.canDrop() &&
@@ -183,7 +171,7 @@ export function RowRenderer({
 
       switch (type) {
         case NativeTypes.FILE: {
-          const files: File[] = monitor.getItem().files
+          const files: File[] = monitor.getItem<{ files: File[] }>().files
           for (const key in plugins) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             const { onFiles } = plugins[key]
@@ -198,7 +186,7 @@ export function RowRenderer({
           break
         }
         case NativeTypes.URL: {
-          const urls: string[] = monitor.getItem().urls
+          const urls: string[] = monitor.getItem<{ urls: string[] }>().urls
           const text = urls[0]
           for (const key in plugins) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
