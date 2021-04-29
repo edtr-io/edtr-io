@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-input-exercise",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,12 +12,12 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^2.0.0-beta.1",
-    "@edtr-io/internal__dev-expression": "^2.0.0-beta.1",
-    "@edtr-io/plugin": "^2.0.0-beta.1",
-    "@edtr-io/renderer-ui": "^2.0.0-beta.1",
-    "@edtr-io/store": "^2.0.0-beta.1",
-    "@edtr-io/ui": "^2.0.0-beta.1",
+    "@edtr-io/editor-ui": "^2.0.0-beta.2",
+    "@edtr-io/internal__dev-expression": "^2.0.0-beta.2",
+    "@edtr-io/plugin": "^2.0.0-beta.2",
+    "@edtr-io/renderer-ui": "^2.0.0-beta.2",
+    "@edtr-io/store": "^2.0.0-beta.2",
+    "@edtr-io/ui": "^2.0.0-beta.2",
     "@types/algebra.js": "^0.2.0",
     "@types/ramda": "^0.27.0",
     "@types/react": "^17.0.0",
@@ -27,9 +27,9 @@
     "ramda": "^0.27.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.0.0-beta.1",
-    "@edtr-io/plugin-text": "^2.0.0-beta.1",
-    "@edtr-io/renderer": "^2.0.0-beta.1",
+    "@edtr-io/core": "^2.0.0-beta.2",
+    "@edtr-io/plugin-text": "^2.0.0-beta.2",
+    "@edtr-io/renderer": "^2.0.0-beta.2",
     "@fortawesome/fontawesome-svg-core": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.0.0",
     "@fortawesome/react-fontawesome": "^0.1.0",

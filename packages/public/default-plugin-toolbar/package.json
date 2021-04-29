@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/default-plugin-toolbar",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/plugin-toolbar": "^2.0.0-beta.1",
-    "@edtr-io/ui": "^2.0.0-beta.1",
+    "@edtr-io/plugin-toolbar": "^2.0.0-beta.2",
+    "@edtr-io/ui": "^2.0.0-beta.2",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-modal": "^3.0.0",
