@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.0](https://github.com/edtr-io/edtr-io/compare/v1.3.1..v2.0.0) - April 29, 2021
+
+### Breaking Changes
+
+- Drop Node v10 support.
+
+- Drop React v16 support.
+
+- We now have a peer dependency on `react-dnd@^14.0.0` and `react-dnd-html5-backend@^14.0.0` (both `^11.0.0` previously)
+
+### Added
+
+- **store**. Add `hasUndoActions` and `hasRedoActions`.
+
 ## [1.3.1](https://github.com/edtr-io/edtr-io/compare/v1.3.0..v1.3.1) - November 4, 2020
 
 ### Fixed
