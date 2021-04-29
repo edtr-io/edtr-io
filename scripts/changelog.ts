@@ -780,7 +780,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 `,
         `**plugin-sc-mc-exercise**. Breaking change in serialized state:
 - Rename \`id\` to \`content\`
-- Remove \`hasFeedback\`          
+- Remove \`hasFeedback\`
 `,
         '**plugin-solution**. Remove `@edtr-io/plugin-solution`. Please build your own domain-specific plugins using `ExpandableBox` in `@edtr-io/renderer-ui`.',
         `**plugin-text**. Breaking change in serialized state:
@@ -886,7 +886,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 - **store**. Mark \`getClipboard\` and \`copy\` as beta API
 `,
         `We removed some exports that were only used internally or weren't supposed to be exported:
-- **core**. Remove \`EditorContext\`      
+- **core**. Remove \`EditorContext\`
 - **editor-ui**. Remove \`AddButton\`, \`CheckElement\`, \`CheckElementProps\`, \`InteractiveAnswer\`, \`PreviewOverlay\`, \`PreviewOverlayProps\`. We'll experiment with these components internally and might publish them in some way in the future again
 - **editor-ui**. Remove \`create*Theme\`, \`OnClickOutside\`, \`Resizable\`, \`UploadProgress\`
 - **renderer-ui**. Remove \`create*Theme\`, \`FetchDimensions\`'
@@ -903,7 +903,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
 - **core**. Rename \`DocumentProps\` to \`SubDocumentProps\`
 - **editor-ui**. Rename \`BottomToolbar\` to \`EditorBottomToolbar\`
 - **editor-ui**. Rename \`PrimarySettings\` to \`EditorInlineSettings\`
-- **editor-ui**. Rename \`editorInputWidth\` to \`inputWidth\` and \`textfieldWidth\` to \`width\` in \`EditorInputProps\`         
+- **editor-ui**. Rename \`editorInputWidth\` to \`inputWidth\` and \`textfieldWidth\` to \`width\` in \`EditorInputProps\`
 - **plugin**. Renamed \`defaultFocusRef\` to \`autofocusRef\` in \`EditorPluginProps\`
 - **renderer-ui**. Move \`EditorTextarea\` into \`@edtr-io/editor-ui\`
 - **store**. Rename \`instances\` to \`scopes\` in \`StoreOptions\` (and therefore in \`createStore\`, too)',
@@ -1094,6 +1094,16 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         'Fix styling of overlays.',
         ['plugin-rows', 'Fix duplicate functionality.'],
       ],
+    },
+    {
+      tagName: 'v2.0.0',
+      date: '2021-04-29',
+      breakingChanges: [
+        'Drop Node v10 support.',
+        'Drop React v16 support.',
+        'We now have a peer dependency on `react-dnd@^14.0.0` and `react-dnd-html5-backend@^14.0.0` (both `^11.0.0` previously)',
+      ],
+      added: [['store', 'Add `hasUndoActions` and `hasRedoActions`.']],
     },
   ])
 
