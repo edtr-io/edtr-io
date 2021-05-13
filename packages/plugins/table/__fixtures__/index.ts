@@ -8,8 +8,8 @@ export const plugin = createTablePlugin()
 export const states: Record<string, StateTypeSerializedType<TablePluginState>> =
   {
     simple: `| col1 | col2 |
-    | ------ | ----------- |
-    | ex1 | longer text than the rest |
-    | some more lines | |
-    | empty second |`,
+| ------ | ----------- |
+| ex1 | longer text than the rest |
+| some more lines | |
+| empty second |`,
   }

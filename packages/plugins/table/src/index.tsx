@@ -6,6 +6,7 @@ import {
 } from '@edtr-io/plugin'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfmPlugin from 'remark-gfm'
 
 import { TableEditor } from './editor'
 
@@ -31,7 +32,7 @@ export function createTablePlugin(
   }
 
   function DefaultMarkdownRenderer({ markdown }: { markdown: string }) {
-    return <ReactMarkdown source={markdown} />
+    return <ReactMarkdown plugins={[remarkGfmPlugin]}>{markdown}</ReactMarkdown>
   }
 }
 
