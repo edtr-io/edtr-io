@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-toolbar",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

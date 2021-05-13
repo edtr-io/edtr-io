@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.1](https://github.com/edtr-io/edtr-io/compare/v2.0.0..v2.0.1) - May 13, 2021
+
+### Fixed
+
+- Update dependencies.
+
 ## [v2.0.0](https://github.com/edtr-io/edtr-io/compare/v1.3.1..v2.0.0) - April 29, 2021
 
 ### Breaking Changes

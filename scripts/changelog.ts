@@ -1105,6 +1105,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       ],
       added: [['store', 'Add `hasUndoActions` and `hasRedoActions`.']],
     },
+    {
+      tagName: 'v2.0.1',
+      date: '2021-05-13',
+      fixed: ['Update dependencies.'],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)
