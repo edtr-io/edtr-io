@@ -192,46 +192,46 @@ export function isTouchDevice(): boolean {
   )
 }
 
-export const createUiPlugin = (options: UiPluginOptions) => (
-  pluginClosure: SlatePluginClosure
-): TextPlugin => {
-  const {
-    Component,
-    plugins = {
-      suggestions: true,
-      math: true,
-      headings: true,
-      lists: true,
-      colors: true,
-      code: true,
-    },
-  } = options
+export const createUiPlugin =
+  (options: UiPluginOptions) =>
+  (pluginClosure: SlatePluginClosure): TextPlugin => {
+    const {
+      Component,
+      plugins = {
+        suggestions: true,
+        math: true,
+        headings: true,
+        lists: true,
+        colors: true,
+        code: true,
+      },
+    } = options
 
-  return {
-    renderEditor(props, editor, next) {
-      const { readOnly } = props
-      if (readOnly) {
-        editor.blur()
-      }
-      const config = pluginClosure.current
-        ? pluginClosure.current.config
-        : undefined
-      if (!config) return null
-      const children = next()
-      return (
-        <React.Fragment>
-          {!readOnly ? (
-            <Component
-              editor={(editor as unknown) as Editor}
-              {...props}
-              config={config}
-              pluginClosure={pluginClosure}
-              plugins={plugins}
-            />
-          ) : null}
-          {children}
-        </React.Fragment>
-      )
-    },
+    return {
+      renderEditor(props, editor, next) {
+        const { readOnly } = props
+        if (readOnly) {
+          editor.blur()
+        }
+        const config = pluginClosure.current
+          ? pluginClosure.current.config
+          : undefined
+        if (!config) return null
+        const children = next()
+        return (
+          <React.Fragment>
+            {!readOnly ? (
+              <Component
+                editor={editor as unknown as Editor}
+                {...props}
+                config={config}
+                pluginClosure={pluginClosure}
+                plugins={plugins}
+              />
+            ) : null}
+            {children}
+          </React.Fragment>
+        )
+      },
+    }
   }
-}

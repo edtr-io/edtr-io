@@ -21,9 +21,8 @@ export const initRoot: ActionCreatorWithPayload<
 /** @public */
 export type InitRootAction = ActionCreatorAction<typeof initRoot>
 /** @internal */
-export const pureInitRoot: ActionCreatorWithoutPayload<'PureInitRoot'> = createActionWithoutPayload(
-  'PureInitRoot'
-)
+export const pureInitRoot: ActionCreatorWithoutPayload<'PureInitRoot'> =
+  createActionWithoutPayload('PureInitRoot')
 /** @internal */
 export type PureInitRootAction = ActionCreatorAction<typeof pureInitRoot>
 

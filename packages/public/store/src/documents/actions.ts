@@ -8,23 +8,25 @@ import {
 } from '../types'
 
 /** @public */
-export const insert = createActionCreator<
-  'Insert',
-  {
-    id: string
-    plugin: string
-    state?: unknown
-  }
->('Insert')
+export const insert =
+  createActionCreator<
+    'Insert',
+    {
+      id: string
+      plugin: string
+      state?: unknown
+    }
+  >('Insert')
 /** @public */
 export type InsertAction = ActionCreatorAction<typeof insert>
 /** @internal */
-export const pureInsert = createActionCreator<
-  'PureInsert',
-  {
-    id: string
-  } & DocumentState
->('PureInsert')
+export const pureInsert =
+  createActionCreator<
+    'PureInsert',
+    {
+      id: string
+    } & DocumentState
+  >('PureInsert')
 /** @internal */
 export type PureInsertAction = ActionCreatorAction<typeof pureInsert>
 
@@ -33,9 +35,8 @@ export const remove = createActionCreator<'Remove', string>('Remove')
 /** @public */
 export type RemoveAction = ActionCreatorAction<typeof remove>
 /** @internal */
-export const pureRemove = createActionCreator<'PureRemove', string>(
-  'PureRemove'
-)
+export const pureRemove =
+  createActionCreator<'PureRemove', string>('PureRemove')
 /** @internal */
 export type PureRemoveAction = ActionCreatorAction<typeof pureRemove>
 

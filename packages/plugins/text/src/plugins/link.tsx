@@ -30,31 +30,31 @@ export const unwrapLink = (editor: Editor) => {
   return editor.unwrapInline(linkNode)
 }
 
-export const wrapLink = (data: { href: string } = { href: '' }) => (
-  editor: Editor
-) => {
-  if (editor.value.selection.isExpanded) {
-    trimSelection(editor)
+export const wrapLink =
+  (data: { href: string } = { href: '' }) =>
+  (editor: Editor) => {
+    if (editor.value.selection.isExpanded) {
+      trimSelection(editor)
+      return editor
+        .wrapInline({
+          type: linkNode,
+          data,
+        })
+        .moveToEnd()
+        .focus()
+        .moveBackward(1)
+    }
+
     return editor
+      .insertText(' ')
+      .focus()
+      .moveFocusBackward(1)
       .wrapInline({
         type: linkNode,
         data,
       })
-      .moveToEnd()
-      .focus()
-      .moveBackward(1)
+      .moveToStart()
   }
-
-  return editor
-    .insertText(' ')
-    .focus()
-    .moveFocusBackward(1)
-    .wrapInline({
-      type: linkNode,
-      data,
-    })
-    .moveToStart()
-}
 
 export interface LinkPluginOptions {
   EditorComponent?: React.ComponentType<InlineEditorProps>
@@ -66,7 +66,7 @@ const DefaultEditorComponent: React.FunctionComponent<InlineEditorProps> = (
   props
 ) => {
   const { attributes, children, node, isSelected } = props
-  const href = ((node.data as unknown) as LinkData).get('href')
+  const href = (node.data as unknown as LinkData).get('href')
 
   return (
     <a
@@ -93,7 +93,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
   const inline = editor.value.inlines.find(nodeIsLink)
   const lastInline = React.useRef(inline)
   const [value, setValue] = React.useState(
-    inline ? ((inline.data as unknown) as LinkData).get('href') : undefined
+    inline ? (inline.data as unknown as LinkData).get('href') : undefined
   )
   const edit =
     !props.readOnly && isLink(editor) && editor.value.selection.isCollapsed
@@ -104,7 +104,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
       if (
         inline &&
         value !== undefined &&
-        value !== ((inline.data as unknown) as LinkData).get('href')
+        value !== (inline.data as unknown as LinkData).get('href')
       ) {
         handleHrefChange(value, inline, editor)
       }
@@ -115,7 +115,7 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
   if (!inline) return <React.Fragment>{props.children}</React.Fragment>
 
   if (value === undefined || lastInline.current?.key !== inline.key) {
-    const href = ((inline.data as unknown) as LinkData).get('href')
+    const href = (inline.data as unknown as LinkData).get('href')
     setValue(href)
     lastInline.current = inline
   }
@@ -190,42 +190,44 @@ const DefaultControlsComponent: React.FunctionComponent<NodeControlsProps> = (
   )
 }
 
-export const createLinkPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-  ControlsComponent = DefaultControlsComponent,
-}: LinkPluginOptions = {}) => (): TextPlugin => {
-  return {
-    onKeyDown(event, editor, next) {
-      const e = (event as unknown) as KeyboardEvent
-      if (isHotkey('mod+k', e)) {
-        e.preventDefault()
-        return isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
-      }
+export const createLinkPlugin =
+  ({
+    EditorComponent = DefaultEditorComponent,
+    ControlsComponent = DefaultControlsComponent,
+  }: LinkPluginOptions = {}) =>
+  (): TextPlugin => {
+    return {
+      onKeyDown(event, editor, next) {
+        const e = event as unknown as KeyboardEvent
+        if (isHotkey('mod+k', e)) {
+          e.preventDefault()
+          return isLink(editor) ? unwrapLink(editor) : wrapLink()(editor)
+        }
 
-      return next()
-    },
+        return next()
+      },
 
-    renderInline(props, _editor, next) {
-      const block = props.node
+      renderInline(props, _editor, next) {
+        const block = props.node
 
-      if (block.type === linkNode) {
-        return <EditorComponent {...props} />
-      }
+        if (block.type === linkNode) {
+          return <EditorComponent {...props} />
+        }
 
-      return next()
-    },
+        return next()
+      },
 
-    renderEditor(props, editor, next) {
-      const children = next()
+      renderEditor(props, editor, next) {
+        const children = next()
 
-      if (props.readOnly) return children
-      return (
-        <ControlsComponent {...props} editor={editor}>
-          {children}
-        </ControlsComponent>
-      )
-    },
+        if (props.readOnly) return children
+        return (
+          <ControlsComponent {...props} editor={editor}>
+            {children}
+          </ControlsComponent>
+        )
+      },
+    }
   }
-}
 
 type LinkData = Record<{ href: string }>

@@ -87,9 +87,8 @@ export class ScMcAnswersRenderer extends React.Component<
   }
   private renderOption(
     [_rows, columns]: [number, number],
-    createRef: (
-      index: number
-    ) => (instance: HTMLElement | null) => void = () => () => {}
+    createRef: (index: number) => (instance: HTMLElement | null) => void = () =>
+      () => {}
   ) {
     const rows = R.splitEvery(columns, this.props.state.answers)
     return rows.map((answers, rowIndex) => {

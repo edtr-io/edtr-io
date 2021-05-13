@@ -40,7 +40,7 @@ export const createIsColor = (colorIndex?: number) => (editor: Editor) => {
 
     return (
       mark.type === colorMark &&
-      ((mark.data as unknown) as ColorData).get('colorIndex') == colorIndex
+      (mark.data as unknown as ColorData).get('colorIndex') == colorIndex
     )
   })
 }
@@ -72,7 +72,7 @@ export const getColorIndex = (editor: Editor) => {
     const mark = getActiveMarks(editor).find((mark) =>
       mark ? mark.type === colorMark : false
     )
-    return ((mark?.data as unknown) as ColorData).get('colorIndex')
+    return (mark?.data as unknown as ColorData).get('colorIndex')
   }
 }
 
@@ -99,30 +99,32 @@ class DefaultEditorComponent extends React.Component<
   }
 }
 
-export const createColorPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: ColorPluginOptions = {}) => (
-  pluginClosure: SlatePluginClosure
-): TextPlugin => {
-  // TODO: deserialize
-  return {
-    renderMark(props, _editor, next) {
-      const config = pluginClosure.current
-        ? pluginClosure.current.config
-        : undefined
-      const { mark } = props
-      if (!config) return null
-      if (mark.object === 'mark' && mark.type === colorMark) {
-        const colorIndex = ((mark.data as unknown) as ColorData).get(
-          'colorIndex'
-        )
-        return (
-          <EditorComponent config={config} colorIndex={colorIndex} {...props} />
-        )
-      }
-      return next()
-    },
+export const createColorPlugin =
+  ({ EditorComponent = DefaultEditorComponent }: ColorPluginOptions = {}) =>
+  (pluginClosure: SlatePluginClosure): TextPlugin => {
+    // TODO: deserialize
+    return {
+      renderMark(props, _editor, next) {
+        const config = pluginClosure.current
+          ? pluginClosure.current.config
+          : undefined
+        const { mark } = props
+        if (!config) return null
+        if (mark.object === 'mark' && mark.type === colorMark) {
+          const colorIndex = (mark.data as unknown as ColorData).get(
+            'colorIndex'
+          )
+          return (
+            <EditorComponent
+              config={config}
+              colorIndex={colorIndex}
+              {...props}
+            />
+          )
+        }
+        return next()
+      },
+    }
   }
-}
 
 type ColorData = Record<{ colorIndex: number }>

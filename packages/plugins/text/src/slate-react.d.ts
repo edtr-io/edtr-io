@@ -195,7 +195,8 @@ declare module 'slate-react' {
 
   export class Editor
     extends React.Component<EditorProps, EditorState>
-    implements Controller {
+    implements Controller
+  {
     controller: CoreEditor
 
     readonly plugins: Plugin[]
@@ -521,9 +522,10 @@ declare module 'slate-react' {
     editor: CoreEditor,
     callback?: () => void
   ): void
-  export function getEventTransfer(
-    event: Event | React.SyntheticEvent
-  ): { type: SlateType; node: SlateNode }
+  export function getEventTransfer(event: Event | React.SyntheticEvent): {
+    type: SlateType
+    node: SlateNode
+  }
   export function setEventTransfer(
     event: Event | React.SyntheticEvent,
     type: SlateType,

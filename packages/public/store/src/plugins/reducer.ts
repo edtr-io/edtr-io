@@ -5,9 +5,8 @@ import { createSelector, createSubReducer, SubReducer } from '../helpers'
 import { Selector } from '../types'
 
 /** @internal */
-export const pluginsReducer: SubReducer<
-  Record<string, EditorPlugin>
-> = createSubReducer('plugins', {}, {})
+export const pluginsReducer: SubReducer<Record<string, EditorPlugin>> =
+  createSubReducer('plugins', {}, {})
 
 /** @public */
 export const getPlugins: Selector<

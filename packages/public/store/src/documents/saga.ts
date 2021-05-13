@@ -52,10 +52,12 @@ export function* documentsSaga() {
 function* insertSaga(action: InsertAction) {
   const initialState = action.payload
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const [actions]: [
-    ReversibleAction[],
-    unknown
-  ] = yield call(handleRecursiveInserts, action.scope, () => {}, [initialState])
+  const [actions]: [ReversibleAction[], unknown] = yield call(
+    handleRecursiveInserts,
+    action.scope,
+    () => {},
+    [initialState]
+  )
   yield put(commit(actions)(action.scope))
 }
 
@@ -175,25 +177,22 @@ function* changeSaga(action: ChangeAction) {
       const payload: ChannelAction = yield take(chan)
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const currentDocument: SelectorReturnType<
-        typeof getDocument
-      > = yield select(scopeSelector(getDocument, action.scope), id)
+      const currentDocument: SelectorReturnType<typeof getDocument> =
+        yield select(scopeSelector(getDocument, action.scope), id)
       if (!currentDocument) continue
 
       const updater =
         payload.resolve || payload.next || payload.reject || ((s) => s)
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const [resolveActions, pureResolveState]: [
-        ReversibleAction[],
-        unknown
-      ] = yield call(
-        handleRecursiveInserts,
-        action.scope,
-        (helpers: StoreDeserializeHelpers) => {
-          return updater(currentDocument.state, helpers)
-        }
-      )
+      const [resolveActions, pureResolveState]: [ReversibleAction[], unknown] =
+        yield call(
+          handleRecursiveInserts,
+          action.scope,
+          (helpers: StoreDeserializeHelpers) => {
+            return updater(currentDocument.state, helpers)
+          }
+        )
       payload.callback(resolveActions, pureResolveState)
       if (payload.resolve || payload.reject) {
         break

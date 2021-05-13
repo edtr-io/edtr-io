@@ -149,7 +149,7 @@ export function TextEditor(props: TextProps) {
       <I18nContext.Provider value={props.config.i18n}>
         <Editor
           ref={(slate) => {
-            const slateReact = (slate as unknown) as CoreEditor | null
+            const slateReact = slate as unknown as CoreEditor | null
             if (slateReact && !editor.current) {
               editor.current = slateReact
             }
@@ -310,7 +310,7 @@ function createOnKeyDown(
 ): EventHook<React.KeyboardEvent> {
   return (e, editor, next): void => {
     const { key } = e
-    const event = (e as unknown) as KeyboardEvent
+    const event = e as unknown as KeyboardEvent
 
     if (
       isHotkey('mod+z', event) ||
@@ -473,7 +473,7 @@ function newSlateOnEnter(
   return {
     onKeyDown(e, editor, next) {
       if (
-        isHotkey('enter', (e as unknown) as KeyboardEvent) &&
+        isHotkey('enter', e as unknown as KeyboardEvent) &&
         !editor.value.selection.isExpanded
       ) {
         // remove text plugin and insert on parent if plugin is empty
@@ -581,7 +581,7 @@ function focusNextDocumentOnArrowDown(
 ): TextPlugin {
   return {
     onKeyDown(e, editor, next) {
-      const { key } = (e as unknown) as React.KeyboardEvent
+      const { key } = e as unknown as React.KeyboardEvent
       if (key === 'ArrowDown' || key === 'ArrowUp') {
         const lastRange = getRange()
 

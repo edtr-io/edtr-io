@@ -16,4 +16,5 @@ export const PluginToolbarButton = React.forwardRef<
   return <PluginToolbarButton {...props} ref={ref} />
 })
 /** @public */
-export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps
+export type PluginToolbarButtonProps =
+  InternalPluginToolbar.PluginToolbarButtonProps

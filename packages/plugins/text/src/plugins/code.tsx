@@ -30,29 +30,29 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
   }
 }
 
-export const createCodePlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: CodePluginOptions = {}) => (): TextPlugin => {
-  return {
-    onKeyDown(event, editor, next) {
-      const e = (event as unknown) as KeyboardEvent
+export const createCodePlugin =
+  ({ EditorComponent = DefaultEditorComponent }: CodePluginOptions = {}) =>
+  (): TextPlugin => {
+    return {
+      onKeyDown(event, editor, next) {
+        const e = event as unknown as KeyboardEvent
 
-      if (isHotkey('mod+shift+´')(e) || isHotkey('mod+shift+`')(e)) {
-        e.preventDefault()
-        return toggleCode(editor)
-      }
+        if (isHotkey('mod+shift+´')(e) || isHotkey('mod+shift+`')(e)) {
+          e.preventDefault()
+          return toggleCode(editor)
+        }
 
-      return next()
-    },
+        return next()
+      },
 
-    renderMark(props, _editor, next) {
-      const { mark } = props
+      renderMark(props, _editor, next) {
+        const { mark } = props
 
-      if (mark.object === 'mark' && mark.type === codeMark) {
-        return <EditorComponent {...props} />
-      }
+        if (mark.object === 'mark' && mark.type === codeMark) {
+          return <EditorComponent {...props} />
+        }
 
-      return next()
-    },
+        return next()
+      },
+    }
   }
-}

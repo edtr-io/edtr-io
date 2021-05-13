@@ -77,10 +77,9 @@ export function getScope(state: State, scope: string): ScopedState {
   const scopedState = state[scope]
   if (!scopedState) {
     const fakeInitAction = createActionWithoutPayload('InitSubScope')()(scope)
-    return reducer(
-      state as InternalState,
-      (fakeInitAction as unknown) as Action
-    )[scope]
+    return reducer(state as InternalState, fakeInitAction as unknown as Action)[
+      scope
+    ]
   }
   return scopedState
 }

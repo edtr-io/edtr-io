@@ -13,9 +13,9 @@ const createDispatchHook: (
 () => (action: Action) => void = require('react-redux').createDispatchHook
 const createSelectorHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-<T>(selector: (state: State) => T) => T = require('react-redux')
-  .createSelectorHook
+) => <T>(selector: (state: State) => T) => T =
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
+  require('react-redux').createSelectorHook
 const createStoreHook: (
   context: React.Context<ReactReduxContextValue<State>>
 ) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
@@ -37,9 +37,10 @@ export const EditorContext = React.createContext<
 )
 
 /** @public */
-export const ErrorContext = React.createContext<
-  ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
->(undefined)
+export const ErrorContext =
+  React.createContext<
+    ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
+  >(undefined)
 
 /**
  * Store Provider

@@ -118,12 +118,12 @@ export function createRendererUiTheme<K extends keyof RendererUiTheme>(
     renderer: RendererTheme
     rendererUi: DeepPartial<RendererUiTheme>
   }): RendererUiTheme[K] => {
-    return (R.mergeDeepRight(
+    return R.mergeDeepRight(
       createDefaultTheme(theme.renderer),
-      ((theme.rendererUi[key] || {}) as unknown) as DeepPartial<
+      (theme.rendererUi[key] || {}) as unknown as DeepPartial<
         RendererUiTheme[K]
       >
-    ) as unknown) as RendererUiTheme[K]
+    ) as unknown as RendererUiTheme[K]
   }
 }
 

@@ -20,11 +20,11 @@ export const isList = (type: ListType) => (editor: Editor | CoreEditor) => {
   return list.type === type
 }
 
-export const toggleList = (type: ListType = unorderedListNode) => (
-  editor: Editor
-) => {
-  return editor.command('toggleList', { type })
-}
+export const toggleList =
+  (type: ListType = unorderedListNode) =>
+  (editor: Editor) => {
+    return editor.command('toggleList', { type })
+  }
 
 export const createListPlugin = () => () =>
   List({

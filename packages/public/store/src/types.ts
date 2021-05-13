@@ -60,9 +60,7 @@ export type ActionCreator<T = string, P = any> =
   | ActionCreatorWithPayload<T, P>
 /** @public */
 export interface ActionCreatorWithoutPayload<T = string> {
-  (): (
-    scope: string
-  ) => {
+  (): (scope: string) => {
     type: T
     scope: string
   }
@@ -70,9 +68,7 @@ export interface ActionCreatorWithoutPayload<T = string> {
 }
 /** @public */
 export interface ActionCreatorWithPayload<T = string, P = any> {
-  (payload: P): (
-    scope: string
-  ) => {
+  (payload: P): (scope: string) => {
     type: T
     payload: P
     scope: string
@@ -101,7 +97,6 @@ export type SelectorReturnType<T extends Selector<any, any>> = ReturnType<
   ReturnType<T>
 >
 /** @internal */
-export type InternalSelectorReturnType<
-  T extends InternalSelector<any, any>
-> = ReturnType<ReturnType<T>>
+export type InternalSelectorReturnType<T extends InternalSelector<any, any>> =
+  ReturnType<ReturnType<T>>
 /* eslint-enable @typescript-eslint/no-explicit-any */

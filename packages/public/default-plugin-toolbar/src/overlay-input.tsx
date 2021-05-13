@@ -41,5 +41,5 @@ export function createOverlayInput(config: DefaultPluginToolbarConfig) {
       )
     }
   )
-  return (OverlayInput as unknown) as React.ComponentType<OverlayInputProps>
+  return OverlayInput as unknown as React.ComponentType<OverlayInputProps>
 }

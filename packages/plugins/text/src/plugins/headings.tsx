@@ -64,32 +64,28 @@ export const createSetHeading = (level: HeadingLevel) => {
 }
 
 export const getHeadingLevel = (editor: Editor): HeadingLevel | undefined => {
-  return R.find((level: HeadingLevel) => createIsHeading(level)(editor), [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-  ])
+  return R.find(
+    (level: HeadingLevel) => createIsHeading(level)(editor),
+    [1, 2, 3, 4, 5, 6]
+  )
 }
 
-export const createHeadingsPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: HeadingsPluginOptions = {}) => (): TextPlugin => {
-  return {
-    renderBlock(props, _editor, next) {
-      const block = props.node
+export const createHeadingsPlugin =
+  ({ EditorComponent = DefaultEditorComponent }: HeadingsPluginOptions = {}) =>
+  (): TextPlugin => {
+    return {
+      renderBlock(props, _editor, next) {
+        const block = props.node
 
-      const match = /@splish-me\/h([1-6])/.exec(block.type)
+        const match = /@splish-me\/h([1-6])/.exec(block.type)
 
-      if (match) {
-        const level = parseInt(match[1], 10) as HeadingLevel
+        if (match) {
+          const level = parseInt(match[1], 10) as HeadingLevel
 
-        return <EditorComponent level={level} {...props} />
-      }
+          return <EditorComponent level={level} {...props} />
+        }
 
-      return next()
-    },
+        return next()
+      },
+    }
   }
-}

@@ -51,7 +51,7 @@ export function createStore<K extends string>(
   const store = createReduxStore<InternalState, InternalAction, {}, {}>(
     reducer,
     // Redux does something weird with `unknown` values.
-    (initialStates as unknown) as PreloadedState<InternalState>,
+    initialStates as unknown as PreloadedState<InternalState>,
     enhancer
   ) as Store<State, Action>
   sagaMiddleware.run(saga)

@@ -56,13 +56,14 @@ function RowEditor({
 }
 
 export function RowsEditor(props: RowsProps) {
-  const [menu, setMenu] = React.useState<
-    | {
-        index: number
-        onClose: (pluginState: { plugin: string; state?: unknown }) => void
-      }
-    | undefined
-  >(undefined)
+  const [menu, setMenu] =
+    React.useState<
+      | {
+          index: number
+          onClose: (pluginState: { plugin: string; state?: unknown }) => void
+        }
+      | undefined
+    >(undefined)
 
   function openMenu(insertIndex: number) {
     setMenu({

@@ -85,9 +85,8 @@ export const historyReducer: SubReducer<HistoryState> = createSubReducer(
 )
 
 /** @internal */
-export const getHistory: InternalSelector<HistoryState> = createInternalSelector(
-  (state) => state.history
-)
+export const getHistory: InternalSelector<HistoryState> =
+  createInternalSelector((state) => state.history)
 
 /** @public */
 export const getPendingChanges: Selector<number> = createSelector(
@@ -110,10 +109,8 @@ export const hasRedoActions: Selector<boolean> = createSelector(
 )
 
 /** @internal */
-export const getUndoStack: InternalSelector<
-  ReversibleAction[][]
-> = createInternalSelector((state) => getHistory()(state).undoStack)
+export const getUndoStack: InternalSelector<ReversibleAction[][]> =
+  createInternalSelector((state) => getHistory()(state).undoStack)
 /** @internal */
-export const getRedoStack: InternalSelector<
-  ReversibleAction[][]
-> = createInternalSelector((state) => getHistory()(state).redoStack)
+export const getRedoStack: InternalSelector<ReversibleAction[][]> =
+  createInternalSelector((state) => getHistory()(state).redoStack)
