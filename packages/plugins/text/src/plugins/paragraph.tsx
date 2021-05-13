@@ -21,18 +21,18 @@ class DefaultEditorComponent extends React.Component<BlockEditorProps> {
   }
 }
 
-export const createParagraphPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: ParagraphPluginOptions = {}) => (): TextPlugin => {
-  return {
-    renderBlock(props, _editor, next) {
-      const block = props.node
+export const createParagraphPlugin =
+  ({ EditorComponent = DefaultEditorComponent }: ParagraphPluginOptions = {}) =>
+  (): TextPlugin => {
+    return {
+      renderBlock(props, _editor, next) {
+        const block = props.node
 
-      if (block.type === paragraphNode || block.type === '@splish-me/p') {
-        return <EditorComponent {...props} />
-      }
+        if (block.type === paragraphNode || block.type === '@splish-me/p') {
+          return <EditorComponent {...props} />
+        }
 
-      return next()
-    },
+        return next()
+      },
+    }
   }
-}

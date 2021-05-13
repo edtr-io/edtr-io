@@ -83,7 +83,7 @@ function readFile(file: File): Promise<LoadedFile> {
 
     reader.onload = function (e: ProgressEvent) {
       if (!e.target) return
-      const { result } = (e.target as unknown) as { result: string }
+      const { result } = e.target as unknown as { result: string }
       resolve({ file, dataUrl: result })
     }
 

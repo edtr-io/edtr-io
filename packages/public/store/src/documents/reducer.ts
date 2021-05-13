@@ -26,90 +26,86 @@ import {
 } from './actions'
 
 /** @internal */
-export const documentsReducer: SubReducer<
-  Record<string, DocumentState>
-> = createSubReducer(
-  'documents',
-  {},
-  {
-    [pureInsert.type](documentState, action: PureInsertAction, state) {
-      const { id, plugin: type, state: pluginState } = action.payload
-      const plugin = getPlugin(type)(state)
-      if (!plugin) return documentState
+export const documentsReducer: SubReducer<Record<string, DocumentState>> =
+  createSubReducer(
+    'documents',
+    {},
+    {
+      [pureInsert.type](documentState, action: PureInsertAction, state) {
+        const { id, plugin: type, state: pluginState } = action.payload
+        const plugin = getPlugin(type)(state)
+        if (!plugin) return documentState
 
-      return {
-        ...documentState,
-        [id]: {
-          plugin: type,
-          state: pluginState,
-        },
-      }
-    },
-    [pureRemove.type](documentState, action: PureRemoveAction) {
-      return R.omit([action.payload], documentState)
-    },
-    [pureChange.type](documentState, action: PureChangeAction) {
-      const { id, state: pluginState } = action.payload
-      if (!documentState[id]) return documentState
+        return {
+          ...documentState,
+          [id]: {
+            plugin: type,
+            state: pluginState,
+          },
+        }
+      },
+      [pureRemove.type](documentState, action: PureRemoveAction) {
+        return R.omit([action.payload], documentState)
+      },
+      [pureChange.type](documentState, action: PureChangeAction) {
+        const { id, state: pluginState } = action.payload
+        if (!documentState[id]) return documentState
 
-      return {
-        ...documentState,
-        [id]: {
-          ...documentState[id],
-          state: pluginState,
-        },
-      }
-    },
-    [pureWrap.type](documentState, action: PureWrapAction, state) {
-      const { id, newId, document } = action.payload
-      if (!documentState[id]) return documentState
-      const plugin = getPlugin(document.plugin)(state)
-      if (!plugin) return documentState
+        return {
+          ...documentState,
+          [id]: {
+            ...documentState[id],
+            state: pluginState,
+          },
+        }
+      },
+      [pureWrap.type](documentState, action: PureWrapAction, state) {
+        const { id, newId, document } = action.payload
+        if (!documentState[id]) return documentState
+        const plugin = getPlugin(document.plugin)(state)
+        if (!plugin) return documentState
 
-      return {
-        ...documentState,
-        [newId]: documentState[id],
-        [id]: document,
-      }
-    },
-    [pureUnwrap.type](documentState, action: PureUnwrapAction) {
-      const { id, oldId } = action.payload
-      if (!documentState[oldId]) return documentState
+        return {
+          ...documentState,
+          [newId]: documentState[id],
+          [id]: document,
+        }
+      },
+      [pureUnwrap.type](documentState, action: PureUnwrapAction) {
+        const { id, oldId } = action.payload
+        if (!documentState[oldId]) return documentState
 
-      return R.dissoc(oldId, {
-        ...documentState,
-        [id]: documentState[oldId],
-      })
-    },
-    [pureReplace.type](documentState, action: PureReplaceAction, state) {
-      const { id, plugin: type, state: pluginState } = action.payload
-      const plugin = getPlugin(type)(state)
-      if (!plugin) return documentState
+        return R.dissoc(oldId, {
+          ...documentState,
+          [id]: documentState[oldId],
+        })
+      },
+      [pureReplace.type](documentState, action: PureReplaceAction, state) {
+        const { id, plugin: type, state: pluginState } = action.payload
+        const plugin = getPlugin(type)(state)
+        if (!plugin) return documentState
 
-      return {
-        ...documentState,
-        [id]: {
-          plugin: type,
-          state: pluginState,
-        },
-      }
-    },
-  }
-)
-
-/** @public */
-export const getDocuments: Selector<
-  Record<string, DocumentState>
-> = createSelector((state) => state.documents)
+        return {
+          ...documentState,
+          [id]: {
+            plugin: type,
+            state: pluginState,
+          },
+        }
+      },
+    }
+  )
 
 /** @public */
-export const getDocument: Selector<
-  DocumentState | null,
-  [string | null]
-> = createSelector((state, id) => {
-  if (!id) return null
-  return getDocuments()(state)[id] || null
-})
+export const getDocuments: Selector<Record<string, DocumentState>> =
+  createSelector((state) => state.documents)
+
+/** @public */
+export const getDocument: Selector<DocumentState | null, [string | null]> =
+  createSelector((state, id) => {
+    if (!id) return null
+    return getDocuments()(state)[id] || null
+  })
 
 /**
  * Serializes the document with the given `id`

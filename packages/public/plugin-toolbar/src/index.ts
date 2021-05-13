@@ -15,14 +15,16 @@ import * as InternalPluginToolbar from '@edtr-io/internal__plugin-toolbar/beta'
  *
  * @beta
  */
-export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButtonProps
+export type PluginToolbarButtonProps =
+  InternalPluginToolbar.PluginToolbarButtonProps
 
 /**
  * Type alias for {@link @edtr-io/internal__plugin-toolbar#PluginToolbarOverlayButtonProps | PluginToolbarOverlayButtonProps}
  *
  * @beta
  */
-export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps
+export type PluginToolbarOverlayButtonProps =
+  InternalPluginToolbar.PluginToolbarOverlayButtonProps
 
 /**
  * Type alias for {@link @edtr-io/internal__plugin-toolbar#OverlayButtonProps | OverlayButtonProps}

@@ -59,7 +59,7 @@ export function Upload(props: UploadProps) {
         onChange={(event) => {
           if (event.target.files) {
             let files: File[] = []
-            for (const file of (event.target.files as unknown) as File[]) {
+            for (const file of event.target.files as unknown as File[]) {
               files = [...files, file]
             }
             props.onFiles(files)

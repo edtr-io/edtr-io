@@ -23,7 +23,7 @@ function readFile(file: File): Promise<LoadedFile> {
 
     reader.onload = function (e: ProgressEvent) {
       if (!e.target) return
-      const { result } = (e.target as unknown) as { result: string }
+      const { result } = e.target as unknown as { result: string }
       const dataUrl = result
       // Simulate upload time
       setTimeout(() => resolve({ file, dataUrl }), 1000)

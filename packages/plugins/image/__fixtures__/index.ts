@@ -93,7 +93,7 @@ function readFile(file: File): Promise<LoadedFile> {
 
     reader.onload = function (e: ProgressEvent) {
       if (!e.target) return
-      const { result } = (e.target as unknown) as { result: string }
+      const { result } = e.target as unknown as { result: string }
       const dataUrl = result
       // Simulate upload time
       setTimeout(() => resolve({ file, dataUrl }), 1000)
@@ -108,15 +108,12 @@ export const plugin = createImagePlugin({
   secondInput: 'description',
 })
 
-export const states: Record<
-  string,
-  StateTypeSerializedType<ImagePluginState>
-> = {
-  simple: {
-    src:
-      'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
-    link: undefined,
-    alt: 'Edtr.io Logo',
-    maxWidth: undefined,
-  },
-}
+export const states: Record<string, StateTypeSerializedType<ImagePluginState>> =
+  {
+    simple: {
+      src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+      link: undefined,
+      alt: 'Edtr.io Logo',
+      maxWidth: undefined,
+    },
+  }

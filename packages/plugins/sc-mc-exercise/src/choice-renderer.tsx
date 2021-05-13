@@ -15,14 +15,8 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
   ScMcExerciseProps & ChoiceRendererProps
 > {
   public render() {
-    const {
-      state,
-      children,
-      index,
-      onClick,
-      showFeedback,
-      selected,
-    } = this.props
+    const { state, children, index, onClick, showFeedback, selected } =
+      this.props
     return (
       <div style={{ display: 'flex' }}>
         <CheckboxContainer>

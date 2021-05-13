@@ -23,10 +23,8 @@ export const pureReset = createActionWithoutPayload<'PureReset'>('PureReset')
 export type PureResetAction = ActionCreatorAction<typeof pureReset>
 
 /** @internal */
-export const commit: ActionCreatorWithPayload<
-  'Commit',
-  ReversibleAction[]
-> = createActionCreator('Commit')
+export const commit: ActionCreatorWithPayload<'Commit', ReversibleAction[]> =
+  createActionCreator('Commit')
 /** @internal */
 export interface CommitAction {
   type: 'Commit'
@@ -71,28 +69,24 @@ export interface TemporaryCommitAction {
 }
 
 /** @public */
-export const undo: ActionCreatorWithoutPayload<'Undo'> = createActionWithoutPayload(
-  'Undo'
-)
+export const undo: ActionCreatorWithoutPayload<'Undo'> =
+  createActionWithoutPayload('Undo')
 /** @public */
 export type UndoAction = ActionCreatorAction<typeof undo>
 /** @internal */
-export const pureUndo: ActionCreatorWithoutPayload<'PureUndo'> = createActionWithoutPayload(
-  'PureUndo'
-)
+export const pureUndo: ActionCreatorWithoutPayload<'PureUndo'> =
+  createActionWithoutPayload('PureUndo')
 /** @internal */
 export type PureUndoAction = ActionCreatorAction<typeof pureUndo>
 
 /** @public */
-export const redo: ActionCreatorWithoutPayload<'Redo'> = createActionWithoutPayload(
-  'Redo'
-)
+export const redo: ActionCreatorWithoutPayload<'Redo'> =
+  createActionWithoutPayload('Redo')
 /** @public */
 export type RedoAction = ActionCreatorAction<typeof redo>
 /** @internal */
-export const pureRedo: ActionCreatorWithoutPayload<'PureRedo'> = createActionWithoutPayload(
-  'PureRedo'
-)
+export const pureRedo: ActionCreatorWithoutPayload<'PureRedo'> =
+  createActionWithoutPayload('PureRedo')
 /** @internal */
 export type PureRedoAction = ActionCreatorAction<typeof pureRedo>
 

@@ -128,10 +128,10 @@ export function createEditorUiTheme<K extends keyof EditorUiTheme>(
     editor: EditorTheme
     editorUi: DeepPartial<EditorUiTheme>
   }): EditorUiTheme[K] => {
-    return (R.mergeDeepRight(
+    return R.mergeDeepRight(
       createDefaultTheme(theme.editor),
-      ((theme.editorUi[key] || {}) as unknown) as DeepPartial<EditorUiTheme[K]>
-    ) as unknown) as EditorUiTheme[K]
+      (theme.editorUi[key] || {}) as unknown as DeepPartial<EditorUiTheme[K]>
+    ) as unknown as EditorUiTheme[K]
   }
 }
 

@@ -70,42 +70,40 @@ export interface KatexPluginOptions {
   ControlsComponent?: React.ComponentType<NodeControlsProps>
 }
 
-export const createKatexPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: KatexPluginOptions = {}) => (
-  pluginClosure: SlatePluginClosure
-): TextPlugin => {
-  function renderEditorComponent(props: NodeEditorProps) {
-    const config = pluginClosure.current
-      ? pluginClosure.current.config
-      : undefined
-    if (!config) return null
-    return <EditorComponent config={config} {...props} />
-  }
-  return {
-    onKeyDown(event, editor, next) {
-      const e = (event as unknown) as KeyboardEvent
-      if (isHotkey('mod+m')(e)) {
-        e.preventDefault()
-        return insertKatex(editor)
-      }
-      return next()
-    },
+export const createKatexPlugin =
+  ({ EditorComponent = DefaultEditorComponent }: KatexPluginOptions = {}) =>
+  (pluginClosure: SlatePluginClosure): TextPlugin => {
+    function renderEditorComponent(props: NodeEditorProps) {
+      const config = pluginClosure.current
+        ? pluginClosure.current.config
+        : undefined
+      if (!config) return null
+      return <EditorComponent config={config} {...props} />
+    }
+    return {
+      onKeyDown(event, editor, next) {
+        const e = event as unknown as KeyboardEvent
+        if (isHotkey('mod+m')(e)) {
+          e.preventDefault()
+          return insertKatex(editor)
+        }
+        return next()
+      },
 
-    renderInline(props, editor, next) {
-      const inline = props.node
-      if (inline.type === katexInlineNode) {
-        return renderEditorComponent(props)
-      }
-      return next()
-    },
+      renderInline(props, editor, next) {
+        const inline = props.node
+        if (inline.type === katexInlineNode) {
+          return renderEditorComponent(props)
+        }
+        return next()
+      },
 
-    renderBlock(props, editor, next) {
-      const block = props.node
-      if (block.type === katexBlockNode) {
-        return renderEditorComponent(props)
-      }
-      return next()
-    },
+      renderBlock(props, editor, next) {
+        const block = props.node
+        if (block.type === katexBlockNode) {
+          return renderEditorComponent(props)
+        }
+        return next()
+      },
+    }
   }
-}

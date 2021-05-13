@@ -48,34 +48,34 @@ class DefaultEditorComponent extends React.Component<MarkEditorProps> {
   }
 }
 
-export const createRichTextPlugin = ({
-  EditorComponent = DefaultEditorComponent,
-}: RichTextPluginOptions = {}) => (): TextPlugin => {
-  return {
-    onKeyDown(event, editor, next) {
-      const e = (event as unknown) as KeyboardEvent
-      if (isHotkey('mod+b')(e)) {
-        e.preventDefault()
-        return toggleStrong(editor)
-      } else if (isHotkey('mod+i')(e)) {
-        e.preventDefault()
-        return toggleEmphasize(editor)
-      }
+export const createRichTextPlugin =
+  ({ EditorComponent = DefaultEditorComponent }: RichTextPluginOptions = {}) =>
+  (): TextPlugin => {
+    return {
+      onKeyDown(event, editor, next) {
+        const e = event as unknown as KeyboardEvent
+        if (isHotkey('mod+b')(e)) {
+          e.preventDefault()
+          return toggleStrong(editor)
+        } else if (isHotkey('mod+i')(e)) {
+          e.preventDefault()
+          return toggleEmphasize(editor)
+        }
 
-      return next()
-    },
+        return next()
+      },
 
-    renderMark(props, _editor, next) {
-      const { mark } = props
+      renderMark(props, _editor, next) {
+        const { mark } = props
 
-      if (
-        mark.object === 'mark' &&
-        [strongMark, emphasizeMark].includes(mark.type)
-      ) {
-        return <EditorComponent {...props} />
-      }
+        if (
+          mark.object === 'mark' &&
+          [strongMark, emphasizeMark].includes(mark.type)
+        ) {
+          return <EditorComponent {...props} />
+        }
 
-      return next()
-    },
+        return next()
+      },
+    }
   }
-}

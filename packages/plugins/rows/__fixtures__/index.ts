@@ -95,20 +95,18 @@ export const plugin = createRowsPlugin({
   ],
 })
 
-export const states: Record<
-  string,
-  StateTypeSerializedType<RowsPluginState>
-> = {
-  simple: createRowsState({
-    plugin: textPlugin,
-    state: [
-      {
-        type: 'p',
-        children: [{ text: 'Hello world' }],
-      },
-    ],
-  }),
-}
+export const states: Record<string, StateTypeSerializedType<RowsPluginState>> =
+  {
+    simple: createRowsState({
+      plugin: textPlugin,
+      state: [
+        {
+          type: 'p',
+          children: [{ text: 'Hello world' }],
+        },
+      ],
+    }),
+  }
 
 export function createRowsState(
   ...args: { plugin: string; state: unknown }[]

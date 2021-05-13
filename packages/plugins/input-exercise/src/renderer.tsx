@@ -102,7 +102,7 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
           <InputExerciseField
             config={props.config}
             onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
-              const { key } = (k as unknown) as KeyboardEvent
+              const { key } = k as unknown as KeyboardEvent
               if ((key === 'Enter' || key === 'Backspace') && props.editable) {
                 k.stopPropagation()
               }

@@ -2,17 +2,18 @@ import { createActionCreator } from '../helpers'
 import { ActionCreatorAction, ActionCreatorWithPayload } from '../types'
 
 /** @public */
-export const insertChildBefore = createActionCreator<
-  'InsertChildBefore',
-  {
-    parent: string
-    sibling: string
-    document?: {
-      plugin: string
-      state?: unknown
+export const insertChildBefore =
+  createActionCreator<
+    'InsertChildBefore',
+    {
+      parent: string
+      sibling: string
+      document?: {
+        plugin: string
+        state?: unknown
+      }
     }
-  }
->('InsertChildBefore')
+  >('InsertChildBefore')
 /** @public */
 export type InsertChildBeforeAction = ActionCreatorAction<
   typeof insertChildBefore

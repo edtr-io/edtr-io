@@ -58,14 +58,18 @@ export function createSubReducer<K extends keyof InternalScopedState>(
 export function createSelector<T, P extends any[]>(
   f: (state: ScopedState, ...args: P) => T
 ): Selector<T, P> {
-  return (...args: P) => (state: ScopedState) => f(state, ...args)
+  return (...args: P) =>
+    (state: ScopedState) =>
+      f(state, ...args)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createInternalSelector<T, P extends any[]>(
   f: (state: InternalScopedState, ...args: P) => T
 ): InternalSelector<T, P> {
-  return (...args: P) => (state: InternalScopedState) => f(state, ...args)
+  return (...args: P) =>
+    (state: InternalScopedState) =>
+      f(state, ...args)
 }
 const createDeepEqualSelectorCreator = createSelectorCreator(
   defaultMemoize,

@@ -101,9 +101,10 @@ function checkMatch(
   | undefined {
   switch (type) {
     case VideoType.YouTube: {
-      const match = /^(https?:\/\/)?(.*?youtube\.com\/watch\?(.*&)?v=|.*?youtu\.be\/)(.+)/.exec(
-        url
-      )
+      const match =
+        /^(https?:\/\/)?(.*?youtube\.com\/watch\?(.*&)?v=|.*?youtu\.be\/)(.+)/.exec(
+          url
+        )
       if (match) {
         return {
           embed: `https://www.youtube-nocookie.com/embed/${match[4]}?html5=1`,

@@ -23,7 +23,7 @@ export const DefaultEditorComponent: React.FunctionComponent<
 > = (props) => {
   const { attributes, editor, readOnly, node } = props
   const { key: nodeKey, type: nodeType } = node
-  const data = (node.data as unknown) as KatexData
+  const data = node.data as unknown as KatexData
   const formula = data.get('formula')
   const inline = data.get('inline')
   const preferences = React.useContext(PreferenceContext)

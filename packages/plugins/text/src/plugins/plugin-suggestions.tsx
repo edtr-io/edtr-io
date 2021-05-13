@@ -61,7 +61,7 @@ export function pluginSuggestions(
       )
     },
     onKeyDown(event, editor, next) {
-      const { key } = (event as unknown) as KeyboardEvent
+      const { key } = event as unknown as KeyboardEvent
       if (['ArrowDown', 'ArrowUp', 'Enter'].includes(key)) {
         const { text } = editor.value.document
 

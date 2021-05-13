@@ -17,9 +17,10 @@ const onSpecialKey = (
   const { start } = selection
 
   const slice = focusText.text.slice(0, start.offset)
-  const matches = /((http:\/\/|https:\/\/)?[_\-a-z0-9.]+\.(com|de|org)(:[0-9])?[/\w?%-_]*)$/g.exec(
-    slice
-  )
+  const matches =
+    /((http:\/\/|https:\/\/)?[_\-a-z0-9.]+\.(com|de|org)(:[0-9])?[/\w?%-_]*)$/g.exec(
+      slice
+    )
   if (matches && matches.length !== 0) {
     const positionOfURL = slice.length - matches[0].length
     if (
@@ -50,7 +51,7 @@ export const autoLink = (pluginClosure: SlatePluginClosure): TextPlugin => {
       if (!pluginClosure.current) {
         return next()
       }
-      const e = (event as unknown) as KeyboardEvent
+      const e = event as unknown as KeyboardEvent
       switch (e.key) {
         case ']':
         case ')':

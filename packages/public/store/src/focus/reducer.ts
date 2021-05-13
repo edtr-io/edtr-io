@@ -73,29 +73,27 @@ export const isFocused: Selector<boolean, [string]> = createSelector(
  * @returns the [[focus tree|Node]] if it exists (`null` otherwise)
  * @public
  */
-export const getFocusTree: Selector<
-  Node | null,
-  [string?]
-> = createJsonStringifySelector((state, id = undefined) => {
-  const root = id ? id : getRoot()(state)
-  if (!root) return null
-  const document = getDocument(root)(state)
-  if (!document) return null
-  const plugin = getPlugin(document.plugin)(state)
-  if (!plugin) return null
+export const getFocusTree: Selector<Node | null, [string?]> =
+  createJsonStringifySelector((state, id = undefined) => {
+    const root = id ? id : getRoot()(state)
+    if (!root) return null
+    const document = getDocument(root)(state)
+    if (!document) return null
+    const plugin = getPlugin(document.plugin)(state)
+    if (!plugin) return null
 
-  const children = plugin.state
-    .getFocusableChildren(document.state)
-    .map((child) => {
-      const subtree = getFocusTree(child.id)(state)
-      return subtree || child
-    })
+    const children = plugin.state
+      .getFocusableChildren(document.state)
+      .map((child) => {
+        const subtree = getFocusTree(child.id)(state)
+        return subtree || child
+      })
 
-  return {
-    id: root,
-    children,
-  }
-})
+    return {
+      id: root,
+      children,
+    }
+  })
 
 /** @public */
 export const getParent: Selector<Node | null, [string]> = createSelector(
@@ -112,27 +110,25 @@ export const getParent: Selector<Node | null, [string]> = createSelector(
  * @returns an array of ids of the documents that are part of the focus path (i.e. the focused document and their ancestors). `null`, if there exists no focus path
  * @public
  */
-export const getFocusPath: Selector<
-  string[] | null,
-  [string?]
-> = createDeepEqualSelector((state, defaultLeaf = undefined) => {
-  const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
-  if (!leaf) return null
-  const root = getFocusTree()(state)
-  if (!root) return null
+export const getFocusPath: Selector<string[] | null, [string?]> =
+  createDeepEqualSelector((state, defaultLeaf = undefined) => {
+    const leaf = defaultLeaf ? defaultLeaf : getFocused()(state)
+    if (!leaf) return null
+    const root = getFocusTree()(state)
+    if (!root) return null
 
-  let current = leaf
-  let path: string[] = [leaf]
+    let current = leaf
+    let path: string[] = [leaf]
 
-  while (current !== root.id) {
-    const parent = findParent(root, current)
-    if (!parent) return null
-    current = parent.id
-    path = [current, ...path]
-  }
+    while (current !== root.id) {
+      const parent = findParent(root, current)
+      if (!parent) return null
+      current = parent.id
+      path = [current, ...path]
+    }
 
-  return path
-})
+    return path
+  })
 
 function handleFocus(
   focusState: ScopedState['focus'],

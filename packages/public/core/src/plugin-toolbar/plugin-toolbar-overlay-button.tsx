@@ -16,4 +16,5 @@ export function PluginToolbarOverlayButton(
   return <PluginToolbarOverlayButton {...props} />
 }
 /** @public */
-export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps
+export type PluginToolbarOverlayButtonProps =
+  InternalPluginToolbar.PluginToolbarOverlayButtonProps

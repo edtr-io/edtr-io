@@ -72,7 +72,7 @@ export const markdownShortcuts = (
 ): TextPlugin => {
   return {
     onKeyDown(event, editor, next: () => unknown) {
-      const e = (event as unknown) as KeyboardEvent
+      const e = event as unknown as KeyboardEvent
       switch (e.key) {
         case ' ':
           return onSpace(e, editor, next, pluginClosure)

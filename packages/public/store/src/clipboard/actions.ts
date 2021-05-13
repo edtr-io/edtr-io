@@ -6,10 +6,8 @@ import {
 } from '../types'
 
 /** @beta */
-export const copy: ActionCreatorWithPayload<
-  'Copy',
-  string | null
-> = createActionCreator('Copy')
+export const copy: ActionCreatorWithPayload<'Copy', string | null> =
+  createActionCreator('Copy')
 /** @public */
 export interface CopyAction {
   type: 'Copy'
@@ -18,10 +16,8 @@ export interface CopyAction {
 }
 
 /** @internal */
-export const pureCopy: ActionCreatorWithPayload<
-  'PureCopy',
-  DocumentState
-> = createActionCreator('PureCopy')
+export const pureCopy: ActionCreatorWithPayload<'PureCopy', DocumentState> =
+  createActionCreator('PureCopy')
 /** @internal */
 export type PureCopyAction = ActionCreatorAction<typeof pureCopy>
 
