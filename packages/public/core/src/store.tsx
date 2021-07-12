@@ -1,11 +1,11 @@
 import { getScope, Action, State, ScopedState, Store } from '@edtr-io/store'
 import * as React from 'react'
-import { AnyAction, Unsubscribe } from 'redux'
 import {
   Provider as ReduxProvider,
   ProviderProps,
   ReactReduxContextValue,
 } from 'react-redux'
+import { AnyAction, Unsubscribe } from 'redux'
 
 const createDispatchHook: (
   context: React.Context<ReactReduxContextValue<State>>
@@ -37,10 +37,9 @@ export const EditorContext = React.createContext<
 )
 
 /** @public */
-export const ErrorContext =
-  React.createContext<
-    ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
-  >(undefined)
+export const ErrorContext = React.createContext<
+  ((error: Error, errorInfo: { componentStack: string }) => void) | undefined
+>(undefined)
 
 /**
  * Store Provider
@@ -56,7 +55,6 @@ export function Provider(
 
 /**
  * @param enforcedScope - If provided, used as the scope instead of the current scope
- *
  * @public
  */
 export function useScope(enforcedScope?: string) {

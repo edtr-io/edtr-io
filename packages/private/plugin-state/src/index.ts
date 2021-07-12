@@ -63,7 +63,6 @@ export interface StateType<S = any, T = any, R = any> {
  * @param previousState - current state at the time the change is applied
  * @param helpers - helpers (e.g. to insert an document in the store)
  * @returns new state
- *
  * @public
  */
 export type StateUpdater<T> = (

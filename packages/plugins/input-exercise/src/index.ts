@@ -21,7 +21,7 @@ import { InputExerciseType } from './input-exercise-type'
 
 /**
  * @param config - {@link InputExerciseConfig | Plugin configuration}
- * @public */
+  @public */
 export function createInputExercisePlugin(
   config: InputExerciseConfig
 ): EditorPlugin<InputExercisePluginState, InputExercisePluginConfig> {

@@ -13,16 +13,18 @@ export const plugin = createFilesPlugin({
   upload: mockUploadFileHandler,
 })
 
-export const states: Record<string, StateTypeSerializedType<FilesPluginState>> =
-  {
-    simple: [
-      {
-        type: FileType.Image,
-        name: 'foo',
-        src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
-      },
-    ],
-  }
+export const states: Record<
+  string,
+  StateTypeSerializedType<FilesPluginState>
+> = {
+  simple: [
+    {
+      type: FileType.Image,
+      name: 'foo',
+      src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+    },
+  ],
+}
 
 function mockUploadFileHandler(file: File): Promise<UploadedFile> {
   return readFile(file).then((loaded) => {

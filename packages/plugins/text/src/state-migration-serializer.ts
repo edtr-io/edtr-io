@@ -29,8 +29,7 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             return oldElement
           }
           case 'h': {
-            const type =
-              `@splish-me/h${element.level}` as OldHeadingElement['type']
+            const type: OldHeadingElement['type'] = `@splish-me/h${element.level}`
             const oldElement: OldHeadingElement = {
               object: 'block',
               type,
@@ -421,13 +420,7 @@ export interface OldParagraphElement {
 /** @public */
 export interface OldHeadingElement {
   object: 'block'
-  type:
-    | '@splish-me/h1'
-    | '@splish-me/h2'
-    | '@splish-me/h3'
-    | '@splish-me/h4'
-    | '@splish-me/h5'
-    | '@splish-me/h6'
+  type: `@splish-me/h${1 | 2 | 3 | 4 | 5 | 6}`
   nodes: OldNode[]
 }
 

@@ -5,5 +5,5 @@ const defaultConfig = require('./jest.base.config')
 module.exports = {
   ...defaultConfig,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testEnvironment: 'jsdom-sixteen',
+  testEnvironment: 'jsdom',
 }
