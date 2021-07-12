@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="react" />
+
 import { CustomTheme } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 
@@ -22,7 +24,6 @@ export interface RendererProps<K extends string = string> {
     // (undocumented)
     theme?: CustomTheme;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

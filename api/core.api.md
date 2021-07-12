@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="react" />
+
 import { Action } from '@edtr-io/store';
 import { ChangeListener } from '@edtr-io/store';
 import { CustomTheme } from '@edtr-io/ui';
@@ -32,7 +34,6 @@ function Document_2<K extends string = string>(props: Omit<EditorProps<K>, 'init
     mirror?: false;
     initialState: EditorProps<K>['initialState'];
 })): JSX.Element | null;
-
 export { Document_2 as Document }
 
 // @public (undocumented)
@@ -199,7 +200,6 @@ export const useSelector: <T>(selector: (state: State) => T) => T;
 
 // @public (undocumented)
 export const useStore: () => Store;
-
 
 // (No @packageDocumentation comment for this package)
 
