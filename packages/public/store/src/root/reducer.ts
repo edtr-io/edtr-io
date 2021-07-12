@@ -23,10 +23,10 @@ export const serializeRootDocument: Selector<{
   plugin: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any
-} | null> = createSelector((state): SelectorReturnType<
-  typeof serializeDocument
-> => {
-  const root = getRoot()(state)
-  if (!root) return null
-  return serializeDocument(root)(state)
-})
+} | null> = createSelector(
+  (state): SelectorReturnType<typeof serializeDocument> => {
+    const root = getRoot()(state)
+    if (!root) return null
+    return serializeDocument(root)(state)
+  }
+)

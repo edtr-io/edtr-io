@@ -60,8 +60,9 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
   )
   const DocumentEditor = React.useContext(DocumentEditorContext)
   const PluginToolbar = React.useContext(PluginToolbarContext)
-  const autofocusRef =
-    React.useRef<HTMLInputElement & HTMLTextAreaElement>(null)
+  const autofocusRef = React.useRef<HTMLInputElement & HTMLTextAreaElement>(
+    null
+  )
 
   React.useEffect(() => {
     if (focused) {

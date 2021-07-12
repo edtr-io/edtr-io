@@ -13,7 +13,7 @@ import {
 /**
  * Interface of an Edtr.io theme
  *
- * @public */
+  @public */
 export interface Theme {
   editor: EditorTheme
   editorUi: DeepPartial<EditorUiTheme>
@@ -48,7 +48,6 @@ const defaultTheme: Theme = {
  * @remarks
  * You probably don't want to use this component directly since it is already used by the core.
  * If you want to override the theme in some plugin, you probably want to use {@link ThemeProvider | ThemeProvider} instead.
- *
  * @param props - A {@link CustomTheme | CustomTheme} that will be deeply merged with the {@link Theme | default Theme}, and children
  * @public
  */

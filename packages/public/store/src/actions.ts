@@ -12,10 +12,10 @@ import {
 } from './types'
 
 /** @public */
-export const setPartialState =
-  createActionCreator<'SetPartialState', Partial<ScopedState>>(
-    'SetPartialState'
-  )
+export const setPartialState = createActionCreator<
+  'SetPartialState',
+  Partial<ScopedState>
+>('SetPartialState')
 /** @public */
 export type SetPartialState = ActionCreatorAction<typeof setPartialState>
 

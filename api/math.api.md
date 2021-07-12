@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="react" />
+
 import { DeepPartial } from '@edtr-io/ui';
 import * as React_2 from 'react';
 
@@ -81,7 +83,6 @@ export const MathRenderer: React_2.ForwardRefExoticComponent<Pick<MathEditorProp
 
 // @public (undocumented)
 export type MathRendererProps = Pick<MathEditorProps, 'state' | 'inline' | 'additionalContainerProps'>;
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="react" />
+
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
@@ -72,7 +74,6 @@ export interface UploadedFile {
     // (undocumented)
     type: FileType;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

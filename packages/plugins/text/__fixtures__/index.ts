@@ -48,30 +48,32 @@ export const plugin = createTextPlugin({
   ],
 })
 
-export const states: Record<string, StateTypeSerializedType<TextPluginState>> =
-  {
-    simple: [
-      {
-        type: 'p',
-        children: [{ text: 'Hello world' }],
-      },
-    ],
-    bold: [
-      {
-        type: 'p',
-        children: [{ strong: true, text: 'bold' }],
-      },
-    ],
-    color: [
-      {
-        type: 'p',
-        children: [{ color: 0, text: 'color' }],
-      },
-    ],
-    code: [
-      {
-        type: 'p',
-        children: [{ code: true, text: 'inline code' }],
-      },
-    ],
-  }
+export const states: Record<
+  string,
+  StateTypeSerializedType<TextPluginState>
+> = {
+  simple: [
+    {
+      type: 'p',
+      children: [{ text: 'Hello world' }],
+    },
+  ],
+  bold: [
+    {
+      type: 'p',
+      children: [{ strong: true, text: 'bold' }],
+    },
+  ],
+  color: [
+    {
+      type: 'p',
+      children: [{ color: 0, text: 'color' }],
+    },
+  ],
+  code: [
+    {
+      type: 'p',
+      children: [{ code: true, text: 'inline code' }],
+    },
+  ],
+}

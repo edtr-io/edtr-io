@@ -29,11 +29,11 @@ export const serializer: Serializer<NewNode[], ValueJSON> = {
             return oldElement
           }
           case 'h': {
-            const type =
-              `@splish-me/h${element.level}` as OldHeadingElement['type']
             const oldElement: OldHeadingElement = {
               object: 'block',
-              type,
+              // The type assertion is necessary for api-extractor
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+              type: `@splish-me/h${element.level}` as OldHeadingElement['type'],
               nodes: element.children.map(deserializeNode),
             }
             return oldElement
