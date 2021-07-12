@@ -21,7 +21,7 @@
     "@types/react-syntax-highlighter": "^13.0.0",
     "@types/styled-components": "^5.0.0",
     "ramda": "^0.27.0",
-    "react-syntax-highlighter": "^15.0.0"
+    "react-syntax-highlighter": "^15.4.0"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.0.1",
