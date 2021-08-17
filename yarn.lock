@@ -5,7 +5,7 @@ __metadata:
   version: 4
   cacheKey: 8
 
-"@babel/cli@npm:^7.0.0":
+"@babel/cli@npm:^7.14.8":
   version: 7.14.8
   resolution: "@babel/cli@npm:7.14.8"
   dependencies:
@@ -90,7 +90,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.15.0, @babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.4.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.7.5":
+"@babel/core@npm:7.15.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.15.0, @babel/core@npm:^7.4.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.7.5":
   version: 7.15.0
   resolution: "@babel/core@npm:7.15.0"
   dependencies:
@@ -467,7 +467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-class-properties@npm:^7.0.0, @babel/plugin-proposal-class-properties@npm:^7.12.1, @babel/plugin-proposal-class-properties@npm:^7.14.5, @babel/plugin-proposal-class-properties@npm:^7.4.4":
+"@babel/plugin-proposal-class-properties@npm:^7.12.1, @babel/plugin-proposal-class-properties@npm:^7.14.5, @babel/plugin-proposal-class-properties@npm:^7.4.4":
   version: 7.14.5
   resolution: "@babel/plugin-proposal-class-properties@npm:7.14.5"
   dependencies:
@@ -1280,7 +1280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.0.0":
+"@babel/plugin-transform-runtime@npm:^7.15.0":
   version: 7.15.0
   resolution: "@babel/plugin-transform-runtime@npm:7.15.0"
   dependencies:
@@ -1388,7 +1388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.0.0, @babel/preset-env@npm:^7.11.0, @babel/preset-env@npm:^7.12.11":
+"@babel/preset-env@npm:^7.11.0, @babel/preset-env@npm:^7.12.11, @babel/preset-env@npm:^7.15.0":
   version: 7.15.0
   resolution: "@babel/preset-env@npm:7.15.0"
   dependencies:
@@ -1499,7 +1499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.0.0, @babel/preset-react@npm:^7.12.10":
+"@babel/preset-react@npm:^7.12.10, @babel/preset-react@npm:^7.14.5":
   version: 7.14.5
   resolution: "@babel/preset-react@npm:7.14.5"
   dependencies:
@@ -1515,7 +1515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.0.0, @babel/preset-typescript@npm:^7.12.7":
+"@babel/preset-typescript@npm:^7.12.7, @babel/preset-typescript@npm:^7.15.0":
   version: 7.15.0
   resolution: "@babel/preset-typescript@npm:7.15.0"
   dependencies:
@@ -1553,7 +1553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.15.3, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
   version: 7.15.3
   resolution: "@babel/runtime@npm:7.15.3"
   dependencies:
@@ -1634,7 +1634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@convertkit/slate-lists@npm:^0.2.5":
+"@convertkit/slate-lists@npm:^0.2.11":
   version: 0.2.11
   resolution: "@convertkit/slate-lists@npm:0.2.11"
   dependencies:
@@ -1669,7 +1669,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/core@workspace:packages/public/core"
   dependencies:
-    "@babel/runtime": ^7.0.0
+    "@babel/runtime": ^7.15.3
     "@edtr-io/default-document-editor": ^2.0.1
     "@edtr-io/default-plugin-toolbar": ^2.0.1
     "@edtr-io/internal__document-editor": ^2.0.0
@@ -1679,25 +1679,25 @@ __metadata:
     "@edtr-io/internal__plugin-toolbar": ^2.0.0
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-redux": ^7.0.0
-    "@types/react-test-renderer": ^17.0.0
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-redux": ^7.1.18
+    "@types/react-test-renderer": ^17.0.1
     "@types/shortid": ^0.0.29
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
     react-hotkeys: ^2.0.0
-    react-is: ^17.0.0
-    react-redux: ^7.0.0
-    react-test-renderer: ^17.0.0
-    redux: ^4.0.0
-    shortid: ^2.0.0
-    styled-components: ^5.0.0
+    react-is: ^17.0.2
+    react-redux: ^7.2.4
+    react-test-renderer: ^17.0.2
+    redux: ^4.1.1
+    shortid: ^2.2.16
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dnd: ">= 14"
@@ -1715,13 +1715,13 @@ __metadata:
   dependencies:
     "@edtr-io/document-editor": ^2.0.0
     "@edtr-io/ui": ^2.0.1
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    styled-components: ^5.0.0
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -1736,15 +1736,15 @@ __metadata:
   dependencies:
     "@edtr-io/plugin-toolbar": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-modal": ^3.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-modal: ^3.0.0
-    styled-components: ^5.0.0
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-modal": ^3.12.1
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-modal: ^3.14.3
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -1758,7 +1758,7 @@ __metadata:
   resolution: "@edtr-io/document-editor@workspace:packages/public/document-editor"
   dependencies:
     "@edtr-io/internal__document-editor": ^2.0.0
-    react: ^17.0.0
+    react: ^17.0.2
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -1770,22 +1770,22 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-textarea-autosize: ^8.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-textarea-autosize: ^8.3.3
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -1805,39 +1805,39 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/edtr-io-workspace@workspace:."
   dependencies:
-    "@babel/cli": ^7.0.0
-    "@babel/core": ^7.0.0
-    "@babel/plugin-proposal-class-properties": ^7.0.0
-    "@babel/plugin-transform-runtime": ^7.0.0
-    "@babel/preset-env": ^7.0.0
-    "@babel/preset-react": ^7.0.0
-    "@babel/preset-typescript": ^7.0.0
-    "@inyono/changelog": ^0.2.0
-    "@microsoft/api-extractor": ^7.0.0
-    "@testing-library/jest-dom": ^5.0.0
+    "@babel/cli": ^7.14.8
+    "@babel/core": ^7.15.0
+    "@babel/plugin-proposal-class-properties": ^7.14.5
+    "@babel/plugin-transform-runtime": ^7.15.0
+    "@babel/preset-env": ^7.15.0
+    "@babel/preset-react": ^7.14.5
+    "@babel/preset-typescript": ^7.15.0
+    "@inyono/changelog": ^0.2.1
+    "@microsoft/api-extractor": ^7.18.5
+    "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
-    "@types/jest": ^27.0.0
-    "@types/rimraf": ^3.0.0
-    "@typescript-eslint/eslint-plugin": ^4.0.0
-    "@typescript-eslint/parser": ^4.0.0
-    eslint: ^7.0.0
-    eslint-config-prettier: ^8.0.0
-    eslint-plugin-import: ^2.0.0
-    eslint-plugin-jest-dom: ^3.0.0
-    eslint-plugin-jsdoc: ^36.0.0
-    eslint-plugin-react: ^7.0.0
-    eslint-plugin-react-hooks: ^4.0.0
-    eslint-plugin-testing-library: ^4.0.0
-    jest: ^27.0.0
+    "@types/jest": ^27.0.1
+    "@types/rimraf": ^3.0.1
+    "@typescript-eslint/eslint-plugin": ^4.29.2
+    "@typescript-eslint/parser": ^4.29.2
+    eslint: ^7.32.0
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-import: ^2.24.0
+    eslint-plugin-jest-dom: ^3.9.0
+    eslint-plugin-jsdoc: ^36.0.7
+    eslint-plugin-react: ^7.24.0
+    eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-testing-library: ^4.11.0
+    jest: ^27.0.6
     lerna: ^4.0.0
-    npm-run-all: ^4.0.0
-    prettier: ^2.0.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    rimraf: ^3.0.0
-    ts-node: ^10.0.0
-    tsdx: ^0.14.0
-    typescript: ^4.0.0
+    npm-run-all: ^4.1.5
+    prettier: ^2.3.2
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    rimraf: ^3.0.2
+    ts-node: ^10.2.0
+    tsdx: ^0.14.1
+    typescript: ^4.3.5
   languageName: unknown
   linkType: soft
 
@@ -1845,7 +1845,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__bundle-size@workspace:packages/private/bundle-size"
   dependencies:
-    "@babel/core": ^7.0.0
+    "@babel/core": ^7.15.0
     "@edtr-io/core": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/plugin-anchor": ^2.0.1
@@ -1865,27 +1865,27 @@ __metadata:
     "@edtr-io/plugin-video": ^2.0.1
     "@edtr-io/renderer": ^2.0.1
     "@edtr-io/renderer-ssr": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    babel-loader: ^8.0.0
-    cross-env: ^7.0.0
-    file-loader: ^6.0.0
-    immutable: ^4.0.0-0
-    mini-css-extract-plugin: ^0.11.0
-    optimize-css-assets-webpack-plugin: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    babel-loader: ^8.2.2
+    cross-env: ^7.0.3
+    file-loader: ^6.2.0
+    immutable: ^4.0.0-rc.14
+    mini-css-extract-plugin: ^0.11.3
+    optimize-css-assets-webpack-plugin: ^5.0.8
     prop-types: ^15.7.2
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
-    terser-webpack-plugin: ^4.0.0
-    webpack: ^4.0.0
-    webpack-bundle-analyzer: ^3.0.0
-    webpack-cli: ^3.0.0
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
+    terser-webpack-plugin: ^4.2.3
+    webpack: ^4.46.0
+    webpack-bundle-analyzer: ^3.9.0
+    webpack-cli: ^3.3.12
   languageName: unknown
   linkType: soft
 
@@ -1893,7 +1893,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__demo@workspace:packages/private/demo"
   dependencies:
-    "@babel/core": ^7.0.0
+    "@babel/core": ^7.15.0
     "@edtr-io/core": ^2.0.1
     "@edtr-io/math": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
@@ -1916,34 +1916,34 @@ __metadata:
     "@edtr-io/store": ^2.0.1
     "@edtr-io/store-devtools": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@storybook/addon-actions": ^6.0.0
-    "@storybook/addon-knobs": ^6.0.0
-    "@storybook/react": ^6.0.0
-    "@types/lodash": ^4.0.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/request": ^2.0.0
-    babel-loader: ^8.0.0
-    babel-plugin-module-resolver: ^4.0.0
-    immutable: ^4.0.0-0
-    katex: ^0.13.0
-    lodash: ^4.0.0
-    lodash-es: ^4.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@storybook/addon-actions": ^6.3.7
+    "@storybook/addon-knobs": ^6.3.0
+    "@storybook/react": ^6.3.7
+    "@types/lodash": ^4.14.172
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/request": ^2.48.7
+    babel-loader: ^8.2.2
+    babel-plugin-module-resolver: ^4.1.0
+    immutable: ^4.0.0-rc.14
+    katex: ^0.13.13
+    lodash: ^4.17.21
+    lodash-es: ^4.17.21
     prop-types: ^15.7.2
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    request: ^2.0.0
-    styled-components: ^5.0.0
-    webpack: ^4.0.0
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    request: ^2.88.2
+    styled-components: ^5.3.0
+    webpack: ^4.46.0
   languageName: unknown
   linkType: soft
 
@@ -1951,8 +1951,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__dev-expression@workspace:packages/private/dev-expression"
   dependencies:
-    tiny-invariant: ^1.0.0
-    tiny-warning: ^1.0.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.3
   languageName: unknown
   linkType: soft
 
@@ -1961,8 +1961,8 @@ __metadata:
   resolution: "@edtr-io/internal__document-editor@workspace:packages/private/document-editor"
   dependencies:
     "@edtr-io/internal__plugin-toolbar": ^2.0.0
-    "@types/react": ^17.0.0
-    react: ^17.0.0
+    "@types/react": ^17.0.18
+    react: ^17.0.2
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -1979,8 +1979,8 @@ __metadata:
   resolution: "@edtr-io/internal__plugin-state@workspace:packages/private/plugin-state"
   dependencies:
     "@edtr-io/internal__document-editor": ^2.0.0
-    "@types/react": ^17.0.0
-    react: ^17.0.0
+    "@types/react": ^17.0.18
+    react: ^17.0.2
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -1990,8 +1990,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar"
   dependencies:
-    "@types/react": ^17.0.0
-    react: ^17.0.0
+    "@types/react": ^17.0.18
+    react: ^17.0.2
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -2003,16 +2003,16 @@ __metadata:
   dependencies:
     "@edtr-io/internal__plugin-state": ^2.0.0
     "@edtr-io/ui": ^2.0.1
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    shortid: ^2.0.0
-    styled-components: ^5.0.0
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    shortid: ^2.2.16
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2028,27 +2028,27 @@ __metadata:
     "@edtr-io/core": ^2.0.1
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/exenv": ^1.0.0
-    "@types/katex": ^0.11.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-modal": ^3.0.0
-    "@types/styled-components": ^5.0.0
-    exenv: ^1.0.0
-    immutable: ^4.0.0-0
-    katex: ^0.13.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-mathquill: ^1.0.0
-    react-modal: ^3.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/exenv": ^1.2.0
+    "@types/katex": ^0.11.1
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-modal": ^3.12.1
+    "@types/styled-components": ^5.1.12
+    exenv: ^1.2.2
+    immutable: ^4.0.0-rc.14
+    katex: ^0.13.13
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-mathquill: ^1.0.1
+    react-modal: ^3.14.3
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2073,19 +2073,19 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2108,20 +2108,20 @@ __metadata:
     "@edtr-io/core": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/plugin-text": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2145,19 +2145,19 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2181,23 +2181,23 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/lodash": ^4.0.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    isomorphic-unfetch: ^3.0.0
-    lodash: ^4.0.0
-    lodash-es: ^4.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/lodash": ^4.14.172
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    isomorphic-unfetch: ^3.1.0
+    lodash: ^4.17.21
+    lodash-es: ^4.17.21
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2221,23 +2221,23 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-syntax-highlighter": ^13.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-syntax-highlighter: ^15.4.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-syntax-highlighter": ^13.5.2
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-syntax-highlighter: ^15.4.4
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2261,21 +2261,21 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2304,27 +2304,27 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@testing-library/dom": ^8.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@testing-library/dom": ^8.1.0
     "@testing-library/react": ^12.0.0
-    "@testing-library/user-event": ^13.0.0
-    "@types/algebra.js": ^0.2.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    algebra.js: ^0.2.0
-    immutable: ^4.0.0-0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@testing-library/user-event": ^13.2.1
+    "@types/algebra.js": ^0.2.1
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    algebra.js: ^0.2.6
+    immutable: ^4.0.0-rc.14
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2353,23 +2353,23 @@ __metadata:
     "@edtr-io/plugin-video": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-resizable": ^1.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-resizable: ^1.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-resizable": ^1.7.3
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-resizable: ^1.11.1
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2395,22 +2395,22 @@ __metadata:
     "@edtr-io/plugin-text": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2437,22 +2437,22 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2476,21 +2476,21 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    iframe-resizer-react: ^1.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    iframe-resizer-react: ^1.1.0
     prop-types: ^15.7.2
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2518,22 +2518,22 @@ __metadata:
     "@edtr-io/plugin-text": ^2.0.1
     "@edtr-io/renderer-ui": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2557,21 +2557,21 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-markdown: ^6.0.0
-    redux: ^4.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-markdown: ^6.0.3
+    redux: ^4.1.1
     remark-gfm: ^1.0.0
-    styled-components: ^5.0.0
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2591,34 +2591,34 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-text@workspace:packages/plugins/text"
   dependencies:
-    "@convertkit/slate-lists": ^0.2.5
+    "@convertkit/slate-lists": ^0.2.11
     "@edtr-io/core": ^2.0.1
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/math": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/is-hotkey": ^0.1.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/is-hotkey": ^0.1.3
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
     is-hotkey: ^0.2.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    slate: ^0.47.0
-    slate-html-serializer: ^0.8.0
-    slate-react: ^0.22.0
-    styled-components: ^5.0.0
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    slate: ^0.47.9
+    slate-html-serializer: ^0.8.13
+    slate-react: ^0.22.10
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2640,8 +2640,8 @@ __metadata:
   resolution: "@edtr-io/plugin-toolbar@workspace:packages/public/plugin-toolbar"
   dependencies:
     "@edtr-io/internal__plugin-toolbar": ^2.0.0
-    "@types/react": ^17.0.0
-    react: ^17.0.0
+    "@types/react": ^17.0.18
+    react: ^17.0.2
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -2655,21 +2655,21 @@ __metadata:
     "@edtr-io/editor-ui": ^2.0.1
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ">= 1"
-    "@fortawesome/free-solid-svg-icons": ">= 5"
-    "@fortawesome/react-fontawesome": ">= 0.1.0"
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2693,20 +2693,20 @@ __metadata:
     "@edtr-io/internal__plugin": ^2.0.1
     "@edtr-io/internal__plugin-state": ^2.0.0
     "@testing-library/react": ^12.0.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
     "@types/shortid": ^0.0.29
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    shortid: ^2.0.0
-    styled-components: ^5.0.0
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    shortid: ^2.2.16
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2742,24 +2742,24 @@ __metadata:
     "@edtr-io/plugin-text": ^2.0.1
     "@edtr-io/plugin-video": ^2.0.1
     "@edtr-io/renderer": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    immutable: ^4.0.0-0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    immutable: ^4.0.0-rc.14
     prop-types: ^15.7.2
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    slate: ^0.47.0
-    styled-components: ^5.0.0
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    slate: ^0.47.9
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2778,19 +2778,19 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2815,16 +2815,16 @@ __metadata:
     "@edtr-io/plugin": ^2.0.1
     "@edtr-io/store": ^2.0.1
     "@edtr-io/ui": ^2.0.1
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dnd: ^14.0.0
-    react-dnd-html5-backend: ^14.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    styled-components: ^5.0.0
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dnd: ^14.0.3
+    react-dnd-html5-backend: ^14.0.1
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    styled-components: ^5.3.0
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2842,16 +2842,16 @@ __metadata:
   resolution: "@edtr-io/store-devtools@workspace:packages/public/store-devtools"
   dependencies:
     "@edtr-io/store": ^2.0.1
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/remote-redux-devtools": ^0.5.0
-    "@types/styled-components": ^5.0.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    remote-redux-devtools: ^0.5.0
-    styled-components: ^5.0.0
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/remote-redux-devtools": ^0.5.5
+    "@types/styled-components": ^5.1.12
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    remote-redux-devtools: ^0.5.16
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2869,20 +2869,20 @@ __metadata:
     "@edtr-io/internal__fixtures": ^2.0.0
     "@edtr-io/internal__plugin": ^2.0.1
     "@edtr-io/internal__plugin-state": ^2.0.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
     "@types/shortid": ^0.0.29
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    redux: ^4.0.0
-    redux-saga: ^1.0.0
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    redux: ^4.1.1
+    redux-saga: ^1.1.3
     reselect: ^4.0.0
-    shortid: ^2.0.0
-    styled-components: ^5.0.0
+    shortid: ^2.2.16
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2895,20 +2895,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/ui@workspace:packages/public/ui"
   dependencies:
-    "@fortawesome/fontawesome-svg-core": ^1.0.0
-    "@fortawesome/free-solid-svg-icons": ^5.0.0
-    "@fortawesome/react-fontawesome": ^0.1.0
-    "@types/ramda": ^0.27.0
-    "@types/react": ^17.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-test-renderer": ^17.0.0
-    "@types/styled-components": ^5.0.0
-    ramda: ^0.27.0
-    react: ^17.0.0
-    react-dom: ^17.0.0
-    react-is: ^17.0.0
-    react-test-renderer: ^17.0.0
-    styled-components: ^5.0.0
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
+    "@fortawesome/free-solid-svg-icons": ^5.15.4
+    "@fortawesome/react-fontawesome": ^0.1.15
+    "@types/ramda": ^0.27.44
+    "@types/react": ^17.0.18
+    "@types/react-dom": ^17.0.9
+    "@types/react-test-renderer": ^17.0.1
+    "@types/styled-components": ^5.1.12
+    ramda: ^0.27.1
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-is: ^17.0.2
+    react-test-renderer: ^17.0.2
+    styled-components: ^5.3.0
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -3090,7 +3090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:>= 1, @fortawesome/fontawesome-svg-core@npm:^1.0.0":
+"@fortawesome/fontawesome-svg-core@npm:^1.2.36":
   version: 1.2.36
   resolution: "@fortawesome/fontawesome-svg-core@npm:1.2.36"
   dependencies:
@@ -3099,7 +3099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:>= 5, @fortawesome/free-solid-svg-icons@npm:^5.0.0":
+"@fortawesome/free-solid-svg-icons@npm:^5.15.4":
   version: 5.15.4
   resolution: "@fortawesome/free-solid-svg-icons@npm:5.15.4"
   dependencies:
@@ -3108,7 +3108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/react-fontawesome@npm:>= 0.1.0, @fortawesome/react-fontawesome@npm:^0.1.0":
+"@fortawesome/react-fontawesome@npm:^0.1.15":
   version: 0.1.15
   resolution: "@fortawesome/react-fontawesome@npm:0.1.15"
   dependencies:
@@ -3145,7 +3145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@inyono/changelog@npm:^0.2.0":
+"@inyono/changelog@npm:^0.2.1":
   version: 0.2.1
   resolution: "@inyono/changelog@npm:0.2.1"
   dependencies:
@@ -4419,7 +4419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor@npm:^7.0.0":
+"@microsoft/api-extractor@npm:^7.18.5":
   version: 7.18.5
   resolution: "@microsoft/api-extractor@npm:7.18.5"
   dependencies:
@@ -5020,7 +5020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:^6.0.0":
+"@storybook/addon-actions@npm:^6.3.7":
   version: 6.3.7
   resolution: "@storybook/addon-actions@npm:6.3.7"
   dependencies:
@@ -5053,7 +5053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-knobs@npm:^6.0.0":
+"@storybook/addon-knobs@npm:^6.3.0":
   version: 6.3.0
   resolution: "@storybook/addon-knobs@npm:6.3.0"
   dependencies:
@@ -5607,7 +5607,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@npm:^6.0.0":
+"@storybook/react@npm:^6.3.7":
   version: 6.3.7
   resolution: "@storybook/react@npm:6.3.7"
   dependencies:
@@ -5772,7 +5772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.0.0":
+"@testing-library/dom@npm:^8.0.0, @testing-library/dom@npm:^8.1.0":
   version: 8.1.0
   resolution: "@testing-library/dom@npm:8.1.0"
   dependencies:
@@ -5788,7 +5788,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.0.0":
+"@testing-library/jest-dom@npm:^5.14.1":
   version: 5.14.1
   resolution: "@testing-library/jest-dom@npm:5.14.1"
   dependencies:
@@ -5818,7 +5818,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^13.0.0":
+"@testing-library/user-event@npm:^13.2.1":
   version: 13.2.1
   resolution: "@testing-library/user-event@npm:13.2.1"
   dependencies:
@@ -5864,7 +5864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/algebra.js@npm:^0.2.0":
+"@types/algebra.js@npm:^0.2.1":
   version: 0.2.1
   resolution: "@types/algebra.js@npm:0.2.1"
   checksum: 2461a09197323451b76b8f3af1513b105d0be7bb8082d49277bfe6ad8630ecac75d082d914191e7fc7d4a957703a744b815240b3e20cbdafb2c1e1196db49e56
@@ -5989,7 +5989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/exenv@npm:^1.0.0":
+"@types/exenv@npm:^1.2.0":
   version: 1.2.0
   resolution: "@types/exenv@npm:1.2.0"
   checksum: 257eeedfde9bcf1da2efba415ec6107135c2996a898422b14b86ce6b875c902ab1d63aa6472041282f07490882ea70201fded66b86592acfb7beff79cb060492
@@ -6062,7 +6062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/is-hotkey@npm:^0.1.0":
+"@types/is-hotkey@npm:^0.1.3":
   version: 0.1.3
   resolution: "@types/is-hotkey@npm:0.1.3"
   checksum: 3867b0a252a2ddf26ec7649799ce457c4fd3d6f46b7eb19b861cbe5f76ad2efcfca3b73a0d0b9a48b7113780f646fa8ef99eb5a8071915ab560a7dd907b50a7e
@@ -6104,7 +6104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^27.0.0":
+"@types/jest@npm:*, @types/jest@npm:^27.0.1":
   version: 27.0.1
   resolution: "@types/jest@npm:27.0.1"
   dependencies:
@@ -6131,7 +6131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/katex@npm:^0.11.0":
+"@types/katex@npm:^0.11.1":
   version: 0.11.1
   resolution: "@types/katex@npm:0.11.1"
   checksum: 1e51988b4b386a1b6fa8e22826ab4705bf3e6c9fb03461f2c91d28cb31095232bdeff491069ac9bc74bc4c26110be6a11a41e12ca77a2e4169f3afd8cd349355
@@ -6147,7 +6147,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.0.0":
+"@types/lodash@npm:^4.14.172":
   version: 4.14.172
   resolution: "@types/lodash@npm:4.14.172"
   checksum: 5fc51ea40d7e455bd1c760bcc60c9e81f82d85988666d4d4969bd8311367c63bbf1fe2be48755ba87836710e45fff94014ec164ebe6ccaa72815014981152434
@@ -6303,7 +6303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:^0.27.0":
+"@types/ramda@npm:^0.27.44":
   version: 0.27.44
   resolution: "@types/ramda@npm:0.27.44"
   dependencies:
@@ -6321,7 +6321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.0":
+"@types/react-dom@npm:^17.0.9":
   version: 17.0.9
   resolution: "@types/react-dom@npm:17.0.9"
   dependencies:
@@ -6330,7 +6330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-modal@npm:^3.0.0":
+"@types/react-modal@npm:^3.12.1":
   version: 3.12.1
   resolution: "@types/react-modal@npm:3.12.1"
   dependencies:
@@ -6339,7 +6339,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.0.0, @types/react-redux@npm:^7.1.16":
+"@types/react-redux@npm:^7.1.16, @types/react-redux@npm:^7.1.18":
   version: 7.1.18
   resolution: "@types/react-redux@npm:7.1.18"
   dependencies:
@@ -6351,7 +6351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-resizable@npm:^1.0.0":
+"@types/react-resizable@npm:^1.7.3":
   version: 1.7.3
   resolution: "@types/react-resizable@npm:1.7.3"
   dependencies:
@@ -6369,7 +6369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-syntax-highlighter@npm:^13.0.0":
+"@types/react-syntax-highlighter@npm:^13.5.2":
   version: 13.5.2
   resolution: "@types/react-syntax-highlighter@npm:13.5.2"
   dependencies:
@@ -6378,7 +6378,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:^17.0.0":
+"@types/react-test-renderer@npm:^17.0.1":
   version: 17.0.1
   resolution: "@types/react-test-renderer@npm:17.0.1"
   dependencies:
@@ -6387,7 +6387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.0":
+"@types/react@npm:*, @types/react@npm:^17.0.18":
   version: 17.0.18
   resolution: "@types/react@npm:17.0.18"
   dependencies:
@@ -6398,7 +6398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/remote-redux-devtools@npm:^0.5.0":
+"@types/remote-redux-devtools@npm:^0.5.5":
   version: 0.5.5
   resolution: "@types/remote-redux-devtools@npm:0.5.5"
   dependencies:
@@ -6407,7 +6407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/request@npm:^2.0.0":
+"@types/request@npm:^2.48.7":
   version: 2.48.7
   resolution: "@types/request@npm:2.48.7"
   dependencies:
@@ -6437,7 +6437,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/rimraf@npm:^3.0.0":
+"@types/rimraf@npm:^3.0.1":
   version: 3.0.1
   resolution: "@types/rimraf@npm:3.0.1"
   dependencies:
@@ -6482,7 +6482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.0.0":
+"@types/styled-components@npm:^5.1.12":
   version: 5.1.12
   resolution: "@types/styled-components@npm:5.1.12"
   dependencies:
@@ -6607,12 +6607,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.0.0":
-  version: 4.29.1
-  resolution: "@typescript-eslint/eslint-plugin@npm:4.29.1"
+"@typescript-eslint/eslint-plugin@npm:^4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/eslint-plugin@npm:4.29.2"
   dependencies:
-    "@typescript-eslint/experimental-utils": 4.29.1
-    "@typescript-eslint/scope-manager": 4.29.1
+    "@typescript-eslint/experimental-utils": 4.29.2
+    "@typescript-eslint/scope-manager": 4.29.2
     debug: ^4.3.1
     functional-red-black-tree: ^1.0.1
     regexpp: ^3.1.0
@@ -6624,7 +6624,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 66d8a92a0dc6fe4353334b5fadda73231dc7dbea977bc41f867bf9907e6781dc9594401273280d8de88165223bbf131241a1646ff5f2246bb4289949f95e7a5d
+  checksum: 3d3646059daa3d95200d71945a1ec8daebf62c7fedc3f29e1bece87bee9d689b06856fb18a8c55917f9c0bb5e86ddc8bc4c4f65f171e7d5784756dd59e3ff51d
   languageName: node
   linkType: hard
 
@@ -6642,7 +6642,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:4.29.1, @typescript-eslint/experimental-utils@npm:^4.24.0":
+"@typescript-eslint/experimental-utils@npm:4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/experimental-utils@npm:4.29.2"
+  dependencies:
+    "@types/json-schema": ^7.0.7
+    "@typescript-eslint/scope-manager": 4.29.2
+    "@typescript-eslint/types": 4.29.2
+    "@typescript-eslint/typescript-estree": 4.29.2
+    eslint-scope: ^5.1.1
+    eslint-utils: ^3.0.0
+  peerDependencies:
+    eslint: "*"
+  checksum: e07b6b58f386ba84801d10bfe494548c3af20448c2f5596b77d13ba8621345ced4e1c6cf946dcf118c1e8566e0eed8284200f3f3a96f89aa7f367d9cdf6549a3
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/experimental-utils@npm:^4.24.0":
   version: 4.29.1
   resolution: "@typescript-eslint/experimental-utils@npm:4.29.1"
   dependencies:
@@ -6675,20 +6691,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.0.0":
-  version: 4.29.1
-  resolution: "@typescript-eslint/parser@npm:4.29.1"
+"@typescript-eslint/parser@npm:^4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/parser@npm:4.29.2"
   dependencies:
-    "@typescript-eslint/scope-manager": 4.29.1
-    "@typescript-eslint/types": 4.29.1
-    "@typescript-eslint/typescript-estree": 4.29.1
+    "@typescript-eslint/scope-manager": 4.29.2
+    "@typescript-eslint/types": 4.29.2
+    "@typescript-eslint/typescript-estree": 4.29.2
     debug: ^4.3.1
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 227119d9f7e406b741662417570034396c8ea14016e07c64caf3b8cc8973d6ccc92f98e84cf53cf96cf26825ec62873e0a4dd745f6d1043ce54498d1eec7a20e
+  checksum: 59f9727cea89c208fb31433c24dd7c1b4f2feb3af831b9320f4577f7b84f014f803864d4660b0f6bd16a4026d7ecd22b88523feb8c1593ef4a0a43ca9ea09c33
   languageName: node
   linkType: hard
 
@@ -6702,10 +6718,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/scope-manager@npm:4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/scope-manager@npm:4.29.2"
+  dependencies:
+    "@typescript-eslint/types": 4.29.2
+    "@typescript-eslint/visitor-keys": 4.29.2
+  checksum: f89d11cf7ce28c37a913db432d3dd2c4e5f5bc431bac205dd55c3d49704be691a28d5f27ae96fde7feee23d3e80192d7aff3d8350aef53b415e5b0b53cd965d7
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/types@npm:4.29.1":
   version: 4.29.1
   resolution: "@typescript-eslint/types@npm:4.29.1"
   checksum: feb40f23db3c20d7fe9e629a44ef54d7225e064df6435e31f8417a9a1f5c216f92782a7c03a5fc9808b313a93a2f91df324d01a2e58478c57c5bbb0eb1f519a9
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/types@npm:4.29.2"
+  checksum: 0bcab66bb1848e2361bb366abebe1f94baa56d7d2058b62467f14c054b969b72d1aa17717a52c11f48e9cfb50846f0e227e49ccc7f06ff750b9eb28ca8b064de
   languageName: node
   linkType: hard
 
@@ -6745,6 +6778,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/typescript-estree@npm:4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/typescript-estree@npm:4.29.2"
+  dependencies:
+    "@typescript-eslint/types": 4.29.2
+    "@typescript-eslint/visitor-keys": 4.29.2
+    debug: ^4.3.1
+    globby: ^11.0.3
+    is-glob: ^4.0.1
+    semver: ^7.3.5
+    tsutils: ^3.21.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 90342d27f3f0837ad39f9b7e7d7c3c0b6de9c5b0770f5a18d490ebaf7be78efa65ba46ce0ca3004ad946ca1adc5865c5d3ba3b049c95b3b193bfdf0eb5e23095
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/visitor-keys@npm:4.29.1":
   version: 4.29.1
   resolution: "@typescript-eslint/visitor-keys@npm:4.29.1"
@@ -6752,6 +6803,16 @@ __metadata:
     "@typescript-eslint/types": 4.29.1
     eslint-visitor-keys: ^2.0.0
   checksum: a99db94f80331a0bdd2e4828d43daa7d391312d6edf77d8f80fcd37530ea9eacbf8014dc3378a26e9e22891e0d97c5637fcde2d6272ed091de74ede22bec0224
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:4.29.2":
+  version: 4.29.2
+  resolution: "@typescript-eslint/visitor-keys@npm:4.29.2"
+  dependencies:
+    "@typescript-eslint/types": 4.29.2
+    eslint-visitor-keys: ^2.0.0
+  checksum: 34185d8c6466340aba746d69b36d357da2d06577d73f58358648c142bd0f181d7fae01ca1138188a665ef074ea7e1bc6306ef9d50f29914c8bcea4e9ea1f82f2
   languageName: node
   linkType: hard
 
@@ -7174,7 +7235,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"algebra.js@npm:^0.2.0":
+"algebra.js@npm:^0.2.6":
   version: 0.2.6
   resolution: "algebra.js@npm:0.2.6"
   checksum: 81ddcc1854248b0dfbbe113bae1caf2acbf02a17a3df15bf34543fa8772d3efd6f2854cc4cc9fc1a8e881efd7e454fcc9d90ed2f443a0d193f7c114588b2f1aa
@@ -7742,7 +7803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^8.0.0, babel-loader@npm:^8.2.2":
+"babel-loader@npm:^8.2.2":
   version: 8.2.2
   resolution: "babel-loader@npm:8.2.2"
   dependencies:
@@ -7888,7 +7949,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-module-resolver@npm:^4.0.0":
+"babel-plugin-module-resolver@npm:^4.1.0":
   version: 4.1.0
   resolution: "babel-plugin-module-resolver@npm:4.1.0"
   dependencies:
@@ -9776,7 +9837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.0":
+"cross-env@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -11158,7 +11219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.0.0":
+"eslint-config-prettier@npm:^8.3.0":
   version: 8.3.0
   resolution: "eslint-config-prettier@npm:8.3.0"
   peerDependencies:
@@ -11219,7 +11280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.0.0, eslint-plugin-import@npm:^2.18.2":
+"eslint-plugin-import@npm:^2.18.2, eslint-plugin-import@npm:^2.24.0":
   version: 2.24.0
   resolution: "eslint-plugin-import@npm:2.24.0"
   dependencies:
@@ -11244,7 +11305,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest-dom@npm:^3.0.0":
+"eslint-plugin-jest-dom@npm:^3.9.0":
   version: 3.9.0
   resolution: "eslint-plugin-jest-dom@npm:3.9.0"
   dependencies:
@@ -11257,7 +11318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^36.0.0":
+"eslint-plugin-jsdoc@npm:^36.0.7":
   version: 36.0.7
   resolution: "eslint-plugin-jsdoc@npm:36.0.7"
   dependencies:
@@ -11321,7 +11382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.0.0":
+"eslint-plugin-react-hooks@npm:^4.2.0":
   version: 4.2.0
   resolution: "eslint-plugin-react-hooks@npm:4.2.0"
   peerDependencies:
@@ -11330,7 +11391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.0.0, eslint-plugin-react@npm:^7.14.3":
+"eslint-plugin-react@npm:^7.14.3, eslint-plugin-react@npm:^7.24.0":
   version: 7.24.0
   resolution: "eslint-plugin-react@npm:7.24.0"
   dependencies:
@@ -11352,14 +11413,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^4.0.0":
-  version: 4.10.1
-  resolution: "eslint-plugin-testing-library@npm:4.10.1"
+"eslint-plugin-testing-library@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "eslint-plugin-testing-library@npm:4.11.0"
   dependencies:
     "@typescript-eslint/experimental-utils": ^4.24.0
   peerDependencies:
     eslint: ^7.5.0
-  checksum: 43337748ab24388bebd89803d4ebc32621e88066f5f95411196e7119632606dc8a1d88be9e679d79f7b65d1258d22f04776b70984eef0db16072095d60c1b4b8
+  checksum: 999ac563c85b4b35d014a97a211fd9c21929c8e909271ec312d34bc2f05f88b2f7cfa0d9f89d21e19f8a40879f760790dc19ee0458c4aacad64514814d1be74f
   languageName: node
   linkType: hard
 
@@ -11473,7 +11534,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.0.0":
+"eslint@npm:^7.32.0":
   version: 7.32.0
   resolution: "eslint@npm:7.32.0"
   dependencies:
@@ -11734,7 +11795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exenv@npm:^1.0.0, exenv@npm:^1.2.0":
+"exenv@npm:^1.2.0, exenv@npm:^1.2.2":
   version: 1.2.2
   resolution: "exenv@npm:1.2.2"
   checksum: a894f3b60ab8419e0b6eec99c690a009c8276b4c90655ccaf7d28faba2de3a6b93b3d92210f9dc5efd36058d44f04098f6bbccef99859151104bfd49939904dc
@@ -12028,7 +12089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-loader@npm:^6.0.0, file-loader@npm:^6.2.0":
+"file-loader@npm:^6.2.0":
   version: 6.2.0
   resolution: "file-loader@npm:6.2.0"
   dependencies:
@@ -13603,7 +13664,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"iframe-resizer-react@npm:^1.0.0":
+"iframe-resizer-react@npm:^1.1.0":
   version: 1.1.0
   resolution: "iframe-resizer-react@npm:1.1.0"
   dependencies:
@@ -13654,7 +13715,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"immutable@npm:^4.0.0-0":
+"immutable@npm:^4.0.0-rc.14":
   version: 4.0.0-rc.14
   resolution: "immutable@npm:4.0.0-rc.14"
   checksum: 40941a80dd957361471697388019ae09be28d046a2c79d88dc81b215e6f2ed68a8c7356b9d99bb814a2d978c60d0bdf78997f65403f87adca60d7e11993e8c91
@@ -14560,7 +14621,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"isomorphic-unfetch@npm:^3.0.0":
+"isomorphic-unfetch@npm:^3.1.0":
   version: 3.1.0
   resolution: "isomorphic-unfetch@npm:3.1.0"
   dependencies:
@@ -15577,7 +15638,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jest@npm:^27.0.0":
+"jest@npm:^27.0.6":
   version: 27.0.6
   resolution: "jest@npm:27.0.6"
   dependencies:
@@ -15913,7 +15974,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.13.0":
+"katex@npm:^0.13.13":
   version: 0.13.13
   resolution: "katex@npm:0.13.13"
   dependencies:
@@ -16215,7 +16276,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.0.0":
+"lodash-es@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
   checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
@@ -16318,7 +16379,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.0.0, lodash@npm:^4.1.1, lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.17.5, lodash@npm:^4.7.0, lodash@npm:~4.17.15":
+"lodash@npm:^4.1.1, lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.17.5, lodash@npm:^4.7.0, lodash@npm:~4.17.15":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -17096,7 +17157,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^0.11.0":
+"mini-css-extract-plugin@npm:^0.11.3":
   version: 0.11.3
   resolution: "mini-css-extract-plugin@npm:0.11.3"
   dependencies:
@@ -17913,7 +17974,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"npm-run-all@npm:^4.0.0":
+"npm-run-all@npm:^4.1.5":
   version: 4.1.5
   resolution: "npm-run-all@npm:4.1.5"
   dependencies:
@@ -18186,7 +18247,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"optimize-css-assets-webpack-plugin@npm:^5.0.0":
+"optimize-css-assets-webpack-plugin@npm:^5.0.8":
   version: 5.0.8
   resolution: "optimize-css-assets-webpack-plugin@npm:5.0.8"
   dependencies:
@@ -19359,7 +19420,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.0.0":
+"prettier@npm:^2.0.0, prettier@npm:^2.3.2":
   version: 2.3.2
   resolution: "prettier@npm:2.3.2"
   bin:
@@ -19776,7 +19837,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"ramda@npm:^0.27.0":
+"ramda@npm:^0.27.1":
   version: 0.27.1
   resolution: "ramda@npm:0.27.1"
   checksum: 31a0c0ef739b2525d7615f84cbb5d3cb89ee0c795469b711f729ea1d8df0dccc3cd75d3717a1e9742d42315ce86435680b7c87743eb7618111c60c144a5b8059
@@ -19889,7 +19950,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-dnd-html5-backend@npm:^14.0.0":
+"react-dnd-html5-backend@npm:^14.0.1":
   version: 14.0.1
   resolution: "react-dnd-html5-backend@npm:14.0.1"
   dependencies:
@@ -19898,7 +19959,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-dnd@npm:^14.0.0":
+"react-dnd@npm:^14.0.3":
   version: 14.0.3
   resolution: "react-dnd@npm:14.0.3"
   dependencies:
@@ -19952,7 +20013,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^17.0.0":
+"react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
   dependencies:
@@ -20072,7 +20133,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:^6.0.0":
+"react-markdown@npm:^6.0.3":
   version: 6.0.3
   resolution: "react-markdown@npm:6.0.3"
   dependencies:
@@ -20096,7 +20157,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-mathquill@npm:^1.0.0":
+"react-mathquill@npm:^1.0.1":
   version: 1.0.1
   resolution: "react-mathquill@npm:1.0.1"
   peerDependencies:
@@ -20105,7 +20166,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-modal@npm:^3.0.0":
+"react-modal@npm:^3.14.3":
   version: 3.14.3
   resolution: "react-modal@npm:3.14.3"
   dependencies:
@@ -20147,7 +20208,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.0.0":
+"react-redux@npm:^7.2.4":
   version: 7.2.4
   resolution: "react-redux@npm:7.2.4"
   dependencies:
@@ -20175,7 +20236,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-resizable@npm:^1.0.0":
+"react-resizable@npm:^1.11.1":
   version: 1.11.1
   resolution: "react-resizable@npm:1.11.1"
   dependencies:
@@ -20249,7 +20310,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-syntax-highlighter@npm:^15.4.0":
+"react-syntax-highlighter@npm:^15.4.4":
   version: 15.4.4
   resolution: "react-syntax-highlighter@npm:15.4.4"
   dependencies:
@@ -20264,7 +20325,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-test-renderer@npm:^17.0.0":
+"react-test-renderer@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-test-renderer@npm:17.0.2"
   dependencies:
@@ -20278,7 +20339,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-textarea-autosize@npm:^8.0.0, react-textarea-autosize@npm:^8.3.0":
+"react-textarea-autosize@npm:^8.3.0, react-textarea-autosize@npm:^8.3.3":
   version: 8.3.3
   resolution: "react-textarea-autosize@npm:8.3.3"
   dependencies:
@@ -20306,7 +20367,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.0":
+"react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
   dependencies:
@@ -20539,7 +20600,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"redux-saga@npm:^1.0.0":
+"redux-saga@npm:^1.1.3":
   version: 1.1.3
   resolution: "redux-saga@npm:1.1.3"
   dependencies:
@@ -20548,7 +20609,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.0.4, redux@npm:^4.0.5":
+"redux@npm:^4.0.0, redux@npm:^4.0.4, redux@npm:^4.0.5, redux@npm:^4.1.1":
   version: 4.1.1
   resolution: "redux@npm:4.1.1"
   dependencies:
@@ -20773,7 +20834,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"remote-redux-devtools@npm:^0.5.0":
+"remote-redux-devtools@npm:^0.5.16":
   version: 0.5.16
   resolution: "remote-redux-devtools@npm:0.5.16"
   dependencies:
@@ -20854,7 +20915,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"request@npm:^2.0.0, request@npm:^2.87.0, request@npm:^2.88.0, request@npm:^2.88.2":
+"request@npm:^2.87.0, request@npm:^2.88.0, request@npm:^2.88.2":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
   dependencies:
@@ -21694,7 +21755,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"shortid@npm:^2.0.0":
+"shortid@npm:^2.2.16":
   version: 2.2.16
   resolution: "shortid@npm:2.2.16"
   dependencies:
@@ -21781,7 +21842,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"slate-html-serializer@npm:^0.8.0":
+"slate-html-serializer@npm:^0.8.13":
   version: 0.8.13
   resolution: "slate-html-serializer@npm:0.8.13"
   dependencies:
@@ -21826,7 +21887,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"slate-react@npm:^0.22.0":
+"slate-react@npm:^0.22.10":
   version: 0.22.10
   resolution: "slate-react@npm:0.22.10"
   dependencies:
@@ -21855,7 +21916,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"slate@npm:^0.47.0":
+"slate@npm:^0.47.9":
   version: 0.47.9
   resolution: "slate@npm:0.47.9"
   dependencies:
@@ -22598,7 +22659,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^5.0.0":
+"styled-components@npm:^5.3.0":
   version: 5.3.0
   resolution: "styled-components@npm:5.3.0"
   dependencies:
@@ -22887,7 +22948,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"terser-webpack-plugin@npm:^4.0.0, terser-webpack-plugin@npm:^4.2.3":
+"terser-webpack-plugin@npm:^4.2.3":
   version: 4.2.3
   resolution: "terser-webpack-plugin@npm:4.2.3"
   dependencies:
@@ -23030,7 +23091,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.0.0, tiny-invariant@npm:^1.0.1":
+"tiny-invariant@npm:^1.0.1, tiny-invariant@npm:^1.1.0":
   version: 1.1.0
   resolution: "tiny-invariant@npm:1.1.0"
   checksum: 27d29bbb9e1d1d86e25766711c28ad91af6d67c87d561167077ac7fbce5212b97bbfe875e70bc369808e075748c825864c9b61f0e9f8652275ec86bcf4dcc924
@@ -23044,7 +23105,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"tiny-warning@npm:^1.0.0":
+"tiny-warning@npm:^1.0.3":
   version: 1.0.3
   resolution: "tiny-warning@npm:1.0.3"
   checksum: da62c4acac565902f0624b123eed6dd3509bc9a8d30c06e017104bedcf5d35810da8ff72864400ad19c5c7806fc0a8323c68baf3e326af7cb7d969f846100d71
@@ -23278,7 +23339,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.0.0":
+"ts-node@npm:^10.2.0":
   version: 10.2.0
   resolution: "ts-node@npm:10.2.0"
   dependencies:
@@ -23342,7 +23403,7 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"tsdx@npm:^0.14.0":
+"tsdx@npm:^0.14.1":
   version: 0.14.1
   resolution: "tsdx@npm:0.14.1"
   dependencies:
@@ -23612,7 +23673,7 @@ typescript@^3.7.3:
   languageName: node
   linkType: hard
 
-"typescript@^4.0.0, typescript@~4.3.5":
+"typescript@^4.3.5, typescript@~4.3.5":
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
@@ -23632,7 +23693,7 @@ typescript@^3.7.3:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.0.0#~builtin<compat/typescript>, typescript@patch:typescript@~4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>, typescript@patch:typescript@~4.3.5#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:
@@ -24340,7 +24401,7 @@ typescript@^3.7.3:
   languageName: node
   linkType: hard
 
-"webpack-bundle-analyzer@npm:^3.0.0":
+"webpack-bundle-analyzer@npm:^3.9.0":
   version: 3.9.0
   resolution: "webpack-bundle-analyzer@npm:3.9.0"
   dependencies:
@@ -24363,7 +24424,7 @@ typescript@^3.7.3:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^3.0.0":
+"webpack-cli@npm:^3.3.12":
   version: 3.3.12
   resolution: "webpack-cli@npm:3.3.12"
   dependencies:
@@ -24451,7 +24512,7 @@ typescript@^3.7.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:4, webpack@npm:^4.0.0":
+"webpack@npm:4, webpack@npm:^4.46.0":
   version: 4.46.0
   resolution: "webpack@npm:4.46.0"
   dependencies:

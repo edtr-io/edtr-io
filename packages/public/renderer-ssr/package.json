@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@edtr-io/renderer": "^2.0.1",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5.0.0"
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.12"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.0.1",
@@ -36,21 +36,21 @@
     "@edtr-io/plugin-table": "^2.0.1",
     "@edtr-io/plugin-text": "^2.0.1",
     "@edtr-io/plugin-video": "^2.0.1",
-    "@fortawesome/fontawesome-svg-core": "^1.0.0",
-    "@fortawesome/free-solid-svg-icons": "^5.0.0",
-    "@fortawesome/react-fontawesome": "^0.1.0",
-    "@types/ramda": "^0.27.0",
-    "immutable": "^4.0.0-0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
+    "@types/ramda": "^0.27.44",
+    "immutable": "^4.0.0-rc.14",
     "prop-types": "^15.7.2",
-    "ramda": "^0.27.0",
-    "react": "^17.0.0",
-    "react-dnd": "^14.0.0",
-    "react-dnd-html5-backend": "^14.0.0",
-    "react-dom": "^17.0.0",
-    "react-is": "^17.0.0",
-    "redux": "^4.0.0",
-    "slate": "^0.47.0",
-    "styled-components": "^5.0.0"
+    "ramda": "^0.27.1",
+    "react": "^17.0.2",
+    "react-dnd": "^14.0.3",
+    "react-dnd-html5-backend": "^14.0.1",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "redux": "^4.1.1",
+    "slate": "^0.47.9",
+    "styled-components": "^5.3.0"
   },
   "peerDependencies": {
     "@edtr-io/core": ">= 1",

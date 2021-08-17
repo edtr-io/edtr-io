@@ -14,15 +14,15 @@
   "dependencies": {
     "@edtr-io/document-editor": "^2.0.0",
     "@edtr-io/ui": "^2.0.1",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5.0.0"
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.12"
   },
   "devDependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "react-is": "^17.0.0",
-    "styled-components": "^5.0.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "styled-components": "^5.3.0"
   },
   "peerDependencies": {
     "react": ">= 17",

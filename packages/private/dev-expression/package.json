@@ -12,8 +12,8 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "tiny-invariant": "^1.0.0",
-    "tiny-warning": "^1.0.0"
+    "tiny-invariant": "^1.1.0",
+    "tiny-warning": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
