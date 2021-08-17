@@ -1120,6 +1120,16 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         ],
       ],
     },
+    {
+      tagName: 'v2.1.0',
+      date: '2021-08-17',
+      added: [
+        ['multimedia-explanation', 'Allow to disable importance feature.'],
+      ],
+      fixed: [
+        ['multimedia-explanation', 'Do not render empty multimedia objects.'],
+      ],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

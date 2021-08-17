@@ -1860,7 +1860,7 @@ __metadata:
     "@edtr-io/plugin-highlight": ^2.0.2
     "@edtr-io/plugin-image": ^2.0.2
     "@edtr-io/plugin-input-exercise": ^2.0.2
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.1.0
     "@edtr-io/plugin-rows": ^2.0.2
     "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
     "@edtr-io/plugin-serlo-injection": ^2.0.2
@@ -1869,7 +1869,7 @@ __metadata:
     "@edtr-io/plugin-text": ^2.0.2
     "@edtr-io/plugin-video": ^2.0.2
     "@edtr-io/renderer": ^2.0.2
-    "@edtr-io/renderer-ssr": ^2.0.2
+    "@edtr-io/renderer-ssr": ^2.1.0
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -1910,7 +1910,7 @@ __metadata:
     "@edtr-io/plugin-highlight": ^2.0.2
     "@edtr-io/plugin-image": ^2.0.2
     "@edtr-io/plugin-input-exercise": ^2.0.2
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.1.0
     "@edtr-io/plugin-rows": ^2.0.2
     "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
     "@edtr-io/plugin-serlo-injection": ^2.0.2
@@ -2359,7 +2359,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-multimedia-explanation@^2.0.2, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
+"@edtr-io/plugin-multimedia-explanation@^2.1.0, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation"
   dependencies:
@@ -2748,7 +2748,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer-ssr@^2.0.2, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
+"@edtr-io/renderer-ssr@^2.1.0, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr"
   dependencies:
@@ -2762,7 +2762,7 @@ __metadata:
     "@edtr-io/plugin-highlight": ^2.0.2
     "@edtr-io/plugin-image": ^2.0.2
     "@edtr-io/plugin-input-exercise": ^2.0.2
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.1.0
     "@edtr-io/plugin-rows": ^2.0.2
     "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
     "@edtr-io/plugin-serlo-injection": ^2.0.2

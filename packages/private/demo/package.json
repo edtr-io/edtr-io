@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/internal__demo",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
     "@edtr-io/plugin-highlight": "^2.0.2",
     "@edtr-io/plugin-image": "^2.0.2",
     "@edtr-io/plugin-input-exercise": "^2.0.2",
-    "@edtr-io/plugin-multimedia-explanation": "^2.0.2",
+    "@edtr-io/plugin-multimedia-explanation": "^2.1.0",
     "@edtr-io/plugin-rows": "^2.0.2",
     "@edtr-io/plugin-sc-mc-exercise": "^2.0.2",
     "@edtr-io/plugin-serlo-injection": "^2.0.2",
