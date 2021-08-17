@@ -13,7 +13,7 @@
     "prebuild-demo": "yarn build",
     "build-demo": "lerna run --scope=@edtr-io/internal__demo build",
     "regenerate-api": "lerna run --concurrency=2 --stream regenerate-api",
-    "format": "npm-run-all -c format:*",
+    "format": "npm-run-all -c \"format:*\"",
     "format:eslint": "yarn _eslint --fix",
     "format:prettier": "yarn _prettier --write",
     "lint": "npm-run-all lint:tsc lint:prettier lint:eslint",
