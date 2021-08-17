@@ -1110,6 +1110,16 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       date: '2021-05-13',
       fixed: ['Update dependencies.'],
     },
+    {
+      tagName: 'v2.0.2',
+      date: '2021-08-17',
+      fixed: [
+        [
+          'multimedia-explanation',
+          'Show option to change multimedia type only if there are multiple multimedia plugins.',
+        ],
+      ],
+    },
   ])
 
   await writeFile(path.join(__dirname, '..', 'CHANGELOG.md'), content)

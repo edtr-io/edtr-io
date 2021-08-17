@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-blockquote",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,14 +12,14 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/plugin": "^2.0.1",
+    "@edtr-io/plugin": "^2.0.2",
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.12"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.0.1",
-    "@edtr-io/plugin-text": "^2.0.1",
+    "@edtr-io/core": "^2.0.2",
+    "@edtr-io/plugin-text": "^2.0.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
@@ -30,7 +30,8 @@
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "redux": "^4.1.1",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "tsdx": "^0.14.1"
   },
   "peerDependencies": {
     "@edtr-io/core": ">= 1",

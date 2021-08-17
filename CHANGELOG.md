@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.2](https://github.com/edtr-io/edtr-io/compare/v2.0.1..v2.0.2) - August 17, 2021
+
+### Fixed
+
+- **multimedia-explanation**. Show option to change multimedia type only if there are multiple multimedia plugins.
+
 ## [v2.0.1](https://github.com/edtr-io/edtr-io/compare/v2.0.0..v2.0.1) - May 13, 2021
 
 ### Fixed

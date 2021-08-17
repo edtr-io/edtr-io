@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/internal__dev-expression",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -14,6 +14,9 @@
   "dependencies": {
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.3"
+  },
+  "devDependencies": {
+    "tsdx": "^0.14.1"
   },
   "publishConfig": {
     "access": "public"

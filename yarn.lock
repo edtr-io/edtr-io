@@ -1665,20 +1665,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edtr-io/core@^2.0.1, @edtr-io/core@workspace:packages/public/core":
+"@edtr-io/core@^2.0.2, @edtr-io/core@workspace:packages/public/core":
   version: 0.0.0-use.local
   resolution: "@edtr-io/core@workspace:packages/public/core"
   dependencies:
     "@babel/runtime": ^7.15.3
-    "@edtr-io/default-document-editor": ^2.0.1
-    "@edtr-io/default-plugin-toolbar": ^2.0.1
-    "@edtr-io/internal__document-editor": ^2.0.0
+    "@edtr-io/default-document-editor": ^2.0.2
+    "@edtr-io/default-plugin-toolbar": ^2.0.2
+    "@edtr-io/internal__document-editor": ^2.0.2
     "@edtr-io/internal__fixtures": ^2.0.0
-    "@edtr-io/internal__plugin": ^2.0.1
-    "@edtr-io/internal__plugin-state": ^2.0.0
-    "@edtr-io/internal__plugin-toolbar": ^2.0.0
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/internal__plugin": ^2.0.2
+    "@edtr-io/internal__plugin-state": ^2.0.2
+    "@edtr-io/internal__plugin-toolbar": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@types/ramda": ^0.27.44
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
@@ -1698,6 +1698,7 @@ __metadata:
     redux: ^4.1.1
     shortid: ^2.2.16
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dnd: ">= 14"
@@ -1709,12 +1710,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/default-document-editor@^2.0.1, @edtr-io/default-document-editor@workspace:packages/public/default-document-editor":
+"@edtr-io/default-document-editor@^2.0.2, @edtr-io/default-document-editor@workspace:packages/public/default-document-editor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/default-document-editor@workspace:packages/public/default-document-editor"
   dependencies:
-    "@edtr-io/document-editor": ^2.0.0
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/document-editor": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
     "@types/styled-components": ^5.1.12
@@ -1722,6 +1723,7 @@ __metadata:
     react-dom: ^17.0.2
     react-is: ^17.0.2
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -1730,12 +1732,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/default-plugin-toolbar@^2.0.1, @edtr-io/default-plugin-toolbar@workspace:packages/public/default-plugin-toolbar":
+"@edtr-io/default-plugin-toolbar@^2.0.2, @edtr-io/default-plugin-toolbar@workspace:packages/public/default-plugin-toolbar":
   version: 0.0.0-use.local
   resolution: "@edtr-io/default-plugin-toolbar@workspace:packages/public/default-plugin-toolbar"
   dependencies:
-    "@edtr-io/plugin-toolbar": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/plugin-toolbar": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
     "@types/react-modal": ^3.12.1
@@ -1745,6 +1747,7 @@ __metadata:
     react-is: ^17.0.2
     react-modal: ^3.14.3
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -1753,23 +1756,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/document-editor@^2.0.0, @edtr-io/document-editor@workspace:packages/public/document-editor":
+"@edtr-io/document-editor@^2.0.2, @edtr-io/document-editor@workspace:packages/public/document-editor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/document-editor@workspace:packages/public/document-editor"
   dependencies:
-    "@edtr-io/internal__document-editor": ^2.0.0
+    "@edtr-io/internal__document-editor": ^2.0.2
     react: ^17.0.2
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
   languageName: unknown
   linkType: soft
 
-"@edtr-io/editor-ui@^2.0.1, @edtr-io/editor-ui@workspace:packages/public/editor-ui":
+"@edtr-io/editor-ui@^2.0.2, @edtr-io/editor-ui@workspace:packages/public/editor-ui":
   version: 0.0.0-use.local
   resolution: "@edtr-io/editor-ui@workspace:packages/public/editor-ui"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -1786,6 +1790,7 @@ __metadata:
     react-textarea-autosize: ^8.3.3
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -1846,25 +1851,25 @@ __metadata:
   resolution: "@edtr-io/internal__bundle-size@workspace:packages/private/bundle-size"
   dependencies:
     "@babel/core": ^7.15.0
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-anchor": ^2.0.1
-    "@edtr-io/plugin-blockquote": ^2.0.1
-    "@edtr-io/plugin-files": ^2.0.1
-    "@edtr-io/plugin-geogebra": ^2.0.1
-    "@edtr-io/plugin-highlight": ^2.0.1
-    "@edtr-io/plugin-image": ^2.0.1
-    "@edtr-io/plugin-input-exercise": ^2.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.1
-    "@edtr-io/plugin-rows": ^2.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^2.0.1
-    "@edtr-io/plugin-serlo-injection": ^2.0.1
-    "@edtr-io/plugin-spoiler": ^2.0.1
-    "@edtr-io/plugin-table": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/plugin-video": ^2.0.1
-    "@edtr-io/renderer": ^2.0.1
-    "@edtr-io/renderer-ssr": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-anchor": ^2.0.2
+    "@edtr-io/plugin-blockquote": ^2.0.2
+    "@edtr-io/plugin-files": ^2.0.2
+    "@edtr-io/plugin-geogebra": ^2.0.2
+    "@edtr-io/plugin-highlight": ^2.0.2
+    "@edtr-io/plugin-image": ^2.0.2
+    "@edtr-io/plugin-input-exercise": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-rows": ^2.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
+    "@edtr-io/plugin-serlo-injection": ^2.0.2
+    "@edtr-io/plugin-spoiler": ^2.0.2
+    "@edtr-io/plugin-table": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/plugin-video": ^2.0.2
+    "@edtr-io/renderer": ^2.0.2
+    "@edtr-io/renderer-ssr": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -1883,6 +1888,7 @@ __metadata:
     redux: ^4.1.1
     styled-components: ^5.3.0
     terser-webpack-plugin: ^4.2.3
+    tsdx: ^0.14.1
     webpack: ^4.46.0
     webpack-bundle-analyzer: ^3.9.0
     webpack-cli: ^3.3.12
@@ -1894,28 +1900,28 @@ __metadata:
   resolution: "@edtr-io/internal__demo@workspace:packages/private/demo"
   dependencies:
     "@babel/core": ^7.15.0
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/math": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-anchor": ^2.0.1
-    "@edtr-io/plugin-blockquote": ^2.0.1
-    "@edtr-io/plugin-files": ^2.0.1
-    "@edtr-io/plugin-geogebra": ^2.0.1
-    "@edtr-io/plugin-highlight": ^2.0.1
-    "@edtr-io/plugin-image": ^2.0.1
-    "@edtr-io/plugin-input-exercise": ^2.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.1
-    "@edtr-io/plugin-rows": ^2.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^2.0.1
-    "@edtr-io/plugin-serlo-injection": ^2.0.1
-    "@edtr-io/plugin-spoiler": ^2.0.1
-    "@edtr-io/plugin-table": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/plugin-video": ^2.0.1
-    "@edtr-io/renderer": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/store-devtools": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/math": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-anchor": ^2.0.2
+    "@edtr-io/plugin-blockquote": ^2.0.2
+    "@edtr-io/plugin-files": ^2.0.2
+    "@edtr-io/plugin-geogebra": ^2.0.2
+    "@edtr-io/plugin-highlight": ^2.0.2
+    "@edtr-io/plugin-image": ^2.0.2
+    "@edtr-io/plugin-input-exercise": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-rows": ^2.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
+    "@edtr-io/plugin-serlo-injection": ^2.0.2
+    "@edtr-io/plugin-spoiler": ^2.0.2
+    "@edtr-io/plugin-table": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/plugin-video": ^2.0.2
+    "@edtr-io/renderer": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/store-devtools": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -1947,22 +1953,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/internal__dev-expression@^2.0.0, @edtr-io/internal__dev-expression@workspace:packages/private/dev-expression":
+"@edtr-io/internal__dev-expression@^2.0.2, @edtr-io/internal__dev-expression@workspace:packages/private/dev-expression":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__dev-expression@workspace:packages/private/dev-expression"
   dependencies:
     tiny-invariant: ^1.1.0
     tiny-warning: ^1.0.3
+    tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@edtr-io/internal__document-editor@^2.0.0, @edtr-io/internal__document-editor@workspace:packages/private/document-editor":
+"@edtr-io/internal__document-editor@^2.0.2, @edtr-io/internal__document-editor@workspace:packages/private/document-editor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__document-editor@workspace:packages/private/document-editor"
   dependencies:
-    "@edtr-io/internal__plugin-toolbar": ^2.0.0
+    "@edtr-io/internal__plugin-toolbar": ^2.0.2
     "@types/react": ^17.0.18
     react: ^17.0.2
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
   languageName: unknown
@@ -1974,35 +1982,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/internal__plugin-state@^2.0.0, @edtr-io/internal__plugin-state@workspace:packages/private/plugin-state":
+"@edtr-io/internal__plugin-state@^2.0.2, @edtr-io/internal__plugin-state@workspace:packages/private/plugin-state":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__plugin-state@workspace:packages/private/plugin-state"
   dependencies:
-    "@edtr-io/internal__document-editor": ^2.0.0
+    "@edtr-io/internal__document-editor": ^2.0.2
     "@types/react": ^17.0.18
     react: ^17.0.2
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
   languageName: unknown
   linkType: soft
 
-"@edtr-io/internal__plugin-toolbar@^2.0.0, @edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar":
+"@edtr-io/internal__plugin-toolbar@^2.0.2, @edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar"
   dependencies:
     "@types/react": ^17.0.18
     react: ^17.0.2
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
   languageName: unknown
   linkType: soft
 
-"@edtr-io/internal__plugin@^2.0.1, @edtr-io/internal__plugin@workspace:packages/private/plugin":
+"@edtr-io/internal__plugin@^2.0.2, @edtr-io/internal__plugin@workspace:packages/private/plugin":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__plugin@workspace:packages/private/plugin"
   dependencies:
-    "@edtr-io/internal__plugin-state": ^2.0.0
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/internal__plugin-state": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@types/ramda": ^0.27.44
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
@@ -2013,6 +2023,7 @@ __metadata:
     react-is: ^17.0.2
     shortid: ^2.2.16
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2021,13 +2032,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/math@^2.0.1, @edtr-io/math@workspace:packages/public/math":
+"@edtr-io/math@^2.0.2, @edtr-io/math@workspace:packages/public/math":
   version: 0.0.0-use.local
   resolution: "@edtr-io/math@workspace:packages/public/math"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2049,6 +2060,7 @@ __metadata:
     react-modal: ^3.14.3
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2065,14 +2077,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-anchor@^2.0.1, @edtr-io/plugin-anchor@workspace:packages/plugins/anchor":
+"@edtr-io/plugin-anchor@^2.0.2, @edtr-io/plugin-anchor@workspace:packages/plugins/anchor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-anchor@workspace:packages/plugins/anchor"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2086,6 +2098,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2101,13 +2114,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-blockquote@^2.0.1, @edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote":
+"@edtr-io/plugin-blockquote@^2.0.2, @edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2122,6 +2135,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2137,14 +2151,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-files@^2.0.1, @edtr-io/plugin-files@workspace:packages/plugins/files":
+"@edtr-io/plugin-files@^2.0.2, @edtr-io/plugin-files@workspace:packages/plugins/files":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-files@workspace:packages/plugins/files"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2158,6 +2172,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2173,14 +2188,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-geogebra@^2.0.1, @edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra":
+"@edtr-io/plugin-geogebra@^2.0.2, @edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2198,6 +2213,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2213,14 +2229,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-highlight@^2.0.1, @edtr-io/plugin-highlight@workspace:packages/plugins/highlight":
+"@edtr-io/plugin-highlight@^2.0.2, @edtr-io/plugin-highlight@workspace:packages/plugins/highlight":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-highlight@workspace:packages/plugins/highlight"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2238,6 +2254,7 @@ __metadata:
     react-syntax-highlighter: ^15.4.4
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2253,14 +2270,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-image@^2.0.1, @edtr-io/plugin-image@workspace:packages/plugins/image":
+"@edtr-io/plugin-image@^2.0.2, @edtr-io/plugin-image@workspace:packages/plugins/image":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-image@workspace:packages/plugins/image"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2276,6 +2293,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2291,19 +2309,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-input-exercise@^2.0.1, @edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise":
+"@edtr-io/plugin-input-exercise@^2.0.2, @edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/internal__dev-expression": ^2.0.0
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/renderer": ^2.0.1
-    "@edtr-io/renderer-ui": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/internal__dev-expression": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/renderer": ^2.0.2
+    "@edtr-io/renderer-ui": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2325,6 +2343,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2340,19 +2359,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-multimedia-explanation@^2.0.1, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
+"@edtr-io/plugin-multimedia-explanation@^2.0.2, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-geogebra": ^2.0.1
-    "@edtr-io/plugin-image": ^2.0.1
-    "@edtr-io/plugin-rows": ^2.0.1
-    "@edtr-io/plugin-video": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-geogebra": ^2.0.2
+    "@edtr-io/plugin-image": ^2.0.2
+    "@edtr-io/plugin-rows": ^2.0.2
+    "@edtr-io/plugin-video": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2370,6 +2389,7 @@ __metadata:
     react-resizable: ^1.11.1
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2385,16 +2405,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-rows@^2.0.1, @edtr-io/plugin-rows@workspace:packages/plugins/rows":
+"@edtr-io/plugin-rows@^2.0.2, @edtr-io/plugin-rows@workspace:packages/plugins/rows":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-rows@workspace:packages/plugins/rows"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2411,6 +2431,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2426,17 +2447,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-sc-mc-exercise@^2.0.1, @edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise":
+"@edtr-io/plugin-sc-mc-exercise@^2.0.2, @edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/renderer-ui": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/renderer-ui": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2453,6 +2474,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2468,14 +2490,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-serlo-injection@^2.0.1, @edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection":
+"@edtr-io/plugin-serlo-injection@^2.0.2, @edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2491,6 +2513,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2507,17 +2530,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-spoiler@^2.0.1, @edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler":
+"@edtr-io/plugin-spoiler@^2.0.2, @edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-rows": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/renderer-ui": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-rows": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/renderer-ui": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2534,6 +2557,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2549,14 +2573,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-table@^2.0.1, @edtr-io/plugin-table@workspace:packages/plugins/table":
+"@edtr-io/plugin-table@^2.0.2, @edtr-io/plugin-table@workspace:packages/plugins/table":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-table@workspace:packages/plugins/table"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2572,6 +2596,7 @@ __metadata:
     redux: ^4.1.1
     remark-gfm: ^1.0.0
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2587,17 +2612,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-text@^2.0.1, @edtr-io/plugin-text@workspace:packages/plugins/text":
+"@edtr-io/plugin-text@^2.0.2, @edtr-io/plugin-text@workspace:packages/plugins/text":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-text@workspace:packages/plugins/text"
   dependencies:
     "@convertkit/slate-lists": ^0.2.11
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/math": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/math": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2619,6 +2644,7 @@ __metadata:
     slate-html-serializer: ^0.8.13
     slate-react: ^0.22.10
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2635,26 +2661,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-toolbar@^2.0.1, @edtr-io/plugin-toolbar@workspace:packages/public/plugin-toolbar":
+"@edtr-io/plugin-toolbar@^2.0.2, @edtr-io/plugin-toolbar@workspace:packages/public/plugin-toolbar":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-toolbar@workspace:packages/public/plugin-toolbar"
   dependencies:
-    "@edtr-io/internal__plugin-toolbar": ^2.0.0
+    "@edtr-io/internal__plugin-toolbar": ^2.0.2
     "@types/react": ^17.0.18
     react: ^17.0.2
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-video@^2.0.1, @edtr-io/plugin-video@workspace:packages/plugins/video":
+"@edtr-io/plugin-video@^2.0.2, @edtr-io/plugin-video@workspace:packages/plugins/video":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-video@workspace:packages/plugins/video"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/editor-ui": ^2.0.1
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/editor-ui": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2670,6 +2697,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2685,13 +2713,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin@^2.0.1, @edtr-io/plugin@workspace:packages/public/plugin":
+"@edtr-io/plugin@^2.0.2, @edtr-io/plugin@workspace:packages/public/plugin":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin@workspace:packages/public/plugin"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/internal__plugin": ^2.0.1
-    "@edtr-io/internal__plugin-state": ^2.0.0
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/internal__plugin": ^2.0.2
+    "@edtr-io/internal__plugin-state": ^2.0.2
     "@testing-library/react": ^12.0.0
     "@types/ramda": ^0.27.44
     "@types/react": ^17.0.18
@@ -2707,6 +2735,7 @@ __metadata:
     redux: ^4.1.1
     shortid: ^2.2.16
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2719,29 +2748,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer-ssr@^2.0.1, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
+"@edtr-io/renderer-ssr@^2.0.2, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr"
   dependencies:
-    "@edtr-io/core": ^2.0.1
+    "@edtr-io/core": ^2.0.2
     "@edtr-io/internal__fixtures": ^2.0.0
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/plugin-anchor": ^2.0.1
-    "@edtr-io/plugin-blockquote": ^2.0.1
-    "@edtr-io/plugin-files": ^2.0.1
-    "@edtr-io/plugin-geogebra": ^2.0.1
-    "@edtr-io/plugin-highlight": ^2.0.1
-    "@edtr-io/plugin-image": ^2.0.1
-    "@edtr-io/plugin-input-exercise": ^2.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.0.1
-    "@edtr-io/plugin-rows": ^2.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^2.0.1
-    "@edtr-io/plugin-serlo-injection": ^2.0.1
-    "@edtr-io/plugin-spoiler": ^2.0.1
-    "@edtr-io/plugin-table": ^2.0.1
-    "@edtr-io/plugin-text": ^2.0.1
-    "@edtr-io/plugin-video": ^2.0.1
-    "@edtr-io/renderer": ^2.0.1
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/plugin-anchor": ^2.0.2
+    "@edtr-io/plugin-blockquote": ^2.0.2
+    "@edtr-io/plugin-files": ^2.0.2
+    "@edtr-io/plugin-geogebra": ^2.0.2
+    "@edtr-io/plugin-highlight": ^2.0.2
+    "@edtr-io/plugin-image": ^2.0.2
+    "@edtr-io/plugin-input-exercise": ^2.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^2.0.2
+    "@edtr-io/plugin-rows": ^2.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^2.0.2
+    "@edtr-io/plugin-serlo-injection": ^2.0.2
+    "@edtr-io/plugin-spoiler": ^2.0.2
+    "@edtr-io/plugin-table": ^2.0.2
+    "@edtr-io/plugin-text": ^2.0.2
+    "@edtr-io/plugin-video": ^2.0.2
+    "@edtr-io/renderer": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2760,6 +2789,7 @@ __metadata:
     redux: ^4.1.1
     slate: ^0.47.9
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2772,12 +2802,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer-ui@^2.0.1, @edtr-io/renderer-ui@workspace:packages/public/renderer-ui":
+"@edtr-io/renderer-ui@^2.0.2, @edtr-io/renderer-ui@workspace:packages/public/renderer-ui":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ui@workspace:packages/public/renderer-ui"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
@@ -2791,6 +2821,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     "@fortawesome/fontawesome-svg-core": ">= 1"
@@ -2806,15 +2837,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer@^2.0.1, @edtr-io/renderer@workspace:packages/public/renderer":
+"@edtr-io/renderer@^2.0.2, @edtr-io/renderer@workspace:packages/public/renderer":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer@workspace:packages/public/renderer"
   dependencies:
-    "@edtr-io/core": ^2.0.1
-    "@edtr-io/internal__dev-expression": ^2.0.0
-    "@edtr-io/plugin": ^2.0.1
-    "@edtr-io/store": ^2.0.1
-    "@edtr-io/ui": ^2.0.1
+    "@edtr-io/core": ^2.0.2
+    "@edtr-io/internal__dev-expression": ^2.0.2
+    "@edtr-io/plugin": ^2.0.2
+    "@edtr-io/store": ^2.0.2
+    "@edtr-io/ui": ^2.0.2
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
     "@types/styled-components": ^5.1.12
@@ -2825,6 +2856,7 @@ __metadata:
     react-is: ^17.0.2
     redux: ^4.1.1
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     "@edtr-io/core": ">= 1"
     react: ">= 17"
@@ -2837,11 +2869,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/store-devtools@^2.0.1, @edtr-io/store-devtools@workspace:packages/public/store-devtools":
+"@edtr-io/store-devtools@^2.0.2, @edtr-io/store-devtools@workspace:packages/public/store-devtools":
   version: 0.0.0-use.local
   resolution: "@edtr-io/store-devtools@workspace:packages/public/store-devtools"
   dependencies:
-    "@edtr-io/store": ^2.0.1
+    "@edtr-io/store": ^2.0.2
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
     "@types/remote-redux-devtools": ^0.5.5
@@ -2852,6 +2884,7 @@ __metadata:
     redux: ^4.1.1
     remote-redux-devtools: ^0.5.16
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2861,14 +2894,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/store@^2.0.1, @edtr-io/store@workspace:packages/public/store":
+"@edtr-io/store@^2.0.2, @edtr-io/store@workspace:packages/public/store":
   version: 0.0.0-use.local
   resolution: "@edtr-io/store@workspace:packages/public/store"
   dependencies:
-    "@edtr-io/internal__dev-expression": ^2.0.0
+    "@edtr-io/internal__dev-expression": ^2.0.2
     "@edtr-io/internal__fixtures": ^2.0.0
-    "@edtr-io/internal__plugin": ^2.0.1
-    "@edtr-io/internal__plugin-state": ^2.0.0
+    "@edtr-io/internal__plugin": ^2.0.2
+    "@edtr-io/internal__plugin-state": ^2.0.2
     "@types/ramda": ^0.27.44
     "@types/react": ^17.0.18
     "@types/react-dom": ^17.0.9
@@ -2883,6 +2916,7 @@ __metadata:
     reselect: ^4.0.0
     shortid: ^2.2.16
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
@@ -2891,7 +2925,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/ui@^2.0.1, @edtr-io/ui@workspace:packages/public/ui":
+"@edtr-io/ui@^2.0.2, @edtr-io/ui@workspace:packages/public/ui":
   version: 0.0.0-use.local
   resolution: "@edtr-io/ui@workspace:packages/public/ui"
   dependencies:
@@ -2909,6 +2943,7 @@ __metadata:
     react-is: ^17.0.2
     react-test-renderer: ^17.0.2
     styled-components: ^5.3.0
+    tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
     react-dom: ">= 17"
