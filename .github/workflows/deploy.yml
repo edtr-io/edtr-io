@@ -28,7 +28,7 @@ jobs:
           cache: yarn
           node-version: 14.x
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn --frozen-lockfile
+      - run: yarn --immutable
       - run: yarn build
       - run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:

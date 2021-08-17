@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/internal__plugin",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,20 +12,21 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__plugin-state": "^2.0.0",
-    "@edtr-io/ui": "^2.0.1",
-    "@types/ramda": "^0.27.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5.0.0",
-    "ramda": "^0.27.0",
-    "shortid": "^2.0.0"
+    "@edtr-io/internal__plugin-state": "^2.0.2",
+    "@edtr-io/ui": "^2.0.2",
+    "@types/ramda": "^0.27.44",
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.12",
+    "ramda": "^0.27.1",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "react-is": "^17.0.0",
-    "styled-components": "^5.0.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "styled-components": "^5.3.0",
+    "tsdx": "^0.14.1"
   },
   "peerDependencies": {
     "react": ">= 17",

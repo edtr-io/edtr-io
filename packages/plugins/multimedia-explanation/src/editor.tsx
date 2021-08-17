@@ -127,10 +127,12 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
           </option>
         </select>
       </div>
-      <div>
-        <strong>{props.config.i18n.changeMultimediaType}</strong>
-        {PluginSelection}
-      </div>
+      {props.config.plugins.length > 1 ? (
+        <div>
+          <strong>{props.config.i18n.changeMultimediaType}</strong>
+          {PluginSelection}
+        </div>
+      ) : null}
     </React.Fragment>
   )
 
@@ -146,13 +148,15 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
               setShowOptions(false)
             }}
           >
-            <PluginToolbarButton
-              icon={<Icon icon={faRandom} />}
-              label={props.config.i18n.changeMultimediaType}
-              onClick={() => {
-                setShowOptions(true)
-              }}
-            />
+            {props.config.plugins.length > 1 ? (
+              <PluginToolbarButton
+                icon={<Icon icon={faRandom} />}
+                label={props.config.i18n.changeMultimediaType}
+                onClick={() => {
+                  setShowOptions(true)
+                }}
+              />
+            ) : null}
             {showOptions ? (
               <InlineOptions>
                 {props.config.plugins
