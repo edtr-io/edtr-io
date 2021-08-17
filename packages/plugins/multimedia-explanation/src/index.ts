@@ -26,7 +26,14 @@ export function createMultimediaExplanationPlugin(
   MultimediaExplanationPluginState,
   MultimediaExplanationPluginConfig
 > {
-  const { i18n = {}, plugins, explanation } = config
+  const {
+    i18n = {},
+    features = {
+      importance: true,
+    },
+    plugins,
+    explanation,
+  } = config
 
   return {
     Component: MultimediaExplanationEditor,
@@ -45,6 +52,13 @@ export function createMultimediaExplanationPlugin(
         },
         i18n
       ),
+      features: R.mergeDeepRight(
+        {
+          link: false,
+          importance: false,
+        },
+        features
+      ),
     },
     state: object({
       explanation: child(explanation),
@@ -57,9 +71,12 @@ export function createMultimediaExplanationPlugin(
 
 /** @public */
 export interface MultimediaExplanationConfig
-  extends Omit<MultimediaExplanationPluginConfig, 'i18n'> {
+  extends Omit<MultimediaExplanationPluginConfig, 'features' | 'i18n'> {
   explanation: ChildStateTypeConfig
   i18n?: DeepPartial<MultimediaExplanationPluginConfig['i18n']>
+  features?: {
+    importance?: boolean
+  }
 }
 
 /** @public */
@@ -85,6 +102,9 @@ export interface MultimediaExplanationPluginConfig {
         explaining: string
       }
     }
+  }
+  features: {
+    importance: boolean
   }
 }
 
