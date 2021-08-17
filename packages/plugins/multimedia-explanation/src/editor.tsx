@@ -1,6 +1,7 @@
 import { PluginToolbarButton, useScopedSelector } from '@edtr-io/core'
 import {
   hasFocusedDescendant,
+  isEmpty,
   isFocused,
   serializeDocument,
 } from '@edtr-io/store'
@@ -72,6 +73,9 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
   )
 
   const hasFocus = props.focused || multimediaFocused || textFocused
+  const withoutMultimedia = useScopedSelector(
+    isEmpty(props.state.multimedia.id)
+  )
 
   const multimedia: {
     plugin: string
@@ -93,7 +97,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
   }
   const [showOptions, setShowOptions] = React.useState(false)
 
-  const PluginSelection = (
+  const pluginSelection = (
     <select
       value={multimedia ? multimedia.plugin : ''}
       onChange={(e) => handleMultimediaChange(e.target.value)}
@@ -108,32 +112,38 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
     </select>
   )
 
-  const MultimediaSettings = (
-    <React.Fragment>
+  const multimediaSettings = (
+    <>
       <hr />
-      <div style={{ flex: 1 }}>
-        <strong>{props.config.i18n.illustrating.label}</strong>
-      </div>
-      <div style={{ flex: 1 }}>
-        <select
-          value={props.state.illustrating.value ? 'illustrating' : 'explaining'}
-          onChange={handleIllustratingChange}
-        >
-          <option value="illustrating">
-            {props.config.i18n.illustrating.values.illustrating}
-          </option>
-          <option value="explaining">
-            {props.config.i18n.illustrating.values.explaining}
-          </option>
-        </select>
-      </div>
+      {props.config.features.importance ? (
+        <>
+          <div style={{ flex: 1 }}>
+            <strong>{props.config.i18n.illustrating.label}</strong>
+          </div>
+          <div style={{ flex: 1 }}>
+            <select
+              value={
+                props.state.illustrating.value ? 'illustrating' : 'explaining'
+              }
+              onChange={handleIllustratingChange}
+            >
+              <option value="illustrating">
+                {props.config.i18n.illustrating.values.illustrating}
+              </option>
+              <option value="explaining">
+                {props.config.i18n.illustrating.values.explaining}
+              </option>
+            </select>
+          </div>
+        </>
+      ) : null}
       {props.config.plugins.length > 1 ? (
         <div>
           <strong>{props.config.i18n.changeMultimediaType}</strong>
-          {PluginSelection}
+          {pluginSelection}
         </div>
       ) : null}
-    </React.Fragment>
+    </>
   )
 
   const [rowWidth, setRowWidth] = React.useState(0)
@@ -141,7 +151,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
   const multimediaRendered = props.state.multimedia.render({
     renderToolbar(children) {
       return (
-        <React.Fragment>
+        <>
           <div
             style={{ position: 'relative' }}
             onMouseLeave={() => {
@@ -180,21 +190,25 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
             ) : null}
           </div>
           {children}
-        </React.Fragment>
+        </>
       )
     },
     renderSettings(children) {
       return (
-        <React.Fragment>
+        <>
           {children}
-          {MultimediaSettings}
-        </React.Fragment>
+          {multimediaSettings}
+        </>
       )
     },
   })
 
+  if (!props.editable && withoutMultimedia) {
+    return props.state.explanation.render()
+  }
+
   return (
-    <React.Fragment>
+    <>
       <Container
         hasFocus={hasFocus}
         ref={(el) => {
@@ -224,7 +238,7 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
         {props.state.explanation.render()}
         <Clear />
       </Container>
-      {props.editable ? props.renderIntoSettings(MultimediaSettings) : null}
-    </React.Fragment>
+      {props.editable ? props.renderIntoSettings(multimediaSettings) : null}
+    </>
   )
 }

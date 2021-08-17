@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.1.0](https://github.com/edtr-io/edtr-io/compare/v2.0.2..v2.1.0) - August 17, 2021
+
+### Added
+
+- **multimedia-explanation**. Allow to disable importance feature.
+
+### Fixed
+
+- **multimedia-explanation**. Do not render empty multimedia objects.
+
 ## [v2.0.2](https://github.com/edtr-io/edtr-io/compare/v2.0.1..v2.0.2) - August 17, 2021
 
 ### Fixed

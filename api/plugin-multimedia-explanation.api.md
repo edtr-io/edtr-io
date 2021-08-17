@@ -17,15 +17,23 @@ import { ObjectStateType } from '@edtr-io/plugin';
 export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
 
 // @public (undocumented)
-export interface MultimediaExplanationConfig extends Omit<MultimediaExplanationPluginConfig, 'i18n'> {
+export interface MultimediaExplanationConfig extends Omit<MultimediaExplanationPluginConfig, 'features' | 'i18n'> {
     // (undocumented)
     explanation: ChildStateTypeConfig;
+    // (undocumented)
+    features?: {
+        importance?: boolean;
+    };
     // (undocumented)
     i18n?: DeepPartial<MultimediaExplanationPluginConfig['i18n']>;
 }
 
 // @public (undocumented)
 export interface MultimediaExplanationPluginConfig {
+    // (undocumented)
+    features: {
+        importance: boolean;
+    };
     // (undocumented)
     i18n: {
         changeMultimediaType: string;
@@ -54,7 +62,6 @@ export type MultimediaExplanationPluginState = ObjectStateType<{
 
 // @public (undocumented)
 export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
-
 
 // (No @packageDocumentation comment for this package)
 
