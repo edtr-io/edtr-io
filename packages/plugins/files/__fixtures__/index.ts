@@ -21,7 +21,7 @@ export const states: Record<
     {
       type: FileType.Image,
       name: 'foo',
-      src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+      src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/main/README_files/edtrio_full.svg?sanitize=true',
     },
   ],
 }

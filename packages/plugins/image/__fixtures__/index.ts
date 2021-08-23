@@ -113,7 +113,7 @@ export const states: Record<
   StateTypeSerializedType<ImagePluginState>
 > = {
   simple: {
-    src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/master/README_files/edtrio_full.svg?sanitize=true',
+    src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/main/README_files/edtrio_full.svg?sanitize=true',
     link: undefined,
     alt: 'Edtr.io Logo',
     maxWidth: undefined,

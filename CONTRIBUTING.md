@@ -7,11 +7,11 @@ Edtr.io is organized as a monorepo. All Edtr.io packages are released together a
 
 ## Branch Organization
 
-We will do our best to make sure that the [`master` branch][master] is in a
+We will do our best to make sure that the [`main` branch][main] is in a
 deployable state all the time (e.g. all tests pass). It might contain commits that have not been deployed yet and that
 might contain breaking changes. We recommend that you use the [latest stable versions of Edtr.io packages][releases].
 
-If you send a pull request, please do it against the [`master` branch][master] branch.
+If you send a pull request, please do it against the [`main` branch][main] branch.
 
 ## Semantic Versioning
 
@@ -29,7 +29,7 @@ and makes sure that the packages work together:
 }
 ```
 
-Every significant change (including breaking changes) is documented in the [changelog file](https://github.com/edtr-io/edtr-io/blob/master/CHANGELOG.md)
+Every significant change (including breaking changes) is documented in the [changelog file](https://github.com/edtr-io/edtr-io/blob/main/CHANGELOG.md)
 and [GitHub Releases][releases].
 
 ## Bugs
@@ -103,6 +103,6 @@ Dependencies should be declared in the `package.json` file of the corresponding 
   declared, i.e. either in `dependencies` or `devDependencies` (but never in `peerDependencies`).
 
 [demo]: https://demo.edtr.io
-[master]: https://github.com/edtr-io/edtr-io/tree/master
+[main]: https://github.com/edtr-io/edtr-io/tree/main
 [issues]: https://github.com/edtr-io/edtr-io/issues
 [releases]: https://github.com/edtr-io/edtr-io/releases
