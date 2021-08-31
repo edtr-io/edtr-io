@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@edtr-io/ui": "^2.0.2",
-    "@types/react": "^17.0.18",
+    "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
-    "@types/styled-components": "^5.1.12"
+    "@types/styled-components": "^5.1.13"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.0.2",
@@ -28,7 +28,7 @@
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "redux": "^4.1.1",
-    "styled-components": "^5.3.0",
+    "styled-components": "^5.3.1",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

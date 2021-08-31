@@ -22,11 +22,11 @@
     "@edtr-io/store": "^2.0.2",
     "@edtr-io/ui": "^2.0.2",
     "@types/ramda": "^0.27.44",
-    "@types/react": "^17.0.18",
+    "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
     "@types/shortid": "^0.0.29",
-    "@types/styled-components": "^5.1.12",
+    "@types/styled-components": "^5.1.13",
     "ramda": "^0.27.1",
     "react-hotkeys": "^2.0.0",
     "react-redux": "^7.2.4",
@@ -42,7 +42,7 @@
     "react-is": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "redux": "^4.1.1",
-    "styled-components": "^5.3.0",
+    "styled-components": "^5.3.1",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

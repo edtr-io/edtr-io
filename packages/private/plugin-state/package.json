@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@edtr-io/internal__document-editor": "^2.0.2",
-    "@types/react": "^17.0.18"
+    "@types/react": "^17.0.19"
   },
   "devDependencies": {
     "react": "^17.0.2",
