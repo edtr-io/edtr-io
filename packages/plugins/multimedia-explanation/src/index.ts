@@ -41,6 +41,7 @@ export function createMultimediaExplanationPlugin(
       plugins,
       i18n: R.mergeDeepRight(
         {
+          reset: 'Reset the multimedia content',
           changeMultimediaType: 'Change the multimedia type',
           illustrating: {
             label: 'How important is the multimedia content?',
@@ -95,6 +96,7 @@ export interface MultimediaExplanationPluginConfig {
   }[]
   i18n: {
     changeMultimediaType: string
+    reset: string
     illustrating: {
       label: string
       values: {

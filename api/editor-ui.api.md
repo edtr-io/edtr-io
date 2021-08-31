@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { EditorThemeProps } from '@edtr-io/ui';
 import * as React_2 from 'react';
 import { styled } from '@edtr-io/ui';

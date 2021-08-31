@@ -1,7 +1,7 @@
 import { Provider, ScopeContext, SubDocument } from '@edtr-io/core'
 import { invariant } from '@edtr-io/internal__dev-expression'
 import { EditorPlugin, StoreDeserializeHelpers } from '@edtr-io/plugin'
-import { ScopedState, State } from '@edtr-io/store'
+import { Action, ScopedState, State } from '@edtr-io/store'
 import { CustomTheme, RootThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 import { createStore } from 'redux'
@@ -13,25 +13,28 @@ import { createStore } from 'redux'
 export function Renderer<K extends string = string>(props: RendererProps<K>) {
   const { theme = {}, ...rest } = props
   const store = React.useMemo(() => {
-    return createStore((state: State | undefined) => {
-      if (!state) {
-        return {
-          main: {
-            plugins: rest.plugins,
-            documents: getDocuments(),
-            focus: null,
-            root: 'root',
-            clipboard: [],
-            history: {
-              undoStack: [],
-              redoStack: [],
-              pendingChanges: 0,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return createStore<any, Action, unknown, unknown>(
+      (state: State | undefined) => {
+        if (!state) {
+          return {
+            main: {
+              plugins: rest.plugins,
+              documents: getDocuments(),
+              focus: null,
+              root: 'root',
+              clipboard: [],
+              history: {
+                undoStack: [],
+                redoStack: [],
+                pendingChanges: 0,
+              },
             },
-          },
+          }
         }
+        return state
       }
-      return state
-    })
+    )
 
     function getDocuments(): ScopedState['documents'] {
       const documents: ScopedState['documents'] = {}

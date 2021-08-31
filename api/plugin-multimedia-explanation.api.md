@@ -37,6 +37,7 @@ export interface MultimediaExplanationPluginConfig {
     // (undocumented)
     i18n: {
         changeMultimediaType: string;
+        reset: string;
         illustrating: {
             label: string;
             values: {

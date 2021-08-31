@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { DeepPartial } from '@edtr-io/ui';
 import * as React_2 from 'react';
 

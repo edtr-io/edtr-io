@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.2.0](https://github.com/edtr-io/edtr-io/compare/v2.1.0..v2.2.0) - August 31, 2021
+
+### Added
+
+- **multimedia-explanation**. Add button to reset multimedia content.
+
 ## [v2.1.0](https://github.com/edtr-io/edtr-io/compare/v2.0.2..v2.1.0) - August 17, 2021
 
 ### Added

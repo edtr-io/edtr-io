@@ -5,7 +5,7 @@ import {
   isFocused,
   serializeDocument,
 } from '@edtr-io/store'
-import { styled, faRandom, Icon } from '@edtr-io/ui'
+import { styled, faRandom, Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { MultimediaExplanationProps } from '.'
@@ -167,6 +167,15 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
                 }}
               />
             ) : null}
+            <PluginToolbarButton
+              icon={<Icon icon={faTrashAlt} />}
+              label={props.config.i18n.reset}
+              onClick={() => {
+                props.state.multimedia.replace(
+                  multimedia?.plugin ?? props.config.plugins[0].name
+                )
+              }}
+            />
             {showOptions ? (
               <InlineOptions>
                 {props.config.plugins

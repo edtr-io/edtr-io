@@ -15,11 +15,7 @@ export const MathQuill: React.ComponentType<{
   : () => null
 
 function isTouchDevice(): boolean {
-  return (
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
-  )
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
 
 function isAndroid() {

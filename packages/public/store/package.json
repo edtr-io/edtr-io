@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store",
-  "version": "2.0.2",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@edtr-io/internal__dev-expression": "^2.0.2",
-    "@edtr-io/internal__plugin": "^2.0.2",
-    "@edtr-io/internal__plugin-state": "^2.0.2",
+    "@edtr-io/internal__plugin": "^2.2.0",
+    "@edtr-io/internal__plugin-state": "^2.2.0",
     "@types/ramda": "^0.27.44",
-    "@types/react": "^17.0.18",
+    "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@types/shortid": "^0.0.29",
-    "@types/styled-components": "^5.1.12",
+    "@types/styled-components": "^5.1.13",
     "ramda": "^0.27.1",
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3",
@@ -31,7 +31,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
-    "styled-components": "^5.3.0",
+    "styled-components": "^5.3.1",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

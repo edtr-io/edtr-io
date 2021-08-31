@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { CustomTheme } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 
