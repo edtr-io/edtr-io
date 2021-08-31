@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';

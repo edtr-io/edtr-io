@@ -1136,6 +1136,13 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ['multimedia-explanation', 'Do not render empty multimedia objects.'],
         ],
       },
+      {
+        tagName: 'v2.2.0',
+        date: '2021-08-31',
+        added: [
+          ['multimedia-explanation', 'Add button to reset multimedia content.'],
+        ],
+      },
     ],
   })
 

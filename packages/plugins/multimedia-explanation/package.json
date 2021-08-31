@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-multimedia-explanation",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,10 +12,10 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^2.0.2",
-    "@edtr-io/plugin": "^2.0.2",
-    "@edtr-io/store": "^2.0.2",
-    "@edtr-io/ui": "^2.0.2",
+    "@edtr-io/editor-ui": "^2.2.0",
+    "@edtr-io/plugin": "^2.2.0",
+    "@edtr-io/store": "^2.2.0",
+    "@edtr-io/ui": "^2.2.0",
     "@types/ramda": "^0.27.44",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
@@ -25,11 +25,11 @@
     "react-resizable": "^1.11.1"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.0.2",
-    "@edtr-io/plugin-geogebra": "^2.0.2",
-    "@edtr-io/plugin-image": "^2.0.2",
-    "@edtr-io/plugin-rows": "^2.0.2",
-    "@edtr-io/plugin-video": "^2.0.2",
+    "@edtr-io/core": "^2.2.0",
+    "@edtr-io/plugin-geogebra": "^2.2.0",
+    "@edtr-io/plugin-image": "^2.2.0",
+    "@edtr-io/plugin-rows": "^2.2.0",
+    "@edtr-io/plugin-video": "^2.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",

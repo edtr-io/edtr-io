@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/store",
-  "version": "2.0.2",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@edtr-io/internal__dev-expression": "^2.0.2",
-    "@edtr-io/internal__plugin": "^2.0.2",
-    "@edtr-io/internal__plugin-state": "^2.0.2",
+    "@edtr-io/internal__plugin": "^2.2.0",
+    "@edtr-io/internal__plugin-state": "^2.2.0",
     "@types/ramda": "^0.27.44",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",

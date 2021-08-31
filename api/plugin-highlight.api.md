@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { BooleanStateType } from '@edtr-io/plugin';
 import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';

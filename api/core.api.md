@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { Action } from '@edtr-io/store';
 import { ChangeListener } from '@edtr-io/store';
 import { CustomTheme } from '@edtr-io/ui';

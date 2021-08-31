@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-serlo-injection",
-  "version": "2.0.2",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,16 +12,16 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^2.0.2",
-    "@edtr-io/plugin": "^2.0.2",
-    "@edtr-io/ui": "^2.0.2",
+    "@edtr-io/editor-ui": "^2.2.0",
+    "@edtr-io/plugin": "^2.2.0",
+    "@edtr-io/ui": "^2.2.0",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.13",
     "iframe-resizer-react": "^1.1.0"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.0.2",
+    "@edtr-io/core": "^2.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
