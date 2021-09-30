@@ -90,6 +90,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
           {state.answers.map((answer, index) => {
             return (
               <InteractiveAnswer
+                i18n={props.config.i18n}
                 key={answer.content.id}
                 answer={answer.content.render()}
                 answerID={answer.content.id}

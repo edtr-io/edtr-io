@@ -33,6 +33,8 @@ export function createScMcExercisePlugin(
           types: {
             singleChoice: 'Single-choice',
             multipleChoice: 'Multiple-choice',
+            answer: 'Answer',
+            feedback: 'Feedback',
           },
           isSingleChoice: {
             label: 'Choose the exercise type',
@@ -96,6 +98,8 @@ export interface ScMcExercisePluginConfig {
     types: {
       singleChoice: string
       multipleChoice: string
+      answer: string
+      feedback: string
     }
     isSingleChoice: {
       label: string

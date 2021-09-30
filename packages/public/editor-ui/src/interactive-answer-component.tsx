@@ -168,22 +168,28 @@ export function InteractiveAnswer(props: InteractiveAnswerProps) {
           handleChange={props.handleChange}
         />
       </CheckboxContainer>
-      {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
       <FramedContainer
         focused={
           props.answerID === props.focusedElement ||
           props.feedbackID === props.focusedElement
         }
       >
-        <AnswerField>{props.answer}</AnswerField>
+        <AnswerField>
+          <h6>{props.i18n.types.answer}</h6>
+          {props.answer}
+        </AnswerField>
         <RemoveButton onClick={props.remove}>
           <Icon icon={faTimes} />
         </RemoveButton>
-        <FeedbackField>{props.feedback}</FeedbackField>
+        <FeedbackField>
+          <h6>{props.i18n.types.feedback}</h6>
+          {props.feedback}
+        </FeedbackField>
       </FramedContainer>
     </AnswerContainer>
   )
 }
+
 /** @internal */
 export interface InteractiveAnswerProps {
   isRadio?: boolean
@@ -195,6 +201,12 @@ export interface InteractiveAnswerProps {
   feedback: React.ReactNode
   focusedElement?: string
   remove: () => void
+  i18n: {
+    types: {
+      answer: string
+      feedback: string
+    }
+  }
 }
 
 /** @internal */
