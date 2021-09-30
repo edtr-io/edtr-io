@@ -70,54 +70,46 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
       >
         <ScMcExerciseRenderer {...props} isEmpty={isEmpty} />
       </PreviewOverlay>
-      {editable ? (
-        <div>
-          {nestedFocus && !previewActive ? (
-            <React.Fragment>
-              {state.answers.map((answer, index) => {
-                return (
-                  <InteractiveAnswer
-                    key={answer.content.id}
-                    answer={answer.content.render()}
-                    answerID={answer.content.id}
-                    feedback={answer.feedback.render()}
-                    feedbackID={answer.feedback.id}
-                    focusedElement={focusedElement || undefined}
-                    isRadio={state.isSingleChoice.value}
-                    isActive={answer.isCorrect.value}
-                    remove={removeAnswer(index)}
-                    handleChange={
-                      state.isSingleChoice.value
-                        ? handleRadioButtonChange(index)
-                        : handleCheckboxChange(index)
-                    }
-                  />
-                )
-              })}
-              <AddButton onClick={addButton}>
-                {props.config.i18n.answer.addLabel}
-              </AddButton>
-            </React.Fragment>
-          ) : null}
-          {props.renderIntoSettings(
-            <React.Fragment>
-              {props.config.i18n.isSingleChoice.label}
-              {': '}
-              <select
-                value={state.isSingleChoice.value ? 'sc' : 'mc'}
-                onChange={handleSCMCChange}
-              >
-                <option value="mc">
-                  {props.config.i18n.types.multipleChoice}
-                </option>
-                <option value="sc">
-                  {props.config.i18n.types.singleChoice}
-                </option>
-              </select>
-            </React.Fragment>
-          )}
-        </div>
-      ) : null}
+      {editable && nestedFocus && !previewActive && (
+        <React.Fragment>
+          {state.answers.map((answer, index) => {
+            return (
+              <InteractiveAnswer
+                key={answer.content.id}
+                answer={answer.content.render()}
+                answerID={answer.content.id}
+                feedback={answer.feedback.render()}
+                feedbackID={answer.feedback.id}
+                focusedElement={focusedElement || undefined}
+                isRadio={state.isSingleChoice.value}
+                isActive={answer.isCorrect.value}
+                remove={removeAnswer(index)}
+                handleChange={
+                  state.isSingleChoice.value
+                    ? handleRadioButtonChange(index)
+                    : handleCheckboxChange(index)
+                }
+              />
+            )
+          })}
+          <AddButton onClick={addButton}>
+            {props.config.i18n.answer.addLabel}
+          </AddButton>
+        </React.Fragment>
+      )}
+      {props.renderIntoSettings(
+        <React.Fragment>
+          {props.config.i18n.isSingleChoice.label}
+          {': '}
+          <select
+            value={state.isSingleChoice.value ? 'sc' : 'mc'}
+            onChange={handleSCMCChange}
+          >
+            <option value="mc">{props.config.i18n.types.multipleChoice}</option>
+            <option value="sc">{props.config.i18n.types.singleChoice}</option>
+          </select>
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 
