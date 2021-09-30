@@ -38,6 +38,8 @@ export function createInputExercisePlugin(
               [InputExerciseType.InputNumberExactMatchChallenge]: 'Number',
               [InputExerciseType.InputExpressionEqualMatchChallenge]:
                 'Mathematical expression',
+              answer: 'Answer',
+              feedback: 'Feedback',
             },
             type: {
               label: 'Choose the exercise type',
@@ -106,7 +108,10 @@ export type InputExercisePluginState = ObjectStateType<{
 /** @public */
 export interface InputExercisePluginConfig {
   i18n: {
-    types: Record<InputExerciseType, string>
+    types: Record<InputExerciseType, string> & {
+      answer: string
+      feedback: string
+    }
     type: {
       label: string
     }

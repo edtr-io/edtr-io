@@ -53,6 +53,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
               {state.answers.map((answer, index: number) => {
                 return (
                   <InteractiveAnswer
+                    i18n={props.config.i18n}
                     key={answer.feedback.id}
                     answer={
                       <AnswerTextfield
