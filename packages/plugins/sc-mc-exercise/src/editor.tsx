@@ -72,6 +72,21 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
       </PreviewOverlay>
       {editable && nestedFocus && !previewActive && (
         <React.Fragment>
+          <form style={{ marginBottom: '0.5em' }}>
+            <label htmlFor="scMcType">
+              {props.config.i18n.isSingleChoice.label}:
+            </label>{' '}
+            <select
+              id="scMcType"
+              value={state.isSingleChoice.value ? 'sc' : 'mc'}
+              onChange={handleSCMCChange}
+            >
+              <option value="mc">
+                {props.config.i18n.types.multipleChoice}
+              </option>
+              <option value="sc">{props.config.i18n.types.singleChoice}</option>
+            </select>
+          </form>
           {state.answers.map((answer, index) => {
             return (
               <InteractiveAnswer
@@ -95,21 +110,6 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
           <AddButton onClick={addButton}>
             {props.config.i18n.answer.addLabel}
           </AddButton>
-        </React.Fragment>
-      )}
-      {props.renderIntoSettings(
-        <React.Fragment>
-          <label htmlFor="scMcType">
-            {props.config.i18n.isSingleChoice.label}:
-          </label>{' '}
-          <select
-            id="scMcType"
-            value={state.isSingleChoice.value ? 'sc' : 'mc'}
-            onChange={handleSCMCChange}
-          >
-            <option value="mc">{props.config.i18n.types.multipleChoice}</option>
-            <option value="sc">{props.config.i18n.types.singleChoice}</option>
-          </select>
         </React.Fragment>
       )}
     </React.Fragment>
