@@ -48,6 +48,18 @@ export function InputExerciseEditor(props: InputExerciseProps) {
       </PreviewOverlay>
       {nestedFocus && !previewActive && (
         <React.Fragment>
+          <div style={{ marginBottom: '0.5em' }}>
+            <OverlaySelect
+              label={i18n.type.label}
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                state.type.set(translateDataName(event.target.value))
+              }}
+              value={translateDataType(state.type.value as InputExerciseType)}
+              options={R.values(
+                R.mapObjIndexed(translateDataType, InputExerciseType)
+              )}
+            />
+          </div>
           {state.answers.map((answer, index: number) => {
             return (
               <InteractiveAnswer
@@ -80,23 +92,11 @@ export function InputExerciseEditor(props: InputExerciseProps) {
         </React.Fragment>
       )}
       {props.renderIntoSettings(
-        <React.Fragment>
-          <OverlayInput
-            label={i18n.unit.label}
-            value={state.unit.value}
-            onChange={(e) => state.unit.set(e.target.value)}
-          />
-          <OverlaySelect
-            label={i18n.type.label}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              state.type.set(translateDataName(event.target.value))
-            }}
-            value={translateDataType(state.type.value as InputExerciseType)}
-            options={R.values(
-              R.mapObjIndexed(translateDataType, InputExerciseType)
-            )}
-          />
-        </React.Fragment>
+        <OverlayInput
+          label={i18n.unit.label}
+          value={state.unit.value}
+          onChange={(e) => state.unit.set(e.target.value)}
+        />
       )}
     </React.Fragment>
   ) : (
