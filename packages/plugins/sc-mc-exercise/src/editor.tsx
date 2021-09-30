@@ -102,6 +102,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
           {props.renderIntoSettings(
             <React.Fragment>
               {props.config.i18n.isSingleChoice.label}
+              {': '}
               <select
                 value={state.isSingleChoice.value ? 'sc' : 'mc'}
                 onChange={handleSCMCChange}
