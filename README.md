@@ -22,7 +22,7 @@ Edtr.io is of course Open Source.
 
 ## Documentation
 
-Check out the [Documentation](https://edtr.io/docs/getting-started) and [API Reference](https://edtr.io/api).
+Check out the [Documentation](https://edtr.io/docs/getting-started) and [API Reference](https://edtr.io/api-reference).
 
 ## Local Developement
 
