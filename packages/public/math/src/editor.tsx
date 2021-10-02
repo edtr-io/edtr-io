@@ -239,7 +239,7 @@ export function MathEditor(props: MathEditorProps) {
         )}
         {helpOpen ? null : (
           <HoverOverlay
-            position="above"
+            position="below"
             anchor={anchorRef}
             allowSelectionOverflow
           >
