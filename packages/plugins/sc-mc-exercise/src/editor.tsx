@@ -3,6 +3,7 @@ import {
   AddButton,
   InteractiveAnswer,
   PreviewOverlay,
+  styled,
 } from '@edtr-io/editor-ui/internal'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -10,6 +11,10 @@ import * as React from 'react'
 
 import { ScMcExerciseProps } from '.'
 import { ScMcExerciseRenderer } from './renderer'
+
+const TypeMenu = styled.div({
+  marginBottom: '0.5em',
+})
 
 export function ScMcExerciseEditor(props: ScMcExerciseProps) {
   const store = useScopedStore()
@@ -38,9 +43,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
 
     state.isSingleChoice.set(event.target.value === 'sc')
     state.isSingleChoice.value &&
-      state.answers.forEach((answer) => {
-        answer.isCorrect.set(false)
-      })
+      state.answers.forEach((answer) => answer.isCorrect.set(false))
   }
 
   const addButton = () => {
@@ -72,21 +75,22 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
       </PreviewOverlay>
       {editable && nestedFocus && !previewActive && (
         <React.Fragment>
-          <form style={{ marginBottom: '0.5em' }}>
-            <label htmlFor="scMcType">
-              {props.config.i18n.isSingleChoice.label}:
-            </label>{' '}
-            <select
-              id="scMcType"
-              value={state.isSingleChoice.value ? 'sc' : 'mc'}
-              onChange={handleSCMCChange}
-            >
-              <option value="mc">
-                {props.config.i18n.types.multipleChoice}
-              </option>
-              <option value="sc">{props.config.i18n.types.singleChoice}</option>
-            </select>
-          </form>
+          <TypeMenu>
+            <label>
+              {props.config.i18n.isSingleChoice.label}:{' '}
+              <select
+                value={state.isSingleChoice.value ? 'sc' : 'mc'}
+                onChange={handleSCMCChange}
+              >
+                <option value="mc">
+                  {props.config.i18n.types.multipleChoice}
+                </option>
+                <option value="sc">
+                  {props.config.i18n.types.singleChoice}
+                </option>
+              </select>
+            </label>
+          </TypeMenu>
           {state.answers.map((answer, index) => {
             return (
               <InteractiveAnswer

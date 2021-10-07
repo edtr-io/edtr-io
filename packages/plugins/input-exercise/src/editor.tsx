@@ -1,11 +1,10 @@
-import { OverlayInput, OverlaySelect, useScopedSelector } from '@edtr-io/core'
+import { OverlayInput, useScopedSelector } from '@edtr-io/core'
 import {
   AddButton,
   InteractiveAnswer,
   PreviewOverlay,
   styled,
 } from '@edtr-io/editor-ui/internal'
-import { invariant } from '@edtr-io/internal__dev-expression'
 import { getFocused } from '@edtr-io/store'
 import * as R from 'ramda'
 import * as React from 'react'
@@ -19,18 +18,11 @@ const AnswerTextfield = styled.input({
   width: '100%',
 })
 
-export function InputExerciseEditor(props: InputExerciseProps) {
-  function translateDataType(type: InputExerciseType) {
-    return props.config.i18n.types[type]
-  }
-  function translateDataName(name: string): InputExerciseType {
-    console.log(name)
-    for (const type of R.values(InputExerciseType)) {
-      if (name === translateDataType(type)) return type
-    }
-    invariant(false, `Invalid type: ${name}`)
-  }
+const TypeMenu = styled.div({
+  marginBottom: '0.5em',
+})
 
+export function InputExerciseEditor(props: InputExerciseProps) {
   const { editable, state, focused, config } = props
   const { i18n } = config
   const focusedElement = useScopedSelector(getFocused())
@@ -41,25 +33,31 @@ export function InputExerciseEditor(props: InputExerciseProps) {
       props.state.answers.map((answer) => answer.feedback.id)
     )
   const [previewActive, setPreviewActive] = React.useState(false)
-  return editable ? (
+
+  if (!editable) return <InputExerciseRenderer {...props} />
+
+  return (
     <React.Fragment>
       <PreviewOverlay focused={nestedFocus} onChange={setPreviewActive}>
         <InputExerciseRenderer {...props} />
       </PreviewOverlay>
       {nestedFocus && !previewActive && (
         <React.Fragment>
-          <div style={{ marginBottom: '0.5em' }}>
-            <OverlaySelect
-              label={i18n.type.label}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-                state.type.set(translateDataName(event.target.value))
-              }}
-              value={translateDataType(state.type.value as InputExerciseType)}
-              options={R.values(
-                R.mapObjIndexed(translateDataType, InputExerciseType)
-              )}
-            />
-          </div>
+          <TypeMenu>
+            <label>
+              {i18n.type.label}:{' '}
+              <select
+                value={state.type.value}
+                onChange={(event) => state.type.set(event.target.value)}
+              >
+                {Object.values(InputExerciseType).map((exerciseType, i) => (
+                  <option key={i} value={exerciseType}>
+                    {props.config.i18n.types[exerciseType]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </TypeMenu>
           {state.answers.map((answer, index: number) => {
             return (
               <InteractiveAnswer
@@ -99,7 +97,5 @@ export function InputExerciseEditor(props: InputExerciseProps) {
         />
       )}
     </React.Fragment>
-  ) : (
-    <InputExerciseRenderer {...props} />
   )
 }

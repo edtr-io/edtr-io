@@ -153,6 +153,10 @@ export class CheckElement extends React.Component<CheckElementProps> {
   }
 }
 
+const BlockLabel = styled.label({
+  display: 'block',
+})
+
 /**
  * @param props - Props
  * @internal
@@ -175,14 +179,14 @@ export function InteractiveAnswer(props: InteractiveAnswerProps) {
         }
       >
         <AnswerField>
-          <h6>{props.i18n.types.answer}</h6>
+          <BlockLabel>{props.i18n.answer.label}:</BlockLabel>
           {props.answer}
         </AnswerField>
         <RemoveButton onClick={props.remove}>
           <Icon icon={faTimes} />
         </RemoveButton>
         <FeedbackField>
-          <h6>{props.i18n.types.feedback}</h6>
+          <BlockLabel>{props.i18n.feedback.label}:</BlockLabel>
           {props.feedback}
         </FeedbackField>
       </FramedContainer>
@@ -202,10 +206,8 @@ export interface InteractiveAnswerProps {
   focusedElement?: string
   remove: () => void
   i18n: {
-    types: {
-      answer: string
-      feedback: string
-    }
+    answer: { label: string }
+    feedback: { label: string }
   }
 }
 

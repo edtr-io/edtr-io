@@ -33,24 +33,20 @@ export function createScMcExercisePlugin(
           types: {
             singleChoice: 'Single-choice',
             multipleChoice: 'Multiple-choice',
-            answer: 'Answer',
-            feedback: 'Feedback',
-          },
-          isSingleChoice: {
-            label: 'Choose the exercise type',
           },
           answer: {
+            label: 'Answer',
             addLabel: 'Add answer',
-            fallbackFeedback: {
-              wrong: 'Wrong',
-            },
+            fallbackFeedback: { wrong: 'Wrong' },
           },
+          feedback: { label: 'Feedback' },
           globalFeedback: {
             missingCorrectAnswers:
               'Almost! You missed at least one correct answer',
             correct: 'Correct',
             wrong: 'Wrong',
           },
+          isSingleChoice: { label: 'Choose the exercise type' },
         },
         i18n
       ),
@@ -95,26 +91,19 @@ export type ScMcExercisePluginState = ObjectStateType<{
 /** @public */
 export interface ScMcExercisePluginConfig {
   i18n: {
-    types: {
-      singleChoice: string
-      multipleChoice: string
-      answer: string
-      feedback: string
-    }
-    isSingleChoice: {
-      label: string
-    }
+    types: { singleChoice: string; multipleChoice: string }
     answer: {
+      label: string
       addLabel: string
-      fallbackFeedback: {
-        wrong: string
-      }
+      fallbackFeedback: { wrong: string }
     }
+    feedback: { label: string }
     globalFeedback: {
       correct: string
       missingCorrectAnswers: string
       wrong: string
     }
+    isSingleChoice: { label: string }
   }
 }
 
