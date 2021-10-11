@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-spoiler",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,10 +12,10 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^2.2.0",
-    "@edtr-io/plugin": "^2.2.0",
-    "@edtr-io/renderer-ui": "^2.2.0",
-    "@edtr-io/ui": "^2.2.0",
+    "@edtr-io/editor-ui": "^2.3.0",
+    "@edtr-io/plugin": "^2.3.0",
+    "@edtr-io/renderer-ui": "^2.3.0",
+    "@edtr-io/ui": "^2.3.0",
     "@types/ramda": "^0.27.45",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
@@ -23,9 +23,9 @@
     "ramda": "^0.27.1"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.2.0",
-    "@edtr-io/plugin-rows": "^2.2.0",
-    "@edtr-io/plugin-text": "^2.2.0",
+    "@edtr-io/core": "^2.3.0",
+    "@edtr-io/plugin-rows": "^2.3.0",
+    "@edtr-io/plugin-text": "^2.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",

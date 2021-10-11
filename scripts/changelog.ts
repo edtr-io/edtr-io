@@ -1143,6 +1143,19 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ['multimedia-explanation', 'Add button to reset multimedia content.'],
         ],
       },
+      {
+        tagName: 'v2.3.0',
+        date: '2021-10-11',
+        added: [
+          ['plugin-input-exercise', 'Add labels for answer and feedback.'],
+          ['plugin-sc-mc-exercise', 'Add labels for answer and feedback.'],
+        ],
+        changed: [
+          ['math', 'Show overlay below the text.'],
+          ['plugin-input-exercise', 'Display exercise type chooser inline.'],
+          ['plugin-sc-mc-exercise', 'Display exercise type chooser inline.'],
+        ],
+      },
     ],
   })
 
