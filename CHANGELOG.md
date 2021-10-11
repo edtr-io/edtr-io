@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.0](https://github.com/edtr-io/edtr-io/compare/v2.2.0..v2.3.0) - October 11, 2021
+
+### Added
+
+- **plugin-input-exercise**. Add labels for answer and feedback.
+
+- **plugin-sc-mc-exercise**. Add labels for answer and feedback.
+
+### Changed
+
+- **math**. Show overlay below the text.
+
+- **plugin-input-exercise**. Display exercise type chooser inline.
+
+- **plugin-sc-mc-exercise**. Display exercise type chooser inline.
+
 ## [v2.2.0](https://github.com/edtr-io/edtr-io/compare/v2.1.0..v2.2.0) - August 31, 2021
 
 ### Added
