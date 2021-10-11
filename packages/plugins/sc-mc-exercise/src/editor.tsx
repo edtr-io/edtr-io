@@ -3,6 +3,7 @@ import {
   AddButton,
   InteractiveAnswer,
   PreviewOverlay,
+  styled,
 } from '@edtr-io/editor-ui/internal'
 import { getFocused, isEmpty as isEmptySelector } from '@edtr-io/store'
 import * as R from 'ramda'
@@ -10,6 +11,10 @@ import * as React from 'react'
 
 import { ScMcExerciseProps } from '.'
 import { ScMcExerciseRenderer } from './renderer'
+
+const TypeMenu = styled.div({
+  marginBottom: '0.5em',
+})
 
 export function ScMcExerciseEditor(props: ScMcExerciseProps) {
   const store = useScopedStore()
@@ -38,9 +43,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
 
     state.isSingleChoice.set(event.target.value === 'sc')
     state.isSingleChoice.value &&
-      state.answers.forEach((answer) => {
-        answer.isCorrect.set(false)
-      })
+      state.answers.forEach((answer) => answer.isCorrect.set(false))
   }
 
   const addButton = () => {
@@ -70,38 +73,11 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
       >
         <ScMcExerciseRenderer {...props} isEmpty={isEmpty} />
       </PreviewOverlay>
-      {editable ? (
-        <div>
-          {nestedFocus && !previewActive ? (
-            <React.Fragment>
-              {state.answers.map((answer, index) => {
-                return (
-                  <InteractiveAnswer
-                    key={answer.content.id}
-                    answer={answer.content.render()}
-                    answerID={answer.content.id}
-                    feedback={answer.feedback.render()}
-                    feedbackID={answer.feedback.id}
-                    focusedElement={focusedElement || undefined}
-                    isRadio={state.isSingleChoice.value}
-                    isActive={answer.isCorrect.value}
-                    remove={removeAnswer(index)}
-                    handleChange={
-                      state.isSingleChoice.value
-                        ? handleRadioButtonChange(index)
-                        : handleCheckboxChange(index)
-                    }
-                  />
-                )
-              })}
-              <AddButton onClick={addButton}>
-                {props.config.i18n.answer.addLabel}
-              </AddButton>
-            </React.Fragment>
-          ) : null}
-          {props.renderIntoSettings(
-            <React.Fragment>
-              {props.config.i18n.isSingleChoice.label}
+      {editable && nestedFocus && !previewActive && (
+        <React.Fragment>
+          <TypeMenu>
+            <label>
+              {props.config.i18n.isSingleChoice.label}:{' '}
               <select
                 value={state.isSingleChoice.value ? 'sc' : 'mc'}
                 onChange={handleSCMCChange}
@@ -113,10 +89,34 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
                   {props.config.i18n.types.singleChoice}
                 </option>
               </select>
-            </React.Fragment>
-          )}
-        </div>
-      ) : null}
+            </label>
+          </TypeMenu>
+          {state.answers.map((answer, index) => {
+            return (
+              <InteractiveAnswer
+                i18n={props.config.i18n}
+                key={answer.content.id}
+                answer={answer.content.render()}
+                answerID={answer.content.id}
+                feedback={answer.feedback.render()}
+                feedbackID={answer.feedback.id}
+                focusedElement={focusedElement || undefined}
+                isRadio={state.isSingleChoice.value}
+                isActive={answer.isCorrect.value}
+                remove={removeAnswer(index)}
+                handleChange={
+                  state.isSingleChoice.value
+                    ? handleRadioButtonChange(index)
+                    : handleCheckboxChange(index)
+                }
+              />
+            )
+          })}
+          <AddButton onClick={addButton}>
+            {props.config.i18n.answer.addLabel}
+          </AddButton>
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 

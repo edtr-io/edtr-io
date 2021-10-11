@@ -39,23 +39,16 @@ export function createInputExercisePlugin(
               [InputExerciseType.InputExpressionEqualMatchChallenge]:
                 'Mathematical expression',
             },
-            type: {
-              label: 'Choose the exercise type',
-            },
-            unit: {
-              label: 'Unit',
-            },
+            type: { label: 'Choose the exercise type' },
+            unit: { label: 'Unit' },
             answer: {
+              label: 'Answer',
               addLabel: 'Add answer',
-              value: {
-                placeholder: 'Enter the value',
-              },
+              value: { placeholder: 'Enter the value' },
             },
+            feedback: { label: 'Feedback' },
             inputPlaceholder: 'Your solution',
-            fallbackFeedback: {
-              correct: 'Correct',
-              wrong: 'Wrong',
-            },
+            fallbackFeedback: { correct: 'Correct', wrong: 'Wrong' },
           },
           i18n
         ),
@@ -107,18 +100,16 @@ export type InputExercisePluginState = ObjectStateType<{
 export interface InputExercisePluginConfig {
   i18n: {
     types: Record<InputExerciseType, string>
-    type: {
-      label: string
-    }
-    unit: {
-      label: string
-    }
+    type: { label: string }
+    unit: { label: string }
     answer: {
+      label: string
       addLabel: string
       value: {
         placeholder: string
       }
     }
+    feedback: { label: string }
     inputPlaceholder: string
     fallbackFeedback: {
       correct: string

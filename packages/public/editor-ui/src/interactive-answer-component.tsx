@@ -153,6 +153,10 @@ export class CheckElement extends React.Component<CheckElementProps> {
   }
 }
 
+const BlockLabel = styled.label({
+  display: 'block',
+})
+
 /**
  * @param props - Props
  * @internal
@@ -168,22 +172,28 @@ export function InteractiveAnswer(props: InteractiveAnswerProps) {
           handleChange={props.handleChange}
         />
       </CheckboxContainer>
-      {/* TODO: Change Placeholder to "Antwort" und "Feedback", Dependency Plugin Config */}
       <FramedContainer
         focused={
           props.answerID === props.focusedElement ||
           props.feedbackID === props.focusedElement
         }
       >
-        <AnswerField>{props.answer}</AnswerField>
+        <AnswerField>
+          <BlockLabel>{props.i18n.answer.label}:</BlockLabel>
+          {props.answer}
+        </AnswerField>
         <RemoveButton onClick={props.remove}>
           <Icon icon={faTimes} />
         </RemoveButton>
-        <FeedbackField>{props.feedback}</FeedbackField>
+        <FeedbackField>
+          <BlockLabel>{props.i18n.feedback.label}:</BlockLabel>
+          {props.feedback}
+        </FeedbackField>
       </FramedContainer>
     </AnswerContainer>
   )
 }
+
 /** @internal */
 export interface InteractiveAnswerProps {
   isRadio?: boolean
@@ -195,6 +205,10 @@ export interface InteractiveAnswerProps {
   feedback: React.ReactNode
   focusedElement?: string
   remove: () => void
+  i18n: {
+    answer: { label: string }
+    feedback: { label: string }
+  }
 }
 
 /** @internal */

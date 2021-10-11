@@ -39,10 +39,14 @@ export interface InputExercisePluginConfig {
             label: string;
         };
         answer: {
+            label: string;
             addLabel: string;
             value: {
                 placeholder: string;
             };
+        };
+        feedback: {
+            label: string;
         };
         inputPlaceholder: string;
         fallbackFeedback: {
@@ -80,7 +84,6 @@ export enum InputExerciseType {
     // (undocumented)
     InputStringNormalizedMatchChallenge = "input-string-normalized-match-challenge"
 }
-
 
 // (No @packageDocumentation comment for this package)
 

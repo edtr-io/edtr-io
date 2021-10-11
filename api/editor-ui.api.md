@@ -118,6 +118,15 @@ export interface InteractiveAnswerProps {
     // (undocumented)
     handleChange: () => void;
     // (undocumented)
+    i18n: {
+        answer: {
+            label: string;
+        };
+        feedback: {
+            label: string;
+        };
+    };
+    // (undocumented)
     isActive?: boolean;
     // (undocumented)
     isRadio?: boolean;

@@ -66,8 +66,8 @@ export function HighlightEditor(props: HighlightProps) {
         />
         <datalist id="available-languages">
           {['c', 'javascript', 'jsx', 'markup', 'java', 'python'].map(
-            (language, index) => {
-              return <option key={index} value={language} />
+            (language) => {
+              return <option key={language} value={language} />
             }
           )}
         </datalist>

@@ -34,19 +34,23 @@ export interface ScMcExercisePluginConfig {
             singleChoice: string;
             multipleChoice: string;
         };
-        isSingleChoice: {
-            label: string;
-        };
         answer: {
+            label: string;
             addLabel: string;
             fallbackFeedback: {
                 wrong: string;
             };
         };
+        feedback: {
+            label: string;
+        };
         globalFeedback: {
             correct: string;
             missingCorrectAnswers: string;
             wrong: string;
+        };
+        isSingleChoice: {
+            label: string;
         };
     };
 }
@@ -63,7 +67,6 @@ export type ScMcExercisePluginState = ObjectStateType<{
 
 // @public (undocumented)
 export type ScMcExerciseProps = EditorPluginProps<ScMcExercisePluginState, ScMcExercisePluginConfig>;
-
 
 // (No @packageDocumentation comment for this package)
 
