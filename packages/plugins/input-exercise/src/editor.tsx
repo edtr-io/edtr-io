@@ -50,8 +50,8 @@ export function InputExerciseEditor(props: InputExerciseProps) {
                 value={state.type.value}
                 onChange={(event) => state.type.set(event.target.value)}
               >
-                {Object.values(InputExerciseType).map((exerciseType, i) => (
-                  <option key={i} value={exerciseType}>
+                {Object.values(InputExerciseType).map((exerciseType) => (
+                  <option key={exerciseType} value={exerciseType}>
                     {props.config.i18n.types[exerciseType]}
                   </option>
                 ))}

@@ -102,9 +102,9 @@ export function MultimediaExplanationEditor(props: MultimediaExplanationProps) {
       value={multimedia ? multimedia.plugin : ''}
       onChange={(e) => handleMultimediaChange(e.target.value)}
     >
-      {props.config.plugins.map((plugin, i) => {
+      {props.config.plugins.map((plugin) => {
         return (
-          <option key={i} value={plugin.name}>
+          <option key={plugin.name} value={plugin.name}>
             {plugin.title}
           </option>
         )

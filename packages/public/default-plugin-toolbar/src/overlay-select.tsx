@@ -42,9 +42,9 @@ export function createOverlaySelect(_config: DefaultPluginToolbarConfig) {
             onChange={props.onChange}
             value={props.value}
           >
-            {options.map((option, index) => {
+            {options.map((option) => {
               return (
-                <option key={index} value={option}>
+                <option key={option} value={option}>
                   {option}
                 </option>
               )
