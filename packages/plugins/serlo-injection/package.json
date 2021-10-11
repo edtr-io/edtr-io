@@ -15,9 +15,9 @@
     "@edtr-io/editor-ui": "^2.2.0",
     "@edtr-io/plugin": "^2.2.0",
     "@edtr-io/ui": "^2.2.0",
-    "@types/react": "^17.0.19",
+    "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
-    "@types/styled-components": "^5.1.13",
+    "@types/styled-components": "^5.1.15",
     "iframe-resizer-react": "^1.1.0"
   },
   "devDependencies": {
@@ -27,8 +27,8 @@
     "@fortawesome/react-fontawesome": "^0.1.15",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dnd": "^14.0.3",
-    "react-dnd-html5-backend": "^14.0.1",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "redux": "^4.1.1",

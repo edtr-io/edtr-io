@@ -18,9 +18,9 @@ import {
  */
 export function object<Ds extends Record<string, StateType>>(
   types: Ds,
-  getFocusableChildren: (
-    children: { [K in keyof Ds]: { id: string }[] }
-  ) => { id: string }[] = (children) => {
+  getFocusableChildren: (children: { [K in keyof Ds]: { id: string }[] }) => {
+    id: string
+  }[] = (children) => {
     return R.flatten<readonly FocusableChild[][]>(R.values(children))
   }
 ): ObjectStateType<Ds> {

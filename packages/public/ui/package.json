@@ -15,10 +15,10 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "@types/ramda": "^0.27.44",
-    "@types/react": "^17.0.19",
+    "@types/ramda": "^0.27.45",
+    "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
-    "@types/styled-components": "^5.1.13",
+    "@types/styled-components": "^5.1.15",
     "ramda": "^0.27.1"
   },
   "devDependencies": {
