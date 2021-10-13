@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

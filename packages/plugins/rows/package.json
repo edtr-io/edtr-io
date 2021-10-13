@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-rows",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^2.3.0",
-    "@edtr-io/plugin-text": "^2.3.0",
+    "@edtr-io/plugin-text": "^2.3.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
