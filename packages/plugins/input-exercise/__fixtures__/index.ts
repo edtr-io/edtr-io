@@ -5,7 +5,7 @@ import { InputExercisePluginState, createInputExercisePlugin } from '../src'
 
 export const name = 'inputExercise'
 export const plugin = createInputExercisePlugin({
-  feedback: { plugin: 'text' },
+  feedback: { plugin: 'text', config: { registry: [] } },
 })
 
 export const states: Record<

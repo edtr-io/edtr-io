@@ -5,8 +5,8 @@ import { ScMcExercisePluginState, createScMcExercisePlugin } from '../src'
 
 export const name = 'scMcExercise'
 export const plugin = createScMcExercisePlugin({
-  content: { plugin: 'text' },
-  feedback: { plugin: 'text' },
+  content: { plugin: 'text', config: { registry: [] } },
+  feedback: { plugin: 'text', config: { registry: [] } },
 })
 
 export const states: Record<

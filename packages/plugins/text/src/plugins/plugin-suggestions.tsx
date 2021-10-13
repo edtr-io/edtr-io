@@ -89,9 +89,10 @@ function SuggestionsBox({
 }>) {
   const [selected, setSelected] = React.useState(0)
   const { text } = editor.value.document
-  const showSuggestions = !editor.readOnly && text.startsWith('/')
+  const allOptions = mapPlugins(pluginClosure, editor)
+  const showSuggestions = !editor.readOnly && text.startsWith('/') && allOptions.length > 0
+  const options = showSuggestions ? allOptions : []
 
-  const options = showSuggestions ? mapPlugins(pluginClosure, editor) : []
   const closure = React.useRef({
     showSuggestions,
     selected,
