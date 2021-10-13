@@ -1156,6 +1156,16 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ['plugin-sc-mc-exercise', 'Display exercise type chooser inline.'],
         ],
       },
+      {
+        tagName: 'v2.3.1',
+        date: '2021-10-13',
+        fixed: [
+          [
+            'plugin-text',
+            "Don't show suggestions if there aren't any options,",
+          ],
+        ],
+      },
     ],
   })
 
