@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- **plugin-text**. Don't show suggestions if there aren't any options,
+- **plugin-text**. Don't show suggestions if there aren't any options.
 
 ## [v2.3.0](https://github.com/edtr-io/edtr-io/compare/v2.2.0..v2.3.0) - October 11, 2021
 

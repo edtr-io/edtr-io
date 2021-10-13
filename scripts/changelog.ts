@@ -1162,7 +1162,7 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         fixed: [
           [
             'plugin-text',
-            "Don't show suggestions if there aren't any options,",
+            "Don't show suggestions if there aren't any options.",
           ],
         ],
       },
