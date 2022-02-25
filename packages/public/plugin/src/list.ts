@@ -2,13 +2,13 @@ import * as R from 'ramda'
 import { generate } from 'shortid'
 
 import {
-  StoreDeserializeHelpers,
-  StateType,
-  StateUpdater,
   StateExecutor,
+  StateType,
+  StateTypeReturnType,
   StateTypeSerializedType,
   StateTypeValueType,
-  StateTypeReturnType,
+  StateUpdater,
+  StoreDeserializeHelpers,
 } from './internal-plugin-state'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -56,8 +56,8 @@ export function list<D extends StateType>(
           onChange((items, helpers) => {
             const wrappedSubState = wrap(
               options
-                ? type.deserialize(options, helpers)
-                : type.createInitialState(helpers)
+                ? (type.deserialize(options, helpers) as T)
+                : (type.createInitialState(helpers) as T)
             )
             return R.insert(
               index === undefined ? items.length : index,
@@ -87,12 +87,11 @@ export function list<D extends StateType>(
               helpers: StoreDeserializeHelpers
             ) => {
               const index = R.findIndex(R.propEq('id', id), oldItems)
-              const result = R.update(
+              return R.update(
                 index,
                 { value: initial(oldItems[index].value, helpers), id: id },
                 oldItems
               )
-              return result
             }
           }
           onChange(
@@ -112,12 +111,12 @@ export function list<D extends StateType>(
     },
     createInitialState(helpers) {
       return R.times(() => {
-        return wrap(type.createInitialState(helpers))
+        return wrap(type.createInitialState(helpers) as T)
       }, initialCount)
     },
     deserialize(serialized, helpers) {
       return R.map((s) => {
-        return wrap(type.deserialize(s, helpers))
+        return wrap(type.deserialize(s, helpers) as T)
       }, serialized)
     },
     serialize(deserialized, helpers) {

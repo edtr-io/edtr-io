@@ -143,13 +143,11 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
 
     // eslint-plugin-testing-library
-    'testing-library/no-debug': 'error',
+    'testing-library/no-debugging-utils': 'error',
     'testing-library/no-dom-import': ['error', 'react'],
     'testing-library/no-manual-cleanup': 'error',
     'testing-library/no-wait-for-empty-callback': 'error',
-    'testing-library/no-wait-for-snapshot': 'error',
     'testing-library/prefer-explicit-assert': 'error',
-    'testing-library/prefer-presence-queries': 'error',
     'testing-library/prefer-screen-queries': 'error',
     'testing-library/prefer-wait-for': 'error',
   },

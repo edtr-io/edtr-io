@@ -25,7 +25,7 @@ export interface StateType<S = any, T = any, R = any> {
   /**
    * Creates the initial state
    *
-   * @param helpers - helpers (e.g. to insert an document in the store)
+   * @param helpers - helpers (e.g. to insert a document in the store)
    * @returns initial state
    */
   createInitialState(helpers: StoreDeserializeHelpers): T

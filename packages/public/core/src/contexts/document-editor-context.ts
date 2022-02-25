@@ -4,9 +4,6 @@ import * as React from 'react'
 /** @public */
 export const DocumentEditorContext = React.createContext<
   React.ComponentType<DocumentEditorProps>
->(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  undefined as any
-)
+>(undefined as unknown as React.ComponentType<DocumentEditorProps>)
 /** @public */
 export type DocumentEditorProps = InternalDocumentEditor.DocumentEditorProps

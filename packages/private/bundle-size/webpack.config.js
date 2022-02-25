@@ -27,6 +27,7 @@ module.exports = {
     devtoolModuleFilenameTemplate(info) {
       const relativePath = path.relative(
         path.join(__dirname, '..', '..'),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         info.absoluteResourcePath
       )
       return `webpack:///${relativePath}`

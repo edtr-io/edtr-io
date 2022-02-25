@@ -9,6 +9,7 @@ jobs:
         node-version:
           - 12.x
           - 14.x
+          - 16.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -24,6 +25,7 @@ jobs:
         node-version:
           - 12.x
           - 14.x
+          - 16.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -39,6 +41,7 @@ jobs:
         node-version:
           - 12.x
           - 14.x
+          - 16.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -54,6 +57,7 @@ jobs:
         node-version:
           - 12.x
           - 14.x
+          - 16.x
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

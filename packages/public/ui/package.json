@@ -12,14 +12,14 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/fontawesome-svg-core": "~1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.15",
-    "@types/ramda": "^0.27.45",
-    "@types/react": "^17.0.27",
-    "@types/react-dom": "^17.0.9",
-    "@types/styled-components": "^5.1.15",
-    "ramda": "^0.27.1"
+    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@types/ramda": "^0.27.65",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/styled-components": "^5.1.23",
+    "ramda": "^0.28.0"
   },
   "devDependencies": {
     "@types/react-test-renderer": "^17.0.1",
@@ -27,7 +27,7 @@
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
     "react-test-renderer": "^17.0.2",
-    "styled-components": "^5.3.1",
+    "styled-components": "^5.3.3",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

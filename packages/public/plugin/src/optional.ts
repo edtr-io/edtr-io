@@ -88,7 +88,7 @@ export function optional<D extends StateType>(
           } else {
             return {
               defined: true,
-              value: f(type.createInitialState(helpers), helpers),
+              value: f(type.createInitialState(helpers) as T, helpers),
             }
           }
         }

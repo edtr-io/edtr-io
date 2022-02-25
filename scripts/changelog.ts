@@ -15,7 +15,12 @@ exec()
   })
 
 async function exec(): Promise<void> {
-  const content = await generateChangelog({
+  const content = generateChangelog({
+    repository: {
+      firstCommit: '723fb79110bdeec83889a6d6bc617ce2d455d4ff',
+      owner: 'edtr-io',
+      repo: 'edtr-io',
+    },
     releases: [
       {
         tagName: 'v0.1.0',

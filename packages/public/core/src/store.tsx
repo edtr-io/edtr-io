@@ -1,11 +1,11 @@
-import { getScope, Action, State, ScopedState, Store } from '@edtr-io/store'
+import { Action, getScope, ScopedState, State, Store } from '@edtr-io/store'
 import * as React from 'react'
 import {
   Provider as ReduxProvider,
   ProviderProps,
   ReactReduxContextValue,
 } from 'react-redux'
-import { AnyAction, Unsubscribe } from 'redux'
+import { Unsubscribe } from 'redux'
 
 const createDispatchHook: (
   context: React.Context<ReactReduxContextValue<State>>
@@ -30,11 +30,8 @@ export const ScopeContext = React.createContext<{
 /** @public */
 export const EditorContext = React.createContext<
   // TODO: This is a workaround until API extractor supports import() types, see https://github.com/microsoft/rushstack/pull/1916
-  ReactReduxContextValue<State, AnyAction>
->(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  undefined as any
-)
+  ReactReduxContextValue<State>
+>(undefined as unknown as ReactReduxContextValue<State>)
 
 /** @public */
 export const ErrorContext = React.createContext<

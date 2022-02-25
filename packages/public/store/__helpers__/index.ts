@@ -7,11 +7,12 @@ import { InternalStore } from '../src/types'
 export const TEST_SCOPE = 'test'
 export function setupStore() {
   let actions: InternalAction[] = []
-  const testMiddleware: Middleware = () => (next) => (action) => {
-    actions.push(action)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return next(action)
-  }
+  const testMiddleware: Middleware =
+    () => (next) => (action: InternalAction) => {
+      actions.push(action)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return next(action)
+    }
 
   const store = createStore({
     scopes: {
