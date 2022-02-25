@@ -3,8 +3,7 @@ import * as React from 'react'
 
 /** @public */
 export const PluginToolbarContext = React.createContext<PluginToolbar>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  undefined as any
+  undefined as unknown as PluginToolbar
 )
 /** @public */
 export type PluginToolbar = InternalPluginToolbar.PluginToolbar

@@ -529,7 +529,8 @@ function removeLeaves(nodes: any[]) {
       const cleanedNode = node.nodes
         ? {
             ...node,
-            nodes: removeLeaves(node.nodes),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            nodes: removeLeaves(node.nodes as any[]),
           }
         : node
       return [...acc, cleanedNode]
