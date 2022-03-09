@@ -64,5 +64,6 @@
     "packages/plugins/*",
     "packages/private/*",
     "packages/public/*"
-  ]
+  ],
+  "packageManager": "yarn@3.2.0"
 }
