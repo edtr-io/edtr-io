@@ -20,7 +20,7 @@ import {
 import { Controls, createUiPlugin } from './controls'
 import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
-import { SlatePluginClosure } from './factory/types'
+import type { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
 import { createPlugins } from './plugins'
 import { NewNode, serializer } from './state-migration-serializer'
@@ -341,7 +341,7 @@ export interface TextPluginConfig {
 export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>
 
 export { isValueEmpty, SlatePluginClosure }
-export { SlateClosure } from './factory/types'
+export type { SlateClosure } from './factory/types'
 export * from './state-migration-serializer'
 
 export { slateValueToHtml, htmlToSlateValue } from './model'

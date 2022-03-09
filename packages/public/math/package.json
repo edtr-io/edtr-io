@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
-  "module": "dist/ui.esm.js",
+  "module": "dist/math.esm.js",
   "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
@@ -21,7 +21,7 @@
     "@types/react-modal": "^3.13.1",
     "@types/styled-components": "^5.1.24",
     "exenv": "^1.2.2",
-    "katex": "^0.13.24",
+    "katex": "^0.15.2",
     "react-mathquill": "^1.0.2",
     "react-modal": "^3.14.4"
   },

@@ -30,12 +30,12 @@ module.exports = {
   ],
   rules: {
     // eslint
-    'no-duplicate-imports': 'error',
     'no-unused-vars': 'off',
 
     // @typescript-eslint/eslint-plugin
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-duplicate-imports': 'error',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-extraneous-class': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
