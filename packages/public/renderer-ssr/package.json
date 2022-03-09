@@ -14,8 +14,8 @@
   "dependencies": {
     "@edtr-io/renderer": "^2.3.0",
     "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "@types/styled-components": "^5.1.23"
+    "@types/react-dom": "^17.0.13",
+    "@types/styled-components": "^5.1.24"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.3.0",
@@ -39,7 +39,7 @@
     "@fortawesome/fontawesome-svg-core": "~1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.17",
-    "@types/ramda": "^0.27.65",
+    "@types/ramda": "^0.28.1",
     "immutable": "^4.0.0",
     "prop-types": "^15.8.1",
     "ramda": "^0.28.0",
