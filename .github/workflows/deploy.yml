@@ -9,7 +9,7 @@ jobs:
     outputs:
       tag: ${{ steps.version.outputs.tag }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
       - id: version
@@ -22,13 +22,12 @@ jobs:
     needs: update-version
     if: ${{ needs.update-version.outputs.tag }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          cache: yarn
           node-version: 16.x
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn --immutable
+      - run: yarn --immutable --immutable-cache
       - run: yarn build
       - run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:
