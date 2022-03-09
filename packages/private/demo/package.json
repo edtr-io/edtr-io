@@ -54,6 +54,8 @@
     "@babel/core": "^7.17.5",
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-knobs": "^6.4.0",
+    "@storybook/builder-webpack5": "^6.4.19",
+    "@storybook/manager-webpack5": "^6.4.19",
     "@storybook/react": "^6.4.19",
     "@types/lodash": "^4.14.179",
     "@types/ramda": "^0.28.1",
