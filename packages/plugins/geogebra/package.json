@@ -15,10 +15,10 @@
     "@edtr-io/editor-ui": "^2.3.0",
     "@edtr-io/plugin": "^2.3.0",
     "@edtr-io/ui": "^2.3.0",
-    "@types/lodash": "^4.14.178",
+    "@types/lodash": "^4.14.179",
     "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "@types/styled-components": "^5.1.23",
+    "@types/react-dom": "^17.0.13",
+    "@types/styled-components": "^5.1.24",
     "isomorphic-unfetch": "^3.1.0",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21"

@@ -2,6 +2,14 @@ name: JavaScript
 on:
   - push
 jobs:
+  yarn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: yarn --immutable --immutable-cache --check-cache
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -11,12 +19,11 @@ jobs:
           - 14.x
           - 16.x
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          cache: yarn
           node-version: ${{ matrix.node-version }}
-      - run: yarn --immutable
+      - run: yarn --immutable --immutable-cache
       - run: yarn build
   lint:
     runs-on: ubuntu-latest
@@ -27,12 +34,11 @@ jobs:
           - 14.x
           - 16.x
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          cache: yarn
           node-version: ${{ matrix.node-version }}
-      - run: yarn --immutable
+      - run: yarn --immutable --immutable-cache
       - run: yarn lint
   test:
     runs-on: ubuntu-latest
@@ -43,12 +49,12 @@ jobs:
           - 14.x
           - 16.x
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           cache: yarn
           node-version: ${{ matrix.node-version }}
-      - run: yarn --immutable
+      - run: yarn --immutable --immutable-cache
       - run: yarn test
   test-ssr:
     runs-on: ubuntu-latest
@@ -59,10 +65,9 @@ jobs:
           - 14.x
           - 16.x
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          cache: yarn
           node-version: ${{ matrix.node-version }}
-      - run: yarn --immutable
+      - run: yarn --immutable --immutable-cache
       - run: yarn test:ssr

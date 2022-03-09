@@ -93,7 +93,9 @@ export function FilesEditor(props: FilesProps) {
                 <span>{config.i18n.failedUploadMessage}</span>
                 <span>
                   <EditorButton
-                    onClick={() => file.upload(tmpFile, config.upload)}
+                    onClick={() => {
+                      void file.upload(tmpFile, config.upload)
+                    }}
                   >
                     <Icon icon={faRedoAlt} />
                   </EditorButton>
