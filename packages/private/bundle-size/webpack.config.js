@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/no-commonjs */
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const fs = require('fs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const webpack = require('webpack')
@@ -89,7 +89,7 @@ module.exports = {
   ],
   optimization: {
     minimizer: [
-      new OptimizeCssAssetsPlugin(),
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         parallel: true,
       }),

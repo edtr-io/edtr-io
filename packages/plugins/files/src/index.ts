@@ -8,7 +8,8 @@ import {
 } from '@edtr-io/plugin'
 
 import { FilesEditor } from './editor'
-import { FilesPluginConfig, FileType, UploadedFile } from './types'
+import { FileType } from './types'
+import type { FilesPluginConfig, UploadedFile } from './types'
 
 export { FileType } from './types'
 

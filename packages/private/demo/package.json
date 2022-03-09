@@ -63,7 +63,7 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "request": "^2.88.2",
-    "webpack": "^4.46.0"
+    "webpack": "^5.70.0"
   },
   "private": true
 }

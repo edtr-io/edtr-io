@@ -13,7 +13,8 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { HighlightEditor } from './editor'
-import { HighlightRenderer, HighlightRendererProps } from './renderer'
+import { HighlightRenderer } from './renderer'
+import type { HighlightRendererProps } from './renderer'
 
 /**
  * @param config - {@link HighlightConfig | Plugin configuration}
