@@ -34,7 +34,7 @@ export const rules: Rule[] = [
       }
 
       if (el.nodeName === '#text') {
-        if (el.nodeValue && /<!--.*?-->/.exec(el.nodeValue)) return
+        if (el.nodeValue && /<!--(.|\n)*?-->/.exec(el.nodeValue)) return
 
         const text = el.nodeValue ? el.nodeValue : ''
 
