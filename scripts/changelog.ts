@@ -1171,6 +1171,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ],
         ],
       },
+      {
+        tagName: 'v2.3.2',
+        date: '2022-03-10',
+        changed: [['math', 'Show overlay above the text.']],
+      },
     ],
   })
 
