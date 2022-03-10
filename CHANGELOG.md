@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.2](https://github.com/edtr-io/edtr-io/compare/v2.3.1..v2.3.2) - March 10, 2022
+
+### Changed
+
+- **math**. Show overlay above the text.
+
 ## [v2.3.1](https://github.com/edtr-io/edtr-io/compare/v2.3.0..v2.3.1) - October 13, 2021
 
 ### Fixed
