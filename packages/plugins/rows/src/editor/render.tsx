@@ -114,7 +114,11 @@ export function RowRenderer({
       }
     },
   })
-  const [collectedDropProps, drop] = useDrop({
+  const [collectedDropProps, drop] = useDrop<
+    RowDragObject,
+    unknown,
+    { isDragging: boolean; isFile?: boolean; id?: string }
+  >({
     accept: ['row', ...validFileTypes],
     collect(monitor): { isDragging: boolean; isFile?: boolean; id?: string } {
       const type = monitor.getItemType()

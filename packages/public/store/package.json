@@ -16,7 +16,7 @@
     "@edtr-io/internal__plugin": "^2.3.0",
     "@edtr-io/internal__plugin-state": "^2.3.0",
     "@types/ramda": "^0.28.1",
-    "@types/react": "^17.0.39",
+    "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.24",
