@@ -32,7 +32,11 @@ export function createTablePlugin(
   }
 
   function DefaultMarkdownRenderer({ markdown }: { markdown: string }) {
-    return <ReactMarkdown plugins={[remarkGfmPlugin]}>{markdown}</ReactMarkdown>
+    return (
+      <ReactMarkdown remarkPlugins={[remarkGfmPlugin]}>
+        {markdown}
+      </ReactMarkdown>
+    )
   }
 }
 

@@ -18,8 +18,8 @@
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
     "@types/styled-components": "^5.1.24",
-    "react-markdown": "^6.0.3",
-    "remark-gfm": "^1.0.0"
+    "react-markdown": "^8.0.0",
+    "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.3.2",
