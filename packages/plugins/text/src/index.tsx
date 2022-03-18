@@ -75,6 +75,7 @@ export function createTextPlugin(
     i18n = {},
     theme = {},
     blockquote,
+    noLinebreaks,
   } = config
 
   return {
@@ -215,6 +216,7 @@ export function createTextPlugin(
           values: theme,
         }),
         blockquote,
+        noLinebreaks,
       }
     },
     state: serializedScalar(emptyDocument, serializer),
@@ -246,6 +248,7 @@ export interface TextConfig {
   i18n?: DeepPartial<TextPluginConfig['i18n']>
   theme?: DeepPartial<TextPluginConfig['theme']>
   blockquote?: string
+  noLinebreaks?: boolean
 }
 
 /** @public */
@@ -339,6 +342,7 @@ export interface TextPluginConfig {
     }
   }
   blockquote?: string
+  noLinebreaks?: boolean
 }
 
 /** @public */
