@@ -113,8 +113,8 @@ export function TextEditor(props: TextProps) {
     return createOnPaste(slateClosure)
   }, [slateClosure])
   const onKeyDown = React.useMemo(() => {
-    return createOnKeyDown(slateClosure)
-  }, [slateClosure])
+    return createOnKeyDown(slateClosure, props.config.noLinebreaks)
+  }, [slateClosure, props.config.noLinebreaks])
   const onClick = React.useCallback<EventHook<React.MouseEvent>>(
     (e, editor, next): Editor | void => {
       if (e.target) {
@@ -306,7 +306,8 @@ function createOnPaste(
 }
 
 function createOnKeyDown(
-  slateClosure: React.RefObject<SlateClosure>
+  slateClosure: React.RefObject<SlateClosure>,
+  noLinebreaks?: boolean
 ): EventHook<React.KeyboardEvent> {
   return (e, editor, next): void => {
     const { key } = e
@@ -426,6 +427,11 @@ function createOnKeyDown(
         }
       }
 
+      return
+    }
+
+    if (noLinebreaks && key === 'Enter') {
+      e.preventDefault()
       return
     }
 
