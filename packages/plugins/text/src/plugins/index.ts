@@ -13,24 +13,28 @@ import { createRichTextPlugin } from './rich-text'
 
 export function createPlugins(
   plugins: TextConfig['plugins'] = {
-    suggestions: true,
     code: true,
-    math: true,
-    headings: true,
-    lists: true,
     colors: true,
+    headings: true,
+    katex: true,
+    link: true,
+    lists: true,
+    math: true,
+    paragraph: true,
+    richtext: true,
+    suggestions: true,
   }
 ): TextPluginConfig['plugins'] {
   return [
-    ...(plugins.suggestions ? [pluginSuggestions] : []),
-    createParagraphPlugin(),
-    createRichTextPlugin(),
-    createLinkPlugin(),
-    createKatexPlugin(),
-    ...(plugins.headings ? [createHeadingsPlugin()] : []),
-    ...(plugins.lists ? [createListPlugin()] : []),
-    ...(plugins.colors ? [createColorPlugin()] : []),
     ...(plugins.code ? [createCodePlugin()] : []),
+    ...(plugins.colors ? [createColorPlugin()] : []),
+    ...(plugins.headings ? [createHeadingsPlugin()] : []),
+    ...(plugins.katex ? [createKatexPlugin()] : []),
+    ...(plugins.link ? [createLinkPlugin()] : []),
+    ...(plugins.lists ? [createListPlugin()] : []),
+    ...(plugins.paragraph ? [createParagraphPlugin()] : []),
+    ...(plugins.richtext ? [createRichTextPlugin()] : []),
+    ...(plugins.suggestions ? [pluginSuggestions] : []),
     markdownShortcuts,
     autoLink,
   ]

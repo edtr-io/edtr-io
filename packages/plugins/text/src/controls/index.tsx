@@ -20,14 +20,7 @@ export interface ControlProps {
   config: TextPluginConfig
   editor: Editor
   pluginClosure: SlatePluginClosure
-  plugins: {
-    suggestions?: boolean
-    math?: boolean
-    headings?: boolean
-    lists?: boolean
-    colors?: boolean
-    code?: boolean
-  }
+  plugins: TextConfig['plugins']
   readOnly?: boolean
 }
 
@@ -213,6 +206,7 @@ export const createUiPlugin =
           ? pluginClosure.current.config
           : undefined
         if (!config) return null
+
         const children = next()
         return (
           <React.Fragment>

@@ -231,12 +231,16 @@ export function createTextPlugin(
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
   plugins?: {
-    suggestions?: boolean
-    math?: boolean
     code?: boolean
-    headings?: boolean
-    lists?: boolean
     colors?: boolean
+    headings?: boolean
+    katex?: boolean
+    link?: boolean
+    lists?: boolean
+    math?: boolean
+    paragraph?: boolean
+    richtext?: boolean
+    suggestions?: boolean
   }
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
