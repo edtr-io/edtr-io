@@ -37,41 +37,50 @@ import { ColoredTextIcon } from './colors'
 
 export function DefaultControls(props: SubControlProps) {
   const { editor, config, pluginClosure, plugins } = props
+
+  if (!plugins) return null
+
   return (
     <React.Fragment>
-      <Button
-        config={config}
-        active={isStrong(editor)}
-        onClick={() => {
-          toggleStrong(editor).focus()
-          props.onChange(editor)
-        }}
-        title={config.i18n.richText.toggleStrongTitle}
-      >
-        <EdtrIcon icon={edtrBold} />
-      </Button>
-      <Button
-        config={config}
-        active={isEmphasized(editor)}
-        onClick={() => {
-          toggleEmphasize(editor).focus()
-          props.onChange(editor)
-        }}
-        title={config.i18n.richText.toggleEmphasizeTitle}
-      >
-        <EdtrIcon icon={edtrItalic} />
-      </Button>
-      <Button
-        config={config}
-        active={isLink(editor)}
-        onClick={() => {
-          isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
-          props.onChange(editor)
-        }}
-        title={config.i18n.link.toggleTitle}
-      >
-        <EdtrIcon icon={edtrLink} />
-      </Button>
+      {plugins.richtext ? (
+        <>
+          <Button
+            config={config}
+            active={isStrong(editor)}
+            onClick={() => {
+              toggleStrong(editor).focus()
+              props.onChange(editor)
+            }}
+            title={config.i18n.richText.toggleStrongTitle}
+          >
+            <EdtrIcon icon={edtrBold} />
+          </Button>
+          <Button
+            config={config}
+            active={isEmphasized(editor)}
+            onClick={() => {
+              toggleEmphasize(editor).focus()
+              props.onChange(editor)
+            }}
+            title={config.i18n.richText.toggleEmphasizeTitle}
+          >
+            <EdtrIcon icon={edtrItalic} />
+          </Button>
+        </>
+      ) : null}
+      {plugins.link ? (
+        <Button
+          config={config}
+          active={isLink(editor)}
+          onClick={() => {
+            isLink(editor) ? unwrapLink(editor).focus() : wrapLink()(editor)
+            props.onChange(editor)
+          }}
+          title={config.i18n.link.toggleTitle}
+        >
+          <EdtrIcon icon={edtrLink} />
+        </Button>
+      ) : null}
       {plugins.headings ? (
         <Button
           config={config}
