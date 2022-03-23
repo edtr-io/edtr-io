@@ -38,8 +38,6 @@ import { ColoredTextIcon } from './colors'
 export function DefaultControls(props: SubControlProps) {
   const { editor, config, pluginClosure, plugins } = props
 
-  if (!plugins) return null
-
   return (
     <React.Fragment>
       {plugins.richText ? (

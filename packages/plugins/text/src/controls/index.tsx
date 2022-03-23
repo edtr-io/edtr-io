@@ -2,7 +2,7 @@ import { EditorBottomToolbar, HoverOverlay, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { Editor, EditorProps } from 'slate-react'
 
-import { TextPluginConfig, TextPlugin, TextConfig } from '..'
+import { TextConfig, TextConfigPlugins, TextPlugin, TextPluginConfig } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { ColorControls } from './colors'
 import { DefaultControls } from './default'
@@ -20,7 +20,7 @@ export interface ControlProps {
   config: TextPluginConfig
   editor: Editor
   pluginClosure: SlatePluginClosure
-  plugins: TextConfig['plugins']
+  plugins: TextConfigPlugins
   readOnly?: boolean
 }
 

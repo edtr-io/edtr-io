@@ -232,23 +232,26 @@ export function createTextPlugin(
 /** @public */
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
-  plugins?: {
-    code?: boolean
-    colors?: boolean
-    headings?: boolean
-    katex?: boolean
-    links?: boolean
-    lists?: boolean
-    math?: boolean
-    paragraphs?: boolean
-    richText?: boolean
-    suggestions?: boolean
-  }
+  plugins?: TextConfigPlugins
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
   theme?: DeepPartial<TextPluginConfig['theme']>
   blockquote?: string
   noLinebreaks?: boolean
+}
+
+/** @public */
+export interface TextConfigPlugins {
+  code?: boolean
+  colors?: boolean
+  headings?: boolean
+  katex?: boolean
+  links?: boolean
+  lists?: boolean
+  math?: boolean
+  paragraphs?: boolean
+  richText?: boolean
+  suggestions?: boolean
 }
 
 /** @public */
