@@ -237,11 +237,11 @@ export interface TextConfig {
     colors?: boolean
     headings?: boolean
     katex?: boolean
-    link?: boolean
+    links?: boolean
     lists?: boolean
     math?: boolean
-    paragraph?: boolean
-    richtext?: boolean
+    paragraphs?: boolean
+    richText?: boolean
     suggestions?: boolean
   }
   registry: TextPluginConfig['registry']

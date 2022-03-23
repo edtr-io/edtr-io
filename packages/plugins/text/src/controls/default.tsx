@@ -42,7 +42,7 @@ export function DefaultControls(props: SubControlProps) {
 
   return (
     <React.Fragment>
-      {plugins.richtext ? (
+      {plugins.richText ? (
         <>
           <Button
             config={config}
@@ -68,7 +68,7 @@ export function DefaultControls(props: SubControlProps) {
           </Button>
         </>
       ) : null}
-      {plugins.link ? (
+      {plugins.links ? (
         <Button
           config={config}
           active={isLink(editor)}
