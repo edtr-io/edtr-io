@@ -352,20 +352,39 @@ export interface TextConfig {
     // (undocumented)
     i18n?: DeepPartial<TextPluginConfig['i18n']>;
     // (undocumented)
+    noLinebreaks?: boolean;
+    // (undocumented)
     placeholder?: TextPluginConfig['placeholder'];
     // (undocumented)
-    plugins?: {
-        suggestions?: boolean;
-        math?: boolean;
-        code?: boolean;
-        headings?: boolean;
-        lists?: boolean;
-        colors?: boolean;
-    };
+    plugins?: TextConfigPlugins;
     // (undocumented)
     registry: TextPluginConfig['registry'];
     // (undocumented)
     theme?: DeepPartial<TextPluginConfig['theme']>;
+}
+
+// @public (undocumented)
+export interface TextConfigPlugins {
+    // (undocumented)
+    code?: boolean;
+    // (undocumented)
+    colors?: boolean;
+    // (undocumented)
+    headings?: boolean;
+    // (undocumented)
+    katex?: boolean;
+    // (undocumented)
+    links?: boolean;
+    // (undocumented)
+    lists?: boolean;
+    // (undocumented)
+    math?: boolean;
+    // (undocumented)
+    paragraphs?: boolean;
+    // (undocumented)
+    richText?: boolean;
+    // (undocumented)
+    suggestions?: boolean;
 }
 
 // @public (undocumented)
@@ -379,6 +398,8 @@ export type TextPlugin = Plugin_2 & Rule & {
 export interface TextPluginConfig {
     // (undocumented)
     blockquote?: string;
+    // (undocumented)
+    enabledPlugins: TextConfigPlugins;
     // (undocumented)
     i18n: {
         blockquote: {
@@ -431,6 +452,8 @@ export interface TextPluginConfig {
         };
     };
     // (undocumented)
+    noLinebreaks?: boolean;
+    // (undocumented)
     placeholder: string;
     // (undocumented)
     plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[];
@@ -476,7 +499,6 @@ export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>;
 
 // @public (undocumented)
 export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>;
-
 
 // (No @packageDocumentation comment for this package)
 
