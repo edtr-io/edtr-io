@@ -12,7 +12,10 @@ const handleMarkdown = (
   pluginClosure: SlatePluginClosure
 ) => {
   if (/^\d+\.$/.test(chars)) {
-    if (isList(orderedListNode)(editor)) {
+    if (
+      isList(orderedListNode)(editor) ||
+      !pluginClosure.current?.config.enabledPlugins?.lists
+    ) {
       return undefined
     }
     return toggleList(orderedListNode)(editor)
@@ -21,24 +24,51 @@ const handleMarkdown = (
     case '*':
     case '-':
     case '+':
-      if (isList(unorderedListNode)(editor)) {
+      if (
+        isList(unorderedListNode)(editor) ||
+        !pluginClosure.current?.config.enabledPlugins?.lists
+      ) {
         return undefined
       }
       return toggleList(unorderedListNode)(editor)
     case '>':
       return createBlockquote(editor, pluginClosure)
     case '#':
-      return createSetHeading(1)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(1)(editor)
+      } else {
+        return undefined
+      }
     case '##':
-      return createSetHeading(2)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(2)(editor)
+      } else {
+        return undefined
+      }
     case '###':
-      return createSetHeading(3)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(3)(editor)
+      } else {
+        return undefined
+      }
     case '####':
-      return createSetHeading(4)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(4)(editor)
+      } else {
+        return undefined
+      }
     case '#####':
-      return createSetHeading(5)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(5)(editor)
+      } else {
+        return undefined
+      }
     case '######':
-      return createSetHeading(6)(editor)
+      if (pluginClosure.current?.config.enabledPlugins?.headings) {
+        return createSetHeading(6)(editor)
+      } else {
+        return undefined
+      }
     default:
       return undefined
   }

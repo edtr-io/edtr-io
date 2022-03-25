@@ -75,6 +75,7 @@ export function createTextPlugin(
     i18n = {},
     theme = {},
     blockquote,
+    noLinebreaks,
   } = config
 
   return {
@@ -83,10 +84,24 @@ export function createTextPlugin(
       const blue = '#1794c1',
         green = '#469a40',
         orange = '#ff6703'
+
+      const enabledPlugins = config.plugins || {
+        code: true,
+        colors: true,
+        headings: true,
+        links: true,
+        lists: true,
+        math: true,
+        paragraphs: true,
+        richText: true,
+        suggestions: true,
+      }
+
       return {
         registry,
+        enabledPlugins,
         plugins: [
-          ...createPlugins(config.plugins),
+          ...createPlugins(enabledPlugins),
           createUiPlugin({ Component: Controls, plugins: config.plugins }),
         ],
         placeholder,
@@ -215,6 +230,7 @@ export function createTextPlugin(
           values: theme,
         }),
         blockquote,
+        noLinebreaks,
       }
     },
     state: serializedScalar(emptyDocument, serializer),
@@ -230,18 +246,26 @@ export function createTextPlugin(
 /** @public */
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
-  plugins?: {
-    suggestions?: boolean
-    math?: boolean
-    code?: boolean
-    headings?: boolean
-    lists?: boolean
-    colors?: boolean
-  }
+  plugins?: TextConfigPlugins
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
   theme?: DeepPartial<TextPluginConfig['theme']>
   blockquote?: string
+  noLinebreaks?: boolean
+}
+
+/** @public */
+export interface TextConfigPlugins {
+  code?: boolean
+  colors?: boolean
+  headings?: boolean
+  katex?: boolean
+  links?: boolean
+  lists?: boolean
+  math?: boolean
+  paragraphs?: boolean
+  richText?: boolean
+  suggestions?: boolean
 }
 
 /** @public */
@@ -250,6 +274,7 @@ export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>
 /** @public */
 export interface TextPluginConfig {
   placeholder: string
+  enabledPlugins: TextConfigPlugins
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   registry: {
     name: string
@@ -335,6 +360,7 @@ export interface TextPluginConfig {
     }
   }
   blockquote?: string
+  noLinebreaks?: boolean
 }
 
 /** @public */
