@@ -1,4 +1,4 @@
-import { TextConfig, TextPluginConfig } from '..'
+import { TextConfigPlugins, TextPluginConfig } from '..'
 import { autoLink } from './auto-link'
 import { createCodePlugin } from './code'
 import { createColorPlugin } from './colors'
@@ -12,17 +12,7 @@ import { pluginSuggestions } from './plugin-suggestions'
 import { createRichTextPlugin } from './rich-text'
 
 export function createPlugins(
-  plugins: TextConfig['plugins'] = {
-    code: true,
-    colors: true,
-    headings: true,
-    links: true,
-    lists: true,
-    math: true,
-    paragraphs: true,
-    richText: true,
-    suggestions: true,
-  }
+  plugins: TextConfigPlugins
 ): TextPluginConfig['plugins'] {
   return [
     ...(plugins.code ? [createCodePlugin()] : []),

@@ -84,10 +84,24 @@ export function createTextPlugin(
       const blue = '#1794c1',
         green = '#469a40',
         orange = '#ff6703'
+
+      const enabledPlugins = config.plugins || {
+        code: true,
+        colors: true,
+        headings: true,
+        links: true,
+        lists: true,
+        math: true,
+        paragraphs: true,
+        richText: true,
+        suggestions: true,
+      }
+
       return {
         registry,
+        enabledPlugins,
         plugins: [
-          ...createPlugins(config.plugins),
+          ...createPlugins(enabledPlugins),
           createUiPlugin({ Component: Controls, plugins: config.plugins }),
         ],
         placeholder,
@@ -260,6 +274,7 @@ export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>
 /** @public */
 export interface TextPluginConfig {
   placeholder: string
+  enabledPlugins: TextConfigPlugins
   plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   registry: {
     name: string
