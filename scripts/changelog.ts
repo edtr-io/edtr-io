@@ -1176,6 +1176,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         date: '2022-03-10',
         changed: [['math', 'Show overlay above the text.']],
       },
+      {
+        tagName: 'v2.4.0',
+        date: '2022-03-25',
+        added: [['plugin-text', 'Expose additional settings.']],
+      },
     ],
   })
 

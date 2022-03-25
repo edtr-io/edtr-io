@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.0](https://github.com/edtr-io/edtr-io/compare/v2.3.2..v2.4.0) - March 25, 2022
+
+### Added
+
+- **plugin-text**. Expose additional settings.
+
 ## [v2.3.2](https://github.com/edtr-io/edtr-io/compare/v2.3.1..v2.3.2) - March 10, 2022
 
 ### Changed
