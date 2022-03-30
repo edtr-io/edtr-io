@@ -12,18 +12,10 @@ import { SerloInjectionEditor } from './editor'
   @public */
 export function createSerloInjectionPlugin(
   config: SerloInjectionConfig = {}
-): EditorPlugin<SerloInjectionPluginState, SerloInjectionPluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<SerloInjectionPluginState, SerloInjectionConfig> {
   return {
     Component: SerloInjectionEditor,
-    config: {
-      i18n: {
-        label: 'Serlo ID',
-        placeholder: '123456',
-        ...i18n,
-      },
-    },
+    config,
     state: string(),
   }
 }
@@ -47,5 +39,5 @@ export interface SerloInjectionPluginConfig {
 /** @public */
 export type SerloInjectionProps = EditorPluginProps<
   SerloInjectionPluginState,
-  SerloInjectionPluginConfig
+  SerloInjectionConfig
 >
