@@ -1,20 +1,19 @@
 import {
   boolean,
-  child,
-  list,
-  object,
-  string,
-  EditorPluginProps,
-  EditorPlugin,
-  ObjectStateType,
-  StringStateType,
-  ListStateType,
   BooleanStateType,
+  child,
   ChildStateType,
   ChildStateTypeConfig,
+  EditorPlugin,
+  EditorPluginProps,
+  list,
+  ListStateType,
+  object,
+  ObjectStateType,
+  string,
+  StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { InputExerciseEditor } from './editor'
 import { InputExerciseType } from './input-exercise-type'
@@ -24,41 +23,12 @@ import { InputExerciseType } from './input-exercise-type'
   @public */
 export function createInputExercisePlugin(
   config: InputExerciseConfig
-): EditorPlugin<InputExercisePluginState, InputExercisePluginConfig> {
-  const { i18n = {}, theme = {}, feedback } = config
+): EditorPlugin<InputExercisePluginState, InputExerciseConfig> {
+  const { feedback } = config
 
   return {
     Component: InputExerciseEditor,
-    config: (defaultTheme) => {
-      return {
-        i18n: R.mergeDeepRight(
-          {
-            types: {
-              [InputExerciseType.InputStringNormalizedMatchChallenge]: 'Text',
-              [InputExerciseType.InputNumberExactMatchChallenge]: 'Number',
-              [InputExerciseType.InputExpressionEqualMatchChallenge]:
-                'Mathematical expression',
-            },
-            type: { label: 'Choose the exercise type' },
-            unit: { label: 'Unit' },
-            answer: {
-              label: 'Answer',
-              addLabel: 'Add answer',
-              value: { placeholder: 'Enter the value' },
-            },
-            feedback: { label: 'Feedback' },
-            inputPlaceholder: 'Your solution',
-            fallbackFeedback: { correct: 'Correct', wrong: 'Wrong' },
-          },
-          i18n
-        ),
-        theme: {
-          borderColor: defaultTheme.renderer.primary.background,
-          borderStyle: '3px solid',
-          ...theme,
-        },
-      }
-    },
+    config,
     state: createState(),
   }
 
@@ -123,5 +93,5 @@ export { InputExerciseType }
 /** @public */
 export type InputExerciseProps = EditorPluginProps<
   InputExercisePluginState,
-  InputExercisePluginConfig
+  InputExerciseConfig
 >

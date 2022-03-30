@@ -10,6 +10,7 @@ import {
   InputExerciseProps,
   InputExerciseType,
 } from '.'
+import { useInputExerciseConfig } from './config'
 
 enum ExerciseState {
   Default = 1,
@@ -39,7 +40,8 @@ const InputExerciseField = styled.input<{ config: InputExercisePluginConfig }>(
 
 export function InputExerciseRenderer(props: InputExerciseProps) {
   const { state } = props
-  const { i18n } = props.config
+  const config = useInputExerciseConfig(props.config)
+  const { i18n } = config
   const store = useScopedStore()
   const [feedbackIndex, setFeedbackIndex] = React.useState<number>(-1)
   const [feedbackVisible, setFeedbackVisible] = React.useState<boolean>()
@@ -100,7 +102,7 @@ export function InputExerciseRenderer(props: InputExerciseProps) {
       <form onSubmit={checkAnswer}>
         <InputContainer>
           <InputExerciseField
-            config={props.config}
+            config={config}
             onKeyDown={(k: React.KeyboardEvent<HTMLInputElement>) => {
               const { key } = k as unknown as KeyboardEvent
               if ((key === 'Enter' || key === 'Backspace') && props.editable) {
