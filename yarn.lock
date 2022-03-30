@@ -3949,6 +3949,7 @@ __metadata:
     "@edtr-io/editor-ui": ^2.3.2
     "@edtr-io/math": ^2.3.2
     "@edtr-io/plugin": ^2.3.2
+    "@edtr-io/plugin-rows": ^2.4.0
     "@edtr-io/store": ^2.3.2
     "@edtr-io/ui": ^2.3.2
     "@fortawesome/fontawesome-svg-core": ^6.1.1

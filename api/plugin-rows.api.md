@@ -15,6 +15,17 @@ import * as React_2 from 'react';
 // @public (undocumented)
 export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsConfig>;
 
+// @internal (undocumented)
+export type Registry = {
+    name: string;
+    title?: string;
+    icon?: React_2.ComponentType;
+    description?: string;
+}[];
+
+// @internal (undocumented)
+export const RegistryContext: React_2.Context<Registry>;
+
 // @public (undocumented)
 export interface RowsConfig extends Omit<RowsPluginConfig, 'i18n' | 'theme'> {
     // (undocumented)

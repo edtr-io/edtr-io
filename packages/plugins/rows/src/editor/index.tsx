@@ -6,6 +6,7 @@ import * as React from 'react'
 
 import { RowsPluginConfig, RowsProps, RowsPluginState } from '..'
 import { useRowsConfig } from '../config'
+import { RegistryContext } from '../registry-context'
 import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
@@ -79,30 +80,32 @@ export function RowsEditor(props: RowsProps) {
   if (!props.editable) return <RowsRenderer {...props} />
 
   return (
-    <div style={{ position: 'relative', marginTop: '25px' }}>
-      <Separator
-        config={config}
-        isFirst
-        focused={props.state.length == 0}
-        onClick={() => {
-          openMenu(0)
-        }}
-      />
-      {props.state.map((row, index) => {
-        return (
-          <RowEditor
-            config={config}
-            key={row.id}
-            openMenu={() => {
-              openMenu(index + 1)
-            }}
-            index={index}
-            rows={props.state}
-            row={row}
-          />
-        )
-      })}
-      {menu ? <Menu menu={menu} setMenu={setMenu} config={config} /> : null}
-    </div>
+    <RegistryContext.Provider value={config.plugins}>
+      <div style={{ position: 'relative', marginTop: '25px' }}>
+        <Separator
+          config={config}
+          isFirst
+          focused={props.state.length == 0}
+          onClick={() => {
+            openMenu(0)
+          }}
+        />
+        {props.state.map((row, index) => {
+          return (
+            <RowEditor
+              config={config}
+              key={row.id}
+              openMenu={() => {
+                openMenu(index + 1)
+              }}
+              index={index}
+              rows={props.state}
+              row={row}
+            />
+          )
+        })}
+        {menu ? <Menu menu={menu} setMenu={setMenu} config={config} /> : null}
+      </div>
+    </RegistryContext.Provider>
   )
 }
