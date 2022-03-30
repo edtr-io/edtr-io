@@ -2,21 +2,23 @@ import { EditorInput, EditorInlineSettings } from '@edtr-io/editor-ui'
 import * as React from 'react'
 
 import { GeogebraProps } from '.'
+import { useGeogebraConfig } from './config'
 import { GeogebraRenderer } from './renderer'
 
 export function GeogebraEditor(props: GeogebraProps) {
   const { focused, editable, state } = props
+  const config = useGeogebraConfig(props.config)
 
   if (!editable) return <GeogebraRenderer {...props} />
 
   return (
-    <React.Fragment>
+    <>
       <GeogebraRenderer {...props} disableCursorEvents={editable} />
       {focused ? (
         <EditorInlineSettings>
           <EditorInput
-            label={props.config.i18n.label}
-            placeholder={props.config.i18n.placeholder}
+            label={config.i18n.label}
+            placeholder={config.i18n.placeholder}
             value={state.value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               state.set(e.target.value)
@@ -27,6 +29,6 @@ export function GeogebraEditor(props: GeogebraProps) {
           />
         </EditorInlineSettings>
       ) : null}
-    </React.Fragment>
+    </>
   )
 }

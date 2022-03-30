@@ -13,18 +13,10 @@ import { GeogebraEditor } from './editor'
  */
 export function createGeogebraPlugin(
   config: GeogebraConfig = {}
-): EditorPlugin<GeogebraPluginState, GeogebraPluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<GeogebraPluginState, GeogebraConfig> {
   return {
     Component: GeogebraEditor,
-    config: {
-      i18n: {
-        label: 'GeoGebra URL or ID',
-        placeholder: '12345',
-        ...i18n,
-      },
-    },
+    config,
     state: string(),
     onText(value) {
       if (/geogebra\.org\/m\/(.+)/.test(value)) {
@@ -53,5 +45,5 @@ export interface GeogebraPluginConfig {
 /** @public */
 export type GeogebraProps = EditorPluginProps<
   GeogebraPluginState,
-  GeogebraPluginConfig
+  GeogebraConfig
 >
