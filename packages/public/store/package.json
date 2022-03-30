@@ -15,9 +15,9 @@
     "@edtr-io/internal__dev-expression": "^2.3.2",
     "@edtr-io/internal__plugin": "^2.3.2",
     "@edtr-io/internal__plugin-state": "^2.3.2",
-    "@types/ramda": "^0.28.1",
-    "@types/react": "^17.0.40",
-    "@types/react-dom": "^17.0.13",
+    "@types/ramda": "^0.28.5",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.24",
     "ramda": "^0.28.0",
@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@edtr-io/internal__fixtures": "^2.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-is": "^17.0.2",
-    "styled-components": "^5.3.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-is": "^18.0.0",
+    "styled-components": "^5.3.5",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

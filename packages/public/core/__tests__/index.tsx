@@ -1,17 +1,18 @@
 import { plugins } from '@edtr-io/internal__fixtures'
 import { DocumentState, serializeRootDocument } from '@edtr-io/store'
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import * as ReactDOMClient from 'react-dom/client'
 
 import { Editor, useScopedSelector } from '../src'
 
 test.todo('fix these tests')
 
-let container: Element
+let root: ReactDOMClient.Root
 
 beforeEach(() => {
-  container = document.createElement('div')
+  const container = document.createElement('div')
   document.body.appendChild(container)
+  root = ReactDOMClient.createRoot(container)
 })
 
 test('default plugin', () => {
@@ -22,7 +23,7 @@ test('default plugin', () => {
 })
 
 function renderDocument(onChange: StateProps['onChange']) {
-  ReactDOM.render(
+  root.render(
     <Editor plugins={plugins} initialState={{ plugin: 'stateful' }}>
       {(children) => {
         return (
@@ -32,8 +33,7 @@ function renderDocument(onChange: StateProps['onChange']) {
           </React.Fragment>
         )
       }}
-    </Editor>,
-    container
+    </Editor>
   )
 }
 
