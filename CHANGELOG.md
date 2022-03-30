@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.5.0](https://github.com/edtr-io/edtr-io/compare/v2.4.0..v2.5.0) - March 30, 2022
+
+### Changed
+
+- **plugin-text**. Suggestions are hydrated via `plugin-rows`.
+
+### Fixed
+
+- Official plugins no longer have a different internal config type. This should make overriding the config more intuitive.
+
 ## [v2.4.0](https://github.com/edtr-io/edtr-io/compare/v2.3.2..v2.4.0) - March 25, 2022
 
 ### Added

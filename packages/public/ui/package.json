@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/ui",
-  "version": "2.3.2",
+  "version": "2.5.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

@@ -1181,6 +1181,16 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         date: '2022-03-25',
         added: [['plugin-text', 'Expose additional settings.']],
       },
+      {
+        tagName: 'v2.5.0',
+        date: '2022-03-30',
+        changed: [
+          ['plugin-text', 'Suggestions are hydrated via `plugin-rows`.'],
+        ],
+        fixed: [
+          'Official plugins no longer have a different internal config type. This should make overriding the config more intuitive.',
+        ],
+      },
     ],
   })
 

@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@convertkit/slate-lists": "^0.2.11",
-    "@edtr-io/editor-ui": "^2.3.2",
-    "@edtr-io/math": "^2.3.2",
-    "@edtr-io/plugin": "^2.3.2",
-    "@edtr-io/plugin-rows": "^2.4.0",
-    "@edtr-io/store": "^2.3.2",
-    "@edtr-io/ui": "^2.3.2",
+    "@edtr-io/editor-ui": "^2.5.0",
+    "@edtr-io/math": "^2.5.0",
+    "@edtr-io/plugin": "^2.5.0",
+    "@edtr-io/plugin-rows": "^2.5.0",
+    "@edtr-io/store": "^2.5.0",
+    "@edtr-io/ui": "^2.5.0",
     "@types/is-hotkey": "^0.1.7",
     "@types/ramda": "^0.28.5",
     "@types/react": "^17.0.43",
@@ -31,7 +31,7 @@
     "slate-react": "^0.22.10"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.3.2",
+    "@edtr-io/core": "^2.5.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
