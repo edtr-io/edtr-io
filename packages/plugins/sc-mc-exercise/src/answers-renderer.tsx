@@ -3,7 +3,11 @@ import { styled } from '@edtr-io/renderer-ui'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { ScMcExerciseProps, ScMcExercisePluginState } from '.'
+import {
+  ScMcExerciseProps,
+  ScMcExercisePluginState,
+  ScMcExercisePluginConfig,
+} from '.'
 import { FetchDimensions } from './fetch-dimensions'
 import { calculateLayoutOptions } from './helpers'
 
@@ -14,7 +18,8 @@ enum Phase {
 }
 
 export class ScMcAnswersRenderer extends React.Component<
-  ScMcExerciseProps & {
+  Omit<ScMcExerciseProps, 'config'> & {
+    config: ScMcExercisePluginConfig
     showAnswer: (
       answer: StateTypeReturnType<ScMcExercisePluginState>['answers'][0],
       index: number,
@@ -28,6 +33,7 @@ export class ScMcAnswersRenderer extends React.Component<
     remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
     lastOption: [this.props.state.answers.length, 1] as [number, number],
   }
+
   public render() {
     if (this.state.remainingOptions.length === 0) return null
     const currentOption = this.state.remainingOptions[0]
@@ -42,6 +48,7 @@ export class ScMcAnswersRenderer extends React.Component<
       </React.Fragment>
     )
   }
+
   private tryOption(option: [number, number]) {
     return (
       <FetchDimensions
@@ -85,6 +92,7 @@ export class ScMcAnswersRenderer extends React.Component<
       />
     )
   }
+
   private renderOption(
     [_rows, columns]: [number, number],
     createRef: (index: number) => (instance: HTMLElement | null) => void = () =>
@@ -119,16 +127,20 @@ export class ScMcAnswersRenderer extends React.Component<
       remainingOptions: calculateLayoutOptions(this.props.state.answers.length),
     })
   }
+
   private onResize = () => {
     this.calculateLayout()
   }
+
   public componentDidMount() {
     this.calculateLayout()
     window.addEventListener('resize', this.onResize)
   }
+
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize)
   }
+
   private Row = styled.div({ display: 'flex' })
   // TODO: internal renderer sets margin to 15px -> see Row Class
   private Column = styled.div({

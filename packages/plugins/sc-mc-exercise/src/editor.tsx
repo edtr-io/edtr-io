@@ -10,6 +10,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { ScMcExerciseProps } from '.'
+import { useScMcExerciseConfig } from './config'
 import { ScMcExerciseRenderer } from './renderer'
 
 const TypeMenu = styled.div({
@@ -17,6 +18,7 @@ const TypeMenu = styled.div({
 })
 
 export function ScMcExerciseEditor(props: ScMcExerciseProps) {
+  const config = useScMcExerciseConfig(props.config)
   const store = useScopedStore()
   const focusedElement = useScopedSelector(getFocused())
 
@@ -77,24 +79,20 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
         <React.Fragment>
           <TypeMenu>
             <label>
-              {props.config.i18n.isSingleChoice.label}:{' '}
+              {config.i18n.isSingleChoice.label}:{' '}
               <select
                 value={state.isSingleChoice.value ? 'sc' : 'mc'}
                 onChange={handleSCMCChange}
               >
-                <option value="mc">
-                  {props.config.i18n.types.multipleChoice}
-                </option>
-                <option value="sc">
-                  {props.config.i18n.types.singleChoice}
-                </option>
+                <option value="mc">{config.i18n.types.multipleChoice}</option>
+                <option value="sc">{config.i18n.types.singleChoice}</option>
               </select>
             </label>
           </TypeMenu>
           {state.answers.map((answer, index) => {
             return (
               <InteractiveAnswer
-                i18n={props.config.i18n}
+                i18n={config.i18n}
                 key={answer.content.id}
                 answer={answer.content.render()}
                 answerID={answer.content.id}
@@ -113,7 +111,7 @@ export function ScMcExerciseEditor(props: ScMcExerciseProps) {
             )
           })}
           <AddButton onClick={addButton}>
-            {props.config.i18n.answer.addLabel}
+            {config.i18n.answer.addLabel}
           </AddButton>
         </React.Fragment>
       )}

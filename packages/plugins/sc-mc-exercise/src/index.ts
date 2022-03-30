@@ -1,18 +1,17 @@
 import {
   boolean,
-  child,
-  list,
-  object,
-  EditorPluginProps,
-  EditorPlugin,
-  ObjectStateType,
   BooleanStateType,
-  ListStateType,
+  child,
   ChildStateType,
   ChildStateTypeConfig,
+  EditorPlugin,
+  EditorPluginProps,
+  list,
+  ListStateType,
+  object,
+  ObjectStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { ScMcExerciseEditor } from './editor'
 
@@ -22,35 +21,12 @@ import { ScMcExerciseEditor } from './editor'
  */
 export function createScMcExercisePlugin(
   config: ScMcExerciseConfig
-): EditorPlugin<ScMcExercisePluginState, ScMcExercisePluginConfig> {
-  const { i18n = {}, content, feedback } = config
+): EditorPlugin<ScMcExercisePluginState, ScMcExerciseConfig> {
+  const { content, feedback } = config
 
   return {
     Component: ScMcExerciseEditor,
-    config: {
-      i18n: R.mergeDeepRight(
-        {
-          types: {
-            singleChoice: 'Single-choice',
-            multipleChoice: 'Multiple-choice',
-          },
-          answer: {
-            label: 'Answer',
-            addLabel: 'Add answer',
-            fallbackFeedback: { wrong: 'Wrong' },
-          },
-          feedback: { label: 'Feedback' },
-          globalFeedback: {
-            missingCorrectAnswers:
-              'Almost! You missed at least one correct answer',
-            correct: 'Correct',
-            wrong: 'Wrong',
-          },
-          isSingleChoice: { label: 'Choose the exercise type' },
-        },
-        i18n
-      ),
-    },
+    config,
     state: createState(),
   }
 
@@ -110,5 +86,5 @@ export interface ScMcExercisePluginConfig {
 /** @public */
 export type ScMcExerciseProps = EditorPluginProps<
   ScMcExercisePluginState,
-  ScMcExercisePluginConfig
+  ScMcExerciseConfig
 >

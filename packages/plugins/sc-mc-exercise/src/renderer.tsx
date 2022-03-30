@@ -1,15 +1,19 @@
 import * as React from 'react'
 
 import { ScMcExerciseProps } from '.'
+import { useScMcExerciseConfig } from './config'
 import { ScMcRendererInteractive } from './renderer-interactive'
 
 export function ScMcExerciseRenderer(props: ScMcRendererProps) {
+  const config = useScMcExerciseConfig(props.config)
+
   return (
     <ScMcRendererInteractive
       {...props}
+      config={config}
       getFeedback={({ mistakes, missingSolutions }) => {
         if (mistakes > 0 && mistakes === missingSolutions) {
-          return props.config.i18n.globalFeedback.missingCorrectAnswers
+          return config.i18n.globalFeedback.missingCorrectAnswers
         }
 
         return undefined
