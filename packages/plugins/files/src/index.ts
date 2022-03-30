@@ -19,19 +19,10 @@ export { FileType } from './types'
  */
 export function createFilesPlugin(
   config: FilesConfig
-): EditorPlugin<FilesPluginState, FilesPluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<FilesPluginState, FilesConfig> {
   return {
     Component: FilesEditor,
-    config: {
-      upload: config.upload,
-      i18n: {
-        label: 'Browse…',
-        failedUploadMessage: 'Upload failed',
-        ...i18n,
-      },
-    },
+    config,
     state: list(
       upload({
         src: '',
@@ -60,7 +51,7 @@ export type FilesPluginState = ListStateType<UploadStateType<UploadedFile>>
 export { UploadedFile }
 
 /** @public */
-export type FilesProps = EditorPluginProps<FilesPluginState, FilesPluginConfig>
+export type FilesProps = EditorPluginProps<FilesPluginState, FilesConfig>
 export { FilesPluginConfig }
 
 export { parseFileType } from './upload'
