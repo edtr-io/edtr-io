@@ -13,7 +13,7 @@ import { ListStateType } from '@edtr-io/plugin';
 import * as React_2 from 'react';
 
 // @public (undocumented)
-export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsPluginConfig>;
+export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsConfig>;
 
 // @public (undocumented)
 export interface RowsConfig extends Omit<RowsPluginConfig, 'i18n' | 'theme'> {
@@ -79,8 +79,7 @@ export interface RowsPluginConfig {
 export type RowsPluginState = ListStateType<ChildStateType>;
 
 // @public (undocumented)
-export type RowsProps = EditorPluginProps<RowsPluginState, RowsPluginConfig>;
-
+export type RowsProps = EditorPluginProps<RowsPluginState, RowsConfig>;
 
 // (No @packageDocumentation comment for this package)
 

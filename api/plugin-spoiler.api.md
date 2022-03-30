@@ -13,7 +13,7 @@ import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createSpoilerPlugin(config: SpoilerConfig): EditorPlugin<SpoilerPluginState, SpoilerPluginConfig>;
+export function createSpoilerPlugin(config: SpoilerConfig): EditorPlugin<SpoilerPluginState, SpoilerConfig>;
 
 // @public (undocumented)
 export interface SpoilerConfig {
@@ -46,8 +46,7 @@ export type SpoilerPluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type SpoilerProps = EditorPluginProps<SpoilerPluginState, SpoilerPluginConfig>;
-
+export type SpoilerProps = EditorPluginProps<SpoilerPluginState, SpoilerConfig>;
 
 // (No @packageDocumentation comment for this package)
 

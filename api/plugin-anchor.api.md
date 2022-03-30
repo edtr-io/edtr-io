@@ -27,11 +27,10 @@ export interface AnchorPluginConfig {
 export type AnchorPluginState = StringStateType;
 
 // @public (undocumented)
-export type AnchorProps = EditorPluginProps<AnchorPluginState, AnchorPluginConfig>;
+export type AnchorProps = EditorPluginProps<AnchorPluginState, AnchorConfig>;
 
 // @public (undocumented)
-export function createAnchorPlugin(config?: AnchorConfig): EditorPlugin<AnchorPluginState, AnchorPluginConfig>;
-
+export function createAnchorPlugin(config?: AnchorConfig): EditorPlugin<AnchorPluginState, AnchorConfig>;
 
 // (No @packageDocumentation comment for this package)
 

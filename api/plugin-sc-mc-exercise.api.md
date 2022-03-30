@@ -14,7 +14,7 @@ import { ListStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createScMcExercisePlugin(config: ScMcExerciseConfig): EditorPlugin<ScMcExercisePluginState, ScMcExercisePluginConfig>;
+export function createScMcExercisePlugin(config: ScMcExerciseConfig): EditorPlugin<ScMcExercisePluginState, ScMcExerciseConfig>;
 
 // @public (undocumented)
 export interface ScMcExerciseConfig extends Omit<ScMcExercisePluginConfig, 'i18n'> {
@@ -66,7 +66,7 @@ export type ScMcExercisePluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type ScMcExerciseProps = EditorPluginProps<ScMcExercisePluginState, ScMcExercisePluginConfig>;
+export type ScMcExerciseProps = EditorPluginProps<ScMcExercisePluginState, ScMcExerciseConfig>;
 
 // (No @packageDocumentation comment for this package)
 

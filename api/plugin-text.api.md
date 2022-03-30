@@ -34,7 +34,7 @@ export interface BlockRendererProps {
 }
 
 // @public (undocumented)
-export function createTextPlugin(config: TextConfig): EditorPlugin<TextPluginState, TextPluginConfig>;
+export function createTextPlugin(config: TextConfig): EditorPlugin<TextPluginState, TextConfig>;
 
 // @internal (undocumented)
 export function htmlToSlateValue(html: string): Value;
@@ -498,7 +498,7 @@ export interface TextPluginConfig {
 export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>;
 
 // @public (undocumented)
-export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>;
+export type TextProps = EditorPluginProps<TextPluginState, TextConfig>;
 
 // (No @packageDocumentation comment for this package)
 

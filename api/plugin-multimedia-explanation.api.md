@@ -14,7 +14,7 @@ import { NumberStateType } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
+export function createMultimediaExplanationPlugin(config: MultimediaExplanationConfig): EditorPlugin<MultimediaExplanationPluginState, MultimediaExplanationConfig>;
 
 // @public (undocumented)
 export interface MultimediaExplanationConfig extends Omit<MultimediaExplanationPluginConfig, 'features' | 'i18n'> {
@@ -62,7 +62,7 @@ export type MultimediaExplanationPluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationPluginState, MultimediaExplanationPluginConfig>;
+export type MultimediaExplanationProps = EditorPluginProps<MultimediaExplanationPluginState, MultimediaExplanationConfig>;
 
 // (No @packageDocumentation comment for this package)
 

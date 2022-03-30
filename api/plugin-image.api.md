@@ -17,7 +17,7 @@ import { UploadStateType } from '@edtr-io/plugin';
 import { UploadValidator } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createImagePlugin(config: ImageConfig): EditorPlugin<ImagePluginState, ImagePluginConfig>;
+export function createImagePlugin(config: ImageConfig): EditorPlugin<ImagePluginState, ImageConfig>;
 
 // @public (undocumented)
 export interface ImageConfig extends Omit<ImagePluginConfig, 'i18n'> {
@@ -78,8 +78,7 @@ export type ImagePluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type ImageProps = EditorPluginProps<ImagePluginState, ImagePluginConfig>;
-
+export type ImageProps = EditorPluginProps<ImagePluginState, ImageConfig>;
 
 // (No @packageDocumentation comment for this package)
 

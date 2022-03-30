@@ -9,7 +9,7 @@ import { EditorPluginProps } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createGeogebraPlugin(config?: GeogebraConfig): EditorPlugin<GeogebraPluginState, GeogebraPluginConfig>;
+export function createGeogebraPlugin(config?: GeogebraConfig): EditorPlugin<GeogebraPluginState, GeogebraConfig>;
 
 // @public (undocumented)
 export interface GeogebraConfig {
@@ -30,8 +30,7 @@ export interface GeogebraPluginConfig {
 export type GeogebraPluginState = StringStateType;
 
 // @public (undocumented)
-export type GeogebraProps = EditorPluginProps<GeogebraPluginState, GeogebraPluginConfig>;
-
+export type GeogebraProps = EditorPluginProps<GeogebraPluginState, GeogebraConfig>;
 
 // (No @packageDocumentation comment for this package)
 

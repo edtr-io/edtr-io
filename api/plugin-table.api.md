@@ -10,7 +10,7 @@ import * as React_2 from 'react';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createTablePlugin(config?: TableConfig): EditorPlugin<TablePluginState, TablePluginConfig>;
+export function createTablePlugin(config?: TableConfig): EditorPlugin<TablePluginState, TableConfig>;
 
 // @public (undocumented)
 export interface TableConfig {
@@ -36,8 +36,7 @@ export interface TablePluginConfig {
 export type TablePluginState = StringStateType;
 
 // @public (undocumented)
-export type TableProps = EditorPluginProps<TablePluginState, TablePluginConfig>;
-
+export type TableProps = EditorPluginProps<TablePluginState, TableConfig>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -11,7 +11,7 @@ import { UploadHandler } from '@edtr-io/plugin';
 import { UploadStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesPluginState, FilesPluginConfig>;
+export function createFilesPlugin(config: FilesConfig): EditorPlugin<FilesPluginState, FilesConfig>;
 
 // @public (undocumented)
 export interface FilesConfig {
@@ -36,7 +36,7 @@ export interface FilesPluginConfig {
 export type FilesPluginState = ListStateType<UploadStateType<UploadedFile>>;
 
 // @public (undocumented)
-export type FilesProps = EditorPluginProps<FilesPluginState, FilesPluginConfig>;
+export type FilesProps = EditorPluginProps<FilesPluginState, FilesConfig>;
 
 // @public (undocumented)
 export enum FileType {

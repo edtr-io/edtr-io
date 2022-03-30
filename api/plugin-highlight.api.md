@@ -13,7 +13,7 @@ import * as React_2 from 'react';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<HighlightPluginState, HighlightPluginConfig>;
+export function createHighlightPlugin(config?: HighlightConfig): EditorPlugin<HighlightPluginState, HighlightConfig>;
 
 // @public (undocumented)
 export interface HighlightConfig {
@@ -51,14 +51,14 @@ export type HighlightPluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type HighlightProps = EditorPluginProps<HighlightPluginState, HighlightPluginConfig>;
+export type HighlightProps = EditorPluginProps<HighlightPluginState, HighlightConfig>;
 
 // @public (undocumented)
 export interface HighlightRendererProps {
     // (undocumented)
     code: string;
     // (undocumented)
-    config: HighlightPluginConfig;
+    config: HighlightConfig;
     // (undocumented)
     language: string;
     // (undocumented)
