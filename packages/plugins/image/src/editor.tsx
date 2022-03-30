@@ -20,6 +20,7 @@ import {
 import * as React from 'react'
 
 import { ImageProps } from '.'
+import { useImageConfig } from './config'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
 
@@ -49,7 +50,8 @@ const Failed = styled.div<EditorThemeProps>((props) => {
 })
 
 export function ImageEditor(props: ImageProps) {
-  const { config, editable, focused, state } = props
+  const { editable, focused, state } = props
+  const config = useImageConfig(props.config)
 
   usePendingFileUploader(state.src, config.upload)
 
@@ -89,7 +91,8 @@ export function ImageEditor(props: ImageProps) {
 }
 
 function PrimaryControls(props: ImageProps) {
-  const { i18n } = props.config
+  const config = useImageConfig(props.config)
+  const { i18n } = config
   const { src } = props.state
   return src.value === '' || isTempFile(src.value) ? (
     <React.Fragment>
@@ -122,7 +125,7 @@ function PrimaryControls(props: ImageProps) {
           </EditorButton>
         ) : null}
         <Upload
-          config={props.config}
+          config={config}
           onFile={(file) => {
             void src.upload(file, props.config.upload)
           }}
@@ -175,7 +178,8 @@ function PrimaryControls(props: ImageProps) {
 
 function Controls(props: ImageProps) {
   const { state } = props
-  const { i18n } = props.config
+  const config = useImageConfig(props.config)
+  const { i18n } = config
 
   return (
     <React.Fragment>
@@ -209,7 +213,7 @@ function Controls(props: ImageProps) {
           </OverlayButton>
         ) : null}
         <Upload
-          config={props.config}
+          config={config}
           inOverlay
           onFile={(file) => {
             void state.src.upload(file, props.config.upload)
