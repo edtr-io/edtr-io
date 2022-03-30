@@ -357,7 +357,9 @@ export interface TextConfig {
     placeholder?: TextPluginConfig['placeholder'];
     // (undocumented)
     plugins?: TextConfigPlugins;
-    // (undocumented)
+    // Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
+    //
+    // @deprecated (undocumented)
     registry: TextPluginConfig['registry'];
     // (undocumented)
     theme?: DeepPartial<TextPluginConfig['theme']>;

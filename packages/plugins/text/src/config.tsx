@@ -1,3 +1,4 @@
+import { RegistryContext } from '@edtr-io/plugin-rows/internal'
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
@@ -20,13 +21,13 @@ const defaultEnabledPlugins = {
 export function useTextConfig(config: TextConfig): TextPluginConfig {
   const {
     placeholder = 'Write something or add elements with \u2295.',
-    registry,
     i18n = {},
     theme = {},
     blockquote,
     noLinebreaks,
   } = config
   const { editor } = useTheme()
+  const registry = React.useContext(RegistryContext) ?? config.registry
 
   const blue = '#1794c1',
     green = '#469a40',

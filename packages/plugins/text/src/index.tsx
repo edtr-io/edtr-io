@@ -84,6 +84,7 @@ export function createTextPlugin(
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
   plugins?: TextConfigPlugins
+  /** @deprecated */
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
   theme?: DeepPartial<TextPluginConfig['theme']>

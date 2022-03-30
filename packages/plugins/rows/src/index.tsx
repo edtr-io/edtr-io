@@ -110,3 +110,5 @@ export interface RowsPluginConfig {
 
 /** @public */
 export type RowsProps = EditorPluginProps<RowsPluginState, RowsConfig>
+
+export * from './registry-context'
