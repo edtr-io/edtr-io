@@ -3,6 +3,7 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { TableProps } from '.'
+import { useTableConfig } from './config'
 import { TableRenderer } from './renderer'
 
 const Form = styled.form({
@@ -11,6 +12,8 @@ const Form = styled.form({
 
 export function TableEditor(props: TableProps) {
   const { focused, state } = props
+  const config = useTableConfig(props.config)
+
   return (
     <div>
       {focused ? (
@@ -18,7 +21,7 @@ export function TableEditor(props: TableProps) {
           <div>
             <EditorTextarea
               value={state.value}
-              placeholder={props.config.i18n.placeholder}
+              placeholder={config.i18n.placeholder}
               name="markdown"
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 state.set(e.target.value)

@@ -5,8 +5,6 @@ import {
   StringStateType,
 } from '@edtr-io/plugin'
 import * as React from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfmPlugin from 'remark-gfm'
 
 import { TableEditor } from './editor'
 
@@ -16,23 +14,11 @@ import { TableEditor } from './editor'
  */
 export function createTablePlugin(
   config: TableConfig = {}
-): EditorPlugin<TablePluginState, TablePluginConfig> {
-  const { i18n = {}, MarkdownRenderer = DefaultMarkdownRenderer } = config
-
+): EditorPlugin<TablePluginState, TableConfig> {
   return {
     Component: TableEditor,
-    config: {
-      i18n: {
-        placeholder: 'Enter the table using Markdown syntax',
-        ...i18n,
-      },
-      MarkdownRenderer,
-    },
+    config,
     state: string(),
-  }
-
-  function DefaultMarkdownRenderer({ markdown }: { markdown: string }) {
-    return <ReactMarkdown plugins={[remarkGfmPlugin]}>{markdown}</ReactMarkdown>
   }
 }
 
@@ -54,4 +40,4 @@ export interface TablePluginConfig {
 }
 
 /** @public */
-export type TableProps = EditorPluginProps<TablePluginState, TablePluginConfig>
+export type TableProps = EditorPluginProps<TablePluginState, TableConfig>
