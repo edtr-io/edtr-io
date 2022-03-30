@@ -13,18 +13,10 @@ import { AnchorEditor } from './editor'
  */
 export function createAnchorPlugin(
   config: AnchorConfig = {}
-): EditorPlugin<AnchorPluginState, AnchorPluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<AnchorPluginState, AnchorConfig> {
   return {
     Component: AnchorEditor,
-    config: {
-      i18n: {
-        label: 'Identifier',
-        placeholder: 'ID of the anchor',
-        ...i18n,
-      },
-    },
+    config,
     state: string(),
   }
 }
@@ -46,7 +38,4 @@ export interface AnchorPluginConfig {
 }
 
 /** @public */
-export type AnchorProps = EditorPluginProps<
-  AnchorPluginState,
-  AnchorPluginConfig
->
+export type AnchorProps = EditorPluginProps<AnchorPluginState, AnchorConfig>

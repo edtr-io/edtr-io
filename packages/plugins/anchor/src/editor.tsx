@@ -3,15 +3,17 @@ import { Icon, faLink, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { AnchorProps } from '.'
+import { useAnchorConfig } from './config'
 import { AnchorRenderer } from './renderer'
 
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export const AnchorEditor = (props: AnchorProps) => {
   const { editable, focused, state, config } = props
-  const { i18n } = config
+  const { i18n } = useAnchorConfig(config)
+
   return (
-    <React.Fragment>
+    <>
       {editable ? <StyledIcon icon={faLink} /> : null}
       <AnchorRenderer {...props} />
       {focused ? (
@@ -25,6 +27,6 @@ export const AnchorEditor = (props: AnchorProps) => {
           ref={props.autofocusRef}
         />
       ) : null}
-    </React.Fragment>
+    </>
   )
 }
