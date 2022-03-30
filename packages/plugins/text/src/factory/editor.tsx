@@ -160,7 +160,7 @@ export function TextEditor(props: TextProps) {
           onKeyDown={onKeyDown}
           onClick={onClick}
           onChange={onChange}
-          placeholder={props.editable ? props.config.placeholder : ''}
+          placeholder={props.editable ? config.placeholder : ''}
           plugins={slatePlugins.current}
           readOnly={!props.focused}
           value={rawState}
@@ -174,8 +174,8 @@ export function TextEditor(props: TextProps) {
       onClick,
       onChange,
       props.editable,
-      props.config.i18n,
-      props.config.placeholder,
+      config.i18n,
+      config.placeholder,
       props.focused,
       rawState,
     ]

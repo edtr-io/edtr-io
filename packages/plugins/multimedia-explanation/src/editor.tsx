@@ -9,8 +9,8 @@ import { styled, faRandom, Icon, faTrashAlt } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { MultimediaExplanationProps } from '.'
-import { Resizable } from './resizable'
 import { useMultimediaExplanationConfig } from './config'
+import { Resizable } from './resizable'
 
 const STEPS = 4
 const BREAKPOINT = 650

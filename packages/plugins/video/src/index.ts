@@ -7,7 +7,6 @@ import {
   StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { VideoEditor } from './editor'
 

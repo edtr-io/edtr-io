@@ -2,7 +2,7 @@ import { EditorBottomToolbar, HoverOverlay, styled } from '@edtr-io/editor-ui'
 import * as React from 'react'
 import { Editor, EditorProps } from 'slate-react'
 
-import { TextConfig, TextConfigPlugins, TextPlugin, TextPluginConfig } from '..'
+import { TextConfigPlugins, TextPlugin, TextPluginConfig } from '..'
 import { SlatePluginClosure } from '../factory/types'
 import { ColorControls } from './colors'
 import { DefaultControls } from './default'
@@ -32,7 +32,7 @@ export interface SubControlProps extends ControlProps {
 
 export interface UiPluginOptions {
   Component: React.ComponentType<Partial<EditorProps> & ControlProps>
-  plugins?: TextConfig['plugins']
+  plugins: TextConfigPlugins
 }
 
 function ControlsSwitch({
@@ -184,17 +184,7 @@ export function isTouchDevice(): boolean {
 export const createUiPlugin =
   (options: UiPluginOptions) =>
   (pluginClosure: SlatePluginClosure): TextPlugin => {
-    const {
-      Component,
-      plugins = {
-        suggestions: true,
-        math: true,
-        headings: true,
-        lists: true,
-        colors: true,
-        code: true,
-      },
-    } = options
+    const { Component, plugins } = options
 
     return {
       renderEditor(props, editor, next) {
@@ -209,7 +199,7 @@ export const createUiPlugin =
 
         const children = next()
         return (
-          <React.Fragment>
+          <>
             {!readOnly ? (
               <Component
                 editor={editor as unknown as Editor}
@@ -220,7 +210,7 @@ export const createUiPlugin =
               />
             ) : null}
             {children}
-          </React.Fragment>
+          </>
         )
       },
     }

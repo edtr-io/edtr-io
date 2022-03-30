@@ -18,7 +18,6 @@ import {
   UploadValidator,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { ImageEditor } from './editor'
 
