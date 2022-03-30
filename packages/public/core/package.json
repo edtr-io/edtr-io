@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.2",
+    "@babel/runtime": "^7.17.8",
     "@edtr-io/default-document-editor": "^2.3.2",
     "@edtr-io/default-plugin-toolbar": "^2.3.2",
     "@edtr-io/internal__document-editor": "^2.3.2",
@@ -21,9 +21,9 @@
     "@edtr-io/internal__plugin-toolbar": "^2.3.2",
     "@edtr-io/store": "^2.3.2",
     "@edtr-io/ui": "^2.3.2",
-    "@types/ramda": "^0.28.1",
-    "@types/react": "^17.0.40",
-    "@types/react-dom": "^17.0.13",
+    "@types/ramda": "^0.28.5",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
     "@types/react-redux": "^7.1.23",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.24",
@@ -35,14 +35,14 @@
   "devDependencies": {
     "@edtr-io/internal__fixtures": "^2.0.0",
     "@types/react-test-renderer": "^17.0.1",
-    "react": "^17.0.2",
+    "react": "^18.0.0",
     "react-dnd": "^15.1.1",
     "react-dnd-html5-backend": "^15.1.2",
-    "react-dom": "^17.0.2",
-    "react-is": "^17.0.2",
-    "react-test-renderer": "^17.0.2",
+    "react-dom": "^18.0.0",
+    "react-is": "^18.0.0",
+    "react-test-renderer": "^18.0.0",
     "redux": "^4.1.2",
-    "styled-components": "^5.3.3",
+    "styled-components": "^5.3.5",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {

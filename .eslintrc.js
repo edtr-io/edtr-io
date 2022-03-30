@@ -82,6 +82,7 @@ module.exports = {
           '@edtr-io/*/{beta,internal}',
           '@fortawesome/free-solid-svg-icons/*',
           'katex/dist/katex.css',
+          'react-dom/client',
           'react-dom/server',
           'react-dom/test-utils',
           'react-syntax-highlighter/dist/cjs/styles/*/*',

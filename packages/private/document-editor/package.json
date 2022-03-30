@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@edtr-io/internal__plugin-toolbar": "^2.3.2",
-    "@types/react": "^17.0.40"
+    "@types/react": "^17.0.43"
   },
   "devDependencies": {
-    "react": "^17.0.2",
+    "react": "^18.0.0",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
