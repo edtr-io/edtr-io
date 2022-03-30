@@ -11,7 +11,7 @@ import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createVideoPlugin(config?: VideoConfig): EditorPlugin<VideoPluginState, VideoPluginConfig>;
+export function createVideoPlugin(config?: VideoConfig): EditorPlugin<VideoPluginState, VideoConfig>;
 
 // @public (undocumented)
 export interface VideoConfig {
@@ -39,8 +39,7 @@ export type VideoPluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type VideoProps = EditorPluginProps<VideoPluginState, VideoPluginConfig>;
-
+export type VideoProps = EditorPluginProps<VideoPluginState, VideoConfig>;
 
 // (No @packageDocumentation comment for this package)
 

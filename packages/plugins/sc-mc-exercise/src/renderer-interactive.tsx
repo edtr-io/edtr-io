@@ -3,7 +3,7 @@ import { Feedback, styled, SubmitButton } from '@edtr-io/renderer-ui/internal'
 import * as R from 'ramda'
 import * as React from 'react'
 
-import { ScMcExercisePluginState } from '.'
+import { ScMcExercisePluginConfig, ScMcExercisePluginState } from '.'
 import { ScMcAnswersRenderer } from './answers-renderer'
 import { ScMcExerciseChoiceRenderer } from './choice-renderer'
 import { ScMcRendererProps } from './renderer'
@@ -216,7 +216,8 @@ export class ScMcRendererInteractive extends React.Component<
   private SubmitButton = styled.button({ float: 'right', margin: '10px 0px' })
 }
 
-export type ScMcRendererInteractiveProps = ScMcRendererProps & {
+export type ScMcRendererInteractiveProps = Omit<ScMcRendererProps, 'config'> & {
+  config: ScMcExercisePluginConfig
   getFeedback?: (params: {
     mistakes: number
     missingSolutions: number

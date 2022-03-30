@@ -7,6 +7,7 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { HighlightProps } from '.'
+import { useHighlightConfig } from './config'
 
 const Textarea = styled.textarea({
   height: '250px',
@@ -29,7 +30,7 @@ const CheckboxContainer = styled.div({
 
 export function HighlightEditor(props: HighlightProps) {
   const { config, state, focused, editable } = props
-  const { i18n, Renderer } = config
+  const { i18n, Renderer } = useHighlightConfig(config)
 
   const edit = focused && editable
   const [throttledEdit, setEditThrottled] = React.useState(edit)

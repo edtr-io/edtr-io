@@ -12,7 +12,6 @@ import {
   ObjectStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { MultimediaExplanationEditor } from './editor'
 
@@ -22,45 +21,12 @@ import { MultimediaExplanationEditor } from './editor'
  */
 export function createMultimediaExplanationPlugin(
   config: MultimediaExplanationConfig
-): EditorPlugin<
-  MultimediaExplanationPluginState,
-  MultimediaExplanationPluginConfig
-> {
-  const {
-    i18n = {},
-    features = {
-      importance: true,
-    },
-    plugins,
-    explanation,
-  } = config
+): EditorPlugin<MultimediaExplanationPluginState, MultimediaExplanationConfig> {
+  const { plugins, explanation } = config
 
   return {
     Component: MultimediaExplanationEditor,
-    config: {
-      plugins,
-      i18n: R.mergeDeepRight(
-        {
-          reset: 'Reset the multimedia content',
-          changeMultimediaType: 'Change the multimedia type',
-          illustrating: {
-            label: 'How important is the multimedia content?',
-            values: {
-              illustrating: 'It is an illustrating',
-              explaining: 'It is essential',
-            },
-          },
-        },
-        i18n
-      ),
-      features: R.mergeDeepRight(
-        {
-          link: false,
-          importance: false,
-        },
-        features
-      ),
-    },
+    config,
     state: object({
       explanation: child(explanation),
       multimedia: child({ plugin: plugins[0].name }),
@@ -113,5 +79,5 @@ export interface MultimediaExplanationPluginConfig {
 /** @public */
 export type MultimediaExplanationProps = EditorPluginProps<
   MultimediaExplanationPluginState,
-  MultimediaExplanationPluginConfig
+  MultimediaExplanationConfig
 >

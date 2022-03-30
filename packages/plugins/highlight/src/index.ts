@@ -9,11 +9,9 @@ import {
   StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 import * as React from 'react'
 
 import { HighlightEditor } from './editor'
-import { HighlightRenderer } from './renderer'
 import type { HighlightRendererProps } from './renderer'
 
 /**
@@ -22,30 +20,10 @@ import type { HighlightRendererProps } from './renderer'
  */
 export function createHighlightPlugin(
   config: HighlightConfig = {}
-): EditorPlugin<HighlightPluginState, HighlightPluginConfig> {
-  const { i18n = {}, Renderer = HighlightRenderer } = config
-
+): EditorPlugin<HighlightPluginState, HighlightConfig> {
   return {
     Component: HighlightEditor,
-    config: {
-      i18n: R.mergeDeepRight(
-        {
-          code: {
-            label: 'Click here and enter your source code…',
-            placeholder: 'Enter your source code here',
-          },
-          language: {
-            label: 'Language',
-            placeholder: 'Enter language',
-          },
-          showLineNumbers: {
-            label: 'Show line numbers',
-          },
-        },
-        i18n
-      ),
-      Renderer,
-    },
+    config,
     state: object({
       code: string(''),
       language: string('text'),
@@ -89,5 +67,5 @@ export { HighlightRendererProps }
 /** @public */
 export type HighlightProps = EditorPluginProps<
   HighlightPluginState,
-  HighlightPluginConfig
+  HighlightConfig
 >

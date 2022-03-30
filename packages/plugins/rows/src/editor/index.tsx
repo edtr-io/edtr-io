@@ -5,6 +5,7 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RowsPluginConfig, RowsProps, RowsPluginState } from '..'
+import { useRowsConfig } from '../config'
 import { RowsRenderer } from '../renderer'
 import { Menu } from './menu'
 import { RowRenderer } from './render'
@@ -56,6 +57,7 @@ function RowEditor({
 }
 
 export function RowsEditor(props: RowsProps) {
+  const config = useRowsConfig(props.config)
   const [menu, setMenu] = React.useState<
     | {
         index: number
@@ -79,7 +81,7 @@ export function RowsEditor(props: RowsProps) {
   return (
     <div style={{ position: 'relative', marginTop: '25px' }}>
       <Separator
-        config={props.config}
+        config={config}
         isFirst
         focused={props.state.length == 0}
         onClick={() => {
@@ -89,7 +91,7 @@ export function RowsEditor(props: RowsProps) {
       {props.state.map((row, index) => {
         return (
           <RowEditor
-            config={props.config}
+            config={config}
             key={row.id}
             openMenu={() => {
               openMenu(index + 1)
@@ -100,9 +102,7 @@ export function RowsEditor(props: RowsProps) {
           />
         )
       })}
-      {menu ? (
-        <Menu menu={menu} setMenu={setMenu} config={props.config} />
-      ) : null}
+      {menu ? <Menu menu={menu} setMenu={setMenu} config={config} /> : null}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { CheckElement } from '@edtr-io/editor-ui/internal'
 import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { ScMcExerciseProps } from '.'
+import { ScMcExercisePluginConfig, ScMcExerciseProps } from '.'
 
 const CheckboxContainer = styled.div({
   //width: '5%',
@@ -11,8 +11,9 @@ const CheckboxContainer = styled.div({
   marginBottom: '5px',
   fontWeight: 'bold',
 })
+
 export class ScMcExerciseChoiceRenderer extends React.Component<
-  ScMcExerciseProps & ChoiceRendererProps
+  Omit<ScMcExerciseProps, 'config'> & ChoiceRendererProps
 > {
   public render() {
     const { state, children, index, onClick, showFeedback, selected } =
@@ -35,6 +36,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
       </div>
     )
   }
+
   private Container = styled.div<{ isCorrect: boolean; showFeedback: boolean }>(
     (props) => {
       return {
@@ -50,6 +52,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
 }
 
 export interface ChoiceRendererProps {
+  config: ScMcExercisePluginConfig
   index: number
   onClick?: (event: React.MouseEvent<Element>) => void
   showFeedback?: boolean

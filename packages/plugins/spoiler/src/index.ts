@@ -10,7 +10,6 @@ import {
   StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { SpoilerEditor } from './editor'
 
@@ -19,27 +18,12 @@ import { SpoilerEditor } from './editor'
  * @public
  */ export function createSpoilerPlugin(
   config: SpoilerConfig
-): EditorPlugin<SpoilerPluginState, SpoilerPluginConfig> {
-  const { i18n = {}, theme = {}, content } = config
+): EditorPlugin<SpoilerPluginState, SpoilerConfig> {
+  const { content } = config
 
   return {
     Component: SpoilerEditor,
-    config: () => {
-      return {
-        i18n: R.mergeDeepRight(
-          {
-            title: {
-              placeholder: 'Enter a title',
-            },
-          },
-          i18n
-        ),
-        theme: {
-          color: '#f5f5f5',
-          ...theme,
-        },
-      }
-    },
+    config,
     state: object({
       title: string(''),
       content: child(content),
@@ -73,7 +57,4 @@ export interface SpoilerPluginConfig {
 }
 
 /** @public */
-export type SpoilerProps = EditorPluginProps<
-  SpoilerPluginState,
-  SpoilerPluginConfig
->
+export type SpoilerProps = EditorPluginProps<SpoilerPluginState, SpoilerConfig>

@@ -10,6 +10,7 @@ import * as R from 'ramda'
 import * as React from 'react'
 
 import { InputExerciseProps, InputExerciseType } from '.'
+import { useInputExerciseConfig } from './config'
 import { InputExerciseRenderer } from './renderer'
 
 const AnswerTextfield = styled.input({
@@ -24,7 +25,7 @@ const TypeMenu = styled.div({
 
 export function InputExerciseEditor(props: InputExerciseProps) {
   const { editable, state, focused, config } = props
-  const { i18n } = config
+  const { i18n } = useInputExerciseConfig(config)
   const focusedElement = useScopedSelector(getFocused())
   const nestedFocus =
     focused ||
@@ -52,7 +53,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
               >
                 {Object.values(InputExerciseType).map((exerciseType) => (
                   <option key={exerciseType} value={exerciseType}>
-                    {props.config.i18n.types[exerciseType]}
+                    {i18n.types[exerciseType]}
                   </option>
                 ))}
               </select>
@@ -61,7 +62,7 @@ export function InputExerciseEditor(props: InputExerciseProps) {
           {state.answers.map((answer, index: number) => {
             return (
               <InteractiveAnswer
-                i18n={props.config.i18n}
+                i18n={i18n}
                 key={answer.feedback.id}
                 answer={
                   <AnswerTextfield

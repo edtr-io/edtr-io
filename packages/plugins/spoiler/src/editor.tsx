@@ -4,13 +4,11 @@ import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { SpoilerProps } from '.'
+import { useSpoilerConfig } from './config'
 
-export function SpoilerEditor({
-  config,
-  state,
-  editable,
-  autofocusRef,
-}: SpoilerProps) {
+export function SpoilerEditor(props: SpoilerProps) {
+  const { state, editable, autofocusRef } = props
+  const config = useSpoilerConfig(props.config)
   const { theme } = config
   const spoilerTheme = React.useMemo(() => {
     return {

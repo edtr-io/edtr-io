@@ -9,7 +9,7 @@ import { EditorPluginProps } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createSerloInjectionPlugin(config?: SerloInjectionConfig): EditorPlugin<SerloInjectionPluginState, SerloInjectionPluginConfig>;
+export function createSerloInjectionPlugin(config?: SerloInjectionConfig): EditorPlugin<SerloInjectionPluginState, SerloInjectionConfig>;
 
 // @public (undocumented)
 export interface SerloInjectionConfig {
@@ -30,8 +30,7 @@ export interface SerloInjectionPluginConfig {
 export type SerloInjectionPluginState = StringStateType;
 
 // @public (undocumented)
-export type SerloInjectionProps = EditorPluginProps<SerloInjectionPluginState, SerloInjectionPluginConfig>;
-
+export type SerloInjectionProps = EditorPluginProps<SerloInjectionPluginState, SerloInjectionConfig>;
 
 // (No @packageDocumentation comment for this package)
 

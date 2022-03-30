@@ -4,6 +4,7 @@ import { Icon, faRedoAlt, styled, EdtrIcon, edtrClose } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { FilesProps } from '.'
+import { useFilesConfig } from './config'
 import { FileRenderer, FilesRenderer } from './renderer'
 import { parseFileType, Upload } from './upload'
 
@@ -27,7 +28,8 @@ const Center = styled.div({
 })
 
 export function FilesEditor(props: FilesProps) {
-  const { config, editable, focused, state } = props
+  const { editable, focused, state } = props
+  const config = useFilesConfig(props.config)
   usePendingFilesUploader(state, config.upload)
 
   if (!editable) return <FilesRenderer {...props} />

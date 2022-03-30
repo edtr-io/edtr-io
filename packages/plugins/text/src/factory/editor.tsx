@@ -32,11 +32,13 @@ import {
 import { Editor, EventHook, getEventTransfer } from 'slate-react'
 
 import { isValueEmpty, serializer, TextPlugin, TextProps } from '..'
+import { useTextConfig } from '../config'
 import { I18nContext } from '../i18n-context'
 import { htmlToSlateValue, katexBlockNode, slateSchema } from '../model'
 import { SlateClosure } from './types'
 
 export function TextEditor(props: TextProps) {
+  const config = useTextConfig(props.config)
   const store = useScopedStore()
   const editor = React.useRef<CoreEditor>()
 
@@ -78,12 +80,12 @@ export function TextEditor(props: TextProps) {
   // This ref makes sure that slate hooks and plugins have access to the latest values
   const slateClosure = React.useRef<SlateClosure>({
     id: props.id,
-    config: props.config,
+    config,
     store,
   })
   slateClosure.current = {
     store,
-    config: props.config,
+    config,
     id: props.id,
   }
   React.useEffect(() => {
@@ -101,7 +103,7 @@ export function TextEditor(props: TextProps) {
   const slatePlugins = React.useRef<TextPlugin[]>()
   if (slatePlugins.current === undefined) {
     slatePlugins.current = [
-      ...props.config.plugins.map((slatePluginFactory) =>
+      ...config.plugins.map((slatePluginFactory) =>
         slatePluginFactory(slateClosure)
       ),
       newSlateOnEnter(slateClosure),
@@ -146,7 +148,7 @@ export function TextEditor(props: TextProps) {
 
   return React.useMemo(
     () => (
-      <I18nContext.Provider value={props.config.i18n}>
+      <I18nContext.Provider value={config.i18n}>
         <Editor
           ref={(slate) => {
             const slateReact = slate as unknown as CoreEditor | null
@@ -158,7 +160,7 @@ export function TextEditor(props: TextProps) {
           onKeyDown={onKeyDown}
           onClick={onClick}
           onChange={onChange}
-          placeholder={props.editable ? props.config.placeholder : ''}
+          placeholder={props.editable ? config.placeholder : ''}
           plugins={slatePlugins.current}
           readOnly={!props.focused}
           value={rawState}
@@ -172,8 +174,8 @@ export function TextEditor(props: TextProps) {
       onClick,
       onChange,
       props.editable,
-      props.config.i18n,
-      props.config.placeholder,
+      config.i18n,
+      config.placeholder,
       props.focused,
       rawState,
     ]

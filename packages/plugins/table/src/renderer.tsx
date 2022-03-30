@@ -2,6 +2,7 @@ import { Icon, faTable, styled } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { TableProps } from '.'
+import { useTableConfig } from './config'
 
 const TableContainer = styled.div({
   overflowX: 'auto',
@@ -24,7 +25,8 @@ const TableContainer = styled.div({
 const StyledIcon = styled(Icon)({ marginRight: '5px' })
 
 export function TableRenderer(props: TableProps) {
-  const { config, editable, state } = props
+  const { editable, state } = props
+  const config = useTableConfig(props.config)
 
   return (
     <TableContainer>

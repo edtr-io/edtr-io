@@ -18,7 +18,6 @@ import {
   UploadValidator,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
-import * as R from 'ramda'
 
 import { ImageEditor } from './editor'
 
@@ -28,47 +27,10 @@ import { ImageEditor } from './editor'
  */
 export function createImagePlugin(
   config: ImageConfig
-): EditorPlugin<ImagePluginState, ImagePluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<ImagePluginState, ImageConfig> {
   return {
     Component: ImageEditor,
-    config: {
-      ...config,
-      i18n: R.mergeDeepRight(
-        {
-          label: 'Browse…',
-          failedUploadMessage: 'Upload failed',
-          src: {
-            label: 'Image URL',
-            placeholder: {
-              empty: 'https://example.com/image.png',
-              uploading: 'Uploading…',
-              failed: 'Upload failed…',
-            },
-            retryLabel: 'Retry',
-          },
-          link: {
-            href: {
-              label: 'Link',
-              placeholder: 'Link the image',
-            },
-            openInNewTab: {
-              label: 'Open in new tab',
-            },
-          },
-          alt: {
-            label: 'Description',
-            placeholder: 'Enter an image description',
-          },
-          maxWidth: {
-            label: 'Maximum width',
-            placeholder: 'Enter the maximum width',
-          },
-        },
-        i18n
-      ),
-    },
+    config,
     state: object({
       src: upload(''),
       link: optional(
@@ -174,4 +136,4 @@ export interface ImagePluginConfig {
 }
 
 /** @public */
-export type ImageProps = EditorPluginProps<ImagePluginState, ImagePluginConfig>
+export type ImageProps = EditorPluginProps<ImagePluginState, ImageConfig>

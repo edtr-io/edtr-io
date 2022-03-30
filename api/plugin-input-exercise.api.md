@@ -15,7 +15,7 @@ import { ObjectStateType } from '@edtr-io/plugin';
 import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export function createInputExercisePlugin(config: InputExerciseConfig): EditorPlugin<InputExercisePluginState, InputExercisePluginConfig>;
+export function createInputExercisePlugin(config: InputExerciseConfig): EditorPlugin<InputExercisePluginState, InputExerciseConfig>;
 
 // @public (undocumented)
 export interface InputExerciseConfig {
@@ -73,7 +73,7 @@ export type InputExercisePluginState = ObjectStateType<{
 }>;
 
 // @public (undocumented)
-export type InputExerciseProps = EditorPluginProps<InputExercisePluginState, InputExercisePluginConfig>;
+export type InputExerciseProps = EditorPluginProps<InputExercisePluginState, InputExerciseConfig>;
 
 // @public (undocumented)
 export enum InputExerciseType {
