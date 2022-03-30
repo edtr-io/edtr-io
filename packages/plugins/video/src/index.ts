@@ -16,24 +16,10 @@ import { VideoEditor } from './editor'
  * @public
  */ export function createVideoPlugin(
   config: VideoConfig = {}
-): EditorPlugin<VideoPluginState, VideoPluginConfig> {
-  const { i18n = {} } = config
-
+): EditorPlugin<VideoPluginState, VideoConfig> {
   return {
     Component: VideoEditor,
-    config: {
-      i18n: R.mergeDeepRight(
-        {
-          src: {
-            label: 'Video URL',
-          },
-          alt: {
-            label: 'Description',
-          },
-        },
-        i18n
-      ),
-    },
+    config,
     state: object({ src: string(), alt: string() }),
     onText(value) {
       const regex =
@@ -69,4 +55,4 @@ export interface VideoPluginConfig {
 }
 
 /** @public */
-export type VideoProps = EditorPluginProps<VideoPluginState, VideoPluginConfig>
+export type VideoProps = EditorPluginProps<VideoPluginState, VideoConfig>
