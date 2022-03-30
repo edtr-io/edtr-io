@@ -22,7 +22,7 @@ import type { HighlightRendererProps } from './renderer'
  */
 export function createHighlightPlugin(
   config: HighlightConfig = {}
-): EditorPlugin<HighlightPluginState, HighlightPluginConfig> {
+): EditorPlugin<HighlightPluginState, HighlightConfig> {
   const { i18n = {}, Renderer = HighlightRenderer } = config
 
   return {
@@ -89,5 +89,5 @@ export { HighlightRendererProps }
 /** @public */
 export type HighlightProps = EditorPluginProps<
   HighlightPluginState,
-  HighlightPluginConfig
+  HighlightConfig
 >

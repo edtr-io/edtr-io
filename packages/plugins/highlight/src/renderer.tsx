@@ -2,9 +2,12 @@ import * as React from 'react'
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import style from 'react-syntax-highlighter/dist/cjs/styles/prism/coy'
 
-import { HighlightPluginConfig } from '.'
+import { HighlightConfig } from '.'
+import { useHighlightConfig } from './config'
 
 export function HighlightRenderer(props: HighlightRendererProps) {
+  const { i18n } = useHighlightConfig(props.config)
+
   return (
     <SyntaxHighlighter
       language={props.language}
@@ -14,14 +17,14 @@ export function HighlightRenderer(props: HighlightRendererProps) {
         overflow: 'auto',
       }}
     >
-      {props.code || props.config.i18n.code.label}
+      {props.code || i18n.code.label}
     </SyntaxHighlighter>
   )
 }
 
 /** @public */
 export interface HighlightRendererProps {
-  config: HighlightPluginConfig
+  config: HighlightConfig
   code: string
   language: string
   showLineNumbers: boolean
