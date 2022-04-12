@@ -9,7 +9,7 @@ export function useImageConfig(config: ImageConfig): ImagePluginConfig {
     ...config,
     i18n: R.mergeDeepRight(
       {
-        label: 'Browse…',
+        label: 'Upload…',
         failedUploadMessage: 'Upload failed',
         src: {
           label: 'Image URL',
@@ -36,6 +36,9 @@ export function useImageConfig(config: ImageConfig): ImagePluginConfig {
         maxWidth: {
           label: 'Maximum width',
           placeholder: 'Enter the maximum width',
+        },
+        caption: {
+          placeholder: 'Optional caption',
         },
       },
       i18n

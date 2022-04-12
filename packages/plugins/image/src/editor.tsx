@@ -24,17 +24,20 @@ import { useImageConfig } from './config'
 import { ImageRenderer } from './renderer'
 import { Upload } from './upload'
 
-const ImgPlaceholderWrapper = styled.div({
-  position: 'relative',
-  width: '100%',
-  textAlign: 'center',
+const ImgPlaceholderWrapper = styled.div<EditorThemeProps>((props) => {
+  return {
+    position: 'relative',
+    width: '100%',
+    textAlign: 'center',
+    opacity: '0.4',
+    color: props.theme.editor.primary.background,
+  }
 })
-const ButtonWrapper = styled.span({
-  float: 'right',
-  display: 'flex',
-  flexDirection: 'row',
 
-  justifyContent: 'flex-end',
+const InputRow = styled.span({
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexDirection: 'row',
 })
 
 const OverlayButtonWrapper = styled.div({
@@ -49,15 +52,48 @@ const Failed = styled.div<EditorThemeProps>((props) => {
   }
 })
 
+const Caption = styled.div({
+  marginTop: '1rem',
+  textAlign: 'center',
+  fontStyle: 'italic',
+  'span[contenteditable]': { width: 'auto !important' },
+})
+
 export function ImageEditor(props: ImageProps) {
   const { editable, focused, state } = props
   const config = useImageConfig(props.config)
 
   usePendingFileUploader(state.src, config.upload)
+  const { i18n } = config
 
-  const imageComponent =
-    state.src.value === '' ||
-    (isTempFile(state.src.value) && !state.src.value.loaded) ? (
+  if (!editable)
+    return (
+      <>
+        {renderImage()}
+        {renderCaption()}
+      </>
+    )
+
+  return (
+    <>
+      {renderImage()}
+      {focused ? (
+        <>
+          <EditorInlineSettings>
+            <PrimaryControls {...props} config={config} />
+          </EditorInlineSettings>
+          {props.renderIntoSettings(
+            <SettingsControls {...props} config={config} />
+          )}
+        </>
+      ) : null}
+      {renderCaption()}
+    </>
+  )
+
+  function renderImage() {
+    return state.src.value === '' ||
+      (isTempFile(state.src.value) && !state.src.value.loaded) ? (
       <ImgPlaceholderWrapper>
         <Icon icon={faImages} size="5x" />
         {isTempFile(state.src.value) && state.src.value.failed ? (
@@ -67,52 +103,42 @@ export function ImageEditor(props: ImageProps) {
     ) : (
       <ImageRenderer {...props} disableMouseEvents={editable} />
     )
-  if (!editable) {
-    return imageComponent
   }
 
-  return (
-    <React.Fragment>
-      {imageComponent}
-      {focused ? (
-        <React.Fragment>
-          <EditorInlineSettings>
-            <PrimaryControls {...props} config={config} />
-          </EditorInlineSettings>
-          {props.renderIntoSettings(
-            <React.Fragment>
-              <Controls {...props} config={config} />
-            </React.Fragment>
-          )}
-        </React.Fragment>
-      ) : null}
-    </React.Fragment>
-  )
+  function renderCaption() {
+    return (
+      <Caption>
+        {state.caption.render({
+          config: { placeholder: i18n.caption.placeholder },
+        })}
+      </Caption>
+    )
+  }
 }
 
 function PrimaryControls(props: ImageProps) {
   const config = useImageConfig(props.config)
   const { i18n } = config
   const { src } = props.state
-  return src.value === '' || isTempFile(src.value) ? (
-    <React.Fragment>
-      <EditorInput
-        label={i18n.src.label}
-        placeholder={
-          !isTempFile(src.value)
-            ? i18n.src.placeholder.empty
-            : !src.value.failed
-            ? i18n.src.placeholder.uploading
-            : i18n.src.placeholder.failed
-        }
-        value={!isTempFile(src.value) ? src.value : ''}
-        disabled={isTempFile(src.value) && !src.value.failed}
-        onChange={handleChange(props)('src')}
-        width="70%"
-        inputWidth="60%"
-        ref={props.autofocusRef}
-      />
-      <ButtonWrapper>
+  return (
+    <>
+      <InputRow>
+        <EditorInput
+          label={i18n.src.label}
+          placeholder={
+            !isTempFile(src.value)
+              ? i18n.src.placeholder.empty
+              : !src.value.failed
+              ? i18n.src.placeholder.uploading
+              : i18n.src.placeholder.failed
+          }
+          value={!isTempFile(src.value) ? src.value : ''}
+          disabled={isTempFile(src.value) && !src.value.failed}
+          onChange={handleChange(props)('src')}
+          width="70%"
+          inputWidth="80%"
+          ref={props.autofocusRef}
+        />
         {isTempFile(src.value) && src.value.failed ? (
           <EditorButton
             onClick={() => {
@@ -130,18 +156,17 @@ function PrimaryControls(props: ImageProps) {
             void src.upload(file, props.config.upload)
           }}
         />
-      </ButtonWrapper>
-    </React.Fragment>
-  ) : (
-    showAlternativeMenu()
+      </InputRow>
+      {renderAlternativeInput()}
+    </>
   )
 
-  function showAlternativeMenu() {
+  function renderAlternativeInput() {
     switch (props.config.secondInput) {
       case 'description': {
         const { alt } = props.state
         return (
-          <React.Fragment>
+          <>
             <EditorInput
               label={i18n.alt.label}
               placeholder={i18n.alt.placeholder}
@@ -151,13 +176,13 @@ function PrimaryControls(props: ImageProps) {
               inputWidth="70%"
               ref={props.autofocusRef}
             />
-          </React.Fragment>
+          </>
         )
       }
       case 'link': {
         const { link } = props.state
         return (
-          <React.Fragment>
+          <>
             <EditorInput
               label={i18n.link.href.label}
               placeholder={i18n.link.href.placeholder}
@@ -167,7 +192,7 @@ function PrimaryControls(props: ImageProps) {
               inputWidth="70%"
               ref={props.autofocusRef}
             />
-          </React.Fragment>
+          </>
         )
       }
       default:
@@ -176,13 +201,13 @@ function PrimaryControls(props: ImageProps) {
   }
 }
 
-function Controls(props: ImageProps) {
+function SettingsControls(props: ImageProps) {
   const { state } = props
   const config = useImageConfig(props.config)
   const { i18n } = config
 
   return (
-    <React.Fragment>
+    <>
       <OverlayInput
         label={i18n.src.label}
         placeholder={
@@ -235,13 +260,13 @@ function Controls(props: ImageProps) {
         onChange={handleChange(props)('href')}
       />
       {state.link.defined && state.link.href.value ? (
-        <React.Fragment>
+        <>
           <OverlayCheckbox
             label={i18n.link.openInNewTab.label}
             checked={state.link.defined ? state.link.openInNewTab.value : false}
             onChange={handleTargetChange(props)}
           />
-        </React.Fragment>
+        </>
       ) : null}
       <OverlayInput
         label={i18n.maxWidth.label}
@@ -257,7 +282,7 @@ function Controls(props: ImageProps) {
           }
         }}
       />
-    </React.Fragment>
+    </>
   )
 }
 

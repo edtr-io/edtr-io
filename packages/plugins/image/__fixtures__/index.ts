@@ -117,5 +117,21 @@ export const states: Record<
     link: undefined,
     alt: 'Edtr.io Logo',
     maxWidth: undefined,
+    caption: { plugin: 'text' },
+  },
+  caption: {
+    src: 'https://raw.githubusercontent.com/edtr-io/edtr-io/main/README_files/edtrio_full.svg?sanitize=true',
+    link: undefined,
+    alt: 'Edtr.io Logo',
+    maxWidth: undefined,
+    caption: {
+      plugin: 'text',
+      state: [
+        {
+          type: 'p',
+          children: [{ text: 'This is a caption' }],
+        },
+      ],
+    },
   },
 }
