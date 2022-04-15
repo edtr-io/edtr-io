@@ -38,7 +38,8 @@ export const DefaultEditorComponent: React.FunctionComponent<
       visual={preferences.getKey(preferenceKey) === true}
       disableBlock={
         isList(orderedListNode)(editor.controller) ||
-        isList(unorderedListNode)(editor.controller)
+        isList(unorderedListNode)(editor.controller) ||
+        props.config.noLinebreaks
       }
       config={{
         i18n: props.config.i18n.math,
