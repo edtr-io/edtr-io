@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "@edtr-io/editor-ui": "^2.5.0",
     "@edtr-io/math": "^2.5.0",
     "@edtr-io/plugin": "^2.5.0",
-    "@edtr-io/plugin-rows": "^2.5.0",
+    "@edtr-io/plugin-rows": "^2.5.1",
     "@edtr-io/store": "^2.5.0",
     "@edtr-io/ui": "^2.5.0",
     "@types/is-hotkey": "^0.1.7",

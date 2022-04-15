@@ -1191,6 +1191,13 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           'Official plugins no longer have a different internal config type. This should make overriding the config more intuitive.',
         ],
       },
+      {
+        tagName: 'v2.5.1',
+        date: '2022-04-15',
+        fixed: [
+          ['plugin-text', '`noLineBreaks` now also disables block math.'],
+        ],
+      },
     ],
   })
 

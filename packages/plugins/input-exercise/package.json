@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-input-exercise",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^2.5.0",
-    "@edtr-io/plugin-text": "^2.5.0",
+    "@edtr-io/plugin-text": "^2.5.1",
     "@edtr-io/renderer": "^2.5.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
