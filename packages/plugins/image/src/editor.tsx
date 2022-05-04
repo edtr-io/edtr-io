@@ -3,6 +3,7 @@ import {
   OverlayCheckbox,
   OverlayInput,
   OverlayTextarea,
+  useScopedStore,
 } from '@edtr-io/core'
 import {
   EditorButton,
@@ -10,6 +11,7 @@ import {
   EditorInlineSettings,
 } from '@edtr-io/editor-ui'
 import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
+import { isEmpty } from '@edtr-io/store'
 import {
   EditorThemeProps,
   Icon,
@@ -62,17 +64,23 @@ const Caption = styled.div({
 export function ImageEditor(props: ImageProps) {
   const { editable, focused, state } = props
   const config = useImageConfig(props.config)
-
+  const scopedStore = useScopedStore()
   usePendingFileUploader(state.src, config.upload)
   const { i18n } = config
+
+  const captionIsEmpty = state.caption.defined
+    ? isEmpty(state.caption.id)(scopedStore.getState())
+    : true
 
   if (!editable)
     return (
       <>
         {renderImage()}
-        {renderCaption()}
+        {captionIsEmpty ? null : renderCaption()}
       </>
     )
+
+  if (!state.caption.defined) state.caption.create({ plugin: 'text' })
 
   return (
     <>
@@ -106,6 +114,7 @@ export function ImageEditor(props: ImageProps) {
   }
 
   function renderCaption() {
+    if (!state.caption.defined) return null
     return (
       <Caption>
         {state.caption.render({

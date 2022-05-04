@@ -43,25 +43,27 @@ export function createImagePlugin(
       ),
       alt: optional(string('')),
       maxWidth: optional(number(0)),
-      caption: child({
-        plugin: 'text',
-        config: {
-          plugins: {
-            code: true,
-            colors: true,
-            headings: false,
-            katex: true,
-            links: true,
-            lists: false,
-            math: true,
-            paragraphs: false,
-            richText: false,
-            suggestions: false,
+      caption: optional(
+        child({
+          plugin: 'text',
+          config: {
+            plugins: {
+              code: true,
+              colors: true,
+              headings: false,
+              katex: true,
+              links: true,
+              lists: false,
+              math: true,
+              paragraphs: false,
+              richText: false,
+              suggestions: false,
+            },
+            noLinebreaks: true,
+            blockquote: '',
           },
-          noLinebreaks: true,
-          blockquote: '',
-        },
-      }),
+        })
+      ),
     }),
     onText(value) {
       if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value.toLowerCase())) {
@@ -98,7 +100,7 @@ export function createImagePlugin(
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
         (!serializedState.link.defined || !serializedState.link.href.value) &&
         (!serializedState.alt.defined || !serializedState.alt.value) &&
-        !serializedState.caption.get()
+        (!serializedState.caption.defined || !serializedState.caption.get())
       )
     },
   }
@@ -120,7 +122,7 @@ export type ImagePluginState = ObjectStateType<{
   >
   alt: OptionalStateType<StringStateType>
   maxWidth: OptionalStateType<NumberStateType>
-  caption: ChildStateType
+  caption: OptionalStateType<ChildStateType>
 }>
 
 /** @public */
