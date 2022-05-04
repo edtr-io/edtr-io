@@ -5,6 +5,7 @@
 ```ts
 
 import { BooleanStateType } from '@edtr-io/plugin';
+import { ChildStateType } from '@edtr-io/plugin';
 import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
@@ -57,6 +58,9 @@ export interface ImagePluginConfig {
             label: string;
             placeholder: string;
         };
+        caption: {
+            placeholder: string;
+        };
     };
     // (undocumented)
     secondInput?: 'description' | 'link';
@@ -75,6 +79,7 @@ export type ImagePluginState = ObjectStateType<{
     }>>;
     alt: OptionalStateType<StringStateType>;
     maxWidth: OptionalStateType<NumberStateType>;
+    caption: OptionalStateType<ChildStateType>;
 }>;
 
 // @public (undocumented)
