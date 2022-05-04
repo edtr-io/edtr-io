@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.5.1](https://github.com/edtr-io/edtr-io/compare/v2.5.0..v2.5.1) - April 15, 2022
+
+### Fixed
+
+- **plugin-text**. `noLineBreaks` now also disables block math.
+
 ## [v2.5.0](https://github.com/edtr-io/edtr-io/compare/v2.4.0..v2.5.0) - March 30, 2022
 
 ### Changed
