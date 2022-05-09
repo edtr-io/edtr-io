@@ -3184,9 +3184,9 @@ __metadata:
     "@edtr-io/plugin-files": ^2.5.0
     "@edtr-io/plugin-geogebra": ^2.5.0
     "@edtr-io/plugin-highlight": ^2.5.0
-    "@edtr-io/plugin-image": ^2.5.0
+    "@edtr-io/plugin-image": ^2.5.2
     "@edtr-io/plugin-input-exercise": ^2.5.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.5.0
+    "@edtr-io/plugin-multimedia-explanation": ^2.5.2
     "@edtr-io/plugin-rows": ^2.5.1
     "@edtr-io/plugin-sc-mc-exercise": ^2.5.1
     "@edtr-io/plugin-serlo-injection": ^2.5.0
@@ -3195,7 +3195,7 @@ __metadata:
     "@edtr-io/plugin-text": ^2.5.1
     "@edtr-io/plugin-video": ^2.5.0
     "@edtr-io/renderer": ^2.5.0
-    "@edtr-io/renderer-ssr": ^2.5.1
+    "@edtr-io/renderer-ssr": ^2.5.2
     "@fortawesome/fontawesome-svg-core": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
@@ -3234,9 +3234,9 @@ __metadata:
     "@edtr-io/plugin-files": ^2.5.0
     "@edtr-io/plugin-geogebra": ^2.5.0
     "@edtr-io/plugin-highlight": ^2.5.0
-    "@edtr-io/plugin-image": ^2.5.0
+    "@edtr-io/plugin-image": ^2.5.2
     "@edtr-io/plugin-input-exercise": ^2.5.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.5.0
+    "@edtr-io/plugin-multimedia-explanation": ^2.5.2
     "@edtr-io/plugin-rows": ^2.5.1
     "@edtr-io/plugin-sc-mc-exercise": ^2.5.1
     "@edtr-io/plugin-serlo-injection": ^2.5.0
@@ -3598,7 +3598,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-image@^2.5.0, @edtr-io/plugin-image@workspace:packages/plugins/image":
+"@edtr-io/plugin-image@^2.5.2, @edtr-io/plugin-image@workspace:packages/plugins/image":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-image@workspace:packages/plugins/image"
   dependencies:
@@ -3687,7 +3687,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-multimedia-explanation@^2.5.0, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
+"@edtr-io/plugin-multimedia-explanation@^2.5.2, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation"
   dependencies:
@@ -3695,7 +3695,7 @@ __metadata:
     "@edtr-io/editor-ui": ^2.5.0
     "@edtr-io/plugin": ^2.5.0
     "@edtr-io/plugin-geogebra": ^2.5.0
-    "@edtr-io/plugin-image": ^2.5.0
+    "@edtr-io/plugin-image": ^2.5.2
     "@edtr-io/plugin-rows": ^2.5.0
     "@edtr-io/plugin-video": ^2.5.0
     "@edtr-io/store": ^2.5.0
@@ -4077,7 +4077,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer-ssr@^2.5.1, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
+"@edtr-io/renderer-ssr@^2.5.2, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr"
   dependencies:
@@ -4089,9 +4089,9 @@ __metadata:
     "@edtr-io/plugin-files": ^2.5.0
     "@edtr-io/plugin-geogebra": ^2.5.0
     "@edtr-io/plugin-highlight": ^2.5.0
-    "@edtr-io/plugin-image": ^2.5.0
+    "@edtr-io/plugin-image": ^2.5.2
     "@edtr-io/plugin-input-exercise": ^2.5.1
-    "@edtr-io/plugin-multimedia-explanation": ^2.5.0
+    "@edtr-io/plugin-multimedia-explanation": ^2.5.2
     "@edtr-io/plugin-rows": ^2.5.1
     "@edtr-io/plugin-sc-mc-exercise": ^2.5.1
     "@edtr-io/plugin-serlo-injection": ^2.5.0

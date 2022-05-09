@@ -1198,6 +1198,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ['plugin-text', '`noLineBreaks` now also disables block math.'],
         ],
       },
+      {
+        tagName: 'v2.5.2',
+        date: '2022-05-09',
+        added: [['plugin-image', 'add caption of images']],
+      },
     ],
   })
 

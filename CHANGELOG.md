@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.5.2](https://github.com/edtr-io/edtr-io/compare/v2.5.1..v2.5.2) - May 9, 2022
+
+### Added
+
+- **plugin-image**. add caption of images
+
 ## [v2.5.1](https://github.com/edtr-io/edtr-io/compare/v2.5.0..v2.5.1) - April 15, 2022
 
 ### Fixed
