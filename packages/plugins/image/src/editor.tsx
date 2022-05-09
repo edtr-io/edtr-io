@@ -68,9 +68,8 @@ export function ImageEditor(props: ImageProps) {
   usePendingFileUploader(state.src, config.upload)
   const { i18n } = config
 
-  const captionIsEmpty = state.caption.defined
-    ? isEmpty(state.caption.id)(scopedStore.getState())
-    : true
+  const captionIsEmpty =
+    !state.caption.defined || isEmpty(state.caption.id)(scopedStore.getState())
 
   if (!editable)
     return (
