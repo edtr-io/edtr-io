@@ -1,6 +1,7 @@
 import {
   boolean,
   BooleanStateType,
+  ChildStateType,
   EditorPlugin,
   EditorPluginProps,
   isTempFile,
@@ -16,6 +17,7 @@ import {
   UploadHandler,
   UploadStateType,
   UploadValidator,
+  child,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 
@@ -41,6 +43,27 @@ export function createImagePlugin(
       ),
       alt: optional(string('')),
       maxWidth: optional(number(0)),
+      caption: optional(
+        child({
+          plugin: 'text',
+          config: {
+            plugins: {
+              code: true,
+              colors: true,
+              headings: false,
+              katex: true,
+              links: true,
+              lists: false,
+              math: true,
+              paragraphs: false,
+              richText: false,
+              suggestions: false,
+            },
+            noLinebreaks: true,
+            blockquote: '',
+          },
+        })
+      ),
     }),
     onText(value) {
       if (/\.(jpe?g|png|bmp|gif|svg)$/.test(value.toLowerCase())) {
@@ -50,6 +73,7 @@ export function createImagePlugin(
             link: undefined,
             alt: undefined,
             maxWidth: undefined,
+            caption: { plugin: 'text' },
           },
         }
       }
@@ -65,6 +89,7 @@ export function createImagePlugin(
               link: undefined,
               alt: undefined,
               maxWidth: undefined,
+              caption: { plugin: 'text' },
             },
           }
         }
@@ -74,7 +99,8 @@ export function createImagePlugin(
       return (
         (!serializedState.src.value || isTempFile(serializedState.src.value)) &&
         (!serializedState.link.defined || !serializedState.link.href.value) &&
-        (!serializedState.alt.defined || !serializedState.alt.value)
+        (!serializedState.alt.defined || !serializedState.alt.value) &&
+        (!serializedState.caption.defined || !serializedState.caption.get())
       )
     },
   }
@@ -96,6 +122,7 @@ export type ImagePluginState = ObjectStateType<{
   >
   alt: OptionalStateType<StringStateType>
   maxWidth: OptionalStateType<NumberStateType>
+  caption: OptionalStateType<ChildStateType>
 }>
 
 /** @public */
@@ -130,6 +157,9 @@ export interface ImagePluginConfig {
     }
     maxWidth: {
       label: string
+      placeholder: string
+    }
+    caption: {
       placeholder: string
     }
   }
