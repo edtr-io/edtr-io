@@ -11,7 +11,7 @@ import {
   EditorInlineSettings,
 } from '@edtr-io/editor-ui'
 import { isTempFile, usePendingFileUploader } from '@edtr-io/plugin'
-import { isEmpty } from '@edtr-io/store'
+import { isEmpty, hasFocusedChild } from '@edtr-io/store'
 import {
   EditorThemeProps,
   Icon,
@@ -70,6 +70,7 @@ export function ImageEditor(props: ImageProps) {
 
   const captionIsEmpty =
     !state.caption.defined || isEmpty(state.caption.id)(scopedStore.getState())
+  const hasFocus = focused || hasFocusedChild(props.id)(scopedStore.getState())
 
   if (!editable)
     return (
@@ -84,7 +85,7 @@ export function ImageEditor(props: ImageProps) {
   return (
     <>
       {renderImage()}
-      {focused ? (
+      {hasFocus ? (
         <>
           <EditorInlineSettings>
             <PrimaryControls {...props} config={config} />
@@ -94,7 +95,7 @@ export function ImageEditor(props: ImageProps) {
           )}
         </>
       ) : null}
-      {renderCaption()}
+      {!captionIsEmpty || hasFocus ? renderCaption() : null}
     </>
   )
 
