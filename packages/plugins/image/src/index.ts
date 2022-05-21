@@ -56,7 +56,7 @@ export function createImagePlugin(
               lists: false,
               math: true,
               paragraphs: false,
-              richText: false,
+              richText: true,
               suggestions: false,
             },
             noLinebreaks: true,
