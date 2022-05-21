@@ -30,8 +30,8 @@ export function useImageConfig(config: ImageConfig): ImagePluginConfig {
           },
         },
         alt: {
-          label: 'Description',
-          placeholder: 'Enter an image description',
+          label: 'Description (hidden)',
+          placeholder: 'Describe what the image shows',
         },
         maxWidth: {
           label: 'Maximum width',
