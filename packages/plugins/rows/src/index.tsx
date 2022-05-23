@@ -112,3 +112,4 @@ export interface RowsPluginConfig {
 export type RowsProps = EditorPluginProps<RowsPluginState, RowsConfig>
 
 export * from './registry-context'
+export * from './store'

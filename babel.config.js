@@ -17,7 +17,10 @@ module.exports = function (api) {
                 alias: {
                   '^@edtr-io/([^/]+)(.*)$': ([_, packageName, filePath]) => {
                     const base = `@edtr-io/${packageName}`
-                    if (filePath.startsWith('/__fixtures__')) {
+                    if (
+                      filePath.startsWith('/__fixtures__') ||
+                      filePath.startsWith('/__helpers__')
+                    ) {
                       return `${base}${filePath}`
                     }
                     if (

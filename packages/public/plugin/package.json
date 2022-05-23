@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.5.0",
+    "@edtr-io/core": "^2.6.0",
     "@testing-library/react": "^12.1.4",
     "react": "^18.0.0",
     "react-dnd": "^15.1.1",

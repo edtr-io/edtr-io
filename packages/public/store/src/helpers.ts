@@ -54,6 +54,10 @@ export function createSubReducer<K extends keyof InternalScopedState>(
   }
 }
 
+/**
+ * @param f - The selector
+ * @public
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createSelector<T, P extends any[]>(
   f: (state: ScopedState, ...args: P) => T

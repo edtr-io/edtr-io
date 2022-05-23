@@ -6,7 +6,7 @@ export * from './history'
 export * from './plugin'
 export * from './plugins'
 export * from './root'
-export { SubReducer } from './helpers'
+export { createSelector, SubReducer } from './helpers'
 export { getScope } from './reducer'
 export {
   createStore,
