@@ -1201,7 +1201,12 @@ There are now more parts of the editor's UI configurable. More specifically, we 
       {
         tagName: 'v2.5.2',
         date: '2022-05-09',
-        added: [['plugin-image', 'add caption of images']],
+        added: [['plugin-image', 'Add caption of images.']],
+      },
+      {
+        tagName: 'v2.6.0',
+        date: '2022-05-23',
+        added: [['plugin-rows', 'Add `isEmptyRows` selector.']],
       },
     ],
   })

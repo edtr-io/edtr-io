@@ -11,9 +11,13 @@ import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ListStateType } from '@edtr-io/plugin';
 import * as React_2 from 'react';
+import { Selector } from '@edtr-io/store';
 
 // @public (undocumented)
 export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsConfig>;
+
+// @public (undocumented)
+export const isEmptyRows: Selector<boolean | null, [string]>;
 
 // @internal (undocumented)
 export type Registry = {

@@ -58,7 +58,6 @@ export interface ApplyActionsAction {
 
 // @public (undocumented)
 const blur_2: ActionCreatorWithoutPayload<'Blur'>;
-
 export { blur_2 as blur }
 
 // @public (undocumented)
@@ -114,6 +113,9 @@ export interface CopyAction {
     type: 'Copy';
 }
 
+// @public (undocumented)
+export function createSelector<T, P extends any[]>(f: (state: ScopedState, ...args: P) => T): Selector<T, P>;
+
 // @public
 export function createStore<K extends string>(options: StoreOptions<K>): {
     store: Store_2<State, Action>;
@@ -144,7 +146,6 @@ export function findPreviousNode(root: Node_2, from: string): string | null;
 
 // @public (undocumented)
 const focus_2: ActionCreatorWithPayload<'Focus', string>;
-
 export { focus_2 as focus }
 
 // @public (undocumented)
@@ -351,7 +352,6 @@ interface Node_2 {
     // (undocumented)
     id: string;
 }
-
 export { Node_2 as Node }
 
 // @public (undocumented)
@@ -624,7 +624,6 @@ export const wrap: ActionCreatorWithPayload<'Wrap', {
 
 // @public (undocumented)
 export type WrapAction = ActionCreatorAction<typeof wrap>;
-
 
 // (No @packageDocumentation comment for this package)
 
