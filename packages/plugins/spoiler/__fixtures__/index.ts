@@ -17,7 +17,7 @@ export const states: Record<
   StateTypeSerializedType<SpoilerPluginState>
 > = {
   simple: {
-    title: '',
+    title: { plugin: 'text', state: '' },
     content: {
       plugin: rowsPlugin,
       state: createRowsState({

@@ -25,7 +25,7 @@ import { SpoilerEditor } from './editor'
       colors: false,
       headings: false,
       katex: true,
-      links: true,
+      links: false,
       lists: false,
       math: true,
       paragraphs: false,
