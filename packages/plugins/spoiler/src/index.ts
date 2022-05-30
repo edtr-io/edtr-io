@@ -6,8 +6,6 @@ import {
   EditorPluginProps,
   object,
   ObjectStateType,
-  string,
-  StringStateType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 
@@ -21,11 +19,31 @@ import { SpoilerEditor } from './editor'
 ): EditorPlugin<SpoilerPluginState, SpoilerConfig> {
   const { content } = config
 
+  const titleTextConfig = {
+    plugins: {
+      code: true,
+      colors: false,
+      headings: false,
+      katex: true,
+      links: true,
+      lists: false,
+      math: true,
+      paragraphs: false,
+      richText: true,
+      suggestions: false,
+    },
+    noLinebreaks: true,
+    blockquote: '',
+  }
+
   return {
     Component: SpoilerEditor,
     config,
     state: object({
-      title: string(''),
+      title: child({
+        plugin: 'text',
+        config: titleTextConfig,
+      }),
       content: child(content),
     }),
   }
@@ -40,7 +58,7 @@ export interface SpoilerConfig {
 
 /** @public */
 export type SpoilerPluginState = ObjectStateType<{
-  title: StringStateType
+  title: ChildStateType
   content: ChildStateType
 }>
 

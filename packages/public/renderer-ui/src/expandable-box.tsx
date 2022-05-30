@@ -1,10 +1,4 @@
-import {
-  styled,
-  faSortDown,
-  faSortUp,
-  Icon,
-  useRendererUiTheme,
-} from '@edtr-io/ui'
+import { styled, useRendererUiTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 function useExpandableBoxTheme() {
@@ -48,20 +42,19 @@ const Toggle = styled.div<{
   }
 })
 
+const ToggleIcon = styled.span(() => {
+  const { toggleColor } = useExpandableBoxTheme()
+  return {
+    marginRight: '10px',
+    color: toggleColor,
+  }
+})
+
 const Content = styled.div<{ collapsed: boolean }>(({ collapsed }) => {
   return {
     display: collapsed ? 'none' : 'block',
     position: 'relative',
     padding: '5px 0',
-  }
-})
-
-const ToggleIcon = styled(Icon)<{ collapsed: boolean }>(({ collapsed }) => {
-  const { toggleColor } = useExpandableBoxTheme()
-  return {
-    marginRight: '10px',
-    marginBottom: collapsed ? '3px' : '-3px',
-    color: toggleColor,
   }
 })
 
@@ -81,13 +74,11 @@ export function ExpandableBox(props: ExpandableBoxProps) {
         collapsed={collapsed}
         onClick={() => {
           setCollapsed(!collapsed)
+          return true
         }}
       >
         <React.Fragment>
-          <ToggleIcon
-            collapsed={collapsed}
-            icon={collapsed ? faSortDown : faSortUp}
-          />
+          <ToggleIcon>{collapsed ? '▸ ' : '▾ '} </ToggleIcon>
           <a>{renderTitle(collapsed)}</a>
         </React.Fragment>
       </Toggle>

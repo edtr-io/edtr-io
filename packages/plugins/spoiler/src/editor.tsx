@@ -1,4 +1,3 @@
-import { EditorInput } from '@edtr-io/editor-ui'
 import { ExpandableBox } from '@edtr-io/renderer-ui'
 import { ThemeProvider } from '@edtr-io/ui'
 import * as React from 'react'
@@ -7,7 +6,7 @@ import { SpoilerProps } from '.'
 import { useSpoilerConfig } from './config'
 
 export function SpoilerEditor(props: SpoilerProps) {
-  const { state, editable, autofocusRef } = props
+  const { state, editable } = props
   const config = useSpoilerConfig(props.config)
   const { theme } = config
   const spoilerTheme = React.useMemo(() => {
@@ -22,26 +21,14 @@ export function SpoilerEditor(props: SpoilerProps) {
     }
   }, [theme])
 
-  const renderTitle = React.useCallback(
-    (_collapsed: boolean) => {
-      return editable ? (
-        <EditorInput
-          onChange={(e) => state.title.set(e.target.value)}
-          value={state.title.value}
-          placeholder={config.i18n.title.placeholder}
-          ref={autofocusRef}
-        />
-      ) : (
-        <React.Fragment>{state.title.value}</React.Fragment>
-      )
-    },
-    [config.i18n.title.placeholder, autofocusRef, editable, state.title]
-  )
-
   return (
     <ThemeProvider theme={spoilerTheme}>
       <ExpandableBox
-        renderTitle={renderTitle}
+        renderTitle={() =>
+          state.title.render({
+            config: { placeholder: config.i18n.title.placeholder },
+          })
+        }
         editable={editable}
         alwaysVisible
       >

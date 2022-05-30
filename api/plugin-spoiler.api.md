@@ -10,7 +10,6 @@ import { DeepPartial } from '@edtr-io/ui';
 import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { ObjectStateType } from '@edtr-io/plugin';
-import { StringStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
 export function createSpoilerPlugin(config: SpoilerConfig): EditorPlugin<SpoilerPluginState, SpoilerConfig>;
@@ -41,7 +40,7 @@ export interface SpoilerPluginConfig {
 
 // @public (undocumented)
 export type SpoilerPluginState = ObjectStateType<{
-    title: StringStateType;
+    title: ChildStateType;
     content: ChildStateType;
 }>;
 
