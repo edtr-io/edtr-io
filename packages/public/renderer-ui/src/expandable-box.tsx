@@ -19,18 +19,16 @@ const Container = styled.div<{ collapsed: boolean }>(({ collapsed }) => {
   }
 })
 
-const Toggle = styled.div<{
+const Header = styled.div<{
   collapsed: boolean
   editable?: boolean
   alwaysVisible?: boolean
 }>(({ collapsed, editable, alwaysVisible }) => {
-  const { toggleBackgroundColor, toggleColor } = useExpandableBoxTheme()
+  const { toggleBackgroundColor } = useExpandableBoxTheme()
   return {
+    display: 'flex',
     backgroundColor:
       alwaysVisible || !collapsed ? toggleBackgroundColor : 'transparent',
-    '& a': {
-      color: toggleColor,
-    },
     padding: '10px 15px 10px 10px',
     marginBottom: '10px',
     position: 'relative',
@@ -39,14 +37,26 @@ const Toggle = styled.div<{
     borderTopLeftRadius: '5px',
     borderTopRightRadius: '5px',
     cursor: editable ? undefined : 'pointer',
+    ' div': {
+      marginBottom: 0,
+    },
+    '> div': {
+      width: '100%',
+    },
   }
 })
 
-const ToggleIcon = styled.span(() => {
+const ToggleIcon = styled.a(() => {
   const { toggleColor } = useExpandableBoxTheme()
   return {
+    display: 'block',
+    cursor: 'pointer',
     marginRight: '10px',
     color: toggleColor,
+    width: '0.3rem',
+    '&:hover': {
+      textDecoration: 'none',
+    },
   }
 })
 
@@ -68,20 +78,21 @@ export function ExpandableBox(props: ExpandableBoxProps) {
 
   return (
     <Container collapsed={collapsed}>
-      <Toggle
+      <Header
         editable={editable}
         alwaysVisible={alwaysVisible}
         collapsed={collapsed}
-        onClick={() => {
-          setCollapsed(!collapsed)
-          return true
-        }}
       >
-        <React.Fragment>
-          <ToggleIcon>{collapsed ? '▸ ' : '▾ '} </ToggleIcon>
-          <a>{renderTitle(collapsed)}</a>
-        </React.Fragment>
-      </Toggle>
+        <ToggleIcon
+          onClick={() => {
+            setCollapsed(!collapsed)
+            return true
+          }}
+        >
+          {collapsed ? '▸ ' : '▾ '}
+        </ToggleIcon>
+        {renderTitle(collapsed)}
+      </Header>
       <Content collapsed={collapsed}>{children}</Content>
     </Container>
   )
