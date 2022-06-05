@@ -49,7 +49,7 @@ export function createImagePlugin(
           config: {
             plugins: {
               code: true,
-              colors: true,
+              colors: false,
               headings: false,
               katex: true,
               links: true,
