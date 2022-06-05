@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.7.0](https://github.com/edtr-io/edtr-io/compare/v2.6.0..v2.7.0) - June 5, 2022
+
+### Changed
+
+- **plugin-image**. No longer allow colors in caption.
+
 ## [v2.6.0](https://github.com/edtr-io/edtr-io/compare/v2.5.2..v2.6.0) - May 23, 2022
 
 ### Added

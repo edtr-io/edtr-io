@@ -1208,6 +1208,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         date: '2022-05-23',
         added: [['plugin-rows', 'Add `isEmptyRows` selector.']],
       },
+      {
+        tagName: 'v2.7.0',
+        date: '2022-06-05',
+        changed: [['plugin-image', 'No longer allow colors in caption.']],
+      },
     ],
   })
 
