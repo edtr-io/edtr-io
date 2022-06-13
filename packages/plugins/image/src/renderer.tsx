@@ -50,22 +50,17 @@ const Pending = styled.div({
 export class ImageRenderer extends React.Component<ImageRendererProps> {
   public render() {
     const { state, disableMouseEvents } = this.props
+    const alt = state.alt.defined ? state.alt.value : ''
     const image = (
       <ImgWrapper maxWidth={state.maxWidth.defined ? state.maxWidth.value : 0}>
         {!isTempFile(state.src.value) ? (
-          <Img
-            src={state.src.value}
-            alt={state.alt.defined ? state.alt.value : ''}
-          />
+          <Img src={state.src.value} alt={alt} />
         ) : state.src.value.loaded ? (
           <Uploading>
             <PendingOverlay>
               <Pending />
             </PendingOverlay>
-            <Img
-              src={state.src.value.loaded.dataUrl}
-              alt={state.alt.defined ? state.alt.value : ''}
-            />
+            <Img src={state.src.value.loaded.dataUrl} alt={alt} />
           </Uploading>
         ) : (
           <Img />

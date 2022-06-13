@@ -172,22 +172,6 @@ function PrimaryControls(props: ImageProps) {
 
   function renderAlternativeInput() {
     switch (props.config.secondInput) {
-      case 'description': {
-        const { alt } = props.state
-        return (
-          <>
-            <EditorInput
-              label={i18n.alt.label}
-              placeholder={i18n.alt.placeholder}
-              value={alt.defined ? alt.value : ''}
-              onChange={handleChange(props)('description')}
-              width="90%"
-              inputWidth="70%"
-              ref={props.autofocusRef}
-            />
-          </>
-        )
-      }
       case 'link': {
         const { link } = props.state
         return (
