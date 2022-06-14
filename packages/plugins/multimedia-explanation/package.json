@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-multimedia-explanation",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@edtr-io/core": "^2.6.0",
     "@edtr-io/plugin-geogebra": "^2.6.0",
-    "@edtr-io/plugin-image": "^2.7.0",
+    "@edtr-io/plugin-image": "^2.8.0",
     "@edtr-io/plugin-rows": "^2.6.0",
     "@edtr-io/plugin-video": "^2.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",

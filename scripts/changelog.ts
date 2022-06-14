@@ -1213,6 +1213,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         date: '2022-06-05',
         changed: [['plugin-image', 'No longer allow colors in caption.']],
       },
+      {
+        tagName: 'v2.8.0',
+        date: '2022-06-14',
+        changed: [['plugin-image', 'Show description in settings only.']],
+      },
     ],
   })
 
