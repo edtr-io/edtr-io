@@ -3,7 +3,8 @@ import IframeResizer from 'iframe-resizer-react'
 import * as React from 'react'
 
 const Iframe = styled(IframeResizer)({
-  width: '100%',
+  width: '1px',
+  minWidth: '100%',
   border: '1px solid #ddd',
   borderRadius: '2px',
 })
@@ -11,7 +12,7 @@ const Iframe = styled(IframeResizer)({
 export const SerloInjectionRenderer = (props: { src: string }) => {
   return (
     <div>
-      <Iframe key={props.src} src={props.src} />
+      <Iframe key={props.src} src={props.src} checkOrigin={false} />
     </div>
   )
 }

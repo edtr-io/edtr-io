@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.8.1](https://github.com/edtr-io/edtr-io/compare/v2.8.0..v2.8.1) - June 28, 2022
+
+### Fixed
+
+- **plugin-serlo-injection**. No longer check origin.
+
 ## [v2.8.0](https://github.com/edtr-io/edtr-io/compare/v2.7.0..v2.8.0) - June 14, 2022
 
 ### Changed
