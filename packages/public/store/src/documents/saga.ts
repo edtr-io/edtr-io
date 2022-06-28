@@ -335,14 +335,30 @@ export function* handleRecursiveInserts(
     } else {
       state = plugin.state.deserialize(doc.state, helpers)
     }
-    actions.push({
-      action: pureInsert({
-        id: doc.id,
-        plugin: doc.plugin,
-        state,
-      })(scope),
-      reverse: pureRemove(doc.id)(scope),
-    })
+    const existingDoc: SelectorReturnType<typeof getDocument> = yield select(scopeSelector(getDocument, scope), doc.id)
+    if (existingDoc) {
+      actions.push({
+        action: pureReplace({
+          id: doc.id,
+          plugin: doc.plugin,
+          state,
+        })(scope),
+        reverse: pureReplace({
+          id: doc.id,
+          plugin: existingDoc.plugin,
+          state: existingDoc.state
+        })(scope)
+      })
+    } else {
+      actions.push({
+        action: pureInsert({
+          id: doc.id,
+          plugin: doc.plugin,
+          state,
+        })(scope),
+        reverse: pureRemove(doc.id)(scope),
+      })  
+    }
   }
   return [actions, result] as [ReversibleAction[], unknown]
 }
