@@ -81,12 +81,15 @@ export function HoverOverlay(props: HoverOverlayProps) {
       (positionAbove ? aboveValue : rect.bottom + 6) - parentRect.top
     }px`
 
-    menu.style.left = `${Math.min(
-      Math.max(
-        rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
-        0
+    menu.style.left = `${Math.max(
+      Math.min(
+        Math.max(
+          rect.left - parentRect.left - menu.offsetWidth / 2 + rect.width / 2,
+          0
+        ),
+        parentRect.width - menu.offsetWidth - 5
       ),
-      parentRect.width - menu.offsetWidth - 5
+      0
     )}px`
     triangle.current.style.left = `${
       rect.left -
