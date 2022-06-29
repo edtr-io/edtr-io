@@ -335,14 +335,32 @@ export function* handleRecursiveInserts(
     } else {
       state = plugin.state.deserialize(doc.state, helpers)
     }
-    actions.push({
-      action: pureInsert({
-        id: doc.id,
-        plugin: doc.plugin,
-        state,
-      })(scope),
-      reverse: pureRemove(doc.id)(scope),
-    })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const currentDocument: SelectorReturnType<typeof getDocument> =
+      yield select(scopeSelector(getDocument, scope), doc.id)
+    if (currentDocument) {
+      actions.push({
+        action: pureReplace({
+          id: doc.id,
+          plugin: doc.plugin,
+          state,
+        })(scope),
+        reverse: pureReplace({
+          id: doc.id,
+          plugin: currentDocument.plugin,
+          state: currentDocument.state,
+        })(scope),
+      })
+    } else {
+      actions.push({
+        action: pureInsert({
+          id: doc.id,
+          plugin: doc.plugin,
+          state,
+        })(scope),
+        reverse: pureRemove(doc.id)(scope),
+      })
+    }
   }
   return [actions, result] as [ReversibleAction[], unknown]
 }
