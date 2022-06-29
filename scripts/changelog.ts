@@ -1223,6 +1223,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         date: '2022-06-28',
         fixed: [['plugin-serlo-injection', 'No longer check origin.']],
       },
+      {
+        tagName: 'v2.8.2',
+        date: '2022-06-29',
+        fixed: [
+          ['store', 'Fix child.replace.'],
+          ['editor-ui', 'Make sure that the hover overlay is always visible.'],
+        ],
+      },
     ],
   })
 

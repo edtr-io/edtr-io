@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.8.2](https://github.com/edtr-io/edtr-io/compare/v2.8.1..v2.8.2) - June 29, 2022
+
+### Fixed
+
+- **store**. Fix child.replace.
+
+- **editor-ui**. Make sure that the hover overlay is always visible.
+
 ## [v2.8.1](https://github.com/edtr-io/edtr-io/compare/v2.8.0..v2.8.1) - June 28, 2022
 
 ### Fixed
