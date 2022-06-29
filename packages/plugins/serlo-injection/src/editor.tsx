@@ -13,14 +13,9 @@ import { useSerloInjectionConfig } from './config'
 import { SerloInjectionRenderer } from './renderer'
 
 const createURL = (id: string) => {
-  if (id.startsWith('/') || id.startsWith('\\')) {
-    return (
-      'https://de.serlo.org/' +
-      id.substring(1, id.length) +
-      '?contentOnly&hideBreadcrumbs'
-    )
-  }
-  return 'https://de.serlo.org/' + id + '?contentOnly&hideBreadcrumbs'
+  const pureId =
+    id.startsWith('/') || id.startsWith('\\') ? id.substring(1) : id
+  return `https://de.serlo.org/${pureId}?contentOnly`
 }
 
 const PlaceholderWrapper = styled.div({
