@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-serlo-injection",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.8.3](https://github.com/edtr-io/edtr-io/compare/v2.8.2..v2.8.3) - June 29, 2022
+
+### Changed
+
+- **plugin-serlo-injection**. Simplify `createURL`.
+
 ## [v2.8.2](https://github.com/edtr-io/edtr-io/compare/v2.8.1..v2.8.2) - June 29, 2022
 
 ### Fixed

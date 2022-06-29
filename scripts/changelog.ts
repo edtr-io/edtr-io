@@ -1231,6 +1231,11 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           ['editor-ui', 'Make sure that the hover overlay is always visible.'],
         ],
       },
+      {
+        tagName: 'v2.8.3',
+        date: '2022-06-29',
+        changed: [['plugin-serlo-injection', 'Simplify `createURL`.']],
+      },
     ],
   })
 
