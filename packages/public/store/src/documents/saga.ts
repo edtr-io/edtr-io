@@ -335,6 +335,7 @@ export function* handleRecursiveInserts(
     } else {
       state = plugin.state.deserialize(doc.state, helpers)
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const currentDocument: SelectorReturnType<typeof getDocument> =
       yield select(scopeSelector(getDocument, scope), doc.id)
     if (currentDocument) {
