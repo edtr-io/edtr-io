@@ -26,9 +26,9 @@
     "@types/styled-components": "^5.1.24",
     "is-hotkey": "^0.2.0",
     "ramda": "^0.28.0",
-    "slate": "^0.47.9",
+    "slate": "^0.82.1",
     "slate-html-serializer": "^0.8.13",
-    "slate-react": "^0.22.10"
+    "slate-react": "^0.82.2"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.8.2",
