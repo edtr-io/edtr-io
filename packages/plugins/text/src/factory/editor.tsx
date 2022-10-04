@@ -284,10 +284,7 @@ function createOnPaste(
               insertChildAfter({
                 parent: parent.id,
                 sibling: id,
-                document: {
-                  plugin: name,
-                  state: serializer.serialize(nextSlateState),
-                },
+                document: { plugin: name, state: nextSlateState },
               })
             )
           }
@@ -295,10 +292,7 @@ function createOnPaste(
             insertChildAfter({
               parent: parent.id,
               sibling: id,
-              document: {
-                plugin: key,
-                state: result.state,
-              },
+              document: { plugin: key, state: result.state },
             })
           )
         })
@@ -558,10 +552,7 @@ function newSlateOnEnter(
                 insertChildAfter({
                   parent: parent.id,
                   sibling: id,
-                  document: {
-                    plugin: document.plugin,
-                    state: serializer.serialize(nextSlateState),
-                  },
+                  document: { plugin: document.plugin, state: nextSlateState },
                 })
               )
             } else {

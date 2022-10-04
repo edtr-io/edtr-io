@@ -6,7 +6,7 @@ import {
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as React from 'react'
-import { BlockJSON, InlineJSON, MarkJSON, Value, ValueJSON } from 'slate'
+import { Descendant, Range } from 'slate'
 import { Rule } from 'slate-html-serializer'
 import {
   Editor,
@@ -21,7 +21,6 @@ import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import type { SlatePluginClosure } from './factory/types'
 import { emptyDocument } from './model'
-import { NewNode, serializer } from './state-migration-serializer'
 
 /** @public */
 export type MarkEditorProps = RenderMarkProps
@@ -70,7 +69,14 @@ export function createTextPlugin(
   return {
     Component: TextEditor,
     config,
-    state: serializedScalar(emptyDocument, serializer),
+    state: serializedScalar(emptyDocument, {
+      serialize({ value }) {
+        return value
+      },
+      deserialize(value) {
+        return { value, selection: null }
+      },
+    }),
     onKeyDown() {
       return false
     },
@@ -107,7 +113,10 @@ export interface TextConfigPlugins {
 }
 
 /** @public */
-export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>
+export type TextPluginState = SerializedScalarStateType<
+  Descendant[],
+  { value: Descendant[]; selection: Range | null }
+>
 
 /** @public */
 export interface TextPluginConfig {
