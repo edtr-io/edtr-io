@@ -6,16 +6,8 @@ import {
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as React from 'react'
-import { Descendant, Range } from 'slate'
-import { Rule } from 'slate-html-serializer'
-import {
-  Editor,
-  EditorProps,
-  Plugin,
-  RenderBlockProps,
-  RenderInlineProps,
-  RenderMarkProps,
-} from 'slate-react'
+import { Descendant, Range, BaseEditor } from 'slate'
+import { ReactEditor } from 'slate-react'
 
 import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
@@ -215,6 +207,23 @@ export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
 
 export { isValueEmpty, SlatePluginClosure }
 export type { SlateClosure } from './factory/types'
-export * from './state-migration-serializer'
 
-export { slateValueToHtml, htmlToSlateValue } from './model'
+// TODO: We need to configure this!
+interface CustomElement {
+  type: 'paragraph'
+  children: CustomText[]
+}
+interface CustomText {
+  text: string
+  strong?: true
+  code?: true
+  color?: number
+}
+
+declare module 'slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor
+    Element: CustomElement
+    Text: CustomText
+  }
+}
