@@ -14,42 +14,6 @@ import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import type { SlatePluginClosure } from './factory/types'
 
-/** @public */
-export type MarkEditorProps = RenderMarkProps
-
-/** @public */
-export interface MarkRendererProps {
-  mark: MarkJSON
-}
-
-/** @public */
-export type BlockEditorProps = RenderBlockProps
-/** @public */
-export type InlineEditorProps = RenderInlineProps
-/** @public */
-export type NodeEditorProps = BlockEditorProps | InlineEditorProps
-/** @public */
-export type NodeControlsProps = EditorProps & {
-  editor: Editor
-}
-/** @public */
-export interface InlineRendererProps {
-  node: InlineJSON
-}
-/** @public */
-export interface BlockRendererProps {
-  node: BlockJSON
-}
-/** @public */
-export type NodeRendererProps = BlockRendererProps | InlineRendererProps
-
-/** @public */
-export type TextPlugin = Plugin &
-  Rule & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
-  }
-
 // TODO: Move to a better place
 const emptyDocument: StateTypeValueType<TextPluginState> = {
   value: [{ type: 'paragraph', children: [{ text: '' }] }],
@@ -78,9 +42,11 @@ export function createTextPlugin(
     onKeyDown() {
       return false
     },
+    /* TODO
     isEmpty: (state) => {
       return isValueEmpty(Value.fromJSON(state.value))
     },
+     */
   }
 }
 
@@ -120,7 +86,8 @@ export type TextPluginState = SerializedScalarStateType<
 export interface TextPluginConfig {
   placeholder: string
   enabledPlugins: TextConfigPlugins
-  plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
+  // TODO
+  //plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   registry: {
     name: string
     title?: string
