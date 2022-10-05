@@ -7,17 +7,34 @@ import {
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as React from 'react'
-import { Descendant, Range, BaseEditor } from 'slate'
-import { ReactEditor } from 'slate-react'
-
-import { isValueEmpty } from './factory'
-import { TextEditor } from './factory/editor'
-import type { SlatePluginClosure } from './factory/types'
+import { Descendant, Range, BaseEditor, createEditor } from 'slate'
+import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
 
 // TODO: Move to a better place
 const emptyDocument: StateTypeValueType<TextPluginState> = {
   value: [{ type: 'paragraph', children: [{ text: '' }] }],
   selection: null,
+}
+
+function TextEditor(props: TextProps) {
+  const [editor] = React.useState(() => withReact(createEditor()))
+
+  // TODO: Change state + selection
+  return (
+    <Slate editor={editor} value={props.state.value.value}>
+      <Editable
+        renderElement={(props) => {
+          return <p {...props.attributes}>{props.children}</p>
+        }}
+        renderLeaf={(props) => {
+          if (props.text.strong)
+            return <b {...props.attributes}>{props.text.text}</b>
+
+          return <span {...props.attributes}>{props.text.text}</span>
+        }}
+      />
+    </Slate>
+  )
 }
 
 /**
@@ -177,9 +194,6 @@ export interface TextPluginConfig {
 
 /** @public */
 export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
-
-export { isValueEmpty, SlatePluginClosure }
-export type { SlateClosure } from './factory/types'
 
 // TODO: We need to configure this!
 interface CustomElement {
