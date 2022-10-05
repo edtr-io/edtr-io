@@ -3,8 +3,6 @@ import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { TextConfig, TextPluginConfig } from '.'
-import { Controls, createUiPlugin } from './controls'
-import { createPlugins } from './plugins'
 
 const defaultEnabledPlugins = {
   code: true,
@@ -34,17 +32,10 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
     orange = '#ff6703'
 
   const enabledPlugins = config.plugins || defaultEnabledPlugins
-  const plugins = React.useMemo(() => {
-    return [
-      ...createPlugins(enabledPlugins),
-      createUiPlugin({ Component: Controls, plugins: enabledPlugins }),
-    ]
-  }, [enabledPlugins])
 
   return {
     registry,
     enabledPlugins,
-    plugins,
     placeholder,
     i18n: merge({
       fallback: {
