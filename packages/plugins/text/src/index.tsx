@@ -3,6 +3,7 @@ import {
   EditorPluginProps,
   serializedScalar,
   SerializedScalarStateType,
+  StateTypeValueType,
 } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import * as React from 'react'
@@ -12,7 +13,6 @@ import { ReactEditor } from 'slate-react'
 import { isValueEmpty } from './factory'
 import { TextEditor } from './factory/editor'
 import type { SlatePluginClosure } from './factory/types'
-import { emptyDocument } from './model'
 
 /** @public */
 export type MarkEditorProps = RenderMarkProps
@@ -49,6 +49,12 @@ export type TextPlugin = Plugin &
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     commands?: { [key: string]: (editor: Editor, ...args: any[]) => Editor }
   }
+
+// TODO: Move to a better place
+const emptyDocument: StateTypeValueType<TextPluginState> = {
+  value: [{ type: 'paragraph', children: [{ text: '' }] }],
+  selection: null,
+}
 
 /**
  * @param config - {@link TextConfig | Plugin configuration}
