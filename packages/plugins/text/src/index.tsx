@@ -16,6 +16,15 @@ const emptyDocument: StateTypeValueType<TextPluginState> = {
   selection: null,
 }
 
+// TODO: config of colours
+const blue = '#1794c1',
+    green = '#469a40',
+    orange = '#ff6703'
+
+const config = {
+  colors: [blue, green, orange]
+}
+
 function TextEditor(props: TextProps) {
   const [editor] = React.useState(() => withReact(createEditor()))
 
@@ -27,9 +36,18 @@ function TextEditor(props: TextProps) {
           return <p {...props.attributes}>{props.children}</p>
         }}
         renderLeaf={(props) => {
-          if (props.text.strong)
-            return <b {...props.attributes}>{props.text.text}</b>
-
+          if (props.text.strong) {
+            return <strong {...props.attributes}>{props.text.text}</strong>
+          }
+          if (typeof props.text.color === "number") {
+            return <span style={{color: config.colors[props.text.color % config.colors.length]}} {...props.attributes}>{props.text.text}</span>
+          }
+          if (props.text.code) {
+            return <code {...props.attributes}>{props.text.text}</code>
+          }
+          if (props.text.em) {
+            return <em {...props.attributes}>{props.text.text}</em>
+          }
           return <span {...props.attributes}>{props.text.text}</span>
         }}
       />
@@ -203,6 +221,7 @@ interface CustomElement {
 interface CustomText {
   text: string
   strong?: true
+  em?: true
   code?: true
   color?: number
 }
