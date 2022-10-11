@@ -3956,6 +3956,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
+    "@prezly/slate-lists": ^0.64.2
     "@types/is-hotkey": ^0.1.7
     "@types/ramda": ^0.28.5
     "@types/react": ^17.0.43
@@ -3963,6 +3964,7 @@ __metadata:
     "@types/styled-components": ^5.1.24
     immutable: ^4.0.0
     is-hotkey: ^0.2.0
+    katex: ^0.16.2
     ramda: ^0.28.0
     react: ^18.0.0
     react-dnd: ^15.1.1
@@ -6178,6 +6180,20 @@ __metadata:
   version: 2.9.3
   resolution: "@popperjs/core@npm:2.9.3"
   checksum: 4cb94c271eaa13416ab8169c6af778c5b6160614351a79c68e8219d6ee0a40b8f71080ca29e139591c7c0c8e08fc1627d0e18d40a64609713a42b58d683a009d
+  languageName: node
+  linkType: hard
+
+"@prezly/slate-lists@npm:^0.64.2":
+  version: 0.64.2
+  resolution: "@prezly/slate-lists@npm:0.64.2"
+  dependencies:
+    is-hotkey: ^0.2.0
+    uuid: ^8.3.0
+  peerDependencies:
+    react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    slate: ^0.82.1
+    slate-react: ^0.82.1
+  checksum: c50697e6c277c0ffd6055b7c8d5cff9b26c441550de21ce40080f30657b1b22ed8f5182134247a805adf698251a30650c6b08639f48ccb0558be2341a72d814b
   languageName: node
   linkType: hard
 
@@ -17796,6 +17812,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"katex@npm:^0.16.2":
+  version: 0.16.2
+  resolution: "katex@npm:0.16.2"
+  dependencies:
+    commander: ^8.0.0
+  bin:
+    katex: cli.js
+  checksum: c0031c2e1287bb13102d733dcc3dada50752cf0d45b48a536c09937633ce8d6b438d18cbf382e64d4d237b957d8b3a8bd6414845720c7a8e1079c352b4ebf487
+  languageName: node
+  linkType: hard
+
 "kind-of@npm:^3.0.2, kind-of@npm:^3.0.3, kind-of@npm:^3.2.0":
   version: 3.2.2
   resolution: "kind-of@npm:3.2.2"
@@ -25985,6 +26012,15 @@ typescript@~4.5.2:
   bin:
     uuid: ./bin/uuid
   checksum: 58de2feed61c59060b40f8203c0e4ed7fd6f99d42534a499f1741218a1dd0c129f4aa1de797bcf822c8ea5da7e4137aa3673431a96dae729047f7aca7b27866f
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^8.3.0":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 
