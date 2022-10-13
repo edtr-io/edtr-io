@@ -25,7 +25,7 @@ const blue = '#1794c1',
   green = '#469a40',
   orange = '#ff6703'
 
-const config = {
+export const config = {
   colors: [blue, green, orange],
 }
 

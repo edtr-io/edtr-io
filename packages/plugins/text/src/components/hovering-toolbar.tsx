@@ -1,10 +1,12 @@
 import { TextPluginConfig } from '@edtr-io/plugin-text'
+import * as R from 'ramda'
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 import { Editor as SlateEditor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
+import { config as defaultConfig } from '..'
 
 const Button = styled.button<{
   active?: boolean
@@ -42,7 +44,7 @@ const initialPosition = isTouchDevice()
   ? InlineOverlayPosition.below
   : InlineOverlayPosition.above
 
-export type TextEditorControl = ControlButton // | NestedControlButton
+export type TextEditorControl = ControlButton | NestedControlButton
 
 export interface ControlButton {
   title: string
@@ -51,9 +53,15 @@ export interface ControlButton {
   renderIcon(): React.ReactNode
 }
 
-// TODO:
-function isNestedControlButton(_control: TextEditorControl) {
-  return false
+export interface NestedControlButton {
+  title: string
+  children: ControlButton[]
+  renderIcon(): React.ReactNode
+  isActive(): boolean
+}
+
+function isNestedControlButton(control: TextEditorControl): control is NestedControlButton {
+  return R.has('children', control)
 }
 
 export function HoveringToolbar({
@@ -67,9 +75,23 @@ export function HoveringToolbar({
 
   function isBoldActive() {
     const marks = SlateEditor.marks(editor)
-    return marks ? marks.strong === true : false
+    return marks?.strong === true
   }
 
+  function isItalicActive() {
+    const marks = SlateEditor.marks(editor)
+    return marks?.em === true
+  }
+
+  function isAnyColorActive() {
+    const marks = SlateEditor.marks(editor)
+    return typeof marks?.color === "number"
+  }
+
+  function isColorActive(colorIndex: number) {
+    const marks = SlateEditor.marks(editor)
+    return marks?.color === colorIndex
+  }
   const controls: TextEditorControl[] = [
     {
       title: 'Bold',
@@ -85,6 +107,43 @@ export function HoveringToolbar({
       },
       renderIcon: () => <strong>B</strong>,
     },
+    {
+      title: 'Italic',
+      isActive: isItalicActive,
+      onClick: () => {
+        const isActive = isItalicActive()
+
+        if (isActive) {
+          SlateEditor.removeMark(editor, 'em')
+        } else {
+          SlateEditor.addMark(editor, 'em', true)
+        }
+      },
+      renderIcon: () => <em>I</em>,
+    },
+    {
+      title: 'Color',
+      isActive: isAnyColorActive,
+      renderIcon: () => <span>C</span>,
+      // TODO: color should come from config
+      children: defaultConfig.colors.map((color, colorIndex) => {
+        return {
+          // TODO: get color name
+          title: 'color-#',
+          isActive: () => isColorActive(colorIndex),
+          onClick: () => {
+            const isActive = isColorActive(colorIndex)
+    
+            if (isActive) {
+              SlateEditor.removeMark(editor, 'color')
+            } else {
+              SlateEditor.addMark(editor, 'color', colorIndex)
+            }
+          },
+          renderIcon: () => <span style={{backgroundColor: color}}>&nbsp;</span>,
+        }
+      })
+    }
   ]
 
   return (
@@ -105,63 +164,60 @@ export function HoveringToolbar({
     if (typeof subMenu === 'number') {
       const activeControl = controls[subMenu]
       if (!isNestedControlButton(activeControl)) return null
-      return null
-      // return (
-      //   <React.Fragment>
-      //     {activeControl.children.map((control, key) => {
-      //       return renderControlButton(control, key)
-      //     })}
-      //     {renderControlButton({
-      //       isActive() {
-      //         return false
-      //       },
-      //       renderIcon() {
-      //         return closeSubMenuIcon
-      //       },
-      //       onClick() {
-      //         setSubMenu(undefined)
-      //       },
-      //       title: closeSubMenuTitle,
-      //     })}
-      //   </React.Fragment>
-      // )
+      return (
+        <React.Fragment>
+          {activeControl.children.map((control, key) => {
+            return renderControlButton(control, key)
+          })}
+          {renderControlButton({
+            isActive() {
+              return false
+            },
+            renderIcon() {
+              return closeSubMenuIcon
+            },
+            onClick() {
+              setSubMenu(undefined)
+            },
+            title: closeSubMenuTitle,
+          })}
+        </React.Fragment>
+      )
     }
 
     return controls.map((control, index) => {
-      // if (isNestedControlButton(control)) {
-      //   const { title, renderIcon, isActive } = control
-      //   return (
-      //     <Button
-      //       key={index}
-      //       active={isActive()}
-      //       // config={config}
-      //       title={title}
-      //       onMouseDown={(event) => {
-      //         event.preventDefault()
-      //         setSubMenu(index)
-      //       }}
-      //     >
-      //       {renderIcon()}
-      //     </Button>
-      //   )
-      // }
+      if (isNestedControlButton(control)) {
+        return (
+          <Button
+            key={index}
+            active={control.isActive()}
+            config={config}
+            title={control.title}
+            onMouseDown={(event) => {
+              event.preventDefault()
+              setSubMenu(index)
+            }}
+          >
+            {control.renderIcon()}
+          </Button>
+        )
+      }
       return renderControlButton(control, index)
     })
 
     function renderControlButton(control: ControlButton, key?: number) {
-      const { title, isActive, onClick, renderIcon } = control
       return (
         <Button
           key={key}
-          active={isActive()}
+          active={control.isActive()}
           config={config}
-          title={title}
+          title={control.title}
           onMouseDown={(event) => {
             event.preventDefault()
-            onClick()
+            control.onClick()
           }}
         >
-          {renderIcon()}
+          {control.renderIcon()}
         </Button>
       )
     }
