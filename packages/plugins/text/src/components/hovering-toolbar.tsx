@@ -60,7 +60,9 @@ export interface NestedControlButton {
   isActive(): boolean
 }
 
-function isNestedControlButton(control: TextEditorControl): control is NestedControlButton {
+function isNestedControlButton(
+  control: TextEditorControl
+): control is NestedControlButton {
   return R.has('children', control)
 }
 
@@ -85,7 +87,7 @@ export function HoveringToolbar({
 
   function isAnyColorActive() {
     const marks = SlateEditor.marks(editor)
-    return typeof marks?.color === "number"
+    return typeof marks?.color === 'number'
   }
 
   function isColorActive(colorIndex: number) {
@@ -126,24 +128,40 @@ export function HoveringToolbar({
       isActive: isAnyColorActive,
       renderIcon: () => <span>C</span>,
       // TODO: color should come from config
-      children: defaultConfig.colors.map((color, colorIndex) => {
-        return {
+      children: [
+        {
           // TODO: get color name
-          title: 'color-#',
-          isActive: () => isColorActive(colorIndex),
+          title: 'Color reset',
+          isActive: () => !isAnyColorActive(),
           onClick: () => {
-            const isActive = isColorActive(colorIndex)
-    
-            if (isActive) {
-              SlateEditor.removeMark(editor, 'color')
-            } else {
-              SlateEditor.addMark(editor, 'color', colorIndex)
-            }
+            SlateEditor.removeMark(editor, 'color')
           },
-          renderIcon: () => <span style={{backgroundColor: color}}>&nbsp;</span>,
-        }
-      })
-    }
+          renderIcon: () => (
+            // TODO: Design
+            <span style={{ backgroundColor: 'black' }}>&nbsp;</span>
+          ),
+        },
+        ...defaultConfig.colors.map((color, colorIndex) => {
+          return {
+            // TODO: get color name
+            title: 'color-#',
+            isActive: () => isColorActive(colorIndex),
+            onClick: () => {
+              const isActive = isColorActive(colorIndex)
+
+              if (isActive) {
+                SlateEditor.removeMark(editor, 'color')
+              } else {
+                SlateEditor.addMark(editor, 'color', colorIndex)
+              }
+            },
+            renderIcon: () => (
+              <span style={{ backgroundColor: color }}>&nbsp;</span>
+            ),
+          }
+        }),
+      ],
+    },
   ]
 
   return (
