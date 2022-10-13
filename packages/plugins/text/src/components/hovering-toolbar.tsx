@@ -79,6 +79,10 @@ export function HoveringToolbar({
     const marks = SlateEditor.marks(editor)
     return marks?.strong === true
   }
+  function isCodeActive() {
+    const marks = SlateEditor.marks(editor)
+    return marks?.code === true
+  }
 
   function isItalicActive() {
     const marks = SlateEditor.marks(editor)
@@ -161,6 +165,20 @@ export function HoveringToolbar({
           }
         }),
       ],
+    },
+    {
+      title: 'Code',
+      isActive: isCodeActive,
+      onClick: () => {
+        const isActive = isCodeActive()
+
+        if (isActive) {
+          SlateEditor.removeMark(editor, 'code')
+        } else {
+          SlateEditor.addMark(editor, 'code', true)
+        }
+      },
+      renderIcon: () => <code>C</code>,
     },
   ]
 
