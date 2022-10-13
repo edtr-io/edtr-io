@@ -7,9 +7,12 @@ import {
 } from '@edtr-io/plugin'
 import { DeepPartial, styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
+import * as R from 'ramda'
 import * as React from 'react'
 import { Descendant, Range, BaseEditor, createEditor } from 'slate'
 import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
+
+import { HoveringToolbar } from './components/hovering-toolbar'
 
 // TODO: Move to a better place
 const emptyDocument: StateTypeValueType<TextPluginState> = {
@@ -42,6 +45,11 @@ function TextEditor(props: TextProps) {
   // TODO: Change state + selection
   return (
     <Slate editor={editor} value={props.state.value.value}>
+      <HoveringToolbar
+        closeSubMenuIcon={null}
+        closeSubMenuTitle="Close"
+        config={props.config}
+      />
       <Editable
         renderElement={(props) => {
           if (props.element.type === 'h') {
@@ -101,29 +109,28 @@ function TextEditor(props: TextProps) {
           }
           return <p {...props.attributes}>{props.children}</p>
         }}
-        renderLeaf={(props) => {
-          if (props.text.strong) {
-            return <strong {...props.attributes}>{props.text.text}</strong>
+        renderLeaf={({ attributes, leaf, children }) => {
+          if (leaf.strong) {
+            children = <strong>{children}</strong>
           }
-          if (typeof props.text.color === 'number') {
-            return (
+          if (typeof leaf.color === 'number') {
+            children = (
               <span
                 style={{
-                  color: config.colors[props.text.color % config.colors.length],
+                  color: config.colors[leaf.color % config.colors.length],
                 }}
-                {...props.attributes}
               >
-                {props.text.text}
+                {children}
               </span>
             )
           }
-          if (props.text.code) {
-            return <code {...props.attributes}>{props.text.text}</code>
+          if (leaf.code) {
+            children = <code>{children}</code>
           }
-          if (props.text.em) {
-            return <em {...props.attributes}>{props.text.text}</em>
+          if (leaf.em) {
+            children = <em>{children}</em>
           }
-          return <span {...props.attributes}>{props.text.text}</span>
+          return <span {...attributes}>{children}</span>
         }}
       />
     </Slate>
@@ -137,10 +144,27 @@ function TextEditor(props: TextProps) {
  */
 export function createTextPlugin(
   config: TextConfig
-): EditorPlugin<TextPluginState, TextConfig> {
+): EditorPlugin<TextPluginState, TextPluginConfig> {
   return {
     Component: TextEditor,
-    config,
+    // @ts-expect-error TODO:
+    config: ({ editor }) => {
+      return {
+        ...config,
+        theme: R.mergeDeepRight(
+          {
+            backgroundColor: 'transparent',
+            color: editor.color,
+            hoverColor: editor.primary.background,
+            active: {
+              backgroundColor: '#b6b6b6',
+              color: editor.backgroundColor,
+            },
+          },
+          config.theme || {}
+        ),
+      }
+    },
     state: serializedScalar(emptyDocument, {
       serialize({ value }) {
         return value
@@ -286,7 +310,7 @@ export interface TextPluginConfig {
 }
 
 /** @public */
-export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
+export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>
 
 // TODO: We need to configure this!
 type CustomElement =
