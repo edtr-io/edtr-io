@@ -76,36 +76,30 @@ export function HoveringToolbar({
   const { selection } = editor
 
   function isBoldActive() {
-    const marks = SlateEditor.marks(editor)
-    return marks?.strong === true
+    return SlateEditor.marks(editor)?.strong === true
   }
   function isCodeActive() {
-    const marks = SlateEditor.marks(editor)
-    return marks?.code === true
+    return SlateEditor.marks(editor)?.code === true
   }
 
   function isItalicActive() {
-    const marks = SlateEditor.marks(editor)
-    return marks?.em === true
+    return SlateEditor.marks(editor)?.em === true
   }
 
   function isAnyColorActive() {
-    const marks = SlateEditor.marks(editor)
-    return typeof marks?.color === 'number'
+    return typeof SlateEditor.marks(editor)?.color === 'number'
   }
 
   function isColorActive(colorIndex: number) {
-    const marks = SlateEditor.marks(editor)
-    return marks?.color === colorIndex
+    return SlateEditor.marks(editor)?.color === colorIndex
   }
+
   const controls: TextEditorControl[] = [
     {
       title: 'Bold',
       isActive: isBoldActive,
       onClick: () => {
-        const isActive = isBoldActive()
-
-        if (isActive) {
+        if (isBoldActive()) {
           SlateEditor.removeMark(editor, 'strong')
         } else {
           SlateEditor.addMark(editor, 'strong', true)
@@ -117,9 +111,7 @@ export function HoveringToolbar({
       title: 'Italic',
       isActive: isItalicActive,
       onClick: () => {
-        const isActive = isItalicActive()
-
-        if (isActive) {
+        if (isItalicActive()) {
           SlateEditor.removeMark(editor, 'em')
         } else {
           SlateEditor.addMark(editor, 'em', true)
@@ -151,9 +143,7 @@ export function HoveringToolbar({
             title: 'color-#',
             isActive: () => isColorActive(colorIndex),
             onClick: () => {
-              const isActive = isColorActive(colorIndex)
-
-              if (isActive) {
+              if (isColorActive(colorIndex)) {
                 SlateEditor.removeMark(editor, 'color')
               } else {
                 SlateEditor.addMark(editor, 'color', colorIndex)
@@ -170,9 +160,7 @@ export function HoveringToolbar({
       title: 'Code',
       isActive: isCodeActive,
       onClick: () => {
-        const isActive = isCodeActive()
-
-        if (isActive) {
+        if (isCodeActive()) {
           SlateEditor.removeMark(editor, 'code')
         } else {
           SlateEditor.addMark(editor, 'code', true)
