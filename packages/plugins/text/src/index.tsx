@@ -42,6 +42,15 @@ const KaTeXSpan = styled.span<{ element: MathElement }>(({ element }) => {
 function TextEditor(props: TextProps) {
   const [editor] = React.useState(() => withReact(createEditor()))
 
+  editor.isInline = (element) => {
+    if (element.type === 'a') return true
+    if (element.type === 'math') {
+      return element.inline
+    }
+
+    return false
+  }
+
   // TODO: Change state + selection
   return (
     <Slate editor={editor} value={props.state.value.value}>
