@@ -6,10 +6,24 @@ import {
   StateTypeValueType,
 } from '@edtr-io/plugin'
 import { DeepPartial, styled } from '@edtr-io/ui'
+import {
+  ListsEditor,
+  ListType,
+  withLists,
+  withListsReact,
+  onKeyDown,
+} from '@prezly/slate-lists'
 import KaTeX from 'katex'
 import * as R from 'ramda'
 import * as React from 'react'
-import { Descendant, Range, BaseEditor, createEditor } from 'slate'
+import {
+  Descendant,
+  Range,
+  BaseEditor,
+  createEditor,
+  Element,
+  Node,
+} from 'slate'
 import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
 
 import { HoveringToolbar } from './components/hovering-toolbar'
@@ -39,8 +53,59 @@ const KaTeXSpan = styled.span<{ element: MathElement }>(({ element }) => {
   }
 })
 
+// TODO: Find a better place
+// TODO: Use enum for types here as in https://www.npmjs.com/package/@prezly/slate-lists
+// TODO: Fix "as ..." parts in the functions
+const withListsPlugin = withLists({
+  isConvertibleToListTextNode(node: Node) {
+    return Element.isElementType(node, 'p')
+  },
+  isDefaultTextNode(node: Node) {
+    return Element.isElementType(node, 'p')
+  },
+  isListNode(node: Node, type?: ListType) {
+    if (type) {
+      return Element.isElementType(node, type)
+    }
+    return (
+      Element.isElementType(node, 'ordered-list') ||
+      Element.isElementType(node, 'unordered-list')
+    )
+  },
+  isListItemNode(node: Node) {
+    return Element.isElementType(node, 'list-item')
+  },
+  isListItemTextNode(node: Node) {
+    return Element.isElementType(node, 'list-item-text')
+  },
+  createDefaultTextNode(props = {}) {
+    return { children: [{ text: '' }], ...props, type: 'p' } as Paragraph
+  },
+  createListNode(type: ListType = ListType.UNORDERED, props = {}) {
+    const nodeType =
+      type === ListType.ORDERED ? 'ordered-list' : 'unordered-list'
+    return { children: [{ text: '' }], ...props, type: nodeType } as
+      | OrderedList
+      | UnorderedList
+  },
+  createListItemNode(props = {}) {
+    return { children: [{ text: '' }], ...props, type: 'list-item' } as ListItem
+  },
+  createListItemTextNode(props = {}) {
+    return {
+      children: [{ text: '' }],
+      ...props,
+      type: 'list-item-child',
+    } as ListItemText
+  },
+})
+
 function TextEditor(props: TextProps) {
-  const [editor] = React.useState(() => withReact(createEditor()))
+  const editor = React.useMemo(
+    () =>
+      withListsReact(withListsPlugin(withReact(createEditor() as ReactEditor))),
+    []
+  )
 
   editor.isInline = (element) => {
     if (element.type === 'a') return true
@@ -53,17 +118,14 @@ function TextEditor(props: TextProps) {
 
   // TODO: Change state + selection
   return (
-    <Slate
-      editor={editor}
-      value={props.state.value.value}
-      onChange={(value) => console.log(value)}
-    >
+    <Slate editor={editor} value={props.state.value.value}>
       <HoveringToolbar
         closeSubMenuIcon={null}
         closeSubMenuTitle="Close"
         config={props.config}
       />
       <Editable
+        onKeyDown={(event) => onKeyDown(editor, event)}
         renderElement={(props) => {
           if (props.element.type === 'h') {
             const level = props.element.level
@@ -389,7 +451,7 @@ interface CustomText {
 
 declare module 'slate' {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor
+    Editor: BaseEditor & ReactEditor & ListsEditor
     Element: CustomElement
     Text: CustomText
   }

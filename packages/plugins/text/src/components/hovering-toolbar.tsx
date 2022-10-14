@@ -1,4 +1,5 @@
 import { styled } from '@edtr-io/ui'
+import { ListsEditor, ListType } from '@prezly/slate-lists'
 import * as R from 'ramda'
 import React from 'react'
 import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
@@ -94,21 +95,23 @@ export function HoveringToolbar({
   }
 
   function isAnyHeadingActive() {
-    const { selection } = editor
-    if (!selection) return false
-
-    const [match] = Array.from(
-      SlateEditor.nodes(editor, {
-        at: SlateEditor.unhangRange(editor, selection),
-        match: (n) =>
-          !SlateEditor.isEditor(n) && Element.isElement(n) && n['type'] === 'h',
-      })
-    )
-
-    return !!match
+    return selectionHasElement((e) => e.type === 'h')
   }
 
   function isHeadingActive(heading: number) {
+    return selectionHasElement((e) => e.type === 'h' && e.level === heading)
+  }
+
+  function isOrderedListActive() {
+    return selectionHasElement((e) => e.type === 'ordered-list')
+  }
+
+  function isUnorderedListActive() {
+    return selectionHasElement((e) => e.type === 'unordered-list')
+  }
+
+  // TODO: Move to helper class (see slate doc)
+  function selectionHasElement(predicate: (element: Element) => boolean) {
     const { selection } = editor
     if (!selection) return false
 
@@ -116,10 +119,7 @@ export function HoveringToolbar({
       SlateEditor.nodes(editor, {
         at: SlateEditor.unhangRange(editor, selection),
         match: (n) =>
-          !SlateEditor.isEditor(n) &&
-          Element.isElement(n) &&
-          n['type'] === 'h' &&
-          n.level === heading,
+          !SlateEditor.isEditor(n) && Element.isElement(n) && predicate(n),
       })
     )
 
@@ -226,6 +226,30 @@ export function HoveringToolbar({
             renderIcon: () => <span>T{heading}</span>,
           }
         }),
+    },
+    {
+      title: 'OrderedList',
+      isActive: isOrderedListActive,
+      onClick: () => {
+        if (isOrderedListActive()) {
+          ListsEditor.unwrapList(editor)
+        } else {
+          ListsEditor.wrapInList(editor, ListType.ORDERED)
+        }
+      },
+      renderIcon: () => <b>1. </b>,
+    },
+    {
+      title: 'UnorderedList',
+      isActive: isUnorderedListActive,
+      onClick: () => {
+        if (isUnorderedListActive()) {
+          ListsEditor.unwrapList(editor)
+        } else {
+          ListsEditor.wrapInList(editor, ListType.UNORDERED)
+        }
+      },
+      renderIcon: () => <b>* </b>,
     },
   ]
 
