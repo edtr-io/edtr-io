@@ -3973,7 +3973,6 @@ __metadata:
     react-is: ^18.0.0
     redux: ^4.1.2
     slate: ^0.82.1
-    slate-html-serializer: ^0.8.13
     slate-react: ^0.82.2
     styled-components: ^5.3.5
     tsdx: ^0.14.1
@@ -23683,20 +23682,6 @@ resolve@~1.19.0:
   languageName: node
   linkType: hard
 
-"slate-html-serializer@npm:^0.8.13":
-  version: 0.8.13
-  resolution: "slate-html-serializer@npm:0.8.13"
-  dependencies:
-    type-of: ^2.0.1
-  peerDependencies:
-    immutable: ">=3.8.1 || >4.0.0-rc"
-    react: ">=0.14.0"
-    react-dom: ">=0.14.0"
-    slate: ">=0.36.0 <0.50.0"
-  checksum: bdeaf2062384ee06ed7477ead9a12fe7a7f859aaeffb9344e770670f3fcd2f15a7fbc19c180e1bce43c4ee3e20f9c181ae7394815b723cf4f8640b421f0191f5
-  languageName: node
-  linkType: hard
-
 "slate-react@npm:^0.82.2":
   version: 0.82.2
   resolution: "slate-react@npm:0.82.2"
@@ -25434,13 +25419,6 @@ resolve@~1.19.0:
     media-typer: 0.3.0
     mime-types: ~2.1.24
   checksum: 2c8e47675d55f8b4e404bcf529abdf5036c537a04c2b20177bcf78c9e3c1da69da3942b1346e6edb09e823228c0ee656ef0e033765ec39a70d496ef601a0c657
-  languageName: node
-  linkType: hard
-
-"type-of@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "type-of@npm:2.0.1"
-  checksum: 51e889c9b09644ce4ec343ae24cfaa73399f6416c68532d46df1f068bd1773f639bb9dbf5d4bf0078825d0767810e6c7940489c17bd94998ad4e3770488956fe
   languageName: node
   linkType: hard
 

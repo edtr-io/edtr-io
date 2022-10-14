@@ -29,7 +29,6 @@
     "katex": "^0.16.2",
     "ramda": "^0.28.0",
     "slate": "^0.82.1",
-    "slate-html-serializer": "^0.8.13",
     "slate-react": "^0.82.2"
   },
   "devDependencies": {
