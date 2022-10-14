@@ -53,7 +53,11 @@ function TextEditor(props: TextProps) {
 
   // TODO: Change state + selection
   return (
-    <Slate editor={editor} value={props.state.value.value}>
+    <Slate
+      editor={editor}
+      value={props.state.value.value}
+      onChange={(value) => console.log(value)}
+    >
       <HoveringToolbar
         closeSubMenuIcon={null}
         closeSubMenuTitle="Close"

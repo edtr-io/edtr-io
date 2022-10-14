@@ -2,7 +2,7 @@ import { TextPluginConfig } from '@edtr-io/plugin-text'
 import * as R from 'ramda'
 import { styled } from '@edtr-io/ui'
 import React from 'react'
-import { Editor as SlateEditor, Range } from 'slate'
+import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
@@ -94,6 +94,39 @@ export function HoveringToolbar({
     return SlateEditor.marks(editor)?.color === colorIndex
   }
 
+  function isAnyHeadingActive() {
+    const { selection } = editor
+    if (!selection) return false
+
+    const [match] = Array.from(
+      SlateEditor.nodes(editor, {
+        at: SlateEditor.unhangRange(editor, selection),
+        match: (n) =>
+          !SlateEditor.isEditor(n) && Element.isElement(n) && n['type'] === 'h',
+      })
+    )
+
+    return !!match
+  }
+
+  function isHeadingActive(heading: number) {
+    const { selection } = editor
+    if (!selection) return false
+
+    const [match] = Array.from(
+      SlateEditor.nodes(editor, {
+        at: SlateEditor.unhangRange(editor, selection),
+        match: (n) =>
+          !SlateEditor.isEditor(n) &&
+          Element.isElement(n) &&
+          n['type'] === 'h' &&
+          n.level === heading,
+      })
+    )
+
+    return !!match
+  }
+
   const controls: TextEditorControl[] = [
     {
       title: 'Bold',
@@ -167,6 +200,33 @@ export function HoveringToolbar({
         }
       },
       renderIcon: () => <code>C</code>,
+    },
+    {
+      title: 'Heading',
+      isActive: isAnyHeadingActive,
+      renderIcon: () => <span>C</span>,
+      children:
+        // TODO: change to config
+        [1 as const, 2 as const, 3 as const].map((heading) => {
+          return {
+            title: `h${heading}`,
+            isActive: () => isHeadingActive(heading),
+            onClick: () => {
+              if (isHeadingActive(heading)) {
+                Transforms.setNodes(editor, {
+                  type: 'p',
+                })
+                Transforms.unsetNodes(editor, 'level')
+              } else {
+                Transforms.setNodes(editor, {
+                  type: 'h',
+                  level: heading,
+                })
+              }
+            },
+            renderIcon: () => <span>T{heading}</span>,
+          }
+        }),
     },
   ]
 
