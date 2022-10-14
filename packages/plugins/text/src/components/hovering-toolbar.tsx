@@ -1,12 +1,11 @@
-import { TextPluginConfig } from '@edtr-io/plugin-text'
-import * as R from 'ramda'
 import { styled } from '@edtr-io/ui'
+import * as R from 'ramda'
 import React from 'react'
 import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
+import { config as defaultConfig, TextPluginConfig } from '..'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
-import { config as defaultConfig } from '..'
 
 const Button = styled.button<{
   active?: boolean
