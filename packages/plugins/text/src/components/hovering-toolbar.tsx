@@ -110,6 +110,10 @@ export function HoveringToolbar({
     return selectionHasElement((e) => e.type === 'unordered-list')
   }
 
+  function isLinkActive() {
+    return selectionHasElement((e) => e.type === 'a')
+  }
+
   // TODO: Move to helper class (see slate doc)
   function selectionHasElement(predicate: (element: Element) => boolean) {
     const { selection } = editor
@@ -250,6 +254,41 @@ export function HoveringToolbar({
         }
       },
       renderIcon: () => <b>* </b>,
+    },
+    {
+      title: 'Link',
+      isActive: isLinkActive,
+      onClick: () => {
+        if (isLinkActive()) {
+          Transforms.unwrapNodes(editor, {
+            match: (n) => Element.isElement(n) && n.type === 'a',
+          })
+        } else {
+          const { selection } = editor
+          const isCollapsed = selection && Range.isCollapsed(selection)
+
+          if (isCollapsed) {
+            // TODO: how set focus to input field, when it is newly created?
+            Transforms.insertNodes(editor, {
+              type: 'a',
+              href: '',
+              children: [{ text: 'link' }],
+            })
+          } else {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: 'a',
+                href: '',
+                children: [],
+              },
+              { split: true }
+            )
+            Transforms.collapse(editor, { edge: 'end' })
+          }
+        }
+      },
+      renderIcon: () => <span>&#128279;</span>,
     },
   ]
 

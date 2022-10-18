@@ -27,6 +27,8 @@ import {
 import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
 
 import { HoveringToolbar } from './components/hovering-toolbar'
+// TODO: rename link-element file to link-controls
+import { LinkControls } from './components/link-element'
 
 // TODO: Move to a better place
 const emptyDocument: StateTypeValueType<TextPluginState> = {
@@ -107,6 +109,8 @@ function TextEditor(props: TextProps) {
     []
   )
 
+  const [selection, setSelection] = React.useState(editor.selection)
+
   editor.isInline = (element) => {
     if (element.type === 'a') return true
     if (element.type === 'math') {
@@ -118,12 +122,17 @@ function TextEditor(props: TextProps) {
 
   // TODO: Change state + selection
   return (
-    <Slate editor={editor} value={props.state.value.value}>
+    <Slate
+      editor={editor}
+      value={props.state.value.value}
+      onChange={() => setSelection(editor.selection)}
+    >
       <HoveringToolbar
         closeSubMenuIcon={null}
         closeSubMenuTitle="Close"
         config={props.config}
       />
+      {props.editable ? <LinkControls editor={editor} /> : null}
       <Editable
         onKeyDown={(event) => onKeyDown(editor, event)}
         renderElement={(props) => {
@@ -409,7 +418,7 @@ interface Paragraph {
   children: CustomText[]
 }
 
-interface Link {
+export interface Link {
   type: 'a'
   href: string
   children: CustomText[]
