@@ -120,6 +120,10 @@ function TextEditor(props: TextProps) {
     return false
   }
 
+  editor.isVoid = (element) => {
+    return element.type == 'math'
+  }
+
   // TODO: Change state + selection
   return (
     <Slate
@@ -448,6 +452,7 @@ interface MathElement {
   type: 'math'
   src: string
   inline: boolean
+  children: []
 }
 
 interface CustomText {

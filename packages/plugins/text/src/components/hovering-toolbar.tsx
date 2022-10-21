@@ -114,6 +114,10 @@ export function HoveringToolbar({
     return selectionHasElement((e) => e.type === 'a')
   }
 
+  function isMathActive() {
+    return selectionHasElement((e) => e.type === 'math')
+  }
+
   // TODO: Move to helper class (see slate doc)
   function selectionHasElement(predicate: (element: Element) => boolean) {
     const { selection } = editor
@@ -289,6 +293,46 @@ export function HoveringToolbar({
         }
       },
       renderIcon: () => <span>&#128279;</span>,
+    },
+    {
+      title: 'Math',
+      isActive: isMathActive,
+      onClick: () => {
+        if (isMathActive()) {
+          Transforms.removeNodes(editor, {
+            match: (n) => Element.isElement(n) && n.type === 'math',
+          })
+        } else {
+          const { selection } = editor
+          if (!selection) return
+          const isCollapsed = Range.isCollapsed(selection)
+
+          if (isCollapsed) {
+            Transforms.insertNodes(editor, {
+              type: 'math',
+              src: '',
+              inline: true,
+              children: [],
+            })
+          } else {
+            // TODO: Test if better solution to use api from slate
+            const nativeSelection = window.getSelection()
+            Transforms.insertNodes(
+              editor,
+              [
+                {
+                  type: 'math',
+                  src: nativeSelection ? nativeSelection.toString() : '',
+                  inline: true,
+                  children: [],
+                },
+              ],
+              { at: selection }
+            )
+          }
+        }
+      },
+      renderIcon: () => <b>* </b>,
     },
   ]
 
