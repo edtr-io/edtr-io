@@ -5,7 +5,7 @@ import {
   SerializedScalarStateType,
   StateTypeValueType,
 } from '@edtr-io/plugin'
-import { DeepPartial, styled } from '@edtr-io/ui'
+import { DeepPartial } from '@edtr-io/ui'
 import {
   ListsEditor,
   ListType,
@@ -13,7 +13,6 @@ import {
   withListsReact,
   onKeyDown,
 } from '@prezly/slate-lists'
-import KaTeX from 'katex'
 import * as R from 'ramda'
 import * as React from 'react'
 import {
@@ -29,6 +28,7 @@ import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
 import { HoveringToolbar } from './components/hovering-toolbar'
 // TODO: rename link-element file to link-controls
 import { LinkControls } from './components/link-element'
+import { MathElement } from './math'
 
 // TODO: Move to a better place
 const emptyDocument: StateTypeValueType<TextPluginState> = {
@@ -44,16 +44,6 @@ const blue = '#1794c1',
 export const config = {
   colors: [blue, green, orange],
 }
-
-const KaTeXSpan = styled.span<{ element: MathElement }>(({ element }) => {
-  if (!element.inline) {
-    return {
-      display: 'block',
-      margin: '1em 0',
-      textAlign: 'center',
-    }
-  }
-})
 
 // TODO: Find a better place
 // TODO: Use enum for types here as in https://www.npmjs.com/package/@prezly/slate-lists
@@ -109,7 +99,8 @@ function TextEditor(props: TextProps) {
     []
   )
 
-  const [selection, setSelection] = React.useState(editor.selection)
+  // TODO: Delete after we change the edtr-io state of the text plugin
+  const [, setSelection] = React.useState(editor.selection)
 
   editor.isInline = (element) => {
     if (element.type === 'a') return true
@@ -175,19 +166,10 @@ function TextEditor(props: TextProps) {
           }
 
           if (props.element.type === 'math') {
-            const { inline, src } = props.element
-            const html = KaTeX.renderToString(
-              `${inline ? '' : '\\displaystyle '}${src}`,
-              {
-                displayMode: false,
-                throwOnError: false,
-              }
-            )
-
             return (
-              <KaTeXSpan
-                dangerouslySetInnerHTML={{ __html: html }}
+              <MathElement
                 element={props.element}
+                attributes={props.attributes}
               />
             )
           }
@@ -446,13 +428,6 @@ interface ListItem {
 interface ListItemText {
   type: 'list-item-child'
   children: CustomText[]
-}
-
-interface MathElement {
-  type: 'math'
-  src: string
-  inline: boolean
-  children: []
 }
 
 interface CustomText {
