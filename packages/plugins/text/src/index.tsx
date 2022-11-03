@@ -170,7 +170,9 @@ function TextEditor(props: TextProps) {
               <MathElement
                 element={props.element}
                 attributes={props.attributes}
-              />
+              >
+                {props.children}
+              </MathElement>
             )
           }
 
