@@ -2,10 +2,14 @@ import { PreferenceContext } from '@edtr-io/core'
 import { MathEditor } from '@edtr-io/math'
 import { styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
-
-// TODO: Linter rules updaten
-import React, { useState, useContext } from 'react'
-import { RenderElementProps } from 'slate-react'
+import React, { useContext } from 'react'
+import { Range } from 'slate'
+import {
+  RenderElementProps,
+  useSlate,
+  useFocused,
+  useSelected,
+} from 'slate-react'
 
 // TODO: Good structure
 export interface MathElement {
@@ -35,9 +39,12 @@ export function MathElement({
   attributes: RenderElementProps['attributes']
   children: RenderElementProps['children']
 }) {
+  const editor = useSlate()
+  const selected = useSelected()
   const preferences = useContext(PreferenceContext)
-  // TODO
-  const visualEditor = true
+
+  const showMathEditor =
+    selected && editor.selection && Range.isCollapsed(editor.selection)
   const isVisualMode = !!preferences.getKey(preferenceKey)
 
   /* TODO: We need to define
@@ -60,8 +67,8 @@ export interface MathEditorProps {
   onDeleteOutLeft?(): void
 }*/
 
-  return visualEditor ? (
-    <span {...attributes}>
+  return showMathEditor ? (
+    <span {...attributes} tabIndex={-1}>
       <MathEditor
         autofocus
         state={element.src}

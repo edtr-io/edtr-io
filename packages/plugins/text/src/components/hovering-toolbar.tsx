@@ -329,6 +329,7 @@ export function HoveringToolbar({
               ],
               { at: selection }
             )
+            Transforms.move(editor, { distance: 1, reverse: true })
           }
         }
       },
