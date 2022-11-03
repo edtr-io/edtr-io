@@ -105,7 +105,7 @@ function TextEditor(props: TextProps) {
   editor.isInline = (element) => {
     if (element.type === 'a') return true
     if (element.type === 'math') {
-      return element.inline
+      return element.inline === 'true'
     }
 
     return false
@@ -120,7 +120,10 @@ function TextEditor(props: TextProps) {
     <Slate
       editor={editor}
       value={props.state.value.value}
-      onChange={() => setSelection(editor.selection)}
+      onChange={() => {
+        console.log(editor.children)
+        setSelection(editor.selection)
+      }}
     >
       <HoveringToolbar
         closeSubMenuIcon={null}

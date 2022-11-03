@@ -3,19 +3,19 @@ import { MathEditor } from '@edtr-io/math'
 import { styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
 import React, { useContext } from 'react'
-import { Range } from 'slate'
+import { Range, Transforms } from 'slate'
 import {
   RenderElementProps,
   useSlate,
-  useFocused,
   useSelected,
+  ReactEditor,
 } from 'slate-react'
 
 // TODO: Good structure
 export interface MathElement {
   type: 'math'
   src: string
-  inline: boolean
+  inline: string
   children: []
 }
 
@@ -67,17 +67,24 @@ export interface MathEditorProps {
   onDeleteOutLeft?(): void
 }*/
 
+  function updateElement(update: Partial<MathElement>) {
+    const path = ReactEditor.findPath(editor, element)
+    Transforms.setNodes(editor, update, { at: path })
+  }
+
   return showMathEditor ? (
     <span {...attributes} tabIndex={-1}>
       <MathEditor
         autofocus
         state={element.src}
-        inline={element.inline}
+        inline={element.inline === 'true'}
         readOnly={false}
         visual={isVisualMode}
         disableBlock={false}
-        onInlineChange={(inline) => console.log(inline)}
-        onChange={(formula) => console.log(formula)}
+        onInlineChange={(inline) => {
+          updateElement({ inline: inline.toString() })
+        }}
+        onChange={(src) => updateElement({ src })}
         config={{}}
         onEditorChange={(isVisualMode) =>
           preferences.setKey(preferenceKey, isVisualMode)

@@ -311,7 +311,7 @@ export function HoveringToolbar({
             Transforms.insertNodes(editor, {
               type: 'math',
               src: '',
-              inline: true,
+              inline: 'true',
               children: [],
             })
           } else {
@@ -323,7 +323,7 @@ export function HoveringToolbar({
                 {
                   type: 'math',
                   src: nativeSelection ? nativeSelection.toString() : '',
-                  inline: true,
+                  inline: 'true',
                   children: [],
                 },
               ],
