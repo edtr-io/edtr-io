@@ -3,7 +3,7 @@ import { MathEditor } from '@edtr-io/math'
 import { styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
 import React, { useContext } from 'react'
-import { Range, Transforms, Editor as SlateEditor, Path } from 'slate'
+import { Range, Transforms } from 'slate'
 import {
   RenderElementProps,
   useSlate,
@@ -69,19 +69,7 @@ export interface MathEditorProps {
 
   function updateElement(update: Partial<MathElement>) {
     const path = ReactEditor.findPath(editor, element)
-    console.log({ element, update })
-    editor.apply({
-      type: 'set_node',
-      path: path,
-      properties: { src: element.src, inline: element.inline },
-      newProperties: {
-        type: element.type,
-        src: element.src,
-        inline: element.inline,
-        ...update,
-      },
-    })
-    // Transforms.setNodes(editor, update, { at: path })
+    Transforms.setNodes(editor, update, { at: path })
   }
 
   return showMathEditor ? (

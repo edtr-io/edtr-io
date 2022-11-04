@@ -103,12 +103,7 @@ function TextEditor(props: TextProps) {
   const [, setSelection] = React.useState(editor.selection)
 
   editor.isInline = (element) => {
-    if (element.type === 'a') return true
-    if (element.type === 'math') {
-      return element.inline
-    }
-
-    return false
+    return element.type === 'a' || element.type === 'math'
   }
 
   editor.isVoid = (element) => {
