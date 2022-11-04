@@ -105,7 +105,7 @@ function TextEditor(props: TextProps) {
   editor.isInline = (element) => {
     if (element.type === 'a') return true
     if (element.type === 'math') {
-      return element.inline === 'true'
+      return element.inline
     }
 
     return false

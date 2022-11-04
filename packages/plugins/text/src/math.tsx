@@ -3,7 +3,7 @@ import { MathEditor } from '@edtr-io/math'
 import { styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
 import React, { useContext } from 'react'
-import { Range, Transforms } from 'slate'
+import { Range, Transforms, Editor as SlateEditor, Path } from 'slate'
 import {
   RenderElementProps,
   useSlate,
@@ -15,7 +15,7 @@ import {
 export interface MathElement {
   type: 'math'
   src: string
-  inline: string
+  inline: boolean
   children: []
 }
 
@@ -69,7 +69,19 @@ export interface MathEditorProps {
 
   function updateElement(update: Partial<MathElement>) {
     const path = ReactEditor.findPath(editor, element)
-    Transforms.setNodes(editor, update, { at: path })
+    console.log({ element, update })
+    editor.apply({
+      type: 'set_node',
+      path: path,
+      properties: { src: element.src, inline: element.inline },
+      newProperties: {
+        type: element.type,
+        src: element.src,
+        inline: element.inline,
+        ...update,
+      },
+    })
+    // Transforms.setNodes(editor, update, { at: path })
   }
 
   return showMathEditor ? (
@@ -77,12 +89,12 @@ export interface MathEditorProps {
       <MathEditor
         autofocus
         state={element.src}
-        inline={element.inline === 'true'}
+        inline={element.inline}
         readOnly={false}
         visual={isVisualMode}
         disableBlock={false}
         onInlineChange={(inline) => {
-          updateElement({ inline: inline.toString() })
+          updateElement({ inline })
         }}
         onChange={(src) => updateElement({ src })}
         config={{}}
