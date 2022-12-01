@@ -11,19 +11,20 @@ import {
   ListType,
   withLists,
   withListsReact,
-  onKeyDown,
 } from '@prezly/slate-lists'
+import isHotkey from 'is-hotkey'
 import * as R from 'ramda'
 import * as React from 'react'
 import {
-  Descendant,
-  Range,
   BaseEditor,
   createEditor,
   Descendant,
   Element,
   Node,
   Range,
+  CustomTypes,
+  Editor as SlateEditor,
+  Transforms,
 } from 'slate'
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 
@@ -129,7 +130,18 @@ function TextEditor(props: TextProps) {
       />
       {props.editable ? <LinkControls editor={editor} /> : null}
       <Editable
-        onKeyDown={(event) => onKeyDown(editor, event)}
+        onKeyDown={(event) => {
+          if (isHotkey('mod+b')(event)) {
+            event.preventDefault()
+            return toggleBoldMark(editor)
+          } else if (isHotkey('mod+i')(event)) {
+            event.preventDefault()
+            return toggleItalicMark(editor)
+          } else if (isHotkey('mod+k', event)) {
+            event.preventDefault()
+            return toggleLink(editor)
+          }
+        }}
         renderElement={(props) => {
           if (props.element.type === 'h') {
             const level = props.element.level
@@ -253,6 +265,83 @@ export function createTextPlugin(
       return isValueEmpty(Value.fromJSON(state.value))
     },
      */
+  }
+}
+
+// TODO: Duplicates of hovering-toolbar => Refactor
+function isBoldActive(editor: CustomTypes['Editor']) {
+  return SlateEditor.marks(editor)?.strong === true
+}
+
+function toggleBoldMark(editor: CustomTypes['Editor']) {
+  if (isBoldActive(editor)) {
+    SlateEditor.removeMark(editor, 'strong')
+  } else {
+    SlateEditor.addMark(editor, 'strong', true)
+  }
+}
+
+function isItalicActive(editor: CustomTypes['Editor']) {
+  return SlateEditor.marks(editor)?.em === true
+}
+
+function toggleItalicMark(editor: CustomTypes['Editor']) {
+  if (isItalicActive(editor)) {
+    SlateEditor.removeMark(editor, 'em')
+  } else {
+    SlateEditor.addMark(editor, 'em', true)
+  }
+}
+
+function isLinkActive(editor: CustomTypes['Editor']) {
+  return selectionHasElement((e) => e.type === 'a', editor)
+}
+
+function selectionHasElement(
+  predicate: (element: Element) => boolean,
+  editor: CustomTypes['Editor']
+) {
+  const { selection } = editor
+  if (!selection) return false
+
+  const [match] = Array.from(
+    SlateEditor.nodes(editor, {
+      at: SlateEditor.unhangRange(editor, selection),
+      match: (n) =>
+        !SlateEditor.isEditor(n) && Element.isElement(n) && predicate(n),
+    })
+  )
+
+  return !!match
+}
+function toggleLink(editor: CustomTypes['Editor']) {
+  if (isLinkActive(editor)) {
+    Transforms.unwrapNodes(editor, {
+      match: (n) => Element.isElement(n) && n.type === 'a',
+    })
+  } else {
+    const { selection } = editor
+    const isCollapsed = selection && Range.isCollapsed(selection)
+
+    if (isCollapsed) {
+      // TODO: how set focus to input field, when it is newly created?
+      Transforms.insertNodes(editor, {
+        type: 'a',
+        href: '',
+        children: [{ text: 'link' }],
+      })
+    } else {
+      Transforms.wrapNodes(
+        editor,
+        {
+          type: 'a',
+          href: '',
+          children: [],
+        },
+        { split: true }
+      )
+      Transforms.collapse(editor, { edge: 'end' })
+    }
   }
 }
 
