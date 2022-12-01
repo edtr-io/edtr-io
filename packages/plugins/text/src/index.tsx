@@ -20,10 +20,12 @@ import {
   Range,
   BaseEditor,
   createEditor,
+  Descendant,
   Element,
   Node,
+  Range,
 } from 'slate'
-import { ReactEditor, Editable, withReact, Slate } from 'slate-react'
+import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 
 import { HoveringToolbar } from './components/hovering-toolbar'
 // TODO: rename link-element file to link-controls
