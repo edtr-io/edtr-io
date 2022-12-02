@@ -31,6 +31,7 @@ import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 import { HoveringToolbar } from './components/hovering-toolbar'
 // TODO: rename link-element file to link-controls
 import { LinkControls } from './components/link-element'
+import { markdownShortcuts } from './components/markdown'
 import { MathElement } from './math'
 
 // TODO: Move to a better place
@@ -119,7 +120,6 @@ function TextEditor(props: TextProps) {
       editor={editor}
       value={props.state.value.value}
       onChange={() => {
-        console.log(editor.children)
         setSelection(editor.selection)
       }}
     >
@@ -141,6 +141,10 @@ function TextEditor(props: TextProps) {
             event.preventDefault()
             return toggleLink(editor)
           }
+          markdownShortcuts().onKeyDown(
+            event as unknown as KeyboardEvent,
+            editor
+          )
         }}
         renderElement={(props) => {
           if (props.element.type === 'h') {
