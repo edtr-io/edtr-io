@@ -97,14 +97,15 @@ const withListsPlugin = withLists({
 })
 
 function TextEditor(props: TextProps) {
+  const { selection, value } = props.state.value
+  const previousValue = React.useRef(value)
+  const previousSelection = React.useRef(selection)
+
   const editor = React.useMemo(
     () =>
       withListsReact(withListsPlugin(withReact(createEditor() as ReactEditor))),
     []
   )
-
-  // TODO: Delete after we change the edtr-io state of the text plugin
-  const [, setSelection] = React.useState(editor.selection)
 
   editor.isInline = (element) => {
     return element.type === 'a' || element.type === 'math'
@@ -114,13 +115,34 @@ function TextEditor(props: TextProps) {
     return element.type == 'math'
   }
 
+  React.useEffect(() => {
+    if (!selection) return
+    Transforms.setSelection(editor, selection)
+  }, [editor, selection])
+
   // TODO: Change state + selection
   return (
     <Slate
       editor={editor}
-      value={props.state.value.value}
-      onChange={() => {
-        setSelection(editor.selection)
+      value={value}
+      onChange={(newValue) => {
+        // Only update edtr-io state when the actual content of the text plugin
+        // canged
+        const isAstChange = editor.operations.some(
+          (op) => op.type !== 'set_selection'
+        )
+        if (isAstChange) {
+          previousValue.current = newValue
+          props.state.set(
+            { value: newValue, selection: editor.selection },
+            ({ value }) => {
+              return {
+                value,
+                selection: previousSelection.current,
+              }
+            }
+          )
+        }
       }}
     >
       <HoveringToolbar
