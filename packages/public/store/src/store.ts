@@ -7,13 +7,17 @@ import {
   Store,
   StoreEnhancer,
 } from 'redux'
-import createSagaMiddleware from 'redux-saga'
+import _createSagaMiddleware from 'redux-saga'
 
 import { Action, InternalAction } from './actions'
 import { reducer } from './reducer'
 import { serializeRootDocument } from './root/reducer'
 import { saga } from './saga'
 import { InternalState, SelectorReturnType, State } from './types'
+
+// TODO: Fix types
+// @ts-expect-error
+const createSagaMiddleware = _createSagaMiddleware.default
 
 /**
  * Creates the Edtr.io store
