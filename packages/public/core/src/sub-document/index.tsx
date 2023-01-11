@@ -29,7 +29,6 @@ export const SubDocument = (props: SubDocumentProps) => {
 
 export class ErrorBoundary extends React.Component<{ undo: () => void }> {
   static contextType = ErrorContext
-  context!: React.ContextType<typeof ErrorContext>
 
   public state = { hasError: false }
 
