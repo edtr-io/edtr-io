@@ -133,15 +133,7 @@ function TextEditor(props: TextProps) {
         )
         if (isAstChange) {
           previousValue.current = newValue
-          props.state.set(
-            { value: newValue, selection: editor.selection },
-            ({ value }) => {
-              return {
-                value,
-                selection: previousSelection.current,
-              }
-            }
-          )
+          props.state.set({ value: newValue, selection: editor.selection })
         }
       }}
     >
