@@ -1,18 +1,38 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import exenv from 'exenv'
 import * as React from 'react'
+import type { EditableMathFieldProps } from 'react-mathquill'
 
 import { MathEditorProps } from './editor-props'
 
-export const MathQuill: React.ComponentType<{
+type MathQuill = React.ComponentType<{
   latex: string
-  config: unknown
+  config: EditableMathFieldProps['config']
   onChange(e: MathField): void
   mathquillDidMount(e: MathField): void
-}> = exenv.canUseDOM
-  ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('react-mathquill').EditableMathField
-  : () => null
+}>
+
+export const MathQuill: MathQuill = (props) => {
+  const [EditableMathField, setEditableMathField] =
+    React.useState<React.ComponentType<EditableMathFieldProps> | null>(null)
+
+  React.useEffect(() => {
+    async function importMathQuill() {
+      if (exenv.canUseDOM) {
+        const mathquill = await import('react-mathquill')
+        setEditableMathField(mathquill.EditableMathField)
+      }
+    }
+
+    void importMathQuill()
+  }, [])
+
+  if (EditableMathField != null) {
+    return <EditableMathField {...props} />
+  } else {
+    return null
+  }
+}
 
 function isTouchDevice(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
