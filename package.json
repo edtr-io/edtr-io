@@ -25,6 +25,10 @@
     "_eslint": "eslint \"{{packages/*/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,scripts,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_prettier": "prettier ."
   },
+  "resolutions": {
+    "jest": "^27.0.0",
+    "@jest/globals": "^27.0.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
