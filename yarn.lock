@@ -1959,11 +1959,11 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
-    "@storybook/addon-actions": ^6.4.19
+    "@storybook/addon-actions": ^6.5.15
     "@storybook/addon-knobs": ^6.4.0
-    "@storybook/builder-webpack5": ^6.4.19
-    "@storybook/manager-webpack5": ^6.4.19
-    "@storybook/react": ^6.4.19
+    "@storybook/builder-webpack5": ^6.5.15
+    "@storybook/manager-webpack5": ^6.5.15
+    "@storybook/react": ^6.5.15
     "@types/lodash": ^4.14.181
     "@types/ramda": ^0.28.5
     "@types/react": ^17.0.43
@@ -2371,6 +2371,7 @@ __metadata:
     "@types/react-dom": ^17.0.14
     "@types/styled-components": ^5.1.24
     algebra.js: ^0.2.6
+    default-import: ^1.1.5
     immutable: ^4.0.0
     ramda: ^0.28.0
     react: ^18.0.0
@@ -2946,6 +2947,7 @@ __metadata:
     "@types/react-dom": ^17.0.14
     "@types/shortid": ^0.0.29
     "@types/styled-components": ^5.1.24
+    default-import: ^1.1.5
     ramda: ^0.28.0
     react: ^18.0.0
     react-dom: ^18.0.0
@@ -5041,7 +5043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:^6.4.19":
+"@storybook/addon-actions@npm:^6.5.15":
   version: 6.5.15
   resolution: "@storybook/addon-actions@npm:6.5.15"
   dependencies:
@@ -5219,7 +5221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/builder-webpack5@npm:^6.4.19":
+"@storybook/builder-webpack5@npm:^6.5.15":
   version: 6.5.15
   resolution: "@storybook/builder-webpack5@npm:6.5.15"
   dependencies:
@@ -5662,7 +5664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/manager-webpack5@npm:^6.4.19":
+"@storybook/manager-webpack5@npm:^6.5.15":
   version: 6.5.15
   resolution: "@storybook/manager-webpack5@npm:6.5.15"
   dependencies:
@@ -5785,7 +5787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@npm:^6.4.19":
+"@storybook/react@npm:^6.5.15":
   version: 6.5.15
   resolution: "@storybook/react@npm:6.5.15"
   dependencies:
@@ -10530,6 +10532,13 @@ __metadata:
   bin:
     default-browser-id: cli.js
   checksum: c6576428ebdd304d209e09c40803c974de3236232fdfa564d82bd1e985246a0d0f0b344f2b207fcbf663b925c20d30ab4d77fbe2755d2be3a6073f12620b9056
+  languageName: node
+  linkType: hard
+
+"default-import@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "default-import@npm:1.1.5"
+  checksum: 9e8bcbdfe4fcb9ec5e30a6efba79d09bf5adc4cc968f103a4d0d7b3c3980d0779932c51f9c0667b773e3b373bc1cbb7d3da209768a2442792ae47f21d3f37312
   languageName: node
   linkType: hard
 
