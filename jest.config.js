@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable import/no-commonjs */
-const defaultConfig = require('./jest.base.config')
+import defaultConfig from './jest.base.config'
 
-module.exports = {
+export default {
   ...defaultConfig,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jsdom',
