@@ -1,46 +1,33 @@
-import {
-  Configuration,
-  EnvironmentPlugin,
-  ModuleOptions,
-  WebpackPluginInstance,
-} from 'webpack'
+const { EnvironmentPlugin } = require('webpack')
 
-export const core = {
-  builder: 'webpack5',
-}
+/* eslint-disable import/no-commonjs */
+module.exports = {
+  core: {
+    builder: 'webpack5',
+  },
+  stories: ['../__stories__/*.@(ts|tsx)'],
+  addons: ['@storybook/addon-actions', '@storybook/addon-knobs'],
 
-export const stories = ['../__stories__/*.@(ts|tsx)']
-export const addons = ['@storybook/addon-actions', '@storybook/addon-knobs']
+  webpackFinal(config) {
+    if (!config.module.rules) {
+      config.module.rules = []
+    }
 
-interface WebpackConfiguration extends Configuration {
-  module: ModuleOptions
-  plugins: WebpackPluginInstance[]
-  devServer: {
-    stats: string
-  }
-}
-
-export async function webpackFinal(
-  config: WebpackConfiguration
-): Promise<WebpackConfiguration> {
-  if (!config.module.rules) {
-    config.module.rules = []
-  }
-
-  config.module.rules.push({
-    test: /\.(ts|tsx)$/,
-    loader: require.resolve('babel-loader'),
-    options: {
-      rootMode: 'upward',
-    },
-  })
-  config.plugins.push(
-    new EnvironmentPlugin({
-      TITLE: '',
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve('babel-loader'),
+      options: {
+        rootMode: 'upward',
+      },
     })
-  )
-  config.devServer = {
-    stats: 'errors-only',
-  }
-  return config
+    config.plugins.push(
+      new EnvironmentPlugin({
+        TITLE: '',
+      })
+    )
+    config.devServer = {
+      stats: 'errors-only',
+    }
+    return config
+  },
 }
