@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-import { canUseDOM } from 'exenv'
+import exenv from 'exenv'
 import * as React from 'react'
 
 import { MathEditorProps } from './editor-props'
@@ -9,7 +9,7 @@ export const MathQuill: React.ComponentType<{
   config: unknown
   onChange(e: MathField): void
   mathquillDidMount(e: MathField): void
-}> = canUseDOM
+}> = exenv.canUseDOM
   ? // eslint-disable-next-line @typescript-eslint/no-var-requires
     require('react-mathquill').EditableMathField
   : () => null

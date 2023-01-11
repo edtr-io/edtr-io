@@ -1,6 +1,6 @@
 import { styled } from '@edtr-io/ui'
 import fetch from 'isomorphic-unfetch'
-import { debounce } from 'lodash'
+import lodash from 'lodash'
 import * as React from 'react'
 
 import { GeogebraProps } from '.'
@@ -97,7 +97,7 @@ function useCachedApiResponse(id?: string): ApiResponse {
   const cache = React.useRef<{ [src: string]: ApiResponse }>({})
 
   const debouncedRequestAppletData = React.useRef<(src?: string) => void>(
-    debounce((src?: string) => {
+    lodash.debounce((src?: string) => {
       if (!src) return
 
       if (cache.current[src]) {
