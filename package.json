@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "repository": "edtr-io/edtr-io",
+  "type": "module",
   "scripts": {
     "start": "lerna run --stream start",
     "test": "jest",
