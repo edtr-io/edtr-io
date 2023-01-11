@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals'
+
 import {
   child,
   number,
@@ -10,7 +12,7 @@ import {
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
-    createDocument: jest.Mock
+    createDocument: jest.Mock<unknown, unknown[]>
   }
 
   beforeEach(() => {
