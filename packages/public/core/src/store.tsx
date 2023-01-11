@@ -4,22 +4,24 @@ import {
   Provider as ReduxProvider,
   ProviderProps,
   ReactReduxContextValue,
+  createDispatchHook as createDispatchHookOriginal,
+  createSelectorHook as createSelectorHookOriginal,
+  createStoreHook as createStoreHookOriginal,
 } from 'react-redux'
 import { Unsubscribe } from 'redux'
 
+// The following is used to change the types of `createDispatchHook`,
+// `createSelectorHook` and `createStoreHook` only for this file
 const createDispatchHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-() => (action: Action) => void = require('react-redux').createDispatchHook
+) => () => (action: Action) => void = createDispatchHookOriginal
 const createSelectorHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => <T>(selector: (state: State) => T) => T =
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-  require('react-redux').createSelectorHook
+) => <T>(selector: (state: State) => T) => T = createSelectorHookOriginal
+// @ts-expect-error
 const createStoreHook: (
   context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-() => Store = require('react-redux').createStoreHook
+) => () => Store = createStoreHookOriginal
 
 /** @public */
 export const ScopeContext = React.createContext<{
