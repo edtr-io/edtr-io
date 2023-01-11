@@ -4,10 +4,10 @@ import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { Renderer } from '@edtr-io/renderer'
 import { render, screen } from '@testing-library/react'
 import _userEvent from '@testing-library/user-event'
+import { defaultImport } from 'default-import'
 import React from 'react'
 
-// @ts-expect-error
-const userEvent = _userEvent.default
+const userEvent = defaultImport(_userEvent)
 
 describe('shows feedback about submitted answer', () => {
   beforeEach(() => {
