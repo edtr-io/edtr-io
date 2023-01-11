@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "start": "lerna run --stream start",
-    "test": "jest",
-    "test:ssr": "jest --config jest-ssr.config.js",
+    "test": "node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:ssr": "yarn test --config jest-ssr.config.js",
     "build": "yarn --immutable && lerna run --ignore=\"@edtr-io/internal__{bundle-size,demo}\" --concurrency=2 --stream build",
     "build-demo": "yarn build && lerna run --scope=@edtr-io/internal__demo build",
     "regenerate-api": "lerna run --concurrency=2 --stream regenerate-api",
