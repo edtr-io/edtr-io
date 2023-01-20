@@ -1,16 +1,18 @@
+import { defaultImport } from 'default-import'
+
 /**
  * Provides utils for the User Interface
  *
  * @packageDocumentation
  */
-import * as StyledComponents from 'styled-components'
+import _styled from 'styled-components'
 
 /**
  * Re-export of {@link https://styled-components.com/docs/api#primary | `styled` in `styled-components` }
  *
  * @public
  */
-export const styled = StyledComponents.default
+export const styled = defaultImport(_styled)
 
 export * from './deep-partial'
 export * from './editor-theme'

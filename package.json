@@ -4,10 +4,11 @@
   "license": "MIT",
   "author": "edtr.io Consortium",
   "repository": "edtr-io/edtr-io",
+  "type": "module",
   "scripts": {
     "start": "lerna run --stream start",
-    "test": "jest",
-    "test:ssr": "jest --config jest-ssr.config.js",
+    "test": "node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:ssr": "yarn test --config jest-ssr.config.js",
     "build": "yarn --immutable && lerna run --ignore=\"@edtr-io/internal__{bundle-size,demo}\" --concurrency=2 --stream build",
     "build-demo": "yarn build && lerna run --scope=@edtr-io/internal__demo build",
     "regenerate-api": "lerna run --concurrency=2 --stream regenerate-api",
@@ -23,6 +24,10 @@
     "deploy:prerelease": "yarn lerna version --amend --no-push && yarn lerna publish from-package --dist-tag next",
     "_eslint": "eslint \"{{packages/*/*,scripts}/{{__fixtures__,__helpers__,__stories__,__tests-ssr__,__tests__,scripts,src}/**/*,*},*}.{js,jsx,ts,tsx}\"",
     "_prettier": "prettier ."
+  },
+  "resolutions": {
+    "jest": "^27.0.0",
+    "@jest/globals": "^27.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -55,6 +60,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.0",
     "ts-node": "^10.7.0",
     "tsdx": "^0.14.1",
     "typescript": "^4.6.3"

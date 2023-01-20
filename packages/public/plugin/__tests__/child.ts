@@ -1,9 +1,21 @@
-import { SubDocument } from '@edtr-io/core'
+import { jest } from '@jest/globals'
 import { render } from '@testing-library/react'
 
-import { child, PluginProps, StoreDeserializeHelpers } from '../src'
+import { PluginProps, StoreDeserializeHelpers } from '../src'
 
-jest.mock('@edtr-io/core/sub-document')
+let pluginProps: PluginProps = {}
+
+// See https://jestjs.io/docs/ecmascript-modules#module-mocking-in-esm
+jest.unstable_mockModule('@edtr-io/core/sub-document', () => ({
+  SubDocument: jest
+    .fn()
+    .mockImplementation((props: { pluginProps: PluginProps }) => {
+      pluginProps = props.pluginProps
+      return null
+    }),
+}))
+
+const { child } = await import('../src')
 
 describe('Child', () => {
   let helpers: StoreDeserializeHelpers<string, number>
@@ -104,13 +116,6 @@ describe('Child', () => {
     const state = child({ plugin: 'counter' })
     const id = 'foo'
     const childValue = state.init(id, () => {})
-    let pluginProps: PluginProps = {}
-    // @ts-expect-error used jest.mock
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
-      pluginProps = props.pluginProps
-      return null
-    })
     render(childValue.render())
     expect(pluginProps.config).toEqual({})
   })
@@ -119,13 +124,6 @@ describe('Child', () => {
     const state = child({ plugin: 'counter', config: { foo: 'bar' } })
     const id = 'foo'
     const childValue = state.init(id, () => {})
-    let pluginProps: PluginProps = {}
-    // @ts-expect-error used jest.mock
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
-      pluginProps = props.pluginProps
-      return null
-    })
     render(childValue.render())
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
@@ -133,13 +131,6 @@ describe('Child', () => {
   test('plugin config, overridden in render', () => {
     const state = child({ plugin: 'counter' })
     const childValue = state.init('foo', () => {})
-    let pluginProps: PluginProps = {}
-    // @ts-expect-error used jest.mock
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
-      pluginProps = props.pluginProps
-      return null
-    })
     render(childValue.render({ config: { foo: 'bar' } }))
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
@@ -147,13 +138,6 @@ describe('Child', () => {
   test('plugin config, overridden in both child and render', () => {
     const state = child({ plugin: 'counter', config: { foo: 'foo' } })
     const childValue = state.init('foo', () => {})
-    let pluginProps: PluginProps = {}
-    // @ts-expect-error used jest.mock
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    SubDocument.mockImplementation((props: { pluginProps: PluginProps }) => {
-      pluginProps = props.pluginProps
-      return null
-    })
     render(childValue.render({ config: { foo: 'bar' } }))
     expect(pluginProps.config).toEqual({ foo: 'bar' })
   })
