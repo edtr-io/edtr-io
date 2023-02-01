@@ -17,7 +17,7 @@
     "@edtr-io/store": "^2.8.2",
     "@edtr-io/ui": "^2.5.0",
     "@types/ramda": "^0.28.5",
-    "@types/react": "^17.0.43",
+    "@types/react": "^18.0.27",
     "@types/react-dom": "^17.0.14",
     "@types/styled-components": "^5.1.24",
     "ramda": "^0.28.0"
@@ -43,10 +43,10 @@
     "@fortawesome/fontawesome-svg-core": ">= 1",
     "@fortawesome/free-solid-svg-icons": ">= 5",
     "@fortawesome/react-fontawesome": ">= 0.1.0",
-    "react": ">= 17",
+    "react": "^18.0.0",
     "react-dnd": ">= 14",
     "react-dnd-html5-backend": ">= 14",
-    "react-dom": ">= 17",
+    "react-dom": "^18.0.0",
     "react-is": ">= 17",
     "redux": ">= 4",
     "styled-components": ">= 4"

@@ -15,7 +15,7 @@
     "@edtr-io/internal__plugin": "^2.5.0",
     "@edtr-io/internal__plugin-state": "^2.5.0",
     "@types/ramda": "^0.28.5",
-    "@types/react": "^17.0.43",
+    "@types/react": "^18.0.27",
     "@types/react-dom": "^17.0.14",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.24",
@@ -36,10 +36,10 @@
   },
   "peerDependencies": {
     "@edtr-io/core": ">= 1",
-    "react": ">= 17",
+    "react": "^18.0.0",
     "react-dnd": ">= 14",
     "react-dnd-html5-backend": ">= 14",
-    "react-dom": ">= 17",
+    "react-dom": "^18.0.0",
     "react-is": ">= 17",
     "redux": ">= 4",
     "styled-components": ">= 4"
