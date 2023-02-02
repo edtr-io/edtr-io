@@ -179,8 +179,10 @@ export function InteractiveAnswer(props: InteractiveAnswerProps) {
         }
       >
         <AnswerField>
-          <BlockLabel>{props.i18n.answer.label}:</BlockLabel>
-          {props.answer}
+          <>
+            <BlockLabel>{props.i18n.answer.label}:</BlockLabel>
+            {props.answer}
+          </>
         </AnswerField>
         <RemoveButton onClick={props.remove}>
           <Icon icon={faTimes} />
