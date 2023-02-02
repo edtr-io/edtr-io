@@ -1,38 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-import exenv from 'exenv'
 import * as React from 'react'
-import type { EditableMathFieldProps } from 'react-mathquill'
+import { addStyles, EditableMathField } from 'react-mathquill'
 
 import { MathEditorProps } from './editor-props'
 
-type MathQuill = React.ComponentType<{
-  latex: string
-  config: EditableMathFieldProps['config']
-  onChange(e: MathField): void
-  mathquillDidMount(e: MathField): void
-}>
-
-export const MathQuill: MathQuill = (props) => {
-  const [EditableMathField, setEditableMathField] =
-    React.useState<React.ComponentType<EditableMathFieldProps> | null>(null)
-
-  React.useEffect(() => {
-    async function importMathQuill() {
-      if (exenv.canUseDOM) {
-        const mathquill = await import('react-mathquill')
-        setEditableMathField(mathquill.EditableMathField)
-      }
-    }
-
-    void importMathQuill()
-  }, [])
-
-  if (EditableMathField != null) {
-    return <EditableMathField {...props} />
-  } else {
-    return null
-  }
-}
+addStyles()
 
 function isTouchDevice(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
@@ -83,10 +54,6 @@ interface VisualEditorProps extends MathEditorProps {
 }
 
 export function VisualEditor(props: VisualEditorProps) {
-  React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('react-mathquill').addStyles()
-  }, [])
   const mathQuillConfig = {
     supSubsRequireOperand: true,
     autoCommands: 'pi alpha beta gamma delta',
@@ -121,11 +88,12 @@ export function VisualEditor(props: VisualEditorProps) {
   }
 
   return (
-    <MathQuill
+    <EditableMathField
       latex={props.state}
       onChange={(ref) => {
         props.onChange(ref.latex())
       }}
+      // @ts-expect-error https://github.com/serlo/serlo-editor-issues-and-documentation/issues/67
       config={mathQuillConfig}
       mathquillDidMount={onMount}
     />
