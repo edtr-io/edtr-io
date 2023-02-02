@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { addStyles, EditableMathField } from 'react-mathquill'
+import * as MQ from 'react-mathquill'
 
 import { MathEditorProps } from './editor-props'
 
-addStyles()
+// @ts-expect-error https://github.com/serlo/serlo-editor-issues-and-documentation/issues/68
+MQ.default ? MQ.default.addStyles : MQ.addStyles()
 
 function isTouchDevice(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
@@ -88,7 +89,7 @@ export function VisualEditor(props: VisualEditorProps) {
   }
 
   return (
-    <EditableMathField
+    <MQ.EditableMathField
       latex={props.state}
       onChange={(ref) => {
         props.onChange(ref.latex())
