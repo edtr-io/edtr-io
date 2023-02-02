@@ -17,7 +17,7 @@
     "@types/exenv": "^1.2.0",
     "@types/katex": "^0.11.1",
     "@types/react": "^18.0.27",
-    "@types/react-dom": "^17.0.14",
+    "@types/react-dom": "^18.0.10",
     "@types/react-modal": "^3.13.1",
     "@types/styled-components": "^5.1.24",
     "exenv": "^1.2.2",

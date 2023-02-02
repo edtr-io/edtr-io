@@ -14,7 +14,7 @@
   "dependencies": {
     "@edtr-io/renderer": "^2.8.2",
     "@types/react": "^18.0.27",
-    "@types/react-dom": "^17.0.14",
+    "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.24"
   },
   "devDependencies": {
