@@ -1853,7 +1853,7 @@ __metadata:
     "@inyono/changelog": ^0.4.0
     "@microsoft/api-extractor": ^7.19.5
     "@testing-library/jest-dom": ^5.16.3
-    "@testing-library/react": ^12.1.4
+    "@testing-library/react": ^13.4.0
     "@types/jest": ^27.4.1
     "@types/rimraf": ^3.0.2
     "@typescript-eslint/eslint-plugin": ^5.17.0
@@ -1861,7 +1861,7 @@ __metadata:
     eslint: ^8.12.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-import: ^2.25.4
-    eslint-plugin-jest-dom: ^4.0.1
+    eslint-plugin-jest-dom: ^4.0.3
     eslint-plugin-jsdoc: ^38.1.4
     eslint-plugin-react: 7.29.4
     eslint-plugin-react-hooks: ^4.4.0
@@ -2362,8 +2362,8 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
-    "@testing-library/dom": ^8.12.0
-    "@testing-library/react": ^12.1.4
+    "@testing-library/dom": ^8.20.0
+    "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.0.0
     "@types/algebra.js": ^0.2.2
     "@types/ramda": ^0.28.5
@@ -2760,7 +2760,7 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/internal__plugin": ^2.5.0
     "@edtr-io/internal__plugin-state": ^2.5.0
-    "@testing-library/react": ^12.1.4
+    "@testing-library/react": ^13.4.0
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
     "@types/react-dom": ^17.0.14
@@ -5966,7 +5966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.0.0, @testing-library/dom@npm:^8.11.1, @testing-library/dom@npm:^8.12.0":
+"@testing-library/dom@npm:^8.11.1":
   version: 8.19.1
   resolution: "@testing-library/dom@npm:8.19.1"
   dependencies:
@@ -5979,6 +5979,22 @@ __metadata:
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
   checksum: 0fb1f05fa199491795063eae5e892922851570717c85131776de6edd5477b1bfa528790401120a616ce4846584570d1436b0bce4649652ddb6ea9d67a1f00b19
+  languageName: node
+  linkType: hard
+
+"@testing-library/dom@npm:^8.20.0, @testing-library/dom@npm:^8.5.0":
+  version: 8.20.0
+  resolution: "@testing-library/dom@npm:8.20.0"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/runtime": ^7.12.5
+    "@types/aria-query": ^5.0.1
+    aria-query: ^5.0.0
+    chalk: ^4.1.0
+    dom-accessibility-api: ^0.5.9
+    lz-string: ^1.4.4
+    pretty-format: ^27.0.2
+  checksum: 1e599129a2fe91959ce80900a0a4897232b89e2a8e22c1f5950c36d39c97629ea86b4986b60b173b5525a05de33fde1e35836ea597b03de78cc51b122835c6f0
   languageName: node
   linkType: hard
 
@@ -5999,17 +6015,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^12.1.4":
-  version: 12.1.5
-  resolution: "@testing-library/react@npm:12.1.5"
+"@testing-library/react@npm:^13.4.0":
+  version: 13.4.0
+  resolution: "@testing-library/react@npm:13.4.0"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^8.0.0
-    "@types/react-dom": <18.0.0
+    "@testing-library/dom": ^8.5.0
+    "@types/react-dom": ^18.0.0
   peerDependencies:
-    react: <18.0.0
-    react-dom: <18.0.0
-  checksum: 4abd0490405e709a7df584a0db604e508a4612398bb1326e8fa32dd9393b15badc826dcf6d2f7525437886d507871f719f127b9860ed69ddd204d1fa834f576a
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: 51ec548c1fdb1271089a5c63e0908f0166f2c7fcd9cacd3108ebbe0ce64cb4351812d885892020dc37608418cfb15698514856502b3cab0e5cc58d6cc1bd4a3e
   languageName: node
   linkType: hard
 
@@ -6490,12 +6506,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:<18.0.0, @types/react-dom@npm:^17.0.14":
+"@types/react-dom@npm:^17.0.14":
   version: 17.0.18
   resolution: "@types/react-dom@npm:17.0.18"
   dependencies:
     "@types/react": ^17
   checksum: b74525b1a13a0e27fe20859ff7a7e8f7e4581fb9d45ed1b6447ad1534d86f813818353c39d0df2e28f9d2b9be2e3af1908c244b2214a979393d19f217665e614
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.0.0":
+  version: 18.0.10
+  resolution: "@types/react-dom@npm:18.0.10"
+  dependencies:
+    "@types/react": "*"
+  checksum: ff8282d5005a0b1cd95fb65bf79d3d8485e4cfe2aaf052129033a178684b940014a3f4536bc20d573f8a01cf4c6f4770c74988cef7c2b5cac3041d9f172647e3
   languageName: node
   linkType: hard
 
@@ -11432,7 +11457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest-dom@npm:^4.0.1":
+"eslint-plugin-jest-dom@npm:^4.0.3":
   version: 4.0.3
   resolution: "eslint-plugin-jest-dom@npm:4.0.3"
   dependencies:
