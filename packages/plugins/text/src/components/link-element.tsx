@@ -35,7 +35,7 @@ const InlineInputInner = styled.input({
 })
 
 // TODO: update
-const InlineInputRefForward: React.RefForwardingComponent<
+const InlineInputRefForward: React.ForwardRefRenderFunction<
   HTMLInputElement,
   InputProps
 > = (props, ref) => {
