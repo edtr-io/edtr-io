@@ -59,7 +59,7 @@ module.exports = {
     'import/no-absolute-path': 'error',
     'import/no-commonjs': 'error',
     'import/no-cycle': 'error',
-    'import/no-default-export': 'error',
+    'import/no-default-export': ['error', { argsIgnorePattern: '*.config.js' }],
     'import/no-deprecated': 'error',
     'import/no-extraneous-dependencies': [
       'error',
