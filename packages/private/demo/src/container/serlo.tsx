@@ -17,7 +17,7 @@ export function SerloRendererContainer(props: RendererProps) {
 export function SerloEditorContainer(props: EditorProps) {
   const [editable, setEditable] = useEditable(props.editable)
   const children = React.useCallback(
-    (document) => {
+    (document: React.ReactNode) => {
       return (
         <SerloEditorContainerInner
           editable={editable}

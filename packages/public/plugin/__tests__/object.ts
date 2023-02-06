@@ -12,7 +12,7 @@ import {
 
 describe('object', () => {
   let helpers: StoreDeserializeHelpers<string, number> & {
-    createDocument: jest.Mock<unknown, unknown[]>
+    createDocument: jest.Mock
   }
 
   beforeEach(() => {
@@ -61,8 +61,9 @@ describe('object', () => {
     expect(typeof deserialized.foo).toEqual('string')
     expect(deserialized.counter).toEqual(5)
     expect(helpers.createDocument).toHaveBeenCalledTimes(1)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(helpers.createDocument.mock.calls[0][0].state).toEqual('foobar')
+    expect(helpers.createDocument).toHaveBeenCalledWith(
+      expect.objectContaining({ state: 'foobar' })
+    )
   })
 
   test('serialize', () => {
@@ -106,7 +107,6 @@ describe('object', () => {
     expect(objectValue.foo.id).toBeDefined()
     expect(typeof objectValue.foo.render).toEqual('function')
     expect(objectValue.counter.value).toEqual(initial.counter)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(typeof objectValue.counter.set).toEqual('function')
   })
 
