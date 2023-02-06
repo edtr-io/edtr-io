@@ -26,4 +26,5 @@ const defaultConfig = {
   transformIgnorePatterns: ['/node_modules/(?!(react-syntax-highlighter)/)'],
 }
 
+/* eslint import/no-default-export: 0 */
 export default defaultConfig
