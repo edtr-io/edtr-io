@@ -10,6 +10,8 @@ let pluginProps: PluginProps = {}
 jest.unstable_mockModule('@edtr-io/core/sub-document', () => ({
   SubDocument: jest
     .fn()
+    // @ts-expect-error: `child` is not yet imported when this is evaluated,
+    // and therefore has the type "unknown"
     .mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null
