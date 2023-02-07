@@ -99,6 +99,7 @@ const withListsPlugin = withLists({
 function TextEditor(props: TextProps) {
   const { selection, value } = props.state.value
   const previousValue = React.useRef(value)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const previousSelection = React.useRef(selection)
 
   const editor = React.useMemo(
