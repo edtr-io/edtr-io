@@ -1,5 +1,4 @@
 import { defaultImport } from 'default-import'
-
 /**
  * Provides utils for the User Interface
  *

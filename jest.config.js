@@ -1,6 +1,6 @@
 import defaultConfig from './jest.base.config'
 
-/* eslint import/no-default-export: 0 */
+// eslint-disable-next-line import/no-default-export
 export default {
   ...defaultConfig,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

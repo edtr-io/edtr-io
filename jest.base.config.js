@@ -5,7 +5,6 @@ const defaultConfig = {
       'ts-jest',
       {
         useESM: true,
-        diagnostics: false,
       },
     ],
   },
@@ -26,5 +25,5 @@ const defaultConfig = {
   transformIgnorePatterns: ['/node_modules/(?!(react-syntax-highlighter)/)'],
 }
 
-/* eslint import/no-default-export: 0 */
+// eslint-disable-next-line import/no-default-export
 export default defaultConfig
