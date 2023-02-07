@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals'
 import { render } from '@testing-library/react'
 
@@ -9,9 +8,7 @@ let pluginProps: PluginProps = {}
 // See https://jestjs.io/docs/ecmascript-modules#module-mocking-in-esm
 jest.unstable_mockModule('@edtr-io/core/sub-document', () => ({
   SubDocument: jest
-    .fn()
-    // @ts-expect-error: `child` is not yet imported when this is evaluated,
-    // and therefore has the type "unknown"
+    .fn<(props: { pluginProps: PluginProps }) => null>()
     .mockImplementation((props: { pluginProps: PluginProps }) => {
       pluginProps = props.pluginProps
       return null

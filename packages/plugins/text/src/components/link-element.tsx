@@ -58,33 +58,33 @@ export function LinkControls({ editor }: { editor: SlateEditor }) {
   const [element, setElement] = React.useState<Link | null>(null)
   const [value, setValue] = React.useState('')
 
-  // TODO: Refactor with isLinkActive() in hovering-toolbar
-  // TODO: Use faster check whether generator is empty
-  function isActive() {
-    const [match] = Array.from(
-      SlateEditor.nodes(editor, {
-        match(node) {
-          return Element.isElement(node) && node.type === 'a'
-        },
-      })
-    )
-    return match !== undefined
-  }
-
-  function getElement(): Link | undefined {
-    const [match] = Array.from(
-      SlateEditor.nodes(editor, {
-        match(node) {
-          return Element.isElement(node) && node.type === 'a'
-        },
-      })
-    )
-    return match && (match[0] as Link)
-  }
-
   const { selection } = editor
 
   React.useEffect(() => {
+    // TODO: Refactor with isLinkActive() in hovering-toolbar
+    // TODO: Use faster check whether generator is empty
+    function isActive() {
+      const [match] = Array.from(
+        SlateEditor.nodes(editor, {
+          match(node) {
+            return Element.isElement(node) && node.type === 'a'
+          },
+        })
+      )
+      return match !== undefined
+    }
+
+    function getElement(): Link | undefined {
+      const [match] = Array.from(
+        SlateEditor.nodes(editor, {
+          match(node) {
+            return Element.isElement(node) && node.type === 'a'
+          },
+        })
+      )
+      return match && (match[0] as Link)
+    }
+
     if (selection) {
       const isCollapsed = selection && Range.isCollapsed(selection)
 
@@ -96,7 +96,7 @@ export function LinkControls({ editor }: { editor: SlateEditor }) {
         setElement(null)
       }
     }
-  }, [selection])
+  }, [selection, editor])
 
   if (!element) return null
 

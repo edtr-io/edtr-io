@@ -1,27 +1,14 @@
-import { Action, getScope, ScopedState, State, Store } from '@edtr-io/store'
+import { Action, getScope, ScopedState, State } from '@edtr-io/store'
 import * as React from 'react'
 import {
   Provider as ReduxProvider,
   ProviderProps,
   ReactReduxContextValue,
-  createDispatchHook as createDispatchHookOriginal,
-  createSelectorHook as createSelectorHookOriginal,
-  createStoreHook as createStoreHookOriginal,
+  createDispatchHook,
+  createSelectorHook,
+  createStoreHook,
 } from 'react-redux'
 import { Unsubscribe } from 'redux'
-
-// The following is used to change the types of `createDispatchHook`,
-// `createSelectorHook` and `createStoreHook` only for this file
-const createDispatchHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => () => (action: Action) => void = createDispatchHookOriginal
-const createSelectorHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => <T>(selector: (state: State) => T) => T = createSelectorHookOriginal
-// @ts-expect-error
-const createStoreHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => () => Store = createStoreHookOriginal
 
 /** @public */
 export const ScopeContext = React.createContext<{

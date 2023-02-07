@@ -2761,6 +2761,7 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/internal__plugin": ^2.5.0
     "@edtr-io/internal__plugin-state": ^2.5.0
+    "@jest/globals": ^29.0.0
     "@testing-library/react": ^13.4.0
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27

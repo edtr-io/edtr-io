@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^2.8.2",
+    "@jest/globals": "^29.0.0",
     "@testing-library/react": "^13.4.0",
     "react": "^18.0.0",
     "react-dnd": "^16.0.1",
