@@ -49,7 +49,7 @@ export function Renderer<K extends string = string>(props: RendererProps<K>) {
         },
       ]
       const helpers: StoreDeserializeHelpers = {
-        createDocument(doc: typeof pendingDocs[0]) {
+        createDocument(doc: (typeof pendingDocs)[0]) {
           pendingDocs.push(doc)
         },
       }
