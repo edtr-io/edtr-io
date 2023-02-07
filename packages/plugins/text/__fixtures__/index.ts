@@ -54,25 +54,25 @@ export const states: Record<
 > = {
   simple: [
     {
-      type: 'paragraph',
+      type: 'p',
       children: [{ text: 'Hello world' }],
     },
   ],
   bold: [
     {
-      type: 'paragraph',
+      type: 'p',
       children: [{ strong: true, text: 'bold' }],
     },
   ],
   color: [
     {
-      type: 'paragraph',
+      type: 'p',
       children: [{ color: 0, text: 'color' }],
     },
   ],
   code: [
     {
-      type: 'paragraph',
+      type: 'p',
       children: [{ code: true, text: 'inline code' }],
     },
   ],
