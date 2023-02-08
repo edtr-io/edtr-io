@@ -12,7 +12,6 @@ export interface MathEditorProps {
   disableBlock?: boolean
   config: DeepPartial<MathEditorConfig>
   additionalContainerProps?: Record<string, unknown>
-  onBlur?(): void
   onEditorChange(visual: boolean): void
   onInlineChange?(inline: boolean): void
   onChange(state: string): void

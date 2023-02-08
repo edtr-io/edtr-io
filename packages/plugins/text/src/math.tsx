@@ -49,18 +49,8 @@ export function MathElement({
 
   /* TODO: We need to define
 export interface MathEditorProps {
-  autofocus?: boolean
-  state: string
-  inline?: boolean
-  readOnly?: boolean
-  visual?: boolean
-  disableBlock?: boolean
+  
   config: DeepPartial<MathEditorConfig>
-  additionalContainerProps?: Record<string, unknown>
-  onBlur?(): void
-  onEditorChange(visual: boolean): void
-  onInlineChange?(inline: boolean): void
-  onChange(state: string): void
   onMoveOutRight?(): void
   onMoveOutLeft?(): void
   onDeleteOutRight?(): void
@@ -85,6 +75,14 @@ export interface MathEditorProps {
           updateElement({ inline })
         }}
         onChange={(src) => updateElement({ src })}
+        onMoveOutRight={() => {
+          Transforms.move(editor, { unit: 'offset' })
+          ReactEditor.focus(editor)
+        }}
+        onMoveOutLeft={() => {
+          Transforms.move(editor, { unit: 'offset', reverse: true })
+          ReactEditor.focus(editor)
+        }}
         config={{}}
         onEditorChange={(isVisualMode) =>
           preferences.setKey(preferenceKey, isVisualMode)

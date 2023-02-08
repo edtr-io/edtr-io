@@ -104,10 +104,8 @@ export function VisualEditor(props: VisualEditorProps) {
     if (ref.latex() == '' && props.state != '') {
       props.onError()
     }
+    // TODO: Check if this can be removed
     setTimeout(() => {
-      if (typeof props.onBlur === 'function') {
-        props.onBlur()
-      }
       ref.focus()
     })
   }
