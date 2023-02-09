@@ -1,64 +1,26 @@
-import { styled } from '@edtr-io/ui'
 import { ListsEditor, ListType } from '@prezly/slate-lists'
 import * as R from 'ramda'
 import React from 'react'
 import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
-import { localConfig as defaultConfig, TextPluginConfig } from '..'
+import { ToolbarButton } from '../components/toolbar-button'
+import {
+  ControlButton,
+  HoveringToolbarProps,
+  NestedControlButton,
+  TextEditorControl,
+} from '../types'
+import { isBoldActive } from '../utils/bold'
+import { isTouchDevice } from '../utils/is-touch-device'
+import { isItalicActive } from '../utils/italic'
+import { isLinkActive } from '../utils/link'
+import { selectionHasElement } from '../utils/selection'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
-
-const Button = styled.button<{
-  active?: boolean
-  config: TextPluginConfig
-}>(({ active, config }) => {
-  const { theme } = config
-
-  return {
-    backgroundColor: active
-      ? theme.active.backgroundColor
-      : theme.backgroundColor,
-    cursor: 'pointer',
-    boxShadow: active ? 'inset 0 1px 3px 0 rgba(0,0,0,0.50)' : undefined,
-    color: active ? theme.active.color : theme.color,
-    outline: 'none',
-    height: '25px',
-    border: 'none',
-    borderRadius: '4px',
-    margin: '5px',
-    padding: '0px',
-    width: '25px',
-    '&:hover': {
-      color: theme.hoverColor,
-    },
-  }
-})
-
-interface HoveringToolbarProps {
-  closeSubMenuIcon: React.ReactNode
-  closeSubMenuTitle: string
-  config: TextPluginConfig
-}
 
 const initialPosition = isTouchDevice()
   ? InlineOverlayPosition.below
   : InlineOverlayPosition.above
-
-export type TextEditorControl = ControlButton | NestedControlButton
-
-export interface ControlButton {
-  title: string
-  isActive(): boolean
-  onClick(): void
-  renderIcon(): React.ReactNode
-}
-
-export interface NestedControlButton {
-  title: string
-  children: ControlButton[]
-  renderIcon(): React.ReactNode
-  isActive(): boolean
-}
 
 function isNestedControlButton(
   control: TextEditorControl
@@ -75,15 +37,8 @@ export function HoveringToolbar({
   const [subMenu, setSubMenu] = React.useState<number>()
   const { selection } = editor
 
-  function isBoldActive() {
-    return SlateEditor.marks(editor)?.strong === true
-  }
   function isCodeActive() {
     return SlateEditor.marks(editor)?.code === true
-  }
-
-  function isItalicActive() {
-    return SlateEditor.marks(editor)?.em === true
   }
 
   function isAnyColorActive() {
@@ -95,43 +50,26 @@ export function HoveringToolbar({
   }
 
   function isAnyHeadingActive() {
-    return selectionHasElement((e) => e.type === 'h')
+    return selectionHasElement((e) => e.type === 'h', editor)
   }
 
   function isHeadingActive(heading: number) {
-    return selectionHasElement((e) => e.type === 'h' && e.level === heading)
+    return selectionHasElement(
+      (e) => e.type === 'h' && e.level === heading,
+      editor
+    )
   }
 
   function isOrderedListActive() {
-    return selectionHasElement((e) => e.type === 'ordered-list')
+    return selectionHasElement((e) => e.type === 'ordered-list', editor)
   }
 
   function isUnorderedListActive() {
-    return selectionHasElement((e) => e.type === 'unordered-list')
-  }
-
-  function isLinkActive() {
-    return selectionHasElement((e) => e.type === 'a')
+    return selectionHasElement((e) => e.type === 'unordered-list', editor)
   }
 
   function isMathActive() {
-    return selectionHasElement((e) => e.type === 'math')
-  }
-
-  // TODO: Move to helper class (see slate doc)
-  function selectionHasElement(predicate: (element: Element) => boolean) {
-    const { selection } = editor
-    if (!selection) return false
-
-    const [match] = Array.from(
-      SlateEditor.nodes(editor, {
-        at: SlateEditor.unhangRange(editor, selection),
-        match: (n) =>
-          !SlateEditor.isEditor(n) && Element.isElement(n) && predicate(n),
-      })
-    )
-
-    return !!match
+    return selectionHasElement((e) => e.type === 'math', editor)
   }
 
   const controls: TextEditorControl[] = [
@@ -139,7 +77,7 @@ export function HoveringToolbar({
       title: config.i18n.richText.toggleStrongTitle,
       isActive: isBoldActive,
       onClick: () => {
-        if (isBoldActive()) {
+        if (isBoldActive(editor)) {
           SlateEditor.removeMark(editor, 'strong')
         } else {
           SlateEditor.addMark(editor, 'strong', true)
@@ -151,7 +89,7 @@ export function HoveringToolbar({
       title: 'Italic',
       isActive: isItalicActive,
       onClick: () => {
-        if (isItalicActive()) {
+        if (isItalicActive(editor)) {
           SlateEditor.removeMark(editor, 'em')
         } else {
           SlateEditor.addMark(editor, 'em', true)
@@ -177,7 +115,7 @@ export function HoveringToolbar({
             <span style={{ backgroundColor: 'black' }}>&nbsp;</span>
           ),
         },
-        ...defaultConfig.colors.map((color, colorIndex) => {
+        ...config.theme.plugins.colors.colors.map((color, colorIndex) => {
           return {
             // TODO: get color name
             title: 'color-#',
@@ -263,7 +201,7 @@ export function HoveringToolbar({
       title: 'Link',
       isActive: isLinkActive,
       onClick: () => {
-        if (isLinkActive()) {
+        if (isLinkActive(editor)) {
           Transforms.unwrapNodes(editor, {
             match: (n) => Element.isElement(n) && n.type === 'a',
           })
@@ -379,10 +317,10 @@ export function HoveringToolbar({
     return controls.map((control, index) => {
       if (isNestedControlButton(control)) {
         return (
-          <Button
+          <ToolbarButton
             key={index}
-            active={control.isActive()}
-            config={config}
+            active={control.isActive(editor)}
+            theme={config.theme}
             title={control.title}
             onMouseDown={(event) => {
               event.preventDefault()
@@ -390,7 +328,7 @@ export function HoveringToolbar({
             }}
           >
             {control.renderIcon()}
-          </Button>
+          </ToolbarButton>
         )
       }
       return renderControlButton(control, index)
@@ -398,10 +336,10 @@ export function HoveringToolbar({
 
     function renderControlButton(control: ControlButton, key?: number) {
       return (
-        <Button
+        <ToolbarButton
           key={key}
-          active={control.isActive()}
-          config={config}
+          active={control.isActive(editor)}
+          theme={config.theme}
           title={control.title}
           onMouseDown={(event) => {
             event.preventDefault()
@@ -409,18 +347,8 @@ export function HoveringToolbar({
           }}
         >
           {control.renderIcon()}
-        </Button>
+        </ToolbarButton>
       )
     }
   }
-}
-
-function isTouchDevice() {
-  return (
-    typeof window !== 'undefined' &&
-    ('ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      // @ts-expect-error TODO:
-      navigator.msMaxTouchPoints > 0)
-  )
 }

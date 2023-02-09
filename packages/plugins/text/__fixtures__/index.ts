@@ -1,6 +1,7 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
-import { TextPluginState, createTextPlugin } from '../src'
+import { createTextPlugin } from '../src'
+import { TextPluginState } from '../src/types'
 
 export const name = 'text'
 export const plugin = createTextPlugin({

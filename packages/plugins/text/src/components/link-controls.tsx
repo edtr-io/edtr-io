@@ -3,11 +3,11 @@ import * as React from 'react'
 import { Editor as SlateEditor, Element, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { Link } from '../../src'
 import {
   InlineOverlay,
   InlineOverlayPosition,
 } from '../components/inline-overlay'
+import { Link } from '../types'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',

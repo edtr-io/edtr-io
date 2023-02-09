@@ -2,7 +2,7 @@ import { RegistryContext } from '@edtr-io/plugin-rows/internal'
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { TextConfig, TextPluginConfig } from '.'
+import { TextConfig, TextPluginConfig } from '../types'
 
 const defaultEnabledPlugins = {
   code: true,
