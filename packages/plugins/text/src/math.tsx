@@ -83,6 +83,34 @@ export interface MathEditorProps {
           Transforms.move(editor, { unit: 'offset', reverse: true })
           ReactEditor.focus(editor)
         }}
+        onDeleteOutRight={() => {
+          Transforms.move(editor, {
+            distance: 1,
+            unit: 'character',
+          })
+
+          Transforms.delete(editor, {
+            distance: 1,
+            unit: 'character',
+          })
+
+          ReactEditor.focus(editor)
+        }}
+        onDeleteOutLeft={() => {
+          Transforms.move(editor, {
+            distance: 1,
+            unit: 'character',
+            reverse: true,
+          })
+
+          Transforms.delete(editor, {
+            distance: 1,
+            unit: 'character',
+            reverse: true,
+          })
+
+          ReactEditor.focus(editor)
+        }}
         config={{}}
         onEditorChange={(isVisualMode) =>
           preferences.setKey(preferenceKey, isVisualMode)
