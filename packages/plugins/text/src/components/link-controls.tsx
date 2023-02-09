@@ -7,11 +7,12 @@ import {
   InlineOverlay,
   InlineOverlayPosition,
 } from '../components/inline-overlay'
-import { Link } from '../types'
+import { Link, TextPluginConfig } from '../types'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',
 })
+
 const ChangeButton = styled.div({
   padding: '5px 5px 5px 10px',
   display: 'inline-block',
@@ -54,7 +55,13 @@ interface InputProps
 }
 
 // TODO: rename SlateEditor into Editor
-export function LinkControls({ editor }: { editor: SlateEditor }) {
+export function LinkControls({
+  editor,
+  config,
+}: {
+  editor: SlateEditor
+  config: TextPluginConfig
+}) {
   const [element, setElement] = React.useState<Link | null>(null)
   const [value, setValue] = React.useState('')
 
@@ -105,7 +112,7 @@ export function LinkControls({ editor }: { editor: SlateEditor }) {
       <InlinePreview>
         <InlineInput
           value={value}
-          placeholder="Hier Link einfügen"
+          placeholder={config.i18n.link.placeholder}
           onChange={(event) => {
             setValue(event.target.value)
             const path = ReactEditor.findPath(editor, element)

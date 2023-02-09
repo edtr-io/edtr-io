@@ -63,7 +63,7 @@ export function TextEditor(props: TextProps) {
         closeSubMenuTitle="Close"
         config={config}
       />
-      {props.editable ? <LinkControls editor={editor} /> : null}
+      {props.editable ? <LinkControls editor={editor} config={config} /> : null}
       <Editable
         onKeyDown={(event) => {
           if (isHotkey('mod+b')(event)) {
