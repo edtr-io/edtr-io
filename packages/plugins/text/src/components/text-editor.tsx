@@ -9,10 +9,10 @@ import { TextProps } from '../types'
 import { toggleBoldMark } from '../utils/bold'
 import { toggleItalicMark } from '../utils/italic'
 import { toggleLink } from '../utils/link'
+import { markdownShortcuts } from '../utils/markdown'
 import { withListsPlugin } from '../utils/with-lists-plugin'
 import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
-import { markdownShortcuts } from './markdown'
 import { MathElement } from './math-element'
 
 export function TextEditor(props: TextProps) {
