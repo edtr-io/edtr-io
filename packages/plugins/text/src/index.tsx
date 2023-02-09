@@ -13,7 +13,6 @@ import {
   withListsReact,
 } from '@prezly/slate-lists'
 import isHotkey from 'is-hotkey'
-import * as R from 'ramda'
 import * as React from 'react'
 import {
   BaseEditor,
@@ -32,6 +31,7 @@ import { HoveringToolbar } from './components/hovering-toolbar'
 // TODO: rename link-element file to link-controls
 import { LinkControls } from './components/link-element'
 import { markdownShortcuts } from './components/markdown'
+import { useTextConfig } from './config'
 import { MathElement } from './math'
 
 // TODO: Move to a better place
@@ -45,7 +45,8 @@ const blue = '#1794c1',
   green = '#469a40',
   orange = '#ff6703'
 
-export const config = {
+// TODO: Remove and use config from props
+export const localConfig = {
   colors: [blue, green, orange],
 }
 
@@ -97,6 +98,7 @@ const withListsPlugin = withLists({
 })
 
 function TextEditor(props: TextProps) {
+  const config = useTextConfig(props.config)
   const { selection, value } = props.state.value
   const previousValue = React.useRef(value)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -141,7 +143,7 @@ function TextEditor(props: TextProps) {
       <HoveringToolbar
         closeSubMenuIcon={null}
         closeSubMenuTitle="Close"
-        config={props.config}
+        config={config}
       />
       {props.editable ? <LinkControls editor={editor} /> : null}
       <Editable
@@ -220,7 +222,8 @@ function TextEditor(props: TextProps) {
             children = (
               <span
                 style={{
-                  color: config.colors[leaf.color % config.colors.length],
+                  color:
+                    localConfig.colors[leaf.color % localConfig.colors.length],
                 }}
               >
                 {children}
@@ -247,27 +250,10 @@ function TextEditor(props: TextProps) {
  */
 export function createTextPlugin(
   config: TextConfig
-): EditorPlugin<TextPluginState, TextPluginConfig> {
+): EditorPlugin<TextPluginState, TextConfig> {
   return {
     Component: TextEditor,
-    // @ts-expect-error TODO:
-    config: ({ editor }) => {
-      return {
-        ...config,
-        theme: R.mergeDeepRight(
-          {
-            backgroundColor: 'transparent',
-            color: editor.color,
-            hoverColor: editor.primary.background,
-            active: {
-              backgroundColor: '#b6b6b6',
-              color: editor.backgroundColor,
-            },
-          },
-          config.theme || {}
-        ),
-      }
-    },
+    config,
     state: serializedScalar(emptyDocument, {
       serialize({ value }) {
         return value
@@ -490,7 +476,7 @@ export interface TextPluginConfig {
 }
 
 /** @public */
-export type TextProps = EditorPluginProps<TextPluginState, TextPluginConfig>
+export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
 
 // TODO: We need to configure this!
 type CustomElement =

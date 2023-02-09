@@ -5,7 +5,7 @@ import React from 'react'
 import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
-import { config as defaultConfig, TextPluginConfig } from '..'
+import { localConfig as defaultConfig, TextPluginConfig } from '..'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
 
 const Button = styled.button<{
@@ -136,7 +136,7 @@ export function HoveringToolbar({
 
   const controls: TextEditorControl[] = [
     {
-      title: 'Bold',
+      title: config.i18n.richText.toggleStrongTitle,
       isActive: isBoldActive,
       onClick: () => {
         if (isBoldActive()) {
@@ -295,7 +295,7 @@ export function HoveringToolbar({
       renderIcon: () => <span>&#128279;</span>,
     },
     {
-      title: 'Math',
+      title: config.i18n.math.toggleTitle,
       isActive: isMathActive,
       onClick: () => {
         if (isMathActive()) {
