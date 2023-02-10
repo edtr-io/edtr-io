@@ -54,6 +54,20 @@ export const HoveringToolbarControls = ({
 
   if (!isNestedControlButton(activeControl)) return null
 
+  const closeSubMenuControl = {
+    isActive() {
+      return false
+    },
+    renderIcon() {
+      return activeControl.renderCloseMenuIcon()
+    },
+    onClick() {
+      setSubMenu(undefined)
+    },
+    title: activeControl.closeMenuTitle,
+  }
+  activeControl.children.push(closeSubMenuControl)
+
   return (
     <>
       {activeControl.children.map((control, index) => (
@@ -67,25 +81,6 @@ export const HoveringToolbarControls = ({
           key={index}
         />
       ))}
-
-      <HoveringToolbarButton
-        editor={editor}
-        config={config}
-        control={{
-          isActive() {
-            return false
-          },
-          renderIcon() {
-            return activeControl.renderCloseMenuIcon()
-          },
-          onClick() {
-            setSubMenu(undefined)
-          },
-          title: activeControl.closeMenuTitle,
-        }}
-        setSubMenu={setSubMenu}
-        onMouseDown={mouseDownHandler}
-      />
     </>
   )
 }
