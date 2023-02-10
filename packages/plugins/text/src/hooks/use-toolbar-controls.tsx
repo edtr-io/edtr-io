@@ -45,10 +45,10 @@ function isMathActive(editor: SlateEditor) {
 
 export const useToolbarControls = (
   editor: SlateEditor,
-  config: TextPluginConfig
+  { i18n, theme }: TextPluginConfig
 ): TextEditorControl[] => [
   {
-    title: config.i18n.richText.toggleStrongTitle,
+    title: i18n.richText.toggleStrongTitle,
     isActive: isBoldActive,
     onClick: () => {
       if (isBoldActive(editor)) {
@@ -60,7 +60,7 @@ export const useToolbarControls = (
     renderIcon: () => <strong>B</strong>,
   },
   {
-    title: config.i18n.richText.toggleEmphasizeTitle,
+    title: i18n.richText.toggleEmphasizeTitle,
     isActive: isItalicActive,
     onClick: () => {
       if (isItalicActive(editor)) {
@@ -72,28 +72,27 @@ export const useToolbarControls = (
     renderIcon: () => <em>I</em>,
   },
   {
-    title: config.i18n.colors.openMenuTitle,
-    closeMenuTitle: config.i18n.colors.closeMenuTitle,
+    title: i18n.colors.openMenuTitle,
+    closeMenuTitle: i18n.colors.closeMenuTitle,
     isActive: isAnyColorActive,
     renderIcon: () => <span>C</span>,
     renderCloseMenuIcon: () => <span>X</span>,
-    // TODO: color should come from config
     children: [
       {
-        title: config.i18n.colors.resetColorTitle,
+        title: i18n.colors.resetColorTitle,
         isActive: () => !isAnyColorActive(editor),
         onClick: () => {
           SlateEditor.removeMark(editor, 'color')
         },
         renderIcon: () => (
-          // TODO: Design
-          <span style={{ backgroundColor: 'black' }}>&nbsp;</span>
+          <span style={{ backgroundColor: theme.plugins.colors.defaultColor }}>
+            &nbsp;
+          </span>
         ),
       },
-      ...config.theme.plugins.colors.colors.map((color, colorIndex) => {
+      ...theme.plugins.colors.colors.map((color, colorIndex) => {
         return {
-          // TODO: get color name
-          title: 'color-#',
+          title: i18n.colors.colorNames[colorIndex],
           isActive: () => isColorActive(editor, colorIndex),
           onClick: () => {
             if (isColorActive(editor, colorIndex)) {
@@ -110,7 +109,7 @@ export const useToolbarControls = (
     ],
   },
   {
-    title: config.i18n.code.toggleTitle,
+    title: i18n.code.toggleTitle,
     isActive: isCodeActive,
     onClick: () => {
       if (isCodeActive(editor)) {
@@ -122,36 +121,32 @@ export const useToolbarControls = (
     renderIcon: () => <code>C</code>,
   },
   {
-    title: config.i18n.headings.openMenuTitle,
-    closeMenuTitle: config.i18n.headings.closeMenuTitle,
+    title: i18n.headings.openMenuTitle,
+    closeMenuTitle: i18n.headings.closeMenuTitle,
     isActive: isAnyHeadingActive,
     renderIcon: () => <span>H</span>,
     renderCloseMenuIcon: () => <span>X</span>,
-    children:
-      // TODO: change to config
-      [1 as const, 2 as const, 3 as const].map((heading) => {
-        return {
-          title: config.i18n.headings.setHeadingTitle(heading),
-          isActive: () => isHeadingActive(editor, heading),
-          onClick: () => {
-            if (isHeadingActive(editor, heading)) {
-              Transforms.setNodes(editor, {
-                type: 'p',
-              })
-              Transforms.unsetNodes(editor, 'level')
-            } else {
-              Transforms.setNodes(editor, {
-                type: 'h',
-                level: heading,
-              })
-            }
-          },
-          renderIcon: () => <span>T{heading}</span>,
+    children: theme.plugins.headings.map((heading) => ({
+      title: i18n.headings.setHeadingTitle(heading),
+      isActive: () => isHeadingActive(editor, heading),
+      onClick: () => {
+        if (isHeadingActive(editor, heading)) {
+          Transforms.setNodes(editor, {
+            type: 'p',
+          })
+          Transforms.unsetNodes(editor, 'level')
+        } else {
+          Transforms.setNodes(editor, {
+            type: 'h',
+            level: heading,
+          })
         }
-      }),
+      },
+      renderIcon: () => <span>T{heading}</span>,
+    })),
   },
   {
-    title: config.i18n.list.toggleOrderedList,
+    title: i18n.list.toggleOrderedList,
     isActive: isOrderedListActive,
     onClick: () => {
       if (isOrderedListActive(editor)) {
@@ -163,7 +158,7 @@ export const useToolbarControls = (
     renderIcon: () => <b>1. </b>,
   },
   {
-    title: config.i18n.list.toggleUnorderedList,
+    title: i18n.list.toggleUnorderedList,
     isActive: isUnorderedListActive,
     onClick: () => {
       if (isUnorderedListActive(editor)) {
@@ -175,7 +170,7 @@ export const useToolbarControls = (
     renderIcon: () => <b>* </b>,
   },
   {
-    title: config.i18n.link.toggleTitle,
+    title: i18n.link.toggleTitle,
     isActive: isLinkActive,
     onClick: () => {
       if (isLinkActive(editor)) {
@@ -210,7 +205,7 @@ export const useToolbarControls = (
     renderIcon: () => <span>&#128279;</span>,
   },
   {
-    title: config.i18n.math.toggleTitle,
+    title: i18n.math.toggleTitle,
     isActive: isMathActive,
     onClick: () => {
       if (isMathActive(editor)) {

@@ -2,7 +2,7 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { MathElement as MathElementType } from './math-element'
+import { MathElement as MathElementType } from '.'
 
 // TODO: We need to configure this!
 type CustomElement =
@@ -15,7 +15,7 @@ type CustomElement =
   | Link
   | MathElementType
 
-interface Heading {
+export interface Heading {
   type: 'h'
   level: 1 | 2 | 3 | 4 | 5 | 6
   children: CustomText[]

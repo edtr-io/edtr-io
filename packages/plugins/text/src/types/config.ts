@@ -2,6 +2,8 @@ import { EditorPluginProps, SerializedScalarStateType } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import { Descendant, Range } from 'slate'
 
+import { Heading } from '.'
+
 /** @public */
 export type TextPluginState = SerializedScalarStateType<
   Descendant[],
@@ -60,6 +62,7 @@ export interface TextPluginConfig {
       resetColorTitle: string
       openMenuTitle: string
       closeMenuTitle: string
+      colorNames: string[]
     }
     headings: {
       setHeadingTitle(level: number): string
@@ -124,6 +127,7 @@ export interface TextPluginConfig {
         colors: string[]
         defaultColor: string
       }
+      headings: Heading['level'][]
     }
   }
   blockquote?: string

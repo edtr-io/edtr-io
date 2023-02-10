@@ -16,6 +16,21 @@ const defaultEnabledPlugins = {
   suggestions: true,
 }
 
+const colors = [
+  {
+    value: '#1794c1',
+    name: 'Blue',
+  },
+  {
+    value: '#469a40',
+    name: 'Green',
+  },
+  {
+    value: '#ff6703',
+    name: 'Orange',
+  },
+]
+
 export function useTextConfig(config: TextConfig): TextPluginConfig {
   const {
     placeholder = 'Write something or add elements with \u2295.',
@@ -27,15 +42,9 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
   const { editor } = useTheme()
   const registry = React.useContext(RegistryContext) ?? config.registry
 
-  const blue = '#1794c1',
-    green = '#469a40',
-    orange = '#ff6703'
-
-  const enabledPlugins = config.plugins || defaultEnabledPlugins
-
   return {
     registry,
-    enabledPlugins,
+    enabledPlugins: config.plugins || defaultEnabledPlugins,
     placeholder,
     i18n: merge({
       fallback: {
@@ -50,6 +59,7 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
           resetColorTitle: 'Reset color',
           openMenuTitle: 'Colors',
           closeMenuTitle: 'Close sub menu',
+          colorNames: colors.map((color) => color.name),
         },
         headings: {
           setHeadingTitle(level: number) {
@@ -151,9 +161,10 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
         },
         plugins: {
           colors: {
-            colors: [blue, green, orange],
+            colors: colors.map((color) => color.value),
             defaultColor: 'black',
           },
+          headings: [1, 2, 3, 4, 5, 6],
         },
       },
       values: theme,

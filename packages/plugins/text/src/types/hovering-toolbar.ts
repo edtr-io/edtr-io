@@ -3,7 +3,7 @@ import { MouseEvent } from 'react'
 import { Editor as SlateEditor, BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { TextPluginConfig } from './config'
+import { TextPluginConfig } from '.'
 
 export interface HoveringToolbarProps {
   config: TextPluginConfig
