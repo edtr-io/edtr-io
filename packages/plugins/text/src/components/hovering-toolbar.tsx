@@ -11,11 +11,7 @@ const initialPosition = isTouchDevice()
   ? InlineOverlayPosition.below
   : InlineOverlayPosition.above
 
-export function HoveringToolbar({
-  closeSubMenuIcon,
-  closeSubMenuTitle,
-  config,
-}: HoveringToolbarProps) {
+export function HoveringToolbar({ config }: HoveringToolbarProps) {
   const editor = useSlate()
   const { selection } = editor
 
@@ -29,12 +25,7 @@ export function HoveringToolbar({
         SlateEditor.string(editor, selection) === ''
       }
     >
-      <HoveringToolbarControls
-        editor={editor}
-        config={config}
-        closeSubMenuIcon={closeSubMenuIcon}
-        closeSubMenuTitle={closeSubMenuTitle}
-      />
+      <HoveringToolbarControls editor={editor} config={config} />
     </InlineOverlay>
   )
 }

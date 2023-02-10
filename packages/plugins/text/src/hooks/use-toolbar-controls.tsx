@@ -72,14 +72,15 @@ export const useToolbarControls = (
     renderIcon: () => <em>I</em>,
   },
   {
-    title: 'Color',
+    title: config.i18n.colors.openMenuTitle,
+    closeMenuTitle: config.i18n.colors.closeMenuTitle,
     isActive: isAnyColorActive,
     renderIcon: () => <span>C</span>,
+    renderCloseMenuIcon: () => <span>X</span>,
     // TODO: color should come from config
     children: [
       {
-        // TODO: get color name
-        title: 'Color reset',
+        title: config.i18n.colors.resetColorTitle,
         isActive: () => !isAnyColorActive(editor),
         onClick: () => {
           SlateEditor.removeMark(editor, 'color')
@@ -121,14 +122,16 @@ export const useToolbarControls = (
     renderIcon: () => <code>C</code>,
   },
   {
-    title: 'Heading',
+    title: config.i18n.headings.openMenuTitle,
+    closeMenuTitle: config.i18n.headings.closeMenuTitle,
     isActive: isAnyHeadingActive,
     renderIcon: () => <span>H</span>,
+    renderCloseMenuIcon: () => <span>X</span>,
     children:
       // TODO: change to config
       [1 as const, 2 as const, 3 as const].map((heading) => {
         return {
-          title: `h${heading}`,
+          title: config.i18n.headings.setHeadingTitle(heading),
           isActive: () => isHeadingActive(editor, heading),
           onClick: () => {
             if (isHeadingActive(editor, heading)) {
@@ -245,6 +248,6 @@ export const useToolbarControls = (
         }
       }
     },
-    renderIcon: () => <b>* </b>,
+    renderIcon: () => <b>M</b>,
   },
 ]

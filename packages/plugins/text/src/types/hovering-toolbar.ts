@@ -6,16 +6,12 @@ import { ReactEditor } from 'slate-react'
 import { TextPluginConfig } from './config'
 
 export interface HoveringToolbarProps {
-  closeSubMenuIcon: React.ReactNode
-  closeSubMenuTitle: string
   config: TextPluginConfig
 }
 
 export interface HoveringToolbarControlsProps {
   editor: SlateEditor
   config: TextPluginConfig
-  closeSubMenuIcon: React.ReactNode
-  closeSubMenuTitle: string
 }
 
 export interface HoveringToolbarButtonProps {
@@ -42,7 +38,9 @@ export interface ControlButton {
 
 export interface NestedControlButton {
   title: string
+  closeMenuTitle: string
   children: ControlButton[]
   isActive(editor: BaseEditor & ReactEditor & ListsEditor): boolean
   renderIcon(): React.ReactNode
+  renderCloseMenuIcon(): React.ReactNode
 }

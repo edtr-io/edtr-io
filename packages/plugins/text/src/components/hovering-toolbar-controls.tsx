@@ -18,8 +18,6 @@ function isNestedControlButton(
 export const HoveringToolbarControls = ({
   editor,
   config,
-  closeSubMenuIcon,
-  closeSubMenuTitle,
 }: HoveringToolbarControlsProps) => {
   const [subMenu, setSubMenu] = React.useState<number>()
 
@@ -78,12 +76,12 @@ export const HoveringToolbarControls = ({
             return false
           },
           renderIcon() {
-            return closeSubMenuIcon
+            return activeControl.renderCloseMenuIcon()
           },
           onClick() {
             setSubMenu(undefined)
           },
-          title: closeSubMenuTitle,
+          title: activeControl.closeMenuTitle,
         }}
         setSubMenu={setSubMenu}
         onMouseDown={mouseDownHandler}

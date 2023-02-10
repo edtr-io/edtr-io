@@ -48,7 +48,7 @@ export function TextEditor(props: TextProps) {
       value={value}
       onChange={(newValue) => {
         // Only update edtr-io state when the actual content of the text plugin
-        // canged
+        // changed
         const isAstChange = editor.operations.some(
           (op) => op.type !== 'set_selection'
         )
@@ -58,12 +58,10 @@ export function TextEditor(props: TextProps) {
         }
       }}
     >
-      <HoveringToolbar
-        closeSubMenuIcon={null}
-        closeSubMenuTitle="Close"
-        config={config}
-      />
-      {props.editable ? <LinkControls editor={editor} config={config} /> : null}
+      <HoveringToolbar config={config} />
+
+      {props.editable && <LinkControls editor={editor} config={config} />}
+
       <Editable
         onKeyDown={(event) => {
           if (isHotkey('mod+b')(event)) {
