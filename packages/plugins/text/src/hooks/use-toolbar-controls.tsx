@@ -1,76 +1,51 @@
-import { ListsEditor, ListType } from '@prezly/slate-lists'
 import React from 'react'
-import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 
 import type { TextEditorControl, TextPluginConfig } from '../types'
-import { isBoldActive } from '../utils/bold'
-import { isItalicActive } from '../utils/italic'
-import { isLinkActive } from '../utils/link'
-import { selectionHasElement } from '../utils/selection'
+import {
+  isAnyColorActive,
+  isColorActive,
+  resetColor,
+  toggleColor,
+} from '../utils/color'
+import { isLinkActive, toggleLink } from '../utils/link'
+import {
+  isOrderedListActive,
+  isUnorderedListActive,
+  toggleOrderedList,
+  toggleUnorderedList,
+} from '../utils/list'
+import { isMathActive, toggleMath } from '../utils/math'
+import {
+  isBoldActive,
+  toggleBoldMark,
+  isItalicActive,
+  toggleItalicMark,
+  isCodeActive,
+  toggleCode,
+  isAnyHeadingActive,
+  isHeadingActive,
+  toggleHeading,
+} from '../utils/typography'
 
-function isCodeActive(editor: SlateEditor) {
-  return SlateEditor.marks(editor)?.code === true
-}
-
-function isAnyColorActive(editor: SlateEditor) {
-  return typeof SlateEditor.marks(editor)?.color === 'number'
-}
-
-function isColorActive(editor: SlateEditor, colorIndex: number) {
-  return SlateEditor.marks(editor)?.color === colorIndex
-}
-
-function isAnyHeadingActive(editor: SlateEditor) {
-  return selectionHasElement((e) => e.type === 'h', editor)
-}
-
-function isHeadingActive(editor: SlateEditor, heading: number) {
-  return selectionHasElement(
-    (e) => e.type === 'h' && e.level === heading,
-    editor
-  )
-}
-
-function isOrderedListActive(editor: SlateEditor) {
-  return selectionHasElement((e) => e.type === 'ordered-list', editor)
-}
-
-function isUnorderedListActive(editor: SlateEditor) {
-  return selectionHasElement((e) => e.type === 'unordered-list', editor)
-}
-
-function isMathActive(editor: SlateEditor) {
-  return selectionHasElement((e) => e.type === 'math', editor)
-}
-
-export const useToolbarControls = (
-  editor: SlateEditor,
-  { i18n, theme }: TextPluginConfig
-): TextEditorControl[] => [
+export const useToolbarControls = ({
+  i18n,
+  theme,
+}: TextPluginConfig): TextEditorControl[] => [
+  // Bold
   {
     title: i18n.richText.toggleStrongTitle,
     isActive: isBoldActive,
-    onClick: () => {
-      if (isBoldActive(editor)) {
-        SlateEditor.removeMark(editor, 'strong')
-      } else {
-        SlateEditor.addMark(editor, 'strong', true)
-      }
-    },
+    onClick: toggleBoldMark,
     renderIcon: () => <strong>B</strong>,
   },
+  // Italic
   {
     title: i18n.richText.toggleEmphasizeTitle,
     isActive: isItalicActive,
-    onClick: () => {
-      if (isItalicActive(editor)) {
-        SlateEditor.removeMark(editor, 'em')
-      } else {
-        SlateEditor.addMark(editor, 'em', true)
-      }
-    },
+    onClick: toggleItalicMark,
     renderIcon: () => <em>I</em>,
   },
+  // Colors
   {
     title: i18n.colors.openMenuTitle,
     closeMenuTitle: i18n.colors.closeMenuTitle,
@@ -80,46 +55,32 @@ export const useToolbarControls = (
     children: [
       {
         title: i18n.colors.resetColorTitle,
-        isActive: () => !isAnyColorActive(editor),
-        onClick: () => {
-          SlateEditor.removeMark(editor, 'color')
-        },
+        isActive: isAnyColorActive,
+        onClick: resetColor,
         renderIcon: () => (
           <span style={{ backgroundColor: theme.plugins.colors.defaultColor }}>
             &nbsp;
           </span>
         ),
       },
-      ...theme.plugins.colors.colors.map((color, colorIndex) => {
-        return {
-          title: i18n.colors.colorNames[colorIndex],
-          isActive: () => isColorActive(editor, colorIndex),
-          onClick: () => {
-            if (isColorActive(editor, colorIndex)) {
-              SlateEditor.removeMark(editor, 'color')
-            } else {
-              SlateEditor.addMark(editor, 'color', colorIndex)
-            }
-          },
-          renderIcon: () => (
-            <span style={{ backgroundColor: color }}>&nbsp;</span>
-          ),
-        }
-      }),
+      ...theme.plugins.colors.colors.map((color, colorIndex) => ({
+        title: i18n.colors.colorNames[colorIndex],
+        isActive: isColorActive(colorIndex),
+        onClick: toggleColor(colorIndex),
+        renderIcon: () => (
+          <span style={{ backgroundColor: color }}>&nbsp;</span>
+        ),
+      })),
     ],
   },
+  // Code
   {
     title: i18n.code.toggleTitle,
     isActive: isCodeActive,
-    onClick: () => {
-      if (isCodeActive(editor)) {
-        SlateEditor.removeMark(editor, 'code')
-      } else {
-        SlateEditor.addMark(editor, 'code', true)
-      }
-    },
+    onClick: toggleCode,
     renderIcon: () => <code>C</code>,
   },
+  // Headings
   {
     title: i18n.headings.openMenuTitle,
     closeMenuTitle: i18n.headings.closeMenuTitle,
@@ -128,121 +89,37 @@ export const useToolbarControls = (
     renderCloseMenuIcon: () => <span>X</span>,
     children: theme.plugins.headings.map((heading) => ({
       title: i18n.headings.setHeadingTitle(heading),
-      isActive: () => isHeadingActive(editor, heading),
-      onClick: () => {
-        if (isHeadingActive(editor, heading)) {
-          Transforms.setNodes(editor, {
-            type: 'p',
-          })
-          Transforms.unsetNodes(editor, 'level')
-        } else {
-          Transforms.setNodes(editor, {
-            type: 'h',
-            level: heading,
-          })
-        }
-      },
+      isActive: isHeadingActive(heading),
+      onClick: toggleHeading(heading),
       renderIcon: () => <span>T{heading}</span>,
     })),
   },
+  // Ordered list
   {
     title: i18n.list.toggleOrderedList,
     isActive: isOrderedListActive,
-    onClick: () => {
-      if (isOrderedListActive(editor)) {
-        ListsEditor.unwrapList(editor)
-      } else {
-        ListsEditor.wrapInList(editor, ListType.ORDERED)
-      }
-    },
-    renderIcon: () => <b>1. </b>,
+    onClick: toggleOrderedList,
+    renderIcon: () => <b>1.</b>,
   },
+  // Unordered list
   {
     title: i18n.list.toggleUnorderedList,
     isActive: isUnorderedListActive,
-    onClick: () => {
-      if (isUnorderedListActive(editor)) {
-        ListsEditor.unwrapList(editor)
-      } else {
-        ListsEditor.wrapInList(editor, ListType.UNORDERED)
-      }
-    },
-    renderIcon: () => <b>* </b>,
+    onClick: toggleUnorderedList,
+    renderIcon: () => <b>*</b>,
   },
+  // Link
   {
     title: i18n.link.toggleTitle,
     isActive: isLinkActive,
-    onClick: () => {
-      if (isLinkActive(editor)) {
-        Transforms.unwrapNodes(editor, {
-          match: (n) => Element.isElement(n) && n.type === 'a',
-        })
-      } else {
-        const { selection } = editor
-        const isCollapsed = selection && Range.isCollapsed(selection)
-
-        if (isCollapsed) {
-          // TODO: how set focus to input field, when it is newly created?
-          Transforms.insertNodes(editor, {
-            type: 'a',
-            href: '',
-            children: [{ text: 'link' }],
-          })
-        } else {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: 'a',
-              href: '',
-              children: [],
-            },
-            { split: true }
-          )
-          Transforms.collapse(editor, { edge: 'end' })
-        }
-      }
-    },
+    onClick: toggleLink,
     renderIcon: () => <span>&#128279;</span>,
   },
+  // Math
   {
     title: i18n.math.toggleTitle,
     isActive: isMathActive,
-    onClick: () => {
-      if (isMathActive(editor)) {
-        Transforms.removeNodes(editor, {
-          match: (n) => Element.isElement(n) && n.type === 'math',
-        })
-      } else {
-        const { selection } = editor
-        if (!selection) return
-        const isCollapsed = Range.isCollapsed(selection)
-
-        if (isCollapsed) {
-          Transforms.insertNodes(editor, {
-            type: 'math',
-            src: '',
-            inline: true,
-            children: [],
-          })
-        } else {
-          // TODO: Test if better solution to use api from slate
-          const nativeSelection = window.getSelection()
-          Transforms.insertNodes(
-            editor,
-            [
-              {
-                type: 'math',
-                src: nativeSelection ? nativeSelection.toString() : '',
-                inline: true,
-                children: [],
-              },
-            ],
-            { at: selection }
-          )
-          Transforms.move(editor, { distance: 1, reverse: true })
-        }
-      }
-    },
+    onClick: toggleMath,
     renderIcon: () => <b>M</b>,
   },
 ]

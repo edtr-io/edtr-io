@@ -21,7 +21,7 @@ export const HoveringToolbarControls = ({
 }: HoveringToolbarControlsProps) => {
   const [subMenu, setSubMenu] = React.useState<number>()
 
-  const controls = useToolbarControls(editor, config)
+  const controls = useToolbarControls(config)
 
   const mouseDownHandler = (
     event: MouseEvent,
@@ -29,7 +29,7 @@ export const HoveringToolbarControls = ({
     index: number
   ) => {
     event.preventDefault()
-    isNestedControlButton(control) ? setSubMenu(index) : control.onClick()
+    isNestedControlButton(control) ? setSubMenu(index) : control.onClick(editor)
   }
 
   if (typeof subMenu !== 'number') {

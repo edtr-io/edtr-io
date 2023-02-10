@@ -32,7 +32,7 @@ export type TextEditorControl = ControlButton | NestedControlButton
 export interface ControlButton {
   title: string
   isActive(editor: BaseEditor & ReactEditor & ListsEditor): boolean
-  onClick(): void
+  onClick(editor: BaseEditor & ReactEditor & ListsEditor): void
   renderIcon(): React.ReactNode
 }
 

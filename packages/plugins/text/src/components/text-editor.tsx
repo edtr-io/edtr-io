@@ -6,10 +6,9 @@ import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 
 import { useTextConfig } from '../hooks/use-text-config'
 import type { TextProps } from '../types'
-import { toggleBoldMark } from '../utils/bold'
-import { toggleItalicMark } from '../utils/italic'
 import { toggleLink } from '../utils/link'
 import { markdownShortcuts } from '../utils/markdown'
+import { toggleBoldMark, toggleItalicMark } from '../utils/typography'
 import { withListsPlugin } from '../utils/with-lists-plugin'
 import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
@@ -67,13 +66,16 @@ export function TextEditor(props: TextProps) {
           if (isHotkey('mod+b')(event)) {
             event.preventDefault()
             return toggleBoldMark(editor)
-          } else if (isHotkey('mod+i')(event)) {
+          }
+          if (isHotkey('mod+i')(event)) {
             event.preventDefault()
             return toggleItalicMark(editor)
-          } else if (isHotkey('mod+k', event)) {
+          }
+          if (isHotkey('mod+k', event)) {
             event.preventDefault()
             return toggleLink(editor)
           }
+
           markdownShortcuts().onKeyDown(
             event as unknown as KeyboardEvent,
             editor
