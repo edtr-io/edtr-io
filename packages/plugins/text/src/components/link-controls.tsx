@@ -7,7 +7,7 @@ import {
   InlineOverlay,
   InlineOverlayPosition,
 } from '../components/inline-overlay'
-import { Link, TextPluginConfig } from '../types'
+import type { Link, TextPluginConfig } from '../types'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',

@@ -1,7 +1,7 @@
 import { EditorPlugin, serializedScalar } from '@edtr-io/plugin'
 
 import { TextEditor } from './components/text-editor'
-import {
+import type {
   TextConfig,
   TextConfigPlugins,
   TextPluginConfig,

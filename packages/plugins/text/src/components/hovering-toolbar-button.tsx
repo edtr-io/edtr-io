@@ -1,7 +1,7 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import { HoveringToolbarButtonProps } from '../types'
+import type { HoveringToolbarButtonProps } from '../types'
 
 const Button = styled.button<{
   active?: boolean

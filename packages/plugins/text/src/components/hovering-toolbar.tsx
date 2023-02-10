@@ -2,7 +2,7 @@ import React from 'react'
 import { Editor as SlateEditor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
-import { HoveringToolbarProps } from '../types'
+import type { HoveringToolbarProps } from '../types'
 import { isTouchDevice } from '../utils/is-touch-device'
 import { HoveringToolbarControls } from './hovering-toolbar-controls'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'

@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import React, { MouseEvent } from 'react'
 
 import { useToolbarControls } from '../hooks/use-toolbar-controls'
-import {
+import type {
   HoveringToolbarControlsProps,
   NestedControlButton,
   TextEditorControl,

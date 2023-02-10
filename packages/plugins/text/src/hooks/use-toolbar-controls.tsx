@@ -2,7 +2,7 @@ import { ListsEditor, ListType } from '@prezly/slate-lists'
 import React from 'react'
 import { Editor as SlateEditor, Range, Transforms, Element } from 'slate'
 
-import { TextEditorControl, TextPluginConfig } from '../types'
+import type { TextEditorControl, TextPluginConfig } from '../types'
 import { isBoldActive } from '../utils/bold'
 import { isItalicActive } from '../utils/italic'
 import { isLinkActive } from '../utils/link'

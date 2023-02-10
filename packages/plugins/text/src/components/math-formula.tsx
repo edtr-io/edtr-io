@@ -2,7 +2,7 @@ import { styled } from '@edtr-io/ui'
 import KaTeX from 'katex'
 import React from 'react'
 
-import { MathElement } from '../types'
+import type { MathElement } from '../types'
 
 const KaTeXSpan = styled.span<{ element: MathElement }>(({ element }) => {
   if (!element.inline) {

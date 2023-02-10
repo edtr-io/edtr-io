@@ -1,7 +1,7 @@
 import { ListType, withLists } from '@prezly/slate-lists'
 import { Element, Node } from 'slate'
 
-import {
+import type {
   ListItem,
   ListItemText,
   OrderedList,

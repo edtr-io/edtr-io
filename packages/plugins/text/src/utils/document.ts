@@ -1,6 +1,6 @@
 import { StateTypeValueType } from '@edtr-io/plugin'
 
-import { TextPluginState } from '../types'
+import type { TextPluginState } from '../types'
 
 export const emptyDocumentFactory =
   (): StateTypeValueType<TextPluginState> => ({

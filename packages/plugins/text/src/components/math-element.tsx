@@ -9,7 +9,7 @@ import {
   ReactEditor,
 } from 'slate-react'
 
-import {
+import type {
   MathElement as MathElementType,
   TransformOutOfElementProps,
 } from '../types'

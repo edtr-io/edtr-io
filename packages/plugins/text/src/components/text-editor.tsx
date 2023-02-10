@@ -5,7 +5,7 @@ import { createEditor, Transforms } from 'slate'
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 
 import { useTextConfig } from '../hooks/use-text-config'
-import { TextProps } from '../types'
+import type { TextProps } from '../types'
 import { toggleBoldMark } from '../utils/bold'
 import { toggleItalicMark } from '../utils/italic'
 import { toggleLink } from '../utils/link'
