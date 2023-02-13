@@ -12,7 +12,7 @@ export const HoveringToolbarButton = styled.button<{
   outline: 'none',
   height: '25px',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: theme.borderRadius,
   margin: '5px',
   padding: '0px',
   width: '25px',

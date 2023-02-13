@@ -1,4 +1,10 @@
-import { faExternalLinkAlt, faTrashAlt, Icon, styled } from '@edtr-io/ui'
+import {
+  DeepPartial,
+  faExternalLinkAlt,
+  faTrashAlt,
+  Icon,
+  styled,
+} from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor as SlateEditor, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
@@ -14,27 +20,27 @@ const InlinePreview = styled.span({
   padding: '0px 8px',
 })
 
-const ChangeButton = styled.div({
+const ChangeButton = styled.div(({ theme }) => ({
   padding: '5px 5px 5px 10px',
   display: 'inline-block',
-  borderLeft: '2px solid rgba(51,51,51,0.95)',
+  borderLeft: `2px solid ${theme.borderColor}`,
   cursor: 'pointer',
   margin: '2px',
   '&:hover': {
-    color: 'rgb(70, 155, 255)',
+    color: theme.hoverColor,
   },
-})
+}))
 
-const InlineInputInner = styled.input({
-  backgroundColor: 'transparent',
+const InlineInputInner = styled.input(({ theme }) => ({
+  backgroundColor: theme.backgroundColor,
   border: 'none',
-  borderBottom: '2px solid #ffffff',
-  color: '#ffffff',
+  borderBottom: `2px solid ${theme.color}`,
+  color: theme.color,
   '&:focus': {
     outline: 'none',
-    borderBottom: '2px solid rgb(70, 155, 255)',
+    borderBottom: `2px solid ${theme.hoverColor}`,
   },
-})
+}))
 
 // TODO: update
 const InlineInputRefForward: React.ForwardRefRenderFunction<
@@ -50,6 +56,7 @@ interface InputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
+  theme: DeepPartial<TextPluginConfig['theme']>
   label?: string
   textfieldWidth?: string
   editorInputWidth?: string
@@ -84,9 +91,13 @@ export function LinkControls({
   if (!element) return null
 
   return (
-    <InlineOverlay initialPosition={InlineOverlayPosition.below}>
+    <InlineOverlay
+      config={config}
+      initialPosition={InlineOverlayPosition.below}
+    >
       <InlinePreview>
         <InlineInput
+          theme={config.theme}
           value={value}
           placeholder={config.i18n.link.placeholder}
           onChange={(event) => {
@@ -101,6 +112,7 @@ export function LinkControls({
         />
       </InlinePreview>
       <ChangeButton
+        theme={config.theme}
         as="a"
         target="_blank"
         href={value}
@@ -109,6 +121,7 @@ export function LinkControls({
         <Icon icon={faExternalLinkAlt} />
       </ChangeButton>
       <ChangeButton
+        theme={config.theme}
         onClick={() => {
           setElement(null)
           const path = ReactEditor.findPath(editor, element)

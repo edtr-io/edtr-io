@@ -2,7 +2,7 @@ import { RegistryContext } from '@edtr-io/plugin-rows/internal'
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import type { TextConfig, TextPluginConfig } from '../types'
+import type { Heading, TextConfig, TextPluginConfig } from '../types'
 
 const defaultEnabledPlugins = {
   code: true,
@@ -62,7 +62,7 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
           colorNames: colors.map((color) => color.name),
         },
         headings: {
-          setHeadingTitle(level: number) {
+          setHeadingTitle(level: Heading['level']) {
             return `Heading ${level}`
           },
           openMenuTitle: 'Headings',
@@ -142,6 +142,8 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
         backgroundColor: 'transparent',
         color: editor.color,
         hoverColor: editor.primary.background,
+        borderColor: editor.backgroundColor,
+        borderRadius: '4px',
         active: {
           backgroundColor: '#b6b6b6',
           color: editor.backgroundColor,
@@ -158,6 +160,11 @@ export function useTextConfig(config: TextConfig): TextPluginConfig {
             default: editor.color,
             highlight: editor.danger.background,
           },
+        },
+        overlay: {
+          backgroundColor: editor.backgroundColor,
+          boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
+          color: editor.color,
         },
         plugins: {
           colors: {

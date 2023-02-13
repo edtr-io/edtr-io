@@ -32,6 +32,7 @@ export function HoveringToolbar({ config }: HoveringToolbarProps) {
   if (typeof subMenu !== 'number') {
     return (
       <InlineOverlay
+        config={config}
         initialPosition={initialPosition}
         hidden={
           !selection ||
@@ -80,6 +81,7 @@ export function HoveringToolbar({ config }: HoveringToolbarProps) {
 
   return (
     <InlineOverlay
+      config={config}
       initialPosition={initialPosition}
       hidden={
         !selection ||

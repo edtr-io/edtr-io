@@ -65,7 +65,7 @@ export interface TextPluginConfig {
       colorNames: string[]
     }
     headings: {
-      setHeadingTitle(level: number): string
+      setHeadingTitle(level: Heading['level']): string
       openMenuTitle: string
       closeMenuTitle: string
     }
@@ -105,6 +105,8 @@ export interface TextPluginConfig {
     backgroundColor: string
     color: string
     hoverColor: string
+    borderColor: string
+    borderRadius: string
     active: {
       backgroundColor: string
       color: string
@@ -121,6 +123,11 @@ export interface TextPluginConfig {
         default: string
         highlight: string
       }
+    }
+    overlay: {
+      backgroundColor: string
+      boxShadow: string
+      color: string
     }
     plugins: {
       colors: {

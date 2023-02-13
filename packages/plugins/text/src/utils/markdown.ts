@@ -1,6 +1,8 @@
 import { ListsEditor, ListType } from '@prezly/slate-lists'
 import { Transforms, Editor as SlateEditor, Node } from 'slate'
 
+import { Heading } from '../types'
+
 const handleMarkdown = (chars: string, editor: SlateEditor) => {
   switch (chars) {
     case '*':
@@ -13,6 +15,12 @@ const handleMarkdown = (chars: string, editor: SlateEditor) => {
       return createHeading(2, editor)
     case '###':
       return createHeading(3, editor)
+    case '####':
+      return createHeading(4, editor)
+    case '#####':
+      return createHeading(5, editor)
+    case '######':
+      return createHeading(6, editor)
     default:
       return undefined
   }
@@ -23,11 +31,8 @@ function createUnorderedList(editor: SlateEditor) {
   return true
 }
 
-function createHeading(level: 1 | 2 | 3, editor: SlateEditor) {
-  Transforms.setNodes(editor, {
-    type: 'h',
-    level: level,
-  })
+function createHeading(level: Heading['level'], editor: SlateEditor) {
+  Transforms.setNodes(editor, { type: 'h', level })
   return true
 }
 
