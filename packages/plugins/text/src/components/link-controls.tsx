@@ -1,6 +1,6 @@
 import { faExternalLinkAlt, faTrashAlt, Icon, styled } from '@edtr-io/ui'
 import * as React from 'react'
-import { Editor as SlateEditor, Element, Range, Transforms } from 'slate'
+import { Editor as SlateEditor, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import {
@@ -8,6 +8,7 @@ import {
   InlineOverlayPosition,
 } from '../components/inline-overlay'
 import type { Link, TextPluginConfig } from '../types'
+import { getLinkElement, isLinkActive } from '../utils/link'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',
@@ -54,7 +55,6 @@ interface InputProps
   editorInputWidth?: string
 }
 
-// TODO: rename SlateEditor into Editor
 export function LinkControls({
   editor,
   config,
@@ -68,40 +68,16 @@ export function LinkControls({
   const { selection } = editor
 
   React.useEffect(() => {
-    // TODO: Refactor with isLinkActive() in hovering-toolbar
-    // TODO: Use faster check whether generator is empty
-    function isActive() {
-      const [match] = Array.from(
-        SlateEditor.nodes(editor, {
-          match(node) {
-            return Element.isElement(node) && node.type === 'a'
-          },
-        })
-      )
-      return match !== undefined
-    }
+    if (!selection) return
 
-    function getElement(): Link | undefined {
-      const [match] = Array.from(
-        SlateEditor.nodes(editor, {
-          match(node) {
-            return Element.isElement(node) && node.type === 'a'
-          },
-        })
-      )
-      return match && (match[0] as Link)
-    }
+    const isCollapsed = selection && Range.isCollapsed(selection)
 
-    if (selection) {
-      const isCollapsed = selection && Range.isCollapsed(selection)
-
-      if (isCollapsed && isActive()) {
-        const element = getElement() || null
-        setElement(element)
-        setValue(element ? element.href : '')
-      } else {
-        setElement(null)
-      }
+    if (isCollapsed && isLinkActive(editor)) {
+      const element = getLinkElement(editor) || null
+      setElement(element)
+      setValue(element ? element.href : '')
+    } else {
+      setElement(null)
     }
   }, [selection, editor])
 
