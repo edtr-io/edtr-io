@@ -38,8 +38,9 @@ const createTextPlugin = (
     */
 })
 
-export {
-  createTextPlugin,
+export { createTextPlugin }
+
+export type {
   TextConfig,
   TextConfigPlugins,
   TextPluginConfig,
