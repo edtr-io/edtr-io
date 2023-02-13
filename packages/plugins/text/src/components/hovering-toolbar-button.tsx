@@ -1,9 +1,6 @@
 import { styled } from '@edtr-io/ui'
-import React from 'react'
 
-import type { HoveringToolbarButtonProps } from '../types'
-
-const Button = styled.button<{
+export const HoveringToolbarButton = styled.button<{
   active?: boolean
 }>(({ active, theme }) => ({
   backgroundColor: active
@@ -23,19 +20,3 @@ const Button = styled.button<{
     color: theme.hoverColor,
   },
 }))
-
-export const HoveringToolbarButton = ({
-  editor,
-  config,
-  control,
-  onMouseDown,
-}: HoveringToolbarButtonProps) => (
-  <Button
-    active={control.isActive(editor)}
-    theme={config.theme}
-    title={control.title}
-    onMouseDown={onMouseDown}
-  >
-    {control.renderIcon()}
-  </Button>
-)
