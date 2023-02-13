@@ -1,3 +1,11 @@
+import { RenderElementProps } from 'slate-react'
+
+export interface MathElementProps {
+  element: MathElement
+  attributes: RenderElementProps['attributes']
+  children: RenderElementProps['children']
+}
+
 // TODO: Good structure
 export interface MathElement {
   type: 'math'

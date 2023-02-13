@@ -2,15 +2,11 @@ import { PreferenceContext } from '@edtr-io/core'
 import { MathEditor } from '@edtr-io/math'
 import React, { useContext } from 'react'
 import { Range, Transforms } from 'slate'
-import {
-  RenderElementProps,
-  useSlate,
-  useSelected,
-  ReactEditor,
-} from 'slate-react'
+import { useSlate, useSelected, ReactEditor } from 'slate-react'
 
 import type {
   MathElement as MathElementType,
+  MathElementProps,
   TransformOutOfElementProps,
 } from '../types'
 import { MathFormula } from './math-formula'
@@ -21,11 +17,7 @@ export function MathElement({
   element,
   attributes,
   children,
-}: {
-  element: MathElementType
-  attributes: RenderElementProps['attributes']
-  children: RenderElementProps['children']
-}) {
+}: MathElementProps) {
   const editor = useSlate()
   const selected = useSelected()
   const preferences = useContext(PreferenceContext)
