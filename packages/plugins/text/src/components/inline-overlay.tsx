@@ -2,6 +2,8 @@ import { styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { useSlate } from 'slate-react'
 
+import { TextConfig } from '../types'
+
 export enum InlineOverlayPosition {
   above = 'above',
   below = 'below',
@@ -21,17 +23,15 @@ const Wrapper = styled.div({
   whiteSpace: 'nowrap',
 })
 
-// TODO: use theme
-const Content = styled.div({
-  boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
-  backgroundColor: 'rgba(51,51,51,0.95)',
-  color: '#ffffff',
-  borderRadius: '4px',
-})
+const Content = styled.div(({ theme }) => ({
+  boxShadow: theme.overlay.boxShadow,
+  backgroundColor: theme.overlay.backgroundColor,
+  color: theme.overlay.color,
+  borderRadius: theme.borderRadius,
+}))
 
-// TODO: use theme
 const Triangle = styled.div<{ position: InlineOverlayPosition }>(
-  ({ position }) => {
+  ({ theme, position }) => {
     const borderPosition = isAbove(position) ? 'borderTop' : 'borderBottom'
     return {
       position: 'relative',
@@ -39,16 +39,18 @@ const Triangle = styled.div<{ position: InlineOverlayPosition }>(
       height: 0,
       borderLeft: '5px solid transparent',
       borderRight: '5px solid transparent',
-      [borderPosition]: '10px solid rgba(51,51,51,0.95)',
+      [borderPosition]: `10px solid ${theme.borderColor}`,
     }
   }
 )
 
 export function InlineOverlay({
+  config,
   children,
   initialPosition,
   hidden,
 }: {
+  config: TextConfig
   children: React.ReactNode
   initialPosition: InlineOverlayPosition
   allowSelectionOverflow?: boolean
@@ -115,25 +117,13 @@ export function InlineOverlay({
 
   return (
     <Wrapper ref={wrapper}>
-      {isAbove(position) ? null : (
-        <Triangle
-          ref={triangle}
-          position={position}
-          onMouseDown={preventBlur}
-        />
+      {!isAbove(position) && (
+        <Triangle ref={triangle} theme={config.theme} position={position} />
       )}
-      <Content onMouseDown={preventBlur}>{children}</Content>
-      {isAbove(position) ? (
-        <Triangle
-          ref={triangle}
-          position={position}
-          onMouseDown={preventBlur}
-        />
-      ) : null}
+      <Content theme={config.theme}>{children}</Content>
+      {isAbove(position) && (
+        <Triangle ref={triangle} theme={config.theme} position={position} />
+      )}
     </Wrapper>
   )
-
-  function preventBlur(event: React.MouseEvent<HTMLElement, MouseEvent>) {
-    event.preventDefault()
-  }
 }
