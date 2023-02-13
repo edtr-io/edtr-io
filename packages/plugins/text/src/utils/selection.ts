@@ -1,8 +1,8 @@
-import { CustomTypes, Editor as SlateEditor, Element } from 'slate'
+import { Editor as SlateEditor, Element } from 'slate'
 
 export function selectionHasElement(
   predicate: (element: Element) => boolean,
-  editor: CustomTypes['Editor']
+  editor: SlateEditor
 ) {
   const { selection } = editor
   if (!selection) return false

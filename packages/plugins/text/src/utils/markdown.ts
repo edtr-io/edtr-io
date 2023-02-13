@@ -1,7 +1,7 @@
 import { ListsEditor, ListType } from '@prezly/slate-lists'
-import { Transforms, CustomTypes, Editor as SlateEditor, Node } from 'slate'
+import { Transforms, Editor as SlateEditor, Node } from 'slate'
 
-const handleMarkdown = (chars: string, editor: CustomTypes['Editor']) => {
+const handleMarkdown = (chars: string, editor: SlateEditor) => {
   switch (chars) {
     case '*':
     case '-':
@@ -18,12 +18,12 @@ const handleMarkdown = (chars: string, editor: CustomTypes['Editor']) => {
   }
 }
 
-function createUnorderedList(editor: CustomTypes['Editor']) {
+function createUnorderedList(editor: SlateEditor) {
   ListsEditor.wrapInList(editor, ListType.UNORDERED)
   return true
 }
 
-function createHeading(level: 1 | 2 | 3, editor: CustomTypes['Editor']) {
+function createHeading(level: 1 | 2 | 3, editor: SlateEditor) {
   Transforms.setNodes(editor, {
     type: 'h',
     level: level,
@@ -31,7 +31,7 @@ function createHeading(level: 1 | 2 | 3, editor: CustomTypes['Editor']) {
   return true
 }
 
-const onSpace = (event: KeyboardEvent, editor: CustomTypes['Editor']) => {
+const onSpace = (event: KeyboardEvent, editor: SlateEditor) => {
   const { selection } = editor
 
   if (selection) {
@@ -52,7 +52,7 @@ const onSpace = (event: KeyboardEvent, editor: CustomTypes['Editor']) => {
 
 export const markdownShortcuts = () => {
   return {
-    onKeyDown(event: KeyboardEvent, editor: CustomTypes['Editor']) {
+    onKeyDown(event: KeyboardEvent, editor: SlateEditor) {
       const e = event as unknown as KeyboardEvent
       switch (e.key) {
         case ' ':

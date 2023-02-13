@@ -1,13 +1,13 @@
-import { CustomTypes, Editor as SlateEditor, Transforms } from 'slate'
+import { Editor as SlateEditor, Transforms } from 'slate'
 
 import { Heading } from '../types'
 import { selectionHasElement } from './selection'
 
-export function isBoldActive(editor: CustomTypes['Editor']) {
+export function isBoldActive(editor: SlateEditor) {
   return SlateEditor.marks(editor)?.strong === true
 }
 
-export function toggleBoldMark(editor: CustomTypes['Editor']) {
+export function toggleBoldMark(editor: SlateEditor) {
   if (isBoldActive(editor)) {
     SlateEditor.removeMark(editor, 'strong')
   } else {
@@ -15,11 +15,11 @@ export function toggleBoldMark(editor: CustomTypes['Editor']) {
   }
 }
 
-export function isItalicActive(editor: CustomTypes['Editor']) {
+export function isItalicActive(editor: SlateEditor) {
   return SlateEditor.marks(editor)?.em === true
 }
 
-export function toggleItalicMark(editor: CustomTypes['Editor']) {
+export function toggleItalicMark(editor: SlateEditor) {
   if (isItalicActive(editor)) {
     SlateEditor.removeMark(editor, 'em')
   } else {
