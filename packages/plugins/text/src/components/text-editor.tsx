@@ -117,6 +117,10 @@ export function TextEditor(props: TextProps) {
     if (isAstChange) {
       previousValue.current = newValue
       props.state.set({ value: newValue, selection: editor.selection })
+    } else {
+      // TODO: Check why the selection was not updated in state when
+      //       selection changes and if this can remain here
+      props.state.set({ value, selection: editor.selection })
     }
   }
 
