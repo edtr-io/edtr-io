@@ -23,14 +23,13 @@ export const HoveringToolbarControls = ({
 
   const controls = useToolbarControls(config)
 
-  const mouseDownHandler = (
-    event: MouseEvent,
-    control: TextEditorControl,
-    index: number
-  ) => {
-    event.preventDefault()
-    isNestedControlButton(control) ? setSubMenu(index) : control.onClick(editor)
-  }
+  const mouseDownHandler =
+    (control: TextEditorControl, index: number) => (event: MouseEvent) => {
+      event.preventDefault()
+      isNestedControlButton(control)
+        ? setSubMenu(index)
+        : control.onClick(editor)
+    }
 
   if (typeof subMenu !== 'number') {
     return (
@@ -42,7 +41,7 @@ export const HoveringToolbarControls = ({
             index={index}
             control={control}
             setSubMenu={setSubMenu}
-            onMouseDown={mouseDownHandler}
+            onMouseDown={mouseDownHandler(control, index)}
             key={index}
           />
         ))}
@@ -66,18 +65,18 @@ export const HoveringToolbarControls = ({
     },
     title: activeControl.closeMenuTitle,
   }
-  activeControl.children.push(closeSubMenuControl)
+  const subMenuControls = [...activeControl.children, closeSubMenuControl]
 
   return (
     <>
-      {activeControl.children.map((control, index) => (
+      {subMenuControls.map((control, index) => (
         <HoveringToolbarButton
           editor={editor}
           config={config}
           index={index}
           control={control}
           setSubMenu={setSubMenu}
-          onMouseDown={mouseDownHandler}
+          onMouseDown={mouseDownHandler(control, index)}
           key={index}
         />
       ))}

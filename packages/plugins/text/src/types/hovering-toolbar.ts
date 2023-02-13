@@ -1,5 +1,5 @@
 import { ListsEditor } from '@prezly/slate-lists'
-import { MouseEvent } from 'react'
+import { MouseEventHandler } from 'react'
 import { Editor as SlateEditor, BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
@@ -20,11 +20,7 @@ export interface HoveringToolbarButtonProps {
   index?: number
   control: TextEditorControl
   setSubMenu: React.Dispatch<React.SetStateAction<number | undefined>>
-  onMouseDown(
-    event: MouseEvent,
-    control: TextEditorControl,
-    index?: number
-  ): void
+  onMouseDown: MouseEventHandler
 }
 
 export type TextEditorControl = ControlButton | NestedControlButton

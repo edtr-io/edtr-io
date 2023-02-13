@@ -55,7 +55,7 @@ export const useToolbarControls = ({
     children: [
       {
         title: i18n.colors.resetColorTitle,
-        isActive: isAnyColorActive,
+        isActive: (editor) => !isAnyColorActive(editor),
         onClick: resetColor,
         renderIcon: () => (
           <span style={{ backgroundColor: theme.plugins.colors.defaultColor }}>
