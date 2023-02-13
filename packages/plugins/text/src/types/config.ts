@@ -1,4 +1,4 @@
-import { EditorPluginProps, SerializedScalarStateType } from '@edtr-io/plugin'
+import { SerializedScalarStateType } from '@edtr-io/plugin'
 import { DeepPartial } from '@edtr-io/ui'
 import { Descendant, Range } from 'slate'
 
@@ -9,9 +9,6 @@ export type TextPluginState = SerializedScalarStateType<
   Descendant[],
   { value: Descendant[]; selection: Range | null }
 >
-
-/** @public */
-export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
 
 /** @public */
 export interface TextConfig {

@@ -2,12 +2,6 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { TextPluginConfig } from '.'
-
-export interface HoveringToolbarProps {
-  config: TextPluginConfig
-}
-
 export type TextEditorControl = ControlButton | NestedControlButton
 
 export interface ControlButton {

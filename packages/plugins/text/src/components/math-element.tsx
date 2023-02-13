@@ -2,14 +2,24 @@ import { PreferenceContext } from '@edtr-io/core'
 import { MathEditor } from '@edtr-io/math'
 import React, { useContext } from 'react'
 import { Range, Transforms } from 'slate'
-import { useSlate, useSelected, ReactEditor } from 'slate-react'
+import {
+  ReactEditor,
+  RenderElementProps,
+  useSlate,
+  useSelected,
+} from 'slate-react'
 
 import type {
   MathElement as MathElementType,
-  MathElementProps,
   TransformOutOfElementProps,
 } from '../types'
 import { MathFormula } from './math-formula'
+
+export interface MathElementProps {
+  element: MathElementType
+  attributes: RenderElementProps['attributes']
+  children: RenderElementProps['children']
+}
 
 const visualEditorPreferenceKey = 'text:math:visual-editor'
 

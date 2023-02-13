@@ -1,3 +1,4 @@
+import { EditorPluginProps } from '@edtr-io/plugin'
 import { withListsReact } from '@prezly/slate-lists'
 import isHotkey from 'is-hotkey'
 import * as React from 'react'
@@ -11,7 +12,7 @@ import {
 } from 'slate-react'
 
 import { useTextConfig } from '../hooks/use-text-config'
-import type { TextConfig, TextProps } from '../types'
+import type { TextConfig, TextPluginState } from '../types'
 import { toggleLink } from '../utils/link'
 import { markdownShortcuts } from '../utils/markdown'
 import { toggleBoldMark, toggleItalicMark } from '../utils/typography'
@@ -20,13 +21,14 @@ import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
 import { MathElement } from './math-element'
 
+/** @public */
+export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
+
 function renderElement(props: RenderElementProps) {
   const { element, attributes, children } = props
 
   if (element.type === 'h') {
-    const level = element.level
-    const headingLevel = level <= 6 && level >= 1 ? level : 6
-    return React.createElement(`h${headingLevel}`, attributes, <>{children}</>)
+    return React.createElement(`h${element.level}`, attributes, <>{children}</>)
   }
   if (element.type === 'a') {
     return (
@@ -57,9 +59,6 @@ function renderElement(props: RenderElementProps) {
     )
   }
 
-  if (element.type != 'p') {
-    console.log(element)
-  }
   return <p {...attributes}>{children}</p>
 }
 

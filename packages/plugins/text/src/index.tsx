@@ -1,12 +1,12 @@
 import { EditorPlugin, serializedScalar } from '@edtr-io/plugin'
 
 import { TextEditor } from './components/text-editor'
+import type { TextProps } from './components/text-editor'
 import type {
   TextConfig,
   TextConfigPlugins,
   TextPluginConfig,
   TextPluginState,
-  TextProps,
 } from './types'
 import { emptyDocumentFactory } from './utils/document'
 

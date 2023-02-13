@@ -5,13 +5,17 @@ import { ReactEditor, useSlate } from 'slate-react'
 
 import { useToolbarControls } from '../hooks/use-toolbar-controls'
 import type {
-  HoveringToolbarProps,
+  TextPluginConfig,
   NestedControlButton,
   TextEditorControl,
 } from '../types'
 import { isTouchDevice } from '../utils/is-touch-device'
 import { HoveringToolbarButton } from './hovering-toolbar-button'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
+
+export interface HoveringToolbarProps {
+  config: TextPluginConfig
+}
 
 const initialPosition = isTouchDevice()
   ? InlineOverlayPosition.below
