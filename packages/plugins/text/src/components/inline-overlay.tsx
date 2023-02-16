@@ -1,5 +1,5 @@
 import { styled } from '@edtr-io/ui'
-import * as React from 'react'
+import React from 'react'
 import { useSlate } from 'slate-react'
 
 import { TextConfig } from '../types'
@@ -53,7 +53,6 @@ export function InlineOverlay({
   config: TextConfig
   children: React.ReactNode
   initialPosition: InlineOverlayPosition
-  allowSelectionOverflow?: boolean
   hidden?: boolean
 }) {
   const editor = useSlate()

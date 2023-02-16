@@ -1,8 +1,17 @@
+import { HotKeys, useScopedStore } from '@edtr-io/core'
+import { HoverOverlay } from '@edtr-io/editor-ui'
 import { EditorPluginProps } from '@edtr-io/plugin'
+import { replace } from '@edtr-io/store'
 import { withListsReact } from '@prezly/slate-lists'
 import isHotkey from 'is-hotkey'
-import * as React from 'react'
-import { createEditor, Descendant, Transforms } from 'slate'
+import React, {
+  createElement,
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+} from 'react'
+import { createEditor, Descendant, Node, Transforms } from 'slate'
 import {
   Editable,
   RenderElementProps,
@@ -12,7 +21,12 @@ import {
 } from 'slate-react'
 
 import { useTextConfig } from '../hooks/use-text-config'
-import type { TextConfig, TextPluginState } from '../types'
+import type {
+  TextConfig,
+  TextPluginConfig,
+  TextPluginState,
+  Store,
+} from '../types'
 import { toggleLink } from '../utils/link'
 import { markdownShortcuts } from '../utils/markdown'
 import { toggleBoldMark, toggleItalicMark } from '../utils/typography'
@@ -20,6 +34,7 @@ import { withListsPlugin } from '../utils/with-lists-plugin'
 import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
 import { MathElement } from './math-element'
+import { Suggestions } from './suggestions'
 
 /** @public */
 export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
@@ -28,7 +43,7 @@ function renderElement(props: RenderElementProps) {
   const { element, attributes, children } = props
 
   if (element.type === 'h') {
-    return React.createElement(`h${element.level}`, attributes, <>{children}</>)
+    return createElement(`h${element.level}`, attributes, <>{children}</>)
   }
   if (element.type === 'a') {
     return (
@@ -88,22 +103,79 @@ function renderLeafWithConfig(config: TextConfig) {
   }
 }
 
-export function TextEditor(props: TextProps) {
-  const config = useTextConfig(props.config)
-  const { selection, value } = props.state.value
-  const previousValue = React.useRef(value)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const previousSelection = React.useRef(selection)
+function mapPlugins(plugins: TextPluginConfig['registry'], text: string) {
+  const search = text.replace('/', '').toLowerCase()
 
-  const editor = React.useMemo(
+  const startingWithSearchString = plugins
+    .filter(({ title, name }) => {
+      if (!search.length) return true
+      const value = title?.toLowerCase() || name.toLowerCase()
+      return value.startsWith(search)
+    })
+    .map(({ title, name }) => [title || name, name])
+  const containingSearchString = plugins
+    .filter(({ title, name }) => {
+      const value = title?.toLowerCase() || name.toLowerCase()
+      return value.includes(search) && !value.startsWith(search)
+    })
+    .map(({ title, name }) => [title || name, name])
+
+  return [...startingWithSearchString, ...containingSearchString]
+}
+
+function insertPlugin(store: Store, id: string) {
+  return (plugin: string) => {
+    store.dispatch(replace({ id, plugin }))
+  }
+}
+
+export function TextEditor(props: TextProps) {
+  const [selected, setSelected] = useState(0)
+
+  const config = useTextConfig(props.config)
+  const plugins = config.registry
+  const { selection, value } = props.state.value
+  const previousValue = useRef(value)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const previousSelection = useRef(selection)
+
+  const editor = useMemo(
     () => withListsReact(withListsPlugin(withReact(createEditor()))),
     []
   )
 
+  const store = useScopedStore()
+
+  const text = Node.string(editor)
+  const allOptions = mapPlugins(plugins, text)
+  const showSuggestions =
+    props.editable &&
+    props.focused &&
+    text.startsWith('/') &&
+    allOptions.length > 0
+  const options = showSuggestions ? allOptions : []
+
+  const closure = useRef({
+    showSuggestions,
+    selected,
+    options,
+  })
+  closure.current = {
+    showSuggestions,
+    selected,
+    options,
+  }
+
+  useEffect(() => {
+    if (options.length < selected) {
+      setSelected(0)
+    }
+  }, [options.length, selected])
+
   editor.isInline = ({ type }) => type === 'a' || type === 'math'
   editor.isVoid = ({ type }) => type == 'math'
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!selection) return
     Transforms.setSelection(editor, selection)
   }, [editor, selection])
@@ -125,6 +197,13 @@ export function TextEditor(props: TextProps) {
   }
 
   function handleEditableKeyDown(event: React.KeyboardEvent) {
+    if (['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) {
+      if (text.startsWith('/') && mapPlugins(plugins, text).length > 0) {
+        event.preventDefault()
+        return
+      }
+    }
+
     if (isHotkey('mod+b', event)) {
       event.preventDefault()
       return toggleBoldMark(editor)
@@ -143,16 +222,64 @@ export function TextEditor(props: TextProps) {
 
   // TODO: Change state + selection
   return (
-    <Slate editor={editor} value={value} onChange={handleEditorChange}>
-      <HoveringToolbar config={config} />
+    <HotKeys
+      keyMap={{
+        DEC: 'up',
+        INC: 'down',
+        INSERT: 'enter',
+      }}
+      handlers={{
+        DEC: () => {
+          if (closure.current.showSuggestions) {
+            setSelected((currentSelected) => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + optionsCount - 1) % optionsCount
+            })
+          }
+        },
+        INC: () => {
+          if (closure.current.showSuggestions) {
+            setSelected((currentSelected) => {
+              const optionsCount = closure.current.options.length
+              if (optionsCount === 0) return 0
+              return (currentSelected + 1) % optionsCount
+            })
+          }
+        },
+        INSERT: () => {
+          if (closure.current.showSuggestions) {
+            const option = closure.current.options[closure.current.selected]
+            if (!option) return
+            setTimeout(() => {
+              insertPlugin(store, props.id)(option[1])
+            })
+          }
+        },
+      }}
+    >
+      <Slate editor={editor} value={value} onChange={handleEditorChange}>
+        <HoveringToolbar config={config} />
 
-      {props.editable && <LinkControls editor={editor} config={config} />}
+        {props.editable && <LinkControls editor={editor} config={config} />}
 
-      <Editable
-        onKeyDown={handleEditableKeyDown}
-        renderElement={renderElement}
-        renderLeaf={renderLeafWithConfig(config)}
-      />
-    </Slate>
+        <Editable
+          onKeyDown={handleEditableKeyDown}
+          renderElement={renderElement}
+          renderLeaf={renderLeafWithConfig(config)}
+        />
+      </Slate>
+      {showSuggestions && (
+        <HoverOverlay position="below">
+          <Suggestions
+            onSelect={insertPlugin(store, props.id)}
+            options={options}
+            currentValue={text.substring(1)}
+            selected={selected}
+            config={config}
+          />
+        </HoverOverlay>
+      )}
+    </HotKeys>
   )
 }

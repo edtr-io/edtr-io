@@ -100,7 +100,9 @@ export function MathEditor(props: MathEditorProps) {
   const [helpOpen, setHelpOpen] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
 
-  const useVisualEditor = props.visual && !hasError
+  const { visual, readOnly, state, disableBlock } = props
+
+  const useVisualEditor = visual && !hasError
 
   const editorTheme = useEditorTheme()
   const config = merge<MathEditorConfig>({
@@ -203,8 +205,8 @@ export function MathEditor(props: MathEditorProps) {
   )
 
   function renderChildren() {
-    if (props.readOnly) {
-      return props.state ? (
+    if (readOnly) {
+      return state ? (
         <MathRenderer {...props} />
       ) : (
         <span
@@ -238,11 +240,7 @@ export function MathEditor(props: MathEditorProps) {
           <MathRenderer {...props} ref={anchorRef} />
         )}
         {helpOpen ? null : (
-          <HoverOverlay
-            position="above"
-            anchor={anchorRef}
-            allowSelectionOverflow
-          >
+          <HoverOverlay position="above" anchor={anchorRef}>
             <div
               onClick={(e) => {
                 e.stopPropagation()
@@ -263,7 +261,7 @@ export function MathEditor(props: MathEditorProps) {
                   {config.i18n.editors.latex}
                 </Option>
               </Dropdown>
-              {props.disableBlock ? null : (
+              {!disableBlock && (
                 <InlineCheckbox
                   label={config.i18n.displayBlockLabel}
                   checked={!props.inline}
@@ -274,7 +272,7 @@ export function MathEditor(props: MathEditorProps) {
                   }}
                 />
               )}
-              {useVisualEditor ? (
+              {useVisualEditor && (
                 <Button
                   config={config}
                   onMouseDown={() => {
@@ -283,16 +281,16 @@ export function MathEditor(props: MathEditorProps) {
                 >
                   <Icon icon={faQuestionCircle} />
                 </Button>
-              ) : null}
-              {hasError ? (
+              )}
+              {hasError && (
                 <React.Fragment>
                   {config.i18n.editors.noVisualEditorAvailableMessage}
                   &nbsp;&nbsp;
                 </React.Fragment>
-              ) : null}
+              )}
               <br />
-              {useVisualEditor ? null : (
-                <MathEditorTextArea {...props} defaultValue={props.state} />
+              {!useVisualEditor && (
+                <MathEditorTextArea {...props} defaultValue={state} />
               )}
             </div>
           </HoverOverlay>

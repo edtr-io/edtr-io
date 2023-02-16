@@ -91,8 +91,6 @@ export function HoverOverlay(props: HoverOverlayProps): JSX.Element;
 // @public (undocumented)
 export interface HoverOverlayProps {
     // (undocumented)
-    allowSelectionOverflow?: boolean;
-    // (undocumented)
     anchor?: React_2.RefObject<HTMLElement>;
     // (undocumented)
     children: React_2.ReactNode;
