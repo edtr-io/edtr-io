@@ -1,14 +1,14 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import { TextPluginConfig } from '..'
+import { TextPluginConfig } from '../types'
 
-export interface SuggestionProps {
-  options: string[][]
+interface SuggestionsProps {
   config: TextPluginConfig
+  options: string[][]
   currentValue: string
-  selected?: number
-  onSelect: (option: string) => void
+  selected: number
+  onMouseDown: (option: string) => void
 }
 
 function escapeRegExp(string: string) {
@@ -40,8 +40,8 @@ const StyledText = styled.span<{ isHighlighted: boolean }>(
   })
 )
 
-export function Suggestions(props: SuggestionProps) {
-  const { options, config, currentValue, selected, onSelect } = props
+export const Suggestions = (props: SuggestionsProps) => {
+  const { config, options, currentValue, selected, onMouseDown } = props
   const { i18n, theme } = config
 
   if (options.length === 0) {
@@ -50,9 +50,8 @@ export function Suggestions(props: SuggestionProps) {
 
   return (
     <Container>
-      {options.map((option, index) => {
-        const displayText = option[0]
-        const fragments = displayText
+      {options.map(([optionTitle, optionValue], index) => {
+        const fragments = optionTitle
           .split(new RegExp(`(${escapeRegExp(currentValue)})`, 'i'))
           .map((text) => ({
             text,
@@ -63,7 +62,7 @@ export function Suggestions(props: SuggestionProps) {
           <Suggestion
             key={index}
             isActive={index === selected}
-            onMouseDown={() => onSelect(option[1])}
+            onMouseDown={() => onMouseDown(optionValue)}
             theme={theme}
           >
             {fragments.map((fragment, fragmentIndex) => (
