@@ -4,7 +4,7 @@ import { TextEditor } from './components/text-editor'
 import type { TextProps } from './components/text-editor'
 import type {
   TextConfig,
-  TextConfigPlugin,
+  TextPlugin,
   TextPluginConfig,
   TextPluginState,
 } from './types'
@@ -42,7 +42,7 @@ export { createTextPlugin }
 
 export type {
   TextConfig,
-  TextConfigPlugin,
+  TextPlugin,
   TextPluginConfig,
   TextPluginState,
   TextProps,

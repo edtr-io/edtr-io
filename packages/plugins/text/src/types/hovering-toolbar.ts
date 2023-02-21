@@ -2,12 +2,12 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import type { TextConfigPlugin } from '.'
+import type { TextPlugin } from '.'
 
 export type TextEditorControl = ControlButton | NestedControlButton
 
 export interface ControlButton {
-  plugin: TextConfigPlugin
+  plugin: TextPlugin
   title: string
   isActive(editor: BaseEditor & ReactEditor & ListsEditor): boolean
   onClick(editor: BaseEditor & ReactEditor & ListsEditor): void

@@ -13,7 +13,7 @@ export type TextPluginState = SerializedScalarStateType<
 /** @public */
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
-  plugins?: TextConfigPlugin[]
+  plugins?: TextPlugin[]
   /** @deprecated */
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
@@ -23,7 +23,7 @@ export interface TextConfig {
 }
 
 /** @public */
-export enum TextConfigPlugin {
+export enum TextPlugin {
   code = 'code',
   colors = 'colors',
   headings = 'headings',
@@ -38,9 +38,7 @@ export enum TextConfigPlugin {
 /** @public */
 export interface TextPluginConfig {
   placeholder: string
-  enabledPlugins: TextConfigPlugin[]
-  // TODO
-  //plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
+  enabledPlugins: TextPlugin[]
   registry: {
     name: string
     title?: string
