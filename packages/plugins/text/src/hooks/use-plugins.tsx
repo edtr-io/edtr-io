@@ -3,8 +3,8 @@ import React, { useCallback, useMemo } from 'react'
 import { Editor as SlateEditor } from 'slate'
 
 import { withLinks, withLists, withMath } from '../plugins'
-import { TextPlugin } from '../types'
-import type { TextEditorControl, TextPluginConfig } from '../types'
+import { TextEditorPlugin } from '../types'
+import type { TextEditorControl, TextEditorPluginConfig } from '../types'
 import {
   isAnyColorActive,
   isColorActive,
@@ -32,13 +32,13 @@ import {
 } from '../utils/typography'
 
 const textPluginsMapper = {
-  [TextPlugin.math]: withMath,
-  [TextPlugin.links]: withLinks,
-  [TextPlugin.lists]: withLists,
+  [TextEditorPlugin.math]: withMath,
+  [TextEditorPlugin.links]: withLinks,
+  [TextEditorPlugin.lists]: withLists,
 }
 
 const isRegisteredTextPlugin = (
-  plugin: TextPlugin
+  plugin: TextEditorPlugin
 ): plugin is keyof typeof textPluginsMapper => {
   return plugin in textPluginsMapper
 }
@@ -46,29 +46,29 @@ const isRegisteredTextPlugin = (
 const registeredHotkeys = [
   {
     hotkey: 'mod+b',
-    plugin: TextPlugin.richText,
+    plugin: TextEditorPlugin.richText,
     handler: toggleBoldMark,
   },
   {
     hotkey: 'mod+i',
-    plugin: TextPlugin.richText,
+    plugin: TextEditorPlugin.richText,
     handler: toggleItalicMark,
   },
   {
     hotkey: 'mod+k',
-    plugin: TextPlugin.links,
+    plugin: TextEditorPlugin.links,
     handler: toggleLink,
   },
 ]
 
 const createToolbarControls = (
-  { i18n, theme }: TextPluginConfig,
-  enabledPlugins: TextPlugin[]
+  { i18n, theme }: TextEditorPluginConfig,
+  enabledPlugins: TextEditorPlugin[]
 ): TextEditorControl[] => {
   const allControls = [
     // Bold
     {
-      plugin: TextPlugin.richText,
+      plugin: TextEditorPlugin.richText,
       title: i18n.richText.toggleStrongTitle,
       isActive: isBoldActive,
       onClick: toggleBoldMark,
@@ -76,7 +76,7 @@ const createToolbarControls = (
     },
     // Italic
     {
-      plugin: TextPlugin.richText,
+      plugin: TextEditorPlugin.richText,
       title: i18n.richText.toggleEmphasizeTitle,
       isActive: isItalicActive,
       onClick: toggleItalicMark,
@@ -84,7 +84,7 @@ const createToolbarControls = (
     },
     // Colors
     {
-      plugin: TextPlugin.colors,
+      plugin: TextEditorPlugin.colors,
       title: i18n.colors.openMenuTitle,
       closeMenuTitle: i18n.colors.closeMenuTitle,
       isActive: isAnyColorActive,
@@ -92,7 +92,7 @@ const createToolbarControls = (
       renderCloseMenuIcon: () => <span>X</span>,
       children: [
         {
-          plugin: TextPlugin.colors,
+          plugin: TextEditorPlugin.colors,
           title: i18n.colors.resetColorTitle,
           isActive: (editor: SlateEditor) => !isAnyColorActive(editor),
           onClick: resetColor,
@@ -105,7 +105,7 @@ const createToolbarControls = (
           ),
         },
         ...theme.plugins.colors.colors.map((color, colorIndex) => ({
-          plugin: TextPlugin.colors,
+          plugin: TextEditorPlugin.colors,
           title: i18n.colors.colorNames[colorIndex],
           isActive: isColorActive(colorIndex),
           onClick: toggleColor(colorIndex),
@@ -117,7 +117,7 @@ const createToolbarControls = (
     },
     // Code
     {
-      plugin: TextPlugin.code,
+      plugin: TextEditorPlugin.code,
       title: i18n.code.toggleTitle,
       isActive: isCodeActive,
       onClick: toggleCode,
@@ -125,14 +125,14 @@ const createToolbarControls = (
     },
     // Headings
     {
-      plugin: TextPlugin.headings,
+      plugin: TextEditorPlugin.headings,
       title: i18n.headings.openMenuTitle,
       closeMenuTitle: i18n.headings.closeMenuTitle,
       isActive: isAnyHeadingActive,
       renderIcon: () => <span>H</span>,
       renderCloseMenuIcon: () => <span>X</span>,
       children: theme.plugins.headings.map((heading) => ({
-        plugin: TextPlugin.headings,
+        plugin: TextEditorPlugin.headings,
         title: i18n.headings.setHeadingTitle(heading),
         isActive: isHeadingActive(heading),
         onClick: toggleHeading(heading),
@@ -141,7 +141,7 @@ const createToolbarControls = (
     },
     // Ordered list
     {
-      plugin: TextPlugin.lists,
+      plugin: TextEditorPlugin.lists,
       title: i18n.list.toggleOrderedList,
       isActive: isOrderedListActive,
       onClick: toggleOrderedList,
@@ -149,7 +149,7 @@ const createToolbarControls = (
     },
     // Unordered list
     {
-      plugin: TextPlugin.lists,
+      plugin: TextEditorPlugin.lists,
       title: i18n.list.toggleUnorderedList,
       isActive: isUnorderedListActive,
       onClick: toggleUnorderedList,
@@ -157,7 +157,7 @@ const createToolbarControls = (
     },
     // Link
     {
-      plugin: TextPlugin.links,
+      plugin: TextEditorPlugin.links,
       title: i18n.link.toggleTitle,
       isActive: isLinkActive,
       onClick: toggleLink,
@@ -165,7 +165,7 @@ const createToolbarControls = (
     },
     // Math
     {
-      plugin: TextPlugin.math,
+      plugin: TextEditorPlugin.math,
       title: i18n.math.toggleTitle,
       isActive: isMathActive,
       onClick: toggleMath,
@@ -174,15 +174,15 @@ const createToolbarControls = (
   ]
 
   const enabledPluginsControls = allControls.filter((control) => {
-    return enabledPlugins.includes(TextPlugin[control.plugin])
+    return enabledPlugins.includes(TextEditorPlugin[control.plugin])
   })
 
   return enabledPluginsControls
 }
 
 export const usePlugins = (
-  config: TextPluginConfig,
-  enabledPlugins: TextPlugin[]
+  config: TextEditorPluginConfig,
+  enabledPlugins: TextEditorPlugin[]
 ) => {
   const createTextEditor = useCallback(
     (baseEditor: SlateEditor) =>

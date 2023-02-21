@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import type { TextPlugin } from './types'
+import type { TextEditorPlugin } from './types'
 
 /** @internal */
 export const RegistryContext = React.createContext<Registry>(
@@ -8,7 +8,7 @@ export const RegistryContext = React.createContext<Registry>(
 )
 /** @internal */
 export type Registry = {
-  name: TextPlugin
+  name: TextEditorPlugin
   title?: string
   icon?: React.ComponentType
   description?: string

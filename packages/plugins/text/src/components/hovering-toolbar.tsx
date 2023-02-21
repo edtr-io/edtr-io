@@ -4,7 +4,7 @@ import { Editor as SlateEditor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
 import type {
-  TextPluginConfig,
+  TextEditorPluginConfig,
   NestedControlButton,
   TextEditorControl,
 } from '../types'
@@ -13,7 +13,7 @@ import { HoveringToolbarButton } from './hovering-toolbar-button'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
 
 export interface HoveringToolbarProps {
-  config: TextPluginConfig
+  config: TextEditorPluginConfig
   controls: TextEditorControl[]
 }
 

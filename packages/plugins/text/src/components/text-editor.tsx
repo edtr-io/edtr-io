@@ -14,7 +14,7 @@ import {
 import { usePlugins } from '../hooks/use-plugins'
 import { useSuggestions } from '../hooks/use-suggestions'
 import { useTextConfig } from '../hooks/use-text-config'
-import type { TextConfig, TextPluginState } from '../types'
+import type { TextEditorConfig, TextEditorState } from '../types'
 import { markdownShortcuts } from '../utils/markdown'
 import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
@@ -22,7 +22,10 @@ import { MathElement } from './math-element'
 import { Suggestions } from './suggestions'
 
 /** @public */
-export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
+export type TextEditorProps = EditorPluginProps<
+  TextEditorState,
+  TextEditorConfig
+>
 
 function renderElement(props: RenderElementProps) {
   const { element, attributes, children } = props
@@ -62,7 +65,7 @@ function renderElement(props: RenderElementProps) {
   return <p {...attributes}>{children}</p>
 }
 
-function renderLeafWithConfig(config: TextConfig) {
+function renderLeafWithConfig(config: TextEditorConfig) {
   return function renderLeaf(props: RenderLeafProps) {
     const colors = config?.theme?.plugins?.colors?.colors
     const { attributes, leaf } = props
@@ -88,7 +91,7 @@ function renderLeafWithConfig(config: TextConfig) {
   }
 }
 
-export function TextEditor(props: TextProps) {
+export function TextEditor(props: TextEditorProps) {
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)

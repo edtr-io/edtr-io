@@ -1,10 +1,10 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import type { TextPluginConfig } from '../types'
+import type { TextEditorPluginConfig } from '../types'
 
 interface SuggestionsProps {
-  config: TextPluginConfig
+  config: TextEditorPluginConfig
   options: string[][]
   currentValue: string
   selected: number

@@ -1,23 +1,23 @@
 import { EditorPlugin, serializedScalar } from '@edtr-io/plugin'
 
 import { TextEditor } from './components/text-editor'
-import type { TextProps } from './components/text-editor'
+import type { TextEditorProps } from './components/text-editor'
 import type {
-  TextConfig,
-  TextPlugin,
-  TextPluginConfig,
-  TextPluginState,
+  TextEditorConfig,
+  TextEditorPlugin,
+  TextEditorPluginConfig,
+  TextEditorState,
 } from './types'
 import { emptyDocumentFactory } from './utils/document'
 
 /**
- * @param config - {@link TextConfig | Plugin configuration}
+ * @param config - {@link TextEditorConfig | Plugin configuration}
  * @returns The text plugin
  * @public
  */
 const createTextPlugin = (
-  config: TextConfig
-): EditorPlugin<TextPluginState, TextConfig> => ({
+  config: TextEditorConfig
+): EditorPlugin<TextEditorState, TextEditorConfig> => ({
   Component: TextEditor,
   config,
   state: serializedScalar(emptyDocumentFactory(), {
@@ -41,9 +41,9 @@ const createTextPlugin = (
 export { createTextPlugin }
 
 export type {
-  TextConfig,
-  TextPlugin,
-  TextPluginConfig,
-  TextPluginState,
-  TextProps,
+  TextEditorConfig,
+  TextEditorPlugin,
+  TextEditorPluginConfig,
+  TextEditorState,
+  TextEditorProps,
 }

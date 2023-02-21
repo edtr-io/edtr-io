@@ -2,9 +2,9 @@ import { useScopedStore } from '@edtr-io/core/beta'
 import { replace } from '@edtr-io/store'
 import React, { useState, useEffect, useRef } from 'react'
 
-import type { TextPluginConfig } from '../types'
+import type { TextEditorPluginConfig } from '../types'
 
-function mapPlugins(plugins: TextPluginConfig['registry'], text: string) {
+function mapPlugins(plugins: TextEditorPluginConfig['registry'], text: string) {
   const search = text.replace('/', '').toLowerCase()
 
   const startingWithSearchString = plugins
@@ -38,7 +38,7 @@ export const useSuggestions = (args: {
   id: string
   editable: boolean
   focused: boolean
-  registry: TextPluginConfig['registry']
+  registry: TextEditorPluginConfig['registry']
 }) => {
   const [selected, setSelected] = useState(0)
   const store = useScopedStore()

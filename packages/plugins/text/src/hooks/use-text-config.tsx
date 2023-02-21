@@ -2,19 +2,23 @@ import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RegistryContext } from '../registry-context'
-import { TextPlugin } from '../types'
-import type { Heading, TextConfig, TextPluginConfig } from '../types'
+import { TextEditorPlugin } from '../types'
+import type {
+  Heading,
+  TextEditorConfig,
+  TextEditorPluginConfig,
+} from '../types'
 
-const defaultEnabledPlugins: TextPlugin[] = [
-  TextPlugin.code,
-  TextPlugin.colors,
-  TextPlugin.headings,
-  TextPlugin.katex,
-  TextPlugin.links,
-  TextPlugin.lists,
-  TextPlugin.math,
-  TextPlugin.paragraphs,
-  TextPlugin.richText,
+const defaultEnabledPlugins: TextEditorPlugin[] = [
+  TextEditorPlugin.code,
+  TextEditorPlugin.colors,
+  TextEditorPlugin.headings,
+  TextEditorPlugin.katex,
+  TextEditorPlugin.links,
+  TextEditorPlugin.lists,
+  TextEditorPlugin.math,
+  TextEditorPlugin.paragraphs,
+  TextEditorPlugin.richText,
 ]
 
 const colors = [
@@ -32,7 +36,9 @@ const colors = [
   },
 ]
 
-export function useTextConfig(config: TextConfig): TextPluginConfig {
+export function useTextConfig(
+  config: TextEditorConfig
+): TextEditorPluginConfig {
   const {
     placeholder = 'Write something or add elements with \u2295.',
     i18n = {},

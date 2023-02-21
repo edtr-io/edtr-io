@@ -13,7 +13,7 @@ import {
   InlineOverlay,
   InlineOverlayPosition,
 } from '../components/inline-overlay'
-import type { Link, TextPluginConfig } from '../types'
+import type { Link, TextEditorPluginConfig } from '../types'
 import { getLinkElement, isLinkActive } from '../utils/link'
 
 const InlinePreview = styled.span({
@@ -56,7 +56,7 @@ interface InputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  theme: DeepPartial<TextPluginConfig['theme']>
+  theme: DeepPartial<TextEditorPluginConfig['theme']>
   label?: string
   textfieldWidth?: string
   editorInputWidth?: string
@@ -67,7 +67,7 @@ export function LinkControls({
   config,
 }: {
   editor: SlateEditor
-  config: TextPluginConfig
+  config: TextEditorPluginConfig
 }) {
   const [element, setElement] = React.useState<Link | null>(null)
   const [value, setValue] = React.useState('')

@@ -2,7 +2,7 @@ import { styled } from '@edtr-io/ui'
 import React from 'react'
 import { useSlate } from 'slate-react'
 
-import type { TextConfig } from '../types'
+import type { TextEditorConfig } from '../types'
 
 export enum InlineOverlayPosition {
   above = 'above',
@@ -50,7 +50,7 @@ export function InlineOverlay({
   initialPosition,
   hidden,
 }: {
-  config: TextConfig
+  config: TextEditorConfig
   children: React.ReactNode
   initialPosition: InlineOverlayPosition
   hidden?: boolean

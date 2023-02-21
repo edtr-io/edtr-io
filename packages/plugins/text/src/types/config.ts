@@ -5,25 +5,25 @@ import { Descendant, Range } from 'slate'
 import { Heading } from '.'
 
 /** @public */
-export type TextPluginState = SerializedScalarStateType<
+export type TextEditorState = SerializedScalarStateType<
   Descendant[],
   { value: Descendant[]; selection: Range | null }
 >
 
 /** @public */
-export interface TextConfig {
-  placeholder?: TextPluginConfig['placeholder']
-  plugins?: TextPlugin[]
+export interface TextEditorConfig {
+  placeholder?: TextEditorPluginConfig['placeholder']
+  plugins?: TextEditorPlugin[]
   /** @deprecated */
-  registry: TextPluginConfig['registry']
-  i18n?: DeepPartial<TextPluginConfig['i18n']>
-  theme?: DeepPartial<TextPluginConfig['theme']>
+  registry: TextEditorPluginConfig['registry']
+  i18n?: DeepPartial<TextEditorPluginConfig['i18n']>
+  theme?: DeepPartial<TextEditorPluginConfig['theme']>
   blockquote?: string
   noLinebreaks?: boolean
 }
 
 /** @public */
-export enum TextPlugin {
+export enum TextEditorPlugin {
   code = 'code',
   colors = 'colors',
   headings = 'headings',
@@ -36,9 +36,9 @@ export enum TextPlugin {
 }
 
 /** @public */
-export interface TextPluginConfig {
+export interface TextEditorPluginConfig {
   placeholder: string
-  enabledPlugins: TextPlugin[]
+  enabledPlugins: TextEditorPlugin[]
   registry: {
     name: string
     title?: string
