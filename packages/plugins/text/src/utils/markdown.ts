@@ -2,7 +2,7 @@ import { ListsEditor, ListType } from '@prezly/slate-lists'
 import React from 'react'
 import { Transforms, Editor as SlateEditor, Node } from 'slate'
 
-import { Heading } from '../types'
+import type { Heading } from '../types'
 
 const handleMarkdown = (chars: string, editor: SlateEditor) => {
   switch (chars) {

@@ -3,7 +3,8 @@ import React, { useCallback, useMemo } from 'react'
 import { Editor as SlateEditor } from 'slate'
 
 import { withLinks, withLists, withMath } from '../plugins'
-import { TextConfigPlugin, TextEditorControl, TextPluginConfig } from '../types'
+import { TextConfigPlugin } from '../types'
+import type { TextEditorControl, TextPluginConfig } from '../types'
 import {
   isAnyColorActive,
   isColorActive,

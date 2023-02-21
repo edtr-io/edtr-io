@@ -2,12 +2,8 @@ import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
 import { RegistryContext } from '../registry-context'
-import {
-  Heading,
-  TextConfig,
-  TextConfigPlugin,
-  TextPluginConfig,
-} from '../types'
+import { TextConfigPlugin } from '../types'
+import type { Heading, TextConfig, TextPluginConfig } from '../types'
 
 const defaultEnabledPlugins: TextConfigPlugin[] = [
   TextConfigPlugin.code,

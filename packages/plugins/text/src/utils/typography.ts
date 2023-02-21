@@ -1,6 +1,6 @@
 import { Editor as SlateEditor, Transforms } from 'slate'
 
-import { Heading } from '../types'
+import type { Heading } from '../types'
 import { selectionHasElement } from './selection'
 
 export function isBoldActive(editor: SlateEditor) {

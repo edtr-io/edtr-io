@@ -2,7 +2,7 @@ import { styled } from '@edtr-io/ui'
 import React from 'react'
 import { useSlate } from 'slate-react'
 
-import { TextConfig } from '../types'
+import type { TextConfig } from '../types'
 
 export enum InlineOverlayPosition {
   above = 'above',

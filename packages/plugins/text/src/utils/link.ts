@@ -1,6 +1,6 @@
 import { Editor as SlateEditor, Element, Node, Range, Transforms } from 'slate'
 
-import { Link } from '../types'
+import type { Link } from '../types'
 import { selectionHasElement } from './selection'
 
 function matchLinks(node: Node) {

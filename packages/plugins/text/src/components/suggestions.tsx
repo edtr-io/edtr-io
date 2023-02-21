@@ -1,7 +1,7 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import { TextPluginConfig } from '../types'
+import type { TextPluginConfig } from '../types'
 
 interface SuggestionsProps {
   config: TextPluginConfig
