@@ -1,20 +1,25 @@
-import { RegistryContext } from '@edtr-io/plugin-rows/internal'
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import type { Heading, TextConfig, TextPluginConfig } from '../types'
+import { RegistryContext } from '../registry-context'
+import {
+  Heading,
+  TextConfig,
+  TextConfigPlugin,
+  TextPluginConfig,
+} from '../types'
 
-const defaultEnabledPlugins = {
-  code: true,
-  colors: true,
-  headings: true,
-  links: true,
-  lists: true,
-  math: true,
-  paragraphs: true,
-  richText: true,
-  suggestions: true,
-}
+const defaultEnabledPlugins: TextConfigPlugin[] = [
+  TextConfigPlugin.code,
+  TextConfigPlugin.colors,
+  TextConfigPlugin.headings,
+  TextConfigPlugin.katex,
+  TextConfigPlugin.links,
+  TextConfigPlugin.lists,
+  TextConfigPlugin.math,
+  TextConfigPlugin.paragraphs,
+  TextConfigPlugin.richText,
+]
 
 const colors = [
   {

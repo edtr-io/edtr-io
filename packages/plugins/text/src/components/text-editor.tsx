@@ -1,8 +1,6 @@
 import { HotKeys } from '@edtr-io/core'
 import { HoverOverlay } from '@edtr-io/editor-ui/beta'
 import { EditorPluginProps } from '@edtr-io/plugin'
-import { withListsReact } from '@prezly/slate-lists'
-import isHotkey from 'is-hotkey'
 import React, { createElement, useRef, useEffect, useMemo } from 'react'
 import { createEditor, Descendant, Node, Transforms } from 'slate'
 import {
@@ -13,13 +11,11 @@ import {
   withReact,
 } from 'slate-react'
 
+import { usePlugins } from '../hooks/use-plugins'
 import { useSuggestions } from '../hooks/use-suggestions'
 import { useTextConfig } from '../hooks/use-text-config'
 import type { TextConfig, TextPluginState } from '../types'
-import { toggleLink } from '../utils/link'
 import { markdownShortcuts } from '../utils/markdown'
-import { toggleBoldMark, toggleItalicMark } from '../utils/typography'
-import { withListsPlugin } from '../utils/with-lists-plugin'
 import { HoveringToolbar } from './hovering-toolbar'
 import { LinkControls } from './link-controls'
 import { MathElement } from './math-element'
@@ -27,10 +23,6 @@ import { Suggestions } from './suggestions'
 
 /** @public */
 export type TextProps = EditorPluginProps<TextPluginState, TextConfig>
-
-function createTextEditor() {
-  return withListsReact(withListsPlugin(withReact(createEditor())))
-}
 
 function renderElement(props: RenderElementProps) {
   const { element, attributes, children } = props
@@ -100,17 +92,20 @@ export function TextEditor(props: TextProps) {
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)
-  const { registry } = config
-  const editor = useMemo(createTextEditor, [])
+  const { registry, enabledPlugins } = config
+  const textPlugins = usePlugins(config, enabledPlugins)
+  const { createTextEditor, toolbarControls } = textPlugins
+  const editor = useMemo(
+    () => createTextEditor(withReact(createEditor())),
+    [createTextEditor]
+  )
   const text = Node.string(editor)
+  const suggestions = useSuggestions({ text, id, editable, focused, registry })
+  const { showSuggestions, hotKeysProps, suggestionsProps } = suggestions
+
   const previousValue = useRef(value)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const previousSelection = useRef(selection)
-  const { showSuggestions, suggestionsProps, hotKeysProps, preventHotKeys } =
-    useSuggestions({ text, id, editable, focused, registry })
-
-  editor.isInline = ({ type }) => type === 'a' || type === 'math'
-  editor.isVoid = ({ type }) => type == 'math'
 
   useEffect(() => {
     if (!selection) return
@@ -134,31 +129,20 @@ export function TextEditor(props: TextProps) {
   }
 
   function handleEditableKeyDown(event: React.KeyboardEvent) {
-    preventHotKeys(event)
-
-    if (isHotkey('mod+b', event)) {
-      event.preventDefault()
-      return toggleBoldMark(editor)
-    }
-    if (isHotkey('mod+i', event)) {
-      event.preventDefault()
-      return toggleItalicMark(editor)
-    }
-    if (isHotkey('mod+k', event)) {
-      event.preventDefault()
-      return toggleLink(editor)
-    }
-
-    markdownShortcuts().onKeyDown(event as unknown as KeyboardEvent, editor)
+    suggestions.handleHotkeys(event)
+    textPlugins.handleHotkeys(event, editor)
+    markdownShortcuts().onKeyDown(event, editor)
   }
 
   // TODO: Change state + selection
   return (
     <HotKeys {...hotKeysProps}>
       <Slate editor={editor} value={value} onChange={handleEditorChange}>
-        <HoveringToolbar config={config} />
+        <HoveringToolbar config={config} controls={toolbarControls} />
 
-        {editable && <LinkControls editor={editor} config={config} />}
+        {editable && focused && (
+          <LinkControls editor={editor} config={config} />
+        )}
 
         <Editable
           onKeyDown={handleEditableKeyDown}

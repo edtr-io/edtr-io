@@ -13,7 +13,7 @@ export type TextPluginState = SerializedScalarStateType<
 /** @public */
 export interface TextConfig {
   placeholder?: TextPluginConfig['placeholder']
-  plugins?: TextConfigPlugins
+  plugins?: TextConfigPlugin[]
   /** @deprecated */
   registry: TextPluginConfig['registry']
   i18n?: DeepPartial<TextPluginConfig['i18n']>
@@ -23,23 +23,22 @@ export interface TextConfig {
 }
 
 /** @public */
-export interface TextConfigPlugins {
-  code?: boolean
-  colors?: boolean
-  headings?: boolean
-  katex?: boolean
-  links?: boolean
-  lists?: boolean
-  math?: boolean
-  paragraphs?: boolean
-  richText?: boolean
-  suggestions?: boolean
+export enum TextConfigPlugin {
+  code = 'code',
+  colors = 'colors',
+  headings = 'headings',
+  katex = 'katex',
+  links = 'links',
+  lists = 'lists',
+  math = 'math',
+  paragraphs = 'paragraphs',
+  richText = 'richText',
 }
 
 /** @public */
 export interface TextPluginConfig {
   placeholder: string
-  enabledPlugins: TextConfigPlugins
+  enabledPlugins: TextConfigPlugin[]
   // TODO
   //plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[]
   registry: {

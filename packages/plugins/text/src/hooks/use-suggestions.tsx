@@ -45,8 +45,8 @@ export const useSuggestions = (args: {
   const { text, id, editable, focused, registry } = args
 
   const allOptions = mapPlugins(registry, text)
-  // TODO: In case of implementing "allowed plugins" functionality, it would
-  //       be possible to add a check here if suggestions plugin is allowed
+  // TODO: In case of implementing "allowed plugins" functionality for edtr-io plugins,
+  //       it would be possible to add a check here if suggestions plugin is allowed
   const showSuggestions =
     editable && focused && text.startsWith('/') && allOptions.length > 0
   const options = showSuggestions ? allOptions : []
@@ -73,7 +73,7 @@ export const useSuggestions = (args: {
     store.dispatch(replace({ id, plugin }))
   }
 
-  function preventHotKeys(event: React.KeyboardEvent) {
+  function handleHotkeys(event: React.KeyboardEvent) {
     if (closure.current.showSuggestions) {
       if (['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) {
         event.preventDefault()
@@ -121,6 +121,6 @@ export const useSuggestions = (args: {
       keyMap: hotKeysMap,
       handlers: hotKeysHandlers,
     },
-    preventHotKeys,
+    handleHotkeys,
   }
 }

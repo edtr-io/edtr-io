@@ -1,4 +1,5 @@
 import { ListsEditor, ListType } from '@prezly/slate-lists'
+import React from 'react'
 import { Transforms, Editor as SlateEditor, Node } from 'slate'
 
 import { Heading } from '../types'
@@ -36,7 +37,7 @@ function createHeading(level: Heading['level'], editor: SlateEditor) {
   return true
 }
 
-const onSpace = (event: KeyboardEvent, editor: SlateEditor) => {
+const onSpace = (event: React.KeyboardEvent, editor: SlateEditor) => {
   const { selection } = editor
 
   if (selection) {
@@ -57,11 +58,10 @@ const onSpace = (event: KeyboardEvent, editor: SlateEditor) => {
 
 export const markdownShortcuts = () => {
   return {
-    onKeyDown(event: KeyboardEvent, editor: SlateEditor) {
-      const e = event as unknown as KeyboardEvent
-      switch (e.key) {
+    onKeyDown(event: React.KeyboardEvent, editor: SlateEditor) {
+      switch (event.key) {
         case ' ':
-          return onSpace(e, editor)
+          return onSpace(event, editor)
         default:
           return
       }

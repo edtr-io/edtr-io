@@ -3,7 +3,6 @@ import React from 'react'
 import { Editor as SlateEditor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 
-import { useToolbarControls } from '../hooks/use-toolbar-controls'
 import type {
   TextPluginConfig,
   NestedControlButton,
@@ -15,6 +14,7 @@ import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
 
 export interface HoveringToolbarProps {
   config: TextPluginConfig
+  controls: TextEditorControl[]
 }
 
 const initialPosition = isTouchDevice()
@@ -27,11 +27,10 @@ function isNestedControlButton(
   return R.has('children', control)
 }
 
-export function HoveringToolbar({ config }: HoveringToolbarProps) {
+export function HoveringToolbar({ config, controls }: HoveringToolbarProps) {
   const [subMenu, setSubMenu] = React.useState<number>()
   const editor = useSlate()
   const { selection } = editor
-  const controls = useToolbarControls(config)
 
   if (typeof subMenu !== 'number') {
     return (
