@@ -35,6 +35,97 @@ export enum TextEditorPlugin {
   richText = 'richText',
 }
 
+interface I18n {
+  blockquote: {
+    toggleTitle: string
+  }
+  code: {
+    toggleTitle: string
+  }
+  colors: {
+    setColorTitle: string
+    resetColorTitle: string
+    openMenuTitle: string
+    closeMenuTitle: string
+    colorNames: string[]
+  }
+  headings: {
+    setHeadingTitle(level: Heading['level']): string
+    openMenuTitle: string
+    closeMenuTitle: string
+  }
+  link: {
+    toggleTitle: string
+    placeholder: string
+    openInNewTabTitle: string
+  }
+  list: {
+    toggleOrderedList: string
+    toggleUnorderedList: string
+    openMenuTitle: string
+    closeMenuTitle: string
+  }
+  math: {
+    toggleTitle: string
+    displayBlockLabel: string
+    placeholder: string
+    editors: {
+      visual: string
+      latex: string
+      noVisualEditorAvailableMessage: string
+    }
+    helpText(
+      KeySpan: React.ComponentType<{ children: React.ReactNode }>
+    ): React.ReactNode
+  }
+  richText: {
+    toggleStrongTitle: string
+    toggleEmphasizeTitle: string
+  }
+  suggestions: {
+    noResultsMessage: string
+  }
+}
+
+export interface ColorsTheme {
+  colors: string[]
+  defaultColor: string
+}
+
+interface Theme {
+  backgroundColor: string
+  color: string
+  hoverColor: string
+  borderColor: string
+  borderRadius: string
+  active: {
+    backgroundColor: string
+    color: string
+  }
+  dropDown: {
+    backgroundColor: string
+  }
+  suggestions: {
+    background: {
+      default: string
+      highlight: string
+    }
+    text: {
+      default: string
+      highlight: string
+    }
+  }
+  overlay: {
+    backgroundColor: string
+    boxShadow: string
+    color: string
+  }
+  plugins: {
+    colors: ColorsTheme
+    headings: Heading['level'][]
+  }
+}
+
 /** @public */
 export interface TextEditorPluginConfig {
   placeholder: string
@@ -44,93 +135,8 @@ export interface TextEditorPluginConfig {
     title?: string
     description?: string
   }[]
-  i18n: {
-    blockquote: {
-      toggleTitle: string
-    }
-    code: {
-      toggleTitle: string
-    }
-    colors: {
-      setColorTitle: string
-      resetColorTitle: string
-      openMenuTitle: string
-      closeMenuTitle: string
-      colorNames: string[]
-    }
-    headings: {
-      setHeadingTitle(level: Heading['level']): string
-      openMenuTitle: string
-      closeMenuTitle: string
-    }
-    link: {
-      toggleTitle: string
-      placeholder: string
-      openInNewTabTitle: string
-    }
-    list: {
-      toggleOrderedList: string
-      toggleUnorderedList: string
-      openMenuTitle: string
-      closeMenuTitle: string
-    }
-    math: {
-      toggleTitle: string
-      displayBlockLabel: string
-      placeholder: string
-      editors: {
-        visual: string
-        latex: string
-        noVisualEditorAvailableMessage: string
-      }
-      helpText(
-        KeySpan: React.ComponentType<{ children: React.ReactNode }>
-      ): React.ReactNode
-    }
-    richText: {
-      toggleStrongTitle: string
-      toggleEmphasizeTitle: string
-    }
-    suggestions: {
-      noResultsMessage: string
-    }
-  }
-  theme: {
-    backgroundColor: string
-    color: string
-    hoverColor: string
-    borderColor: string
-    borderRadius: string
-    active: {
-      backgroundColor: string
-      color: string
-    }
-    dropDown: {
-      backgroundColor: string
-    }
-    suggestions: {
-      background: {
-        default: string
-        highlight: string
-      }
-      text: {
-        default: string
-        highlight: string
-      }
-    }
-    overlay: {
-      backgroundColor: string
-      boxShadow: string
-      color: string
-    }
-    plugins: {
-      colors: {
-        colors: string[]
-        defaultColor: string
-      }
-      headings: Heading['level'][]
-    }
-  }
+  i18n: I18n
+  theme: Theme
   blockquote?: string
   noLinebreaks?: boolean
 }

@@ -12,7 +12,10 @@ export function isUnorderedListActive(editor: SlateEditor) {
 }
 
 export function toggleOrderedList(editor: SlateEditor) {
-  if (isOrderedListActive(editor)) {
+  if (isUnorderedListActive(editor)) {
+    ListsEditor.unwrapList(editor)
+    ListsEditor.wrapInList(editor, ListType.ORDERED)
+  } else if (isOrderedListActive(editor)) {
     ListsEditor.unwrapList(editor)
   } else {
     ListsEditor.wrapInList(editor, ListType.ORDERED)
@@ -20,7 +23,10 @@ export function toggleOrderedList(editor: SlateEditor) {
 }
 
 export function toggleUnorderedList(editor: SlateEditor) {
-  if (isUnorderedListActive(editor)) {
+  if (isOrderedListActive(editor)) {
+    ListsEditor.unwrapList(editor)
+    ListsEditor.wrapInList(editor, ListType.UNORDERED)
+  } else if (isUnorderedListActive(editor)) {
     ListsEditor.unwrapList(editor)
   } else {
     ListsEditor.wrapInList(editor, ListType.UNORDERED)

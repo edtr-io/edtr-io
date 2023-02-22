@@ -17,3 +17,7 @@ export const toggleColor = (colorIndex: number) => (editor: SlateEditor) => {
     SlateEditor.addMark(editor, 'color', colorIndex)
   }
 }
+
+export const getColorIndex = (editor: SlateEditor) => {
+  return SlateEditor.marks(editor)?.color
+}

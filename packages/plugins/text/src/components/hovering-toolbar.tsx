@@ -57,7 +57,7 @@ export function HoveringToolbar({ config, controls }: HoveringToolbarProps) {
             }}
             key={index}
           >
-            {control.renderIcon()}
+            {control.renderIcon(editor)}
           </HoveringToolbarButton>
         ))}
       </InlineOverlay>
@@ -104,7 +104,7 @@ export function HoveringToolbar({ config, controls }: HoveringToolbarProps) {
           }}
           key={index}
         >
-          {control.renderIcon()}
+          {control.renderIcon(editor)}
         </HoveringToolbarButton>
       ))}
     </InlineOverlay>

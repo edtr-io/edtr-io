@@ -1,11 +1,27 @@
+import {
+  edtrBold,
+  edtrClose,
+  edtrFormula,
+  EdtrIcon,
+  edtrItalic,
+  edtrLink,
+  edtrListBullets,
+  edtrListNumbered,
+  edtrText,
+  faCode,
+  Icon,
+} from '@edtr-io/ui'
 import isHotkey from 'is-hotkey'
 import React, { useCallback, useMemo } from 'react'
 import { Editor as SlateEditor } from 'slate'
 
+import { HoveringToolbarColorIcon } from '../components/hovering-toolbar-color-icon'
+import { HoveringToolbarColorTextIcon } from '../components/hovering-toolbar-color-text-icon'
 import { withLinks, withLists, withMath } from '../plugins'
 import { TextEditorPlugin } from '../types'
 import type { TextEditorControl, TextEditorPluginConfig } from '../types'
 import {
+  getColorIndex,
   isAnyColorActive,
   isColorActive,
   resetColor,
@@ -72,7 +88,7 @@ const createToolbarControls = (
       title: i18n.richText.toggleStrongTitle,
       isActive: isBoldActive,
       onClick: toggleBoldMark,
-      renderIcon: () => <strong>B</strong>,
+      renderIcon: () => <EdtrIcon icon={edtrBold} />,
     },
     // Italic
     {
@@ -80,80 +96,7 @@ const createToolbarControls = (
       title: i18n.richText.toggleEmphasizeTitle,
       isActive: isItalicActive,
       onClick: toggleItalicMark,
-      renderIcon: () => <em>I</em>,
-    },
-    // Colors
-    {
-      plugin: TextEditorPlugin.colors,
-      title: i18n.colors.openMenuTitle,
-      closeMenuTitle: i18n.colors.closeMenuTitle,
-      isActive: isAnyColorActive,
-      renderIcon: () => <span>C</span>,
-      renderCloseMenuIcon: () => <span>X</span>,
-      children: [
-        {
-          plugin: TextEditorPlugin.colors,
-          title: i18n.colors.resetColorTitle,
-          isActive: (editor: SlateEditor) => !isAnyColorActive(editor),
-          onClick: resetColor,
-          renderIcon: () => (
-            <span
-              style={{ backgroundColor: theme.plugins.colors.defaultColor }}
-            >
-              &nbsp;
-            </span>
-          ),
-        },
-        ...theme.plugins.colors.colors.map((color, colorIndex) => ({
-          plugin: TextEditorPlugin.colors,
-          title: i18n.colors.colorNames[colorIndex],
-          isActive: isColorActive(colorIndex),
-          onClick: toggleColor(colorIndex),
-          renderIcon: () => (
-            <span style={{ backgroundColor: color }}>&nbsp;</span>
-          ),
-        })),
-      ],
-    },
-    // Code
-    {
-      plugin: TextEditorPlugin.code,
-      title: i18n.code.toggleTitle,
-      isActive: isCodeActive,
-      onClick: toggleCode,
-      renderIcon: () => <code>C</code>,
-    },
-    // Headings
-    {
-      plugin: TextEditorPlugin.headings,
-      title: i18n.headings.openMenuTitle,
-      closeMenuTitle: i18n.headings.closeMenuTitle,
-      isActive: isAnyHeadingActive,
-      renderIcon: () => <span>H</span>,
-      renderCloseMenuIcon: () => <span>X</span>,
-      children: theme.plugins.headings.map((heading) => ({
-        plugin: TextEditorPlugin.headings,
-        title: i18n.headings.setHeadingTitle(heading),
-        isActive: isHeadingActive(heading),
-        onClick: toggleHeading(heading),
-        renderIcon: () => <span>T{heading}</span>,
-      })),
-    },
-    // Ordered list
-    {
-      plugin: TextEditorPlugin.lists,
-      title: i18n.list.toggleOrderedList,
-      isActive: isOrderedListActive,
-      onClick: toggleOrderedList,
-      renderIcon: () => <b>1.</b>,
-    },
-    // Unordered list
-    {
-      plugin: TextEditorPlugin.lists,
-      title: i18n.list.toggleUnorderedList,
-      isActive: isUnorderedListActive,
-      onClick: toggleUnorderedList,
-      renderIcon: () => <b>*</b>,
+      renderIcon: () => <EdtrIcon icon={edtrItalic} />,
     },
     // Link
     {
@@ -161,7 +104,73 @@ const createToolbarControls = (
       title: i18n.link.toggleTitle,
       isActive: isLinkActive,
       onClick: toggleLink,
-      renderIcon: () => <span>&#128279;</span>,
+      renderIcon: () => <EdtrIcon icon={edtrLink} />,
+    },
+    // Headings
+    {
+      plugin: TextEditorPlugin.headings,
+      title: i18n.headings.openMenuTitle,
+      closeMenuTitle: i18n.headings.closeMenuTitle,
+      isActive: isAnyHeadingActive,
+      renderIcon: () => <EdtrIcon icon={edtrText} />,
+      renderCloseMenuIcon: () => <EdtrIcon icon={edtrClose} />,
+      children: theme.plugins.headings.map((heading) => ({
+        plugin: TextEditorPlugin.headings,
+        title: i18n.headings.setHeadingTitle(heading),
+        isActive: isHeadingActive(heading),
+        onClick: toggleHeading(heading),
+        renderIcon: () => <span>H{heading}</span>,
+      })),
+    },
+    // Colors
+    {
+      plugin: TextEditorPlugin.colors,
+      title: i18n.colors.openMenuTitle,
+      closeMenuTitle: i18n.colors.closeMenuTitle,
+      isActive: () => false,
+      renderIcon: (editor: SlateEditor) => (
+        <HoveringToolbarColorTextIcon
+          index={getColorIndex(editor)}
+          colorsTheme={theme.plugins.colors}
+        />
+      ),
+      renderCloseMenuIcon: () => <EdtrIcon icon={edtrClose} />,
+      children: [
+        {
+          plugin: TextEditorPlugin.colors,
+          title: i18n.colors.resetColorTitle,
+          isActive: (editor: SlateEditor) => !isAnyColorActive(editor),
+          onClick: resetColor,
+          renderIcon: () => (
+            <HoveringToolbarColorIcon
+              color={theme.plugins.colors.defaultColor}
+            />
+          ),
+        },
+        ...theme.plugins.colors.colors.map((color, colorIndex) => ({
+          plugin: TextEditorPlugin.colors,
+          title: i18n.colors.colorNames[colorIndex],
+          isActive: isColorActive(colorIndex),
+          onClick: toggleColor(colorIndex),
+          renderIcon: () => <HoveringToolbarColorIcon color={color} />,
+        })),
+      ],
+    },
+    // Ordered list
+    {
+      plugin: TextEditorPlugin.lists,
+      title: i18n.list.toggleOrderedList,
+      isActive: isOrderedListActive,
+      onClick: toggleOrderedList,
+      renderIcon: () => <EdtrIcon icon={edtrListNumbered} />,
+    },
+    // Unordered list
+    {
+      plugin: TextEditorPlugin.lists,
+      title: i18n.list.toggleUnorderedList,
+      isActive: isUnorderedListActive,
+      onClick: toggleUnorderedList,
+      renderIcon: () => <EdtrIcon icon={edtrListBullets} />,
     },
     // Math
     {
@@ -169,7 +178,15 @@ const createToolbarControls = (
       title: i18n.math.toggleTitle,
       isActive: isMathActive,
       onClick: toggleMath,
-      renderIcon: () => <b>M</b>,
+      renderIcon: () => <EdtrIcon icon={edtrFormula} />,
+    },
+    // Code
+    {
+      plugin: TextEditorPlugin.code,
+      title: i18n.code.toggleTitle,
+      isActive: isCodeActive,
+      onClick: toggleCode,
+      renderIcon: () => <Icon icon={faCode} />,
     },
   ]
 

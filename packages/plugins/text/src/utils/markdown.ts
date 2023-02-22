@@ -16,12 +16,6 @@ const handleMarkdown = (chars: string, editor: SlateEditor) => {
       return createHeading(2, editor)
     case '###':
       return createHeading(3, editor)
-    case '####':
-      return createHeading(4, editor)
-    case '#####':
-      return createHeading(5, editor)
-    case '######':
-      return createHeading(6, editor)
     default:
       return undefined
   }

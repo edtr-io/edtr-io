@@ -178,7 +178,7 @@ export function useTextConfig(
             colors: colors.map((color) => color.value),
             defaultColor: 'black',
           },
-          headings: [1, 2, 3, 4, 5, 6],
+          headings: [1, 2, 3],
         },
       },
       values: theme,
