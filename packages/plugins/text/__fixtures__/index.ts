@@ -6,47 +6,6 @@ import type { TextEditorState } from '../src/types'
 export const name = 'text'
 export const plugin = createTextPlugin({
   blockquote: 'blockquote',
-  registry: [
-    {
-      name: 'anchor',
-    },
-    {
-      name: 'blockquote',
-    },
-    {
-      name: 'files',
-    },
-    {
-      name: 'geogebra',
-    },
-    {
-      name: 'highlight',
-    },
-    {
-      name: 'image',
-    },
-    {
-      name: 'inputExercise',
-    },
-    {
-      name: 'multimediaExplanation',
-    },
-    {
-      name: 'scMcExercise',
-    },
-    {
-      name: 'serloInjection',
-    },
-    {
-      name: 'spoiler',
-    },
-    {
-      name: 'table',
-    },
-    {
-      name: 'video',
-    },
-  ],
 })
 
 export const states: Record<

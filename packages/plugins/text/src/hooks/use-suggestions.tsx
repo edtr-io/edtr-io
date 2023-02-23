@@ -2,24 +2,42 @@ import { useScopedStore } from '@edtr-io/core/beta'
 import { replace } from '@edtr-io/store'
 import React, { useState, useEffect, useRef } from 'react'
 
-import type { TextEditorPluginConfig } from '../types'
+import { Plugin } from '../types'
 
-function mapPlugins(plugins: TextEditorPluginConfig['registry'], text: string) {
+interface useSuggestionsArgs {
+  text: string
+  id: string
+  editable: boolean
+  focused: boolean
+}
+
+const plugins: Plugin[] = [
+  { name: 'anchor', title: 'Anchor' },
+  { name: 'blockquote', title: 'Blockquote' },
+  { name: 'files', title: 'Files' },
+  { name: 'geogebra', title: 'Geogebra' },
+  { name: 'highlight', title: 'Highlight' },
+  { name: 'image', title: 'Image' },
+  { name: 'inputExercise', title: 'Input Exercise' },
+  { name: 'multimediaExplanation', title: 'Multimedia Explanation' },
+  { name: 'scMcExercise', title: 'Single/Multiple Choice Exercise' },
+  { name: 'serloInjection', title: 'Serlo Injection' },
+  { name: 'spoiler', title: 'Spoiler' },
+  { name: 'table', title: 'Table' },
+  { name: 'video', title: 'Video' },
+]
+
+function mapPlugins(text: string) {
   const search = text.replace('/', '').toLowerCase()
 
-  const startingWithSearchString = plugins
-    .filter(({ title, name }) => {
-      if (!search.length) return true
-      const value = title?.toLowerCase() || name.toLowerCase()
-      return value.startsWith(search)
-    })
-    .map(({ title, name }) => [title || name, name])
-  const containingSearchString = plugins
-    .filter(({ title, name }) => {
-      const value = title?.toLowerCase() || name.toLowerCase()
-      return value.includes(search) && !value.startsWith(search)
-    })
-    .map(({ title, name }) => [title || name, name])
+  const startingWithSearchString = plugins.filter(({ title }) => {
+    if (!search.length) return true
+    return title.toLowerCase().startsWith(search)
+  })
+  const containingSearchString = plugins.filter(({ title }) => {
+    const value = title.toLowerCase()
+    return value.includes(search) && !value.startsWith(search)
+  })
 
   return [...startingWithSearchString, ...containingSearchString]
 }
@@ -30,21 +48,12 @@ const hotKeysMap = {
   INSERT: 'enter',
 }
 
-// TODO: This hook is a workaround, as new Slate plugins don't allow as
-//       much flexibility with extending Slate. Might be worth to check
-//       if there is a way to inject this functionality as a Slate plugin
-export const useSuggestions = (args: {
-  text: string
-  id: string
-  editable: boolean
-  focused: boolean
-  registry: TextEditorPluginConfig['registry']
-}) => {
+export const useSuggestions = (args: useSuggestionsArgs) => {
   const [selected, setSelected] = useState(0)
   const store = useScopedStore()
-  const { text, id, editable, focused, registry } = args
+  const { text, id, editable, focused } = args
 
-  const allOptions = mapPlugins(registry, text)
+  const allOptions = mapPlugins(text)
   // TODO: In case of implementing "allowed plugins" functionality for edtr-io plugins,
   //       it would be possible to add a check here if suggestions plugin is allowed
   const showSuggestions =
@@ -98,7 +107,7 @@ export const useSuggestions = (args: {
       const option = closure.current.options[closure.current.selected]
       if (!option) return
       setTimeout(() => {
-        insertPlugin(option[1])
+        insertPlugin(option.name)
       })
     }
   }

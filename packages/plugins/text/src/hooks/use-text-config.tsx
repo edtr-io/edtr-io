@@ -1,7 +1,6 @@
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { RegistryContext } from '../registry-context'
 import { TextEditorPlugin } from '../types'
 import type {
   Heading,
@@ -47,10 +46,8 @@ export function useTextConfig(
     noLinebreaks,
   } = config
   const { editor } = useTheme()
-  const registry = React.useContext(RegistryContext) ?? config.registry
 
   return {
-    registry,
     enabledPlugins: config.plugins || defaultEnabledPlugins,
     placeholder,
     i18n: merge({

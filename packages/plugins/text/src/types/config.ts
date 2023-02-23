@@ -4,6 +4,11 @@ import { Descendant, Range } from 'slate'
 
 import { Heading } from '.'
 
+export interface Plugin {
+  name: string
+  title: string
+}
+
 /** @public */
 export type TextEditorState = SerializedScalarStateType<
   Descendant[],
@@ -14,8 +19,6 @@ export type TextEditorState = SerializedScalarStateType<
 export interface TextEditorConfig {
   placeholder?: TextEditorPluginConfig['placeholder']
   plugins?: TextEditorPlugin[]
-  /** @deprecated */
-  registry: TextEditorPluginConfig['registry']
   i18n?: DeepPartial<TextEditorPluginConfig['i18n']>
   theme?: DeepPartial<TextEditorPluginConfig['theme']>
   blockquote?: string
@@ -130,11 +133,6 @@ interface Theme {
 export interface TextEditorPluginConfig {
   placeholder: string
   enabledPlugins: TextEditorPlugin[]
-  registry: {
-    name: string
-    title?: string
-    description?: string
-  }[]
   i18n: I18n
   theme: Theme
   blockquote?: string
