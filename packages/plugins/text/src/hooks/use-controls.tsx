@@ -18,8 +18,8 @@ import { Editor as SlateEditor } from 'slate'
 import { HoveringToolbarColorIcon } from '../components/hovering-toolbar-color-icon'
 import { HoveringToolbarColorTextIcon } from '../components/hovering-toolbar-color-text-icon'
 import { withLinks, withLists, withMath } from '../plugins'
-import { TextEditorPlugin } from '../types'
-import type { TextEditorControl, TextEditorPluginConfig } from '../types'
+import { TextEditorControl } from '../types'
+import type { ControlButton, TextEditorPluginConfig } from '../types'
 import {
   getColorIndex,
   isAnyColorActive,
@@ -47,44 +47,44 @@ import {
   toggleItalicMark,
 } from '../utils/typography'
 
-const textPluginsMapper = {
-  [TextEditorPlugin.math]: withMath,
-  [TextEditorPlugin.links]: withLinks,
-  [TextEditorPlugin.lists]: withLists,
+const textControlsMapper = {
+  [TextEditorControl.math]: withMath,
+  [TextEditorControl.links]: withLinks,
+  [TextEditorControl.lists]: withLists,
 }
 
-const isRegisteredTextPlugin = (
-  plugin: TextEditorPlugin
-): plugin is keyof typeof textPluginsMapper => {
-  return plugin in textPluginsMapper
+const isRegisteredTextControl = (
+  control: TextEditorControl
+): control is keyof typeof textControlsMapper => {
+  return control in textControlsMapper
 }
 
 const registeredHotkeys = [
   {
     hotkey: 'mod+b',
-    plugin: TextEditorPlugin.richText,
+    control: TextEditorControl.richText,
     handler: toggleBoldMark,
   },
   {
     hotkey: 'mod+i',
-    plugin: TextEditorPlugin.richText,
+    control: TextEditorControl.richText,
     handler: toggleItalicMark,
   },
   {
     hotkey: 'mod+k',
-    plugin: TextEditorPlugin.links,
+    control: TextEditorControl.links,
     handler: toggleLink,
   },
 ]
 
 const createToolbarControls = (
   { i18n, theme }: TextEditorPluginConfig,
-  enabledPlugins: TextEditorPlugin[]
-): TextEditorControl[] => {
+  enabledControls: TextEditorControl[]
+): ControlButton[] => {
   const allControls = [
     // Bold
     {
-      plugin: TextEditorPlugin.richText,
+      name: TextEditorControl.richText,
       title: i18n.richText.toggleStrongTitle,
       isActive: isBoldActive,
       onClick: toggleBoldMark,
@@ -92,7 +92,7 @@ const createToolbarControls = (
     },
     // Italic
     {
-      plugin: TextEditorPlugin.richText,
+      name: TextEditorControl.richText,
       title: i18n.richText.toggleEmphasizeTitle,
       isActive: isItalicActive,
       onClick: toggleItalicMark,
@@ -100,7 +100,7 @@ const createToolbarControls = (
     },
     // Link
     {
-      plugin: TextEditorPlugin.links,
+      name: TextEditorControl.links,
       title: i18n.link.toggleTitle,
       isActive: isLinkActive,
       onClick: toggleLink,
@@ -108,14 +108,14 @@ const createToolbarControls = (
     },
     // Headings
     {
-      plugin: TextEditorPlugin.headings,
+      name: TextEditorControl.headings,
       title: i18n.headings.openMenuTitle,
       closeMenuTitle: i18n.headings.closeMenuTitle,
       isActive: isAnyHeadingActive,
       renderIcon: () => <EdtrIcon icon={edtrText} />,
       renderCloseMenuIcon: () => <EdtrIcon icon={edtrClose} />,
-      children: theme.plugins.headings.map((heading) => ({
-        plugin: TextEditorPlugin.headings,
+      children: theme.controls.headings.map((heading) => ({
+        name: TextEditorControl.headings,
         title: i18n.headings.setHeadingTitle(heading),
         isActive: isHeadingActive(heading),
         onClick: toggleHeading(heading),
@@ -124,31 +124,31 @@ const createToolbarControls = (
     },
     // Colors
     {
-      plugin: TextEditorPlugin.colors,
+      name: TextEditorControl.colors,
       title: i18n.colors.openMenuTitle,
       closeMenuTitle: i18n.colors.closeMenuTitle,
       isActive: () => false,
       renderIcon: (editor: SlateEditor) => (
         <HoveringToolbarColorTextIcon
           index={getColorIndex(editor)}
-          colorsTheme={theme.plugins.colors}
+          colorsTheme={theme.controls.colors}
         />
       ),
       renderCloseMenuIcon: () => <EdtrIcon icon={edtrClose} />,
       children: [
         {
-          plugin: TextEditorPlugin.colors,
+          name: TextEditorControl.colors,
           title: i18n.colors.resetColorTitle,
           isActive: (editor: SlateEditor) => !isAnyColorActive(editor),
           onClick: resetColor,
           renderIcon: () => (
             <HoveringToolbarColorIcon
-              color={theme.plugins.colors.defaultColor}
+              color={theme.controls.colors.defaultColor}
             />
           ),
         },
-        ...theme.plugins.colors.colors.map((color, colorIndex) => ({
-          plugin: TextEditorPlugin.colors,
+        ...theme.controls.colors.colors.map((color, colorIndex) => ({
+          name: TextEditorControl.colors,
           title: i18n.colors.colorNames[colorIndex],
           isActive: isColorActive(colorIndex),
           onClick: toggleColor(colorIndex),
@@ -158,7 +158,7 @@ const createToolbarControls = (
     },
     // Ordered list
     {
-      plugin: TextEditorPlugin.lists,
+      name: TextEditorControl.lists,
       title: i18n.list.toggleOrderedList,
       isActive: isOrderedListActive,
       onClick: toggleOrderedList,
@@ -166,7 +166,7 @@ const createToolbarControls = (
     },
     // Unordered list
     {
-      plugin: TextEditorPlugin.lists,
+      name: TextEditorControl.lists,
       title: i18n.list.toggleUnorderedList,
       isActive: isUnorderedListActive,
       onClick: toggleUnorderedList,
@@ -174,7 +174,7 @@ const createToolbarControls = (
     },
     // Math
     {
-      plugin: TextEditorPlugin.math,
+      name: TextEditorControl.math,
       title: i18n.math.toggleTitle,
       isActive: isMathActive,
       onClick: toggleMath,
@@ -182,7 +182,7 @@ const createToolbarControls = (
     },
     // Code
     {
-      plugin: TextEditorPlugin.code,
+      name: TextEditorControl.code,
       title: i18n.code.toggleTitle,
       isActive: isCodeActive,
       onClick: toggleCode,
@@ -190,43 +190,41 @@ const createToolbarControls = (
     },
   ]
 
-  const enabledPluginsControls = allControls.filter((control) => {
-    return enabledPlugins.includes(TextEditorPlugin[control.plugin])
+  return allControls.filter((control) => {
+    return enabledControls.includes(TextEditorControl[control.name])
   })
-
-  return enabledPluginsControls
 }
 
-export const usePlugins = (
+export const useControls = (
   config: TextEditorPluginConfig,
-  enabledPlugins: TextEditorPlugin[]
+  enabledControls: TextEditorControl[]
 ) => {
   const createTextEditor = useCallback(
     (baseEditor: SlateEditor) =>
-      enabledPlugins.reduce((currentEditor, currentPlugin) => {
-        // If there is no plugin initialization function for the current plugin,
+      enabledControls.reduce((currentEditor, currentControl) => {
+        // If there is no control initialization function for the current control,
         // return the editor as it was received
-        if (!isRegisteredTextPlugin(currentPlugin)) {
+        if (!isRegisteredTextControl(currentControl)) {
           return currentEditor
         }
-        // Otherwise, apply the plugin initialization functions to the editor
-        return textPluginsMapper[currentPlugin](currentEditor)
+        // Otherwise, apply the control initialization functions to the editor
+        return textControlsMapper[currentControl](currentEditor)
       }, baseEditor),
-    [enabledPlugins]
+    [enabledControls]
   )
 
-  const toolbarControls: TextEditorControl[] = useMemo(
-    () => createToolbarControls(config, enabledPlugins),
-    [config, enabledPlugins]
+  const toolbarControls: ControlButton[] = useMemo(
+    () => createToolbarControls(config, enabledControls),
+    [config, enabledControls]
   )
 
   const handleHotkeys = useCallback(
     (event: React.KeyboardEvent, editor: SlateEditor) => {
       // Go through the registered hotkeys
-      for (const { hotkey, plugin, handler } of registeredHotkeys) {
-        // Check if their respective plugin is enabled
+      for (const { hotkey, control, handler } of registeredHotkeys) {
+        // Check if their respective control is enabled
         // and if the keyboard event contains the hotkey combination
-        if (enabledPlugins.includes(plugin) && isHotkey(hotkey, event)) {
+        if (enabledControls.includes(control) && isHotkey(hotkey, event)) {
           // If so, prevent the default event behavior,
           // handle the hotkey and break out of the loop
           event.preventDefault()
@@ -235,7 +233,7 @@ export const usePlugins = (
         }
       }
     },
-    [enabledPlugins]
+    [enabledControls]
   )
 
   return {

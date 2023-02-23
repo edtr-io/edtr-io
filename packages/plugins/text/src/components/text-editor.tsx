@@ -11,7 +11,7 @@ import {
   withReact,
 } from 'slate-react'
 
-import { usePlugins } from '../hooks/use-plugins'
+import { useControls } from '../hooks/use-controls'
 import { useSuggestions } from '../hooks/use-suggestions'
 import { useTextConfig } from '../hooks/use-text-config'
 import type { TextEditorConfig, TextEditorState } from '../types'
@@ -67,7 +67,7 @@ function renderElement(props: RenderElementProps) {
 
 function renderLeafWithConfig(config: TextEditorConfig) {
   return function renderLeaf(props: RenderLeafProps) {
-    const colors = config?.theme?.plugins?.colors?.colors
+    const colors = config?.theme?.controls?.colors?.colors
     const { attributes, leaf } = props
     let { children } = props
 
@@ -95,9 +95,9 @@ export function TextEditor(props: TextEditorProps) {
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)
-  const { enabledPlugins } = config
-  const textPlugins = usePlugins(config, enabledPlugins)
-  const { createTextEditor, toolbarControls } = textPlugins
+  const { enabledControls } = config
+  const textControls = useControls(config, enabledControls)
+  const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),
     [createTextEditor]
@@ -133,7 +133,7 @@ export function TextEditor(props: TextEditorProps) {
 
   function handleEditableKeyDown(event: React.KeyboardEvent) {
     suggestions.handleHotkeys(event)
-    textPlugins.handleHotkeys(event, editor)
+    textControls.handleHotkeys(event, editor)
     markdownShortcuts().onKeyDown(event, editor)
   }
 

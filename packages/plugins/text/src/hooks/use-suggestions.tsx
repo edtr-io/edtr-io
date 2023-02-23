@@ -2,7 +2,7 @@ import { useScopedStore } from '@edtr-io/core/beta'
 import { replace } from '@edtr-io/store'
 import React, { useState, useEffect, useRef } from 'react'
 
-import { Plugin } from '../types'
+import { EditorPlugin } from '../types'
 
 interface useSuggestionsArgs {
   text: string
@@ -11,7 +11,7 @@ interface useSuggestionsArgs {
   focused: boolean
 }
 
-const plugins: Plugin[] = [
+const editorPlugins: EditorPlugin[] = [
   { name: 'anchor', title: 'Anchor' },
   { name: 'blockquote', title: 'Blockquote' },
   { name: 'files', title: 'Files' },
@@ -30,11 +30,11 @@ const plugins: Plugin[] = [
 function mapPlugins(text: string) {
   const search = text.replace('/', '').toLowerCase()
 
-  const startingWithSearchString = plugins.filter(({ title }) => {
+  const startingWithSearchString = editorPlugins.filter(({ title }) => {
     if (!search.length) return true
     return title.toLowerCase().startsWith(search)
   })
-  const containingSearchString = plugins.filter(({ title }) => {
+  const containingSearchString = editorPlugins.filter(({ title }) => {
     const value = title.toLowerCase()
     return value.includes(search) && !value.startsWith(search)
   })

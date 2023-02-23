@@ -1,23 +1,23 @@
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { TextEditorPlugin } from '../types'
+import { TextEditorControl } from '../types'
 import type {
   Heading,
   TextEditorConfig,
   TextEditorPluginConfig,
 } from '../types'
 
-const defaultEnabledPlugins: TextEditorPlugin[] = [
-  TextEditorPlugin.code,
-  TextEditorPlugin.colors,
-  TextEditorPlugin.headings,
-  TextEditorPlugin.katex,
-  TextEditorPlugin.links,
-  TextEditorPlugin.lists,
-  TextEditorPlugin.math,
-  TextEditorPlugin.paragraphs,
-  TextEditorPlugin.richText,
+const defaultEnabledControls: TextEditorControl[] = [
+  TextEditorControl.code,
+  TextEditorControl.colors,
+  TextEditorControl.headings,
+  TextEditorControl.katex,
+  TextEditorControl.links,
+  TextEditorControl.lists,
+  TextEditorControl.math,
+  TextEditorControl.paragraphs,
+  TextEditorControl.richText,
 ]
 
 const colors = [
@@ -48,7 +48,7 @@ export function useTextConfig(
   const { editor } = useTheme()
 
   return {
-    enabledPlugins: config.plugins || defaultEnabledPlugins,
+    enabledControls: config.controls || defaultEnabledControls,
     placeholder,
     i18n: merge({
       fallback: {
@@ -170,7 +170,7 @@ export function useTextConfig(
           boxShadow: '0 2px 4px 0 rgba(0,0,0,0.50)',
           color: editor.color,
         },
-        plugins: {
+        controls: {
           colors: {
             colors: colors.map((color) => color.value),
             defaultColor: 'black',

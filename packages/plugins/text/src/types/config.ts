@@ -4,7 +4,7 @@ import { Descendant, Range } from 'slate'
 
 import { Heading } from '.'
 
-export interface Plugin {
+export interface EditorPlugin {
   name: string
   title: string
 }
@@ -18,7 +18,7 @@ export type TextEditorState = SerializedScalarStateType<
 /** @public */
 export interface TextEditorConfig {
   placeholder?: TextEditorPluginConfig['placeholder']
-  plugins?: TextEditorPlugin[]
+  controls?: TextEditorControl[]
   i18n?: DeepPartial<TextEditorPluginConfig['i18n']>
   theme?: DeepPartial<TextEditorPluginConfig['theme']>
   blockquote?: string
@@ -26,7 +26,7 @@ export interface TextEditorConfig {
 }
 
 /** @public */
-export enum TextEditorPlugin {
+export enum TextEditorControl {
   code = 'code',
   colors = 'colors',
   headings = 'headings',
@@ -123,7 +123,7 @@ interface Theme {
     boxShadow: string
     color: string
   }
-  plugins: {
+  controls: {
     colors: ColorsTheme
     headings: Heading['level'][]
   }
@@ -132,7 +132,7 @@ interface Theme {
 /** @public */
 export interface TextEditorPluginConfig {
   placeholder: string
-  enabledPlugins: TextEditorPlugin[]
+  enabledControls: TextEditorControl[]
   i18n: I18n
   theme: Theme
   blockquote?: string

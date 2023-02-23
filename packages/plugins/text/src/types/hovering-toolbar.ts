@@ -1,11 +1,11 @@
 import { Editor as SlateEditor } from 'slate'
 
-import type { TextEditorPlugin } from '.'
+import type { TextEditorControl } from '.'
 
-export type TextEditorControl = ControlButton | NestedControlButton
+export type ControlButton = ActionControlButton | NestedControlButton
 
-export interface ControlButton {
-  plugin: TextEditorPlugin
+export interface ActionControlButton {
+  name: TextEditorControl
   title: string
   isActive(editor: SlateEditor): boolean
   onClick(editor: SlateEditor): void
@@ -15,7 +15,7 @@ export interface ControlButton {
 export interface NestedControlButton {
   title: string
   closeMenuTitle: string
-  children: ControlButton[]
+  children: ActionControlButton[]
   isActive(editor: SlateEditor): boolean
   renderIcon(editor: SlateEditor): React.ReactNode
   renderCloseMenuIcon(): React.ReactNode

@@ -6,7 +6,7 @@ import { ReactEditor, useSlate } from 'slate-react'
 import type {
   TextEditorPluginConfig,
   NestedControlButton,
-  TextEditorControl,
+  ControlButton,
 } from '../types'
 import { isTouchDevice } from '../utils/is-touch-device'
 import { HoveringToolbarButton } from './hovering-toolbar-button'
@@ -14,7 +14,7 @@ import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
 
 export interface HoveringToolbarProps {
   config: TextEditorPluginConfig
-  controls: TextEditorControl[]
+  controls: ControlButton[]
 }
 
 const initialPosition = isTouchDevice()
@@ -22,7 +22,7 @@ const initialPosition = isTouchDevice()
   : InlineOverlayPosition.above
 
 function isNestedControlButton(
-  control: TextEditorControl
+  control: ControlButton
 ): control is NestedControlButton {
   return R.has('children', control)
 }
