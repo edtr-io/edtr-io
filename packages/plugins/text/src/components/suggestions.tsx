@@ -1,11 +1,14 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import type { Plugin, TextEditorPluginConfig } from '../types'
+import type { EditorPlugin, TextEditorPluginConfig } from '../types'
 
 interface SuggestionsProps {
   config: TextEditorPluginConfig
-  options: Plugin[]
+  options: {
+    name: EditorPlugin
+    title: string
+  }[]
   currentValue: string
   selected: number
   onMouseDown: (option: string) => void

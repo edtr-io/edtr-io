@@ -47,16 +47,16 @@ import {
   toggleItalicMark,
 } from '../utils/typography'
 
-const textControlsMapper = {
+const textPluginsMapper = {
   [TextEditorControl.math]: withMath,
   [TextEditorControl.links]: withLinks,
   [TextEditorControl.lists]: withLists,
 }
 
-const isRegisteredTextControl = (
+const isRegisteredTextPlugin = (
   control: TextEditorControl
-): control is keyof typeof textControlsMapper => {
-  return control in textControlsMapper
+): control is keyof typeof textPluginsMapper => {
+  return control in textPluginsMapper
 }
 
 const registeredHotkeys = [
@@ -190,32 +190,32 @@ const createToolbarControls = (
     },
   ]
 
-  return allControls.filter((control) => {
-    return enabledControls.includes(TextEditorControl[control.name])
-  })
+  return allControls.filter((control) =>
+    enabledControls.includes(TextEditorControl[control.name])
+  )
 }
 
 export const useControls = (
   config: TextEditorPluginConfig,
-  enabledControls: TextEditorControl[]
+  controls: TextEditorControl[]
 ) => {
   const createTextEditor = useCallback(
     (baseEditor: SlateEditor) =>
-      enabledControls.reduce((currentEditor, currentControl) => {
+      controls.reduce((currentEditor, currentControl) => {
         // If there is no control initialization function for the current control,
         // return the editor as it was received
-        if (!isRegisteredTextControl(currentControl)) {
+        if (!isRegisteredTextPlugin(currentControl)) {
           return currentEditor
         }
         // Otherwise, apply the control initialization functions to the editor
-        return textControlsMapper[currentControl](currentEditor)
+        return textPluginsMapper[currentControl](currentEditor)
       }, baseEditor),
-    [enabledControls]
+    [controls]
   )
 
   const toolbarControls: ControlButton[] = useMemo(
-    () => createToolbarControls(config, enabledControls),
-    [config, enabledControls]
+    () => createToolbarControls(config, controls),
+    [config, controls]
   )
 
   const handleHotkeys = useCallback(
@@ -224,7 +224,7 @@ export const useControls = (
       for (const { hotkey, control, handler } of registeredHotkeys) {
         // Check if their respective control is enabled
         // and if the keyboard event contains the hotkey combination
-        if (enabledControls.includes(control) && isHotkey(hotkey, event)) {
+        if (controls.includes(control) && isHotkey(hotkey, event)) {
           // If so, prevent the default event behavior,
           // handle the hotkey and break out of the loop
           event.preventDefault()
@@ -233,7 +233,7 @@ export const useControls = (
         }
       }
     },
-    [enabledControls]
+    [controls]
   )
 
   return {

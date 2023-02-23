@@ -95,15 +95,15 @@ export function TextEditor(props: TextEditorProps) {
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)
-  const { enabledControls } = config
-  const textControls = useControls(config, enabledControls)
+  const { controls, plugins } = config
+  const textControls = useControls(config, controls)
   const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),
     [createTextEditor]
   )
   const text = Node.string(editor)
-  const suggestions = useSuggestions({ text, id, editable, focused })
+  const suggestions = useSuggestions({ plugins, text, id, editable, focused })
   const { showSuggestions, hotKeysProps, suggestionsProps } = suggestions
 
   const previousValue = useRef(value)

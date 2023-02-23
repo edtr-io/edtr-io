@@ -47,7 +47,7 @@ export function createImagePlugin(
         child({
           plugin: 'text',
           config: {
-            plugins: ['code', 'katex', 'links', 'math', 'richText'],
+            controls: ['code', 'katex', 'links', 'math', 'richText'],
             noLinebreaks: true,
             blockquote: '',
           },
