@@ -95,8 +95,8 @@ export function TextEditor(props: TextEditorProps) {
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)
-  const { controls, plugins } = config
-  const textControls = useControls(config, controls)
+  const { plugins } = config
+  const textControls = useControls(config)
   const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),

@@ -59,8 +59,6 @@ export const useSuggestions = (args: useSuggestionsArgs) => {
   const { plugins, text, id, editable, focused } = args
 
   const allOptions = mapPlugins(plugins, text)
-  // TODO: In case of implementing "allowed plugins" functionality for edtr-io plugins,
-  //       it would be possible to add a check here if suggestions plugin is allowed
   const showSuggestions =
     editable && focused && text.startsWith('/') && allOptions.length > 0
   const options = showSuggestions ? allOptions : []

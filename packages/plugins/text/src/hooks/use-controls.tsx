@@ -77,10 +77,11 @@ const registeredHotkeys = [
   },
 ]
 
-const createToolbarControls = (
-  { i18n, theme }: TextEditorPluginConfig,
-  enabledControls: TextEditorControl[]
-): ControlButton[] => {
+const createToolbarControls = ({
+  i18n,
+  theme,
+  controls,
+}: TextEditorPluginConfig): ControlButton[] => {
   const allControls = [
     // Bold
     {
@@ -191,14 +192,13 @@ const createToolbarControls = (
   ]
 
   return allControls.filter((control) =>
-    enabledControls.includes(TextEditorControl[control.name])
+    controls.includes(TextEditorControl[control.name])
   )
 }
 
-export const useControls = (
-  config: TextEditorPluginConfig,
-  controls: TextEditorControl[]
-) => {
+export const useControls = (config: TextEditorPluginConfig) => {
+  const { controls } = config
+
   const createTextEditor = useCallback(
     (baseEditor: SlateEditor) =>
       controls.reduce((currentEditor, currentControl) => {
@@ -214,8 +214,8 @@ export const useControls = (
   )
 
   const toolbarControls: ControlButton[] = useMemo(
-    () => createToolbarControls(config, controls),
-    [config, controls]
+    () => createToolbarControls(config),
+    [config]
   )
 
   const handleHotkeys = useCallback(
