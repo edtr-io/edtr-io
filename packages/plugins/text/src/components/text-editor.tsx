@@ -181,6 +181,7 @@ export function TextEditor(props: TextEditorProps) {
         )}
 
         <Editable
+          placeholder={config.placeholder}
           onKeyDown={handleEditableKeyDown}
           renderElement={renderElement}
           renderLeaf={renderLeafWithConfig(config)}
