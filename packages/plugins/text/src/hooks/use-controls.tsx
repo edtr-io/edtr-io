@@ -45,7 +45,7 @@ import {
   toggleCode,
   toggleHeading,
   toggleItalicMark,
-} from '../utils/typography'
+} from '../utils/rich-text'
 
 const textPluginsMapper = {
   [TextEditorControl.math]: withMath,
