@@ -97,13 +97,14 @@ function* createPlugin(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const chan: Channel<InternalAction> = yield call(channel)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const state = plugin.state.init(document.state, (initial, executor) => {
+  const state = plugin.state.init(document.state, (initial, additional) => {
     const action = change({
       id,
       state: {
         initial,
-        executor,
+        executor: additional?.executor,
       },
+      reverse: additional?.reverse,
     })(scope)
     chan.put(action)
   })

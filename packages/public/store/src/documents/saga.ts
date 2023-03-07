@@ -31,6 +31,10 @@ import {
   RemoveAction,
   replace,
   ReplaceAction,
+  replaceText,
+  ReplaceTextAction,
+  pureReplaceText,
+  PureReplaceTextAction,
   unwrap,
   UnwrapAction,
   wrap,
@@ -46,6 +50,7 @@ export function* documentsSaga() {
     takeEvery(wrap.type, wrapSaga),
     takeEvery(unwrap.type, unwrapSaga),
     takeEvery(replace.type, replaceSaga),
+    takeEvery(replaceText.type, replaceTextSaga),
   ])
 }
 
@@ -84,7 +89,7 @@ function* removeSaga(action: RemoveAction) {
 }
 
 function* changeSaga(action: ChangeAction) {
-  const { id, state: stateHandler } = action.payload
+  const { id, state: stateHandler, reverse } = action.payload
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const document: SelectorReturnType<typeof getDocument> = yield select(
     scopeSelector(getDocument, action.scope),
@@ -101,17 +106,22 @@ function* changeSaga(action: ChangeAction) {
     }
   )
 
-  function createChange(
-    previousState: unknown,
-    newState: unknown
-  ): ReversibleAction<PureChangeAction, PureChangeAction> {
+  const createChange = (
+    state: unknown
+  ): ReversibleAction<PureChangeAction, PureChangeAction> => {
     return {
-      action: pureChange({ id, state: newState })(action.scope),
-      reverse: pureChange({ id, state: previousState })(action.scope),
+      action: pureChange({ id, state })(action.scope),
+      reverse: pureChange({
+        id,
+        state:
+          typeof reverse === 'function'
+            ? reverse(document.state)
+            : document.state,
+      })(action.scope),
     }
   }
 
-  actions.push(createChange(document.state, state))
+  actions.push(createChange(state))
 
   if (!stateHandler.executor) {
     yield put(commit(actions)(action.scope))
@@ -135,11 +145,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 resolve: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  resolve([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState),
-                  ])
+                callback: (resolveActions, state) => {
+                  resolve([...resolveActions, createChange(state)])
                 },
               })
             },
@@ -147,11 +154,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 reject: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  reject([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState),
-                  ])
+                callback: (resolveActions, state) => {
+                  reject([...resolveActions, createChange(state)])
                 },
               })
             },
@@ -159,11 +163,8 @@ function* changeSaga(action: ChangeAction) {
               chan.put({
                 next: updater,
                 scope: action.scope,
-                callback: (resolveActions, pureResolveState) => {
-                  next([
-                    ...resolveActions,
-                    createChange(document.state, pureResolveState),
-                  ])
+                callback: (resolveActions, state) => {
+                  next([...resolveActions, createChange(state)])
                 },
               })
             }
@@ -292,6 +293,35 @@ function* replaceSaga(action: ReplaceAction) {
     })(action.scope),
   }
   yield put(commit([...actions, reversibleAction])(action.scope))
+}
+
+function* replaceTextSaga(action: ReplaceTextAction) {
+  const { id, document: documentHandler } = action.payload
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const currentDocument: SelectorReturnType<typeof getDocument> = yield select(
+    scopeSelector(getDocument, action.scope),
+    id
+  )
+  const newId = generate()
+
+  // TODO: give previous doc new id
+  // TODO: pass new id to document handler
+  if (!currentDocument) return
+  const reversibleAction: ReversibleAction<
+    PureReplaceTextAction,
+    PureReplaceTextAction
+  > = {
+    action: pureReplaceText({ id, newId, document: documentHandler(newId) })(
+      action.scope
+    ),
+    // TODO: here, we should delete the document with newId
+    reverse: pureReplaceText({
+      id: newId,
+      newId: id,
+      document: currentDocument,
+    })(action.scope),
+  }
+  yield put(commit([reversibleAction])(action.scope))
 }
 
 interface ChannelAction {

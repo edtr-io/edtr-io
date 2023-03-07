@@ -1,6 +1,11 @@
 import * as R from 'ramda'
 
-import { pureInsert, PureInsertAction } from '../documents/actions'
+import {
+  pureInsert,
+  PureInsertAction,
+  pureReplaceText,
+  PureReplaceTextAction,
+} from '../documents/actions'
 import { getDocument } from '../documents/reducer'
 import {
   createDeepEqualSelector,
@@ -41,6 +46,9 @@ export const focusReducer: SubReducer<string | null> = createSubReducer(
     },
     [pureInsert.type](_focusState, action: PureInsertAction, _state) {
       return action.payload.id
+    },
+    [pureReplaceText.type](_focusState, action: PureReplaceTextAction, _state) {
+      return action.payload.newId
     },
   }
 )

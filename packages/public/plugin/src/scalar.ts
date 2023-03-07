@@ -68,14 +68,22 @@ export function serializedScalar<S, T>(
         public get() {
           return state
         }
-        public set(param: T | ((previousValue: T) => T)) {
-          onChange((previousValue) => {
-            if (typeof param === 'function') {
-              const updater = param as (currentValue: T) => T
-              return updater(previousValue)
+        public set(
+          param: T | ((previousValue: T) => T),
+          reverse?: (previousValue: T) => T
+        ) {
+          onChange(
+            (previousValue) => {
+              if (typeof param === 'function') {
+                const updater = param as (currentValue: T) => T
+                return updater(previousValue)
+              }
+              return param
+            },
+            {
+              reverse,
             }
-            return param
-          })
+          )
         }
       }
       return new SerializedScalarType()
@@ -96,7 +104,10 @@ export type SerializedScalarStateType<S, T> = StateType<
   {
     value: T
     get(): T
-    set(value: T | ((currentValue: T) => T)): void
+    set(
+      value: T | ((currentValue: T) => T),
+      reverse?: (previousValue: T) => T
+    ): void
   }
 >
 /** @public */
@@ -135,21 +146,23 @@ export function asyncScalar<T, Temp>(
               }
               return initial
             },
-            executor
-              ? (
-                  resolve: (updater: StateUpdater<T | Temp>) => void,
-                  reject: (updater: StateUpdater<T | Temp>) => void,
-                  next: (updater: StateUpdater<T | Temp>) => void
-                ) => {
-                  if (!executor) return
+            {
+              executor: executor
+                ? (
+                    resolve: (updater: StateUpdater<T | Temp>) => void,
+                    reject: (updater: StateUpdater<T | Temp>) => void,
+                    next: (updater: StateUpdater<T | Temp>) => void
+                  ) => {
+                    if (!executor) return
 
-                  executor(
-                    wrapResolverParam(resolve),
-                    wrapResolverParam(reject),
-                    wrapResolverParam(next)
-                  )
-                }
-              : undefined
+                    executor(
+                      wrapResolverParam(resolve),
+                      wrapResolverParam(reject),
+                      wrapResolverParam(next)
+                    )
+                  }
+                : undefined,
+            }
           )
         },
       }

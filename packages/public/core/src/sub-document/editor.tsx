@@ -1,4 +1,4 @@
-import { StateExecutor, StateUpdater } from '@edtr-io/internal__plugin-state'
+import { StateUpdater } from '@edtr-io/internal__plugin-state'
 import {
   change,
   focus,
@@ -14,6 +14,7 @@ import {
   redo,
   removeChild,
   undo,
+  ChangeAction,
 } from '@edtr-io/store'
 import { styled, useTheme } from '@edtr-io/ui'
 import * as R from 'ramda'
@@ -210,15 +211,19 @@ export function SubDocumentEditor({ id, pluginProps }: SubDocumentProps) {
 
     const onChange = (
       initial: StateUpdater<unknown>,
-      executor?: StateExecutor<StateUpdater<unknown>>
+      additional: {
+        executor?: ChangeAction['payload']['state']['executor']
+        reverse?: ChangeAction['payload']['reverse']
+      } = {}
     ) => {
       store.dispatch(
         change({
           id,
           state: {
             initial,
-            executor,
+            executor: additional.executor,
           },
+          reverse: additional.reverse,
         })
       )
     }

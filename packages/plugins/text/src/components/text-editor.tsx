@@ -1,7 +1,13 @@
 import { HotKeys } from '@edtr-io/core'
 import { HoverOverlay } from '@edtr-io/editor-ui/beta'
 import { EditorPluginProps } from '@edtr-io/plugin'
-import React, { createElement, useRef, useEffect, useMemo } from 'react'
+import React, {
+  createElement,
+  useRef,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { createEditor, Descendant, Node, Transforms } from 'slate'
 import {
   Editable,
@@ -92,6 +98,7 @@ function renderLeafWithConfig(config: TextEditorConfig) {
 }
 
 export function TextEditor(props: TextEditorProps) {
+  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
   const config = useTextConfig(props.config)
@@ -107,13 +114,22 @@ export function TextEditor(props: TextEditorProps) {
   const { showSuggestions, hotKeysProps, suggestionsProps } = suggestions
 
   const previousValue = useRef(value)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const previousSelection = useRef(selection)
 
   useEffect(() => {
     if (!selection) return
+
     Transforms.setSelection(editor, selection)
-  }, [editor, selection])
+
+    if (previousValue.current !== value) {
+      // https://github.com/ianstormtaylor/slate/releases/tag/slate-react%400.67.0
+      // "The Slate Provider's "value" prop is now only used as initial state for
+      // editor.children as was intended before. If your code relies on replacing
+      // editor.children you should do so by replacing it directly instead of
+      // relying on the "value" prop to do this for you."
+      editor.children = value
+    }
+  }, [editor, selection, value])
 
   function handleEditorChange(newValue: Descendant[]) {
     // Only update edtr-io state when the actual content of the text plugin
@@ -123,12 +139,24 @@ export function TextEditor(props: TextEditorProps) {
     )
     if (isAstChange) {
       previousValue.current = newValue
-      state.set({ value: newValue, selection: editor.selection })
-    } else {
-      // TODO: Check why the selection was not updated in state when
-      //       selection changes and if this can remain here
-      state.set({ value, selection: editor.selection })
+      state.set(
+        { value: newValue, selection: editor.selection },
+        ({ value }) => {
+          return {
+            value,
+            // When undoing this change, we want to jump back to the selection
+            // we had right before the change. Therefore, we always keep track
+            // of the previous selection and override the default reverse behavior
+            selection: previousSelection.current,
+          }
+        }
+      )
     }
+
+    // Workaround to show and hide link controls properly.
+    setHasSelectionChanged((selection) => selection + 1)
+
+    previousSelection.current = editor.selection
   }
 
   function handleEditableKeyDown(event: React.KeyboardEvent) {
@@ -137,14 +165,19 @@ export function TextEditor(props: TextEditorProps) {
     markdownShortcuts().onKeyDown(event, editor)
   }
 
-  // TODO: Change state + selection
   return (
     <HotKeys {...hotKeysProps}>
       <Slate editor={editor} value={value} onChange={handleEditorChange}>
-        <HoveringToolbar config={config} controls={toolbarControls} />
+        {editable && focused && (
+          <HoveringToolbar config={config} controls={toolbarControls} />
+        )}
 
         {editable && focused && (
-          <LinkControls editor={editor} config={config} />
+          <LinkControls
+            hasSelectionChanged={hasSelectionChanged}
+            editor={editor}
+            config={config}
+          />
         )}
 
         <Editable

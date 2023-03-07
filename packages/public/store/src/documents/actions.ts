@@ -48,6 +48,7 @@ export const change: ActionCreatorWithPayload<
       initial: StateUpdater<unknown>
       executor?: StateExecutor<StateUpdater<unknown>>
     }
+    reverse?: (previousState: unknown) => unknown
   }
 > = createActionCreator('Change')
 /** @public */
@@ -127,6 +128,28 @@ export const pureReplace: ActionCreatorWithPayload<
 export type PureReplaceAction = ActionCreatorAction<typeof pureReplace>
 
 /** @public */
+export const replaceText: ActionCreatorWithPayload<
+  'ReplaceText',
+  {
+    id: string
+    document: (id: string) => DocumentState
+  }
+> = createActionCreator('ReplaceText')
+/** @public */
+export type ReplaceTextAction = ActionCreatorAction<typeof replaceText>
+/** @internal */
+export const pureReplaceText: ActionCreatorWithPayload<
+  'PureReplaceText',
+  {
+    id: string
+    newId: string
+    document: DocumentState
+  }
+> = createActionCreator('PureReplaceText')
+/** @internal */
+export type PureReplaceTextAction = ActionCreatorAction<typeof pureReplaceText>
+
+/** @public */
 export type DocumentsAction =
   | InsertAction
   | RemoveAction
@@ -134,6 +157,7 @@ export type DocumentsAction =
   | WrapAction
   | UnwrapAction
   | ReplaceAction
+  | ReplaceTextAction
 /** @internal */
 export type InternalDocumentsAction =
   | PureInsertAction
@@ -142,3 +166,4 @@ export type InternalDocumentsAction =
   | PureWrapAction
   | PureUnwrapAction
   | PureReplaceAction
+  | PureReplaceTextAction

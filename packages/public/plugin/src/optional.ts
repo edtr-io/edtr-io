@@ -56,26 +56,31 @@ export function optional<D extends StateType>(
 
       function innerOnChange(
         initial: StateUpdater<T>,
-        executor?: StateExecutor<StateUpdater<T>>
+        {
+          executor,
+        }: {
+          executor?: StateExecutor<StateUpdater<T>>
+          reverse?: (previousState: T) => T
+        } = {}
       ) {
-        return onChange(
-          wrapStateUpdater(initial),
-          typeof executor === 'function'
-            ? (resolve, reject, next) => {
-                executor(
-                  (value) => {
-                    resolve(wrapStateUpdater(value))
-                  },
-                  (value) => {
-                    reject(wrapStateUpdater(value))
-                  },
-                  (value) => {
-                    next(wrapStateUpdater(value))
-                  }
-                )
-              }
-            : undefined
-        )
+        return onChange(wrapStateUpdater(initial), {
+          executor:
+            typeof executor === 'function'
+              ? (resolve, reject, next) => {
+                  executor(
+                    (value) => {
+                      resolve(wrapStateUpdater(value))
+                    },
+                    (value) => {
+                      reject(wrapStateUpdater(value))
+                    },
+                    (value) => {
+                      next(wrapStateUpdater(value))
+                    }
+                  )
+                }
+              : undefined,
+        })
       }
 
       function wrapStateUpdater(f: StateUpdater<T>): StateUpdater<Optional<T>> {

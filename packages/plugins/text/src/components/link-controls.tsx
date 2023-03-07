@@ -63,9 +63,11 @@ interface InputProps
 }
 
 export function LinkControls({
+  hasSelectionChanged,
   editor,
   config,
 }: {
+  hasSelectionChanged: number
   editor: SlateEditor
   config: TextEditorPluginConfig
 }) {
@@ -86,7 +88,7 @@ export function LinkControls({
     } else {
       setElement(null)
     }
-  }, [selection, editor])
+  }, [hasSelectionChanged, selection, editor])
 
   if (!element) return null
 
