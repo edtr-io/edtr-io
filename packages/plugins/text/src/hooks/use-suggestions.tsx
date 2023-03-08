@@ -28,25 +28,6 @@ const pluginTitleMapper: Record<EditorPlugin, string> = {
   [EditorPlugin.video]: 'Video',
 }
 
-function mapPlugins(plugins: EditorPlugin[], text: string) {
-  const search = text.replace('/', '').toLowerCase()
-
-  const startingWithSearchString = plugins
-    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
-    .filter(({ title }) => {
-      if (!search.length) return true
-      return title.toLowerCase().startsWith(search)
-    })
-  const containingSearchString = plugins
-    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
-    .filter(({ title }) => {
-      const value = title.toLowerCase()
-      return value.includes(search) && !value.startsWith(search)
-    })
-
-  return [...startingWithSearchString, ...containingSearchString]
-}
-
 const hotKeysMap = {
   SELECT_UP: 'up',
   SELECT_DOWN: 'down',
@@ -80,19 +61,6 @@ export const useSuggestions = (args: useSuggestionsArgs) => {
       setSelected(0)
     }
   }, [options.length, selected])
-
-  function insertPlugin(plugin: string) {
-    store.dispatch(replace({ id, plugin }))
-  }
-
-  function handleHotkeys(event: React.KeyboardEvent) {
-    if (closure.current.showSuggestions) {
-      if (['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) {
-        event.preventDefault()
-        return
-      }
-    }
-  }
 
   const handleSelectionChange = (direction: 'up' | 'down') => () => {
     if (closure.current.showSuggestions) {
@@ -135,4 +103,36 @@ export const useSuggestions = (args: useSuggestionsArgs) => {
     },
     handleHotkeys,
   }
+
+  function insertPlugin(plugin: string) {
+    store.dispatch(replace({ id, plugin }))
+  }
+
+  function handleHotkeys(event: React.KeyboardEvent) {
+    if (closure.current.showSuggestions) {
+      if (['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) {
+        event.preventDefault()
+        return
+      }
+    }
+  }
+}
+
+function mapPlugins(plugins: EditorPlugin[], text: string) {
+  const search = text.replace('/', '').toLowerCase()
+
+  const startingWithSearchString = plugins
+    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
+    .filter(({ title }) => {
+      if (!search.length) return true
+      return title.toLowerCase().startsWith(search)
+    })
+  const containingSearchString = plugins
+    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
+    .filter(({ title }) => {
+      const value = title.toLowerCase()
+      return value.includes(search) && !value.startsWith(search)
+    })
+
+  return [...startingWithSearchString, ...containingSearchString]
 }
