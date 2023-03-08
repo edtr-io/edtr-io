@@ -162,9 +162,9 @@ function renderLeafWithConfig(config: TextEditorConfig) {
     if (leaf.strong) {
       children = <strong>{children}</strong>
     }
-    if (typeof leaf.color === 'number') {
+    if (typeof leaf.color === 'number' && Array.isArray(colors)) {
       children = (
-        <span style={{ color: colors?.[leaf.color % colors?.length] }}>
+        <span style={{ color: colors?.[leaf.color % colors.length] }}>
           {children}
         </span>
       )
