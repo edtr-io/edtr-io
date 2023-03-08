@@ -34,17 +34,21 @@ export type TextEditorProps = EditorPluginProps<
 >
 
 export function TextEditor(props: TextEditorProps) {
-  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
+
   const config = useTextConfig(props.config)
   const { plugins } = config
+
+  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
+
   const textControls = useControls(config)
   const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),
     [createTextEditor]
   )
+
   const text = Node.string(editor)
   const suggestions = useSuggestions({ plugins, text, id, editable, focused })
   const { showSuggestions, hotKeysProps, suggestionsProps } = suggestions
@@ -53,6 +57,8 @@ export function TextEditor(props: TextEditorProps) {
   const previousSelection = useRef(selection)
 
   useEffect(() => {
+    // The selection can only be null when the text plugin is initialized
+    // (In this case an update of the slate editor is not necessary)
     if (!selection) return
 
     Transforms.setSelection(editor, selection)
