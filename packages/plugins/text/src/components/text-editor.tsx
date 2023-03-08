@@ -122,40 +122,22 @@ export function TextEditor(props: TextEditorProps) {
     Transforms.setSelection(editor, selection)
 
     if (previousValue.current !== value) {
-      // https://github.com/ianstormtaylor/slate/releases/tag/slate-react%400.67.0
-      // "The Slate Provider's "value" prop is now only used as initial state for
-      // editor.children as was intended before. If your code relies on replacing
-      // editor.children you should do so by replacing it directly instead of
-      // relying on the "value" prop to do this for you."
       editor.children = value
     }
   }, [editor, selection, value])
 
   function handleEditorChange(newValue: Descendant[]) {
-    // Only update edtr-io state when the actual content of the text plugin
-    // changed
     const isAstChange = editor.operations.some(
-      (op) => op.type !== 'set_selection'
+      ({ type }) => type !== 'set_selection'
     )
     if (isAstChange) {
       previousValue.current = newValue
       state.set(
         { value: newValue, selection: editor.selection },
-        ({ value }) => {
-          return {
-            value,
-            // When undoing this change, we want to jump back to the selection
-            // we had right before the change. Therefore, we always keep track
-            // of the previous selection and override the default reverse behavior
-            selection: previousSelection.current,
-          }
-        }
+        ({ value }) => ({ value, selection: previousSelection.current })
       )
     }
-
-    // Workaround to show and hide link controls properly.
     setHasSelectionChanged((selection) => selection + 1)
-
     previousSelection.current = editor.selection
   }
 
