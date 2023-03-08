@@ -15,5 +15,9 @@
       "@edtr-io/*/internal": ["public/*/src"],
       "@edtr-io/*": ["public/*/src"]
     }
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }
