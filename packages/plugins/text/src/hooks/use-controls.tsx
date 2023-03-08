@@ -77,11 +77,58 @@ const registeredHotkeys = [
   },
 ]
 
-const createToolbarControls = ({
+export const useControls = (config: TextEditorPluginConfig) => {
+  const { controls } = config
+
+  const createTextEditor = useCallback(
+    (baseEditor: SlateEditor) =>
+      controls.reduce((currentEditor, currentControl) => {
+        // If there is no control initialization function for the current control,
+        // return the editor as it was received
+        if (!isRegisteredTextPlugin(currentControl)) {
+          return currentEditor
+        }
+        // Otherwise, apply the control initialization functions to the editor
+        return textPluginsMapper[currentControl](currentEditor)
+      }, baseEditor),
+    [controls]
+  )
+
+  const toolbarControls: ControlButton[] = useMemo(
+    () => createToolbarControls(config),
+    [config]
+  )
+
+  const handleHotkeys = useCallback(
+    (event: React.KeyboardEvent, editor: SlateEditor) => {
+      // Go through the registered hotkeys
+      for (const { hotkey, control, handler } of registeredHotkeys) {
+        // Check if their respective control is enabled
+        // and if the keyboard event contains the hotkey combination
+        if (controls.includes(control) && isHotkey(hotkey, event)) {
+          // If so, prevent the default event behavior,
+          // handle the hotkey and break out of the loop
+          event.preventDefault()
+          handler(editor)
+          break
+        }
+      }
+    },
+    [controls]
+  )
+
+  return {
+    createTextEditor,
+    toolbarControls,
+    handleHotkeys,
+  }
+}
+
+function createToolbarControls({
   i18n,
   theme,
   controls,
-}: TextEditorPluginConfig): ControlButton[] => {
+}: TextEditorPluginConfig): ControlButton[] {
   const allControls = [
     // Bold
     {
@@ -194,51 +241,4 @@ const createToolbarControls = ({
   return allControls.filter((control) =>
     controls.includes(TextEditorControl[control.name])
   )
-}
-
-export const useControls = (config: TextEditorPluginConfig) => {
-  const { controls } = config
-
-  const createTextEditor = useCallback(
-    (baseEditor: SlateEditor) =>
-      controls.reduce((currentEditor, currentControl) => {
-        // If there is no control initialization function for the current control,
-        // return the editor as it was received
-        if (!isRegisteredTextPlugin(currentControl)) {
-          return currentEditor
-        }
-        // Otherwise, apply the control initialization functions to the editor
-        return textPluginsMapper[currentControl](currentEditor)
-      }, baseEditor),
-    [controls]
-  )
-
-  const toolbarControls: ControlButton[] = useMemo(
-    () => createToolbarControls(config),
-    [config]
-  )
-
-  const handleHotkeys = useCallback(
-    (event: React.KeyboardEvent, editor: SlateEditor) => {
-      // Go through the registered hotkeys
-      for (const { hotkey, control, handler } of registeredHotkeys) {
-        // Check if their respective control is enabled
-        // and if the keyboard event contains the hotkey combination
-        if (controls.includes(control) && isHotkey(hotkey, event)) {
-          // If so, prevent the default event behavior,
-          // handle the hotkey and break out of the loop
-          event.preventDefault()
-          handler(editor)
-          break
-        }
-      }
-    },
-    [controls]
-  )
-
-  return {
-    createTextEditor,
-    toolbarControls,
-    handleHotkeys,
-  }
 }
