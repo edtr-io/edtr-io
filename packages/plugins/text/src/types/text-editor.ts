@@ -4,7 +4,6 @@ import { ReactEditor } from 'slate-react'
 
 import { MathElement as MathElementType } from '.'
 
-// TODO: We need to configure this!
 type CustomElement =
   | Paragraph
   | OrderedList

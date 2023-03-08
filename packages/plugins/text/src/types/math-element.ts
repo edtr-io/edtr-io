@@ -1,4 +1,3 @@
-// TODO: Good structure
 export interface MathElement {
   type: 'math'
   src: string
