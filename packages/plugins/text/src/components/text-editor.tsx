@@ -33,70 +33,6 @@ export type TextEditorProps = EditorPluginProps<
   TextEditorConfig
 >
 
-function renderElement(props: RenderElementProps) {
-  const { element, attributes, children } = props
-
-  if (element.type === 'h') {
-    return createElement(`h${element.level}`, attributes, <>{children}</>)
-  }
-  if (element.type === 'a') {
-    return (
-      <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
-        {children}
-      </a>
-    )
-  }
-
-  if (element.type === 'unordered-list') {
-    return <ul {...attributes}>{children}</ul>
-  }
-  if (element.type === 'ordered-list') {
-    return <ol {...attributes}>{children}</ol>
-  }
-  if (element.type === 'list-item') {
-    return <li {...attributes}>{children}</li>
-  }
-  if (element.type === 'list-item-child') {
-    return <div {...attributes}>{children}</div>
-  }
-
-  if (element.type === 'math') {
-    return (
-      <MathElement element={element} attributes={attributes}>
-        {children}
-      </MathElement>
-    )
-  }
-
-  return <p {...attributes}>{children}</p>
-}
-
-function renderLeafWithConfig(config: TextEditorConfig) {
-  return function renderLeaf(props: RenderLeafProps) {
-    const colors = config?.theme?.controls?.colors?.colors
-    const { attributes, leaf } = props
-    let { children } = props
-
-    if (leaf.strong) {
-      children = <strong>{children}</strong>
-    }
-    if (typeof leaf.color === 'number') {
-      children = (
-        <span style={{ color: colors?.[leaf.color % colors?.length] }}>
-          {children}
-        </span>
-      )
-    }
-    if (leaf.code) {
-      children = <code>{children}</code>
-    }
-    if (leaf.em) {
-      children = <em>{children}</em>
-    }
-    return <span {...attributes}>{children}</span>
-  }
-}
-
 export function TextEditor(props: TextEditorProps) {
   const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
   const { state, id, editable, focused } = props
@@ -177,4 +113,68 @@ export function TextEditor(props: TextEditorProps) {
       )}
     </HotKeys>
   )
+}
+
+function renderElement(props: RenderElementProps) {
+  const { element, attributes, children } = props
+
+  if (element.type === 'h') {
+    return createElement(`h${element.level}`, attributes, <>{children}</>)
+  }
+  if (element.type === 'a') {
+    return (
+      <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
+        {children}
+      </a>
+    )
+  }
+
+  if (element.type === 'unordered-list') {
+    return <ul {...attributes}>{children}</ul>
+  }
+  if (element.type === 'ordered-list') {
+    return <ol {...attributes}>{children}</ol>
+  }
+  if (element.type === 'list-item') {
+    return <li {...attributes}>{children}</li>
+  }
+  if (element.type === 'list-item-child') {
+    return <div {...attributes}>{children}</div>
+  }
+
+  if (element.type === 'math') {
+    return (
+      <MathElement element={element} attributes={attributes}>
+        {children}
+      </MathElement>
+    )
+  }
+
+  return <p {...attributes}>{children}</p>
+}
+
+function renderLeafWithConfig(config: TextEditorConfig) {
+  return function renderLeaf(props: RenderLeafProps) {
+    const colors = config?.theme?.controls?.colors?.colors
+    const { attributes, leaf } = props
+    let { children } = props
+
+    if (leaf.strong) {
+      children = <strong>{children}</strong>
+    }
+    if (typeof leaf.color === 'number') {
+      children = (
+        <span style={{ color: colors?.[leaf.color % colors?.length] }}>
+          {children}
+        </span>
+      )
+    }
+    if (leaf.code) {
+      children = <code>{children}</code>
+    }
+    if (leaf.em) {
+      children = <em>{children}</em>
+    }
+    return <span {...attributes}>{children}</span>
+  }
 }
