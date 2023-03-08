@@ -2,7 +2,7 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { MathElement as MathElementType } from '.'
+import { MathElement as MathElementType } from './math-element'
 
 type CustomElement =
   | Paragraph
