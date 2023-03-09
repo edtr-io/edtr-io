@@ -1,4 +1,4 @@
-import { PreferenceContext } from '@edtr-io/core'
+import { PreferenceContext } from '@edtr-io/core/beta'
 import { MathEditor } from '@edtr-io/math'
 import React, { useContext } from 'react'
 import { Range, Transforms } from 'slate'
