@@ -16,15 +16,15 @@
     "@edtr-io/plugin": "^2.8.2",
     "@edtr-io/store": "^2.8.2",
     "@edtr-io/ui": "^2.5.0",
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.24"
   },
   "devDependencies": {
     "@edtr-io/core": "^2.8.2",
     "react": "^18.0.0",
-    "react-dnd": "^15.1.1",
-    "react-dnd-html5-backend": "^15.1.2",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.0.0",
     "react-is": "^18.0.0",
     "redux": "^4.1.2",
@@ -33,10 +33,10 @@
   },
   "peerDependencies": {
     "@edtr-io/core": ">= 1",
-    "react": ">= 17",
+    "react": "^18.0.0",
     "react-dnd": ">= 14",
     "react-dnd-html5-backend": ">= 14",
-    "react-dom": ">= 17",
+    "react-dom": "^18.0.0",
     "react-is": ">= 17",
     "redux": ">= 4",
     "styled-components": ">= 4"

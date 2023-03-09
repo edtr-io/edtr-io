@@ -1,5 +1,4 @@
 // Declaring these as devDependencies would lead to a dependency cycles. Since we only use these for testing anyways, we can safely disable the ESLint rule here
-/* eslint-disable import/no-extraneous-dependencies */
 import { child, EditorPlugin, list, number, object } from '@edtr-io/plugin'
 import { plugin as anchorPlugin } from '@edtr-io/plugin-anchor/__fixtures__'
 import { plugin as blockquotePlugin } from '@edtr-io/plugin-blockquote/__fixtures__'

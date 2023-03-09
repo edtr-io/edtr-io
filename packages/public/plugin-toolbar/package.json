@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@edtr-io/internal__plugin-toolbar": "^2.5.0",
-    "@types/react": "^17.0.43"
+    "@types/react": "^18.0.27"
   },
   "devDependencies": {
     "react": "^18.0.0",

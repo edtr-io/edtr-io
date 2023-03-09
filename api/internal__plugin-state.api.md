@@ -29,7 +29,10 @@ export interface StateType<S = any, T = any, R = any> {
     createInitialState(helpers: StoreDeserializeHelpers): T;
     deserialize(serialized: S, helpers: StoreDeserializeHelpers): T;
     getFocusableChildren(state: T): FocusableChild[];
-    init(state: T, onChange: (initial: StateUpdater<T>, executor?: StateExecutor<StateUpdater<T>>) => void): R;
+    init(state: T, onChange: (initial: StateUpdater<T>, additional?: {
+        executor?: StateExecutor<StateUpdater<T>>;
+        reverse?: (previousState: T) => T;
+    }) => void): R;
     serialize(deserialized: T, helpers: StoreSerializeHelpers): S;
 }
 
@@ -76,7 +79,6 @@ export interface StoreSerializeHelpers<K extends string = string, S = unknown> {
         state?: S;
     } | null;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

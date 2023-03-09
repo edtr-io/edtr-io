@@ -30,5 +30,4 @@ export type PluginToolbarButtonProps = InternalPluginToolbar.PluginToolbarButton
 // @beta
 export type PluginToolbarOverlayButtonProps = InternalPluginToolbar.PluginToolbarOverlayButtonProps;
 
-
 ```

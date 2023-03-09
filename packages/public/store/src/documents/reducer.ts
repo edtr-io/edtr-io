@@ -23,6 +23,8 @@ import {
   PureUnwrapAction,
   pureReplace,
   PureReplaceAction,
+  pureReplaceText,
+  PureReplaceTextAction,
 } from './actions'
 
 /** @internal */
@@ -91,6 +93,16 @@ export const documentsReducer: SubReducer<Record<string, DocumentState>> =
             plugin: type,
             state: pluginState,
           },
+        }
+      },
+      [pureReplaceText.type](documentState, action: PureReplaceTextAction) {
+        const { id, newId, document } = action.payload
+        if (!documentState[id]) return documentState
+
+        return {
+          ...documentState,
+          [newId]: documentState[id],
+          [id]: document,
         }
       },
     }

@@ -27,7 +27,6 @@ export interface DefaultDocumentEditorI18n {
     };
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

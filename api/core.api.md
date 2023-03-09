@@ -5,8 +5,10 @@
 ```ts
 
 import { Action } from '@edtr-io/store';
+import { AnyAction } from 'redux';
 import { ChangeListener } from '@edtr-io/store';
 import { CustomTheme } from '@edtr-io/ui';
+import { Dispatch } from 'redux';
 import { EditorPlugin } from '@edtr-io/internal__plugin';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { HotKeys } from 'react-hotkeys';
@@ -17,8 +19,7 @@ import { PluginProps } from '@edtr-io/internal__plugin-state';
 import { ProviderProps } from 'react-redux';
 import * as React_2 from 'react';
 import { ScopedState } from '@edtr-io/store';
-import { State } from '@edtr-io/store';
-import { Store } from '@edtr-io/store';
+import { Store } from 'redux';
 import { StoreEnhancerFactory } from '@edtr-io/store';
 import { Unsubscribe } from 'redux';
 
@@ -175,7 +176,7 @@ export interface SubDocumentProps {
 }
 
 // @public (undocumented)
-export const useDispatch: () => (action: Action) => void;
+export const useDispatch: () => Dispatch<AnyAction>;
 
 // @public (undocumented)
 export function useScope(enforcedScope?: string): string;
@@ -194,10 +195,10 @@ export function useScopedStore(enforcedScope?: string): {
 };
 
 // @public (undocumented)
-export const useSelector: <T>(selector: (state: State) => T) => T;
+export const useSelector: <Selected extends unknown>(selector: (state: Record<string, ScopedState>) => Selected, equalityFn?: ((previous: Selected, next: Selected) => boolean) | undefined) => Selected;
 
 // @public (undocumented)
-export const useStore: () => Store;
+export const useStore: () => Store<Record<string, ScopedState>, AnyAction>;
 
 // (No @packageDocumentation comment for this package)
 

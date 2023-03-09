@@ -98,5 +98,4 @@ export interface PluginToolbarOverlayButtonProps {
     }): React_2.ReactNode;
 }
 
-
 ```

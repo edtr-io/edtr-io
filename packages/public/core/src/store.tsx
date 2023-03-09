@@ -1,25 +1,14 @@
-import { Action, getScope, ScopedState, State, Store } from '@edtr-io/store'
+import { Action, getScope, ScopedState, State } from '@edtr-io/store'
 import * as React from 'react'
 import {
   Provider as ReduxProvider,
   ProviderProps,
   ReactReduxContextValue,
+  createDispatchHook,
+  createSelectorHook,
+  createStoreHook,
 } from 'react-redux'
 import { Unsubscribe } from 'redux'
-
-const createDispatchHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-() => (action: Action) => void = require('react-redux').createDispatchHook
-const createSelectorHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => <T>(selector: (state: State) => T) => T =
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-  require('react-redux').createSelectorHook
-const createStoreHook: (
-  context: React.Context<ReactReduxContextValue<State>>
-) => // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
-() => Store = require('react-redux').createStoreHook
 
 /** @public */
 export const ScopeContext = React.createContext<{

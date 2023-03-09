@@ -45,7 +45,6 @@ export interface EditorPluginProps<S extends StateType = StateType, Config exten
     state: StateTypeReturnType<S>;
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

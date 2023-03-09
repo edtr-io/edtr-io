@@ -50,3 +50,6 @@ packages/*/*/internal/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.tool-versions
+.vscode/*

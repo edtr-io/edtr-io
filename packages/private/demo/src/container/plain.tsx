@@ -25,7 +25,7 @@ export function PlainRendererContainer(props: RendererProps) {
 
 export function PlainEditorContainer(props: EditorProps) {
   const children = React.useCallback(
-    (document) => {
+    (document: React.ReactNode) => {
       return (
         <PlainEditorContainerInner editable={props.editable}>
           {document}

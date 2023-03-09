@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals'
+
 import {
   child,
   list,
@@ -64,10 +66,18 @@ describe('list', () => {
     expect(typeof deserialized[1].id).toEqual('string')
     expect(typeof deserialized[1].value).toEqual('string')
     expect(helpers.createDocument).toHaveBeenCalledTimes(2)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(helpers.createDocument.mock.calls[0][0].state).toEqual(0)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(helpers.createDocument.mock.calls[1][0].state).toEqual(1)
+    expect(helpers.createDocument).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        state: 0,
+      })
+    )
+    expect(helpers.createDocument).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        state: 1,
+      })
+    )
   })
 
   test('serialize', () => {
@@ -240,7 +250,11 @@ describe('list', () => {
     let store = initialState
     const onChange = (
       initial: StateUpdater<typeof initialState>,
-      executor?: StateExecutor<StateUpdater<typeof initialState>>
+      {
+        executor,
+      }: {
+        executor?: StateExecutor<StateUpdater<typeof initialState>>
+      } = {}
     ) => {
       store = initial(store, helpers)
       if (executor) {

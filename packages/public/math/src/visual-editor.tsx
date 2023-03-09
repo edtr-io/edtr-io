@@ -1,18 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-import { canUseDOM } from 'exenv'
 import * as React from 'react'
+import * as MQ from 'react-mathquill'
 
 import { MathEditorProps } from './editor-props'
 
-export const MathQuill: React.ComponentType<{
-  latex: string
-  config: unknown
-  onChange(e: MathField): void
-  mathquillDidMount(e: MathField): void
-}> = canUseDOM
-  ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('react-mathquill').EditableMathField
-  : () => null
+// @ts-expect-error https://github.com/serlo/serlo-editor-issues-and-documentation/issues/68
+MQ.default?.addStyles ? MQ.default.addStyles() : MQ.addStyles()
 
 function isTouchDevice(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
@@ -63,10 +55,6 @@ interface VisualEditorProps extends MathEditorProps {
 }
 
 export function VisualEditor(props: VisualEditorProps) {
-  React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('react-mathquill').addStyles()
-  }, [])
   const mathQuillConfig = {
     supSubsRequireOperand: true,
     autoCommands: 'pi alpha beta gamma delta',
@@ -101,11 +89,12 @@ export function VisualEditor(props: VisualEditorProps) {
   }
 
   return (
-    <MathQuill
+    <MQ.EditableMathField
       latex={props.state}
       onChange={(ref) => {
         props.onChange(ref.latex())
       }}
+      // @ts-expect-error https://github.com/serlo/serlo-editor-issues-and-documentation/issues/67
       config={mathQuillConfig}
       mathquillDidMount={onMount}
     />
@@ -115,10 +104,8 @@ export function VisualEditor(props: VisualEditorProps) {
     if (ref.latex() == '' && props.state != '') {
       props.onError()
     }
+    // TODO: Check if this can be removed
     setTimeout(() => {
-      if (typeof props.onBlur === 'function') {
-        props.onBlur()
-      }
       ref.focus()
     })
   }

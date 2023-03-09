@@ -23,7 +23,6 @@ export interface DocumentEditorProps {
     toolbarRef: React_2.RefObject<HTMLDivElement>;
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

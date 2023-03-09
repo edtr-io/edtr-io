@@ -18,7 +18,10 @@ export interface StateType<S = any, T = any, R = any> {
     state: T,
     onChange: (
       initial: StateUpdater<T>,
-      executor?: StateExecutor<StateUpdater<T>>
+      additional?: {
+        executor?: StateExecutor<StateUpdater<T>>
+        reverse?: (previousState: T) => T
+      }
     ) => void
   ): R
 

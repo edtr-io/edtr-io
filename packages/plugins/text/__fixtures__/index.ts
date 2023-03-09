@@ -1,56 +1,40 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
-import { TextPluginState, createTextPlugin } from '../src'
+import { createTextPlugin } from '../src'
+import { EditorPlugin, TextEditorControl, TextEditorState } from '../src/types'
 
 export const name = 'text'
 export const plugin = createTextPlugin({
   blockquote: 'blockquote',
-  registry: [
-    {
-      name: 'anchor',
-    },
-    {
-      name: 'blockquote',
-    },
-    {
-      name: 'files',
-    },
-    {
-      name: 'geogebra',
-    },
-    {
-      name: 'highlight',
-    },
-    {
-      name: 'image',
-    },
-    {
-      name: 'inputExercise',
-    },
-    {
-      name: 'multimediaExplanation',
-    },
-    {
-      name: 'scMcExercise',
-    },
-    {
-      name: 'serloInjection',
-    },
-    {
-      name: 'spoiler',
-    },
-    {
-      name: 'table',
-    },
-    {
-      name: 'video',
-    },
+  controls: [
+    TextEditorControl.richText,
+    TextEditorControl.links,
+    TextEditorControl.headings,
+    TextEditorControl.colors,
+    TextEditorControl.lists,
+    TextEditorControl.math,
+    TextEditorControl.code,
+  ],
+  plugins: [
+    EditorPlugin.anchor,
+    EditorPlugin.blockquote,
+    EditorPlugin.files,
+    EditorPlugin.geogebra,
+    EditorPlugin.highlight,
+    EditorPlugin.image,
+    EditorPlugin.inputExercise,
+    EditorPlugin.multimediaExplanation,
+    EditorPlugin.scMcExercise,
+    EditorPlugin.serloInjection,
+    EditorPlugin.spoiler,
+    EditorPlugin.table,
+    EditorPlugin.video,
   ],
 })
 
 export const states: Record<
   string,
-  StateTypeSerializedType<TextPluginState>
+  StateTypeSerializedType<TextEditorState>
 > = {
   simple: [
     {

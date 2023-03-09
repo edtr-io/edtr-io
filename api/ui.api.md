@@ -4,6 +4,7 @@
 
 ```ts
 
+import { DefaultTheme } from 'styled-components';
 import { faAnchor } from '@fortawesome/free-solid-svg-icons/faAnchor';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons/faCaretSquareDown';
 import { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp';
@@ -59,6 +60,7 @@ import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as React_2 from 'react';
 import * as StyledComponents from 'styled-components';
+import { ThemedStyledInterface } from 'styled-components';
 import { ThemeProps as ThemeProps_2 } from 'styled-components';
 
 // @public
@@ -420,7 +422,7 @@ export type RendererUiThemeFactory<K extends keyof RendererUiTheme> = (theme: Re
 export function RootThemeProvider(props: StyledComponents.ThemeProviderProps<CustomTheme>): JSX.Element;
 
 // @public
-export const styled: StyledComponents.ThemedStyledInterface<StyledComponents.DefaultTheme>;
+export const styled: ThemedStyledInterface<DefaultTheme>;
 
 // @public
 export interface Theme {
@@ -464,5 +466,6 @@ export function useRendererUiTheme<K extends keyof RendererUiTheme>(key: K, crea
 // @public
 export function useTheme(): Theme;
 
+// (No @packageDocumentation comment for this package)
 
 ```

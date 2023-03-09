@@ -15,7 +15,6 @@ export interface DefaultPluginToolbarConfig {
     primaryColor: string;
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

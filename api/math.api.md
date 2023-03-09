@@ -53,8 +53,6 @@ export interface MathEditorProps {
     // (undocumented)
     inline?: boolean;
     // (undocumented)
-    onBlur?(): void;
-    // (undocumented)
     onChange(state: string): void;
     // (undocumented)
     onDeleteOutLeft?(): void;

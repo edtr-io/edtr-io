@@ -58,7 +58,6 @@ export class SubmitButton extends React_2.Component<{
     render(): JSX.Element;
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

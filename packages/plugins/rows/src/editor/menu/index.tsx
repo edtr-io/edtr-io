@@ -55,8 +55,8 @@ export function Menu({ menu, setMenu, config }: MenuProps) {
   const [search, setSearch] = React.useState('')
 
   const close = React.useCallback(
-    (evt) => {
-      if (evt.key === 'Escape') setMenu(undefined)
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenu(undefined)
     },
     [setMenu]
   )

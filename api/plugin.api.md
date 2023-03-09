@@ -149,7 +149,7 @@ export function serializedScalar<S, T>(initialState: T, serializer: Serializer<S
 export type SerializedScalarStateType<S, T> = StateType<S, T, {
     value: T;
     get(): T;
-    set(value: T | ((currentValue: T) => T)): void;
+    set(value: T | ((currentValue: T) => T), reverse?: (previousValue: T) => T): void;
 }>;
 
 // @public (undocumented)
@@ -255,7 +255,6 @@ export interface Versionized<S> {
     // (undocumented)
     value: S;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

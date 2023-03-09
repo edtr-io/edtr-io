@@ -53,6 +53,7 @@ export class ScMcExerciseChoiceRenderer extends React.Component<
 
 export interface ChoiceRendererProps {
   config: ScMcExercisePluginConfig
+  children: React.ReactNode
   index: number
   onClick?: (event: React.MouseEvent<Element>) => void
   showFeedback?: boolean

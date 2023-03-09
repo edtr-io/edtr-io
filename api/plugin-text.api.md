@@ -4,503 +4,90 @@
 
 ```ts
 
-import { BlockJSON } from 'slate';
+/// <reference types="react" />
+
 import { DeepPartial } from '@edtr-io/ui';
-import { Editor } from 'slate-react';
-import { EditorPlugin } from '@edtr-io/plugin';
+import { Descendant } from 'slate';
+import { EditorPlugin as EditorPlugin_2 } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
-import { EditorProps } from 'slate-react';
-import { InlineJSON } from 'slate';
-import { MarkJSON } from 'slate';
-import { Plugin as Plugin_2 } from 'slate-react';
-import * as React_2 from 'react';
-import { RenderBlockProps } from 'slate-react';
-import { RenderInlineProps } from 'slate-react';
-import { RenderMarkProps } from 'slate-react';
-import { Rule } from 'slate-html-serializer';
+import { Range as Range_2 } from 'slate';
 import { SerializedScalarStateType } from '@edtr-io/plugin';
-import { Serializer } from '@edtr-io/plugin';
-import { useScopedStore } from '@edtr-io/core';
-import { Value } from 'slate';
-import { ValueJSON } from 'slate';
 
 // @public (undocumented)
-export type BlockEditorProps = RenderBlockProps;
+export const createTextPlugin: (config: TextEditorConfig) => EditorPlugin_2<TextEditorState, TextEditorConfig>;
 
 // @public (undocumented)
-export interface BlockRendererProps {
-    // (undocumented)
-    node: BlockJSON;
-}
-
-// @public (undocumented)
-export function createTextPlugin(config: TextConfig): EditorPlugin<TextPluginState, TextConfig>;
-
-// @internal (undocumented)
-export function htmlToSlateValue(html: string): Value;
-
-// @public (undocumented)
-export type InlineEditorProps = RenderInlineProps;
-
-// @public (undocumented)
-export interface InlineRendererProps {
-    // (undocumented)
-    node: InlineJSON;
-}
-
-// @public (undocumented)
-export function isValueEmpty(value: Value): boolean;
-
-// @public (undocumented)
-export type MarkEditorProps = RenderMarkProps;
-
-// @public (undocumented)
-export interface MarkRendererProps {
-    // (undocumented)
-    mark: MarkJSON;
-}
-
-// @public (undocumented)
-export type NewElement = NewParagraphElement | NewHeadingElement | NewLinkElement | NewMathElement | NewOrderedListElement | NewUnorderedListElement | NewListItemElement | NewListItemChildElement;
-
-// @public (undocumented)
-export interface NewHeadingElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    level: 1 | 2 | 3 | 4 | 5 | 6;
-    // (undocumented)
-    type: 'h';
-}
-
-// @public (undocumented)
-export interface NewLinkElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    href: string;
-    // (undocumented)
-    type: 'a';
-}
-
-// @public (undocumented)
-export interface NewListItemChildElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    type: 'list-item-child';
-}
-
-// @public (undocumented)
-export interface NewListItemElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    type: 'list-item';
-}
-
-// @public (undocumented)
-export interface NewMathElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    inline: boolean;
-    // (undocumented)
-    src: string;
-    // (undocumented)
-    type: 'math';
-}
-
-// @public (undocumented)
-export type NewNode = NewText | NewElement;
-
-// @public (undocumented)
-export interface NewOrderedListElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    type: 'ordered-list';
-}
-
-// @public (undocumented)
-export interface NewParagraphElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    type: 'p';
-}
-
-// @public (undocumented)
-export interface NewText {
-    // (undocumented)
-    code?: boolean;
-    // (undocumented)
-    color?: number;
-    // (undocumented)
-    em?: boolean;
-    // (undocumented)
-    strong?: boolean;
-    // (undocumented)
-    text: string;
-}
-
-// @public (undocumented)
-export interface NewUnorderedListElement {
-    // (undocumented)
-    children: NewNode[];
-    // (undocumented)
-    type: 'unordered-list';
-}
-
-// @public (undocumented)
-export type NodeControlsProps = EditorProps & {
-    editor: Editor;
-};
-
-// @public (undocumented)
-export type NodeEditorProps = BlockEditorProps | InlineEditorProps;
-
-// @public (undocumented)
-export type NodeRendererProps = BlockRendererProps | InlineRendererProps;
-
-// @public (undocumented)
-export interface OldCodeMark {
-    // (undocumented)
-    object: 'mark';
-    // (undocumented)
-    type: 'code';
-}
-
-// @public (undocumented)
-export interface OldColorMark {
-    // (undocumented)
-    data: {
-        colorIndex: number;
-    };
-    // (undocumented)
-    object: 'mark';
-    // (undocumented)
-    type: '@splish-me/color';
-}
-
-// @public (undocumented)
-export type OldElement = OldParagraphElement | OldHeadingElement | OldLinkElement | OldKatexInlineElement | OldKatexBlockElement | OldOrderedListElement | OldUnorderedListElement | OldListItemElement | OldListItemChildElement;
-
-// @public (undocumented)
-export interface OldEmphasizeMark {
-    // (undocumented)
-    object: 'mark';
-    // (undocumented)
-    type: '@splish-me/em';
-}
-
-// @public (undocumented)
-export interface OldHeadingElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: '@splish-me/h1' | '@splish-me/h2' | '@splish-me/h3' | '@splish-me/h4' | '@splish-me/h5' | '@splish-me/h6';
-}
-
-// @public (undocumented)
-export interface OldKatexBlockElement {
-    // (undocumented)
-    data: {
-        formula: string;
-        inline: false;
-    };
-    // (undocumented)
-    isVoid: true;
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: '@splish-me/katex-block';
-}
-
-// @public (undocumented)
-export interface OldKatexInlineElement {
-    // (undocumented)
-    data: {
-        formula: string;
-        inline: true;
-    };
-    // (undocumented)
-    isVoid: true;
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'inline';
-    // (undocumented)
-    type: '@splish-me/katex-inline';
-}
-
-// @public (undocumented)
-export interface OldLinkElement {
-    // (undocumented)
-    data: {
-        href: string;
-    };
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'inline';
-    // (undocumented)
-    type: '@splish-me/a';
-}
-
-// @public (undocumented)
-export interface OldListItemChildElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: 'list-item-child';
-}
-
-// @public (undocumented)
-export interface OldListItemElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: 'list-item';
-}
-
-// @public (undocumented)
-export type OldMark = OldStrongMark | OldEmphasizeMark | OldColorMark | OldCodeMark;
-
-// @public (undocumented)
-export type OldNode = OldText | OldElement;
-
-// @public (undocumented)
-export interface OldOrderedListElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: 'ordered-list';
-}
-
-// @public (undocumented)
-export interface OldParagraphElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: 'paragraph';
-}
-
-// @public (undocumented)
-export interface OldStrongMark {
-    // (undocumented)
-    object: 'mark';
-    // (undocumented)
-    type: '@splish-me/strong';
-}
-
-// @public (undocumented)
-export interface OldText {
-    // (undocumented)
-    marks?: OldMark[];
-    // (undocumented)
-    object: 'text';
-    // (undocumented)
-    text: string;
-}
-
-// @public (undocumented)
-export interface OldUnorderedListElement {
-    // (undocumented)
-    nodes: OldNode[];
-    // (undocumented)
-    object: 'block';
-    // (undocumented)
-    type: 'unordered-list';
-}
-
-// @public (undocumented)
-export const serializer: Serializer<NewNode[], ValueJSON>;
-
-// @public (undocumented)
-export interface SlateClosure {
-    // (undocumented)
-    config: TextPluginConfig;
-    // (undocumented)
-    id: TextProps['id'];
-    // (undocumented)
-    store: ReturnType<typeof useScopedStore>;
-}
-
-// @public (undocumented)
-export type SlatePluginClosure = React_2.RefObject<SlateClosure>;
-
-// @internal (undocumented)
-export function slateValueToHtml(value: Value): string;
-
-// @public (undocumented)
-export interface TextConfig {
+export interface TextEditorConfig {
     // (undocumented)
     blockquote?: string;
     // (undocumented)
-    i18n?: DeepPartial<TextPluginConfig['i18n']>;
+    controls?: TextEditorControl[];
+    // (undocumented)
+    i18n?: DeepPartial<TextEditorPluginConfig['i18n']>;
     // (undocumented)
     noLinebreaks?: boolean;
     // (undocumented)
-    placeholder?: TextPluginConfig['placeholder'];
-    // (undocumented)
-    plugins?: TextConfigPlugins;
-    // Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
+    placeholder?: TextEditorPluginConfig['placeholder'];
+    // Warning: (ae-forgotten-export) The symbol "EditorPlugin" needs to be exported by the entry point index.d.ts
     //
-    // @deprecated (undocumented)
-    registry: TextPluginConfig['registry'];
     // (undocumented)
-    theme?: DeepPartial<TextPluginConfig['theme']>;
+    plugins?: EditorPlugin[];
+    // (undocumented)
+    theme?: DeepPartial<TextEditorPluginConfig['theme']>;
 }
 
 // @public (undocumented)
-export interface TextConfigPlugins {
+export enum TextEditorControl {
     // (undocumented)
-    code?: boolean;
+    code = "code",
     // (undocumented)
-    colors?: boolean;
+    colors = "colors",
     // (undocumented)
-    headings?: boolean;
+    headings = "headings",
     // (undocumented)
-    katex?: boolean;
+    katex = "katex",
     // (undocumented)
-    links?: boolean;
+    links = "links",
     // (undocumented)
-    lists?: boolean;
+    lists = "lists",
     // (undocumented)
-    math?: boolean;
+    math = "math",
     // (undocumented)
-    paragraphs?: boolean;
+    paragraphs = "paragraphs",
     // (undocumented)
-    richText?: boolean;
-    // (undocumented)
-    suggestions?: boolean;
+    richText = "richText"
 }
 
 // @public (undocumented)
-export type TextPlugin = Plugin_2 & Rule & {
-    commands?: {
-        [key: string]: (editor: Editor, ...args: any[]) => Editor;
-    };
-};
-
-// @public (undocumented)
-export interface TextPluginConfig {
+export interface TextEditorPluginConfig {
     // (undocumented)
     blockquote?: string;
     // (undocumented)
-    enabledPlugins: TextConfigPlugins;
+    controls: TextEditorControl[];
+    // Warning: (ae-forgotten-export) The symbol "I18n" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    i18n: {
-        blockquote: {
-            toggleTitle: string;
-        };
-        code: {
-            toggleTitle: string;
-        };
-        colors: {
-            setColorTitle: string;
-            resetColorTitle: string;
-            openMenuTitle: string;
-            closeMenuTitle: string;
-        };
-        headings: {
-            setHeadingTitle(level: number): string;
-            openMenuTitle: string;
-            closeMenuTitle: string;
-        };
-        link: {
-            toggleTitle: string;
-            placeholder: string;
-            openInNewTabTitle: string;
-        };
-        list: {
-            toggleOrderedList: string;
-            toggleUnorderedList: string;
-            openMenuTitle: string;
-            closeMenuTitle: string;
-        };
-        math: {
-            toggleTitle: string;
-            displayBlockLabel: string;
-            placeholder: string;
-            editors: {
-                visual: string;
-                latex: string;
-                noVisualEditorAvailableMessage: string;
-            };
-            helpText(KeySpan: React_2.ComponentType<{
-                children: React_2.ReactNode;
-            }>): React_2.ReactNode;
-        };
-        richText: {
-            toggleStrongTitle: string;
-            toggleEmphasizeTitle: string;
-        };
-        suggestions: {
-            noResultsMessage: string;
-        };
-    };
+    i18n: I18n;
     // (undocumented)
     noLinebreaks?: boolean;
     // (undocumented)
     placeholder: string;
     // (undocumented)
-    plugins: ((pluginClosure: SlatePluginClosure) => TextPlugin)[];
+    plugins: EditorPlugin[];
+    // Warning: (ae-forgotten-export) The symbol "Theme" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    registry: {
-        name: string;
-        title?: string;
-        description?: string;
-    }[];
-    // (undocumented)
-    theme: {
-        backgroundColor: string;
-        color: string;
-        hoverColor: string;
-        active: {
-            backgroundColor: string;
-            color: string;
-        };
-        dropDown: {
-            backgroundColor: string;
-        };
-        suggestions: {
-            background: {
-                default: string;
-                highlight: string;
-            };
-            text: {
-                default: string;
-                highlight: string;
-            };
-        };
-        plugins: {
-            colors: {
-                colors: string[];
-                defaultColor: string;
-            };
-        };
-    };
+    theme: Theme;
 }
 
 // @public (undocumented)
-export type TextPluginState = SerializedScalarStateType<NewNode[], ValueJSON>;
+export type TextEditorProps = EditorPluginProps<TextEditorState, TextEditorConfig>;
 
 // @public (undocumented)
-export type TextProps = EditorPluginProps<TextPluginState, TextConfig>;
+export type TextEditorState = SerializedScalarStateType<Descendant[], {
+    value: Descendant[];
+    selection: Range_2 | null;
+}>;
 
 // (No @packageDocumentation comment for this package)
 

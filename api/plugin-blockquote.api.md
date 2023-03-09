@@ -24,7 +24,6 @@ export type BlockquoteProps = EditorPluginProps<BlockquotePluginState>;
 // @public (undocumented)
 export function createBlockquotePlugin(config: BlockquoteConfig): EditorPlugin<BlockquotePluginState>;
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

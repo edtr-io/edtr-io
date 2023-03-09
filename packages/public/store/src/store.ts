@@ -1,4 +1,5 @@
 import { EditorPlugin } from '@edtr-io/internal__plugin'
+import { defaultImport } from 'default-import'
 import * as R from 'ramda'
 import {
   applyMiddleware,
@@ -7,13 +8,15 @@ import {
   Store,
   StoreEnhancer,
 } from 'redux'
-import createSagaMiddleware from 'redux-saga'
+import _createSagaMiddleware from 'redux-saga'
 
 import { Action, InternalAction } from './actions'
 import { reducer } from './reducer'
 import { serializeRootDocument } from './root/reducer'
 import { saga } from './saga'
 import { InternalState, SelectorReturnType, State } from './types'
+
+const createSagaMiddleware = defaultImport(_createSagaMiddleware)
 
 /**
  * Creates the Edtr.io store

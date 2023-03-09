@@ -14,7 +14,6 @@ export function render<K extends string = string>(props: RendererProps<K>): {
 
 export { RendererProps }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

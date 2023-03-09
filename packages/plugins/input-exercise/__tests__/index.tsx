@@ -3,8 +3,11 @@ import { plugin as inputExercisePlugin } from '@edtr-io/plugin-input-exercise/__
 import { plugin as textPlugin } from '@edtr-io/plugin-text/__fixtures__'
 import { Renderer } from '@edtr-io/renderer'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import _userEvent from '@testing-library/user-event'
+import { defaultImport } from 'default-import'
 import React from 'react'
+
+const userEvent = defaultImport(_userEvent)
 
 describe('shows feedback about submitted answer', () => {
   beforeEach(() => {

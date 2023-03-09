@@ -9,7 +9,6 @@ import { StoreEnhancerFactory } from '@edtr-io/store';
 // @public
 export const createStoreDevtoolsEnhancer: StoreEnhancerFactory;
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

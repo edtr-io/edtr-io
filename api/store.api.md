@@ -70,6 +70,7 @@ export const change: ActionCreatorWithPayload<'Change', {
         initial: StateUpdater<unknown>;
         executor?: StateExecutor<StateUpdater<unknown>>;
     };
+    reverse?: (previousState: unknown) => unknown;
 }>;
 
 // @public (undocumented)
@@ -122,7 +123,7 @@ export function createStore<K extends string>(options: StoreOptions<K>): {
 };
 
 // @public (undocumented)
-export type DocumentsAction = InsertAction | RemoveAction | ChangeAction | WrapAction | UnwrapAction | ReplaceAction;
+export type DocumentsAction = InsertAction | RemoveAction | ChangeAction | WrapAction | UnwrapAction | ReplaceAction | ReplaceTextAction;
 
 // @internal (undocumented)
 export const documentsReducer: SubReducer<Record<string, DocumentState>>;
@@ -304,7 +305,7 @@ export type InternalAction = Action | ApplyActionsAction | InternalClipboardActi
 export type InternalClipboardAction = PureCopyAction;
 
 // @internal (undocumented)
-export type InternalDocumentsAction = PureInsertAction | PureRemoveAction | PureChangeAction | PureWrapAction | PureUnwrapAction | PureReplaceAction;
+export type InternalDocumentsAction = PureInsertAction | PureRemoveAction | PureChangeAction | PureWrapAction | PureUnwrapAction | PureReplaceAction | PureReplaceTextAction;
 
 // @internal (undocumented)
 export type InternalHistoryAction = PureResetAction | CommitAction | PureCommitAction | PureUndoAction | PureRedoAction | TemporaryCommitAction;
@@ -437,6 +438,16 @@ export const pureReplace: ActionCreatorWithPayload<'PureReplace', {
 export type PureReplaceAction = ActionCreatorAction<typeof pureReplace>;
 
 // @internal (undocumented)
+export const pureReplaceText: ActionCreatorWithPayload<'PureReplaceText', {
+    id: string;
+    newId: string;
+    document: DocumentState;
+}>;
+
+// @internal (undocumented)
+export type PureReplaceTextAction = ActionCreatorAction<typeof pureReplaceText>;
+
+// @internal (undocumented)
 export const pureReset: ActionCreatorWithoutPayload<"PureReset">;
 
 // @internal (undocumented)
@@ -497,6 +508,15 @@ export const replace: ActionCreatorWithPayload<'Replace', {
 
 // @public (undocumented)
 export type ReplaceAction = ActionCreatorAction<typeof replace>;
+
+// @public (undocumented)
+export const replaceText: ActionCreatorWithPayload<'ReplaceText', {
+    id: string;
+    document: (id: string) => DocumentState;
+}>;
+
+// @public (undocumented)
+export type ReplaceTextAction = ActionCreatorAction<typeof replaceText>;
 
 // @public (undocumented)
 export const reset: ActionCreatorWithoutPayload<"Reset">;
