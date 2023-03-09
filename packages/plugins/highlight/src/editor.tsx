@@ -58,7 +58,7 @@ export function HighlightEditor(props: HighlightProps) {
       <EditorInlineSettings>
         <EditorInput
           list="available-languages"
-          label="Language:"
+          label={i18n.language.label}
           value={state.language.value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             state.language.set(e.target.value)
