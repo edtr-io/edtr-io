@@ -99,6 +99,7 @@ export function useRendererTheme() {
   return React.useContext<{
     renderer: RendererTheme
     rendererUi: DeepPartial<RendererUiTheme>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   }>(StyledThemeContext)
 }
 

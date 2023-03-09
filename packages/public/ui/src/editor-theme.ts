@@ -109,6 +109,7 @@ export function useEditorTheme() {
   return React.useContext<{
     editor: EditorTheme
     editorUi: DeepPartial<EditorUiTheme>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   }>(StyledThemeContext)
 }
 
