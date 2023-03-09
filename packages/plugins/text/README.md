@@ -11,7 +11,6 @@
   - [Saving state to `Redux` store](#saving-state-to-redux-store)
     - [`LinkControls` workaround](#linkcontrols-workaround)
 
-
 ## Usage
 
 An example of how to use the Text plugin can be found in `./__fixtures__/index.ts`.
@@ -21,6 +20,7 @@ An example of how to use the Text plugin can be found in `./__fixtures__/index.t
 The `./src/index.tsx` file contains and exposes the Text plugin factory function and exposes the public types.
 
 Additionally, there are:
+
 - `components` - React components
 - `hooks` - plugable hooks for configuration
 - `plugins` - [Slate plugin](https://docs.slatejs.org/concepts/08-plugins) files
@@ -42,6 +42,7 @@ The `config` object received from the `useTextConfig` hook is then used as the s
 Currently used Slate version only allows Slate plugins to modify the `editor` object. To allow for the same functionality of plugins from the earlier version of `serlo-editor`/`edtr-io`, a hook approach was used ([as recommended by the creator of Slate](https://github.com/ianstormtaylor/slate/issues/3222#issuecomment-573331151)).
 
 The `useControls` hook receives the `config` object and exposes three properties:
+
 1. `createTextEditor` - a function that receives a Slate editor instance and wraps it in all the configured Slate plugins
 2. `toolbarControls` - the configuration for Text plugin's toolbar
 3. `handleHotkeys` - keyboard shortcut handlers for configured controls
@@ -53,6 +54,7 @@ This approach allows to simply pass an array of desired controls (as `controls` 
 In order to easily transform a Text plugin into another `serlo-editor`/`edtr-io` plugin, the user can simply type `/` into an empty Text plugin, and they will be presented with a list of suggestions. A hook approach was used to make the suggestions easily configurable.
 
 The `useSuggestions` hook receives:
+
 - the list of enabled plugins from the `config` object
 - current `text` content of the Text plugin
 - the `id` of the Text plugin
@@ -76,5 +78,6 @@ Simple selection changes are not saved to the store, because we don't want to un
 #### `LinkControls` workaround
 
 The `LinkControls` component should only be shown if the selection is currently on a link inline. But, since we don't save pure selection changes to the store, `LinkControls` doesn't rerender on selection changes. To work around this problem, a simple `useState` hook is used:
+
 1. `hasSelectionChanged` is passed to `LinkControls`, where it's used a dependency in a `useEffect` hook which takes care of showing `LinkControls`
 2. `setHasSelectionChanged` is called whenever selection changes, which increments `hasSelectionChanged` and makes sure `LinkControls` visibility will be updated
