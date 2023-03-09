@@ -1,5 +1,6 @@
 const defaultConfig = {
   preset: 'ts-jest/presets/default-esm',
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',
