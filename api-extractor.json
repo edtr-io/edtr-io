@@ -42,5 +42,28 @@
         "addToApiReportFile": true
       }
     }
+  },
+
+  "compiler": {
+    "overrideTsconfig": {
+      "$schema": "http://json.schemastore.org/tsconfig",
+
+      "compilerOptions": {
+        "paths": {
+          "@edtr-io/internal__*/beta": ["private/*/dist"],
+          "@edtr-io/internal__*/internal": ["private/*/dist"],
+          "@edtr-io/internal__*": ["private/*/dist"],
+          "@edtr-io/plugin-*/beta": ["plugins/*/dist", "public/plugin-*/dist"],
+          "@edtr-io/plugin-*/internal": [
+            "plugins/*/dist",
+            "public/plugin-*/dist"
+          ],
+          "@edtr-io/plugin-*": ["plugins/*/dist", "public/plugin-*/dist"],
+          "@edtr-io/*/beta": ["public/*/dist"],
+          "@edtr-io/*/internal": ["public/*/dist"],
+          "@edtr-io/*": ["public/*/dist"]
+        }
+      }
+    }
   }
 }
