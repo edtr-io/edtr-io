@@ -2016,6 +2016,8 @@ __metadata:
 "@edtr-io/internal__fixtures@^2.0.0, @edtr-io/internal__fixtures@workspace:packages/private/fixtures":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__fixtures@workspace:packages/private/fixtures"
+  dependencies:
+    "@edtr-io/plugin": ^2.8.2
   languageName: unknown
   linkType: soft
 
