@@ -13,7 +13,6 @@ export type TextEditorState = SerializedScalarStateType<
 /** @public */
 export interface TextEditorConfig {
   placeholder?: TextEditorPluginConfig['placeholder']
-  plugins?: EditorPlugin[]
   controls?: TextEditorControl[]
   i18n?: DeepPartial<TextEditorPluginConfig['i18n']>
   theme?: DeepPartial<TextEditorPluginConfig['theme']>
@@ -32,22 +31,6 @@ export enum TextEditorControl {
   math = 'math',
   paragraphs = 'paragraphs',
   richText = 'richText',
-}
-
-export enum EditorPlugin {
-  anchor = 'anchor',
-  blockquote = 'blockquote',
-  files = 'files',
-  geogebra = 'geogebra',
-  highlight = 'highlight',
-  image = 'image',
-  inputExercise = 'inputExercise',
-  multimediaExplanation = 'multimediaExplanation',
-  scMcExercise = 'scMcExercise',
-  serloInjection = 'serloInjection',
-  spoiler = 'spoiler',
-  table = 'table',
-  video = 'video',
 }
 
 interface I18n {
@@ -145,7 +128,6 @@ interface Theme {
 export interface TextEditorPluginConfig {
   placeholder: string
   controls: TextEditorControl[]
-  plugins: EditorPlugin[]
   i18n: I18n
   theme: Theme
   blockquote?: string

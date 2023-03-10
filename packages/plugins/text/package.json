@@ -16,6 +16,7 @@
     "@edtr-io/editor-ui": "^2.8.2",
     "@edtr-io/math": "^2.8.2",
     "@edtr-io/plugin": "^2.8.2",
+    "@edtr-io/plugin-rows": "^2.8.2",
     "@edtr-io/store": "^2.8.2",
     "@edtr-io/ui": "^2.5.0",
     "@prezly/slate-lists": "^0.64.2",

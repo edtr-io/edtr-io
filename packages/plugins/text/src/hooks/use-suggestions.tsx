@@ -1,31 +1,13 @@
 import { useScopedStore } from '@edtr-io/core/beta'
+import { RegistryContext, Registry } from '@edtr-io/plugin-rows/internal'
 import { replace } from '@edtr-io/store'
 import React, { useState, useEffect, useRef } from 'react'
 
-import { EditorPlugin } from '../types'
-
 interface useSuggestionsArgs {
-  plugins: EditorPlugin[]
   text: string
   id: string
   editable: boolean
   focused: boolean
-}
-
-const pluginTitleMapper: Record<EditorPlugin, string> = {
-  [EditorPlugin.anchor]: 'Anchor',
-  [EditorPlugin.blockquote]: 'Blockquote',
-  [EditorPlugin.files]: 'Files',
-  [EditorPlugin.geogebra]: 'Geogebra',
-  [EditorPlugin.highlight]: 'Highlight',
-  [EditorPlugin.image]: 'Image',
-  [EditorPlugin.inputExercise]: 'Input Exercise',
-  [EditorPlugin.multimediaExplanation]: 'Multimedia Explanation',
-  [EditorPlugin.scMcExercise]: 'Single/Multiple Choice Exercise',
-  [EditorPlugin.serloInjection]: 'Serlo Injection',
-  [EditorPlugin.spoiler]: 'Spoiler',
-  [EditorPlugin.table]: 'Table',
-  [EditorPlugin.video]: 'Video',
 }
 
 const hotKeysMap = {
@@ -37,8 +19,9 @@ const hotKeysMap = {
 export const useSuggestions = (args: useSuggestionsArgs) => {
   const [selected, setSelected] = useState(0)
   const store = useScopedStore()
-  const { plugins, text, id, editable, focused } = args
+  const { text, id, editable, focused } = args
 
+  const plugins = React.useContext(RegistryContext)
   const allOptions = mapPlugins(plugins, text)
   const showSuggestions =
     editable && focused && text.startsWith('/') && allOptions.length > 0
@@ -118,21 +101,17 @@ export const useSuggestions = (args: useSuggestionsArgs) => {
   }
 }
 
-function mapPlugins(plugins: EditorPlugin[], text: string) {
+function mapPlugins(registry: Registry, text: string) {
   const search = text.replace('/', '').toLowerCase()
 
-  const startingWithSearchString = plugins
-    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
-    .filter(({ title }) => {
-      if (!search.length) return true
-      return title.toLowerCase().startsWith(search)
-    })
-  const containingSearchString = plugins
-    .map((plugin) => ({ name: plugin, title: pluginTitleMapper[plugin] }))
-    .filter(({ title }) => {
-      const value = title.toLowerCase()
-      return value.includes(search) && !value.startsWith(search)
-    })
+  const startingWithSearchString = registry.filter(({ title }) => {
+    if (!search.length) return true
+    return title?.toLowerCase()?.startsWith(search)
+  })
+  const containingSearchString = registry.filter(({ title }) => {
+    const value = title?.toLowerCase()
+    return value?.includes(search) && !value?.startsWith(search)
+  })
 
   return [...startingWithSearchString, ...containingSearchString]
 }
