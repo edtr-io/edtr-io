@@ -1720,7 +1720,7 @@ __metadata:
     "@types/shortid": ^0.0.29
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -1752,7 +1752,7 @@ __metadata:
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     styled-components: ^5.3.5
@@ -1775,7 +1775,7 @@ __metadata:
     "@types/react-dom": ^18.0.10
     "@types/react-modal": ^3.13.1
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     react-modal: ^3.14.4
@@ -1794,7 +1794,7 @@ __metadata:
   resolution: "@edtr-io/document-editor@workspace:packages/public/document-editor"
   dependencies:
     "@edtr-io/internal__document-editor": ^2.5.0
-    react: ^18.0.0
+    react: ^18.2.0
     tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
@@ -1807,15 +1807,15 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -1871,7 +1871,7 @@ __metadata:
     lerna: ^4.0.0
     npm-run-all: ^4.1.5
     prettier: ^2.6.1
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.5
@@ -1905,8 +1905,8 @@ __metadata:
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/renderer": ^2.8.2
     "@edtr-io/renderer-ssr": ^2.8.3
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     babel-loader: ^8.2.4
     cross-env: ^7.0.3
@@ -1915,7 +1915,7 @@ __metadata:
     immutable: ^4.0.0
     mini-css-extract-plugin: ^2.6.0
     prop-types: ^15.8.1
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -1957,8 +1957,8 @@ __metadata:
     "@edtr-io/store": ^2.8.2
     "@edtr-io/store-devtools": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@storybook/addon-actions": ^6.5.15
     "@storybook/addon-knobs": ^6.4.0
@@ -1978,7 +1978,7 @@ __metadata:
     lodash-es: ^4.17.21
     prop-types: ^15.8.1
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2006,7 +2006,7 @@ __metadata:
   dependencies:
     "@edtr-io/internal__plugin-toolbar": ^2.5.0
     "@types/react": ^18.0.27
-    react: ^18.0.0
+    react: ^18.2.0
     tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
@@ -2027,7 +2027,7 @@ __metadata:
   dependencies:
     "@edtr-io/internal__document-editor": ^2.5.0
     "@types/react": ^18.0.27
-    react: ^18.0.0
+    react: ^18.2.0
     tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
@@ -2039,7 +2039,7 @@ __metadata:
   resolution: "@edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar"
   dependencies:
     "@types/react": ^18.0.27
-    react: ^18.0.0
+    react: ^18.2.0
     tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
@@ -2057,7 +2057,7 @@ __metadata:
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     shortid: ^2.2.16
@@ -2078,8 +2078,8 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/exenv": ^1.2.0
     "@types/katex": ^0.11.1
@@ -2090,7 +2090,7 @@ __metadata:
     exenv: ^1.2.2
     immutable: ^4.0.0
     katex: ^0.15.3
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2124,13 +2124,13 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2160,14 +2160,14 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/plugin-text": ^2.8.2
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     immutable: ^4.0.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2198,13 +2198,13 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2235,8 +2235,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/lodash": ^4.14.181
     "@types/react": ^18.0.27
@@ -2245,7 +2245,7 @@ __metadata:
     isomorphic-unfetch: ^3.1.0
     lodash: ^4.17.21
     lodash-es: ^4.17.21
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2276,8 +2276,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2285,7 +2285,7 @@ __metadata:
     "@types/react-syntax-highlighter": ^13.5.2
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2318,15 +2318,15 @@ __metadata:
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2362,8 +2362,8 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@testing-library/dom": ^8.20.0
     "@testing-library/react": ^13.4.0
@@ -2377,7 +2377,7 @@ __metadata:
     default-import: ^1.1.5
     immutable: ^4.0.0
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2413,8 +2413,8 @@ __metadata:
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2422,7 +2422,7 @@ __metadata:
     "@types/react-resizable": ^1.7.4
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2456,8 +2456,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2465,7 +2465,7 @@ __metadata:
     "@types/styled-components": ^5.1.24
     immutable: ^4.0.0
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2499,8 +2499,8 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2508,7 +2508,7 @@ __metadata:
     "@types/styled-components": ^5.1.24
     immutable: ^4.0.0
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2539,15 +2539,15 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     iframe-resizer-react: ^1.1.0
     prop-types: ^15.8.1
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2582,8 +2582,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2591,7 +2591,7 @@ __metadata:
     "@types/styled-components": ^5.1.24
     immutable: ^4.0.0
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2622,13 +2622,13 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2665,8 +2665,8 @@ __metadata:
     "@edtr-io/plugin-rows": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@prezly/slate-lists": ^0.64.2
     "@types/is-hotkey": ^0.1.7
@@ -2678,7 +2678,7 @@ __metadata:
     is-hotkey: ^0.2.0
     katex: ^0.16.2
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2710,7 +2710,7 @@ __metadata:
   dependencies:
     "@edtr-io/internal__plugin-toolbar": ^2.5.0
     "@types/react": ^18.0.27
-    react: ^18.0.0
+    react: ^18.2.0
     tsdx: ^0.14.1
   peerDependencies:
     react: ">= 17"
@@ -2725,15 +2725,15 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2771,7 +2771,7 @@ __metadata:
     "@types/shortid": ^0.0.29
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2815,8 +2815,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/renderer": ^2.8.2
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2825,7 +2825,7 @@ __metadata:
     immutable: ^4.0.0
     prop-types: ^15.8.1
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2852,13 +2852,13 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2893,7 +2893,7 @@ __metadata:
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.0.0
@@ -2922,7 +2922,7 @@ __metadata:
     "@types/react-dom": ^18.0.10
     "@types/remote-redux-devtools": ^0.5.5
     "@types/styled-components": ^5.1.24
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     redux: ^4.1.2
@@ -2953,7 +2953,7 @@ __metadata:
     "@types/styled-components": ^5.1.24
     default-import: ^1.1.5
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     redux: ^4.1.2
@@ -2974,8 +2974,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/ui@workspace:packages/public/ui"
   dependencies:
-    "@fortawesome/fontawesome-svg-core": ^6.1.1
-    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2983,7 +2983,7 @@ __metadata:
     "@types/react-test-renderer": ^17.0.1
     "@types/styled-components": ^5.1.24
     ramda: ^0.28.0
-    react: ^18.0.0
+    react: ^18.2.0
     react-dom: ^18.0.0
     react-is: ^18.0.0
     react-test-renderer: ^18.0.0
@@ -3142,28 +3142,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-common-types@npm:6.2.1":
-  version: 6.2.1
-  resolution: "@fortawesome/fontawesome-common-types@npm:6.2.1"
-  checksum: 1a6e202beac46bc7e7bf791b37b6164b15453cc70b078456121c77d516a1077a1cfdab8aa9c77358c71f87f54560c0d9cbfb440cfb871f6d0f1f4671aabf9a0a
+"@fortawesome/fontawesome-common-types@npm:6.3.0":
+  version: 6.3.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.3.0"
+  checksum: ece71539190abb17144861c58d65b6cd818d38a28cc3c9694325f5dca13739b2d78655e7bc1cba58cc13947f5ca80659e87c5c8bee7beb77d7f991e508312146
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:^6.1.1":
-  version: 6.2.1
-  resolution: "@fortawesome/fontawesome-svg-core@npm:6.2.1"
+"@fortawesome/fontawesome-svg-core@npm:^6.2.0":
+  version: 6.3.0
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.3.0"
   dependencies:
-    "@fortawesome/fontawesome-common-types": 6.2.1
-  checksum: 16caf6052b77c03826274325d4bd76d11cba486411c3101a635d3342dd764df8f5b4789456c9caa1667c232853a670f91dddf0449218e5fea7a27f4396b838af
+    "@fortawesome/fontawesome-common-types": 6.3.0
+  checksum: 2479d4b0dc45bba2638b05ba816df91fad6331cd3254d846705a0c342dc12259724706066c71461809804b4f41f15425439cfbabc42d7918e6c26b2b467b4b59
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:^6.1.1":
-  version: 6.2.1
-  resolution: "@fortawesome/free-solid-svg-icons@npm:6.2.1"
+"@fortawesome/free-solid-svg-icons@npm:^6.2.0":
+  version: 6.3.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.3.0"
   dependencies:
-    "@fortawesome/fontawesome-common-types": 6.2.1
-  checksum: a24170b676fced926cccdd08171357b20714483ceddeb052985a9acae3a347ffe853de2e757bf95cc7add74807d82eb1cc578e17430c32ca2c6a844c8276f91a
+    "@fortawesome/fontawesome-common-types": 6.3.0
+  checksum: 5cffcdb954f9ea8d48c6872118f21840f206d6279a6b803a31563e48fee34fbf5bc05848f5dedf07fc16f60910712c6bd0dc83f7a4e408cf062153a48022525d
   languageName: node
   linkType: hard
 
@@ -19791,7 +19791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.0.0":
+"react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
