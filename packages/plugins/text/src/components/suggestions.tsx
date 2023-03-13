@@ -1,14 +1,11 @@
 import { styled } from '@edtr-io/ui'
 import React from 'react'
 
-import type { EditorPlugin, TextEditorPluginConfig } from '../types'
+import type { TextEditorPluginConfig } from '../types'
 
 interface SuggestionsProps {
   config: TextEditorPluginConfig
-  options: {
-    name: EditorPlugin
-    title: string
-  }[]
+  options: { name: string; title?: string }[]
   currentValue: string
   selected: number
   onMouseDown: (option: string) => void
@@ -54,7 +51,7 @@ export const Suggestions = (props: SuggestionsProps) => {
   return (
     <Container>
       {options.map(({ name, title }, index) => {
-        const fragments = title
+        const fragments = (title ?? name)
           .split(new RegExp(`(${escapeRegExp(currentValue)})`, 'i'))
           .map((text) => ({
             text,

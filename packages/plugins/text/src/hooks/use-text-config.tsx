@@ -1,7 +1,7 @@
 import { merge, useTheme } from '@edtr-io/ui'
 import * as React from 'react'
 
-import { TextEditorControl, EditorPlugin } from '../types'
+import { TextEditorControl } from '../types'
 import type {
   Heading,
   TextEditorConfig,
@@ -16,22 +16,6 @@ const defaultEnabledControls: TextEditorControl[] = [
   TextEditorControl.lists,
   TextEditorControl.math,
   TextEditorControl.richText,
-]
-
-const defaultEnabledPlugins: EditorPlugin[] = [
-  EditorPlugin.anchor,
-  EditorPlugin.blockquote,
-  EditorPlugin.files,
-  EditorPlugin.geogebra,
-  EditorPlugin.highlight,
-  EditorPlugin.image,
-  EditorPlugin.inputExercise,
-  EditorPlugin.multimediaExplanation,
-  EditorPlugin.scMcExercise,
-  EditorPlugin.serloInjection,
-  EditorPlugin.spoiler,
-  EditorPlugin.table,
-  EditorPlugin.video,
 ]
 
 const colors = [
@@ -63,7 +47,6 @@ export function useTextConfig(
 
   return {
     controls: config.controls || defaultEnabledControls,
-    plugins: config.plugins || defaultEnabledPlugins,
     placeholder,
     i18n: merge({
       fallback: {
