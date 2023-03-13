@@ -55,7 +55,6 @@ In order to easily transform a Text plugin into another `serlo-editor`/`edtr-io`
 
 The `useSuggestions` hook receives:
 
-- the list of enabled plugins from the `config` object
 - current `text` content of the Text plugin
 - the `id` of the Text plugin
 - `focused` and `editable` states of the Text plugin
