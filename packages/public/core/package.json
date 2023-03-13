@@ -35,7 +35,7 @@
   "devDependencies": {
     "@edtr-io/internal__fixtures": "^2.0.0",
     "@types/react-test-renderer": "^17.0.1",
-    "react": "^18.0.0",
+    "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.0.0",

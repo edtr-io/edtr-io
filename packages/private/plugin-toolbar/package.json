@@ -15,7 +15,7 @@
     "@types/react": "^18.0.27"
   },
   "devDependencies": {
-    "react": "^18.0.0",
+    "react": "^18.2.0",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
