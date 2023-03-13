@@ -22,7 +22,7 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "react": "^18.0.0",
+    "react": "^18.2.0",
     "react-dom": "^18.0.0",
     "react-is": "^18.0.0",
     "styled-components": "^5.3.5",
