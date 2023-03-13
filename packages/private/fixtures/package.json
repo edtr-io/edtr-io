@@ -6,5 +6,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "edtr-io/edtr-io",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@edtr-io/plugin": "^2.8.2"
+  }
 }

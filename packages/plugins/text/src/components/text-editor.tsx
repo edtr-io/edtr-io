@@ -38,7 +38,6 @@ export function TextEditor(props: TextEditorProps) {
   const { selection, value } = state.value
 
   const config = useTextConfig(props.config)
-  const { plugins } = config
 
   const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
 
@@ -50,7 +49,7 @@ export function TextEditor(props: TextEditorProps) {
   )
 
   const text = Node.string(editor)
-  const suggestions = useSuggestions({ plugins, text, id, editable, focused })
+  const suggestions = useSuggestions({ text, id, editable, focused })
   const { showSuggestions, hotKeysProps, suggestionsProps } = suggestions
 
   const previousValue = useRef(value)

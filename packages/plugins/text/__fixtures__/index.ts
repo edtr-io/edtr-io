@@ -1,7 +1,7 @@
 import { StateTypeSerializedType } from '@edtr-io/plugin'
 
 import { createTextPlugin } from '../src'
-import { EditorPlugin, TextEditorControl, TextEditorState } from '../src/types'
+import { TextEditorControl, TextEditorState } from '../src/types'
 
 export const name = 'text'
 export const plugin = createTextPlugin({
@@ -14,21 +14,6 @@ export const plugin = createTextPlugin({
     TextEditorControl.lists,
     TextEditorControl.math,
     TextEditorControl.code,
-  ],
-  plugins: [
-    EditorPlugin.anchor,
-    EditorPlugin.blockquote,
-    EditorPlugin.files,
-    EditorPlugin.geogebra,
-    EditorPlugin.highlight,
-    EditorPlugin.image,
-    EditorPlugin.inputExercise,
-    EditorPlugin.multimediaExplanation,
-    EditorPlugin.scMcExercise,
-    EditorPlugin.serloInjection,
-    EditorPlugin.spoiler,
-    EditorPlugin.table,
-    EditorPlugin.video,
   ],
 })
 
