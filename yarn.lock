@@ -1807,8 +1807,8 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -1905,8 +1905,8 @@ __metadata:
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/renderer": ^2.8.2
     "@edtr-io/renderer-ssr": ^2.8.3
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     babel-loader: ^8.2.4
     cross-env: ^7.0.3
@@ -1957,8 +1957,8 @@ __metadata:
     "@edtr-io/store": ^2.8.2
     "@edtr-io/store-devtools": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@storybook/addon-actions": ^6.5.15
     "@storybook/addon-knobs": ^6.4.0
@@ -2078,8 +2078,8 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/exenv": ^1.2.0
     "@types/katex": ^0.11.1
@@ -2124,8 +2124,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2160,8 +2160,8 @@ __metadata:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/plugin-text": ^2.8.2
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2198,8 +2198,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2235,8 +2235,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/lodash": ^4.14.181
     "@types/react": ^18.0.27
@@ -2276,8 +2276,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2318,8 +2318,8 @@ __metadata:
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2362,8 +2362,8 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@testing-library/dom": ^8.20.0
     "@testing-library/react": ^13.4.0
@@ -2413,8 +2413,8 @@ __metadata:
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2456,8 +2456,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2499,8 +2499,8 @@ __metadata:
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2539,8 +2539,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2582,8 +2582,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/renderer-ui": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2622,8 +2622,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2665,8 +2665,8 @@ __metadata:
     "@edtr-io/plugin-rows": ^2.8.2
     "@edtr-io/store": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@prezly/slate-lists": ^0.64.2
     "@types/is-hotkey": ^0.1.7
@@ -2725,8 +2725,8 @@ __metadata:
     "@edtr-io/editor-ui": ^2.8.2
     "@edtr-io/plugin": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2815,8 +2815,8 @@ __metadata:
     "@edtr-io/plugin-text": ^2.8.2
     "@edtr-io/plugin-video": ^2.8.2
     "@edtr-io/renderer": ^2.8.2
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -2852,8 +2852,8 @@ __metadata:
   dependencies:
     "@edtr-io/core": ^2.8.2
     "@edtr-io/ui": ^2.5.0
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -2974,8 +2974,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@edtr-io/ui@workspace:packages/public/ui"
   dependencies:
-    "@fortawesome/fontawesome-svg-core": ^6.3.0
-    "@fortawesome/free-solid-svg-icons": ^6.3.0
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -3149,7 +3149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:^6.3.0":
+"@fortawesome/fontawesome-svg-core@npm:^6.2.0":
   version: 6.3.0
   resolution: "@fortawesome/fontawesome-svg-core@npm:6.3.0"
   dependencies:
@@ -3158,7 +3158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:^6.3.0":
+"@fortawesome/free-solid-svg-icons@npm:^6.2.0":
   version: 6.3.0
   resolution: "@fortawesome/free-solid-svg-icons@npm:6.3.0"
   dependencies:
