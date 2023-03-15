@@ -10,43 +10,39 @@ import {
 } from '@edtr-io/ui'
 import * as React from 'react'
 
-const Container = styled.div<{
-  editable: boolean
+interface ToolbarProps {
+  isFocused: boolean
+  isHovered: boolean
+}
+
+interface ContainerProps {
   noHeight?: boolean
-  expanded?: boolean
-}>(({ noHeight, expanded }: { noHeight?: boolean; expanded?: boolean }) => {
-  return {
-    ...(!noHeight
-      ? {
-          minHeight: '10px',
-          marginBottom: '25px',
-        }
-      : {}),
-    position: 'relative',
-    borderLeft: '2px solid transparent',
-    paddingLeft: '5px',
-    transition: '250ms all ease-in-out',
+  isFocused?: boolean
+  isHovered?: boolean
+}
 
-    ...(expanded
-      ? {
-          borderColor: '#333333',
-          paddingTop: 0,
-          paddingBottom: 0,
-        }
-      : {
-          borderColor: 'transparent',
-        }),
-  }
-})
+const ToolbarContent = styled.div<ToolbarProps>(({ isFocused, isHovered }) => ({
+  backgroundColor: '#fff',
+  borderRight: '2px solid #333',
+  paddingBottom: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  opacity: isFocused || isHovered ? 1 : 0,
+  zIndex: 16,
+  position: 'relative',
+  transition: '250ms all ease-in-out',
+}))
 
-const ToolbarContainer = styled.div<{ expanded: boolean }>(({ expanded }) => {
-  return {
+const ToolbarContainer = styled.div<ToolbarProps>(
+  ({ isFocused, isHovered }) => ({
     position: 'absolute',
     top: 0,
     left: 0,
     transformOrigin: 'center top',
     transform: 'translateX(-100%)',
-    pointerEvents: expanded ? 'all' : 'none',
+    pointerEvents: isFocused || isHovered ? 'all' : 'none',
+    zIndex: isHovered ? '1' : 'auto',
     '&::before': {
       position: 'absolute',
       pointerEvents: 'none',
@@ -58,21 +54,42 @@ const ToolbarContainer = styled.div<{ expanded: boolean }>(({ expanded }) => {
       width: '2px',
       zIndex: 15,
     },
-  }
-})
+  })
+)
 
-const ToolbarContent = styled.div<{ expanded: boolean }>(({ expanded }) => {
-  return {
-    paddingBottom: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    opacity: expanded ? 1 : 0,
-    zIndex: 16,
+const Container = styled.div<ContainerProps>(
+  ({ noHeight, isFocused, isHovered }: ContainerProps) => ({
+    ...(!noHeight
+      ? {
+          minHeight: '10px',
+          marginBottom: '25px',
+        }
+      : {}),
     position: 'relative',
+    borderLeft: '2px solid transparent',
+    paddingLeft: '5px',
     transition: '250ms all ease-in-out',
-  }
-})
+
+    ...(isFocused || isHovered
+      ? {
+          borderColor: '#333',
+          paddingTop: 0,
+          paddingBottom: 0,
+        }
+      : {
+          borderColor: 'transparent',
+        }),
+
+    ...(!isFocused && isHovered
+      ? {
+          [`&:hover:has(.default-document-editor-container:hover) > ${ToolbarContainer} > ${ToolbarContent}`]:
+            {
+              opacity: 0,
+            },
+        }
+      : {}),
+  })
+)
 
 const Header = styled.div({
   display: 'flex',
@@ -110,6 +127,7 @@ export function createDefaultDocumentEditor(
     hasToolbar,
     PluginToolbar,
   }: DocumentEditorProps) {
+    const [hasHover, setHasHover] = React.useState(false)
     const { OverlayButton, PluginToolbarOverlayButton } = PluginToolbar
 
     const i18n = merge<DefaultDocumentEditorI18n>({
@@ -127,27 +145,23 @@ export function createDefaultDocumentEditor(
     const shouldShowSettings = showSettings()
     const renderSettingsContent = React.useMemo<typeof renderSettings>(() => {
       return shouldShowSettings
-        ? (children, { close }) => {
-            return (
-              <React.Fragment>
-                <Header>
-                  <H4>{modalTitle}</H4>
-                  <BorderlessOverlayButton
-                    as={OverlayButton}
-                    onClick={() => {
-                      close()
-                    }}
-                    label={modalCloseLabel}
-                  >
-                    <EdtrIcon icon={edtrClose} />
-                  </BorderlessOverlayButton>
-                </Header>
-                {renderSettings
-                  ? renderSettings(children, { close })
-                  : children}
-              </React.Fragment>
-            )
-          }
+        ? (children, { close }) => (
+            <React.Fragment>
+              <Header>
+                <H4>{modalTitle}</H4>
+                <BorderlessOverlayButton
+                  as={OverlayButton}
+                  onClick={() => {
+                    close()
+                  }}
+                  label={modalCloseLabel}
+                >
+                  <EdtrIcon icon={edtrClose} />
+                </BorderlessOverlayButton>
+              </Header>
+              {renderSettings?.(children, { close }) || children}
+            </React.Fragment>
+          )
         : undefined
     }, [
       OverlayButton,
@@ -156,9 +170,10 @@ export function createDefaultDocumentEditor(
       modalTitle,
       modalCloseLabel,
     ])
-    const expanded = focused && (showSettings() || showToolbar())
+    const isFocused = focused && (showSettings() || showToolbar())
+    const isHovered = hasHover && (showSettings() || showToolbar())
 
-    const appended = React.useRef(false)
+    const isAppended = React.useRef(false)
     const toolbar = (
       <React.Fragment>
         {showSettings() ? (
@@ -171,12 +186,13 @@ export function createDefaultDocumentEditor(
         ) : null}
         <div
           ref={(ref) => {
-            // The ref `appended` ensures that we only append the content once so that we don't lose focus on every render
-            if (ref && toolbarRef.current && !appended.current) {
-              appended.current = true
+            // The ref `isAppended` ensures that we only append the content once
+            // so that we don't lose focus on every render
+            if (ref && toolbarRef.current && !isAppended.current) {
+              isAppended.current = true
               ref.appendChild(toolbarRef.current)
             } else if (!showSettings()) {
-              appended.current = false
+              isAppended.current = false
             }
           }}
         />
@@ -184,10 +200,18 @@ export function createDefaultDocumentEditor(
     )
 
     return (
-      <Container editable expanded={expanded}>
+      <Container
+        className={
+          isFocused || isHovered ? 'default-document-editor-container' : ''
+        }
+        isFocused={isFocused}
+        isHovered={isHovered}
+        onMouseEnter={() => setHasHover(true)}
+        onMouseLeave={() => setHasHover(false)}
+      >
         {children}
-        <ToolbarContainer expanded={expanded}>
-          <ToolbarContent expanded={expanded}>
+        <ToolbarContainer isFocused={isFocused} isHovered={isHovered}>
+          <ToolbarContent isFocused={isFocused} isHovered={isHovered}>
             {renderToolbar ? renderToolbar(toolbar) : toolbar}
           </ToolbarContent>
         </ToolbarContainer>
