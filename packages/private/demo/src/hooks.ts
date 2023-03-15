@@ -1,5 +1,6 @@
 import { useScopedStore } from '@edtr-io/core'
-import { serializeRootDocument } from '@edtr-io/store'
+import { serializeRootDocument, StoreEnhancerFactory } from '@edtr-io/store'
+import { composeWithDevTools } from '@redux-devtools/extension'
 import * as React from 'react'
 
 export function useLogState(scope?: string) {
@@ -16,4 +17,19 @@ export function useLogState(scope?: string) {
 
 export function useEditable(initial?: boolean) {
   return React.useState(initial === undefined ? true : initial)
+}
+
+export function useReduxDevtools() {
+  const createStoreDevtoolsEnhancer: StoreEnhancerFactory = (
+    defaultEnhancer
+  ) => {
+    const composeEnhancers =
+      window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || composeWithDevTools
+
+    return composeEnhancers(defaultEnhancer)
+  }
+
+  return {
+    createStoreDevtoolsEnhancer,
+  }
 }
