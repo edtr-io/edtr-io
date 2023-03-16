@@ -23,15 +23,16 @@ interface ContainerProps {
 
 const ToolbarContent = styled.div<ToolbarProps>(({ isFocused, isHovered }) => ({
   backgroundColor: '#fff',
-  borderRight: '2px solid #333',
+  borderRadius: '5px 0 0 5px',
+  marginRight: '2px',
   paddingBottom: '10px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
-  opacity: isFocused || isHovered ? 1 : 0,
+  opacity: isFocused ? 1 : isHovered ? 0.7 : 0,
   zIndex: 16,
   position: 'relative',
-  transition: '250ms all ease-in-out',
+  transition: '250ms opacity ease-in-out',
 }))
 
 const ToolbarContainer = styled.div<ToolbarProps>(
@@ -72,19 +73,18 @@ const Container = styled.div<ContainerProps>(
 
     ...(isFocused || isHovered
       ? {
-          borderColor: '#333',
+          borderColor: isFocused ? '#333' : '#eee',
           paddingTop: 0,
           paddingBottom: 0,
         }
-      : {
-          borderColor: 'transparent',
-        }),
+      : {}),
 
     ...(!isFocused && isHovered
       ? {
           [`&:hover:has(.default-document-editor-container:hover) > ${ToolbarContainer} > ${ToolbarContent}`]:
             {
               opacity: 0,
+              borderColor: 'transparent',
             },
         }
       : {}),
