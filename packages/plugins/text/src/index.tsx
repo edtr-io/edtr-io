@@ -1,4 +1,5 @@
 import { EditorPlugin, serializedScalar } from '@edtr-io/plugin'
+import { Node } from 'slate'
 
 import { TextEditor } from './components/text-editor'
 import type { TextEditorProps } from './components/text-editor'
@@ -31,11 +32,9 @@ const createTextPlugin = (
   onKeyDown() {
     return false
   },
-  /* TODO
   isEmpty: (state) => {
-    return isValueEmpty(Value.fromJSON(state.value))
+    return state.value.value.map(Node.string).join('') === ''
   },
-    */
 })
 
 export { createTextPlugin }

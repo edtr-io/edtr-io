@@ -8,13 +8,13 @@
 
 import { DeepPartial } from '@edtr-io/ui';
 import { Descendant } from 'slate';
-import { EditorPlugin as EditorPlugin_2 } from '@edtr-io/plugin';
+import { EditorPlugin } from '@edtr-io/plugin';
 import { EditorPluginProps } from '@edtr-io/plugin';
 import { Range as Range_2 } from 'slate';
 import { SerializedScalarStateType } from '@edtr-io/plugin';
 
 // @public (undocumented)
-export const createTextPlugin: (config: TextEditorConfig) => EditorPlugin_2<TextEditorState, TextEditorConfig>;
+export const createTextPlugin: (config: TextEditorConfig) => EditorPlugin<TextEditorState, TextEditorConfig>;
 
 // @public (undocumented)
 export interface TextEditorConfig {
@@ -28,10 +28,6 @@ export interface TextEditorConfig {
     noLinebreaks?: boolean;
     // (undocumented)
     placeholder?: TextEditorPluginConfig['placeholder'];
-    // Warning: (ae-forgotten-export) The symbol "EditorPlugin" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    plugins?: EditorPlugin[];
     // (undocumented)
     theme?: DeepPartial<TextEditorPluginConfig['theme']>;
 }
@@ -72,8 +68,6 @@ export interface TextEditorPluginConfig {
     noLinebreaks?: boolean;
     // (undocumented)
     placeholder: string;
-    // (undocumented)
-    plugins: EditorPlugin[];
     // Warning: (ae-forgotten-export) The symbol "Theme" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

@@ -1,13 +1,14 @@
 import { Document, EditorProps, EditorProvider } from '@edtr-io/core/beta'
-import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
-import { useEditable } from '../hooks'
+import { useEditable, useReduxDevtools } from '../hooks'
 import { SerloEditorContainerInner, SerloRendererContainer } from './serlo'
 
 export function SerloWithPreviewEditorContainer(props: EditorProps) {
   const scope = 'main'
   const [editable, setEditable] = useEditable(props.editable)
+
+  const { createStoreDevtoolsEnhancer } = useReduxDevtools()
 
   return (
     <EditorProvider createStoreEnhancer={createStoreDevtoolsEnhancer}>

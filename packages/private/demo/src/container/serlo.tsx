@@ -1,10 +1,9 @@
 import { Editor, EditorProps, useScopedDispatch } from '@edtr-io/core'
 import { Renderer, RendererProps } from '@edtr-io/renderer'
 import { persist, reset } from '@edtr-io/store'
-import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
-import { useEditable, useLogState } from '../hooks'
+import { useEditable, useLogState, useReduxDevtools } from '../hooks'
 
 export function SerloRendererContainer(props: RendererProps) {
   return (
@@ -29,6 +28,8 @@ export function SerloEditorContainer(props: EditorProps) {
     },
     [editable, setEditable]
   )
+
+  const { createStoreDevtoolsEnhancer } = useReduxDevtools()
 
   return (
     <Editor

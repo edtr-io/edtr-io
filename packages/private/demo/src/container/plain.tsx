@@ -14,10 +14,9 @@ import {
   undo,
   hasPendingChanges as hasPendingChangesSelector,
 } from '@edtr-io/store'
-import { createStoreDevtoolsEnhancer } from '@edtr-io/store-devtools'
 import * as React from 'react'
 
-import { useLogState } from '../hooks'
+import { useLogState, useReduxDevtools } from '../hooks'
 
 export function PlainRendererContainer(props: RendererProps) {
   return <Renderer {...props} />
@@ -34,6 +33,8 @@ export function PlainEditorContainer(props: EditorProps) {
     },
     [props.editable]
   )
+
+  const { createStoreDevtoolsEnhancer } = useReduxDevtools()
 
   return (
     <Editor {...props} createStoreEnhancer={createStoreDevtoolsEnhancer}>
