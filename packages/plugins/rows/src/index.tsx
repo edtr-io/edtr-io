@@ -22,8 +22,6 @@ export function createRowsPlugin(
 ): EditorPlugin<RowsPluginState, RowsConfig> {
   const { content } = config
 
-  console.log('Banana') // @@@
-
   return {
     Component: RowsEditor,
     config,
