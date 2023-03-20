@@ -54,7 +54,7 @@ function RowEditor({
         onClick={() => {
           openMenu(index + 1)
         }}
-        visuallyEmphasizedAddButton={isLastInDocument}
+        isLast={isLastInDocument}
       />
     </DropContainer>
   )
@@ -87,17 +87,21 @@ export function RowsEditor(props: RowsProps) {
 
   return (
     <RegistryContext.Provider value={config.plugins}>
-      <div style={{ position: 'relative', marginTop: '25px' }}>
+      <div
+        style={{
+          position: 'relative',
+          marginTop: '25px',
+          marginBottom: isEditorForRootOfDocument ? '75px' : undefined,
+        }}
+      >
         <Separator
           config={config}
           isFirst
+          isLast={isEditorForRootOfDocument && isDocumentEmpty}
           focused={props.state.length == 0}
           onClick={() => {
             openMenu(0)
           }}
-          visuallyEmphasizedAddButton={
-            isEditorForRootOfDocument && isDocumentEmpty
-          }
         />
         {props.state.map((row, index) => {
           const isLastRowEditor = index === props.state.length - 1

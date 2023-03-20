@@ -3,16 +3,25 @@ import * as React from 'react'
 
 import { RowsPluginConfig } from '..'
 
-const StyledSeparator = styled.div<{ isFirst?: boolean }>(({ isFirst }) => {
-  return {
-    position: 'absolute',
-    height: 'auto',
-    width: '100%',
-    transform: isFirst ? 'translateY(-100%)' : 'translateY(100%)',
-    top: isFirst ? 0 : undefined,
-    bottom: isFirst ? undefined : 0,
+const StyledSeparator = styled.div<{ isFirst?: boolean; isLast?: boolean }>(
+  ({ isFirst, isLast }) => {
+    return {
+      position: 'absolute',
+      height: 'auto',
+      width: '100%',
+      transform:
+        isFirst && isLast
+          ? undefined
+          : isFirst
+          ? 'translateY(-100%)'
+          : isLast
+          ? 'translateY(170%)'
+          : 'translateY(100%)',
+      top: isFirst ? 0 : undefined,
+      bottom: isFirst ? undefined : 0,
+    }
   }
-})
+)
 
 const AddTrigger = styled.div<{
   focused: boolean
@@ -88,24 +97,24 @@ export function Add({
 export function Separator({
   config,
   isFirst,
+  isLast,
   onClick,
   focused,
-  visuallyEmphasizedAddButton = false,
 }: {
   config: RowsPluginConfig
   isFirst?: boolean
+  isLast?: boolean
   onClick: () => void
   focused?: boolean
-  visuallyEmphasizedAddButton?: boolean
 }) {
   return (
-    <StyledSeparator isFirst={isFirst}>
+    <StyledSeparator isFirst={isFirst} isLast={isLast}>
       <TriggerArea>
         <Add
           config={config}
           focused={focused || false}
           onClick={onClick}
-          visuallyEmphasized={visuallyEmphasizedAddButton}
+          visuallyEmphasized={isLast}
         />
       </TriggerArea>
     </StyledSeparator>
