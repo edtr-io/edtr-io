@@ -2,8 +2,6 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { MathElement as MathElementType } from './math-element'
-
 type CustomElement =
   | Paragraph
   | OrderedList
@@ -12,7 +10,7 @@ type CustomElement =
   | ListItemText
   | Heading
   | Link
-  | MathElementType
+  | MathElement
 
 export interface Heading {
   type: 'h'
@@ -48,6 +46,13 @@ export interface ListItem {
 
 export interface ListItemText {
   type: 'list-item-child'
+  children: CustomText[]
+}
+
+export interface MathElement {
+  type: 'math'
+  src: string
+  inline: boolean
   children: CustomText[]
 }
 

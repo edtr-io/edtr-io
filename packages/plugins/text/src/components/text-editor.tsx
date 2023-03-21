@@ -92,7 +92,13 @@ export function TextEditor(props: TextEditorProps) {
     <HotKeys {...hotKeysProps}>
       <Slate editor={editor} value={value} onChange={handleEditorChange}>
         {editable && focused && (
-          <HoveringToolbar config={config} controls={toolbarControls} />
+          <HoveringToolbar
+            editor={editor}
+            config={config}
+            controls={toolbarControls}
+            text={text}
+            focused={focused}
+          />
         )}
 
         {editable && focused && (

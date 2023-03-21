@@ -75,6 +75,11 @@ const registeredHotkeys = [
     control: TextEditorControl.links,
     handler: toggleLink,
   },
+  {
+    hotkey: 'mod+m',
+    control: TextEditorControl.math,
+    handler: toggleMath,
+  },
 ]
 
 export const useControls = (config: TextEditorPluginConfig) => {

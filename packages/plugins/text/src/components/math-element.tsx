@@ -9,10 +9,7 @@ import {
   useSelected,
 } from 'slate-react'
 
-import type {
-  MathElement as MathElementType,
-  TransformOutOfElementProps,
-} from '../types'
+import type { MathElement as MathElementType } from '../types'
 import { MathFormula } from './math-formula'
 
 export interface MathElementProps {
@@ -55,7 +52,10 @@ export function MathElement({
   function transformOutOfElement({
     reverse = false,
     shouldDelete = false,
-  }: TransformOutOfElementProps = {}) {
+  }: {
+    reverse?: boolean
+    shouldDelete?: boolean
+  } = {}) {
     const unit = 'character'
 
     Transforms.move(editor, { unit, reverse })
