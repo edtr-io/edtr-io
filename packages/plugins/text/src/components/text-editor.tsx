@@ -112,7 +112,7 @@ export function TextEditor(props: TextEditorProps) {
         <Editable
           placeholder={config.placeholder}
           onKeyDown={handleEditableKeyDown}
-          renderElement={renderElement}
+          renderElement={renderElementWithFocused(focused)}
           renderLeaf={renderLeafWithConfig(config)}
         />
       </Slate>
@@ -126,42 +126,48 @@ export function TextEditor(props: TextEditorProps) {
   )
 }
 
-function renderElement(props: RenderElementProps) {
-  const { element, attributes, children } = props
+function renderElementWithFocused(focused: boolean) {
+  return function renderElement(props: RenderElementProps) {
+    const { element, attributes, children } = props
 
-  if (element.type === 'h') {
-    return createElement(`h${element.level}`, attributes, <>{children}</>)
-  }
-  if (element.type === 'a') {
-    return (
-      <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
-        {children}
-      </a>
-    )
-  }
+    if (element.type === 'h') {
+      return createElement(`h${element.level}`, attributes, <>{children}</>)
+    }
+    if (element.type === 'a') {
+      return (
+        <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
+          {children}
+        </a>
+      )
+    }
 
-  if (element.type === 'unordered-list') {
-    return <ul {...attributes}>{children}</ul>
-  }
-  if (element.type === 'ordered-list') {
-    return <ol {...attributes}>{children}</ol>
-  }
-  if (element.type === 'list-item') {
-    return <li {...attributes}>{children}</li>
-  }
-  if (element.type === 'list-item-child') {
-    return <div {...attributes}>{children}</div>
-  }
+    if (element.type === 'unordered-list') {
+      return <ul {...attributes}>{children}</ul>
+    }
+    if (element.type === 'ordered-list') {
+      return <ol {...attributes}>{children}</ol>
+    }
+    if (element.type === 'list-item') {
+      return <li {...attributes}>{children}</li>
+    }
+    if (element.type === 'list-item-child') {
+      return <div {...attributes}>{children}</div>
+    }
 
-  if (element.type === 'math') {
-    return (
-      <MathElement element={element} attributes={attributes}>
-        {children}
-      </MathElement>
-    )
-  }
+    if (element.type === 'math') {
+      return (
+        <MathElement
+          element={element}
+          attributes={attributes}
+          focused={focused}
+        >
+          {children}
+        </MathElement>
+      )
+    }
 
-  return <p {...attributes}>{children}</p>
+    return <p {...attributes}>{children}</p>
+  }
 }
 
 function renderLeafWithConfig(config: TextEditorConfig) {
