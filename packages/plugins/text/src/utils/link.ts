@@ -30,7 +30,7 @@ export function toggleLink(editor: SlateEditor) {
     Transforms.insertNodes(editor, {
       type: 'a',
       href: '',
-      children: [{ text: 'link' }],
+      children: [{ text: ' ' }],
     })
     return
   }

@@ -47,6 +47,8 @@ import {
   toggleItalicMark,
 } from '../utils/rich-text'
 
+type SetIsLinkNewlyCreated = (value: boolean) => void
+
 const textPluginsMapper = {
   [TextEditorControl.math]: withMath,
   [TextEditorControl.links]: withLinks,
@@ -59,7 +61,13 @@ const isRegisteredTextPlugin = (
   return control in textPluginsMapper
 }
 
-const registeredHotkeys = [
+const toggleLinkAndFlag =
+  (setIsLinkNewlyCreated: SetIsLinkNewlyCreated) => (editor: SlateEditor) => {
+    toggleLink(editor)
+    setIsLinkNewlyCreated(true)
+  }
+
+const registeredHotkeys = (setIsLinkNewlyCreated: SetIsLinkNewlyCreated) => [
   {
     hotkey: 'mod+b',
     control: TextEditorControl.richText,
@@ -73,7 +81,7 @@ const registeredHotkeys = [
   {
     hotkey: 'mod+k',
     control: TextEditorControl.links,
-    handler: toggleLink,
+    handler: toggleLinkAndFlag(setIsLinkNewlyCreated),
   },
   {
     hotkey: 'mod+m',
@@ -82,7 +90,10 @@ const registeredHotkeys = [
   },
 ]
 
-export const useControls = (config: TextEditorPluginConfig) => {
+export const useControls = (
+  config: TextEditorPluginConfig,
+  setIsLinkNewlyCreated: SetIsLinkNewlyCreated
+) => {
   const { controls } = config
 
   const createTextEditor = useCallback(
@@ -100,14 +111,16 @@ export const useControls = (config: TextEditorPluginConfig) => {
   )
 
   const toolbarControls: ControlButton[] = useMemo(
-    () => createToolbarControls(config),
-    [config]
+    () => createToolbarControls(config, setIsLinkNewlyCreated),
+    [config, setIsLinkNewlyCreated]
   )
 
   const handleHotkeys = useCallback(
     (event: React.KeyboardEvent, editor: SlateEditor) => {
       // Go through the registered hotkeys
-      for (const { hotkey, control, handler } of registeredHotkeys) {
+      for (const { hotkey, control, handler } of registeredHotkeys(
+        setIsLinkNewlyCreated
+      )) {
         // Check if their respective control is enabled
         // and if the keyboard event contains the hotkey combination
         if (controls.includes(control) && isHotkey(hotkey, event)) {
@@ -119,7 +132,7 @@ export const useControls = (config: TextEditorPluginConfig) => {
         }
       }
     },
-    [controls]
+    [controls, setIsLinkNewlyCreated]
   )
 
   return {
@@ -129,11 +142,10 @@ export const useControls = (config: TextEditorPluginConfig) => {
   }
 }
 
-function createToolbarControls({
-  i18n,
-  theme,
-  controls,
-}: TextEditorPluginConfig): ControlButton[] {
+function createToolbarControls(
+  { i18n, theme, controls }: TextEditorPluginConfig,
+  setIsLinkNewlyCreated: SetIsLinkNewlyCreated
+): ControlButton[] {
   const allControls = [
     // Bold
     {
@@ -156,7 +168,7 @@ function createToolbarControls({
       name: TextEditorControl.links,
       title: i18n.link.toggleTitle,
       isActive: isLinkActive,
-      onClick: toggleLink,
+      onClick: toggleLinkAndFlag(setIsLinkNewlyCreated),
       renderIcon: () => <EdtrIcon icon={edtrLink} />,
     },
     // Headings

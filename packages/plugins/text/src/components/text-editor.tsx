@@ -34,14 +34,15 @@ export type TextEditorProps = EditorPluginProps<
 >
 
 export function TextEditor(props: TextEditorProps) {
+  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
+  const [isLinkNewlyCreated, setIsLinkNewlyCreated] = useState(false)
+
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
 
   const config = useTextConfig(props.config)
 
-  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
-
-  const textControls = useControls(config)
+  const textControls = useControls(config, setIsLinkNewlyCreated)
   const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),
@@ -106,6 +107,8 @@ export function TextEditor(props: TextEditorProps) {
             hasSelectionChanged={hasSelectionChanged}
             editor={editor}
             config={config}
+            isLinkNewlyCreated={isLinkNewlyCreated}
+            setIsLinkNewlyCreated={setIsLinkNewlyCreated}
           />
         )}
 

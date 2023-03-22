@@ -1,10 +1,4 @@
-import {
-  DeepPartial,
-  faExternalLinkAlt,
-  faTrashAlt,
-  Icon,
-  styled,
-} from '@edtr-io/ui'
+import { faExternalLinkAlt, faTrashAlt, Icon, styled } from '@edtr-io/ui'
 import * as React from 'react'
 import { Editor as SlateEditor, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
@@ -15,6 +9,7 @@ import {
 } from '../components/inline-overlay'
 import type { Link, TextEditorPluginConfig } from '../types'
 import { getLinkElement, isLinkActive } from '../utils/link'
+import { LinkControlsInput } from './link-controls-input'
 
 const InlinePreview = styled.span({
   padding: '0px 8px',
@@ -31,48 +26,24 @@ const ChangeButton = styled.div(({ theme }) => ({
   },
 }))
 
-const InlineInputInner = styled.input(({ theme }) => ({
-  backgroundColor: theme.backgroundColor,
-  border: 'none',
-  borderBottom: `2px solid ${theme.color}`,
-  color: theme.color,
-  '&:focus': {
-    outline: 'none',
-    borderBottom: `2px solid ${theme.hoverColor}`,
-  },
-}))
-
-// TODO: update
-const InlineInputRefForward: React.ForwardRefRenderFunction<
-  HTMLInputElement,
-  InputProps
-> = (props, ref) => {
-  return <InlineInputInner {...props} ref={ref} />
-}
-const InlineInput = React.forwardRef(InlineInputRefForward)
-
-interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
-  theme: DeepPartial<TextEditorPluginConfig['theme']>
-  label?: string
-  textfieldWidth?: string
-  editorInputWidth?: string
+interface LinkControlsProps {
+  hasSelectionChanged: number
+  editor: SlateEditor
+  config: TextEditorPluginConfig
+  isLinkNewlyCreated: boolean
+  setIsLinkNewlyCreated: (value: boolean) => void
 }
 
 export function LinkControls({
   hasSelectionChanged,
   editor,
   config,
-}: {
-  hasSelectionChanged: number
-  editor: SlateEditor
-  config: TextEditorPluginConfig
-}) {
+  isLinkNewlyCreated,
+  setIsLinkNewlyCreated,
+}: LinkControlsProps) {
   const [element, setElement] = React.useState<Link | null>(null)
   const [value, setValue] = React.useState('')
+  const input = React.useRef<HTMLInputElement>(null)
 
   const { selection } = editor
 
@@ -90,6 +61,15 @@ export function LinkControls({
     }
   }, [hasSelectionChanged, selection, editor])
 
+  React.useEffect(() => {
+    if (element && isLinkNewlyCreated) {
+      setTimeout(() => {
+        setIsLinkNewlyCreated(false)
+        input.current?.focus()
+      })
+    }
+  }, [element, isLinkNewlyCreated, setIsLinkNewlyCreated])
+
   if (!element) return null
 
   return (
@@ -98,7 +78,8 @@ export function LinkControls({
       initialPosition={InlineOverlayPosition.below}
     >
       <InlinePreview>
-        <InlineInput
+        <LinkControlsInput
+          ref={input}
           theme={config.theme}
           value={value}
           placeholder={config.i18n.link.placeholder}
