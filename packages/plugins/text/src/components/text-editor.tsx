@@ -1,6 +1,7 @@
 import { HotKeys } from '@edtr-io/core'
 import { HoverOverlay } from '@edtr-io/editor-ui/beta'
 import { EditorPluginProps } from '@edtr-io/plugin'
+import { onKeyDown as slateListsOnKeyDown } from '@prezly/slate-lists'
 import React, {
   createElement,
   useRef,
@@ -87,6 +88,7 @@ export function TextEditor(props: TextEditorProps) {
     suggestions.handleHotkeys(event)
     textControls.handleHotkeys(event, editor)
     markdownShortcuts().onKeyDown(event, editor)
+    slateListsOnKeyDown(editor, event)
   }
 
   return (
@@ -153,7 +155,7 @@ function renderElementWithFocused(focused: boolean) {
     if (element.type === 'list-item') {
       return <li {...attributes}>{children}</li>
     }
-    if (element.type === 'list-item-child') {
+    if (element.type === 'list-item-text') {
       return <div {...attributes}>{children}</div>
     }
 

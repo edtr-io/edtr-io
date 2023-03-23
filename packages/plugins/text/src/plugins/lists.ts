@@ -59,7 +59,7 @@ export const withLists = (editor: SlateEditor) => {
       return {
         children: [{ text: '' }],
         ...props,
-        type: 'list-item-child',
+        type: 'list-item-text',
       } as ListItemText
     },
   })

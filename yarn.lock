@@ -2668,7 +2668,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
-    "@prezly/slate-lists": ^0.64.2
+    "@prezly/slate-lists": ^0.79.5
     "@types/is-hotkey": ^0.1.7
     "@types/ramda": ^0.28.5
     "@types/react": ^18.0.27
@@ -4779,17 +4779,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prezly/slate-lists@npm:^0.64.2":
-  version: 0.64.5
-  resolution: "@prezly/slate-lists@npm:0.64.5"
+"@prezly/slate-lists@npm:^0.79.5":
+  version: 0.79.5
+  resolution: "@prezly/slate-lists@npm:0.79.5"
   dependencies:
     is-hotkey: ^0.2.0
     uuid: ^8.3.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
-    slate: ^0.82.1
-    slate-react: ^0.82.1
-  checksum: 9a322b533f4f21070e9aae271ab6fc069cc2dcf560d733096d0e2d119a720cb61f0056d40bacb6de9de3e335989e827289dd0b2cc0946e6f8921a4af09fb4db8
+    slate: ^0.91.4
+    slate-react: ^0.91.7
+  checksum: 2ef3dde5111bd1119abcd4771553d38eaa1f78c519a1f5bea54c6d2fcef636ea30df59b9d4220b980a2a9c0ed05c267160a731fbbabdd73df08817769ade0153
   languageName: node
   linkType: hard
 

@@ -45,7 +45,7 @@ export interface ListItem {
 }
 
 export interface ListItemText {
-  type: 'list-item-child'
+  type: 'list-item-text'
   children: CustomText[]
 }
 
