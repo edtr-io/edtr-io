@@ -1,7 +1,7 @@
 import { useScopedStore } from '@edtr-io/core/beta'
 import { RegistryContext, Registry } from '@edtr-io/plugin-rows/internal'
 import { replace } from '@edtr-io/store'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 
 interface useSuggestionsArgs {
   text: string
@@ -21,7 +21,7 @@ export const useSuggestions = (args: useSuggestionsArgs) => {
   const store = useScopedStore()
   const { text, id, editable, focused } = args
 
-  const plugins = React.useContext(RegistryContext)
+  const plugins = useContext(RegistryContext)
   const allOptions = mapPlugins(plugins, text)
   const showSuggestions =
     editable && focused && text.startsWith('/') && allOptions.length > 0
