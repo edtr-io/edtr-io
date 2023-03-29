@@ -1,6 +1,7 @@
 import { HotKeys } from '@edtr-io/core'
 import { HoverOverlay } from '@edtr-io/editor-ui/beta'
 import { EditorPluginProps } from '@edtr-io/plugin'
+import { onKeyDown as slateListsOnKeyDown } from '@prezly/slate-lists'
 import React, {
   createElement,
   useRef,
@@ -34,14 +35,15 @@ export type TextEditorProps = EditorPluginProps<
 >
 
 export function TextEditor(props: TextEditorProps) {
+  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
+  const [isLinkNewlyCreated, setIsLinkNewlyCreated] = useState(false)
+
   const { state, id, editable, focused } = props
   const { selection, value } = state.value
 
   const config = useTextConfig(props.config)
 
-  const [hasSelectionChanged, setHasSelectionChanged] = useState(0)
-
-  const textControls = useControls(config)
+  const textControls = useControls(config, setIsLinkNewlyCreated)
   const { createTextEditor, toolbarControls } = textControls
   const editor = useMemo(
     () => createTextEditor(withReact(createEditor())),
@@ -86,13 +88,20 @@ export function TextEditor(props: TextEditorProps) {
     suggestions.handleHotkeys(event)
     textControls.handleHotkeys(event, editor)
     markdownShortcuts().onKeyDown(event, editor)
+    slateListsOnKeyDown(editor, event)
   }
 
   return (
     <HotKeys {...hotKeysProps}>
       <Slate editor={editor} value={value} onChange={handleEditorChange}>
         {editable && focused && (
-          <HoveringToolbar config={config} controls={toolbarControls} />
+          <HoveringToolbar
+            editor={editor}
+            config={config}
+            controls={toolbarControls}
+            text={text}
+            focused={focused}
+          />
         )}
 
         {editable && focused && (
@@ -100,13 +109,15 @@ export function TextEditor(props: TextEditorProps) {
             hasSelectionChanged={hasSelectionChanged}
             editor={editor}
             config={config}
+            isLinkNewlyCreated={isLinkNewlyCreated}
+            setIsLinkNewlyCreated={setIsLinkNewlyCreated}
           />
         )}
 
         <Editable
           placeholder={config.placeholder}
           onKeyDown={handleEditableKeyDown}
-          renderElement={renderElement}
+          renderElement={renderElementWithFocused(focused)}
           renderLeaf={renderLeafWithConfig(config)}
         />
       </Slate>
@@ -120,42 +131,48 @@ export function TextEditor(props: TextEditorProps) {
   )
 }
 
-function renderElement(props: RenderElementProps) {
-  const { element, attributes, children } = props
+function renderElementWithFocused(focused: boolean) {
+  return function renderElement(props: RenderElementProps) {
+    const { element, attributes, children } = props
 
-  if (element.type === 'h') {
-    return createElement(`h${element.level}`, attributes, <>{children}</>)
-  }
-  if (element.type === 'a') {
-    return (
-      <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
-        {children}
-      </a>
-    )
-  }
+    if (element.type === 'h') {
+      return createElement(`h${element.level}`, attributes, <>{children}</>)
+    }
+    if (element.type === 'a') {
+      return (
+        <a href={element.href} style={{ cursor: 'pointer' }} {...attributes}>
+          {children}
+        </a>
+      )
+    }
 
-  if (element.type === 'unordered-list') {
-    return <ul {...attributes}>{children}</ul>
-  }
-  if (element.type === 'ordered-list') {
-    return <ol {...attributes}>{children}</ol>
-  }
-  if (element.type === 'list-item') {
-    return <li {...attributes}>{children}</li>
-  }
-  if (element.type === 'list-item-child') {
-    return <div {...attributes}>{children}</div>
-  }
+    if (element.type === 'unordered-list') {
+      return <ul {...attributes}>{children}</ul>
+    }
+    if (element.type === 'ordered-list') {
+      return <ol {...attributes}>{children}</ol>
+    }
+    if (element.type === 'list-item') {
+      return <li {...attributes}>{children}</li>
+    }
+    if (element.type === 'list-item-text') {
+      return <div {...attributes}>{children}</div>
+    }
 
-  if (element.type === 'math') {
-    return (
-      <MathElement element={element} attributes={attributes}>
-        {children}
-      </MathElement>
-    )
-  }
+    if (element.type === 'math') {
+      return (
+        <MathElement
+          element={element}
+          attributes={attributes}
+          focused={focused}
+        >
+          {children}
+        </MathElement>
+      )
+    }
 
-  return <p {...attributes}>{children}</p>
+    return <p {...attributes}>{children}</p>
+  }
 }
 
 function renderLeafWithConfig(config: TextEditorConfig) {

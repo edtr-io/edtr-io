@@ -1,112 +1,85 @@
-import * as R from 'ramda'
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Editor as SlateEditor, Range } from 'slate'
-import { ReactEditor, useSlate } from 'slate-react'
 
-import type {
-  TextEditorPluginConfig,
-  NestedControlButton,
-  ControlButton,
-} from '../types'
+import type { TextEditorPluginConfig, ControlButton } from '../types'
 import { isTouchDevice } from '../utils/is-touch-device'
-import { HoveringToolbarButton } from './hovering-toolbar-button'
+import { HoveringToolbarControls } from './hovering-toolbar-controls'
 import { InlineOverlay, InlineOverlayPosition } from './inline-overlay'
+import { TimeoutBottomToolbarWrapper } from './timeout-bottom-toolbar-wrapper'
 
 export interface HoveringToolbarProps {
+  editor: SlateEditor
   config: TextEditorPluginConfig
   controls: ControlButton[]
+  text: string
+  focused: boolean
 }
 
 const initialPosition = isTouchDevice()
   ? InlineOverlayPosition.below
   : InlineOverlayPosition.above
 
-function isNestedControlButton(
-  control: ControlButton
-): control is NestedControlButton {
-  return R.has('children', control)
-}
-
-export function HoveringToolbar({ config, controls }: HoveringToolbarProps) {
-  const [subMenu, setSubMenu] = React.useState<number>()
-  const editor = useSlate()
+export function HoveringToolbar(props: HoveringToolbarProps) {
+  const [isBottomToolbarActive, setIsBottomToolbarActive] = useState(false)
+  const { editor, config, controls, text, focused } = props
   const { selection } = editor
+  const isSelectionCollapsed = selection && Range.isCollapsed(selection)
 
-  if (typeof subMenu !== 'number') {
-    return (
+  const memoized = useRef({ value: text, isSelectionCollapsed })
+  const showBottomToolbar = () => setIsBottomToolbarActive(true)
+  useEffect(() => {
+    let debounceTimeout = setTimeout(showBottomToolbar, 2500)
+    const hasValueChanged = memoized.current.value !== text
+    if (
+      hasValueChanged ||
+      memoized.current.isSelectionCollapsed !== isSelectionCollapsed
+    ) {
+      memoized.current = { value: text, isSelectionCollapsed }
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout)
+      }
+      const timeout = hasValueChanged ? 2500 : 1000
+      if (isSelectionCollapsed) {
+        debounceTimeout = setTimeout(showBottomToolbar, timeout)
+      }
+      setIsBottomToolbarActive(false)
+    }
+
+    return () => {
+      clearTimeout(debounceTimeout)
+    }
+  }, [text, isSelectionCollapsed])
+
+  return (
+    <>
       <InlineOverlay
         config={config}
         initialPosition={initialPosition}
         hidden={
           !selection ||
-          !ReactEditor.isFocused(editor) ||
-          Range.isCollapsed(selection) ||
+          !focused ||
+          isSelectionCollapsed ||
           SlateEditor.string(editor, selection) === ''
         }
       >
-        {controls.map((control, index) => (
-          <HoveringToolbarButton
-            active={control.isActive(editor)}
-            theme={config.theme}
-            title={control.title}
-            onMouseDown={(event) => {
-              event.preventDefault()
-              isNestedControlButton(control)
-                ? setSubMenu(index)
-                : control.onClick(editor)
-            }}
-            key={index}
-          >
-            {control.renderIcon(editor)}
-          </HoveringToolbarButton>
-        ))}
-      </InlineOverlay>
-    )
-  }
-
-  const activeControl = controls[subMenu]
-
-  if (!isNestedControlButton(activeControl)) return null
-
-  const closeSubMenuControl = {
-    isActive() {
-      return false
-    },
-    renderIcon() {
-      return activeControl.renderCloseMenuIcon()
-    },
-    onClick() {
-      setSubMenu(undefined)
-    },
-    title: activeControl.closeMenuTitle,
-  }
-  const subMenuControls = [...activeControl.children, closeSubMenuControl]
-
-  return (
-    <InlineOverlay
-      config={config}
-      initialPosition={initialPosition}
-      hidden={
-        !selection ||
-        !ReactEditor.isFocused(editor) ||
-        Range.isCollapsed(selection) ||
-        SlateEditor.string(editor, selection) === ''
-      }
-    >
-      {subMenuControls.map((control, index) => (
-        <HoveringToolbarButton
-          active={control.isActive(editor)}
+        <HoveringToolbarControls
           theme={config.theme}
-          title={control.title}
-          onMouseDown={(event) => {
-            event.preventDefault()
-            control.onClick(editor)
-          }}
-          key={index}
-        >
-          {control.renderIcon(editor)}
-        </HoveringToolbarButton>
-      ))}
-    </InlineOverlay>
+          controls={controls}
+          editor={editor}
+        />
+      </InlineOverlay>
+      <TimeoutBottomToolbarWrapper
+        isTouch={isTouchDevice()}
+        visible={!!isSelectionCollapsed && isBottomToolbarActive}
+      >
+        {isBottomToolbarActive && (
+          <HoveringToolbarControls
+            theme={config.theme}
+            controls={controls}
+            editor={editor}
+          />
+        )}
+      </TimeoutBottomToolbarWrapper>
+    </>
   )
 }
