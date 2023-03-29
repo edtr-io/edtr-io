@@ -17,6 +17,87 @@ import { SerializedScalarStateType } from '@edtr-io/plugin';
 export const createTextPlugin: (config: TextEditorConfig) => EditorPlugin<TextEditorState, TextEditorConfig>;
 
 // @public (undocumented)
+export type CustomElement = Paragraph | OrderedList | UnorderedList | ListItem | ListItemText | Heading | Link | MathElement;
+
+// @public (undocumented)
+export interface CustomText {
+    // (undocumented)
+    code?: true;
+    // (undocumented)
+    color?: number;
+    // (undocumented)
+    em?: true;
+    // (undocumented)
+    strong?: true;
+    // (undocumented)
+    text: string;
+}
+
+// @public (undocumented)
+export interface Heading {
+    // (undocumented)
+    children: CustomText[];
+    // (undocumented)
+    level: 1 | 2 | 3;
+    // (undocumented)
+    type: 'h';
+}
+
+// @public (undocumented)
+export interface Link {
+    // (undocumented)
+    children: CustomText[];
+    // (undocumented)
+    href: string;
+    // (undocumented)
+    type: 'a';
+}
+
+// @public (undocumented)
+export interface ListItem {
+    // (undocumented)
+    children: ListItemText[];
+    // (undocumented)
+    type: 'list-item';
+}
+
+// @public (undocumented)
+export interface ListItemText {
+    // (undocumented)
+    children: CustomText[];
+    // (undocumented)
+    type: 'list-item-text';
+}
+
+// @public (undocumented)
+export interface MathElement {
+    // (undocumented)
+    children: CustomText[];
+    // (undocumented)
+    inline: boolean;
+    // (undocumented)
+    src: string;
+    // (undocumented)
+    type: 'math';
+}
+
+// @public (undocumented)
+export interface OrderedList {
+    // (undocumented)
+    children: ListItem[];
+    // (undocumented)
+    type: 'ordered-list';
+}
+
+// @public (undocumented)
+export interface Paragraph {
+    // (undocumented)
+    children: CustomText[];
+    // (undocumented)
+    type: 'p';
+}
+
+// @public (undocumented)
 export interface TextEditorConfig {
     // (undocumented)
     blockquote?: string;
@@ -82,6 +163,14 @@ export type TextEditorState = SerializedScalarStateType<Descendant[], {
     value: Descendant[];
     selection: Range_2 | null;
 }>;
+
+// @public (undocumented)
+export interface UnorderedList {
+    // (undocumented)
+    children: ListItem[];
+    // (undocumented)
+    type: 'unordered-list';
+}
 
 // (No @packageDocumentation comment for this package)
 
