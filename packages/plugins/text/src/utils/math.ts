@@ -21,7 +21,7 @@ export function toggleMath(editor: SlateEditor) {
         type: 'math',
         src: '',
         inline: true,
-        children: [],
+        children: [{ text: 'link' }],
       })
     } else {
       // TODO: Test if better solution to use api from slate

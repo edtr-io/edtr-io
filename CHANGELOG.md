@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v3.0.0](https://github.com/edtr-io/edtr-io/compare/v2.8.3..v3.0.0) - March 29, 2023
+
+### Breaking Changes
+
+- **plugin-text**. Upgrade to newest slate version
+
+- Remove package `store-devtools`
+
+### Changed
+
+- **plugin-rows**. Increase visibility of button to add plugins
+
+- Show document toolbar also on hover
+
+- Use ESM module format in the repository
+
+- Update various dependencies
+
 ## [v2.8.3](https://github.com/edtr-io/edtr-io/compare/v2.8.2..v2.8.3) - June 29, 2022
 
 ### Changed

@@ -1,13 +1,14 @@
 import { Editor as SlateEditor, Transforms } from 'slate'
 
 import type { Heading } from '../types'
-import { selectionHasElement } from './selection'
+import { selectionHasElement, trimSelection } from './selection'
 
 export function isBoldActive(editor: SlateEditor) {
   return SlateEditor.marks(editor)?.strong === true
 }
 
 export function toggleBoldMark(editor: SlateEditor) {
+  trimSelection(editor)
   if (isBoldActive(editor)) {
     SlateEditor.removeMark(editor, 'strong')
   } else {
@@ -20,6 +21,7 @@ export function isItalicActive(editor: SlateEditor) {
 }
 
 export function toggleItalicMark(editor: SlateEditor) {
+  trimSelection(editor)
   if (isItalicActive(editor)) {
     SlateEditor.removeMark(editor, 'em')
   } else {

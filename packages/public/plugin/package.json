@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin",
-  "version": "2.8.2",
+  "version": "3.0.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/internal__plugin": "^2.5.0",
-    "@edtr-io/internal__plugin-state": "^2.5.0",
+    "@edtr-io/internal__plugin": "^3.0.0",
+    "@edtr-io/internal__plugin-state": "^3.0.0",
     "@types/ramda": "^0.28.5",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
@@ -23,7 +23,7 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "@edtr-io/core": "^2.8.2",
+    "@edtr-io/core": "^3.0.0",
     "@jest/globals": "^29.0.0",
     "@testing-library/react": "^13.4.0",
     "react": "^18.2.0",

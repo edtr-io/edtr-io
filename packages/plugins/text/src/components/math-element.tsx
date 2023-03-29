@@ -9,15 +9,13 @@ import {
   useSelected,
 } from 'slate-react'
 
-import type {
-  MathElement as MathElementType,
-  TransformOutOfElementProps,
-} from '../types'
+import type { MathElement as MathElementType } from '../types'
 import { MathFormula } from './math-formula'
 
 export interface MathElementProps {
   element: MathElementType
   attributes: RenderElementProps['attributes']
+  focused: boolean
   children: RenderElementProps['children']
 }
 
@@ -26,6 +24,7 @@ const visualEditorPreferenceKey = 'text:math:visual-editor'
 export function MathElement({
   element,
   attributes,
+  focused,
   children,
 }: MathElementProps) {
   const editor = useSlate()
@@ -33,7 +32,10 @@ export function MathElement({
   const preferences = useContext(PreferenceContext)
 
   const shouldShowMathEditor =
-    selected && editor.selection && Range.isCollapsed(editor.selection)
+    focused &&
+    selected &&
+    editor.selection &&
+    Range.isCollapsed(editor.selection)
 
   if (!shouldShowMathEditor) {
     return (
@@ -55,7 +57,10 @@ export function MathElement({
   function transformOutOfElement({
     reverse = false,
     shouldDelete = false,
-  }: TransformOutOfElementProps = {}) {
+  }: {
+    reverse?: boolean
+    shouldDelete?: boolean
+  } = {}) {
     const unit = 'character'
 
     Transforms.move(editor, { unit, reverse })

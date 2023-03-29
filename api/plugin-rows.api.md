@@ -16,6 +16,19 @@ import { Selector } from '@edtr-io/store';
 // @public (undocumented)
 export function createRowsPlugin(config: RowsConfig): EditorPlugin<RowsPluginState, RowsConfig>;
 
+// Warning: (ae-missing-release-tag) "defaultRegistryPlugins" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const defaultRegistryPlugins: ({
+    name: string;
+    title: string;
+    icon: React_2.ComponentType<{}>;
+} | {
+    name: string;
+    title: string;
+    icon?: undefined;
+})[];
+
 // @public (undocumented)
 export const isEmptyRows: Selector<boolean | null, [string]>;
 
