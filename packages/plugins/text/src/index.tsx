@@ -4,6 +4,16 @@ import { Node } from 'slate'
 import { TextEditor } from './components/text-editor'
 import type { TextEditorProps } from './components/text-editor'
 import type {
+  CustomElement,
+  CustomText,
+  Paragraph,
+  OrderedList,
+  UnorderedList,
+  ListItem,
+  ListItemText,
+  Heading,
+  Link,
+  MathElement,
   TextEditorConfig,
   TextEditorControl,
   TextEditorPluginConfig,
@@ -40,6 +50,16 @@ const createTextPlugin = (
 export { createTextPlugin }
 
 export type {
+  CustomElement,
+  Paragraph,
+  OrderedList,
+  UnorderedList,
+  ListItem,
+  ListItemText,
+  Heading,
+  Link,
+  MathElement,
+  CustomText,
   TextEditorConfig,
   TextEditorControl,
   TextEditorPluginConfig,
