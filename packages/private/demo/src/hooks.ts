@@ -20,16 +20,8 @@ export function useEditable(initial?: boolean) {
 }
 
 export function useReduxDevtools() {
-  const createStoreDevtoolsEnhancer: StoreEnhancerFactory = (
-    defaultEnhancer
-  ) => {
-    const composeEnhancers =
-      window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || composeWithDevTools
-
-    return composeEnhancers(defaultEnhancer)
-  }
-
   return {
-    createStoreDevtoolsEnhancer,
+    createStoreDevtoolsEnhancer: (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ??
+      composeWithDevTools) as StoreEnhancerFactory,
   }
 }
