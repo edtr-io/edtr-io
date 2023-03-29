@@ -3,8 +3,8 @@
   "version": "3.0.0",
   "license": "MIT",
   "author": "edtr.io Consortium",
-  "main": "dist/index.js",
-  "module": "dist/ui.esm.js",
+  "type": "module",
+  "exports": "./dist/ui.esm.js",
   "typings": "api/public.d.ts",
   "repository": "edtr-io/edtr-io",
   "scripts": {
