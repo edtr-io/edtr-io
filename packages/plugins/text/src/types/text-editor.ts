@@ -2,7 +2,8 @@ import { ListsEditor } from '@prezly/slate-lists'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-type CustomElement =
+/** @public */
+export type CustomElement =
   | Paragraph
   | OrderedList
   | UnorderedList
@@ -56,7 +57,8 @@ export interface MathElement {
   children: CustomText[]
 }
 
-interface CustomText {
+/** @public */
+export interface CustomText {
   text: string
   strong?: true
   em?: true
