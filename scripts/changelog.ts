@@ -1,7 +1,10 @@
 import { generateChangelog } from '@inyono/changelog'
 import * as fs from 'fs'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
 import * as util from 'util'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const writeFile = util.promisify(fs.writeFile)
 
@@ -1235,6 +1238,20 @@ There are now more parts of the editor's UI configurable. More specifically, we 
         tagName: 'v2.8.3',
         date: '2022-06-29',
         changed: [['plugin-serlo-injection', 'Simplify `createURL`.']],
+      },
+      {
+        tagName: 'v3.0.0',
+        date: '2023-03-29',
+        breakingChanges: [
+          ['plugin-text', 'Upgrade to newest slate version'],
+          'Remove package `store-devtools`',
+        ],
+        changed: [
+          ['plugin-rows', 'Increase visibility of button to add plugins'],
+          'Show document toolbar also on hover',
+          'Use ESM module format in the repository',
+          'Update various dependencies',
+        ],
       },
     ],
   })
