@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/renderer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,15 +13,15 @@
   },
   "dependencies": {
     "@edtr-io/internal__dev-expression": "^3.0.0",
-    "@edtr-io/plugin": "^3.0.0",
-    "@edtr-io/store": "^3.0.0",
-    "@edtr-io/ui": "^3.0.0",
+    "@edtr-io/plugin": "^3.0.1",
+    "@edtr-io/store": "^3.0.1",
+    "@edtr-io/ui": "^3.0.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.24"
   },
   "devDependencies": {
-    "@edtr-io/core": "^3.0.0",
+    "@edtr-io/core": "^3.0.1",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
