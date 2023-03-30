@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v3.0.2](https://github.com/edtr-io/edtr-io/compare/v3.0.1..v3.0.2) - March 30, 2023
+
+### Changed
+
+- **plugin-text**. Move window.getSelection call inside of component
+
+- **plugin-text**. Use list-item-child instead of list-item-text
+
 ## [v3.0.1](https://github.com/edtr-io/edtr-io/compare/v3.0.0..v3.0.1) - March 29, 2023
 
 ### Changed

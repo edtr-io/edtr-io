@@ -1261,6 +1261,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           'Implement defaultImport re-export workaround',
         ],
       },
+      {
+        tagName: 'v3.0.2',
+        date: '2023-03-30',
+        changed: [
+          ['plugin-text', 'Move window.getSelection call inside of component'],
+          ['plugin-text', 'Use list-item-child instead of list-item-text'],
+        ],
+      },
     ],
   })
 

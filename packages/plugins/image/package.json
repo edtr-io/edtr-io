@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-image",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^3.0.1",
+    "@edtr-io/editor-ui": "^3.0.2",
     "@edtr-io/plugin": "^3.0.1",
     "@edtr-io/store": "^3.0.1",
     "@edtr-io/ui": "^3.0.1",

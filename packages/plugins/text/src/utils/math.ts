@@ -21,17 +21,15 @@ export function toggleMath(editor: SlateEditor) {
         type: 'math',
         src: '',
         inline: true,
-        children: [{ text: 'link' }],
+        children: [{ text: '' }],
       })
     } else {
-      // TODO: Test if better solution to use api from slate
-      const nativeSelection = window.getSelection()
       Transforms.insertNodes(
         editor,
         [
           {
             type: 'math',
-            src: nativeSelection ? nativeSelection.toString() : '',
+            src: SlateEditor.string(editor, selection) || '',
             inline: true,
             children: [],
           },

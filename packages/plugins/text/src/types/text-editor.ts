@@ -53,7 +53,7 @@ export interface ListItem {
 
 /** @public */
 export interface ListItemText {
-  type: 'list-item-text'
+  type: 'list-item-child'
   children: CustomText[]
 }
 

@@ -1801,7 +1801,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/editor-ui@^3.0.1, @edtr-io/editor-ui@workspace:packages/public/editor-ui":
+"@edtr-io/editor-ui@^3.0.2, @edtr-io/editor-ui@workspace:packages/public/editor-ui":
   version: 0.0.0-use.local
   resolution: "@edtr-io/editor-ui@workspace:packages/public/editor-ui"
   dependencies:
@@ -1888,23 +1888,23 @@ __metadata:
     "@babel/core": ^7.17.8
     "@edtr-io/core": ^3.0.1
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-anchor": ^3.0.1
-    "@edtr-io/plugin-blockquote": ^3.0.1
-    "@edtr-io/plugin-files": ^3.0.1
-    "@edtr-io/plugin-geogebra": ^3.0.1
-    "@edtr-io/plugin-highlight": ^3.0.1
-    "@edtr-io/plugin-image": ^3.0.1
-    "@edtr-io/plugin-input-exercise": ^3.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^3.0.1
-    "@edtr-io/plugin-serlo-injection": ^3.0.1
-    "@edtr-io/plugin-spoiler": ^3.0.1
-    "@edtr-io/plugin-table": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
-    "@edtr-io/plugin-video": ^3.0.1
+    "@edtr-io/plugin-anchor": ^3.0.2
+    "@edtr-io/plugin-blockquote": ^3.0.2
+    "@edtr-io/plugin-files": ^3.0.2
+    "@edtr-io/plugin-geogebra": ^3.0.2
+    "@edtr-io/plugin-highlight": ^3.0.2
+    "@edtr-io/plugin-image": ^3.0.2
+    "@edtr-io/plugin-input-exercise": ^3.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^3.0.2
+    "@edtr-io/plugin-rows": ^3.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^3.0.2
+    "@edtr-io/plugin-serlo-injection": ^3.0.2
+    "@edtr-io/plugin-spoiler": ^3.0.2
+    "@edtr-io/plugin-table": ^3.0.2
+    "@edtr-io/plugin-text": ^3.0.2
+    "@edtr-io/plugin-video": ^3.0.2
     "@edtr-io/renderer": ^3.0.1
-    "@edtr-io/renderer-ssr": ^3.0.1
+    "@edtr-io/renderer-ssr": ^3.0.2
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
@@ -1936,23 +1936,23 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.8
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/math": ^3.0.1
+    "@edtr-io/math": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-anchor": ^3.0.1
-    "@edtr-io/plugin-blockquote": ^3.0.1
-    "@edtr-io/plugin-files": ^3.0.1
-    "@edtr-io/plugin-geogebra": ^3.0.1
-    "@edtr-io/plugin-highlight": ^3.0.1
-    "@edtr-io/plugin-image": ^3.0.1
-    "@edtr-io/plugin-input-exercise": ^3.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^3.0.1
-    "@edtr-io/plugin-serlo-injection": ^3.0.1
-    "@edtr-io/plugin-spoiler": ^3.0.1
-    "@edtr-io/plugin-table": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
-    "@edtr-io/plugin-video": ^3.0.1
+    "@edtr-io/plugin-anchor": ^3.0.2
+    "@edtr-io/plugin-blockquote": ^3.0.2
+    "@edtr-io/plugin-files": ^3.0.2
+    "@edtr-io/plugin-geogebra": ^3.0.2
+    "@edtr-io/plugin-highlight": ^3.0.2
+    "@edtr-io/plugin-image": ^3.0.2
+    "@edtr-io/plugin-input-exercise": ^3.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^3.0.2
+    "@edtr-io/plugin-rows": ^3.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^3.0.2
+    "@edtr-io/plugin-serlo-injection": ^3.0.2
+    "@edtr-io/plugin-spoiler": ^3.0.2
+    "@edtr-io/plugin-table": ^3.0.2
+    "@edtr-io/plugin-text": ^3.0.2
+    "@edtr-io/plugin-video": ^3.0.2
     "@edtr-io/renderer": ^3.0.1
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
@@ -2071,12 +2071,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/math@^3.0.1, @edtr-io/math@workspace:packages/public/math":
+"@edtr-io/math@^3.0.2, @edtr-io/math@workspace:packages/public/math":
   version: 0.0.0-use.local
   resolution: "@edtr-io/math@workspace:packages/public/math"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0
@@ -2116,12 +2116,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-anchor@^3.0.1, @edtr-io/plugin-anchor@workspace:packages/plugins/anchor":
+"@edtr-io/plugin-anchor@^3.0.2, @edtr-io/plugin-anchor@workspace:packages/plugins/anchor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-anchor@workspace:packages/plugins/anchor"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2153,13 +2153,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-blockquote@^3.0.1, @edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote":
+"@edtr-io/plugin-blockquote@^3.0.2, @edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-blockquote@workspace:packages/plugins/blockquote"
   dependencies:
     "@edtr-io/core": ^3.0.1
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
+    "@edtr-io/plugin-text": ^3.0.2
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.1.18
@@ -2190,12 +2190,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-files@^3.0.1, @edtr-io/plugin-files@workspace:packages/plugins/files":
+"@edtr-io/plugin-files@^3.0.2, @edtr-io/plugin-files@workspace:packages/plugins/files":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-files@workspace:packages/plugins/files"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2227,12 +2227,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-geogebra@^3.0.1, @edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra":
+"@edtr-io/plugin-geogebra@^3.0.2, @edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-geogebra@workspace:packages/plugins/geogebra"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2268,12 +2268,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-highlight@^3.0.1, @edtr-io/plugin-highlight@workspace:packages/plugins/highlight":
+"@edtr-io/plugin-highlight@^3.0.2, @edtr-io/plugin-highlight@workspace:packages/plugins/highlight":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-highlight@workspace:packages/plugins/highlight"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2309,12 +2309,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-image@^3.0.1, @edtr-io/plugin-image@workspace:packages/plugins/image":
+"@edtr-io/plugin-image@^3.0.2, @edtr-io/plugin-image@workspace:packages/plugins/image":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-image@workspace:packages/plugins/image"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
@@ -2349,15 +2349,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-input-exercise@^3.0.1, @edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise":
+"@edtr-io/plugin-input-exercise@^3.0.2, @edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-input-exercise@workspace:packages/plugins/input-exercise"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/internal__dev-expression": ^3.0.0
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
+    "@edtr-io/plugin-text": ^3.0.2
     "@edtr-io/renderer": ^3.0.1
     "@edtr-io/renderer-ui": ^3.0.1
     "@edtr-io/store": ^3.0.1
@@ -2400,17 +2400,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-multimedia-explanation@^3.0.1, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
+"@edtr-io/plugin-multimedia-explanation@^3.0.2, @edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-multimedia-explanation@workspace:packages/plugins/multimedia-explanation"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-geogebra": ^3.0.1
-    "@edtr-io/plugin-image": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
-    "@edtr-io/plugin-video": ^3.0.1
+    "@edtr-io/plugin-geogebra": ^3.0.2
+    "@edtr-io/plugin-image": ^3.0.2
+    "@edtr-io/plugin-rows": ^3.0.2
+    "@edtr-io/plugin-video": ^3.0.2
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2446,14 +2446,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-rows@^3.0.1, @edtr-io/plugin-rows@workspace:packages/plugins/rows":
+"@edtr-io/plugin-rows@^3.0.2, @edtr-io/plugin-rows@workspace:packages/plugins/rows":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-rows@workspace:packages/plugins/rows"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
+    "@edtr-io/plugin-text": ^3.0.2
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2488,14 +2488,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-sc-mc-exercise@^3.0.1, @edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise":
+"@edtr-io/plugin-sc-mc-exercise@^3.0.2, @edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-sc-mc-exercise@workspace:packages/plugins/sc-mc-exercise"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
+    "@edtr-io/plugin-text": ^3.0.2
     "@edtr-io/renderer-ui": ^3.0.1
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
@@ -2531,12 +2531,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-serlo-injection@^3.0.1, @edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection":
+"@edtr-io/plugin-serlo-injection@^3.0.2, @edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-serlo-injection@workspace:packages/plugins/serlo-injection"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2571,15 +2571,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-spoiler@^3.0.1, @edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler":
+"@edtr-io/plugin-spoiler@^3.0.2, @edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-spoiler@workspace:packages/plugins/spoiler"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
+    "@edtr-io/plugin-rows": ^3.0.2
+    "@edtr-io/plugin-text": ^3.0.2
     "@edtr-io/renderer-ui": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2614,12 +2614,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-table@^3.0.1, @edtr-io/plugin-table@workspace:packages/plugins/table":
+"@edtr-io/plugin-table@^3.0.2, @edtr-io/plugin-table@workspace:packages/plugins/table":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-table@workspace:packages/plugins/table"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2653,16 +2653,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-text@^3.0.1, @edtr-io/plugin-text@workspace:packages/plugins/text":
+"@edtr-io/plugin-text@^3.0.2, @edtr-io/plugin-text@workspace:packages/plugins/text":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-text@workspace:packages/plugins/text"
   dependencies:
     "@convertkit/slate-lists": ^0.2.11
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
-    "@edtr-io/math": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
+    "@edtr-io/math": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
+    "@edtr-io/plugin-rows": ^3.0.2
     "@edtr-io/store": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2717,12 +2717,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/plugin-video@^3.0.1, @edtr-io/plugin-video@workspace:packages/plugins/video":
+"@edtr-io/plugin-video@^3.0.2, @edtr-io/plugin-video@workspace:packages/plugins/video":
   version: 0.0.0-use.local
   resolution: "@edtr-io/plugin-video@workspace:packages/plugins/video"
   dependencies:
     "@edtr-io/core": ^3.0.1
-    "@edtr-io/editor-ui": ^3.0.1
+    "@edtr-io/editor-ui": ^3.0.2
     "@edtr-io/plugin": ^3.0.1
     "@edtr-io/ui": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
@@ -2792,28 +2792,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edtr-io/renderer-ssr@^3.0.1, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
+"@edtr-io/renderer-ssr@^3.0.2, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr"
   dependencies:
     "@edtr-io/core": ^3.0.1
     "@edtr-io/internal__fixtures": ^3.0.1
     "@edtr-io/plugin": ^3.0.1
-    "@edtr-io/plugin-anchor": ^3.0.1
-    "@edtr-io/plugin-blockquote": ^3.0.1
-    "@edtr-io/plugin-files": ^3.0.1
-    "@edtr-io/plugin-geogebra": ^3.0.1
-    "@edtr-io/plugin-highlight": ^3.0.1
-    "@edtr-io/plugin-image": ^3.0.1
-    "@edtr-io/plugin-input-exercise": ^3.0.1
-    "@edtr-io/plugin-multimedia-explanation": ^3.0.1
-    "@edtr-io/plugin-rows": ^3.0.1
-    "@edtr-io/plugin-sc-mc-exercise": ^3.0.1
-    "@edtr-io/plugin-serlo-injection": ^3.0.1
-    "@edtr-io/plugin-spoiler": ^3.0.1
-    "@edtr-io/plugin-table": ^3.0.1
-    "@edtr-io/plugin-text": ^3.0.1
-    "@edtr-io/plugin-video": ^3.0.1
+    "@edtr-io/plugin-anchor": ^3.0.2
+    "@edtr-io/plugin-blockquote": ^3.0.2
+    "@edtr-io/plugin-files": ^3.0.2
+    "@edtr-io/plugin-geogebra": ^3.0.2
+    "@edtr-io/plugin-highlight": ^3.0.2
+    "@edtr-io/plugin-image": ^3.0.2
+    "@edtr-io/plugin-input-exercise": ^3.0.2
+    "@edtr-io/plugin-multimedia-explanation": ^3.0.2
+    "@edtr-io/plugin-rows": ^3.0.2
+    "@edtr-io/plugin-sc-mc-exercise": ^3.0.2
+    "@edtr-io/plugin-serlo-injection": ^3.0.2
+    "@edtr-io/plugin-spoiler": ^3.0.2
+    "@edtr-io/plugin-table": ^3.0.2
+    "@edtr-io/plugin-text": ^3.0.2
+    "@edtr-io/plugin-video": ^3.0.2
     "@edtr-io/renderer": ^3.0.1
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0

@@ -45,8 +45,6 @@ export interface HoverOverlayProps {
   anchor?: React.RefObject<HTMLElement>
 }
 
-const windowSelection = window.getSelection()
-
 /**
  * @param props - The {@link @edtr-io/editor-ui#HoverOverlayProps | hover overlay props}
  * @public
@@ -57,6 +55,8 @@ export function HoverOverlay(props: HoverOverlayProps) {
   const [positionAbove, setPositionAbove] = React.useState(
     props.position === 'above'
   )
+
+  const windowSelection = window.getSelection()
 
   // This works around a positioning bug. When the hover overlay is shown,
   // and then the editor loses focus and gets it back again,
@@ -127,6 +127,7 @@ export function HoverOverlay(props: HoverOverlayProps) {
     positionAbove,
     nativeSelection.focusNode,
     nativeSelection.anchorOffset,
+    windowSelection,
   ])
 
   return (

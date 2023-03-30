@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-text",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@convertkit/slate-lists": "^0.2.11",
-    "@edtr-io/editor-ui": "^3.0.1",
-    "@edtr-io/math": "^3.0.1",
+    "@edtr-io/editor-ui": "^3.0.2",
+    "@edtr-io/math": "^3.0.2",
     "@edtr-io/plugin": "^3.0.1",
-    "@edtr-io/plugin-rows": "^3.0.1",
+    "@edtr-io/plugin-rows": "^3.0.2",
     "@edtr-io/store": "^3.0.1",
     "@edtr-io/ui": "^3.0.1",
     "@prezly/slate-lists": "^0.79.5",
