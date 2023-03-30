@@ -51,5 +51,11 @@ packages/*/*/internal/
 !.yarn/sdks
 !.yarn/versions
 
+# asdf-vm
 .tool-versions
+
+# VS Code
 .vscode/*
+
+# MacOS
+**/.DS_Store
