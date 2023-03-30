@@ -155,7 +155,7 @@ function renderElementWithFocused(focused: boolean) {
     if (element.type === 'list-item') {
       return <li {...attributes}>{children}</li>
     }
-    if (element.type === 'list-item-text') {
+    if (element.type === 'list-item-child') {
       return <div {...attributes}>{children}</div>
     }
 

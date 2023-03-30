@@ -66,7 +66,7 @@ export interface ListItemText {
     // (undocumented)
     children: CustomText[];
     // (undocumented)
-    type: 'list-item-text';
+    type: 'list-item-child';
 }
 
 // @public (undocumented)

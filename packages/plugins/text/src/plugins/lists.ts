@@ -36,7 +36,7 @@ export const withLists = (editor: SlateEditor) => {
       return Element.isElementType(node, 'list-item')
     },
     isListItemTextNode(node: Node) {
-      return Element.isElementType(node, 'list-item-text')
+      return Element.isElementType(node, 'list-item-child')
     },
     createDefaultTextNode(props = {}) {
       return { children: [{ text: '' }], ...props, type: 'p' } as Paragraph
@@ -59,7 +59,7 @@ export const withLists = (editor: SlateEditor) => {
       return {
         children: [{ text: '' }],
         ...props,
-        type: 'list-item-text',
+        type: 'list-item-child',
       } as ListItemText
     },
   })
