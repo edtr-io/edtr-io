@@ -5,8 +5,10 @@ import {
 } from '@fortawesome/react-fontawesome'
 import * as R from 'ramda'
 import * as React from 'react'
+import _styled from 'styled-components'
 
-import { styled } from '.'
+const { defaultImport } = await import('default-import')
+const styled = defaultImport(_styled)
 
 /**
  * Font Awesome Icon component
