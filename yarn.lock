@@ -1839,6 +1839,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@edtr-io/editor-ui@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "@edtr-io/editor-ui@npm:2.8.2"
+  dependencies:
+    "@edtr-io/ui": ^2.5.0
+    "@types/ramda": ^0.28.5
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/styled-components": ^5.1.24
+    ramda: ^0.28.0
+    react-textarea-autosize: ^8.3.3
+  peerDependencies:
+    "@edtr-io/core": ">= 1"
+    "@fortawesome/fontawesome-svg-core": ">= 1"
+    "@fortawesome/free-solid-svg-icons": ">= 5"
+    "@fortawesome/react-fontawesome": ">= 0.1.0"
+    react: ">= 17"
+    react-dnd: ">= 14"
+    react-dnd-html5-backend: ">= 14"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    redux: ">= 4"
+    styled-components: ">= 4"
+  checksum: 2af54b14f087f06f5f29aabc774d8a8cfa22490569047a1fa30bbb1df4c91c4d7f7f24c011a3aac348cb5e2b8fba5ee5179f8cdc8bfeb28f1c35764c3d1fc481
+  languageName: node
+  linkType: hard
+
 "@edtr-io/edtr-io-workspace@workspace:.":
   version: 0.0.0-use.local
   resolution: "@edtr-io/edtr-io-workspace@workspace:."
@@ -2000,6 +2027,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@edtr-io/internal__dev-expression@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "@edtr-io/internal__dev-expression@npm:2.3.2"
+  dependencies:
+    tiny-invariant: ^1.2.0
+    tiny-warning: ^1.0.3
+  checksum: fc18f2da250f1217f3b5139f78161df957e60ec8ea18fe5bed7a3570fc08d079e14fef5a5be44f4b77339235de4a3dde5659216edbe3d4bbee3ba8f9610a92c0
+  languageName: node
+  linkType: hard
+
 "@edtr-io/internal__document-editor@^3.0.0, @edtr-io/internal__document-editor@workspace:packages/private/document-editor":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__document-editor@workspace:packages/private/document-editor"
@@ -2012,6 +2049,18 @@ __metadata:
     react: ">= 17"
   languageName: unknown
   linkType: soft
+
+"@edtr-io/internal__document-editor@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@edtr-io/internal__document-editor@npm:2.5.0"
+  dependencies:
+    "@edtr-io/internal__plugin-toolbar": ^2.5.0
+    "@types/react": ^17.0.43
+  peerDependencies:
+    react: ">= 17"
+  checksum: bfaa94c3e41a9d6d267b7407f883e4bec504907a789d98791152a3912fb1593e745521f5dbe33ebf683c31b88b881fc6af931f1a0402a6382f89c3f30429be6c
+  languageName: node
+  linkType: hard
 
 "@edtr-io/internal__fixtures@^3.0.1, @edtr-io/internal__fixtures@workspace:packages/private/fixtures":
   version: 0.0.0-use.local
@@ -2034,6 +2083,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@edtr-io/internal__plugin-state@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@edtr-io/internal__plugin-state@npm:2.5.0"
+  dependencies:
+    "@edtr-io/internal__document-editor": ^2.5.0
+    "@types/react": ^17.0.43
+  peerDependencies:
+    react: ">= 17"
+  checksum: 16499d36f7bf7c075746a4e43ca7674d2428b69a7f4d4dc9779161e02e10fa10c7747ce0395b4d2e91d73a8aec6e9c1f8b7b7dcbe446ac977f7a202818520e5d
+  languageName: node
+  linkType: hard
+
 "@edtr-io/internal__plugin-toolbar@^3.0.0, @edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar":
   version: 0.0.0-use.local
   resolution: "@edtr-io/internal__plugin-toolbar@workspace:packages/private/plugin-toolbar"
@@ -2045,6 +2106,17 @@ __metadata:
     react: ">= 17"
   languageName: unknown
   linkType: soft
+
+"@edtr-io/internal__plugin-toolbar@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@edtr-io/internal__plugin-toolbar@npm:2.5.0"
+  dependencies:
+    "@types/react": ^17.0.43
+  peerDependencies:
+    react: ">= 17"
+  checksum: eeac7631da160bf4090636d67ddcf0c7101906b13f924ca67a652a3bfe5877a6e50982717a472454f96d589722257a24272f6e094821c16e9ffc308325a85715
+  languageName: node
+  linkType: hard
 
 "@edtr-io/internal__plugin@^3.0.1, @edtr-io/internal__plugin@workspace:packages/private/plugin":
   version: 0.0.0-use.local
@@ -2070,6 +2142,27 @@ __metadata:
     styled-components: ">= 4"
   languageName: unknown
   linkType: soft
+
+"@edtr-io/internal__plugin@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@edtr-io/internal__plugin@npm:2.5.0"
+  dependencies:
+    "@edtr-io/internal__plugin-state": ^2.5.0
+    "@edtr-io/ui": ^2.5.0
+    "@types/ramda": ^0.28.5
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/styled-components": ^5.1.24
+    ramda: ^0.28.0
+    shortid: ^2.2.16
+  peerDependencies:
+    react: ">= 17"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    styled-components: ">= 4"
+  checksum: cba0480197b80fbb3dbc16cb9d3c522e794f08325c18346a9adee1f839769d8e5c6eeaa105ea3de258b85561a986f73da3a1e50bf8d8d27c5215f16523427c38
+  languageName: node
+  linkType: hard
 
 "@edtr-io/math@^3.0.1, @edtr-io/math@workspace:packages/public/math":
   version: 0.0.0-use.local
@@ -2115,6 +2208,39 @@ __metadata:
     styled-components: ">= 4"
   languageName: unknown
   linkType: soft
+
+"@edtr-io/math@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "@edtr-io/math@npm:2.8.2"
+  dependencies:
+    "@edtr-io/editor-ui": ^2.8.2
+    "@edtr-io/ui": ^2.5.0
+    "@types/exenv": ^1.2.0
+    "@types/katex": ^0.11.1
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/react-modal": ^3.13.1
+    "@types/styled-components": ^5.1.24
+    exenv: ^1.2.2
+    katex: ^0.15.3
+    react-mathquill: ^1.0.2
+    react-modal: ^3.14.4
+  peerDependencies:
+    "@edtr-io/core": ">= 1"
+    "@fortawesome/fontawesome-svg-core": ">= 1"
+    "@fortawesome/free-solid-svg-icons": ">= 5"
+    "@fortawesome/react-fontawesome": ">= 0.1.0"
+    immutable: ">= 3.8.1 || > 4.0.0-rc"
+    react: ">= 17"
+    react-dnd: ">= 14"
+    react-dnd-html5-backend: ">= 14"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    redux: ">= 4"
+    styled-components: ">= 4"
+  checksum: 100ec98f3b30756024064ce70d3b4b673d90d0c55b6ed9887dd409c590a6b856a0580c4b2b4130366219aaffdaeb08a45c11f0c5c33cea251dd02d2b871abef0
+  languageName: node
+  linkType: hard
 
 "@edtr-io/plugin-anchor@^3.0.1, @edtr-io/plugin-anchor@workspace:packages/plugins/anchor":
   version: 0.0.0-use.local
@@ -2180,6 +2306,53 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ">= 1"
     "@fortawesome/free-solid-svg-icons": ">= 5"
     "@fortawesome/react-fontawesome": ">= 0.1.0"
+    react: ^18.0.0
+    react-dnd: ">= 14"
+    react-dnd-html5-backend: ">= 14"
+    react-dom: ^18.0.0
+    react-is: ">= 17"
+    redux: ">= 4"
+    styled-components: ">= 4"
+  languageName: unknown
+  linkType: soft
+
+"@edtr-io/plugin-equations@workspace:packages/plugins/equations":
+  version: 0.0.0-use.local
+  resolution: "@edtr-io/plugin-equations@workspace:packages/plugins/equations"
+  dependencies:
+    "@edtr-io/core": ^3.0.1
+    "@edtr-io/editor-ui": ^2.8.2
+    "@edtr-io/math": ^2.8.2
+    "@edtr-io/plugin": ^2.8.2
+    "@edtr-io/store": ^2.8.2
+    "@edtr-io/ui": ^2.5.0
+    "@fortawesome/free-solid-svg-icons": 6.2.0
+    "@size-limit/preset-small-lib": ^8.2.4
+    "@types/node": ^16.18.0
+    "@types/ramda": ^0.28.18
+    "@types/react": ^18.0.25
+    "@types/react-beautiful-dnd": ^13.1.2
+    "@types/react-dom": ^18.0.11
+    "@types/styled-components": ^5.1.26
+    husky: ^8.0.3
+    immutable: ^4.0.0
+    ramda: ^0.28.0
+    react: ^18.2.0
+    react-beautiful-dnd: ^13.1.1
+    react-dom: ^18.0.0
+    redux: ^4.1.2
+    size-limit: ^8.2.4
+    styled-components: ^5.3.5
+    styled-jsx: ^5.1.0
+    tsdx: ^0.14.1
+    tslib: ^2.5.0
+    typescript: ^5.0.2
+  peerDependencies:
+    "@edtr-io/core": ">= 1"
+    "@fortawesome/fontawesome-svg-core": ">= 1"
+    "@fortawesome/free-solid-svg-icons": ">= 5"
+    "@fortawesome/react-fontawesome": ">= 0.1.0"
+    immutable: ">= 3.8.1 || > 4.0.0-rc"
     react: ^18.0.0
     react-dnd: ">= 14"
     react-dnd-html5-backend: ">= 14"
@@ -2792,6 +2965,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@edtr-io/plugin@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "@edtr-io/plugin@npm:2.8.2"
+  dependencies:
+    "@edtr-io/internal__plugin": ^2.5.0
+    "@edtr-io/internal__plugin-state": ^2.5.0
+    "@types/ramda": ^0.28.5
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/shortid": ^0.0.29
+    "@types/styled-components": ^5.1.24
+    ramda: ^0.28.0
+    shortid: ^2.2.16
+  peerDependencies:
+    "@edtr-io/core": ">= 1"
+    react: ">= 17"
+    react-dnd: ">= 14"
+    react-dnd-html5-backend: ">= 14"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    redux: ">= 4"
+    styled-components: ">= 4"
+  checksum: 508bd717f953d3c4112b88eecdeb7a7f3358ce97e04c6457e143cbc7378e8d41e4f5490d2602f94256654fa2443382c7e6a6266e274185be821ca34c41ebdbd3
+  languageName: node
+  linkType: hard
+
 "@edtr-io/renderer-ssr@^3.0.1, @edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr":
   version: 0.0.0-use.local
   resolution: "@edtr-io/renderer-ssr@workspace:packages/public/renderer-ssr"
@@ -2945,6 +3144,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@edtr-io/store@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "@edtr-io/store@npm:2.8.2"
+  dependencies:
+    "@edtr-io/internal__dev-expression": ^2.3.2
+    "@edtr-io/internal__plugin": ^2.5.0
+    "@edtr-io/internal__plugin-state": ^2.5.0
+    "@types/ramda": ^0.28.5
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/shortid": ^0.0.29
+    "@types/styled-components": ^5.1.24
+    ramda: ^0.28.0
+    redux: ^4.1.2
+    redux-saga: ^1.1.3
+    reselect: ^4.1.5
+    shortid: ^2.2.16
+  peerDependencies:
+    react: ">= 17"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    styled-components: ">= 4"
+  checksum: 05e7f251cb8ab1d6187bcf1c9ed67ede816136a317575087b93d8c321a149b60b0ca764f625f795f54aca43e326a7ff966d7f434ffd7b6ef9c4082bb9dd47325
+  languageName: node
+  linkType: hard
+
 "@edtr-io/ui@^3.0.1, @edtr-io/ui@workspace:packages/public/ui":
   version: 0.0.0-use.local
   resolution: "@edtr-io/ui@workspace:packages/public/ui"
@@ -2971,6 +3196,27 @@ __metadata:
     styled-components: ">= 4"
   languageName: unknown
   linkType: soft
+
+"@edtr-io/ui@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@edtr-io/ui@npm:2.5.0"
+  dependencies:
+    "@fortawesome/fontawesome-svg-core": ^6.1.1
+    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/react-fontawesome": ^0.1.18
+    "@types/ramda": ^0.28.5
+    "@types/react": ^17.0.43
+    "@types/react-dom": ^17.0.14
+    "@types/styled-components": ^5.1.24
+    ramda: ^0.28.0
+  peerDependencies:
+    react: ">= 17"
+    react-dom: ">= 17"
+    react-is: ">= 17"
+    styled-components: ">= 4"
+  checksum: 0f5ae84311ebcc203d3e87e625a798ffa0196790fcb533646dc2fbc6b2cf25d804b831f117a28fbf07efa53466e4382d731fa754fcca97c4e950d2cab6c4feda
+  languageName: node
+  linkType: hard
 
 "@emotion/cache@npm:^10.0.27, @emotion/cache@npm:^10.0.9":
   version: 10.0.29
@@ -3100,6 +3346,160 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@esbuild/android-arm64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/android-arm64@npm:0.17.14"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/android-arm@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/android-arm@npm:0.17.14"
+  conditions: os=android & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@esbuild/android-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/android-x64@npm:0.17.14"
+  conditions: os=android & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/darwin-arm64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/darwin-arm64@npm:0.17.14"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/darwin-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/darwin-x64@npm:0.17.14"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/freebsd-arm64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/freebsd-arm64@npm:0.17.14"
+  conditions: os=freebsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/freebsd-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/freebsd-x64@npm:0.17.14"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-arm64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-arm64@npm:0.17.14"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-arm@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-arm@npm:0.17.14"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-ia32@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-ia32@npm:0.17.14"
+  conditions: os=linux & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-loong64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-loong64@npm:0.17.14"
+  conditions: os=linux & cpu=loong64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-mips64el@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-mips64el@npm:0.17.14"
+  conditions: os=linux & cpu=mips64el
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-ppc64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-ppc64@npm:0.17.14"
+  conditions: os=linux & cpu=ppc64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-riscv64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-riscv64@npm:0.17.14"
+  conditions: os=linux & cpu=riscv64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-s390x@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-s390x@npm:0.17.14"
+  conditions: os=linux & cpu=s390x
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/linux-x64@npm:0.17.14"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/netbsd-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/netbsd-x64@npm:0.17.14"
+  conditions: os=netbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/openbsd-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/openbsd-x64@npm:0.17.14"
+  conditions: os=openbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/sunos-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/sunos-x64@npm:0.17.14"
+  conditions: os=sunos & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-arm64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/win32-arm64@npm:0.17.14"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-ia32@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/win32-ia32@npm:0.17.14"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-x64@npm:0.17.14":
+  version: 0.17.14
+  resolution: "@esbuild/win32-x64@npm:0.17.14"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@eslint/eslintrc@npm:^1.4.1":
   version: 1.4.1
   resolution: "@eslint/eslintrc@npm:1.4.1"
@@ -3117,10 +3517,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-common-types@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.2.0"
+  checksum: 1d0a3340dc2d2798609195cf77f1b0db98f0d87144044eb7cd3d78745baac8509705c6ebc7cce3d9bb36c7d7358ca064f77f39d86478ab1e7aa7aadc344cfd91
+  languageName: node
+  linkType: hard
+
 "@fortawesome/fontawesome-common-types@npm:6.3.0":
   version: 6.3.0
   resolution: "@fortawesome/fontawesome-common-types@npm:6.3.0"
   checksum: ece71539190abb17144861c58d65b6cd818d38a28cc3c9694325f5dca13739b2d78655e7bc1cba58cc13947f5ca80659e87c5c8bee7beb77d7f991e508312146
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-common-types@npm:6.4.0":
+  version: 6.4.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.4.0"
+  checksum: a9b79136caa615352bd921cfe2710516321b402cd76c3f0ae68e579a7e3d7645c5a5c0ecd7516c0b207adeeffd1d2174978638d8c0d3c8c937d66fca4f2ff556
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^6.1.1":
+  version: 6.4.0
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.4.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.0
+  checksum: 5d4e6c15f814f5ce29053b666d0c7d194dc8ba173d128a38cc5856403a09d4e817e54956d30ed8d48d621f2f5ebcc71756f4e8fe5c5a091c636fc728fcb2362b
   languageName: node
   linkType: hard
 
@@ -3130,6 +3553,24 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-common-types": 6.3.0
   checksum: 2479d4b0dc45bba2638b05ba816df91fad6331cd3254d846705a0c342dc12259724706066c71461809804b4f41f15425439cfbabc42d7918e6c26b2b467b4b59
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.2.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.2.0
+  checksum: b5edf24be491e8493028b7fd2158fb73f3a76491087970609c0ef6a4449fd4744312fe768bfcffc90a5ef86b9980f9ab8ebb36927ba8d9854c2fa638ceadb0ac
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:^6.1.1":
+  version: 6.4.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.4.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.4.0
+  checksum: efdd1688620be3d52aacaeac36c955571962e174ae981fc697b6e92fb0996b00166d02e7729a59ea93713a514e2c8d564ab1aa79c9653b4cfed0263e4874d070
   languageName: node
   linkType: hard
 
@@ -5035,6 +5476,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@size-limit/esbuild@npm:8.2.4":
+  version: 8.2.4
+  resolution: "@size-limit/esbuild@npm:8.2.4"
+  dependencies:
+    esbuild: ^0.17.7
+    nanoid: ^3.3.4
+  peerDependencies:
+    size-limit: 8.2.4
+  checksum: 464190ff1aa13b6390e0ecd5afa20d30d37d28f689f22827a4137e8f6624fa7a78fcf5f1e105606a6d7c8b495d563bd9272999ce5233c2bf41dc7f83dc3f26a0
+  languageName: node
+  linkType: hard
+
+"@size-limit/file@npm:8.2.4":
+  version: 8.2.4
+  resolution: "@size-limit/file@npm:8.2.4"
+  dependencies:
+    semver: 7.3.8
+  peerDependencies:
+    size-limit: 8.2.4
+  checksum: 80253aca667e87cbab40a12999565dde6cf6be2ef252399b2042715850fdbf828e9b5fcebfaea42a488a18afe643d38a84b88736fdfb0218630ac691150f14df
+  languageName: node
+  linkType: hard
+
+"@size-limit/preset-small-lib@npm:^8.2.4":
+  version: 8.2.4
+  resolution: "@size-limit/preset-small-lib@npm:8.2.4"
+  dependencies:
+    "@size-limit/esbuild": 8.2.4
+    "@size-limit/file": 8.2.4
+  peerDependencies:
+    size-limit: 8.2.4
+  checksum: ecb421bf1fc41e6f6b1ab1b54bc1ad22b9214bc8fedb280630e0e9ba3f750a5d91dff18e1db44208b39ccac0f80949236213587c453013956feb3c19a8b353da
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-actions@npm:^6.5.15":
   version: 6.5.15
   resolution: "@storybook/addon-actions@npm:6.5.15"
@@ -6401,6 +6877,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^16.18.0":
+  version: 16.18.23
+  resolution: "@types/node@npm:16.18.23"
+  checksum: 00e51db28fc7a182747f37215b3f25400b1c7a8525e09fa14e55be5798891a118ebf636a49d3197335a3580fcb8222fd4ecc20c2ccff69f1c0d233fc5697465d
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
@@ -6457,6 +6940,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ramda@npm:^0.28.18":
+  version: 0.28.23
+  resolution: "@types/ramda@npm:0.28.23"
+  dependencies:
+    ts-toolbelt: ^6.15.1
+  checksum: 61d7416c0f4f189c6524e093c7546ca2f159553e54d7933836d46aac1332611aa7b02fd8c8bfa98c0865f262fd9e99e06e3d9538deba0bab1f6153cbcf841160
+  languageName: node
+  linkType: hard
+
 "@types/ramda@npm:^0.28.5":
   version: 0.28.20
   resolution: "@types/ramda@npm:0.28.20"
@@ -6466,12 +6958,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-beautiful-dnd@npm:^13.1.2":
+  version: 13.1.4
+  resolution: "@types/react-beautiful-dnd@npm:13.1.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: 76220f1031721e73f712cf0021de6a3cf4049260ec29996cd587876ebd6ed01b9c31d8efb5cf230eb4d2b6259525ffe0f3054667732d30c79df37e49f9398c5e
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^17.0.14":
+  version: 17.0.19
+  resolution: "@types/react-dom@npm:17.0.19"
+  dependencies:
+    "@types/react": ^17
+  checksum: 875a472d868b235435c905ded16cf92297bd2afb20a5a78f5dccd54312f6f038ccf452ea92bb41c0b39150c2f16f3ddff0265a2de756c6f63b0971dd5719578b
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.0.10":
   version: 18.0.10
   resolution: "@types/react-dom@npm:18.0.10"
   dependencies:
     "@types/react": "*"
   checksum: ff8282d5005a0b1cd95fb65bf79d3d8485e4cfe2aaf052129033a178684b940014a3f4536bc20d573f8a01cf4c6f4770c74988cef7c2b5cac3041d9f172647e3
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.0.11":
+  version: 18.0.11
+  resolution: "@types/react-dom@npm:18.0.11"
+  dependencies:
+    "@types/react": "*"
+  checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
   languageName: node
   linkType: hard
 
@@ -6542,6 +7061,28 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: a51b98dd87838d161278fdf9dd78e6a4ff8c018f406d6647f77963e144fb52a8beee40c89fd0e7e840eaeaa8bd9fe2f34519410540b1a52d43a6f8b4d2fbce33
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17.0.43":
+  version: 17.0.55
+  resolution: "@types/react@npm:17.0.55"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 4220db270939ff5abc822a89619fe46b357214176b2adc7809ae65e5e5e0df57f2e69385d438e0e4bde3e25e0da577dae112bc2d767347062ccb8eabe24ac5a3
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.25":
+  version: 18.0.31
+  resolution: "@types/react@npm:18.0.31"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 6befbd5587e266905b50fd6bbd7c1cacd557bddf99e6a9862ca2f1d06df3dca71b9d485a37d010479730f021aab93b852d417c714de5efc2f41be0ff4c09b4db
   languageName: node
   linkType: hard
 
@@ -6618,7 +7159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.1.24":
+"@types/styled-components@npm:^5.1.24, @types/styled-components@npm:^5.1.26":
   version: 5.1.26
   resolution: "@types/styled-components@npm:5.1.26"
   dependencies:
@@ -8797,6 +9338,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bytes-iec@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "bytes-iec@npm:3.1.1"
+  checksum: 092a90897e938c8d28acf2b6383e5b91abc97c5d4251d9b6ebe331eb55b6064a331dcc78520efb98f90d554cfe9c7309e9138306f58d133dc0dcfa1edf38fc0a
+  languageName: node
+  linkType: hard
+
 "bytes@npm:3.0.0":
   version: 3.0.0
   resolution: "bytes@npm:3.0.0"
@@ -9144,7 +9692,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.4.0, chokidar@npm:^3.4.1, chokidar@npm:^3.4.2":
+"chokidar@npm:^3.4.0, chokidar@npm:^3.4.1, chokidar@npm:^3.4.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -9308,6 +9856,13 @@ __metadata:
   version: 3.0.0
   resolution: "cli-width@npm:3.0.0"
   checksum: 4c94af3769367a70e11ed69aa6095f1c600c0ff510f3921ab4045af961820d57c0233acfa8b6396037391f31b4c397e1f614d234294f979ff61430a6c166c3f6
+  languageName: node
+  linkType: hard
+
+"client-only@npm:0.0.1":
+  version: 0.0.1
+  resolution: "client-only@npm:0.0.1"
+  checksum: 0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
   languageName: node
   linkType: hard
 
@@ -10044,6 +10599,15 @@ __metadata:
     randombytes: ^2.0.0
     randomfill: ^1.0.3
   checksum: c1609af82605474262f3eaa07daa0b2140026bd264ab316d4bf1170272570dbe02f0c49e29407fe0d3634f96c507c27a19a6765fb856fed854a625f9d15618e2
+  languageName: node
+  linkType: hard
+
+"css-box-model@npm:^1.2.0":
+  version: 1.2.1
+  resolution: "css-box-model@npm:1.2.1"
+  dependencies:
+    tiny-invariant: ^1.0.6
+  checksum: 4d113f26fed6b9150e2c314502d00dabe06f12ae43a01a7e9b6e57f3de49b4281dbb0dc46a1158a7349618f8f34d9250af57cb43d7337e9485e73e6b821e470e
   languageName: node
   linkType: hard
 
@@ -11202,6 +11766,83 @@ __metadata:
   version: 0.35.7
   resolution: "es6-shim@npm:0.35.7"
   checksum: 3d5573d8d82e2639f1b05b28bc6799692cbf931cf8f8afbf5b26b3d36e4a4360ac0d3569eefe64320cea213106e3e14546b9e91ee33590c37dee4e654389ecac
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.17.7":
+  version: 0.17.14
+  resolution: "esbuild@npm:0.17.14"
+  dependencies:
+    "@esbuild/android-arm": 0.17.14
+    "@esbuild/android-arm64": 0.17.14
+    "@esbuild/android-x64": 0.17.14
+    "@esbuild/darwin-arm64": 0.17.14
+    "@esbuild/darwin-x64": 0.17.14
+    "@esbuild/freebsd-arm64": 0.17.14
+    "@esbuild/freebsd-x64": 0.17.14
+    "@esbuild/linux-arm": 0.17.14
+    "@esbuild/linux-arm64": 0.17.14
+    "@esbuild/linux-ia32": 0.17.14
+    "@esbuild/linux-loong64": 0.17.14
+    "@esbuild/linux-mips64el": 0.17.14
+    "@esbuild/linux-ppc64": 0.17.14
+    "@esbuild/linux-riscv64": 0.17.14
+    "@esbuild/linux-s390x": 0.17.14
+    "@esbuild/linux-x64": 0.17.14
+    "@esbuild/netbsd-x64": 0.17.14
+    "@esbuild/openbsd-x64": 0.17.14
+    "@esbuild/sunos-x64": 0.17.14
+    "@esbuild/win32-arm64": 0.17.14
+    "@esbuild/win32-ia32": 0.17.14
+    "@esbuild/win32-x64": 0.17.14
+  dependenciesMeta:
+    "@esbuild/android-arm":
+      optional: true
+    "@esbuild/android-arm64":
+      optional: true
+    "@esbuild/android-x64":
+      optional: true
+    "@esbuild/darwin-arm64":
+      optional: true
+    "@esbuild/darwin-x64":
+      optional: true
+    "@esbuild/freebsd-arm64":
+      optional: true
+    "@esbuild/freebsd-x64":
+      optional: true
+    "@esbuild/linux-arm":
+      optional: true
+    "@esbuild/linux-arm64":
+      optional: true
+    "@esbuild/linux-ia32":
+      optional: true
+    "@esbuild/linux-loong64":
+      optional: true
+    "@esbuild/linux-mips64el":
+      optional: true
+    "@esbuild/linux-ppc64":
+      optional: true
+    "@esbuild/linux-riscv64":
+      optional: true
+    "@esbuild/linux-s390x":
+      optional: true
+    "@esbuild/linux-x64":
+      optional: true
+    "@esbuild/netbsd-x64":
+      optional: true
+    "@esbuild/openbsd-x64":
+      optional: true
+    "@esbuild/sunos-x64":
+      optional: true
+    "@esbuild/win32-arm64":
+      optional: true
+    "@esbuild/win32-ia32":
+      optional: true
+    "@esbuild/win32-x64":
+      optional: true
+  bin:
+    esbuild: bin/esbuild
+  checksum: 8f4c05f5d3da04f05c48d65f60f3c6422253f406cd56a7ab7a898f0971b0366c454635a6340172874950771dc005a9928dd999b732a6d4caa504b537bfcbf2ff
   languageName: node
   linkType: hard
 
@@ -13619,6 +14260,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "husky@npm:8.0.3"
+  bin:
+    husky: lib/bin.js
+  checksum: 837bc7e4413e58c1f2946d38fb050f5d7324c6f16b0fd66411ffce5703b294bd21429e8ba58711cd331951ee86ed529c5be4f76805959ff668a337dbfa82a1b0
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -15671,6 +16321,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lilconfig@npm:^2.0.6":
+  version: 2.1.0
+  resolution: "lilconfig@npm:2.1.0"
+  checksum: 8549bb352b8192375fed4a74694cd61ad293904eee33f9d4866c2192865c44c4eb35d10782966242634e0cbc1e91fe62b1247f148dc5514918e3a966da7ea117
+  languageName: node
+  linkType: hard
+
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
   resolution: "lines-and-columns@npm:1.2.4"
@@ -16361,7 +17018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memoize-one@npm:^5.0.0":
+"memoize-one@npm:^5.0.0, memoize-one@npm:^5.1.1":
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
@@ -17033,6 +17690,15 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.1
   checksum: 54d4166d6ef08db41252eb4e96d4109ebcb8029f0374f9db873bd91a1f896c32ec780d2a2ea65c0b2d7caf1f28d5e1ea33746a470f32146ac8bba821d80d38d8
+  languageName: node
+  linkType: hard
+
+"nanospinner@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "nanospinner@npm:1.1.0"
+  dependencies:
+    picocolors: ^1.0.0
+  checksum: 797f0a7c8b053d6fb5188d73e63bab44dec97ff0e7b67ac3d55e9356c6fe002f5af691a9d1232ca086e1fb19301d11c979dc5b0c56e6700004a96c19dfded8f0
   languageName: node
   linkType: hard
 
@@ -19316,6 +19982,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"raf-schd@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "raf-schd@npm:4.0.3"
+  checksum: 45514041c5ad31fa96aef3bb3c572a843b92da2f2cd1cb4a47c9ad58e48761d3a4126e18daa32b2bfa0bc2551a42d8f324a0e40e536cb656969929602b4e8b58
+  languageName: node
+  linkType: hard
+
 "ramda@npm:^0.28.0":
   version: 0.28.0
   resolution: "ramda@npm:0.28.0"
@@ -19370,6 +20043,24 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 51cc1b0d0e8c37c4336b5318f3b2c9c51d6998ad6f56ea09612afcfefc9c1f596341309e934a744ae907177f28efc9f1654eacd62151e82853fcc6d37450e795
+  languageName: node
+  linkType: hard
+
+"react-beautiful-dnd@npm:^13.1.1":
+  version: 13.1.1
+  resolution: "react-beautiful-dnd@npm:13.1.1"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+    css-box-model: ^1.2.0
+    memoize-one: ^5.1.1
+    raf-schd: ^4.0.2
+    react-redux: ^7.2.0
+    redux: ^4.0.4
+    use-memo-one: ^1.1.1
+  peerDependencies:
+    react: ^16.8.5 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
+  checksum: 5f90f7c0ab77a14dfcd496cbd94bbde457612f380c6fc815f3bba7b52effd75132948fcaa661a902a184bb1e6ae5896dcf5b0c77c4ddf809a2c65288f3eed5a7
   languageName: node
   linkType: hard
 
@@ -19596,7 +20287,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.6":
+"react-redux@npm:^7.2.0, react-redux@npm:^7.2.6":
   version: 7.2.9
   resolution: "react-redux@npm:7.2.9"
   dependencies:
@@ -20784,7 +21475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.x, semver@npm:^7.3.7":
+"semver@npm:7.3.8, semver@npm:7.x, semver@npm:^7.3.7":
   version: 7.3.8
   resolution: "semver@npm:7.3.8"
   dependencies:
@@ -21043,6 +21734,22 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"size-limit@npm:^8.2.4":
+  version: 8.2.4
+  resolution: "size-limit@npm:8.2.4"
+  dependencies:
+    bytes-iec: ^3.1.1
+    chokidar: ^3.5.3
+    globby: ^11.1.0
+    lilconfig: ^2.0.6
+    nanospinner: ^1.1.0
+    picocolors: ^1.0.0
+  bin:
+    size-limit: bin.js
+  checksum: e3fcb03a504702ae67987cb46a64bf9f749f5626c1a82d93ac81e6a184c65da1b741499e8dbbacb3c3218e1ee040ef3c6708103582396ad04623753a32f70bbe
   languageName: node
   linkType: hard
 
@@ -21854,6 +22561,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"styled-jsx@npm:^5.1.0":
+  version: 5.1.2
+  resolution: "styled-jsx@npm:5.1.2"
+  dependencies:
+    client-only: 0.0.1
+  peerDependencies:
+    react: ">= 16.8.0 || 17.x.x || ^18.0.0-0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    babel-plugin-macros:
+      optional: true
+  checksum: f49d64219fd83be469b39d40c8f93cae50a9fb8a020d6bb46a7619836b22cdcd9cd98b8a89aa354b71c3d1de4b240d0b9fd091177565ee8aecebbe1b5a7a42d5
+  languageName: node
+  linkType: hard
+
 "stylehacks@npm:^5.1.1":
   version: 5.1.1
   resolution: "stylehacks@npm:5.1.1"
@@ -22221,7 +22944,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.2.0":
+"tiny-invariant@npm:^1.0.6, tiny-invariant@npm:^1.2.0":
   version: 1.3.1
   resolution: "tiny-invariant@npm:1.3.1"
   checksum: 872dbd1ff20a21303a2fd20ce3a15602cfa7fcf9b228bd694a52e2938224313b5385a1078cb667ed7375d1612194feaca81c4ecbe93121ca1baebe344de4f84c
@@ -22602,6 +23325,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "tslib@npm:2.5.0"
+  checksum: ae3ed5f9ce29932d049908ebfdf21b3a003a85653a9a140d614da6b767a93ef94f460e52c3d787f0e4f383546981713f165037dc2274df212ea9f8a4541004e1
+  languageName: node
+  linkType: hard
+
 "tsutils@npm:^3.17.1, tsutils@npm:^3.21.0":
   version: 3.21.0
   resolution: "tsutils@npm:3.21.0"
@@ -22785,6 +23515,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "typescript@npm:5.0.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
+  languageName: node
+  linkType: hard
+
 "typescript@npm:~4.8.4":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
@@ -22812,6 +23552,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 37f6e2c3c5e2aa5934b85b0fddbf32eeac8b1bacf3a5b51d01946936d03f5377fe86255d4e5a4ae628fd0cd553386355ad362c57f13b4635064400f3e8e05b9d
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^5.0.2#~builtin<compat/typescript>":
+  version: 5.0.2
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=bda367"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
   languageName: node
   linkType: hard
 
@@ -23227,6 +23977,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: ed3f2ddddf6f21825e2ede4c2e0f0db8dcce5129802b69d1f0575fc1b42380436e8c76a6cd885d4e9aa8e292e60fb8b959c955f33c6a9123b83814a1a1875367
+  languageName: node
+  linkType: hard
+
+"use-memo-one@npm:^1.1.1":
+  version: 1.1.3
+  resolution: "use-memo-one@npm:1.1.3"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 8f08eba26d69406b61bb4b8dacdd5a92bd6aef5b53d346dfe87954f7330ee10ecabc937cc7854635155d46053828e85c10b5a5aff7a04720e6a97b9f42999bac
   languageName: node
   linkType: hard
 
