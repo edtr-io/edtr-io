@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Provides utils for the User Interface
  *
@@ -7,28 +6,40 @@
  */
 import _styled from 'styled-components'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const defaultImport = (mod: any) => {
+type ExtractDefault<T> = T extends {
+  __esModule?: boolean
+  default: infer U
+}
+  ? U extends {
+      __esModule?: boolean
+      default: infer V
+    }
+    ? V
+    : U
+  : T
+
+function defaultImport<T>(mod: T): ExtractDefault<T> {
   if (typeof mod !== 'object' || mod === null) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return mod
+    return mod as ExtractDefault<T>
   }
   // Webpack provides a Module tag to match NodeJS' Module module
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const defaultVal =
     Symbol.toStringTag in mod && mod[Symbol.toStringTag] === 'Module'
-      ? mod.default ?? mod
+      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        (mod as any).default ?? mod
       : mod
   if (
     '__esModule' in defaultVal &&
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     defaultVal.__esModule &&
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     defaultVal.default !== undefined
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return defaultVal.default
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return defaultVal.default as ExtractDefault<T>
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return defaultVal
+  return defaultVal as ExtractDefault<T>
 }
 
 /**
