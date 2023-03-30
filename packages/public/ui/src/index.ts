@@ -1,10 +1,11 @@
-import { defaultImport } from 'default-import'
 /**
  * Provides utils for the User Interface
  *
  * @packageDocumentation
  */
 import _styled from 'styled-components'
+
+const { defaultImport } = await import('default-import')
 
 /**
  * Re-export of {@link https://styled-components.com/docs/api#primary | `styled` in `styled-components` }
