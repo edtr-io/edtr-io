@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   FontAwesomeIcon,
@@ -6,47 +5,8 @@ import {
 } from '@fortawesome/react-fontawesome'
 import * as R from 'ramda'
 import * as React from 'react'
-import _styled from 'styled-components'
 
-type ExtractDefault<T> = T extends {
-  __esModule?: boolean
-  default: infer U
-}
-  ? U extends {
-      __esModule?: boolean
-      default: infer V
-    }
-    ? V
-    : U
-  : T
-
-function defaultImport<T>(mod_: T): ExtractDefault<T> {
-  const mod = mod_ as any
-  if (typeof mod !== 'object' || mod === null) {
-    return mod as ExtractDefault<T>
-  }
-  // Webpack provides a Module tag to match NodeJS' Module module
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const defaultVal =
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    Symbol.toStringTag in mod && mod[Symbol.toStringTag] === 'Module'
-      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        mod.default ?? mod
-      : mod
-  if (
-    '__esModule' in defaultVal &&
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    defaultVal.__esModule &&
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    defaultVal.default !== undefined
-  ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return defaultVal.default as ExtractDefault<T>
-  }
-  return defaultVal as ExtractDefault<T>
-}
-
-const styled = defaultImport(_styled)
+import { styled } from '.'
 
 /**
  * Font Awesome Icon component
