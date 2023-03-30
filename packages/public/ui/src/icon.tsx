@@ -3,12 +3,9 @@ import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome'
-import { defaultImport } from 'default-import'
 import * as R from 'ramda'
 import * as React from 'react'
-import _styled from 'styled-components'
-
-const styled = defaultImport(_styled)
+import styled from 'styled-components'
 
 /**
  * Font Awesome Icon component
@@ -110,7 +107,9 @@ export function createIcon(i: IconDefinition): React.ComponentType {
   }
 }
 
-const EdtrSVG = styled.svg({
+// @ts-expect-error https://github.com/serlo/serlo-editor-issues-and-documentation/issues/68
+const styledSvg = styled.default?.svg ? styled.default.svg : styled.svg
+const EdtrSVG = styledSvg({
   display: 'inline-block',
   verticalAlign: 'middle',
   overflow: 'hidden',
