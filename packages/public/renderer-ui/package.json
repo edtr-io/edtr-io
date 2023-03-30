@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/renderer-ui",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,13 +12,13 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/ui": "^3.0.0",
+    "@edtr-io/ui": "^3.0.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.24"
   },
   "devDependencies": {
-    "@edtr-io/core": "^3.0.0",
+    "@edtr-io/core": "^3.0.1",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.1.18",

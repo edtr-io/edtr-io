@@ -1253,6 +1253,14 @@ There are now more parts of the editor's UI configurable. More specifically, we 
           'Update various dependencies',
         ],
       },
+      {
+        tagName: 'v3.0.1',
+        date: '2023-03-29',
+        changed: [
+          ['plugin-text', 'Export CustomElement and CustomText types'],
+          'Implement defaultImport re-export workaround',
+        ],
+      },
     ],
   })
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v3.0.1](https://github.com/edtr-io/edtr-io/compare/v3.0.0..v3.0.1) - March 29, 2023
+
+### Changed
+
+- **plugin-text**. Export CustomElement and CustomText types
+
+- Implement defaultImport re-export workaround
+
 ## [v3.0.0](https://github.com/edtr-io/edtr-io/compare/v2.8.3..v3.0.0) - March 29, 2023
 
 ### Breaking Changes
