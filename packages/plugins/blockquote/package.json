@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-blockquote",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^3.0.1",
-    "@edtr-io/plugin-text": "^3.0.1",
+    "@edtr-io/plugin-text": "^3.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.1.18",

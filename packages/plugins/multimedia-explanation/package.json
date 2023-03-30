@@ -1,6 +1,6 @@
 {
   "name": "@edtr-io/plugin-multimedia-explanation",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "author": "edtr.io Consortium",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "build": "ts-node ../../../scripts/build"
   },
   "dependencies": {
-    "@edtr-io/editor-ui": "^3.0.1",
+    "@edtr-io/editor-ui": "^3.0.2",
     "@edtr-io/plugin": "^3.0.1",
     "@edtr-io/store": "^3.0.1",
     "@edtr-io/ui": "^3.0.1",
@@ -26,10 +26,10 @@
   },
   "devDependencies": {
     "@edtr-io/core": "^3.0.1",
-    "@edtr-io/plugin-geogebra": "^3.0.1",
-    "@edtr-io/plugin-image": "^3.0.1",
-    "@edtr-io/plugin-rows": "^3.0.1",
-    "@edtr-io/plugin-video": "^3.0.1",
+    "@edtr-io/plugin-geogebra": "^3.0.2",
+    "@edtr-io/plugin-image": "^3.0.2",
+    "@edtr-io/plugin-rows": "^3.0.2",
+    "@edtr-io/plugin-video": "^3.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.1.18",
