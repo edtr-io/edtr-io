@@ -26,7 +26,6 @@ export function toggleLink(editor: SlateEditor) {
   const isCollapsed = selection && Range.isCollapsed(selection)
 
   if (isCollapsed) {
-    // TODO: how set focus to input field, when it is newly created?
     Transforms.insertNodes(editor, {
       type: 'a',
       href: '',
