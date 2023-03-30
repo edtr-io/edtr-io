@@ -20,16 +20,18 @@ type ExtractDefault<T> = T extends {
     : U
   : T
 
-function defaultImport<T>(mod: T): ExtractDefault<T> {
+function defaultImport<T>(mod_: T): ExtractDefault<T> {
+  const mod = mod_ as any
   if (typeof mod !== 'object' || mod === null) {
     return mod as ExtractDefault<T>
   }
   // Webpack provides a Module tag to match NodeJS' Module module
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const defaultVal =
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     Symbol.toStringTag in mod && mod[Symbol.toStringTag] === 'Module'
       ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (mod as any).default ?? mod
+        mod.default ?? mod
       : mod
   if (
     '__esModule' in defaultVal &&
