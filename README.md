@@ -1,3 +1,9 @@
+# 🚧 Deprecated 🚧
+
+**The project will be continued at https://serlo.org/editor.**
+
+----
+
 <p><br></p>
 <p align="center">
 <a href="https://edtr.io">
